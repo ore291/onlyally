@@ -12,7 +12,7 @@ import {
   mobileVendor,
   browserVersion,
 } from "react-device-detect";
-var FormData = require("form-data");
+
 
 const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
 
@@ -66,7 +66,7 @@ const Environment = {
 
     formData.append("device_type", apiConstants.DEVICE_TYPE);
     formData.append("device_token", apiConstants.DEVICE_TOKEN);
-    formData.append("device_model", apiConstants.DEVICE_MODEL);
+   
 
     var device_model = "";
     if (isAndroid == true) {
@@ -76,15 +76,16 @@ const Environment = {
     } else {
       device_model = browserName + " " + browserVersion;
     }
-
+    
+    
     formData.append("device_model", device_model);
 
     var config = {
       method: "post",
       url: url,
-      headers: {
-        ...formData.getHeaders(),
-      },
+      // headers: {
+      //   ...formData.getHeaders(),
+      // },
       data: formData,
     };
     

@@ -18,12 +18,28 @@ import { MdMail, MdOutlineLocationOn } from "react-icons/md";
 import { RiUpload2Line, RiInstagramFill } from "react-icons/ri";
 import { useRouter } from "next/router";
 import { GiPhone } from "react-icons/gi";
+import { useSelector, useDispatch } from "react-redux";
+import { useSession } from "next-auth/react";
+import {fetchUserDetailsStart, fetchUserDetailsSuccess} from '../store/slices/userSlice';
+import { useEffect } from "react";
 
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
 const Profile = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const {data: session} =  useSession();
+
+
+  useEffect(() => {
+    if(session){
+       var accessToken =  session.accessToken;
+    var userId = session.userId;
+    dispatch(fetchUserDetailsStart({accessToken, userId }));
+    }
+ 
+  },[dispatch, session])
   return (
     <SideNavLayout>
       <div className="max-w-4xl xl:max-w-6xl">

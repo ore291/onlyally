@@ -5,7 +5,8 @@ const NewsFeed = () => {
   const feeds = useSelector(state => state.creators.feed)
   return (
     // <div className="md:col-span-2 flex flex-col place-content-center space-y-2 mb-10">
-    <div className="grid md:col-span-2 grid-cols-1 gap-y-2 mb-10 place-content-center">
+    <div className="col-span-2 ">
+      <div className="grid  grid-cols-1 gap-y-2 mb-10 place-content-center">
       {feeds.map((feed, index) => (
         <NewsFeedCard
           image={feed.photos[0]}
@@ -19,6 +20,8 @@ const NewsFeed = () => {
         />
       ))}
     </div>
+    </div>
+    
   );
 };
 

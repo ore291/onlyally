@@ -41,6 +41,7 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 //   } from "../actions/UserAction";
 
 import api from "../../Environment";
+var localStorage = require("localStorage");
 
 import {fetchUserDetailsStart, fetchUserDetailsSuccess, fetchUserDetailsFailure} from "../slices/userSlice";
 
@@ -49,10 +50,12 @@ function* getUserDetailsAPI(action) {
     var userId = action.payload.userId;
     try {
       const response = yield api.postMethod("profile",accessToken, userId );
+      console.log(response)
   
       if (response.data.success) {
-        yield put(fetchUserDetailsSuccess(response.data));
-        localStorage.setItem("user_picture", response.data.data.picture);
+        yield put(fetchUserDetailsSuccess(response.data.data));
+        if(typeof window !== 'undefined'){
+          localStorage.setItem("user_picture", response.data.data.picture);
         localStorage.setItem("user_unique_id", response.data.data.user_unique_id);
         localStorage.setItem("user_cover", response.data.data.cover);
         localStorage.setItem("username", response.data.data.username);
@@ -91,8 +94,10 @@ function* getUserDetailsAPI(action) {
           "is_two_step_auth_enabled",
           response.data.data.is_two_step_auth_enabled
         );
+        }
+        
       } else {
-        yield put(fetchUserDetailsFailure(response.data.error.error));
+        yield put(fetchUserDetailsFailure(response));
         // yield put(checkLogoutStatus(response.data));
         // const notificationMessage = getErrorNotificationMessage(
         //   response.data.error

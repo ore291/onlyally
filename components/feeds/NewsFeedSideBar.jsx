@@ -8,8 +8,8 @@ import LikedGroups from "../groups/LikedGroups.jsx";
 const NewsFeedSideBar = () => {
 const creators = useSelector(state => state.creators.creators.slice(0,6));
   return (
-    <div className="hidden lg:block  sticky top-16 h-[calc(100vh-5.75rem)]  overflow-y-scroll  scroll-smooth scrollbar-hide overscroll-contain">
-      <div className="flex flex-col space-y-2  h-[1500px]">
+    <div className="hidden lg:block  w-full  mb-10">
+      <div className="flex flex-col space-y-2  ">
         <TopCreators creators={creators} />
         <Trending creators={creators} />
         <LikedChannels />

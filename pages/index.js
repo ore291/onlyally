@@ -6,16 +6,14 @@ import NewsFeed from "../components/feeds/NewsFeed";
 import NewsFeedSideBar from "../components/feeds/NewsFeedSideBar";
 import SideNavLayout from "../components/SideNavLayout";
 import { END } from "redux-saga";
-import { getSession } from "next-auth/react";
+import {useSession, getSession } from "next-auth/react";
 import { wrapper } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import {fetchUserDetailsStart, fetchUserDetailsSuccess} from '../store/slices/userSlice';
+import Sticky from "react-stickynode";
 
-export default function Home({ user }) {
-  // const dispatch = useDispatch();
-  // useEffect(()=>{
-  //   fetchUserDetailsStart
-  // }, [dispatch]);
+export default function Home() {
+  
 
   return (
     <>
@@ -27,9 +25,12 @@ export default function Home({ user }) {
       <SideNavLayout>
         <main className=" p-0.5 lg:p-5">
           <Stories />
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <NewsFeed />
-            <NewsFeedSideBar />
+            <Sticky >
+                <NewsFeedSideBar />
+            </Sticky>
+          
           </div>
         </main>
       </SideNavLayout>
@@ -41,10 +42,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
   store => async ({req, res}) => {
     const session = await getSession({ req });
     // const dispatch = useDispatch();
-    if(session){
-      store.dispatch(fetchUserDetailsSuccess(session.user.userDetails));
+    // if(session){
+    //   store.dispatch(fetchUserDetailsSuccess(session.user.userDetails));
     
-    }
+    // }
   
     // session && store.dispatch(setUserData(session.user.userDetails))
     // store.dispatch(fetchUserDetailsStart({accessToken: session.accessToken, userId: session.userId}));

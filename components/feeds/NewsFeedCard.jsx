@@ -13,6 +13,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Comments from "./Comments";
 import Image from "next/image";
+import TextareaAutosize from "react-textarea-autosize"
 
 const NewsFeedCard = ({
   image,
@@ -157,7 +158,9 @@ const NewsFeedCard = ({
             title="Donate to post"
             className="flex items-center justify-center space-x-1"
           >
-            <BsHexagon className="news-feed-card-icon" />
+            <div className="relative w-5 h-5">
+              <Image src="/tips.png" layout="fill" objectFit="cover" alt=""/>
+            </div>
             <span className="text-xs">Tip</span>
           </button>
 
@@ -186,23 +189,23 @@ const NewsFeedCard = ({
               </p>
               <Comments comments={popularComments} />
               <div className="flex items-center mt-2">
-                <div className="w-12 h-12 relative rounded-full">
+                <div className="w-10 h-10 relative rounded-full mr-2">
                   <Image
                     src={"/profile_avatar_full.jpg"}
                     className="rounded-full"
                     layout="fill"
+                    objectFit="cover"
+                    alt=""
                   />
                 </div>
                 <form className="bg-gray-100 flex items-center p-1 rounded-2xl flex-1">
-                  <textarea
-                    type="text"
-                    maxLength="1280"
-                    className="bg-gray-100 scrollbar-hide flex-1 border-none focus:ring-0 outline-none text-xs resize-none overflow-auto h-auto min-h-[36px]"
-                    placeholder="Add a comment"
-                  ></textarea>
+                  <TextareaAutosize maxLength="1280" maxRows={4} placeholder="Add a comment" className="flex-1 resize-none outline-0 border-none bg-gray-100 text-sm focus:outline-0 ring-0 focus:ring-0"/>
                   <div className="flex space-x-1 items-center justify-center ">
                     <HiOutlineEmojiHappy className="commentBtn" />
-                    <HiPaperAirplane className="commentBtn rotate-90" />
+                    <div className="relative w-9 h-9 cursor-pointer lg:commentBtn">
+                      <Image src="/comment.png" layout="fill" alt=""/>
+                    </div>
+                    {/* <HiPaperAirplane className="commentBtn rotate-90" /> */}
                   </div>
                 </form>
               </div>
