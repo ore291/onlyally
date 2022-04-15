@@ -28,7 +28,7 @@ const Stories = () => {
       <div
         onScroll={onScroll}
         ref={storiesRef}
-        className="flex space-x-2 p-4 shadow-md bg-white border-gray-300 
+        className="flex items-baseline space-x-1 md:space-x-2 py-4 px-1 md:p-4 shadow-md bg-white border-gray-300 
         border rounded-sm overflow-x-scroll scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-playRed scroll-smooth scrollbar-track-white"
       >
         <Story

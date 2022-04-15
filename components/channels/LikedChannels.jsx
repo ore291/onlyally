@@ -11,78 +11,26 @@ const LikedChannels = () => {
           <Button text="NEWEST" active={false} />
           <Button text="SEE ALL" active={false} />
         </div>
-        <div className="flex flex-col">
-          <div className="flex justify-between items-center space-x-6">
-            <div className=" w-12 h-12 relative">
-              <Image
-                src="/profile_avatar_full.jpg"
-                alt="side-img"
-                layout="fill"
-                objectFit="contain"
-                className="relative rounded-full w-12 h-12"
-              />
+        {[...Array(4)].map((_, i) => (
+          <div className="flex flex-col" key={i}>
+            <div className="flex justify-between items-center space-x-6">
+              <div className=" w-12 h-12 relative">
+                <Image
+                  src="/profile_avatar_full.jpg"
+                  alt="side-img"
+                  layout="fill"
+                  objectFit="cover"
+                  className="relative rounded-full w-12 h-12"
+                />
+              </div>
+              <div className="flex flex-col space-y-.5">
+                <p className="font-bold  text-gray-600">Graphic Design</p>
+                <span className="text-sm font-semibold">345k Following</span>
+              </div>
+              <Button text="Subscribe" active={true} />
             </div>
-            <div className="flex flex-col space-y-.5">
-              <p className="font-bold  text-gray-600">Graphic Design</p>
-              <span className="text-sm font-semibold">345k Following</span>
-            </div>
-            <Button text="Subscribe" active={true} />
           </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex justify-between items-center space-x-6">
-            <div className=" w-12 h-12 relative">
-              <Image
-                src="/profile_avatar_full.jpg"
-                alt="side-img"
-                layout="fill"
-                objectFit="contain"
-                className="relative rounded-full w-12 h-12"
-              />
-            </div>
-            <div className="flex flex-col space-y-.5">
-              <p className="font-bold  text-gray-600">Graphic Design</p>
-              <span className="text-sm font-semibold">345k Following</span>
-            </div>
-            <Button text="Subscribe" active={true} />
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex justify-between items-center space-x-6">
-            <div className=" w-12 h-12 relative">
-              <Image
-                src="/profile_avatar_full.jpg"
-                alt="side-img"
-                layout="fill"
-                objectFit="contain"
-                className="relative rounded-full w-12 h-12"
-              />
-            </div>
-            <div className="flex flex-col space-y-.5">
-              <p className="font-bold  text-gray-600">Graphic Design</p>
-              <span className="text-sm font-semibold">345k Following</span>
-            </div>
-            <Button text="Subscribe" active={true} />
-          </div>
-        </div>
-        <div className="flex flex-col">
-          <div className="flex justify-between items-center space-x-6">
-            <div className=" w-12 h-12 relative">
-              <Image
-                src="/profile_avatar_full.jpg"
-                alt="side-img"
-                layout="fill"
-                objectFit="contain"
-                className="relative rounded-full w-12 h-12"
-              />
-            </div>
-            <div className="flex flex-col space-y-.5">
-              <p className="font-bold  text-gray-600">Graphic Design</p>
-              <span className="text-sm font-semibold">345k Following</span>
-            </div>
-            <Button text="Subscribe" active={true} />
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

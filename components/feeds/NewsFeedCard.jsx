@@ -29,14 +29,17 @@ const NewsFeedCard = ({
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <div className="sm:rounded-2xl bg-white sm:border shadow-md ">
+    <div className="sm:rounded-2xl bg-white sm:border shadow-md max-w-3xl ">
       <div className="flex flex-1 p-1 px-2 sm:px-4 sm:p-4 border-b">
         <div className="flex items-center space-x-1 sm:space-x-2">
-          <img
+          <div className="relative w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700">
+              <Image src={user.image} layout="fill" objectFit="cover" className="rounded-full" alt=""/>
+          </div>
+          {/* <img
             src={user.image}
             alt=""
             className="object-cover object-center w-12 h-12   rounded-full shadow-sm bg-gray-500 border-gray-700"
-          />
+          /> */}
           <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
             <h2 className=" font-semibold leading-none">{user.username}</h2>
             <FaCheckCircle className="w-3 h-3 text-playRed" />

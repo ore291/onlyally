@@ -4,7 +4,7 @@ import { BsHeartFill, BsEyeFill } from "react-icons/bs";
 
 import Link from "next/link";
 
-const ChannelCard = ({ main, channel, profile}) => {
+const ChannelCard = ({ main, channel, profile }) => {
   if (main) {
     return (
       <div className="w-full  h-[230px]  border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0 ">
@@ -14,6 +14,7 @@ const ChannelCard = ({ main, channel, profile}) => {
             objectFit="cover"
             layout="fill"
             className="rounded-t-lg"
+            alt=""
           />
           <div className="w-10 h-6 bg-[#D43D7D]/90 rounded-sm row-container p-1 absolute top-2 left-2">
             <span className="text-xs text-white">Hot</span>
@@ -44,16 +45,17 @@ const ChannelCard = ({ main, channel, profile}) => {
       </div>
     );
   }
-  if(profile){
+  if (profile) {
     return (
       <div className="first:ml-auto last:mr-auto w-48 h-[300px] mb-5 border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0 space-y-3">
-        <Link href={`/channels/${channel}`}>  
-        <div className="relative w-full h-[90px] rounded-t-lg mb-16">
+        <Link href={`/channels/${channel}`} passHref>
+          <div className="relative w-full h-[90px] rounded-t-lg mb-16">
             <Image
               src={"https://picsum.photos/200/200?random=9"}
               objectFit="cover"
               layout="fill"
               className="rounded-t-lg"
+              alt=""
             />
             <div className="absolute -bottom-16 left-[40px]">
               <div className="row-container bg-white p-1 rounded-3xl">
@@ -70,7 +72,7 @@ const ChannelCard = ({ main, channel, profile}) => {
             </div>
           </div>
         </Link>
-  
+
         <div className="col-container w-full ">
           <p className="font-semibold text-center text-lg">Fashionista</p>
           <div className="row-container space-x-1 ">
@@ -81,7 +83,9 @@ const ChannelCard = ({ main, channel, profile}) => {
           </div>
           <div className="row-container space-x-1  ">
             <span className="pr-2 font-semibold text-gray-400">Posts</span>
-            <span className="pl-3 font-semibold text-gray-400">Subscribers</span>
+            <span className="pl-3 font-semibold text-gray-400">
+              Subscribers
+            </span>
           </div>
         </div>
         <div className="row-container px-3">
@@ -94,20 +98,18 @@ const ChannelCard = ({ main, channel, profile}) => {
         </div>
       </div>
     );
-  };
- 
-
-
+  }
 
   return (
     <div className="first:ml-auto last:mr-auto w-56 h-[300px] mb-5 border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0 space-y-3">
-      <Link href={`/channels/${channel}`}>  
-      <div className="relative w-full h-[90px] rounded-t-lg mb-16">
+      <Link href={`/channels/${channel}`} passHref>
+        <div className="relative w-full h-[90px] rounded-t-lg mb-16">
           <Image
             src={"https://picsum.photos/200/200?random=9"}
             objectFit="cover"
             layout="fill"
             className="rounded-t-lg"
+            alt=""
           />
           <div className="absolute -bottom-16 left-[50px]">
             <div className="row-container bg-white p-1 rounded-3xl">
@@ -127,15 +129,18 @@ const ChannelCard = ({ main, channel, profile}) => {
 
       <div className="col-container w-full ">
         <p className="font-semibold text-center text-lg">Fashionista</p>
-        <div className="row-container space-x-1 ">
-          <span className="border-r-2 border-black pr-10  font-bold text-sm">
-            4
-          </span>
-          <span className="pl-10 font-bold text-sm">4</span>
-        </div>
-        <div className="row-container space-x-1  ">
-          <span className="pr-2 font-semibold text-gray-400">Followers</span>
-          <span className="pl-3 font-semibold text-gray-400">Subscribers</span>
+        <div className=" grid grid-cols-2 ">
+          <div className="col-container w-full">
+            <span className="    font-bold text-sm">
+              4
+            </span>
+            <span className=" font-semibold text-gray-400 ">Posts</span>
+          </div>
+       
+          <div className="col-container">
+            <span className=" font-bold text-sm p-0">4</span>
+            <span className=" font-semibold text-gray-400 ">Subscribers</span>
+          </div>
         </div>
       </div>
       <div className="row-container px-3">

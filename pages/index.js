@@ -42,10 +42,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
   store => async ({req, res}) => {
     const session = await getSession({ req });
     // const dispatch = useDispatch();
-    // if(session){
-    //   store.dispatch(fetchUserDetailsSuccess(session.user.userDetails));
+    if(session){
+      store.dispatch(fetchUserDetailsSuccess(session.user.userDetails));
     
-    // }
+    }
   
     // session && store.dispatch(setUserData(session.user.userDetails))
     // store.dispatch(fetchUserDetailsStart({accessToken: session.accessToken, userId: session.userId}));
