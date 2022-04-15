@@ -14,6 +14,10 @@ import {
 } from "react-device-detect";
 
 
+
+var FormData = require("form-data");
+
+
 const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
 
 // const apiUrl = "http://localhost:8000/api/user/"; // Local Mode
@@ -79,9 +83,19 @@ const Environment = {
     
     
     formData.append("device_model", device_model);
+	
+	// let cert_file = fs.readFileSync("./ssl/ss_cert.crt")
+	// let ca_file = fs.readFileSync("./ssl/ss_bundle.ca-bundle")
+	
+	// const agent = new https.Agent({
+	// 	// requestCert:true,
+	// 	rejectUnauthorized: true,
+	// 	// cert: cert_file,
+	// 	// ca: ca_file
+	// });
 
     var config = {
-      method: "post",
+      method: "POST",
       url: url,
       // headers: {
       //   ...formData.getHeaders(),
@@ -89,8 +103,15 @@ const Environment = {
       data: formData,
     };
     
-    const response = await axios(config);
+
+    try {
+      const response = await axios(config);
     return response;
+    } catch (error) {
+      console.log(error)
+    }
+	
+    
    
 
     // Progress bar
