@@ -31,7 +31,7 @@
     @apply w-5 h-5 fill-current font-extrabold focus:outline-none focus:shadow-none active:outline-none;
   }
   .commentBtn {
-    @apply h-8 w-7 text-playRed cursor-pointer;
+    @apply h-8 w-8 text-playRed cursor-pointer;
   }
   .inputBox {
     @apply w-[275px] h-12 flex items-center justify-around p-2 bg-white rounded-full;

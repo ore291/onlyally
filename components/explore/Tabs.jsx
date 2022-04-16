@@ -4,6 +4,8 @@ import UserCard from "../userProfile/UserCard";
 import { FaChevronDown } from "react-icons/fa";
 import ChannelFilter from "../channels/ChannelFilter";
 import GroupCard from "../groups//GroupCard";
+import { useSelector } from "react-redux";
+import NewsFeedCard from "../feeds/NewsFeedCard";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -11,6 +13,7 @@ function classNames(...classes) {
 
 export default function Tabs() {
   let [categories] = useState(["Post", "Users", "Channels", "Groups"]);
+  const feeds = useSelector((state) => state.creators.feed);
 
   return (
     <Tab.Group>
@@ -37,9 +40,18 @@ export default function Tabs() {
         </Tab.List>
         <Tab.Panels className="mt-2">
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {[...Array(10)].map((_, index) => (
-                <UserCard key={index} />
+          <div className="p-2 grid grid-cols-2 gap-3">
+              {feeds.map((feed, index) => (
+                <NewsFeedCard
+                  image={feed.photos[0]}
+                  user={feed.user}
+                  likeCount={feed.likeCount}
+                  commentCount={feed.commentCount}
+                  description={feed.description}
+                  popularComments={feed.popularComments}
+                  time={feed.time}
+                  key={index}
+                />
               ))}
             </div>
             <div className="w-full row-container space-x-1 py-5">

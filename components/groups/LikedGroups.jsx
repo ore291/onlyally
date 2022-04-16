@@ -10,10 +10,10 @@ const LikedGroups = () => {
         <span className="text-blue-500 text-xs cursor-pointer">Refresh</span>
       </div>
 
-      <div className="flex flex-col items-center space-y-2 pr-6 pl-2 pb-4">
-        <GroupCard />
-        <GroupCard />
-        <GroupCard />
+      <div className="flex flex-col items-center space-y-2 px-2 pb-4">
+        {[...Array(4)].map((_, i) => (
+          <GroupCard key={i} />
+        ))}
       </div>
     </div>
   );

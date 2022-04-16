@@ -5,9 +5,9 @@ const Story = ({ username, img, isYou }) => {
   if (isYou) {
     return (
       <div className="col-container cursor-pointer">
-        <div className="relative bg-gradient-to-tr from-yellow-400 to-playRed p-0.5 rounded-full">
+        {/* <div className="relative bg-gradient-to-tr from-yellow-400 to-playRed p-0.5 rounded-full"> */}
           <div className="bg-white p-0.5 rounded-full transform transition hover:-rotate-6">
-            <div className="h-20 w-20 relative rounded-full">
+            <div className="h-16 w-16 md:h-20 md:w-20 relative rounded-full">
               <Image
                 className="rounded-full"
                 layout="fill"
@@ -16,10 +16,13 @@ const Story = ({ username, img, isYou }) => {
                 alt={username}
               />
             </div>
+          {/* </div> */}
+          <div className="bg-white p-0.5 row-container rounded-full absolute right-1 md:right-2 -bottom-1 md:bottom-1">
+             <BsPlusCircleFill className="text-playRed bg-white rounded-full h-4 w-4 md:h-6 md:w-6 " />
           </div>
-          <BsPlusCircleFill className="text-playRed bg-white rounded-full h-6 w-6 absolute right-2 bottom-1" />
+         
         </div>
-        <p className="text-sm font-semibold truncate text-center">
+        <p className="text-xs md:text-sm font-semibold truncate text-center tracking-tight">
           {username}
         </p>
       </div>
@@ -28,8 +31,8 @@ const Story = ({ username, img, isYou }) => {
     return (
       <div className="col-container cursor-pointer">
         <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-0.5 rounded-full">
-          <div className="bg-white p-0.5 rounded-full transform transition hover:-rotate-6">
-            <div className="h-20 w-20 relative rounded-full">
+          <div className="bg-white p-1 rounded-full transform transition hover:-rotate-6">
+            <div className="h-[60px] w-[60px] md:h-20 md:w-20  relative rounded-full">
               <Image
                 className="rounded-full"
                 layout="fill"
@@ -40,7 +43,7 @@ const Story = ({ username, img, isYou }) => {
             </div>
           </div>
         </div>
-        <p className="text-sm font-semibold truncate text-center">{username}</p>
+        <p className="text-xs md:text-sm font-semibold truncate text-center">{username}</p>
       </div>
     );
   }

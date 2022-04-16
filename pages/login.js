@@ -13,6 +13,18 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { IoIosLock } from "react-icons/io";
 import { IoNewspaperSharp } from "react-icons/io5";
+import {
+  isAndroid,
+  isIOS,
+  isWindows,
+  isMacOs,
+  mobileModel,
+  browserName,
+  osName,
+  mobileVendor,
+  browserVersion,
+} from "react-device-detect";
+
 
 const Login = () => {
   const emailRef = useRef("");
@@ -22,19 +34,29 @@ const Login = () => {
   const router = useRouter();
 
   const userLogin = async () => {
+    var device_model = "";
+    if (isAndroid == true) {
+      device_model = mobileModel;
+    } else if (isIOS == true) {
+      device_model = mobileModel;
+    } else {
+      device_model = browserName + " " + browserVersion;
+    }
+  
     var email = emailRef.current.value;
     var password = passwordRef.current.value;
     const res = await signIn("credentials", {
       callbackUrl: "/",
       email: email,
       password: password,
+      device_model: device_model
     });
     console.log(res);
-
   };
 
   useEffect(() => {
     if (router.query.error) {
+      console.log(router.query.error);
       setLoginError(router.query.error);
       setEmail(router.query.email);
     }
@@ -45,7 +67,12 @@ const Login = () => {
       <div className="relative p-1 bg-cover  md:mx-auto w-full md:max-w-7xl rounded-3xl h-[500px] bg-[url('/banner-mobile.jpg')] bg-playRed/40 lg:bg-playRed/50 bg-blend-darken ">
         <div className="col-container">
           <div className="w-40 h-10 lg:h-14 relative">
-            <Image src={"/logo-mobile.png"} layout="fill" objectFit="contain" />
+            <Image
+              src={"/logo-mobile.png"}
+              layout="fill"
+              objectFit="contain"
+              alt=""
+            />
           </div>
         </div>
 

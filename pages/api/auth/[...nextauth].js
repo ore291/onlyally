@@ -7,6 +7,7 @@ var axios = require("axios");
 var FormData = require("form-data");
 var localStorage = require("localStorage");
 
+
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
@@ -41,6 +42,7 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
+        console.log(credentials.device_model)
 
         var data = new FormData();
         data.append("email", credentials.email);
@@ -48,6 +50,7 @@ export default NextAuth({
         data.append("login_by", "manual");
         data.append("device_token", "123456");
         data.append("device_type", "web");
+        data.append("device_model", credentials.device_model);
 
         var config = {
           method: "post",
@@ -69,7 +72,8 @@ export default NextAuth({
             return user;
           }
         } catch (e) {
-          const errorMessage = e.response.data.message;
+          const errorMessage = e;
+          console.log(errorMessage);
           throw new Error(errorMessage + "&email" + credentials.email);
         }
         // Return null if user data could not be retrieved

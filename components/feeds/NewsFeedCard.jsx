@@ -13,6 +13,7 @@ import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Comments from "./Comments";
 import Image from "next/image";
+import TextareaAutosize from "react-textarea-autosize";
 
 const NewsFeedCard = ({
   image,
@@ -28,14 +29,17 @@ const NewsFeedCard = ({
   const [showComments, setShowComments] = useState(false);
 
   return (
-    <div className="sm:rounded-2xl bg-white sm:border shadow-md ">
+    <div className="sm:rounded-2xl bg-white sm:border shadow-md max-w-3xl ">
       <div className="flex flex-1 p-1 px-2 sm:px-4 sm:p-4 border-b">
         <div className="flex items-center space-x-1 sm:space-x-2">
-          <img
+          <div className="relative w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700">
+              <Image src={user.image} layout="fill" objectFit="cover" className="rounded-full" alt=""/>
+          </div>
+          {/* <img
             src={user.image}
             alt=""
             className="object-cover object-center w-12 h-12   rounded-full shadow-sm bg-gray-500 border-gray-700"
-          />
+          /> */}
           <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
             <h2 className=" font-semibold leading-none">{user.username}</h2>
             <FaCheckCircle className="w-3 h-3 text-playRed" />
@@ -145,11 +149,14 @@ const NewsFeedCard = ({
             <span className="text-xs">{likeCount}</span>
           </button>
           <button
+            onClick={() => setShowComments(!showComments)}
             type="button"
             title="Add a comment"
             className="flex items-center justify-center space-x-1"
           >
-            <BsChat className="news-feed-card-icon" />
+            <div className="relative news-feed-card-icon">
+              <Image src="/materials/icons8-speech-48.png" layout="fill" alt="" />
+            </div>
             <span className="text-xs">{commentCount}</span>
           </button>
           <button
@@ -157,7 +164,9 @@ const NewsFeedCard = ({
             title="Donate to post"
             className="flex items-center justify-center space-x-1"
           >
-            <BsHexagon className="news-feed-card-icon" />
+            <div className="relative w-5 h-5">
+              <Image src="/tips.png" layout="fill" objectFit="cover" alt="" />
+            </div>
             <span className="text-xs">Tip</span>
           </button>
 
@@ -186,23 +195,29 @@ const NewsFeedCard = ({
               </p>
               <Comments comments={popularComments} />
               <div className="flex items-center mt-2">
-                <div className="w-12 h-12 relative rounded-full">
+                <div className="w-10 h-10 relative rounded-full mr-2">
                   <Image
                     src={"/profile_avatar_full.jpg"}
                     className="rounded-full"
                     layout="fill"
+                    objectFit="cover"
+                    alt=""
                   />
                 </div>
-                <form className="bg-gray-100 flex items-center p-1 rounded-2xl flex-1">
-                  <textarea
-                    type="text"
+                <form className="bg-gray-100 flex items-center px-2 rounded-2xl flex-1">
+                  <TextareaAutosize
                     maxLength="1280"
-                    className="bg-gray-100 scrollbar-hide flex-1 border-none focus:ring-0 outline-none text-xs resize-none overflow-auto h-auto min-h-[36px]"
+                    rows={1}
+                    maxRows={4}
                     placeholder="Add a comment"
-                  ></textarea>
+                    className="rounded-2xl flex-1 resize-none outline-0 border-none bg-gray-100 text-sm focus:outline-0 ring-0 focus:ring-0"
+                  />
                   <div className="flex space-x-1 items-center justify-center ">
                     <HiOutlineEmojiHappy className="commentBtn" />
-                    <HiPaperAirplane className="commentBtn rotate-90" />
+                    <div className="relative w-9 h-9 cursor-pointer lg:commentBtn">
+                      <Image src="/comment.png" layout="fill" alt="" />
+                    </div>
+                    {/* <HiPaperAirplane className="commentBtn rotate-90" /> */}
                   </div>
                 </form>
               </div>

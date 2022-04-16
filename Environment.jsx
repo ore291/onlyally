@@ -12,7 +12,11 @@ import {
   mobileVendor,
   browserVersion,
 } from "react-device-detect";
+
+
+
 var FormData = require("form-data");
+
 
 const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
 
@@ -66,7 +70,7 @@ const Environment = {
 
     formData.append("device_type", apiConstants.DEVICE_TYPE);
     formData.append("device_token", apiConstants.DEVICE_TOKEN);
-    formData.append("device_model", apiConstants.DEVICE_MODEL);
+   
 
     var device_model = "";
     if (isAndroid == true) {
@@ -76,20 +80,38 @@ const Environment = {
     } else {
       device_model = browserName + " " + browserVersion;
     }
-
+    
+    
     formData.append("device_model", device_model);
+	
+	// let cert_file = fs.readFileSync("./ssl/ss_cert.crt")
+	// let ca_file = fs.readFileSync("./ssl/ss_bundle.ca-bundle")
+	
+	// const agent = new https.Agent({
+	// 	// requestCert:true,
+	// 	rejectUnauthorized: true,
+	// 	// cert: cert_file,
+	// 	// ca: ca_file
+	// });
 
     var config = {
-      method: "post",
+      method: "POST",
       url: url,
-      headers: {
-        ...formData.getHeaders(),
-      },
+      // headers: {
+      //   ...formData.getHeaders(),
+      // },
       data: formData,
     };
     
-    const response = await axios(config);
+
+    try {
+      const response = await axios(config);
     return response;
+    } catch (error) {
+      console.log(error)
+    }
+	
+    
    
 
     // Progress bar

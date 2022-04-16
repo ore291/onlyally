@@ -34,7 +34,7 @@ const MainMobileNav = () => {
             <MdClose className="text-black h-6 w-6 cursor-pointer" />
           </button>
 
-          <div className="grid grid-cols-1 gap-y-4">
+          <div className="grid grid-cols-1 gap-y-3">
             <div
               className="side-nav-mobile-button hover:text-white hover:bg-textPlayRed rounded-md w-full p-2"
               onClick={() => navigate("/")}
@@ -149,7 +149,7 @@ const MainMobileNav = () => {
               </div>
               <span className="text-xl font-bold">Playhub</span>
             </div>
-            <div className=" space-x-1 cursor-pointer row-container  w-32 h-10 ml-5 text-white   bg-lightPlayRed rounded-full">
+            <div className=" space-x-1 cursor-pointer row-container  w-40 h-10 ml-5 text-white   bg-lightPlayRed rounded-full">
               <FiPlus className="h-6 w-6" />{" "}
               <p className="text-lg font-medium">Create</p>
             </div>
