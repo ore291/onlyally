@@ -46,7 +46,7 @@ function MyPaymentBody() {
     }
   ];
   return (
-    <div className="bg-white border drop-shadow-lg width-full rounded-lg space-y-3">
+    <div className="h-[90%] bg-white border drop-shadow-lg width-full rounded-lg space-y-3">
       <div className="grid grid-cols-4 justify-items-center	text-[13px] text-lightPlayRed font-bold">
         <p>Paid to</p>
         <p>Date</p>
@@ -60,7 +60,7 @@ function MyPaymentBody() {
           <div className="grid grid-cols-4 justify-items-center	text-[13px]">
             <div className="flex justify-center space-x-2">
               <Image
-                src="/images/person9.jpg"
+                src="/images/person 9.jpg"
                 alt="Picture of the author"
                 width={20}
                 height={20}
