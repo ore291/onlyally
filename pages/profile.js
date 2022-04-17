@@ -22,6 +22,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import {fetchUserDetailsStart, fetchUserDetailsSuccess} from '../store/slices/userSlice';
 import { useEffect } from "react";
+import configuration from "react-global-configuration";
 
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
@@ -31,7 +32,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const {data: session} =  useSession();
 
-
+  console.log(configuration.get('config.site_name'));
   useEffect(() => {
     if(session){
        var accessToken =  session.accessToken;

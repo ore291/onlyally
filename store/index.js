@@ -5,13 +5,17 @@ import createSagaMiddleware from 'redux-saga';
 import userReducer from './slices/userSlice';
 import creatorReducer from './slices/creatorSlice';
 import navReducer from "./slices/NavSlice";
+import homeReducer from './slices/homeSlice';
+import postReducer from './slices/postSlice';
 import mySaga from "./sagas";
 import { combineReducers } from "redux";
 
 const reducers = combineReducers({
   user: userReducer,
   creators: creatorReducer,
-  navbar: navReducer
+  navbar: navReducer,
+  home: homeReducer,
+  post: postReducer,
 })
 
 // const saga = createSagaMiddleware();
@@ -35,7 +39,7 @@ export const makeStore = (context) => {
   return store;
 }
 
-export const wrapper = createWrapper(makeStore)
+export const wrapper = createWrapper(makeStore, {debug : false});
 
 // let store;
 // export const initialiseStore = (preloadedState) => {

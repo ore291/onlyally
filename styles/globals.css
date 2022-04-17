@@ -57,6 +57,19 @@
   .notification-nav{
     @apply flex space-x-1 justify-start md:justify-center items-center
   }
+  .postViewImg{
+    @apply w-full min-h-[35em] h-[35em] object-cover object-center 
+  }
+  .postImage{
+    @apply relative before:inset-0 before:absolute before:w-full before:z-[1] before:content-none
+  }
+  .gallery{
+    @apply relative block max-w-full max-h-full m-auto overflow-hidden
+  }
+  .gallery-img-sec{
+    @apply relative row-container flex h-full grid grid-cols-3 gap-4
+  }
+ 
   /* Price Range */
   input[type="range"]::-webkit-slider-thumb {
     pointer-events: auto;
@@ -81,6 +94,18 @@
   text-overflow: "" !important;
 } */
 /* endselect */
+
+.postVideo::before{
+  position: unset !important;
+}
+
+.gallery-play-icon {
+  border-style: solid;
+  border-width: 16px 0px 16px 26px;
+  border-color: transparent transparent transparent white;
+  position: absolute;
+  top: 50%;
+}
 /* search filter */
 .filter-search input {
   font-family: "TT Commons", Roboto, sans-serif;

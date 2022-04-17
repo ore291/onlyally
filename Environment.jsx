@@ -13,44 +13,44 @@ import {
   browserVersion,
 } from "react-device-detect";
 
-
-
 var FormData = require("form-data");
-
 
 const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
 
 // const apiUrl = "http://localhost:8000/api/user/"; // Local Mode
 
 const Environment = {
+  postMethod: async (action, accessToken, userId, object) => {
+    let user_id = null;
+    let token = null;
+    if (typeof window !== "undefined") {
+      user_id =
+        localStorage.getItem("userId") !== "" &&
+        localStorage.getItem("userId") !== null &&
+        localStorage.getItem("userId") !== undefined
+          ? localStorage.getItem("userId")
+          : "";
 
-  postMethod: async (action,accessToken, userId, object) => {
-   
-    
-    // let userId =
-    //   localStorage.getItem("userId") !== "" &&
-    //   localStorage.getItem("userId") !== null &&
-    //   localStorage.getItem("userId") !== undefined
-    //     ? localStorage.getItem("userId")
-    //     : "";
-
-    // let accessToken =
-    //   localStorage.getItem("accessToken") !== "" &&
-    //   localStorage.getItem("accessToken") !== null &&
-    //   localStorage.getItem("accessToken") !== undefined
-    //     ? localStorage.getItem("accessToken")
-    //     : "";
-
-   
+      token =
+        localStorage.getItem("accessToken") !== "" &&
+        localStorage.getItem("accessToken") !== null &&
+        localStorage.getItem("accessToken") !== undefined
+          ? localStorage.getItem("accessToken")
+          : "";
+    }
 
     const url = apiUrl + action;
 
     let formData = new FormData();
 
     // By Default Id and token
-
-    formData.append("id", userId);
-    formData.append("token", accessToken);
+    // if (user_id && token) {
+    //   formData.append("id", user_id);
+    //   formData.append("token", token);
+    // } else {
+      formData.append("id", userId);
+      formData.append("token", accessToken);
+    // }
 
     var socialLoginUser = 0;
 
@@ -70,7 +70,6 @@ const Environment = {
 
     formData.append("device_type", apiConstants.DEVICE_TYPE);
     formData.append("device_token", apiConstants.DEVICE_TOKEN);
-   
 
     var device_model = "";
     if (isAndroid == true) {
@@ -78,41 +77,38 @@ const Environment = {
     } else if (isIOS == true) {
       device_model = mobileModel;
     } else {
-      device_model = browserName + " " + browserVersion;
+      // device_model = browserName + " " + browserVersion;
+      device_model = "Chrome" + " " + "100";
     }
-    
-    
+
     formData.append("device_model", device_model);
-	
-	// let cert_file = fs.readFileSync("./ssl/ss_cert.crt")
-	// let ca_file = fs.readFileSync("./ssl/ss_bundle.ca-bundle")
-	
-	// const agent = new https.Agent({
-	// 	// requestCert:true,
-	// 	rejectUnauthorized: true,
-	// 	// cert: cert_file,
-	// 	// ca: ca_file
-	// });
+
+    // let cert_file = fs.readFileSync("./ssl/ss_cert.crt")
+    // let ca_file = fs.readFileSync("./ssl/ss_bundle.ca-bundle")
+
+    // const agent = new https.Agent({
+    // 	// requestCert:true,
+    // 	rejectUnauthorized: true,
+    // 	// cert: cert_file,
+    // 	// ca: ca_file
+    // });
 
     var config = {
       method: "POST",
       url: url,
-      // headers: {
-      //   ...formData.getHeaders(),
-      // },
+      headers: {
+        ...formData.getHeaders(),
+      },
       data: formData,
     };
-    
 
     try {
       const response = await axios(config);
-    return response;
+
+      return response;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-	
-    
-   
 
     // Progress bar
     // {
@@ -168,6 +164,10 @@ const Environment = {
     }
 
     formData.append("device_model", device_model);
+
+    for (var p of formData) {
+      console.log(p);
+    }
 
     return await axios.get(url, formData);
   },

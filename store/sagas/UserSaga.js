@@ -1,44 +1,5 @@
 import { call, select, put, takeLatest, all } from "redux-saga/effects";
-// import {
-//     fetchUserDetailsSuccess,
-//     fetchUserDetailsFailure,
-//     // updateUserDetailsSuccess,
-//     // userLoginSuccess,
-//     // userLoginFailure,
-//     // userRegisterSuccess,
-//     // userRegisterFailure,
-//     // forgotPasswordSuccess,
-//     // forgotPasswordFailure,
-//     // deleteAccountSuccess,
-//     // deleteAccountFailure,
-//     // updateUserDetailsFailure,
-//     // registerVerifyFailure,
-//     // registerVerifyResendFailure,
-//     // registerVerifySuccess,
-//     // registerVerifyResendSuccess,
-//     // notificationStatusUpdateSuccess,
-//     // notificationStatusUpdateFailure,
-//     // fetchPaymentsSuccess,
-//     // fetchPaymentsFailure,
-//     // saveBlockUserSuccess,
-//     // saveBlockUserFailure,
-//     // fetchBlockUsersSuccess,
-//     // fetchBlockUsersFailure,
-//     // resetPasswordFailure,
-//     // resetPasswordSuccess,
-//     // usernameValidationSuccess,
-//     // usernameValidationFailure,
-//     // referralValidationSuccess,
-//     // referralValidationFailure,
-//     // fetchContentCreatorDashboardSuccess,
-//     // fetchContentCreatorDashboardFailure,
-//     // twoStepAuthUpdateSuccess,
-//     // twoStepAuthUpdateFAilure,
-//     // twoStepAuthenticationLoginSuccess,
-//     // twoStepAuthenticationLoginFailure,
-//     // twoStepAuthenticationCodeResendSuccess,
-//     // twoStepAuthenticationCodeResendFailure
-//   } from "../actions/UserAction";
+
 
 import api from "../../Environment";
 var localStorage = require("localStorage");
