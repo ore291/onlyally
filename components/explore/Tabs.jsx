@@ -13,7 +13,7 @@ function classNames(...classes) {
 
 export default function Tabs() {
   let [categories] = useState(["Post", "Users", "Channels", "Groups"]);
-  const feeds = useSelector((state) => state.creators.feed);
+  const posts = useSelector(state => state.home.homePost.data.posts)
 
   return (
     <Tab.Group>
@@ -41,15 +41,10 @@ export default function Tabs() {
         <Tab.Panels className="mt-2">
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
           <div className="p-2 grid grid-cols-2 gap-3">
-              {feeds.map((feed, index) => (
+              {posts.map((post, index) => (
                 <NewsFeedCard
-                  image={feed.photos[0]}
-                  user={feed.user}
-                  likeCount={feed.likeCount}
-                  commentCount={feed.commentCount}
-                  description={feed.description}
-                  popularComments={feed.popularComments}
-                  time={feed.time}
+                  index={index}
+                  post={post}
                   key={index}
                 />
               ))}

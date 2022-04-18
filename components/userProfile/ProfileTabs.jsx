@@ -15,7 +15,7 @@ function classNames(...classes) {
 }
 
 const ProfileTabs = () => {
-  const feeds = useSelector((state) => state.creators.feed);
+  const posts = useSelector(state => state.home.homePost.data.posts)
   let [categories] = useState([
     "Timeline",
     "Channel",
@@ -62,18 +62,12 @@ const ProfileTabs = () => {
         <Tab.Panels className="mt-2">
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="p-2 grid grid-cols-1 gap-y-3">
-              {feeds.map((feed, index) => (
-                <NewsFeedCard
-                  image={feed.photos[0]}
-                  user={feed.user}
-                  likeCount={feed.likeCount}
-                  commentCount={feed.commentCount}
-                  description={feed.description}
-                  popularComments={feed.popularComments}
-                  time={feed.time}
-                  key={index}
-                />
-              ))}
+            {posts.map((post, index) => (
+                  <NewsFeedCard
+                    post={post}
+                    key={index}
+                  />
+                ))}
             </div>
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
