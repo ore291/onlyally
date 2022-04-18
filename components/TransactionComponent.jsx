@@ -68,10 +68,7 @@ function TransactionComponent() {
       <div >
 
       <div className=" py-2.5 bg-lightPlayRed text-white flex text-[12px] ">
-        {/* <p>Product</p> */}
-        {/* <div className="flex justify-between space-x-[4.5rem] mr-20"> */}
-        {/* <p className="mr-7">Order id</p> */}
-        {/* <div className="mx-5 flex justify-between text-[12px]"> */}
+        
           <p className="flex justify-center w-[130px] ">Date</p>
           <p className="flex justify-center w-40 ">Payment Id</p>
           <p className="flex justify-center w-[130px] ">Mode</p>
@@ -82,8 +79,7 @@ function TransactionComponent() {
           <p className="flex justify-center w-[130px] ">Status</p>
           <p className="flex justify-center w-[130px] ">Action</p>
         </div>
-        {/* </div> */}
-      {/* </div> */}
+        
       {tranaction.map((data, index) => (
         <div className="py-2.5 flex items-center  text-[12px] " key={index}>
           <p className="flex justify-center w-[130px] ">{data.date}</p>
