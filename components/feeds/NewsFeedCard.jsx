@@ -8,13 +8,13 @@ import {
 } from "react-icons/bs";
 import { HiOutlineEmojiHappy, HiPaperAirplane } from "react-icons/hi";
 import ReadMoreReact from "read-more-react";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import Comments from "./Comments";
 import Image from "next/image";
 import TextareaAutosize from "react-textarea-autosize";
-import Slider from "react-slick";
+import useEmblaCarousel from "embla-carousel-react";
 import Link from "next/link";
 import Button from "../Button";
 import ReactAudioPlayer from "react-audio-player";
@@ -37,6 +37,7 @@ const NewsFeedCard = ({
   // main,
 }) => {
   const dispatch = useDispatch();
+
   let totalLikes = post.total_likes ? post.total_likes : 0;
 
   const [comments, setComments] = useState([]);
@@ -177,43 +178,35 @@ const NewsFeedCard = ({
     setCommentActiveIndex(index);
   };
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: false,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
+  const [viewportRef, embla] = useEmblaCarousel({
+    align: "center",
+    skipSnaps: false,
+  });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState([]);
+
+  const scrollTo = useCallback((index) => embla && embla.scrollTo(index), [
+    embla,
+  ]);
+
+  const data = [1, 2, 3];
+
+  const onSelect = useCallback(() => {
+    if (!embla) return;
+    setSelectedIndex(embla.selectedScrollSnap());
+  }, [embla, setSelectedIndex]);
+
+  useEffect(() => {
+    if (!embla) return;
+    onSelect();
+    setScrollSnaps(embla.scrollSnapList());
+    embla.on("select", onSelect);
+  }, [embla, setScrollSnaps, onSelect]);
 
   return (
     <>
       {postDisplayStatus == true ? (
-        <div className="sm:rounded-2xl bg-white sm:border shadow-md block w-full ">
+        <div className="sm:rounded-2xl bg-white sm:border shadow-md w-full ">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b">
             <Link passHref href={`/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
@@ -317,264 +310,299 @@ const NewsFeedCard = ({
           text={description}
         /> */}
 
-              <p className="text-[14px] font-normal leading-5"
+              <div
+                className="text-[14px] font-normal leading-5"
                 dangerouslySetInnerHTML={{
                   __html: post.content != undefined ? post.content : "",
                 }}
-              ></p>
-            </div>
-            <Slider {...settings} className="tab-home-post-slider">
-              {post.postFiles
-                ? post.postFiles.length > 0
-                  ? post.postFiles.map((postFile, index) =>
-                      postFile.file_type === "image" ? (
-                        <Link
-                          href="#"
-                          passHref
-                          key={index}
-                          onClick={(event) =>
-                            post.payment_info.post_payment_type === "ppv" &&
-                            post.payment_info.is_user_needs_pay === 1
-                              ? handlePPVPayment(
-                                  event,
-                                  post.payment_info.is_user_needs_pay
-                                )
-                              : handleImagePreview(
-                                  event,
-                                  1,
-                                  post.payment_info.is_user_needs_pay
-                                )
-                          }
-                        >
-                          <div className="postImage" key={index}>
-                            <div className="">
-                              <div className="gallery js-gallery">
-                                {post.payment_info.is_user_needs_pay == 1 ? (
+              ></div>
+            </div> 
+            <div className="embla">
+              <div className="embla__viewport" ref={viewportRef}>
+                <div className="embla__container">
+                  {post.postFiles
+                    ? post.postFiles.length > 0
+                      ? post.postFiles.map((postFile, index) =>
+                          postFile.file_type === "image" ? (
+                            <div className="embla__slide" key={index}>
+                              <Link
+                                href="#"
+                                passHref
+                                onClick={(event) =>
+                                  post.payment_info.post_payment_type ===
+                                    "ppv" &&
+                                  post.payment_info.is_user_needs_pay === 1
+                                    ? handlePPVPayment(
+                                        event,
+                                        post.payment_info.is_user_needs_pay
+                                      )
+                                    : handleImagePreview(
+                                        event,
+                                        1,
+                                        post.payment_info.is_user_needs_pay
+                                      )
+                                }
+                              >
+                                <div className="postImage" key={index}>
                                   <div className="">
-                                    <img
-                                      alt=""
-                                      src={postFile.post_file}
-                                      className="postViewImg"
-                                      style={{ filter: "blur(20px)" }}
-                                    />
+                                    <div className="gallery js-gallery">
+                                      {post.payment_info.is_user_needs_pay ==
+                                      1 ? (
+                                        <div className="">
+                                          <img
+                                            alt=""
+                                            src={postFile.post_file}
+                                            className="postViewImg"
+                                            style={{ filter: "blur(20px)" }}
+                                          />
+                                        </div>
+                                      ) : (
+                                        <div className="relative w-full">
+                                          <img
+                                            src={postFile.post_file}
+                                            className="postViewImg"
+                                            // onClick={handleImagePreview}
+                                            onClick={(event) =>
+                                              handleImagePreview(event, 1)
+                                            }
+                                          />
+                                        </div>
+                                      )}
+                                    </div>
+                                    {post.payment_info.is_user_needs_pay ===
+                                      1 &&
+                                    post.payment_info.post_payment_type ===
+                                      "ppv" ? (
+                                      <div className="gallery-pay-button-div">
+                                        <button
+                                          type="button"
+                                          className="gallery-pay-button"
+                                          onClick={(event) =>
+                                            handlePPVPayment(event, 1)
+                                          }
+                                        >
+                                          {post.payment_info.payment_text}
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {post.payment_info.is_user_needs_pay ===
+                                      1 &&
+                                    post.payment_info.post_payment_type ===
+                                      "subscription" ? (
+                                      scrollToTop ? (
+                                        <div
+                                          className="gallery-pay-button-div"
+                                          onClick={scrollToTop}
+                                        >
+                                          <button className="gallery-pay-button">
+                                            {post.payment_info.payment_text}
+                                          </button>
+                                        </div>
+                                      ) : (
+                                        <Link to={`/` + post.user.unique_id}>
+                                          <div className="gallery-pay-button-div">
+                                            <Button className="gallery-pay-button">
+                                              {post.payment_info.payment_text}
+                                            </Button>
+                                          </div>
+                                        </Link>
+                                      )
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
-                                ) : (
-                                  <div className="relative w-full">
-                                    <img
-                                      src={postFile.post_file}
-                                      className="postViewImg"
-                                      // onClick={handleImagePreview}
-                                      onClick={(event) =>
-                                        handleImagePreview(event, 1)
-                                      }
+                                  {modalStatus ? (
+                                    <Lightbox
+                                      mainSrc={postFile.post_file}
+                                      // nextSrc={images[(photoIndex + 1) % images.length]}
+                                      // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                                      onCloseRequest={() => setModalStatus(0)}
                                     />
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </Link>
+                            </div>
+                          ) : postFile.file_type === "video" ? (
+                            <div className="embla__slide" key={index}>
+                              <div className="postImage postVideo">
+                                <div className="">
+                                  <div className="gallery js-gallery">
+                                    {post.payment_info.is_user_needs_pay ==
+                                    1 ? (
+                                      <div className="gallery-img-sec">
+                                        <img
+                                          src={
+                                            postFile.preview_file
+                                              ? postFile.preview_file
+                                              : postFile.post_file
+                                          }
+                                          className="postViewImg"
+                                        />
+                                        <div className="gallery-play-icon"></div>
+                                      </div>
+                                    ) : (
+                                      <ReactPlayer
+                                        light={postFile.preview_file}
+                                        url={postFile.post_file}
+                                        controls={true}
+                                        width="100%"
+                                        height="100%"
+                                        playing
+                                        className="post-video-size"
+                                      />
+                                    )}
+                                    {post.payment_info.is_user_needs_pay ===
+                                      1 &&
+                                    post.payment_info.post_payment_type ===
+                                      "ppv" ? (
+                                      <div className="gallery-top-btn-sec">
+                                        <button
+                                          className="gallery-pay-button"
+                                          onClick={(event) =>
+                                            handlePPVPayment(event, 1)
+                                          }
+                                        >
+                                          {post.payment_info.payment_text}
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {post.payment_info.is_user_needs_pay ===
+                                      1 &&
+                                    post.payment_info.post_payment_type ===
+                                      "subscription" ? (
+                                      scrollToTop ? (
+                                        <div
+                                          className="gallery-top-btn-sec"
+                                          onClick={scrollToTop}
+                                        >
+                                          <button className="gallery-pay-button">
+                                            {post.payment_info.payment_text}
+                                          </button>
+                                        </div>
+                                      ) : (
+                                        <Link to={`/` + post.user.unique_id}>
+                                          <div className="gallery-top-btn-sec">
+                                            <button className="subscribe-post-btn-sec">
+                                              {post.payment_info.payment_text}
+                                            </button>
+                                          </div>
+                                        </Link>
+                                      )
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
-                                )}
+                                </div>
                               </div>
-                              {post.payment_info.is_user_needs_pay === 1 &&
-                              post.payment_info.post_payment_type === "ppv" ? (
-                                <div className="gallery-pay-button-div">
-                                  <button
-                                    type="button"
-                                    className="gallery-pay-button"
-                                    onClick={(event) =>
-                                      handlePPVPayment(event, 1)
-                                    }
-                                  >
-                                    {post.payment_info.payment_text}
-                                  </button>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                              {post.payment_info.is_user_needs_pay === 1 &&
-                              post.payment_info.post_payment_type ===
-                                "subscription" ? (
-                                scrollToTop ? (
-                                  <div
-                                    className="gallery-pay-button-div"
-                                    onClick={scrollToTop}
-                                  >
-                                    <button className="gallery-pay-button">
-                                      {post.payment_info.payment_text}
-                                    </button>
+                            </div>
+                          ) : postFile.file_type === "audio" ? (
+                            <div className="embla__slide" key={index}>
+                              <div className="post-image post-video">
+                                <div className="">
+                                  <div className="gallery js-gallery">
+                                    {post.payment_info.is_user_needs_pay ==
+                                    1 ? (
+                                      <div className="gallery-img-sec">
+                                        <Image
+                                          layout="fill"
+                                          src={
+                                            postFile.preview_file
+                                              ? postFile.preview_file
+                                              : postFile.post_file
+                                          }
+                                          className="post-view-image"
+                                        />
+                                        <div className="gallery-play-icon"></div>
+                                      </div>
+                                    ) : (
+                                      <ReactAudioPlayer
+                                        // light={postFile.preview_file}
+                                        src={postFile.post_file}
+                                        // file="forceAudio"
+                                        controls={true}
+                                        width="100%"
+                                        height="100%"
+                                        autoPlay={false}
+                                        className="post-video-size"
+                                        controlsList={"nodownload"}
+                                      />
+                                    )}
+                                    {post.payment_info.is_user_needs_pay ===
+                                      1 &&
+                                    post.payment_info.post_payment_type ===
+                                      "ppv" ? (
+                                      <div className="gallery-pay-button-div">
+                                        <button
+                                          className="gallery-pay-button"
+                                          onClick={(event) =>
+                                            handlePPVPayment(event, 1)
+                                          }
+                                        >
+                                          {post.payment_info.payment_text}
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {post.payment_info.is_user_needs_pay ===
+                                      1 &&
+                                    post.payment_info.post_payment_type ===
+                                      "subscription" ? (
+                                      scrollToTop ? (
+                                        <div
+                                          className="gallery-pay-button-div"
+                                          onClick={scrollToTop}
+                                        >
+                                          <button className="gallery-pay-button">
+                                            {post.payment_info.payment_text}
+                                          </button>
+                                        </div>
+                                      ) : (
+                                        <Link to={`/` + post.user.unique_id}>
+                                          <div className="gallery-pay-button-div">
+                                            <button className="gallery-pay-button">
+                                              {post.payment_info.payment_text}
+                                            </button>
+                                          </div>
+                                        </Link>
+                                      )
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
-                                ) : (
-                                  <Link to={`/` + post.user.unique_id}>
-                                    <div className="gallery-pay-button-div">
-                                      <Button className="gallery-pay-button">
-                                        {post.payment_info.payment_text}
-                                      </Button>
-                                    </div>
-                                  </Link>
-                                )
-                              ) : (
-                                ""
-                              )}
+                                </div>
+                              </div>
                             </div>
-                            {modalStatus ? (
-                              <Lightbox
-                                mainSrc={postFile.post_file}
-                                // nextSrc={images[(photoIndex + 1) % images.length]}
-                                // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-                                onCloseRequest={() => setModalStatus(0)}
-                              />
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </Link>
-                      ) : postFile.file_type === "video" ? (
-                        <div className="postImage postVideo" key={index}>
-                          <div className="">
-                            <div className="gallery js-gallery">
-                              {post.payment_info.is_user_needs_pay == 1 ? (
-                                <div className="gallery-img-sec">
-                                  <img
-                                    src={
-                                      postFile.preview_file
-                                        ? postFile.preview_file
-                                        : postFile.post_file
-                                    }
-                                    className="postViewImg"
-                                  />
-                                  <div className="gallery-play-icon"></div>
-                                </div>
-                              ) : (
-                                <ReactPlayer
-                                  light={postFile.preview_file}
-                                  url={postFile.post_file}
-                                  controls={true}
-                                  width="100%"
-                                  height="100%"
-                                  playing
-                                  className="post-video-size"
-                                />
-                              )}
-                             {post.payment_info.is_user_needs_pay === 1 &&
-                              post.payment_info.post_payment_type === "ppv" ? (
-                                <div className="gallery-top-btn-sec">
-                                  <button
-                                    className="gallery-pay-button"
-                                    onClick={(event) =>
-                                      handlePPVPayment(event, 1)
-                                    }
-                                  >
-                                    {post.payment_info.payment_text}
-                                  </button>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                             {post.payment_info.is_user_needs_pay === 1 &&
-                              post.payment_info.post_payment_type ===
-                                "subscription" ? (
-                                  scrollToTop ? 
-                                    <div
-                                      className="gallery-top-btn-sec"
-                                      onClick={scrollToTop}
-                                    >
-                                      <button className="gallery-pay-button">
-                                        {post.payment_info.payment_text}
-                                      </button>
-                                    </div>
-                                  :
-                                  <Link
-                                    to={`/` + post.user.unique_id}
-                                  >
-                                    <div
-                                      className="gallery-top-btn-sec"
-                                    >
-                                      <button className="subscribe-post-btn-sec">
-                                        {post.payment_info.payment_text}
-                                      </button>
-                                    </div>
-                                  </Link>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ) : postFile.file_type === "audio" ? (
-                        <div className="post-image post-video" key={index}>
-                          <div className="">
-                            <div className="gallery js-gallery">
-                              {post.payment_info.is_user_needs_pay == 1 ? (
-                                <div className="gallery-img-sec">
-                                  <Image
-                                    layout="fill"
-                                    src={
-                                      postFile.preview_file
-                                        ? postFile.preview_file
-                                        : postFile.post_file
-                                    }
-                                    className="post-view-image"
-                                  />
-                                  <div className="gallery-play-icon"></div>
-                                </div>
-                              ) : (
-                                <ReactAudioPlayer
-                                  // light={postFile.preview_file}
-                                  src={postFile.post_file}
-                                  // file="forceAudio"
-                                  controls={true}
-                                  width="100%"
-                                  height="100%"
-                                  autoPlay={false}
-                                  className="post-video-size"
-                                  controlsList={"nodownload"}
-                                />
-                              )}
-                              {post.payment_info.is_user_needs_pay === 1 &&
-                              post.payment_info.post_payment_type === "ppv" ? (
-                                <div className="gallery-pay-button-div">
-                                  <button
-                                    className="gallery-pay-button"
-                                    onClick={(event) =>
-                                      handlePPVPayment(event, 1)
-                                    }
-                                  >
-                                    {post.payment_info.payment_text}
-                                  </button>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                              {post.payment_info.is_user_needs_pay === 1 &&
-                              post.payment_info.post_payment_type ===
-                                "subscription" ? (
-                                scrollToTop ? (
-                                  <div
-                                    className="gallery-pay-button-div"
-                                    onClick={scrollToTop}
-                                  >
-                                    <button className="gallery-pay-button">
-                                      {post.payment_info.payment_text}
-                                    </button>
-                                  </div>
-                                ) : (
-                                  <Link to={`/` + post.user.unique_id}>
-                                    <div className="gallery-pay-button-div">
-                                      <button className="gallery-pay-button">
-                                        {post.payment_info.payment_text}
-                                      </button>
-                                    </div>
-                                  </Link>
-                                )
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        ""
-                      )
-                    )
-                  : null
-                : null}
-            </Slider>
+                          ) : (
+                            ""
+                          )
+                        )
+                      : null
+                    : null}
+                </div>
+              </div>
+            </div>
+            <div className="embla__navigator">
+              {scrollSnaps.map((_, index) => (
+                <div
+                  className={`${
+                    scrollSnaps.length != 1 ? "embla__dots" : "hidden"
+                  }`}
+                  key={index}
+                  style={{
+                    backgroundColor:
+                      selectedIndex === index ? "lightblue" : "lightgray",
+                  }}
+                  onClick={() => scrollTo(index)}
+                />
+              ))}
+            </div>
           </div>
 
           {/* <div>

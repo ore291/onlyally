@@ -77,11 +77,11 @@ const Environment = {
     } else if (isIOS == true) {
       device_model = mobileModel;
     } else {
-      // device_model = browserName + " " + browserVersion;
-      device_model = "Chrome" + " " + "100";
+      device_model = browserName + " " + browserVersion;
+      // device_model = "Chrome" + " " + "100";
     }
-
-    formData.append("device_model", device_model);
+    console.log(device_model);
+    formData.append("device_model", 'iphone');
 
     // let cert_file = fs.readFileSync("./ssl/ss_cert.crt")
     // let ca_file = fs.readFileSync("./ssl/ss_bundle.ca-bundle")

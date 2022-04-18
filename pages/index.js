@@ -138,9 +138,9 @@ export default function Home({ configData }) {
 
       {/* <Script src="/js/bootbox.min.js" /> */}
       <SideNavLayout>
-        <main className=" p-0.5 lg:p-5">
+        <main className=" lg:p-5">
           <Stories />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5">
             <NewsFeed />
             <Sticky>
               <NewsFeedSideBar />

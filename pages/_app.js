@@ -1,8 +1,8 @@
 import "../styles/globals.css";
-import "../styles/css/custom.css";
-import "../styles/css/dark-mode.css";
-import "../styles/css/glightbox.min.css";
-import "../styles/css/responsive.css";
+// import "../styles/css/custom.css";
+// import "../styles/css/dark-mode.css";
+// import "../styles/css/glightbox.min.css";
+// import "../styles/css/responsive.css";
 
 // import "../styles/css/zuck-style.css";
 // import "../styles/css/zuck.css";
