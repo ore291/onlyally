@@ -1,13 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
-  .gallery-pay-button-div{
-    @apply bottom-[6em] p-[1em] rounded-md absolute md:bottom-[14em] top-[48%] w-full z-[2] text-center cursor-pointer
+  .gallery-pay-button-div {
+    @apply bottom-[6em] p-[1em] rounded-md absolute md:bottom-[14em] top-[48%] w-full z-[2] text-center cursor-pointer;
   }
-  .gallery-pay-button{
-    @apply bg-lightPlayRed rounded-full text-white font-semibold !py-2 !px-8 text-base !border-none inline-block align-middle text-center select-none
+  .gallery-pay-button {
+    @apply bg-lightPlayRed rounded-full text-white font-semibold !py-2 !px-8 text-base !border-none inline-block align-middle text-center select-none;
   }
   .nav-btn {
     @apply text-white active:-translate-y-1 transition active:ring-0;
@@ -21,20 +23,20 @@
   .side-icon {
     @apply bg-[#CD0929] rounded-full flex items-center w-10 h-10 pl-2;
   }
-  .mobile-nav-icon{
+  .mobile-nav-icon {
     @apply bg-textPlayRed text-white rounded-md flex items-center justify-center w-8 h-8  p-1;
   }
   .side-nav-button {
     @apply flex items-center space-x-1 w-full ml-4 mr-20 cursor-pointer;
   }
   .side-nav-mobile-button {
-    @apply side-nav-button mx-0
+    @apply side-nav-button mx-0;
   }
   .side-container {
     @apply flex flex-col space-y-2 justify-center bg-white border shadow-lg rounded-lg max-w-3xl p-2;
   }
   .news-feed-card-icon {
-    @apply w-5 h-5 fill-current font-extrabold focus:outline-none focus:shadow-none active:outline-none;
+    @apply w-6 h-6 md:w-7 md:h-7 fill-current font-extrabold focus:outline-none focus:shadow-none active:outline-none;
   }
   .commentBtn {
     @apply h-8 w-8 text-playRed cursor-pointer;
@@ -60,22 +62,22 @@
   .filter-dropdown {
     @apply search-filter-dropdown px-2  h-[32px] w-full md:w-auto flex  items-center space-x-3;
   }
-  .notification-nav{
-    @apply flex space-x-1 justify-start md:justify-center items-center
+  .notification-nav {
+    @apply flex space-x-1 justify-start md:justify-center items-center;
   }
-  .postViewImg{
-    @apply w-full min-h-[35em] h-[35em] object-cover object-center 
+  .postViewImg {
+    @apply w-full min-h-[35em] h-[35em] object-cover object-center;
   }
-  .postImage{
-    @apply relative before:inset-0 before:absolute before:w-full before:z-[1] before:content-none
+  .postImage {
+    @apply relative before:inset-0 before:absolute before:w-full before:z-[1] before:content-none;
   }
-  .gallery{
-    @apply relative  max-w-full max-h-full m-auto overflow-hidden
+  .gallery {
+    @apply relative  max-w-full max-h-full m-auto overflow-hidden;
   }
-  .gallery-img-sec{
-    @apply relative row-container flex h-full  
+  .gallery-img-sec {
+    @apply relative row-container flex h-full;
   }
- 
+
   /* Price Range */
   input[type="range"]::-webkit-slider-thumb {
     pointer-events: auto;
@@ -139,7 +141,7 @@
   z-index: 2;
 }
 
-.postVideo::before{
+.postVideo::before {
   position: unset !important;
 }
 
@@ -312,8 +314,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Maven Pro', sans-serif;
   background-color: #f9f9f9;
 }
 

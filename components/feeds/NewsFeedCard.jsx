@@ -301,22 +301,14 @@ const NewsFeedCard = ({
               </Popover>
             </div>
           </div>
-          <div className="break-words break-all">
-            <div className=" p-1 sm:p-2 text-lg">
-              {/* <ReadMoreReact
-          min={100}
-          max={200}
-          readMoreText="Read more..."
-          text={description}
-        /> */}
+          <div>
+            <div
+              className={`${post.content == undefined ? 'hidden' : "p-2 break-words text-[14px] font-normal leading-5 tracking-wide"}`}
+              dangerouslySetInnerHTML={{
+                __html: post.content != undefined ? post.content : "",
+              }}
+            ></div>
 
-              <div
-                className="text-[14px] font-normal leading-5"
-                dangerouslySetInnerHTML={{
-                  __html: post.content != undefined ? post.content : "",
-                }}
-              ></div>
-            </div> 
             <div className="embla">
               <div className="embla__viewport" ref={viewportRef}>
                 <div className="embla__container">
@@ -348,17 +340,20 @@ const NewsFeedCard = ({
                                     <div className="gallery js-gallery">
                                       {post.payment_info.is_user_needs_pay ==
                                       1 ? (
-                                        <div className="">
-                                          <img
+                                        <div className="postViewImg relative">
+                                          <Image
+                                            layout="fill"
                                             alt=""
                                             src={postFile.post_file}
-                                            className="postViewImg"
-                                            style={{ filter: "blur(20px)" }}
+                                            className="postViewImg blur-[20px]"
+                                            // style={{ filter: "blur(20px)" }}
                                           />
                                         </div>
                                       ) : (
-                                        <div className="relative w-full">
-                                          <img
+                                        <div className="relative postViewImg">
+                                          <Image
+                                            alt=""
+                                            layout="fill"
                                             src={postFile.post_file}
                                             className="postViewImg"
                                             // onClick={handleImagePreview}
@@ -434,14 +429,19 @@ const NewsFeedCard = ({
                                     {post.payment_info.is_user_needs_pay ==
                                     1 ? (
                                       <div className="gallery-img-sec">
-                                        <img
-                                          src={
-                                            postFile.preview_file
-                                              ? postFile.preview_file
-                                              : postFile.post_file
-                                          }
-                                          className="postViewImg"
-                                        />
+                                        <div className="postViewImg relative">
+                                          <Image
+                                            layout="fill"
+                                            alt=""
+                                            src={
+                                              postFile.preview_file
+                                                ? postFile.preview_file
+                                                : postFile.post_file
+                                            }
+                                            className="postViewImg"
+                                          />
+                                        </div>
+
                                         <div className="gallery-play-icon"></div>
                                       </div>
                                     ) : (
@@ -588,12 +588,14 @@ const NewsFeedCard = ({
                 </div>
               </div>
             </div>
-            <div className="embla__navigator">
+            <div
+              className={`${
+                scrollSnaps.length != 1 ? "embla__navigator" : "hidden"
+              }`}
+            >
               {scrollSnaps.map((_, index) => (
                 <div
-                  className={`${
-                    scrollSnaps.length != 1 ? "embla__dots" : "hidden"
-                  }`}
+                  className="embla__dots"
                   key={index}
                   style={{
                     backgroundColor:
@@ -630,7 +632,7 @@ const NewsFeedCard = ({
                 className="flex items-center justify-center space-x-1"
               >
                 <BsHeart className="news-feed-card-icon" />
-                {/* <span className="text-xs">{likeCount}</span> */}
+                <span className="text-sm">{likeCount}</span>
               </button>
               <button
                 onClick={() => setShowComments(!showComments)}
@@ -645,14 +647,14 @@ const NewsFeedCard = ({
                     alt=""
                   />
                 </div>
-                {/* <span className="text-xs">{commentCount}</span> */}
+                <span className="text-sm">{post.total_comments}</span>
               </button>
               <button
                 type="button"
                 title="Donate to post"
                 className="flex items-center justify-center space-x-1"
               >
-                <div className="relative w-5 h-5">
+                <div className="relative news-feed-card-icon">
                   <Image
                     layout="fill"
                     src="/tips.png"
