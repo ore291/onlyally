@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import {useEffect} from 'react'
 import {useRouter} from 'next/router';
 
 const ScrollToTop = () => {
@@ -14,4 +14,4 @@ const ScrollToTop = () => {
   return null;
 }
 
-export default ScrollToTop
+export default ScrollToTop;

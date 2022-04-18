@@ -8,7 +8,7 @@ import "../styles/css/responsive.css";
 // import "../styles/css/zuck.css";
 // import "../styles/css/zuck.min.css";
 // import "../styles/css/intlTelInput.min.css"
-import "../styles/css/style.css";
+// import "../styles/css/style.css";
 
 // Import css files
 import "slick-carousel/slick/slick.css";

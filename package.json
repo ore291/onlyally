@@ -21,6 +21,7 @@
     "node-localstorage": "^2.2.1",
     "react": "17.0.2",
     "react-audio-player": "^0.17.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-device-detect": "^2.1.2",
     "react-dom": "17.0.2",
     "react-global-configuration": "^1.4.1",

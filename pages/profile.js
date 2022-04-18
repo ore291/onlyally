@@ -32,15 +32,15 @@ const Profile = () => {
   const dispatch = useDispatch();
   const {data: session} =  useSession();
 
-  console.log(configuration.get('config.site_name'));
-  useEffect(() => {
-    if(session){
-       var accessToken =  session.accessToken;
-    var userId = session.userId;
-    dispatch(fetchUserDetailsStart({accessToken, userId }));
-    }
+  // console.log(configuration.get('config.site_name'));
+  // useEffect(() => {
+  //   if(session){
+  //      var accessToken =  session.accessToken;
+  //   var userId = session.userId;
+  //   dispatch(fetchUserDetailsStart({accessToken, userId }));
+  //   }
  
-  },[dispatch, session])
+  // },[dispatch, session])
   return (
     <SideNavLayout>
       <div className="max-w-4xl xl:max-w-6xl">
