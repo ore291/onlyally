@@ -11,7 +11,8 @@ function AudioCallBody() {
       time: '04: 17 PM',
       endTime: '-',
       status: 'Request Sent',
-      action: "Accept"
+      Accept: "Accept",
+      regect: "Reject"
     },
     {
       sno: 2,
@@ -22,7 +23,8 @@ function AudioCallBody() {
       time: '04: 17 PM',
       endTime: '-',
       status: 'Request Sent',
-      action: "Start Call"
+      Accept: "Accept",
+      regect: "Reject"
     },
     {
       sno: 3,
@@ -33,7 +35,8 @@ function AudioCallBody() {
       time: '04: 17 PM',
       endTime: '-',
       status: 'Request Sent',
-      action: "Start Call"
+      Accept: "Accept",
+      regect: "Reject"
     },
     {
       sno: 4,
@@ -44,7 +47,8 @@ function AudioCallBody() {
       time: '04: 17 PM',
       endTime: '-',
       status: 'Request Sent',
-      action: "Accept"
+      Accept: "Accept",
+      regect: "Reject"
     },
     {
       sno: 5,
@@ -55,7 +59,8 @@ function AudioCallBody() {
       time: '04: 17 PM',
       endTime: '-',
       status: 'Request Sent',
-      // action: ""
+      Accept: "Accept",
+      regect: "Reject"
     },
     {
       sno: 6,
@@ -66,7 +71,8 @@ function AudioCallBody() {
       time: '04: 17 PM',
       endTime: '-',
       status: 'Request Sent',
-      // action: ""
+      Accept: "Accept",
+      regect: "Reject"
     },
     {
       sno: 7,
@@ -77,7 +83,8 @@ function AudioCallBody() {
       time: '04: 17 PM',
       endTime: '-',
       status: 'Request Sent',
-      action: "Accept"
+      Accept: "Accept",
+      regect: "Reject"
     }
 
   ]
@@ -99,8 +106,8 @@ function AudioCallBody() {
         <div>
           {historyDetails.map((data, index) => (
             <div key={index}
-              className="h-full space-y-3 mt-4">
-              <div className='grid grid-cols-8 justify-items-center text-[14px]'>
+              className="h-full space-y-3 tems-center mt-4">
+              <div className='grid grid-cols-8 items-center text-[14px]'>
                 <p>{data.sno}</p>
                 <p>{data.modle}</p>
                 <p>{data.user}</p>
@@ -111,7 +118,10 @@ function AudioCallBody() {
                 </div>
                 <p>{data.endTime}</p>
                 <p>{data.status}</p>
-                <p className="bg-green-600 w-[60%] py-1 text-center text-white text-[12px] font-semibold">{data.action}</p>
+                <div className='w-[60%]  text-white text-[12px] font-semibold space-y-2'>
+                <p className="bg-green-600 py-1 text-center">{data.Accept}</p>
+                <p className="bg-red-500 py-1  text-center ">{data.regect}</p>
+                </div>
               </div>
               <hr />
             </div>
