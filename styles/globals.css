@@ -108,7 +108,12 @@
   overflow: hidden;
 }
 
-/* .embla__viewport {
+.embla__slide__img {
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease-in-out;
+}
+
+.embla__viewport {
   overflow: hidden;
   width: 100%;
 }
@@ -120,7 +125,7 @@
 
 .embla__viewport.is-dragging {
   cursor: grabbing;
-} */
+} 
 
 .embla__container {
   display: flex;

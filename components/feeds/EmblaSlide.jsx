@@ -7,12 +7,13 @@ const PLACEHOLDER_SRC = `data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACA
 const EmblaSlide = ({ post,postFile, inView , index}) => {
   const [hasLoaded, setHasLoaded] = useState(false);
 
+
   const setLoaded = useCallback(() => {
     if (inView) setHasLoaded(true);
   }, [inView, setHasLoaded]);
 
   return (
-    <div className={`embla__slide`}>
+    <div className={`embla__slide }`}>
       <div className="embla__slide__inner">
         <Link
           href="#"
@@ -38,7 +39,7 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
                       alt=""
                       src={inView ? postFile.post_file : PLACEHOLDER_SRC}
                       onLoad={setLoaded}
-                      className="postViewImg blur-[20px]"
+                      className={`postViewImg blur-[20px]  ${hasLoaded ? 'opacity-1' : "opacity-0"}`}
                       // style={{ filter: "blur(20px)" }}
                     />
                   </div>
@@ -48,7 +49,7 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
                       alt=""
                       layout="fill"
                       src={inView ? postFile.post_file : PLACEHOLDER_SRC}
-                      className="postViewImg"
+                      className={`postViewImg `}
                       // onClick={handleImagePreview}
                       // onClick={(event) =>
                       //   handleImagePreview(event, 1)

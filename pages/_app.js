@@ -7,7 +7,7 @@ import { wrapper } from "../store";
 import { apiConstants } from "../components/Constant/constants";
 import configuration from "react-global-configuration";
 import {useEffect} from "react";
-require('default-passive-events');
+// require('default-passive-events');
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   // useEffect(() => {
