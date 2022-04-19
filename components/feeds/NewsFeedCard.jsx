@@ -5,9 +5,7 @@ import Link from "next/link";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import {
-  BsHeart, BsThreeDots
-} from "react-icons/bs";
+import { BsHeart, BsThreeDots } from "react-icons/bs";
 import { FaCheckCircle } from "react-icons/fa";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import Lightbox from "react-image-lightbox";
@@ -16,6 +14,7 @@ import { useDispatch } from "react-redux";
 import TextareaAutosize from "react-textarea-autosize";
 import Button from "../Button";
 import scrollToTop from "../helpers/ScrollToTop";
+import EmblaSlide from "./EmblaSlide";
 
 const NewsFeedCard = ({
   // image,
@@ -170,19 +169,32 @@ const NewsFeedCard = ({
     setCommentActiveIndex(index);
   };
 
+  const [slidesInView, setSlidesInView] = useState([]);
   const [viewportRef, embla] = useEmblaCarousel({
     align: "center",
-    loop:false,
+    loop: false,
     skipSnaps: false,
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState([]);
 
+  const findSlidesInView = useCallback(() => {
+    if (!embla) return;
+
+    setSlidesInView((slidesInView) => {
+      if (slidesInView.length === embla.slideNodes().length) {
+        embla.off("select", findSlidesInView);
+      }
+      const inView = embla
+        .slidesInView(true)
+        .filter((index) => slidesInView.indexOf(index) === -1);
+      return slidesInView.concat(inView);
+    });
+  }, [embla, setSlidesInView]);
+
   const scrollTo = useCallback((index) => embla && embla.scrollTo(index), [
     embla,
   ]);
-
-
 
   const onSelect = useCallback(() => {
     if (!embla) return;
@@ -192,9 +204,11 @@ const NewsFeedCard = ({
   useEffect(() => {
     if (!embla) return;
     onSelect();
+    findSlidesInView();
     setScrollSnaps(embla.scrollSnapList());
     embla.on("select", onSelect);
-  }, [embla, setScrollSnaps, onSelect]);
+    embla.on("select", findSlidesInView);
+  }, [embla, setScrollSnaps, onSelect, findSlidesInView]);
 
   return (
     <>
@@ -313,112 +327,119 @@ const NewsFeedCard = ({
                     ? post.postFiles.length > 0
                       ? post.postFiles.map((postFile, index) =>
                           postFile.file_type === "image" ? (
-                            <div className="embla__slide" key={index}>
-                              <Link
-                                href="#"
-                                passHref
-                                onClick={(event) =>
-                                  post.payment_info.post_payment_type ===
-                                    "ppv" &&
-                                  post.payment_info.is_user_needs_pay === 1
-                                    ? handlePPVPayment(
-                                        event,
-                                        post.payment_info.is_user_needs_pay
-                                      )
-                                    : handleImagePreview(
-                                        event,
-                                        1,
-                                        post.payment_info.is_user_needs_pay
-                                      )
-                                }
-                              >
-                                <div className="postImage" key={index}>
-                                  <div className="">
-                                    <div className="gallery js-gallery">
-                                      {post.payment_info.is_user_needs_pay ==
-                                      1 ? (
-                                        <div className="postViewImg relative">
-                                          <Image
-                                            layout="fill"
-                                            alt=""
-                                            src={postFile.post_file}
-                                            className="postViewImg blur-[20px]"
-                                            // style={{ filter: "blur(20px)" }}
-                                          />
-                                        </div>
-                                      ) : (
-                                        <div className="relative postViewImg">
-                                          <Image
-                                            alt=""
-                                            layout="fill"
-                                            src={postFile.post_file}
-                                            className="postViewImg"
-                                            // onClick={handleImagePreview}
-                                            // onClick={(event) =>
-                                            //   handleImagePreview(event, 1)
-                                            // }
-                                          />
-                                        </div>
-                                      )}
-                                    </div>
-                                    {post.payment_info.is_user_needs_pay ===
-                                      1 &&
-                                    post.payment_info.post_payment_type ===
-                                      "ppv" ? (
-                                      <div className="gallery-pay-button-div">
-                                        <button
-                                          type="button"
-                                          className="gallery-pay-button"
-                                          // onClick={(event) =>
-                                          //   handlePPVPayment(event, 1)
-                                          // }
-                                        >
-                                          {post.payment_info.payment_text}
-                                        </button>
-                                      </div>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {post.payment_info.is_user_needs_pay ===
-                                      1 &&
-                                    post.payment_info.post_payment_type ===
-                                      "subscription" ? (
-                                      scrollToTop ? (
-                                        <div
-                                          className="gallery-pay-button-div"
-                                          // onClick={scrollToTop}
-                                        >
-                                          <button className="gallery-pay-button">
-                                            {post.payment_info.payment_text}
-                                          </button>
-                                        </div>
-                                      ) : (
-                                        <Link to={`/` + post.user.unique_id}>
-                                          <div className="gallery-pay-button-div">
-                                            <Button className="gallery-pay-button">
-                                              {post.payment_info.payment_text}
-                                            </Button>
-                                          </div>
-                                        </Link>
-                                      )
-                                    ) : (
-                                      ""
-                                    )}
-                                  </div>
-                                  {modalStatus ? (
-                                    <Lightbox
-                                      mainSrc={postFile.post_file}
-                                      // nextSrc={images[(photoIndex + 1) % images.length]}
-                                      // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-                                      onCloseRequest={() => setModalStatus(0)}
-                                    />
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </Link>
-                            </div>
-                          ) : postFile.file_type === "video" ? (
+                            <EmblaSlide
+                              post={post}
+                              postFile={postFile}
+                              key={index}
+                              index={index}
+                              inView={slidesInView.indexOf(index) > -1}
+                            />
+                          ) : // <div className="embla__slide" key={index}>
+                          //   <Link
+                          //     href="#"
+                          //     passHref
+                          //     onClick={(event) =>
+                          //       post.payment_info.post_payment_type ===
+                          //         "ppv" &&
+                          //       post.payment_info.is_user_needs_pay === 1
+                          //         ? handlePPVPayment(
+                          //             event,
+                          //             post.payment_info.is_user_needs_pay
+                          //           )
+                          //         : handleImagePreview(
+                          //             event,
+                          //             1,
+                          //             post.payment_info.is_user_needs_pay
+                          //           )
+                          //     }
+                          //   >
+                          //     <div className="postImage" key={index}>
+                          //       <div className="">
+                          //         <div className="gallery js-gallery">
+                          //           {post.payment_info.is_user_needs_pay ==
+                          //           1 ? (
+                          //             <div className="postViewImg relative">
+                          //               <Image
+                          //                 layout="fill"
+                          //                 alt=""
+                          //                 src={postFile.post_file}
+                          //                 className="postViewImg blur-[20px]"
+                          //                 // style={{ filter: "blur(20px)" }}
+                          //               />
+                          //             </div>
+                          //           ) : (
+                          //             <div className="relative postViewImg">
+                          //               <Image
+                          //                 alt=""
+                          //                 layout="fill"
+                          //                 src={postFile.post_file}
+                          //                 className="postViewImg"
+                          //                 // onClick={handleImagePreview}
+                          //                 // onClick={(event) =>
+                          //                 //   handleImagePreview(event, 1)
+                          //                 // }
+                          //               />
+                          //             </div>
+                          //           )}
+                          //         </div>
+                          //         {post.payment_info.is_user_needs_pay ===
+                          //           1 &&
+                          //         post.payment_info.post_payment_type ===
+                          //           "ppv" ? (
+                          //           <div className="gallery-pay-button-div">
+                          //             <button
+                          //               type="button"
+                          //               className="gallery-pay-button"
+                          //               // onClick={(event) =>
+                          //               //   handlePPVPayment(event, 1)
+                          //               // }
+                          //             >
+                          //               {post.payment_info.payment_text}
+                          //             </button>
+                          //           </div>
+                          //         ) : (
+                          //           ""
+                          //         )}
+                          //         {post.payment_info.is_user_needs_pay ===
+                          //           1 &&
+                          //         post.payment_info.post_payment_type ===
+                          //           "subscription" ? (
+                          //           scrollToTop ? (
+                          //             <div
+                          //               className="gallery-pay-button-div"
+                          //               // onClick={scrollToTop}
+                          //             >
+                          //               <button className="gallery-pay-button">
+                          //                 {post.payment_info.payment_text}
+                          //               </button>
+                          //             </div>
+                          //           ) : (
+                          //             <Link to={`/` + post.user.unique_id}>
+                          //               <div className="gallery-pay-button-div">
+                          //                 <Button className="gallery-pay-button">
+                          //                   {post.payment_info.payment_text}
+                          //                 </Button>
+                          //               </div>
+                          //             </Link>
+                          //           )
+                          //         ) : (
+                          //           ""
+                          //         )}
+                          //       </div>
+                          //       {modalStatus ? (
+                          //         <Lightbox
+                          //           mainSrc={postFile.post_file}
+                          //           // nextSrc={images[(photoIndex + 1) % images.length]}
+                          //           // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                          //           onCloseRequest={() => setModalStatus(0)}
+                          //         />
+                          //       ) : (
+                          //         ""
+                          //       )}
+                          //     </div>
+                          //   </Link>
+                          // </div>
+                          postFile.file_type === "video" ? (
                             <div className="embla__slide" key={index}>
                               <div className="postImage postVideo">
                                 <div className="">
