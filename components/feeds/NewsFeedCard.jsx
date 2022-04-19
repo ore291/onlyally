@@ -1,29 +1,21 @@
-import { FaCheckCircle, FaChevronDown } from "react-icons/fa";
-import {
-  BsThreeDots,
-  BsHeart,
-  BsHeartFill,
-  BsChat,
-  BsHexagon,
-} from "react-icons/bs";
-import { HiOutlineEmojiHappy, HiPaperAirplane } from "react-icons/hi";
-import ReadMoreReact from "read-more-react";
-import { useRef, useState, useEffect, useCallback } from "react";
 import { Popover, Transition } from "@headlessui/react";
-import { Fragment } from "react";
-import Comments from "./Comments";
-import Image from "next/image";
-import TextareaAutosize from "react-textarea-autosize";
 import useEmblaCarousel from "embla-carousel-react";
+import Image from "next/image";
 import Link from "next/link";
-import Button from "../Button";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import {
+  BsHeart, BsThreeDots
+} from "react-icons/bs";
+import { FaCheckCircle } from "react-icons/fa";
+import { HiOutlineEmojiHappy } from "react-icons/hi";
 import Lightbox from "react-image-lightbox";
 import ReactPlayer from "react-player/lazy";
-import { fetchSinglePostStart } from "../../store/slices/postSlice";
-import scrollToTop from "../helpers/ScrollToTop";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useDispatch } from "react-redux";
+import TextareaAutosize from "react-textarea-autosize";
+import Button from "../Button";
+import scrollToTop from "../helpers/ScrollToTop";
 
 const NewsFeedCard = ({
   // image,
@@ -180,6 +172,7 @@ const NewsFeedCard = ({
 
   const [viewportRef, embla] = useEmblaCarousel({
     align: "center",
+    loop:false,
     skipSnaps: false,
   });
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -189,7 +182,7 @@ const NewsFeedCard = ({
     embla,
   ]);
 
-  const data = [1, 2, 3];
+
 
   const onSelect = useCallback(() => {
     if (!embla) return;
@@ -303,7 +296,11 @@ const NewsFeedCard = ({
           </div>
           <div>
             <div
-              className={`${post.content == undefined ? 'hidden' : "p-2 break-words text-[14px] font-normal leading-5 tracking-wide"}`}
+              className={`${
+                post.content == undefined
+                  ? "hidden"
+                  : "p-2 break-words text-[14px] font-normal leading-5 tracking-wide"
+              }`}
               dangerouslySetInnerHTML={{
                 __html: post.content != undefined ? post.content : "",
               }}
@@ -357,9 +354,9 @@ const NewsFeedCard = ({
                                             src={postFile.post_file}
                                             className="postViewImg"
                                             // onClick={handleImagePreview}
-                                            onClick={(event) =>
-                                              handleImagePreview(event, 1)
-                                            }
+                                            // onClick={(event) =>
+                                            //   handleImagePreview(event, 1)
+                                            // }
                                           />
                                         </div>
                                       )}
@@ -372,9 +369,9 @@ const NewsFeedCard = ({
                                         <button
                                           type="button"
                                           className="gallery-pay-button"
-                                          onClick={(event) =>
-                                            handlePPVPayment(event, 1)
-                                          }
+                                          // onClick={(event) =>
+                                          //   handlePPVPayment(event, 1)
+                                          // }
                                         >
                                           {post.payment_info.payment_text}
                                         </button>
@@ -389,7 +386,7 @@ const NewsFeedCard = ({
                                       scrollToTop ? (
                                         <div
                                           className="gallery-pay-button-div"
-                                          onClick={scrollToTop}
+                                          // onClick={scrollToTop}
                                         >
                                           <button className="gallery-pay-button">
                                             {post.payment_info.payment_text}
@@ -479,7 +476,7 @@ const NewsFeedCard = ({
                                       scrollToTop ? (
                                         <div
                                           className="gallery-top-btn-sec"
-                                          onClick={scrollToTop}
+                                          // onClick={scrollToTop}
                                         >
                                           <button className="gallery-pay-button">
                                             {post.payment_info.payment_text}
@@ -510,6 +507,7 @@ const NewsFeedCard = ({
                                     1 ? (
                                       <div className="gallery-img-sec">
                                         <Image
+                                          alt=""
                                           layout="fill"
                                           src={
                                             postFile.preview_file
@@ -557,7 +555,7 @@ const NewsFeedCard = ({
                                       scrollToTop ? (
                                         <div
                                           className="gallery-pay-button-div"
-                                          onClick={scrollToTop}
+                                          // onClick={scrollToTop}
                                         >
                                           <button className="gallery-pay-button">
                                             {post.payment_info.payment_text}

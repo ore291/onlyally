@@ -1,18 +1,5 @@
 import "../styles/globals.css";
-// import "../styles/css/custom.css";
-// import "../styles/css/dark-mode.css";
-// import "../styles/css/glightbox.min.css";
-// import "../styles/css/responsive.css";
 
-// import "../styles/css/zuck-style.css";
-// import "../styles/css/zuck.css";
-// import "../styles/css/zuck.min.css";
-// import "../styles/css/intlTelInput.min.css"
-// import "../styles/css/style.css";
-
-// Import css files
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 import Layout from "../components/Layout";
 import { SessionProvider } from "next-auth/react";

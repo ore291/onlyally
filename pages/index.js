@@ -122,21 +122,7 @@ export default function Home({ configData }) {
           // sizes="16x16"
         />
       </Head>
-      {/* <!-- SLick -Post image slider
-            ================================================== --> */}
-      <Script src="/js/zuck.min.js" />
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js" />
-      {/*     
-        <!-- Gallery Lightbox  ================================================== --> */}
-      {/* <Script src="/js/glightbox.min.js" /> */}
-
-      {/* <Script src="/js/jquery.cxdialog.js" /> */}
-      {/* <Script src="/js/intlTelInput.min.js" /> */}
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js" />
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js" />
-      <Script src="https://cdnjs.cloudflare.com/ajax/libs/slick-lightbox/0.2.12/slick-lightbox.min.js" />
-
-      {/* <Script src="/js/bootbox.min.js" /> */}
+     
       <SideNavLayout>
         <main className=" lg:p-5">
           <Stories />
