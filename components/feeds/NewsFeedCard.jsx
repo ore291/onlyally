@@ -171,7 +171,6 @@ const NewsFeedCard = ({
 
   const [slidesInView, setSlidesInView] = useState([]);
   const [viewportRef, embla] = useEmblaCarousel({
-    align: "center",
     loop: false,
     skipSnaps: false,
   });

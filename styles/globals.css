@@ -66,7 +66,7 @@
     @apply flex space-x-1 justify-start md:justify-center items-center;
   }
   .postViewImg {
-    @apply w-full min-h-[35em] h-[35em] object-cover object-center;
+    @apply w-full min-h-[16em] h-[16em] md:min-h-[35em] md:h-[35em] object-cover object-center;
   }
   .postImage {
     @apply relative before:inset-0 before:absolute before:w-full before:z-[1] before:content-none;
@@ -107,8 +107,27 @@
 .embla {
   overflow: hidden;
 }
+
+/* .embla__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.embla__viewport.is-draggable {
+  cursor: move;
+  cursor: grab;
+}
+
+.embla__viewport.is-dragging {
+  cursor: grabbing;
+} */
+
 .embla__container {
   display: flex;
+  /* user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: transparent; */
 }
 .embla__slide {
   position: relative;
@@ -122,8 +141,8 @@
 }
 .embla__dots {
   cursor: pointer;
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   margin: 3px;
   box-shadow: 0px 0px 20px rgb(0 0 0 / 10%);
@@ -147,8 +166,15 @@
 
 .gallery.js-gallery .react-player__preview {
   /* min-height: 100vh; */
-  min-height: 40em;
+  min-height: 35em;
   background-repeat: no-repeat !important;
+}
+@media only screen and (max-width: 450px) {
+  .gallery.js-gallery .react-player__preview {
+    /* min-height: 100vh; */
+    min-height: 16em;
+    background-repeat: no-repeat !important;
+  }
 }
 
 .gallery-play-icon {

@@ -12,7 +12,7 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
   }, [inView, setHasLoaded]);
 
   return (
-    <div className={`embla__slide ${hasLoaded ? "has-loaded" : ""}`}>
+    <div className={`embla__slide`}>
       <div className="embla__slide__inner">
         <Link
           href="#"

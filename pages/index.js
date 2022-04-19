@@ -120,7 +120,7 @@ export default function Home({ configData }) {
           type="image/png"
           href={configData.site_icon}
           // sizes="16x16"
-        />
+        /> 
       </Head>
      
       <SideNavLayout>
