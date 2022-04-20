@@ -23,7 +23,7 @@ const Environment = {
   postMethod: async (action, accessToken, userId, object) => {
     let user_id = null;
     let token = null;
-    if (typeof window !== "undefined") {
+    if (typeof(window) !== "undefined") {
       user_id =
         localStorage.getItem("userId") !== "" &&
         localStorage.getItem("userId") !== null &&
@@ -40,17 +40,24 @@ const Environment = {
     }
 
     const url = apiUrl + action;
+  
 
-    let formData = new FormData();
+    // if(typeof(window) == "undefined"){
+    //   const formData = new FormData();
+    // } else{
+    //   const formData = new window.FormData()
+    // }
+    
+    const formData = new FormData();
 
     // By Default Id and token
-    // if (user_id && token) {
-    //   formData.append("id", user_id);
-    //   formData.append("token", token);
-    // } else {
+    if (user_id != null && token != null) {
+      formData.append("id", user_id);
+      formData.append("token", token);
+    } else {
       formData.append("id", userId);
       formData.append("token", accessToken);
-    // }
+    }
 
     var socialLoginUser = 0;
 
@@ -80,7 +87,7 @@ const Environment = {
       device_model = browserName + " " + browserVersion;
       // device_model = "Chrome" + " " + "100";
     }
-    console.log(device_model);
+  
     formData.append("device_model", 'iphone');
 
     // let cert_file = fs.readFileSync("./ssl/ss_cert.crt")
@@ -93,7 +100,15 @@ const Environment = {
     // 	// ca: ca_file
     // });
 
-    var config = {
+   
+
+    if(typeof window != "undefined"){
+      var config = {
+        method: "POST",
+        url: url,
+        data: formData };
+    } else{
+       var config = {
       method: "POST",
       url: url,
       headers: {
@@ -101,12 +116,23 @@ const Environment = {
       },
       data: formData,
     };
+    }
+
+    // var config = {
+    //   method: "POST",
+    //   url: url,
+    //   headers: {
+    //         ...formData.getHeaders(),
+    //       },
+    //   data: formData };
 
     try {
+      
       const response = await axios(config);
-
+     
       return response;
     } catch (error) {
+      return error;
       console.log(error);
     }
 

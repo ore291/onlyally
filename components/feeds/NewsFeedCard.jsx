@@ -10,11 +10,13 @@ import { FaCheckCircle } from "react-icons/fa";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import Lightbox from "react-image-lightbox";
 import ReactPlayer from "react-player/lazy";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TextareaAutosize from "react-textarea-autosize";
 import Button from "../Button";
 import scrollToTop from "../helpers/ScrollToTop";
 import EmblaSlide from "./EmblaSlide";
+import { fetchSinglePostStart } from "../../store/slices/postSlice";
+import { savePostLikedStart } from "../../store/slices/postLikeSlice";
 
 const NewsFeedCard = ({
   // image,
@@ -53,24 +55,22 @@ const NewsFeedCard = ({
   const [modalStatus, setModalStatus] = useState(0);
   const [initialRender, setInitialRender] = useState(false);
   const [likeFormatted, setLikeFormatted] = useState(post.liked_by_formatted);
+  const singlePost = useSelector((state) => state.post.singlePost);
 
-  // useEffect(() => {
-  //   if (initialRender) {
-  //     dispatch(
-  //       fetchSinglePostStart({ post_unique_id: post.post_unique_id })
-  //     );
-  //   }
-  //   setInitialRender(true);
-  // }, [likeStatus]);
+  useEffect(() => {
+    if (initialRender) {
+      dispatch(fetchSinglePostStart({ post_unique_id: post.post_unique_id }));
+    }
+    setInitialRender(true);
+  }, [likeStatus]);
 
-  // useEffect(() => {
-  //   setLikeFormatted(
-  //     props.singlePost.data.post
-  //       ? props.singlePost.data.post.liked_by_formatted
-  //       : post.liked_by_formatted
-  //   );
-
-  // }, [props.singlePost.data]);
+  useEffect(() => {
+    setLikeFormatted(
+      singlePost.data.post
+        ? singlePost.data.post.liked_by_formatted
+        : post.liked_by_formatted
+    );
+  }, [singlePost.data]);
 
   const [userId, setUserId] = useState("");
   const [token, setToken] = useState("");
@@ -108,18 +108,18 @@ const NewsFeedCard = ({
     );
   };
 
-  // const handleLike = (event, status) => {
-  //   event.preventDefault();
-  //   setLikeStatus(status);
-  //   props.dispatch(savePostLikeStart({ post_id: post.post_id }));
-  //   if (status == "added") {
-  //     let currentLikeCount = likeCount + 1;
-  //     setLikeCount(currentLikeCount);
-  //   } else {
-  //     let currentLikeCount = likeCount - 1;
-  //     setLikeCount(currentLikeCount);
-  //   }
-  // };
+  const handleLike = (event, status) => {
+    event.preventDefault();
+    setLikeStatus(status);
+    dispatch(savePostLikedStart({ post_id: post.post_id }));
+    if (status == "added") {
+      let currentLikeCount = likeCount + 1;
+      setLikeCount(currentLikeCount);
+    } else {
+      let currentLikeCount = likeCount - 1;
+      setLikeCount(currentLikeCount);
+    }
+  };
 
   const handlePPVPayment = (event, status) => {
     event.preventDefault();
@@ -333,112 +333,7 @@ const NewsFeedCard = ({
                               index={index}
                               inView={slidesInView.indexOf(index) > -1}
                             />
-                          ) : // <div className="embla__slide" key={index}>
-                          //   <Link
-                          //     href="#"
-                          //     passHref
-                          //     onClick={(event) =>
-                          //       post.payment_info.post_payment_type ===
-                          //         "ppv" &&
-                          //       post.payment_info.is_user_needs_pay === 1
-                          //         ? handlePPVPayment(
-                          //             event,
-                          //             post.payment_info.is_user_needs_pay
-                          //           )
-                          //         : handleImagePreview(
-                          //             event,
-                          //             1,
-                          //             post.payment_info.is_user_needs_pay
-                          //           )
-                          //     }
-                          //   >
-                          //     <div className="postImage" key={index}>
-                          //       <div className="">
-                          //         <div className="gallery js-gallery">
-                          //           {post.payment_info.is_user_needs_pay ==
-                          //           1 ? (
-                          //             <div className="postViewImg relative">
-                          //               <Image
-                          //                 layout="fill"
-                          //                 alt=""
-                          //                 src={postFile.post_file}
-                          //                 className="postViewImg blur-[20px]"
-                          //                 // style={{ filter: "blur(20px)" }}
-                          //               />
-                          //             </div>
-                          //           ) : (
-                          //             <div className="relative postViewImg">
-                          //               <Image
-                          //                 alt=""
-                          //                 layout="fill"
-                          //                 src={postFile.post_file}
-                          //                 className="postViewImg"
-                          //                 // onClick={handleImagePreview}
-                          //                 // onClick={(event) =>
-                          //                 //   handleImagePreview(event, 1)
-                          //                 // }
-                          //               />
-                          //             </div>
-                          //           )}
-                          //         </div>
-                          //         {post.payment_info.is_user_needs_pay ===
-                          //           1 &&
-                          //         post.payment_info.post_payment_type ===
-                          //           "ppv" ? (
-                          //           <div className="gallery-pay-button-div">
-                          //             <button
-                          //               type="button"
-                          //               className="gallery-pay-button"
-                          //               // onClick={(event) =>
-                          //               //   handlePPVPayment(event, 1)
-                          //               // }
-                          //             >
-                          //               {post.payment_info.payment_text}
-                          //             </button>
-                          //           </div>
-                          //         ) : (
-                          //           ""
-                          //         )}
-                          //         {post.payment_info.is_user_needs_pay ===
-                          //           1 &&
-                          //         post.payment_info.post_payment_type ===
-                          //           "subscription" ? (
-                          //           scrollToTop ? (
-                          //             <div
-                          //               className="gallery-pay-button-div"
-                          //               // onClick={scrollToTop}
-                          //             >
-                          //               <button className="gallery-pay-button">
-                          //                 {post.payment_info.payment_text}
-                          //               </button>
-                          //             </div>
-                          //           ) : (
-                          //             <Link to={`/` + post.user.unique_id}>
-                          //               <div className="gallery-pay-button-div">
-                          //                 <Button className="gallery-pay-button">
-                          //                   {post.payment_info.payment_text}
-                          //                 </Button>
-                          //               </div>
-                          //             </Link>
-                          //           )
-                          //         ) : (
-                          //           ""
-                          //         )}
-                          //       </div>
-                          //       {modalStatus ? (
-                          //         <Lightbox
-                          //           mainSrc={postFile.post_file}
-                          //           // nextSrc={images[(photoIndex + 1) % images.length]}
-                          //           // prevSrc={images[(photoIndex + images.length - 1) % images.length]}
-                          //           onCloseRequest={() => setModalStatus(0)}
-                          //         />
-                          //       ) : (
-                          //         ""
-                          //       )}
-                          //     </div>
-                          //   </Link>
-                          // </div>
-                          postFile.file_type === "video" ? (
+                          ) : postFile.file_type === "video" ? (
                             <div className="embla__slide" key={index}>
                               <div className="postImage postVideo">
                                 <div className="">
@@ -644,14 +539,79 @@ const NewsFeedCard = ({
 
           <div className="p-3 px-7">
             <div className="flex items-center justify-between px-2">
-              <button
+              {likeStatus !== "" ? (
+                <>
+                  <>
+                    {likeStatus === "added" ? (
+                      <button className="space-x-2 row-container " onClick={(event) => handleLike(event, "removed")}>
+                        <div className="relative news-feed-card-icon">
+                          <Image
+                            alt=""
+                            layout="fill"
+                            src={"/images/icons/heart-active.svg"}
+                            className="svg-clone"
+                          />
+                        </div>
+                        <p>{`${likeCount} likes`}</p>
+                      </button>
+                    ) : null}
+                  </>
+                  <>
+                    {likeStatus === "removed" ? (
+                      <button
+                        className="space-x-2 row-container "
+                        onClick={(event) => handleLike(event, "added")}
+                      >
+                        <div className="relative news-feed-card-icon">
+                          <Image
+                            alt=""
+                            layout="fill"
+                            src={"/images/icons/heart.svg"}
+                            className="svg-clone"
+                          />
+                        </div>
+                        <p>{`${likeCount} likes`}</p>
+                      </button>
+                    ) : null}
+                  </>
+                </>
+              ) : post.is_user_liked == 1 ? (
+                <button
+                  className="space-x-2 row-container "
+                  onClick={(event) => handleLike(event, "removed")}
+                >
+                  <div className="relative news-feed-card-icon">
+                    <Image
+                      alt=""
+                      layout="fill"
+                      src={"/images/icons/heart-active.svg"}
+                      className="svg-clone"
+                    />
+                  </div>
+                  <p>{`${likeCount} likes`}</p>
+                </button>
+              ) : (
+                <button className="space-x-2 row-container " onClick={(event) => handleLike(event, "added")}>
+                  <div className="relative news-feed-card-icon">
+                    <Image
+                      alt=""
+                      layout="fill"
+                      src={"/images/icons/heart.svg"}
+                      className="svg-clone"
+                    />
+                  </div>
+                  <p>{`${likeCount} likes`}</p>
+                </button>
+              )}
+
+              {/* <button
                 type="button"
                 title="Like post"
                 className="flex items-center justify-center space-x-1"
               >
                 <BsHeart className="news-feed-card-icon" />
                 <span className="text-sm">{likeCount}</span>
-              </button>
+              </button> */}
               <button
                 onClick={() => setShowComments(!showComments)}
                 type="button"
@@ -697,6 +657,14 @@ const NewsFeedCard = ({
                 </svg>
               </button>
             </div>
+            {post.like_count > 0 && (
+              <div className="likes alignleft">
+                {/* <p>
+                  <p>{`${likeCount} likes`}</p>
+                </p> */}
+                <p className="post-like-text">{likeFormatted}</p>
+              </div>
+            )}
             <div className="">
               {showComments ? (
                 <div className="border-t border-gray-600 mt-4">

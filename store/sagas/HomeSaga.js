@@ -20,7 +20,7 @@ function* fetchHomePostAPI(action) {
     const response = yield api.postMethod("home", accessToken, userId, {
       skip: skipCount,
     });
-    console.log(response);
+    
     if (response.data.success) {
       yield put(fetchHomePostsSuccess(response.data.data));
       if (response.data.data.user) {

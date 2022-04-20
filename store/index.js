@@ -7,6 +7,7 @@ import creatorReducer from './slices/creatorSlice';
 import navReducer from "./slices/NavSlice";
 import homeReducer from './slices/homeSlice';
 import postReducer from './slices/postSlice';
+import postLikesReducer from './slices/postLikeSlice';
 import mySaga from "./sagas";
 import { combineReducers } from "redux";
 
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   navbar: navReducer,
   home: homeReducer,
   post: postReducer,
+  postlikes: postLikesReducer
 })
 
 // const saga = createSagaMiddleware();

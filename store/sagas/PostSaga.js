@@ -2,7 +2,7 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 
 import api from "../../Environment";
 
-var localStorage = require("localStorage");
+
 
 import {
   fetchSinglePostStart,
@@ -14,8 +14,7 @@ function* fetchSinglePostAPI() {
   try {
     const inputData = yield select((state) => state.post.singlePost.inputData);
     const response = yield api.postMethod(
-      { action: "posts_view_for_others" },
-      { object: inputData }
+     'posts_view_for_others', null, null, inputData
     );
     if (response.data.success) {
       yield put(fetchSinglePostSuccess(response.data.data));

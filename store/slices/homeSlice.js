@@ -102,7 +102,6 @@ export const HomeSlice = createSlice({
 
     extraReducers: {
       [HYDRATE]: (state, action) => {
-          console.log("hydrate: ", action.payload)
         // handle client
         if (!action.payload.home.homePost) {
           return state;
