@@ -43,6 +43,7 @@ import {
       );
       const response = yield api.postMethod("post_likes", inputData);
       if (response.data.success) {
+        console.log("i got to this place")
         yield put(fetchPostLikedSuccess(response.data.data));
       } else {
         yield put(fetchPostLikedFailure(response.data.error));

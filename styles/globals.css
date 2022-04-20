@@ -104,6 +104,12 @@
 /* endselect */
 /*home-sidebar slider css*/
 
+.post-like-text {
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0px 2px;
+}
+
 .embla {
   overflow: hidden;
 }

@@ -543,7 +543,7 @@ const NewsFeedCard = ({
                 <>
                   <>
                     {likeStatus === "added" ? (
-                      <a className="space-x-2 row-container " to="#" onClick={(event) => handleLike(event, "removed")}>
+                      <button className=" row-container " to="#" onClick={(event) => handleLike(event, "removed")}>
                         <div className="relative news-feed-card-icon">
                           <Image
                             alt=""
@@ -552,14 +552,14 @@ const NewsFeedCard = ({
                             className="svg-clone"
                           />
                         </div>
-                        <p>{`${likeCount} likes`}</p>
-                      </a>
+                        <p className="post-like-text">{`${likeCount} ${likeCount > 1 ? 'likes' : 'like'}`}</p>
+                      </button>
                     ) : null}
                   </>
                   <>
                     {likeStatus === "removed" ? (
-                      <a to="#"
-                        className="space-x-2 row-container "
+                      <button to="#"
+                        className=" row-container "
                         onClick={(event) => handleLike(event, "added")}
                       >
                         <div className="relative news-feed-card-icon">
@@ -570,14 +570,14 @@ const NewsFeedCard = ({
                             className="svg-clone"
                           />
                         </div>
-                        <p>{`${likeCount} likes`}</p>
-                      </a>
+                        <p className="post-like-text">{`${likeCount} ${likeCount > 1 ? 'likes' : 'like'}`}</p>
+                      </button>
                     ) : null}
                   </>
                 </>
               ) : post.is_user_liked == 1 ? (
-                <a to="#"
-                  className="space-x-2 row-container "
+                <button to="#"
+                  className=" row-container "
                   onClick={(event) => handleLike(event, "removed")}
                 >
                   <div className="relative news-feed-card-icon">
@@ -588,10 +588,10 @@ const NewsFeedCard = ({
                       className="svg-clone"
                     />
                   </div>
-                  <p>{`${likeCount} likes`}</p>
-                </a>
+                  <p className="post-like-text">{`${likeCount} ${likeCount > 1 ? 'likes' : 'like'}`}</p>
+                </button>
               ) : (
-                <a to="#" className="space-x-2 row-container " onClick={(event) => handleLike(event, "added")}>
+                <button to="#" className=" row-container " onClick={(event) => handleLike(event, "added")}>
                   <div className="relative news-feed-card-icon">
                     <Image
                       alt=""
@@ -600,8 +600,8 @@ const NewsFeedCard = ({
                       className="svg-clone"
                     />
                   </div>
-                  <p>{`${likeCount} likes`}</p>
-                </a>
+                  <p className="post-like-text">{`${likeCount} ${likeCount > 1 ? 'likes' : 'like'}`}</p>
+                </button>
               )}
 
               {/* <button
@@ -660,7 +660,7 @@ const NewsFeedCard = ({
             {post.like_count > 0 && (
               <div className="likes alignleft">
                 {/* <p>
-                  <p>{`${likeCount} likes`}</p>
+                  <p>{`${likeCount} ${likeCount > 1 ? 'likes' : 'like}'`}</p>
                 </p> */}
                 <p className="post-like-text">{likeFormatted}</p>
               </div>
