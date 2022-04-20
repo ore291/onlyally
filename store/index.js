@@ -8,6 +8,7 @@ import navReducer from "./slices/NavSlice";
 import homeReducer from './slices/homeSlice';
 import postReducer from './slices/postSlice';
 import postLikesReducer from './slices/postLikeSlice';
+import commentsReducer from "./slices/commentsSlice";
 import mySaga from "./sagas";
 import { combineReducers } from "redux";
 
@@ -17,12 +18,11 @@ const reducers = combineReducers({
   navbar: navReducer,
   home: homeReducer,
   post: postReducer,
-  postlikes: postLikesReducer
+  postlikes: postLikesReducer,
+  comments: commentsReducer
 })
 
-// const saga = createSagaMiddleware();
-// const middlewares = [saga];
-// const middleware = [...getDefaultMiddleware({thunk : false}), ...middlewares]
+
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {

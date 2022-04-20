@@ -17,6 +17,7 @@ import scrollToTop from "../helpers/ScrollToTop";
 import EmblaSlide from "./EmblaSlide";
 import { fetchSinglePostStart } from "../../store/slices/postSlice";
 import { savePostLikedStart } from "../../store/slices/postLikeSlice";
+import { fetchCommentsStart } from "../../store/slices/commentsSlice";
 
 const NewsFeedCard = ({
   // image,
@@ -93,10 +94,10 @@ const NewsFeedCard = ({
     }
   };
 
-  const showCommentSection = (event, post_id) => {
+  const showCommentSection = (post_id) => {
     setCommentInputData({ post_id: post_id });
-    setIsVisible(true);
-    props.dispatch(fetchCommentsStart({ post_id: post_id }));
+    setShowComments(true);
+    dispatch(fetchCommentsStart({ post_id: post_id }));
   };
 
   const showCommentReplySection = (event, post_id, post_comment_id) => {
@@ -156,7 +157,7 @@ const NewsFeedCard = ({
   };
 
   const closeCommentSection = (event) => {
-    setIsVisible(false);
+    setShowComments(false);
   };
   const onCopy = (event) => {
     const notificationMessage = getSuccessNotificationMessage(
@@ -543,7 +544,11 @@ const NewsFeedCard = ({
                 <>
                   <>
                     {likeStatus === "added" ? (
-                      <button className=" row-container " to="#" onClick={(event) => handleLike(event, "removed")}>
+                      <button
+                        className=" row-container "
+                        to="#"
+                        onClick={(event) => handleLike(event, "removed")}
+                      >
                         <div className="relative news-feed-card-icon">
                           <Image
                             alt=""
@@ -552,13 +557,20 @@ const NewsFeedCard = ({
                             className="svg-clone"
                           />
                         </div>
-                        <p className="post-like-text">{`${likeCount} ${likeCount > 1 ? 'likes' : 'like'}`}</p>
+                        <p
+                          className={`${
+                            likeCount == 0 ? "hidden" : "post-like-text"
+                          }`}
+                        >{`${likeCount} ${
+                          likeCount > 1 ? "likes" : "like"
+                        }`}</p>
                       </button>
                     ) : null}
                   </>
                   <>
                     {likeStatus === "removed" ? (
-                      <button to="#"
+                      <button
+                        to="#"
                         className=" row-container "
                         onClick={(event) => handleLike(event, "added")}
                       >
@@ -570,13 +582,20 @@ const NewsFeedCard = ({
                             className="svg-clone"
                           />
                         </div>
-                        <p className="post-like-text">{`${likeCount} ${likeCount > 1 ? 'likes' : 'like'}`}</p>
+                        <p
+                          className={`${
+                            likeCount == 0 ? "hidden" : "post-like-text"
+                          }`}
+                        >{`${likeCount} ${
+                          likeCount > 1 ? "likes" : "like"
+                        }`}</p>
                       </button>
                     ) : null}
                   </>
                 </>
               ) : post.is_user_liked == 1 ? (
-                <button to="#"
+                <button
+                  to="#"
                   className=" row-container "
                   onClick={(event) => handleLike(event, "removed")}
                 >
@@ -588,10 +607,18 @@ const NewsFeedCard = ({
                       className="svg-clone"
                     />
                   </div>
-                  <p className="post-like-text">{`${likeCount} ${likeCount > 1 ? 'likes' : 'like'}`}</p>
+                  <p
+                    className={`${
+                      likeCount == 0 ? "hidden" : "post-like-text"
+                    }`}
+                  >{`${likeCount} ${likeCount > 1 ? "likes" : "like"}`}</p>
                 </button>
               ) : (
-                <button to="#" className=" row-container " onClick={(event) => handleLike(event, "added")}>
+                <button
+                  to="#"
+                  className=" row-container "
+                  onClick={(event) => handleLike(event, "added")}
+                >
                   <div className="relative news-feed-card-icon">
                     <Image
                       alt=""
@@ -600,7 +627,11 @@ const NewsFeedCard = ({
                       className="svg-clone"
                     />
                   </div>
-                  <p className="post-like-text">{`${likeCount} ${likeCount > 1 ? 'likes' : 'like'}`}</p>
+                  <p
+                    className={`${
+                      likeCount == 0 ? "hidden" : "post-like-text"
+                    }`}
+                  >{`${likeCount} ${likeCount > 1 ? "likes" : "like"}`}</p>
                 </button>
               )}
 
@@ -613,7 +644,7 @@ const NewsFeedCard = ({
                 <span className="text-sm">{likeCount}</span>
               </button> */}
               <button
-                onClick={() => setShowComments(!showComments)}
+                onClick={() => showCommentSection(post.post_id)}
                 type="button"
                 title="Add a comment"
                 className="flex items-center justify-center space-x-1"
@@ -662,9 +693,35 @@ const NewsFeedCard = ({
                 {/* <p>
                   <p>{`${likeCount} ${likeCount > 1 ? 'likes' : 'like}'`}</p>
                 </p> */}
-                <p className="post-like-text">{likeFormatted}</p>
+                <p
+                  className={`${likeCount == 0 ? "hidden" : "post-like-text"}`}
+                >
+                  {likeFormatted}
+                </p>
               </div>
             )}
+             {showComments && commentInputData.post_id === post.post_id  ? (
+            post.total_comments > 0 && (
+            <a
+              to="#"
+              className="Show view-comments  d-block pt-3"
+              onClick={()=>closeCommentSection}
+            >
+              close_comments
+            </a>)
+          ) : (
+            <>
+              {post.total_comments > 0 && (
+                <a
+                  to="#"
+                  className="Show view-comments text-muted d-block pt-3"
+                  onClick={() => showCommentSection( post.post_id)}
+                >
+                  view_comments
+                </a>
+              )}
+            </>
+          )}
             <div className="">
               {showComments ? (
                 <div className="border-t border-gray-600 mt-4">
