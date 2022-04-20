@@ -705,9 +705,9 @@ const NewsFeedCard = ({
             <a
               to="#"
               className="Show view-comments  d-block pt-3"
-              onClick={()=>closeCommentSection}
+              onClick={()=>closeCommentSection()}
             >
-              close_comments
+              Hide comments
             </a>)
           ) : (
             <>
@@ -717,7 +717,7 @@ const NewsFeedCard = ({
                   className="Show view-comments text-muted d-block pt-3"
                   onClick={() => showCommentSection( post.post_id)}
                 >
-                  view_comments
+                  View comments
                 </a>
               )}
             </>
