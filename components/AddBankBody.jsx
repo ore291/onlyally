@@ -3,7 +3,7 @@ import React from "react";
 
 function AddBankBody() {
   return (
-    <div>
+    
       <div className="w-[100%] h-72 border shadow-lg rounded-md ">
         <form action="" className="w-full">
           <div className="space-y-5  w-[75%] rounded ml-[5%] mt-8">
@@ -34,6 +34,8 @@ function AddBankBody() {
               placeholder="Account Name"
               className="flex flex-row space-y-2 w-full rounded border-b-2 border-0 bg-gray-100"
             />
+          </div>
+          <div className="flex justify-between mx-[5%]">
             <span className=" text-[14px] text-lightPlayRed space-x-2 font-medium">
               <input
                 type="checkbox"
@@ -44,11 +46,14 @@ function AddBankBody() {
                 I agree to terms and conditions
               </label>
             </span>
+            <button className="text-white bg-lightPlayRed rounded-full h-11 px-5 ">
+              Submit
+            </button>
           </div>
-          <button className="text-white bg-lightPlayRed px-5 py-2 rounded-full ml-9 ">Submit</button>
         </form>
+  
       </div>
-    </div>
+    
   );
 }
 
