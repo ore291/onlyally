@@ -543,7 +543,7 @@ const NewsFeedCard = ({
                 <>
                   <>
                     {likeStatus === "added" ? (
-                      <button className="space-x-2 row-container " onClick={(event) => handleLike(event, "removed")}>
+                      <a className="space-x-2 row-container " to="#" onClick={(event) => handleLike(event, "removed")}>
                         <div className="relative news-feed-card-icon">
                           <Image
                             alt=""
@@ -553,12 +553,12 @@ const NewsFeedCard = ({
                           />
                         </div>
                         <p>{`${likeCount} likes`}</p>
-                      </button>
+                      </a>
                     ) : null}
                   </>
                   <>
                     {likeStatus === "removed" ? (
-                      <button
+                      <a to="#"
                         className="space-x-2 row-container "
                         onClick={(event) => handleLike(event, "added")}
                       >
@@ -571,12 +571,12 @@ const NewsFeedCard = ({
                           />
                         </div>
                         <p>{`${likeCount} likes`}</p>
-                      </button>
+                      </a>
                     ) : null}
                   </>
                 </>
               ) : post.is_user_liked == 1 ? (
-                <button
+                <a to="#"
                   className="space-x-2 row-container "
                   onClick={(event) => handleLike(event, "removed")}
                 >
@@ -589,9 +589,9 @@ const NewsFeedCard = ({
                     />
                   </div>
                   <p>{`${likeCount} likes`}</p>
-                </button>
+                </a>
               ) : (
-                <button className="space-x-2 row-container " onClick={(event) => handleLike(event, "added")}>
+                <a to="#" className="space-x-2 row-container " onClick={(event) => handleLike(event, "added")}>
                   <div className="relative news-feed-card-icon">
                     <Image
                       alt=""
@@ -601,7 +601,7 @@ const NewsFeedCard = ({
                     />
                   </div>
                   <p>{`${likeCount} likes`}</p>
-                </button>
+                </a>
               )}
 
               {/* <button
