@@ -16,7 +16,6 @@ function Payment() {
             <p>The list contais hte request which was made by you, it also contains requests which you receved from other.</p>
           </div>
           <AudioCallBody className="w-[90%]"/>
-
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { BsPersonCheck } from "react-icons/bs";
 import ProfileNavBar from "../../components/ProfileNavBar.jsx";
-// import AddBankBody from "../../components/AddBankBody.jsx";
+import SubscribeBody from "../../components/SubscribeBody.jsx";
 
 function Subscription() {
   return (
@@ -18,7 +18,7 @@ function Subscription() {
             </p>
           </div>
           {/* <hr /> */}
-          {/* <AddBankBody /> */}
+          <SubscribeBody />
         </div>
       </div>
     </div>
