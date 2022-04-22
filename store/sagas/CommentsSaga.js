@@ -22,8 +22,9 @@ import {
   function* fetchCommentsAPI() {
     try {
       const inputData = yield select((state) => state.comments.comments.inputData);
-      const response = yield api.postMethod("post_comments", inputData);
+      const response = yield api.postMethod("post_comments",null, null, inputData);
       if (response.data.success) {
+        
         yield put(fetchCommentsSuccess(response.data.data));
       } else {
         yield put(fetchCommentsFailure(response.data.error));

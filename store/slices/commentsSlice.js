@@ -61,7 +61,7 @@ const initialState = {
             data: action.payload,
             loading: false,
             error: false,
-            inputData: {},
+            inputData: state.comments.inputData,
             loadingButtonContent: null,
         };
       },

@@ -6,7 +6,7 @@
 
 @layer components {
   .view-comments{
-    @apply block px-5  pt-4 text-sm font-semibold text-slate-400 hover:text-lightPlayRed cursor-pointer
+    @apply block px-5  py-4 text-sm font-semibold text-slate-400 hover:text-lightPlayRed cursor-pointer
   }
   .gallery-pay-button-div {
     @apply bottom-[6em] p-[1em] rounded-md absolute md:bottom-[14em] top-[48%] w-full z-[2] text-center cursor-pointer;

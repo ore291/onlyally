@@ -18,23 +18,17 @@ import EmblaSlide from "./EmblaSlide";
 import { fetchSinglePostStart } from "../../store/slices/postSlice";
 import { savePostLikedStart } from "../../store/slices/postLikeSlice";
 import { fetchCommentsStart } from "../../store/slices/commentsSlice";
+import CommonCenterLoader from "../helpers/CommonCenterLoader";
+import Comment from "./Comment";
 
 const NewsFeedCard = ({
-  // image,
-  // user,
-  // // likeCount,
-  // commentCount,
   post,
-  // description,
-  // popularComments,
-  // time,
-  // main,
 }) => {
   const dispatch = useDispatch();
 
   let totalLikes = post.total_likes ? post.total_likes : 0;
 
-  const [comments, setComments] = useState([]);
+  const comments = useSelector(state => state.comments.comments);
   const [showComments, setShowComments] = useState(false);
 
   const [PPVPayment, setPPVPayment] = useState(false);
@@ -689,7 +683,7 @@ const NewsFeedCard = ({
               </button>
             </div>
             {post.like_count > 0 && (
-              <div className="likes alignleft">
+              <div className="likes py-1">
                 {/* <p>
                   <p>{`${likeCount} ${likeCount > 1 ? 'likes' : 'like}'`}</p>
                 </p> */}
@@ -700,74 +694,72 @@ const NewsFeedCard = ({
                 </p>
               </div>
             )}
-             {showComments && commentInputData.post_id === post.post_id  ? (
-            post.total_comments > 0 && (
-            <a
-              to="#"
-              className="Show view-comments  d-block pt-3"
-              onClick={()=>closeCommentSection()}
-            >
-              Hide comments
-            </a>)
-          ) : (
-            <>
-              {post.total_comments > 0 && (
+            {showComments && comments.inputData.post_id  === post.post_id ? (
+              post.total_comments > 0 && (
                 <a
                   to="#"
-                  className="Show view-comments text-muted d-block pt-3"
-                  onClick={() => showCommentSection( post.post_id)}
+                  className="Show view-comments  d-block pt-3 border-t border-gray-600 mt-4"
+                  onClick={() => closeCommentSection()}
                 >
-                  View comments
+                  Hide comments
                 </a>
-              )}
-            </>
-          )}
-            <div className="">
-              {showComments ? (
-                <div className="border-t border-gray-600 mt-4">
-                  <p
-                    onClick={() => setShowComments(false)}
-                    className="w-full py-1 bg-transparent border-none rounded text-sm pl-4 text-playRed cursor-pointer"
+              )
+            ) : (
+              <>
+                {post.total_comments > 0 && (
+                  <a
+                    to="#"
+                    className="Show view-comments text-muted d-block pt-3"
+                    onClick={() => showCommentSection(post.post_id)}
                   >
-                    Hide Comments
-                  </p>
-                  {/* <Comments comments={popularComments} /> */}
-                  <div className="flex items-center mt-2">
-                    <div className="w-10 h-10 relative rounded-full mr-2">
-                      <Image
-                        layout="fill"
-                        src={"/profile_avatar_full.jpg"}
-                        className="rounded-full"
-                        objectFit="cover"
-                        alt=""
-                      />
-                    </div>
-                    <form className="bg-gray-100 flex items-center px-2 rounded-2xl flex-1">
-                      <TextareaAutosize
-                        maxLength="1280"
-                        rows={1}
-                        maxRows={4}
-                        placeholder="Add a comment"
-                        className="rounded-2xl flex-1 resize-none outline-0 border-none bg-gray-100 text-sm focus:outline-0 ring-0 focus:ring-0"
-                      />
-                      <div className="flex space-x-1 items-center justify-center ">
-                        <HiOutlineEmojiHappy className="commentBtn" />
-                        <div className="relative w-9 h-9 cursor-pointer lg:commentBtn">
-                          <Image layout="fill" src="/comment.png" alt="" />
-                        </div>
-                        {/* <HiPaperAirplane className="commentBtn rotate-90" /> */}
-                      </div>
-                    </form>
-                  </div>
+                    View comments
+                  </a>
+                )}
+              </>
+            )}
+            <div className="">
+              {showComments && comments.inputData.post_id === post.post_id ? (
+                <div className="grid grid-cols-1 gap-y-5">
+                  {comments.loading ? (
+                    <CommonCenterLoader />
+                  ) : comments.data.post_comments &&
+                    comments.data.post_comments.length > 0 ? (
+                    comments.data.post_comments.map((comment, index) => (
+                      <Comment comment={comment} key={index}/>
+                      
+                    ))
+                  ) : (
+                    ""
+                  )}
                 </div>
-              ) : (
-                <p
-                  onClick={() => setShowComments(true)}
-                  className="w-full py-1 bg-transparent border-none rounded text-sm pl-4 text-playRed cursor-pointer"
-                >
-                  {/* View {commentCount} Comments */}
-                </p>
-              )}
+              ) : null}
+            </div>
+            <div className="flex items-center mt-2">
+              <div className="w-10 h-10 relative rounded-full mr-2">
+                <Image
+                  layout="fill"
+                  src={"/profile_avatar_full.jpg"}
+                  className="rounded-full"
+                  objectFit="cover"
+                  alt=""
+                />
+              </div>
+              <form className="bg-gray-100 flex items-center px-2 rounded-2xl flex-1">
+                <TextareaAutosize
+                  maxLength="1280"
+                  rows={1}
+                  maxRows={4}
+                  placeholder="Add a comment"
+                  className="rounded-2xl flex-1 resize-none outline-0 border-none bg-gray-100 text-sm focus:outline-0 ring-0 focus:ring-0"
+                />
+                <div className="flex space-x-1 items-center justify-center ">
+                  <HiOutlineEmojiHappy className="commentBtn" />
+                  <div className="relative w-9 h-9 cursor-pointer lg:commentBtn">
+                    <Image layout="fill" src="/comment.png" alt="" />
+                  </div>
+                  {/* <HiPaperAirplane className="commentBtn rotate-90" /> */}
+                </div>
+              </form>
             </div>
           </div>
           <div />
