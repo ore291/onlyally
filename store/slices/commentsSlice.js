@@ -128,7 +128,7 @@ const initialState = {
         state.delComment = {
             data: {},
           loading: true,
-          error: action.error,
+          error: action.payload,
           inputData: {},
           loadingButtonContent: null,
           buttonDisable: false,

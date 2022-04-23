@@ -95,14 +95,7 @@ const NewsFeedCard = ({
     dispatch(fetchCommentsStart({ post_id: post_id }));
   };
 
-  const showCommentReplySection = (event, post_id, post_comment_id) => {
-    props.dispatch(
-      fetchCommentRepliesStart({
-        post_id: post_id,
-        post_comment_id: post_comment_id,
-      })
-    );
-  };
+
 
   const handleLike = (event, status) => {
     event.preventDefault();
@@ -726,7 +719,7 @@ const NewsFeedCard = ({
                   ) : comments.data.post_comments &&
                     comments.data.post_comments.length > 0 ? (
                     comments.data.post_comments.map((comment, index) => (
-                      <Comment comment={comment} key={index}/>
+                      <Comment comment={comment} key={index} index={index} post={post}/>
                       
                     ))
                   ) : (

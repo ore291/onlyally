@@ -1,8 +1,29 @@
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import Image from "next/image";
 import Link from "next/link";
+import CommentReplies from "./CommentReplies";
+import {useState} from "react";
+import { useDispatch } from "react-redux";
+import { fetchCommentRepliesStart } from "../../store/slices/commentsSlice";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, index , post}) => {
+  const dispatch = useDispatch();
+
+  const handleCommentActiveIndex = (index) => {
+    setCommentActiveIndex(index);
+  };
+
+  const showCommentReplySection = (event, post_id, post_comment_id) => {
+    dispatch(
+      fetchCommentRepliesStart({
+        post_id: post_id,
+        post_comment_id: post_comment_id,
+      })
+    );
+  };
+
+  const [commentActiveIndex, setCommentActiveIndex] = useState(null);
+
   return (
     <div className="flex items-center justify-between text-sm mx-2">
       <div className=" flex justify-start  items-center  basis-[10%]">
@@ -32,8 +53,44 @@ const Comment = ({ comment }) => {
             <span>50</span>
             <BsHeartFill className="hover:fill-pink-500 text-pink-500" />
           </div>
-          <p className="ml-3 cursor-pointer"> Reply</p>
+          {commentActiveIndex != index ? (
+            <a
+              to="#"
+              onClick={(event) => {
+                showCommentReplySection(
+                  event,
+                  post.post_id,
+                  comment.post_comment_id
+                );
+                handleCommentActiveIndex(index);
+              }}
+            >
+              <p>
+                {comment.total_comment_replies > 0 ? (
+                  <>{comment.total_comment_replies} Replies</>
+                ) : (
+                  <>Reply</>
+                )}{" "}
+              </p>
+            </a>
+          ) : (
+            <a
+              to="#"
+              onClick={(event) => {
+                handleCommentActiveIndex(null);
+              }}
+            >
+              <p>Hide</p>
+            </a>
+          )}
+          {/* <p className="ml-3 cursor-pointer"> Reply</p> */}
         </div>
+        <CommentReplies
+          key="index"
+          comment={comment}
+          currentIndex={index}
+          commentActiveIndex={commentActiveIndex}
+        />
       </div>
       <div className="basis-[5%] hover:cursor-pointer hover:text-gray-400">
         <BsHeart />
