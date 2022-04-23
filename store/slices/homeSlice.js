@@ -95,9 +95,37 @@ export const HomeSlice = createSlice({
       state.homePost.skip = state.homePost.skip;
       state.homePost.length = state.homePost.length;
     },
-    // editUserDetails: ()=>{
-
-    // }
+    searchUserStart: (state, action) => {
+      state.searchUser = {
+        data: {},
+        loading: true,
+        error: false,
+        inputData: action.payload,
+        loadingButtonContent: "Loading...",
+        buttonDisable: true,
+      }
+    },
+    searchUserSuccess: (state, action) => {
+     state.searchUser = {
+      data: action.payload,
+      loading: false,
+      error: false,
+      inputData: {},
+      loadingButtonContent: null,
+      buttonDisable: false,
+     }
+    },
+    searchUserFailure: (state, action) => {
+      state.searchUser = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      }
+    },
+   
   },
 
     extraReducers: {
@@ -119,6 +147,9 @@ export const {
   fetchHomePostsStart,
   fetchHomePostsSuccess,
   fetchHomePostsFailure,
+  searchUserFailure,
+  searchUserStart,
+  searchUserSuccess
 } = HomeSlice.actions;
 
 export default HomeSlice.reducer;

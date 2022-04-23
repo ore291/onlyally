@@ -5,9 +5,7 @@ import { HiOutlineEmojiHappy } from "react-icons/hi";
 
 import { EditorState, convertToRaw, Modifier } from "draft-js";
 import { useSession, getSession } from "next-auth/react";
-// import {
-//     saveCommentStart,
-// } from "../../store/actions/CommentsAction";
+import { saveCommentStart } from "../../store/slices/commentsSlice";
 
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
@@ -82,7 +80,6 @@ const Comments = ({post, currentIndex}) => {
   };
 
   const focusEditor = () => {
-    console.log("one");
     setCommentActiveIndex(currentIndex);
   };
 
@@ -98,7 +95,7 @@ const Comments = ({post, currentIndex}) => {
           onSubmit={handleCommentSubmit}
         >
           <div className="inline-block float-left clear-both ">
-            <Link className="title-container-1" href={"#"} passHref>
+            <a className="title-container-1" href="#">
               <div className="relative w-10 h-10 rounded-full max-w-full">
                 <Image
                   alt=""
@@ -108,27 +105,27 @@ const Comments = ({post, currentIndex}) => {
                   className="rounded-full"
                 />
               </div>
-            </Link>
+            </a>
           </div>
           {commentActiveIndex == currentIndex ? (
             <div className="inline-block float-left w-[75%]">
               <PostEditor
                 className="PostEditor__input"
                 placeholder={"Add comments here...."}
-                ref={mentionsRef}
+                refs={mentionsRef}
                 getEditorRawContent={setEditorContentstate}
                 getEditorHtmlContent={setEditorHtmlContent}
                 dispatch={dispatch}
                 editorState={editorState}
                 setEditorState={setEditorState}
-                userSelect="none"
-                contentEditable={false}
+                // userSelect="none"
+                // contentEditable={false}
               />
             </div>
           ) : (
             <div className="empty-comment">
               <input
-                className="w-full min-w-[505px] border-0 placeholder:text-[1em] placeholder:font-normal placeholder:text-[#8a96a3]"
+                className=""
                 type="text"
                 placeholder="Add comments here ..."
               />

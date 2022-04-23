@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { EditorState, convertToRaw, Modifier } from "draft-js";
 import Editor from "@draft-js-plugins/editor";
 import createMentionPlugin, {
@@ -7,7 +7,7 @@ import createMentionPlugin, {
 import "draft-js/dist/Draft.css";
 import "@draft-js-plugins/mention/lib/plugin.css";
 import { connect } from "react-redux";
-// import { searchUserStart } from "../../../store/actions/HomeAction";
+import { searchUserStart } from "../../store/slices/homeSlice";
 import { stateToHTML } from "draft-js-export-html";
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
@@ -17,7 +17,7 @@ import "@draft-js-plugins/hashtag/lib/plugin.css";
 import createLinkifyPlugin from "@draft-js-plugins/linkify";
 import "@draft-js-plugins/linkify/lib/plugin.css";
 import draftToHtml from "draftjs-to-html";
-import {useDispatch} from 'react-redux';
+import { useDispatch , useSelector} from "react-redux";
 
 const hashtagPlugin = createHashtagPlugin();
 const linkifyPlugin = createLinkifyPlugin();
@@ -26,11 +26,12 @@ const { MentionSuggestions } = mentionPlugin;
 const plugins = [mentionPlugin, linkifyPlugin, hashtagPlugin];
 
 const PostEditor = (props) => {
-
   const dispatch = useDispatch();
+  const searchUser = useSelector(state => state.home.searchUser)
   const [suggestions, setSuggestions] = useState([]);
 
   const [mentions, setMentions] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const [focusStyle, setFocusStyle] = useState(false);
 
@@ -39,11 +40,14 @@ const PostEditor = (props) => {
     EditorState.createEmpty()
   );
 
+  const onOpenChange = useCallback((_open) =>{
+    setOpen(_open)
+  },[])
+
   useEffect(() => {
     if (props.editorState) {
-      const content = convertToRaw(
-        props.editorState.getCurrentContent()
-      ).blocks;
+      const content = convertToRaw(props.editorState.getCurrentContent())
+        .blocks;
       props.getEditorRawContent(
         content
           .map((block) => (!block.text.trim() && "\n") || block.text)
@@ -63,7 +67,6 @@ const PostEditor = (props) => {
 
     var host = window.location.origin;
 
-
     const hashConfig = {
       trigger: "#",
       separator: " ",
@@ -82,7 +85,6 @@ const PostEditor = (props) => {
       false,
       customEntityTransform
     );
-
   };
 
   // Check editor text for mentions
@@ -90,7 +92,7 @@ const PostEditor = (props) => {
     dispatch(searchUserStart({ key: value }));
     console.log(value);
 
-    let fetchedData = props.searchUser.data.users;
+    let fetchedData = searchUser.data.users;
 
     var newData = [];
 
@@ -106,7 +108,7 @@ const PostEditor = (props) => {
 
     // console.log(newData)
 
-    props.searchUser.data.users && setMentions(newData);
+    searchUser.data.users && setMentions(newData);
 
     setSuggestions(defaultSuggestionsFilter(value, mentions));
   };
@@ -149,6 +151,8 @@ const PostEditor = (props) => {
         }
       ></Editor>
       <MentionSuggestions
+        open={open}
+        onOpenChange={onOpenChange}
         onSearchChange={onSearchChange}
         suggestions={mentions}
         onAddMention={onAddMention}

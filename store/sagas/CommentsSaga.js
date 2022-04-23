@@ -41,11 +41,39 @@ import {
     }
   }
 
+  function* saveCommentAPI() {
+    try {
+      const inputData = yield select(
+        (state) => state.comments.saveComment.inputData
+      );
+      const response = yield api.postMethod("post_comments_save",null, null, inputData);
+      if (response.data.success) {
+        yield put(saveCommentSuccess(response.data.data));
+        yield put(fetchCommentsStart(inputData))
+        // const notificationMessage = getSuccessNotificationMessage(
+        //   response.data.message
+        // );
+        // yield put(createNotification(notificationMessage));
+      } else {
+        yield put(saveCommentFailure(response.data.error));
+        // const notificationMessage = getErrorNotificationMessage(
+        //   response.data.error
+        // );
+        // yield put(checkLogoutStatus(response.data));
+        // yield put(createNotification(notificationMessage));
+      }
+    } catch (error) {
+      yield put(saveCommentFailure(error));
+      // const notificationMessage = getErrorNotificationMessage(error.message);
+      // yield put(createNotification(notificationMessage));
+    }
+  }
+
 
   export default function* pageSaga() {
     yield all([yield takeLatest("comments/fetchCommentsStart", fetchCommentsAPI)]);
     // yield all([yield takeLatest(FETCH_COMMENT_REPLIES_START, fetchCommentRepliesAPI)]);
-    // yield all([yield takeLatest(SAVE_COMMENT_START, saveCommentAPI)]);
+    yield all([yield takeLatest("comments/saveCommentStart", saveCommentAPI)]);
     // yield all([yield takeLatest(SAVE_COMMENT_REPLY_START, saveCommentReplyAPI)]);
     // yield all([yield takeLatest(DELETE_COMMENT_START, deleteCommentAPI)]);
   }

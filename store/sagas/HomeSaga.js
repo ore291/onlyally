@@ -8,6 +8,9 @@ import {
   fetchHomePostsStart,
   fetchHomePostsSuccess,
   fetchHomePostsFailure,
+  searchUserFailure,
+  searchUserStart,
+  searchUserSuccess
 } from "../slices/homeSlice";
 
 function* fetchHomePostAPI(action) {
@@ -20,7 +23,7 @@ function* fetchHomePostAPI(action) {
     const response = yield api.postMethod("home", accessToken, userId, {
       skip: skipCount,
     });
-    
+
     if (response.data.success) {
       yield put(fetchHomePostsSuccess(response.data.data));
       if (response.data.data.user) {
@@ -56,7 +59,7 @@ function* fetchHomePostAPI(action) {
         }
       }
     } else {
-        yield put(fetchHomePostsFailure(response.data.error));
+      yield put(fetchHomePostsFailure(response.data.error));
       //   const notificationMessage = getErrorNotificationMessage(
       //     response.data.error
       //   );
@@ -64,8 +67,29 @@ function* fetchHomePostAPI(action) {
       //   yield put(createNotification(notificationMessage));
     }
   } catch (error) {
-    console.log(error)
-        yield put(fetchHomePostsFailure(error));
+    console.log(error);
+    yield put(fetchHomePostsFailure(error));
+    // const notificationMessage = getErrorNotificationMessage(error.message);
+    // yield put(createNotification(notificationMessage));
+  }
+}
+
+function* searchUserAPI() {
+  try {
+    const inputData = yield select((state) => state.home.searchUser.inputData);
+    const response = yield api.postMethod("users_search",null, null, inputData);
+    if (response.data.success) {
+      yield put(searchUserSuccess(response.data.data));
+    } else {
+      yield put(searchUserFailure(response.data.error));
+      // const notificationMessage = getErrorNotificationMessage(
+      //   response.data.error
+      // );
+      // yield put(checkLogoutStatus(response.data));
+      // yield put(createNotification(notificationMessage));
+    }
+  } catch (error) {
+    yield put(searchUserFailure(error));
     // const notificationMessage = getErrorNotificationMessage(error.message);
     // yield put(createNotification(notificationMessage));
   }
@@ -73,4 +97,5 @@ function* fetchHomePostAPI(action) {
 
 export default function* pageSaga() {
   yield all([yield takeLatest("home/fetchHomePostsStart", fetchHomePostAPI)]);
+  yield all([yield takeLatest("home/searchUserStart", searchUserAPI)]);
 }
