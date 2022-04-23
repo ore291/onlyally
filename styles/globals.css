@@ -42,7 +42,7 @@
     @apply w-6 h-6 md:w-7 md:h-7 fill-current font-extrabold focus:outline-none focus:shadow-none active:outline-none;
   }
   .commentBtn {
-    @apply h-8 w-8 text-playRed cursor-pointer;
+    @apply h-8 w-8 text-white rounded-full bg-playRed cursor-pointer p-1;
   }
   .inputBox {
     @apply w-[275px] h-12 flex items-center justify-around p-2 bg-white rounded-full;
@@ -111,6 +111,28 @@
   font-size: 14px;
   font-weight: 500;
   padding: 0px 2px;
+}
+
+.DraftEditor-root {
+  font-size: 1em;
+  padding: 0.5em 0;
+  min-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* -webkit-line-clamp: 1; */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  width: 100%;
+  font-weight: 400;
+}
+
+.emojiWrapper {
+  position: absolute;
+  bottom: 125%;
+  right: 0;
+  content: "";
+  z-index: 99;
 }
 
 .embla {

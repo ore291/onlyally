@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {HiOutlineEmojiHappy} from 'react-icons/hi';
+import { HiOutlineEmojiHappy } from "react-icons/hi";
 
 import { EditorState, convertToRaw, Modifier } from "draft-js";
 import { useSession, getSession } from "next-auth/react";
@@ -11,9 +11,11 @@ import { useSession, getSession } from "next-auth/react";
 
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
-import PostEditor from "../Post/postMentions/PostEditor";
+import PostEditor from "./PostEditor";
 import { useDispatch } from "react-redux";
-const Comments = (props) => {
+
+
+const Comments = ({post, currentIndex}) => {
   const dispatch = useDispatch();
   const { data: session, status } = useSession();
 
@@ -36,7 +38,7 @@ const Comments = (props) => {
     dispatch(
       saveCommentStart({
         comment: editorHtmlContent,
-        post_id: props.post.post_id,
+        post_id: post.post_id,
       })
     );
     // setCommentInputData({});
@@ -81,49 +83,26 @@ const Comments = (props) => {
 
   const focusEditor = () => {
     console.log("one");
-    setCommentActiveIndex(props.currentIndex);
+    setCommentActiveIndex(currentIndex);
   };
 
   return (
     <div
-      className="block w-full px-[10px] py-[10px] bg-white border rounded-2xl mt-8 "
+      className="block w-full px-[10px]  bg-white border rounded-2xl mt-2 "
       onFocus={() => focusEditor()}
     >
       <div className="clear-both">
-        {/* <div className="flex items-center mt-2">
-              <div className="w-10 h-10 relative rounded-full mr-2">
-                <Image
-                  layout="fill"
-                  src={"/profile_avatar_full.jpg"}
-                  className="rounded-full"
-                  objectFit="cover"
-                  alt=""
-                />
-              </div>
-              <form className="bg-gray-100 flex items-center px-2 rounded-2xl flex-1">
-                <TextareaAutosize
-                  maxLength="1280"
-                  rows={1}
-                  maxRows={4}
-                  placeholder="Add a comment"
-                  className="rounded-2xl flex-1 resize-none outline-0 border-none bg-gray-100 text-sm focus:outline-0 ring-0 focus:ring-0"
-                />
-                <div className="flex space-x-1 items-center justify-center ">
-                  <HiOutlineEmojiHappy className="commentBtn" />
-                  <div className="relative w-9 h-9 cursor-pointer lg:commentBtn">
-                    <Image layout="fill" src="/comment.png" alt="" />
-                  </div>
-                  <HiPaperAirplane className="commentBtn rotate-90" />
-                </div>
-              </form>
-            </div> */}
-        <form className="block w-full" action="" onSubmit={handleCommentSubmit}>
+        <form
+          className="w-full flex items-center flex-wrap justify-between mt-0"
+          action=""
+          onSubmit={handleCommentSubmit}
+        >
           <div className="inline-block float-left clear-both ">
             <Link className="title-container-1" href={"#"} passHref>
-              <div className="relative w-10 h-10 rounded-full max-w-[50px]">
+              <div className="relative w-10 h-10 rounded-full max-w-full">
                 <Image
                   alt=""
-                  src={session.user.userDetails.picture}
+                  src={"/profile_avatar_full.jpg"}
                   objectFit="cover"
                   layout="fill"
                   className="rounded-full"
@@ -131,44 +110,53 @@ const Comments = (props) => {
               </div>
             </Link>
           </div>
-          {commentActiveIndex == props.currentIndex ? (
-            <div className="inline-block float-left width-[75%]">
+          {commentActiveIndex == currentIndex ? (
+            <div className="inline-block float-left w-[75%]">
               <PostEditor
                 className="PostEditor__input"
-                placeholder={t("new_comment_placeholder")}
+                placeholder={"Add comments here...."}
                 ref={mentionsRef}
                 getEditorRawContent={setEditorContentstate}
                 getEditorHtmlContent={setEditorHtmlContent}
                 dispatch={dispatch}
                 editorState={editorState}
                 setEditorState={setEditorState}
+                userSelect="none"
+                contentEditable={false}
               />
             </div>
           ) : (
             <div className="empty-comment">
               <input
-                className="w-full min-w-[505px] border-0 placeholder:text-[1.5em] placeholder:font-normal placeholder:text-[#8a96a3]"
+                className="w-full min-w-[505px] border-0 placeholder:text-[1em] placeholder:font-normal placeholder:text-[#8a96a3]"
                 type="text"
                 placeholder="Add comments here ..."
               />
             </div>
           )}
-          <ul className="list-unstyled reply-action-icons position-relative">
-            <li>
-              <button to="#" onClick={handleCommentSubmit}>
+          <ul className="!relative pl-0 list-none flex my-0">
+            <li className="mt-0 mr-[0.5em] flex items-start">
+              <button to="#" onClick={()=>handleCommentSubmit}>
                 {/* <i className="fas fa-paper-plane"></i> */}
-                <div className="relative w-9 h-9 cursor-pointer lg:commentBtn">
-                  <Image layout="fill" src="/comment.png" alt="" />
+                <div className="commentBtn row-container">
+                  <div className="relative w-8 h-7">
+                    <Image
+                      layout="fill"
+                      src="/comment.png"
+                      className="invert"
+                      alt=""
+                    />
+                  </div>
                 </div>
               </button>
             </li>
-            <li className="m-0">
+            <li className="m-0 !mt-0 flex items-start">
               <button
                 type="button"
-                className="g-btn m-rounded emojiButtoon p-0 pr-2"
+                className="p-0 pr-2"
                 onClick={triggerPicker}
               >
-               <HiOutlineEmojiHappy className="commentBtn" />
+                <HiOutlineEmojiHappy className="commentBtn" />
               </button>
             </li>
             {emojiPickerState && (
@@ -187,10 +175,12 @@ const Comments = (props) => {
   );
 };
 
-const mapStateToPros = (state) => ({});
+// const mapStateToPros = (state) => ({});
 
-function mapDispatchToProps(dispatch) {
-  return { dispatch };
-}
+// function mapDispatchToProps(dispatch) {
+//   return { dispatch };
+// }
 
-export default connect(mapStateToPros, mapDispatchToProps)(translate(Comments));
+// export default connect(mapStateToPros, mapDispatchToProps)(translate(Comments));
+
+export default Comments;

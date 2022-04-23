@@ -1,23 +1,23 @@
 import React, { useState, useRef } from "react";
 import { EditorState, convertToRaw, Modifier } from "draft-js";
-import Editor from "draft-js-plugins-editor";
+import Editor from "@draft-js-plugins/editor";
 import createMentionPlugin, {
   defaultSuggestionsFilter,
-} from "draft-js-mention-plugin";
+} from "@draft-js-plugins/mention";
 import "draft-js/dist/Draft.css";
-import "draft-js-mention-plugin/lib/plugin.css";
+import "@draft-js-plugins/mention/lib/plugin.css";
 import { connect } from "react-redux";
-import { searchUserStart } from "../../../store/actions/HomeAction";
-import { translate, t } from "react-multi-lang";
+// import { searchUserStart } from "../../../store/actions/HomeAction";
 import { stateToHTML } from "draft-js-export-html";
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { useEffect } from "react";
-import createHashtagPlugin from "draft-js-hashtag-plugin";
-import "draft-js-hashtag-plugin/lib/plugin.css";
-import createLinkifyPlugin from "draft-js-linkify-plugin";
-import "draft-js-linkify-plugin/lib/plugin.css";
+import createHashtagPlugin from "@draft-js-plugins/hashtag";
+import "@draft-js-plugins/hashtag/lib/plugin.css";
+import createLinkifyPlugin from "@draft-js-plugins/linkify";
+import "@draft-js-plugins/linkify/lib/plugin.css";
 import draftToHtml from "draftjs-to-html";
+import {useDispatch} from 'react-redux';
 
 const hashtagPlugin = createHashtagPlugin();
 const linkifyPlugin = createLinkifyPlugin();
@@ -25,7 +25,9 @@ const mentionPlugin = createMentionPlugin();
 const { MentionSuggestions } = mentionPlugin;
 const plugins = [mentionPlugin, linkifyPlugin, hashtagPlugin];
 
-export const PostEditor = (props) => {
+const PostEditor = (props) => {
+
+  const dispatch = useDispatch();
   const [suggestions, setSuggestions] = useState([]);
 
   const [mentions, setMentions] = useState([]);
@@ -61,28 +63,6 @@ export const PostEditor = (props) => {
 
     var host = window.location.origin;
 
-    // let options = {
-    //   entityStyleFn: (entity) => {
-    //     const entityType = entity.get("type").toLowerCase();
-    //     console.log(entity)
-    //     if (entityType === "mention") {
-    //       const data = entity.getData();
-    //       return {
-    //         element: "a",
-    //         attributes: {
-    //           href: `${host}/${data.mention.link}`,
-    //         },
-    //         style: {
-    //           paddingRight: "5px",
-    //         },
-    //       };
-    //     }
-    //   },
-    // };
-
-    // let html =  stateToHTML(contentState, options);
-
-    // console.log(html)
 
     const hashConfig = {
       trigger: "#",
@@ -103,12 +83,11 @@ export const PostEditor = (props) => {
       customEntityTransform
     );
 
-    //return stateToHTML(contentState, options);
   };
 
   // Check editor text for mentions
   const onSearchChange = ({ value }) => {
-    props.dispatch(searchUserStart({ key: value }));
+    dispatch(searchUserStart({ key: value }));
     console.log(value);
 
     let fetchedData = props.searchUser.data.users;
@@ -178,14 +157,11 @@ export const PostEditor = (props) => {
   );
 };
 
-const mapStateToPros = (state) => ({
-  searchUser: state.home.searchUser,
-});
-const mapDispatchToProps = (dispatch) => {
-  return { dispatch };
-};
+// const mapStateToPros = (state) => ({
+//   searchUser: state.home.searchUser,
+// });
+// const mapDispatchToProps = (dispatch) => {
+//   return { dispatch };
+// };
 
-export default connect(
-  mapStateToPros,
-  mapDispatchToProps
-)(translate(PostEditor));
+export default PostEditor;

@@ -20,9 +20,10 @@ import { savePostLikedStart } from "../../store/slices/postLikeSlice";
 import { fetchCommentsStart } from "../../store/slices/commentsSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
 import Comment from "./Comment";
+import Comments from "./Comments";
 
 const NewsFeedCard = ({
-  post,
+  post,index
 }) => {
   const dispatch = useDispatch();
 
@@ -734,7 +735,8 @@ const NewsFeedCard = ({
                 </div>
               ) : null}
             </div>
-            <div className="flex items-center mt-2">
+            <Comments  key="index" post={post} currentIndex={index}/>
+            {/* <div className="flex items-center mt-2">
               <div className="w-10 h-10 relative rounded-full mr-2">
                 <Image
                   layout="fill"
@@ -757,10 +759,10 @@ const NewsFeedCard = ({
                   <div className="relative w-9 h-9 cursor-pointer lg:commentBtn">
                     <Image layout="fill" src="/comment.png" alt="" />
                   </div>
-                  {/* <HiPaperAirplane className="commentBtn rotate-90" /> */}
+                  <HiPaperAirplane className="commentBtn rotate-90" />
                 </div>
               </form>
-            </div>
+            </div> */}
           </div>
           <div />
         </div>
