@@ -1,6 +1,6 @@
 import ProfileNavBar from "../../components/ProfileNavBar.jsx";
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import TransactionHistoryBody from "../../components/TransactionHistoryBidy.jsx";
+import TransactionHistoryBody from "../../components/TransactionHistoryBody.jsx";
 import TransactinHistoryTop from "../../components/TransactinHistoryTop.jsx";
 
 function TrasctionHistory() {

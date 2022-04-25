@@ -78,25 +78,25 @@ function SubscribeBody() {
     <div className="space-y-7">
       <div className="h-[85%] bg-white width-full border rounded-lg space-y-3 shadow-lg ">
         {paymentDetails.map((payment, index) => (
-          <div className="space-y-2" key={index}>
-            <div className="grid grid-cols-5 justify-items-center	text-[13px]">
-              <div className="flex justify-center space-x-2">
-                <span className='flex justify-center space-x-2 text-lightPlayRed'>
-                <p >{payment.paid} </p>
-                <BiPaperPlane /> 
-                </span>
-              </div>
+          <div className="space-y-6" key={index}>
+            <div className="grid grid-cols-5 justify-items-center mt-6	text-[13px]">
+              {/* <div className="justify-items-center"> */}
+              
+              
+                {/* <BiPaperPlane />  */}
+                <p className="m-">{payment.paid} </p>
+            
+              {/* </div> */}
               <p>{payment.date}</p>
               <p>{payment.interval}</p>
               <p>{payment.end}</p>
               <button className="text-white bg-green-600 text-10 px-1 rounded-md font-semibold">
-              <p>{payment.status}</p>
+              {payment.status}
               </button>
             </div>
             <hr />
           </div>
         ))}
-        {/* </div> */}
       </div>
     </div>
   );
