@@ -7,6 +7,7 @@ import { PrevButton, NextButton } from "./EmblaButtons";
 import useEmblaCarousel from "embla-carousel-react";
 import { fetchStoriesStart } from "../../store/slices/storiesSlice";
 import StoriesSliderModal from "./StoriesSliderModal";
+import StoriesUploadModal from "./StoryUploadModal";
 
 const Stories = () => {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const Stories = () => {
   // }, [renderSliderModal]);
 
   return (
-    <div className=" mt-3 md:mt-0 mb-5 md:p-5 md:border-y ">
+    <div className=" mt-3 md:mt-0 mb-5 md:p-5 md:border-y md:shadow-md ">
       <>
         {userStories.loading ? (
           <StorySliderLoader />
@@ -114,6 +115,7 @@ const Stories = () => {
           renderSliderModal={renderSliderModal}
         />
       )}
+      <StoriesUploadModal  />
     </div>
   );
 };
