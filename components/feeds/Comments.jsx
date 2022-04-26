@@ -5,7 +5,7 @@ import { HiOutlineEmojiHappy } from "react-icons/hi";
 
 import { EditorState, convertToRaw, Modifier } from "draft-js";
 import { useSession, getSession } from "next-auth/react";
-import { saveCommentStart } from "../../store/slices/commentsSlice";
+import { saveCommentStart, fetchCommentsStart} from "../../store/slices/commentsSlice";
 
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
@@ -85,16 +85,16 @@ const Comments = ({post, currentIndex}) => {
 
   return (
     <div
-      className="block w-full px-[10px]  bg-white border rounded-2xl mt-2 "
+      className="block w-full px-[5px]  bg-white border rounded-2xl mt-2 "
       onFocus={() => focusEditor()}
     >
       <div className="clear-both">
         <form
-          className="w-full flex items-center flex-wrap justify-between mt-0"
+          className="w-full flex items-center  mt-0"
           action=""
           onSubmit={handleCommentSubmit}
         >
-          <div className="inline-block float-left clear-both ">
+          <div className="inline-block float-left clear-both basis-[15%]">
             <a className="title-container-1" href="#">
               <div className="relative w-10 h-10 rounded-full max-w-full">
                 <Image
@@ -108,7 +108,7 @@ const Comments = ({post, currentIndex}) => {
             </a>
           </div>
           {commentActiveIndex == currentIndex ? (
-            <div className="inline-block float-left w-[75%]">
+            <div className="inline-block float-left basis-[70%]">
               <PostEditor
                 className="PostEditor__input"
                 placeholder={"Add comments here...."}
@@ -123,20 +123,20 @@ const Comments = ({post, currentIndex}) => {
               />
             </div>
           ) : (
-            <div className="empty-comment">
+            <div className="empty-comment basis-[70%] my-[5px] ">
               <input
-                className=""
+                className="border-none ring-0 border-0 w-full"
                 type="text"
                 placeholder="Add comments here ..."
               />
             </div>
           )}
-          <ul className="!relative pl-0 list-none flex my-0">
-            <li className="mt-0 mr-[0.5em] flex items-start">
+          <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
+            <li className="mt-0 mr-1 flex items-start">
               <button to="#" onClick={()=>handleCommentSubmit}>
                 {/* <i className="fas fa-paper-plane"></i> */}
                 <div className="commentBtn row-container">
-                  <div className="relative w-8 h-7">
+                  <div className="relative w-7 h-7">
                     <Image
                       layout="fill"
                       src="/comment.png"
@@ -150,7 +150,7 @@ const Comments = ({post, currentIndex}) => {
             <li className="m-0 !mt-0 flex items-start">
               <button
                 type="button"
-                className="p-0 pr-2"
+                className="p-0 pr-1"
                 onClick={triggerPicker}
               >
                 <HiOutlineEmojiHappy className="commentBtn" />

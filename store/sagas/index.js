@@ -4,7 +4,8 @@ import UserSaga from "./UserSaga";
 import HomeSaga from "./HomeSaga";
 import PostSaga from "./PostSaga";
 import PostLikesSaga from "./PostLikesSaga";
-import CommentsSaga from "./CommentsSaga"
+import CommentsSaga from "./CommentsSaga";
+import BookmarkSaga from "./BookmarkSaga";
 
 export default function* rootSaga() {
     yield all([fork(UserSaga)]);
@@ -12,5 +13,6 @@ export default function* rootSaga() {
     yield all([fork(PostSaga)]);
     yield all([fork(PostLikesSaga)]);
     yield all([fork(CommentsSaga)]);
+    yield all([fork(BookmarkSaga)]);
     
 }

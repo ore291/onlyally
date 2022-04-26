@@ -240,7 +240,7 @@ const CommentReplies = (props) => {
                   <PostEditor
                     className="PostEditor__input"
                     placeholder="Write a reply"
-                    ref={mentionsRef}
+                    refs={mentionsRef}
                     getEditorRawContent={setEditorContentstate}
                     getEditorHtmlContent={setEditorHtmlContent}
                     dispatch={props.dispatch}

@@ -18,6 +18,7 @@ import EmblaSlide from "./EmblaSlide";
 import { fetchSinglePostStart } from "../../store/slices/postSlice";
 import { savePostLikedStart } from "../../store/slices/postLikeSlice";
 import { fetchCommentsStart } from "../../store/slices/commentsSlice";
+import {saveBookmarkStart} from "../../store/slices/bookmarkSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
 import Comment from "./Comment";
 import Comments from "./Comments";
@@ -120,7 +121,7 @@ const NewsFeedCard = ({ post, index }) => {
   const handleBookmark = (event, post, status) => {
     event.preventDefault();
     setBookmarkStatus(status);
-    props.dispatch(saveBookmarkStart({ post_id: post.post_id }));
+    dispatch(saveBookmarkStart({ post_id: post.post_id }));
   };
 
   const handleReportPost = (event, post) => {

@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 @layer components {
-  .view-comments{
-    @apply block px-5  py-4 text-sm font-semibold text-slate-400 hover:text-lightPlayRed cursor-pointer
+  .view-comments {
+    @apply block px-5  py-4 text-sm font-semibold text-slate-400 hover:text-lightPlayRed cursor-pointer;
   }
   .gallery-pay-button-div {
     @apply bottom-[6em] p-[1em] rounded-md absolute md:bottom-[14em] top-[48%] w-full z-[2] text-center cursor-pointer;
@@ -133,15 +133,22 @@
   margin-bottom: 1em;
 }
 
-.empty-comment input {
-  width: 100%;
-  min-width: 400px;
+/* .empty-comment input {
+  width: 75%;
+  min-width: 350px;
   border: 0;
   margin: 5px 0;
 }
+@media only screen and (max-width: 450px) {
+  .empty-comment input {
+    width: 75%;
+    border: 0;
+    margin: 5px 0;
+  }
+} */
 
 .empty-comment input::placeholder {
-  font-size: 1.0em;
+  font-size: 1em;
   font-weight: 300;
   color: #8a96a3;
 }
@@ -189,7 +196,7 @@
 
 .embla__viewport.is-dragging {
   cursor: grabbing;
-} 
+}
 
 .embla__container {
   display: flex;
@@ -409,7 +416,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Maven Pro', sans-serif;
+  font-family: "Maven Pro", sans-serif;
   background-color: #f9f9f9;
 }
 
