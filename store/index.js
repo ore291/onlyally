@@ -10,6 +10,7 @@ import postReducer from './slices/postSlice';
 import postLikesReducer from './slices/postLikeSlice';
 import commentsReducer from "./slices/commentsSlice";
 import bookmarkReducer from "./slices/bookmarkSlice";
+import storiesReducer from "./slices/storiesSlice";
 import mySaga from "./sagas";
 import { combineReducers } from "redux";
 
@@ -21,7 +22,8 @@ const reducers = combineReducers({
   post: postReducer,
   postlikes: postLikesReducer,
   comments: commentsReducer,
-  bookmark: bookmarkReducer
+  bookmark: bookmarkReducer,
+  stories: storiesReducer
 })
 
 

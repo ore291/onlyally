@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Story from "./Story";
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch} from "react-redux";
 import StorySliderLoader from "./StorySliderLoader";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { PrevButton, NextButton } from "./EmblaButtons";
 import useEmblaCarousel from "embla-carousel-react";
+import { fetchStoriesStart } from "../../store/slices/storiesSlice";
 
 const Stories = () => {
+  const dispatch = useDispatch();
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -34,93 +36,15 @@ const Stories = () => {
 
   const [sliderData, setSliderData] = useState({});
 
-  var settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    responsive: [
-      {
-        breakpoint: 2048,
-        settings: {
-          slidesToShow: 9.5,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1920,
-        settings: {
-          slidesToShow: 9.5,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 8,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 6,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 5.5,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 2,
-        },
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 376,
-        settings: {
-          slidesToShow: 1.75,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
   const SliderModalToggle = (status, index, story) => {
     setRenderSliderModal(status);
     setSelectedSliderIndex(index);
     setSliderData(story);
   };
 
-  // useEffect(() => {
-  //   props.dispatch(fetchStoriesStart());
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchStoriesStart());
+  }, []);
 
   // useEffect(() => {
   //   if (SliderModalToggle) {
