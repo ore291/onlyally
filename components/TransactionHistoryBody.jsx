@@ -100,7 +100,7 @@ function SubscribeBody() {
         {paymentDetails.map((payment, index) => (
           <div className="space-y-6" key={index}>
             <div className="flex ">
-            <div className="grid grid-cols-5 justify-items-center mt-6	text-[13px] w-[75%]">
+            <div className="grid grid-cols-5 justify-items-center mt-6	text-[13px] w-[65%]">
               {/* <div className="justify-items-center"> */}
 
               {/* <BiPaperPlane />  */}
@@ -121,9 +121,9 @@ function SubscribeBody() {
                 </spam>
               
             </div>
-            <div className="w-[25%] justify-items-center">
-                {payment.code}
-            </div>
+            {/* <div> */}
+              <p  className="w-[35%] items-center mt-6 text-[13px] text-center">{payment.code}</p>
+            {/* </div> */}
             </div>
             <hr />
           </div>
