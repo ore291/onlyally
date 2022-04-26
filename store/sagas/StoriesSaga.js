@@ -2,7 +2,7 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 import api from "../../Environment";
 
 import {
-    fetchStoriesSucess,
+    fetchStoriesSuccess,
     fetchStoriesFailure,
     fetchUserStoriesSuccess,
     fetchUserStoriesFailure,
@@ -39,9 +39,8 @@ import {
   function* fetchStoriesAPI() {
     try {
       const response = yield api.postMethod("stories_home");
- 
       if (response.data.success) {
-        yield put(fetchStoriesSucess(response.data.data));
+        yield put(fetchStoriesSuccess(response.data.data));
       } else {
         yield put(fetchStoriesFailure(response.data.error));
         // const notificationMessage = getErrorNotificationMessage(

@@ -36,6 +36,7 @@
     "react-global-configuration": "^1.4.1",
     "react-icons": "^4.3.1",
     "react-image-lightbox": "^5.1.4",
+    "react-insta-stories": "^2.3.0",
     "react-player": "^2.10.0",
     "react-redux": "^7.2.6",
     "react-stickynode": "^4.0.0",

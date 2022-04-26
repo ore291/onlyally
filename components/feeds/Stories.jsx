@@ -1,14 +1,16 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Story from "./Story";
-import { useSelector , useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import StorySliderLoader from "./StorySliderLoader";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { PrevButton, NextButton } from "./EmblaButtons";
 import useEmblaCarousel from "embla-carousel-react";
 import { fetchStoriesStart } from "../../store/slices/storiesSlice";
+import StoriesSliderModal from "./StoriesSliderModal";
 
 const Stories = () => {
   const dispatch = useDispatch();
+  const userStories = useSelector((state) => state.stories.stories);
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -76,7 +78,7 @@ const Stories = () => {
     }
   };
   return (
-    <div className=" mt-3 md:mt-0 mb-5 p-1">
+    <div className=" mt-3 md:mt-0 mb-5 md:p-5 md:border-y ">
       {/* <div
         onScroll={onScroll}
         ref={storiesRef}
@@ -96,30 +98,62 @@ const Stories = () => {
           />
         ))}
       </div> */}
-      <div className="embla">
-        <div className="embla__viewport" ref={viewportRef}>
-          <div className="embla__container">
-            <Story
-              username={"Create new story"}
-              img={"/profile_avatar_full.jpg"}
-              isYou={true}
-              className="embla__slide1"
-            />
-            {stories.map((story, index) => (
-              <div className="embla__slide1" key={index}>
-                <Story
-                  key={index}
-                  username={story.username}
-                  img={story.image}
-                  className=""
-                />
+      <>
+        {userStories.loading ? (
+          <StorySliderLoader />
+        ) : (
+          <div className="embla">
+            <div className="embla__viewport" ref={viewportRef}>
+              <div className="embla__container">
+                <div className="embla__slide1">
+                  <Story
+                    username={"Create new story"}
+                    img={"/profile_avatar_full.jpg"}
+                    isYou={true}
+                    className="embla__slide1"
+                  />
+                </div>
+
+                {userStories.data.stories &&
+                  userStories.data.stories.length > 0 &&
+                  userStories.data.stories.map((story, index) => (
+                    <div
+                      className="embla__slide1"
+                      key={index}
+                      onClick={() => SliderModalToggle(true, index, story)}
+                    >
+                      <Story
+                        key={index}
+                        username={story.name}
+                        img={story.picture}
+                        className=""
+                      />
+                    </div>
+                  ))}
               </div>
-            ))}
+            </div>
+            {userStories.data.stories.length > 5 ? (
+              <>
+                {" "}
+                <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
+                <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
+              </>
+            ) : null}
           </div>
-        </div>
-        <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />
-        <NextButton onClick={scrollNext} enabled={nextBtnEnabled} />
-      </div>
+        )}
+      </>
+
+      {renderSliderModal && !userStories.loading && (
+        <StoriesSliderModal
+          SliderModalToggle={SliderModalToggle}
+          selectedSliderIndex={selectedSliderIndex}
+          sliderData={sliderData}
+          data={userStories.data.stories.filter(
+            (files) => files.storyFiles.length > 0
+          )}
+          renderSliderModal={renderSliderModal}
+        />
+      )}
     </div>
   );
 };
