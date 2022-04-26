@@ -10,7 +10,7 @@ import {
 } from "../../store/slices/commentsSlice";
 
 import "react-image-lightbox/style.css";
-import PostEditor from "./PostEditor";
+import PostEditor from "./PostEditor.jsx";
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { EditorState, convertToRaw, Modifier } from "draft-js";

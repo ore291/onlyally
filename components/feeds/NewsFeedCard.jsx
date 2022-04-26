@@ -22,14 +22,12 @@ import CommonCenterLoader from "../helpers/CommonCenterLoader";
 import Comment from "./Comment";
 import Comments from "./Comments";
 
-const NewsFeedCard = ({
-  post,index
-}) => {
+const NewsFeedCard = ({ post, index }) => {
   const dispatch = useDispatch();
 
   let totalLikes = post.total_likes ? post.total_likes : 0;
 
-  const comments = useSelector(state => state.comments.comments);
+  const comments = useSelector((state) => state.comments.comments);
   const [showComments, setShowComments] = useState(false);
 
   const [PPVPayment, setPPVPayment] = useState(false);
@@ -94,8 +92,6 @@ const NewsFeedCard = ({
     setShowComments(true);
     dispatch(fetchCommentsStart({ post_id: post_id }));
   };
-
-
 
   const handleLike = (event, status) => {
     event.preventDefault();
@@ -662,19 +658,80 @@ const NewsFeedCard = ({
                 <span className="text-xs">Tip</span>
               </button>
 
-              <button
-                type="button"
-                title="Bookmark post"
-                className="flex items-center justify-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  className="news-feed-card-icon"
+              {bookmarkStatus !== "" ? (
+                <>
+                  <>
+                    {bookmarkStatus === "added" ? (
+                      <button
+                        onClick={(event) =>
+                          handleBookmark(event, post, "removed")
+                        }
+                        type="button"
+                        title="Bookmark post"
+                        className="flex items-center justify-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 512 512"
+                          className="news-feed-card-icon text-lightPlayRed"
+                        >
+                          <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
+                        </svg>
+                      </button>
+                    ) : null}
+                  </>
+                  <>
+                    {bookmarkStatus === "removed" ? (
+                      <button
+                        onClick={(event) =>
+                          handleBookmark(event, post, "added")
+                        }
+                        type="button"
+                        title="Bookmark post"
+                        className="flex items-center justify-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 512 512"
+                          className="news-feed-card-icon"
+                        >
+                          <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
+                        </svg>
+                      </button>
+                    ) : null}
+                  </>
+                </>
+              ) : post.is_user_bookmarked == 1 ? (
+                <button
+                  onClick={(event) => handleBookmark(event, post, "removed")}
+                  type="button"
+                  title="Bookmark post"
+                  className="flex items-center justify-center"
                 >
-                  <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
-                </svg>
-              </button>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="news-feed-card-icon text-lightPlayRed"
+                  >
+                    <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
+                  </svg>
+                </button>
+              ) : (
+                <button
+                  onClick={(event) => handleBookmark(event, post, "added")}
+                  type="button"
+                  title="Bookmark post"
+                  className="flex items-center justify-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    className="news-feed-card-icon"
+                  >
+                    <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
+                  </svg>
+                </button>
+              )}
             </div>
             {post.like_count > 0 && (
               <div className="likes py-1">
@@ -688,7 +745,7 @@ const NewsFeedCard = ({
                 </p>
               </div>
             )}
-            {showComments && comments.inputData.post_id  === post.post_id ? (
+            {showComments && comments.inputData.post_id === post.post_id ? (
               post.total_comments > 0 && (
                 <a
                   to="#"
@@ -719,8 +776,12 @@ const NewsFeedCard = ({
                   ) : comments.data.post_comments &&
                     comments.data.post_comments.length > 0 ? (
                     comments.data.post_comments.map((comment, index) => (
-                      <Comment comment={comment} key={index} index={index} post={post}/>
-                      
+                      <Comment
+                        comment={comment}
+                        key={index}
+                        index={index}
+                        post={post}
+                      />
                     ))
                   ) : (
                     ""
@@ -728,7 +789,7 @@ const NewsFeedCard = ({
                 </div>
               ) : null}
             </div>
-            <Comments  key="index" post={post} currentIndex={index}/>
+            <Comments key="index" post={post} currentIndex={index} />
             {/* <div className="flex items-center mt-2">
               <div className="w-10 h-10 relative rounded-full mr-2">
                 <Image
