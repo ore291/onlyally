@@ -1,77 +1,97 @@
-import { BiPaperPlane } from 'react-icons/bi'
-import Image from 'next/image';
+import { BiPaperPlane } from "react-icons/bi";
+import Image from "next/image";
 
 function SubscribeBody() {
   const paymentDetails = [
     {
       paid: "paid",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$17.00",
+      val: "-",
+      fee: "$0,00",
+      state: "Add",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "paid",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "+",
+      fee: "$0,00",
+      state: "Paid",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "paid",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "-",
+      fee: "$0,00",
+      state: "Add",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "cancalled",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "+",
+      fee: "$0,00",
+      state: "Credit",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "paid",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "+",
+      fee: "$0,00",
+      state: "Add",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "pacancelled",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "+",
+      fee: "$0,00",
+      state: "Paid",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "paid",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "+",
+      fee: "$0,00",
+      state: "Add",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "paid",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "+",
+      fee:"$0,00", 
+      state: "Credit",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "cancalled",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "+",
+      fee: "$0,00",
+      state: "Add",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
     {
       paid: "paid",
-      date: "15 march 2022",
-      interval: "Monthly",
-      end: "15 jun 2022",
-      status: "Active"
+      amount: "$0.00",
+      val: "+",
+      fee: "$0,00",
+      state: "Add",
+      from: "Person's name",
+      code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
     },
   ];
   return (
@@ -79,20 +99,31 @@ function SubscribeBody() {
       <div className="h-[85%] bg-white width-full border rounded-lg space-y-3 shadow-lg ">
         {paymentDetails.map((payment, index) => (
           <div className="space-y-6" key={index}>
-            <div className="grid grid-cols-5 justify-items-center mt-6	text-[13px]">
+            <div className="flex ">
+            <div className="grid grid-cols-5 justify-items-center mt-6	text-[13px] w-[75%]">
               {/* <div className="justify-items-center"> */}
+
+              {/* <BiPaperPlane />  */}
+              <p className="m-">{payment.paid} </p>
+
+              <div className="justify-items-center">
+                <p className="text-center">{payment.val}</p>
+                <p>{payment.amount}</p>
+              </div>
+              <div>
+                <p>Service fee :</p>
+                <p className="text-center">{payment.fee}</p>
+              </div>
+                <p>{payment.state} </p>
+              <spam className="justify-items-center">
+                  <p className="text-center">From :- </p>
+                  <p>{payment.from}</p>
+                </spam>
               
-              
-                {/* <BiPaperPlane />  */}
-                <p className="m-">{payment.paid} </p>
-            
-              {/* </div> */}
-              <p>{payment.date}</p>
-              <p>{payment.interval}</p>
-              <p>{payment.end}</p>
-              <button className="text-white bg-green-600 text-10 px-1 rounded-md font-semibold">
-              {payment.status}
-              </button>
+            </div>
+            <div className="w-[25%] justify-items-center">
+                {payment.code}
+            </div>
             </div>
             <hr />
           </div>
@@ -102,4 +133,4 @@ function SubscribeBody() {
   );
 }
 
-export default SubscribeBody
+export default SubscribeBody;

@@ -5,18 +5,24 @@ import createSagaMiddleware from 'redux-saga';
 import userReducer from './slices/userSlice';
 import creatorReducer from './slices/creatorSlice';
 import navReducer from "./slices/NavSlice";
+import homeReducer from './slices/homeSlice';
+import postReducer from './slices/postSlice';
+import postLikesReducer from './slices/postLikeSlice';
+import commentsReducer from "./slices/commentsSlice";
 import mySaga from "./sagas";
 import { combineReducers } from "redux";
 
 const reducers = combineReducers({
   user: userReducer,
   creators: creatorReducer,
-  navbar: navReducer
+  navbar: navReducer,
+  home: homeReducer,
+  post: postReducer,
+  postlikes: postLikesReducer,
+  comments: commentsReducer
 })
 
-// const saga = createSagaMiddleware();
-// const middlewares = [saga];
-// const middleware = [...getDefaultMiddleware({thunk : false}), ...middlewares]
+
 
 const bindMiddleware = (middleware) => {
   if (process.env.NODE_ENV !== 'production') {
@@ -35,7 +41,7 @@ export const makeStore = (context) => {
   return store;
 }
 
-export const wrapper = createWrapper(makeStore)
+export const wrapper = createWrapper(makeStore);
 
 // let store;
 // export const initialiseStore = (preloadedState) => {

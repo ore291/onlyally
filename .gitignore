@@ -5,6 +5,7 @@
 /.pnp
 .pnp.js
 
+/ore
 # testing
 /coverage
 

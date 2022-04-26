@@ -12,7 +12,7 @@ function classNames(...classes) {
 }
 
 const GroupPageTabs = () => {
-  const feeds = useSelector((state) => state.creators.feed);
+  const posts = useSelector(state => state.home.homePost.data.posts)
   return (
     <Tab.Group>
       <div className="bg-white rounded-2xl  pb-5 shadow-md">
@@ -84,15 +84,9 @@ const GroupPageTabs = () => {
             </Tab.Panel>
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-3">
-                {feeds.map((feed, index) => (
+              {posts.map((post, index) => (
                   <NewsFeedCard
-                    image={feed.photos[0]}
-                    user={feed.user}
-                    likeCount={feed.likeCount}
-                    commentCount={feed.commentCount}
-                    description={feed.description}
-                    popularComments={feed.popularComments}
-                    time={feed.time}
+                    post={post}
                     key={index}
                   />
                 ))}
@@ -100,15 +94,9 @@ const GroupPageTabs = () => {
             </Tab.Panel>
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-3">
-                {feeds.map((feed, index) => (
+              {posts.map((post, index) => (
                   <NewsFeedCard
-                    image={feed.photos[0]}
-                    user={feed.user}
-                    likeCount={feed.likeCount}
-                    commentCount={feed.commentCount}
-                    description={feed.description}
-                    popularComments={feed.popularComments}
-                    time={feed.time}
+                    post={post}
                     key={index}
                   />
                 ))}
@@ -116,15 +104,9 @@ const GroupPageTabs = () => {
             </Tab.Panel>
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-3">
-                {feeds.map((feed, index) => (
+              {posts.map((post, index) => (
                   <NewsFeedCard
-                    image={feed.photos[0]}
-                    user={feed.user}
-                    likeCount={feed.likeCount}
-                    commentCount={feed.commentCount}
-                    description={feed.description}
-                    popularComments={feed.popularComments}
-                    time={feed.time}
+                    post={post}
                     key={index}
                   />
                 ))}

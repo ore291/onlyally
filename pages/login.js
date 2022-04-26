@@ -25,15 +25,27 @@ import {
   browserVersion,
 } from "react-device-detect";
 
-
 const Login = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
+  const [devModel, setDevModel] = useState("");
 
   const userLogin = async () => {
+    var email = emailRef.current.value;
+    var password = passwordRef.current.value;
+    const res = await signIn("credentials", {
+      callbackUrl: "/",
+      email: email,
+      password: password,
+      device_model: 'iphone',
+      device_type: 'web'
+    });
+  };
+
+  useEffect(() => {
     var device_model = "";
     if (isAndroid == true) {
       device_model = mobileModel;
@@ -42,17 +54,8 @@ const Login = () => {
     } else {
       device_model = browserName + " " + browserVersion;
     }
-  
-    var email = emailRef.current.value;
-    var password = passwordRef.current.value;
-    const res = await signIn("credentials", {
-      callbackUrl: "/",
-      email: email,
-      password: password,
-      device_model: device_model
-    });
-    console.log(res);
-  };
+    setDevModel(device_model)
+  }, []);
 
   useEffect(() => {
     if (router.query.error) {
