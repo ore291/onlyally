@@ -42,7 +42,7 @@ import {
       if (response.data.success) {
         yield put(fetchStoriesSuccess(response.data.data));
       } else {
-        yield put(fetchStoriesFailure(response.data.error));
+        yield put(fetchStoriesFailure(response.data.error.error));
         // const notificationMessage = getErrorNotificationMessage(
         //   response.data.error
         // );

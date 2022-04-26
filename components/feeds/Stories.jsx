@@ -56,48 +56,8 @@ const Stories = () => {
   //   }
   // }, [renderSliderModal]);
 
-  // my own start
-
-  const stories = useSelector((state) => state.creators.creators);
-  const storiesRef = useRef(null);
-  const [showLeft, setShowLeft] = useState(false);
-  const [showRight, setShowRight] = useState(true);
-  const onScroll = () => {
-    if (storiesRef.current.scrollLeft > 0) {
-      setShowLeft(true);
-    } else {
-      setShowLeft(false);
-    }
-    if (
-      storiesRef.current.scrollLeft ==
-      storiesRef.current.scrollWidth - storiesRef.current.clientWidth
-    ) {
-      setShowRight(false);
-    } else {
-      setShowRight(true);
-    }
-  };
   return (
     <div className=" mt-3 md:mt-0 mb-5 md:p-5 md:border-y ">
-      {/* <div
-        onScroll={onScroll}
-        ref={storiesRef}
-        className="flex items-baseline space-x-1 md:space-x-2 py-4 px-1 md:p-4 shadow-md bg-white border-gray-300 
-        border rounded-sm overflow-x-scroll scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-playRed scroll-smooth scrollbar-track-white"
-      >
-        <Story
-          username={"Create new story"}
-          img={"/profile_avatar_full.jpg"}
-          isYou={true}
-        />
-        {stories.map((story) => (
-          <Story
-            key={story.username}
-            username={story.username}
-            img={story.image}
-          />
-        ))}
-      </div> */}
       <>
         {userStories.loading ? (
           <StorySliderLoader />
