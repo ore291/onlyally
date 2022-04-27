@@ -20,7 +20,9 @@ const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
 // const apiUrl = "http://localhost:8000/api/user/"; // Local Mode
 
 const Environment = {
-  postMethod: async (action, accessToken, userId, object) => {
+  postMethod: async ({action, accessToken = null,userId = null, object,dev_model} = {}) => {
+
+  // postMethod: async (action, accessToken, userId, object) => {
     let user_id = null;
     let token = null;
     if (typeof(window) !== "undefined") {
@@ -78,6 +80,10 @@ const Environment = {
     formData.append("device_type", apiConstants.DEVICE_TYPE);
     formData.append("device_token", apiConstants.DEVICE_TOKEN);
 
+    
+  if (dev_model != "undefined" && dev_model != null && dev_model != "") {
+    formData.append("device_model", dev_model);
+  } else {
     var device_model = "";
     if (isAndroid == true) {
       device_model = mobileModel;
@@ -87,18 +93,14 @@ const Environment = {
       device_model = browserName + " " + browserVersion;
       // device_model = "Chrome" + " " + "100";
     }
-  
-    formData.append("device_model", 'iphone');
+    console.log(device_model)
+    formData.append("device_model", device_model);
+  }
 
-    // let cert_file = fs.readFileSync("./ssl/ss_cert.crt")
-    // let ca_file = fs.readFileSync("./ssl/ss_bundle.ca-bundle")
+ 
+    
 
-    // const agent = new https.Agent({
-    // 	// requestCert:true,
-    // 	rejectUnauthorized: true,
-    // 	// cert: cert_file,
-    // 	// ca: ca_file
-    // });
+    
 
    
 

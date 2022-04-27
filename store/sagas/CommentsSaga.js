@@ -22,7 +22,7 @@ import {
   function* fetchCommentsAPI() {
     try {
       const inputData = yield select((state) => state.comments.comments.inputData);
-      const response = yield api.postMethod("post_comments",null, null, inputData);
+      const response = yield api.postMethod({actioon:"post_comments",object: inputData});
       if (response.data.success) {
         
         yield put(fetchCommentsSuccess(response.data.data));
@@ -46,7 +46,7 @@ import {
       const inputData = yield select(
         (state) => state.comments.saveComment.inputData
       );
-      const response = yield api.postMethod("post_comments_save",null, null, inputData);
+      const response = yield api.postMethod({action:"post_comments_save",object: inputData});
       if (response.data.success) {
         yield put(saveCommentSuccess(response.data.data));
         yield put(fetchCommentsStart(inputData))
@@ -72,7 +72,7 @@ import {
   function* fetchCommentRepliesAPI() {
     try {
       const inputData = yield select((state) => state.comments.commentReplies.inputData);
-      const response = yield api.postMethod("post_comment_replies",null, null, inputData);
+      const response = yield api.postMethod({action:"post_comment_replies",object:inputData });
       if (response.data.success) {
         yield put(fetchCommentRepliesSuccess(response.data.data));
       } else {
@@ -95,7 +95,7 @@ import {
       const inputData = yield select(
         (state) => state.comment.saveCommentReply.inputData
       );
-      const response = yield api.postMethod("post_comments_replies_save", inputData);
+      const response = yield api.postMethod({action:"post_comments_replies_save",object:inputData});
       if (response.data.success) {
         yield put(saveCommentRepliesSuccess(response.data.data));
         // const notificationMessage = getSuccessNotificationMessage(

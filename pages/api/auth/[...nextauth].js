@@ -6,6 +6,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 var axios = require("axios");
 var FormData = require("form-data");
 var localStorage = require("localStorage");
+const DeviceDetector = require('node-device-detector');
+const DeviceHelper = require('node-device-detector/helper');
 
 
 export default NextAuth({
@@ -42,7 +44,18 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        console.log(credentials.device_model)
+
+        const detector = new DeviceDetector({clientVersionTruncate: 0,});
+
+        const userAgent = req.headers['user-agent']; 
+        const result = detector.detect(userAgent);
+        var device_model = "";
+        if (DeviceHelper.isMobile(result)) {
+          device_model = result.device.model;
+        } else {
+          device_model = result.client.name + " " + result.client.version;
+          // device_model = "Chrome" + " " + "100";
+        }
 
         var data = new FormData();
         data.append("email", credentials.email);
@@ -50,7 +63,8 @@ export default NextAuth({
         data.append("login_by", "manual");
         data.append("device_token", "123456");
         data.append("device_type", "web");
-        data.append("device_model", credentials.device_model);
+        data.append("device_model", device_model);
+        // data.append("device_model", credentials.device_model);
 
         var config = {
           method: "post",

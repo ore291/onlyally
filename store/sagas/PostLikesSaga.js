@@ -15,7 +15,7 @@ import {
       const inputData = yield select(
         (state) => state.postlikes.saveLike.inputData
       );
-      const response = yield api.postMethod("post_likes_save",null, null, inputData);
+      const response = yield api.postMethod({action:"post_likes_save",object : inputData});
 
       if (response.data.success) {
         yield put(savePostLikedSuccess(response.data.data));
@@ -41,9 +41,8 @@ import {
       const inputData = yield select(
         (state) => state.postLikes.saveLike.inputData
       );
-      const response = yield api.postMethod("post_likes", inputData);
+      const response = yield api.postMethod({action:"post_likes",object:inputData});
       if (response.data.success) {
-        console.log("i got to this place")
         yield put(fetchPostLikedSuccess(response.data.data));
       } else {
         yield put(fetchPostLikedFailure(response.data.error));

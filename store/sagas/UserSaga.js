@@ -10,7 +10,7 @@ function* getUserDetailsAPI(action) {
     var accessToken = action.payload.accessToken;
     var userId = action.payload.userId;
     try {
-      const response = yield api.postMethod("profile",accessToken, userId );
+      const response = yield api.postMethod({action:"profile",accessToken:accessToken, userId: userId });
       console.log(response)
   
       if (response.data.success) {
