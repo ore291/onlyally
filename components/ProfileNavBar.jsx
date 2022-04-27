@@ -22,9 +22,9 @@ function ProfileNavItem() {
   const handleMarketPageClick = () => setMarketPageClick(!marketPageClick);
 
   return (
-    <div className="mt-16 w-1/5">
+    <div className="mt-16 w-[20%]">
       <div className="pr-7 py-7 block bg-white rounded shadow-sm">
-        <div className="space-y-4 ml-7 font-semibold">
+        <div className="space-y-4 px-8 font-semibold">
           <span className="flex cursor-pointer space-x-5">
             <RiBarChartHorizontalFill className="mt-1 font-semibold"/>
             <p>Dashboard</p>

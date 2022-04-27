@@ -52,7 +52,7 @@ function Help() {
                   placeholder={input.name}
                   required
                   minLength="6"
-                  maxLength="10"
+                  maxLength="10" 
                   size="12"
                 />
               </div>
