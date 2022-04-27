@@ -14,7 +14,7 @@ import StoriesUploadModal from "./StoryUploadModal";
 const Stories = () => {
   const dispatch = useDispatch();
   const userStories = useSelector((state) => state.stories.stories);
-  const { data: session, status } = useSession();
+const user = useSelector(state => state.user.loginData)
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -72,7 +72,7 @@ const Stories = () => {
                 <div className="embla__slide1"  onClick={()=>dispatch(setUploadModal(true))}>
                   <Story
                     username={"Create new story"}
-                    img={session.user.userDetails.picture}
+                    img={user.picture}
                     isYou={true}
                     className="embla__slide1"
                    
