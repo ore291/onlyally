@@ -15,10 +15,12 @@ import {
   } from "../slices/storiesSlice";
 
 
-  function* fetchUserStoriesAPI() {
+  function* fetchUserStoriesAPI(action) {
+    
+
     try {
       const skipCount = yield select((state) => state.stories.userStories.skip);
-      const response = yield api.postMethod({action: "fetchstories_list",object: { skip: skipCount }});
+      const response = yield api.postMethod({action: "fetchstories_list",accessToken, userId, dev_model, object: { skip: skipCount }});
   
       if (response.data.success) {
         yield put(fetchUserStoriesSuccess(response.data.data));
@@ -36,9 +38,12 @@ import {
     }
   }
   
-  function* fetchStoriesAPI() {
+  function* fetchStoriesAPI(action) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model
     try {
-      const response = yield api.postMethod({action:"stories_home"});
+      const response = yield api.postMethod({action:"stories_home", accessToken, userId, dev_model});
       if (response.data.success) {
         yield put(fetchStoriesSuccess(response.data.data));
       } else {

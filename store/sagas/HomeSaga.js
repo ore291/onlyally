@@ -10,7 +10,9 @@ import {
   fetchHomePostsFailure,
   searchUserFailure,
   searchUserStart,
-  searchUserSuccess
+  searchUserSuccess,
+  fetchTrendingUsersFailure,
+  fetchTrendingUsersSuccess
 } from "../slices/homeSlice";
 
 function* fetchHomePostAPI(action) {
@@ -96,7 +98,33 @@ function* searchUserAPI() {
   }
 }
 
+function* fetchTrendingUsersAPI(action) {
+  var accessToken = action.payload.accessToken;
+  var userId = action.payload.userId;
+  var dev_model = action.payload.device_model
+
+  try {
+    const inputData = yield select((state) => state.home.trendingUsers.inputData);
+    const response = yield api.postMethod({action:"trending_users",accessToken, userId, dev_model, object : inputData});
+    if (response.data.success) {
+      yield put(fetchTrendingUsersSuccess(response.data.data));
+    } else {
+      yield put(fetchTrendingUsersFailure(response.data.error));
+      // const notificationMessage = getErrorNotificationMessage(
+      //   response.data.error
+      // );
+      // yield put(checkLogoutStatus(response.data));
+      // yield put(createNotification(notificationMessage));
+    }
+  } catch (error) {
+    yield put(fetchTrendingUsersFailure(error));
+    // const notificationMessage = getErrorNotificationMessage(error.message);
+    // yield put(createNotification(notificationMessage));
+  }
+}
+
 export default function* pageSaga() {
   yield all([yield takeLatest("home/fetchHomePostsStart", fetchHomePostAPI)]);
   yield all([yield takeLatest("home/searchUserStart", searchUserAPI)]);
+  yield all([yield takeLatest("home/fetchTrendingUsersStart", fetchTrendingUsersAPI)]);
 }

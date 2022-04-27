@@ -16,7 +16,8 @@ import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
 } from "../store/slices/userSlice";
-import { fetchHomePostsStart } from "../store/slices/homeSlice";
+import {fetchStoriesStart} from "../store/slices/storiesSlice";
+import { fetchHomePostsStart , fetchTrendingUsersStart} from "../store/slices/homeSlice";
 import Script from "next/script";
 import Sticky from "react-stickynode";
 import { apiConstants } from "../components/Constant/constants";
@@ -163,6 +164,21 @@ export const getServerSideProps = wrapper.getServerSideProps(
         device_model: device_model
       })
     );
+    store.dispatch(
+      fetchTrendingUsersStart({
+        accessToken: session.accessToken,
+        userId: session.userId,
+        device_model: device_model
+      })
+    );
+    store.dispatch(
+    fetchStoriesStart({
+        accessToken: session.accessToken,
+        userId: session.userId,
+        device_model: device_model
+      })
+    );
+
     store.dispatch(END);
     await store.sagaTask.toPromise();
 

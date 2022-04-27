@@ -45,7 +45,7 @@ export const makeStore = (context) => {
   return store;
 }
 
-export const wrapper = createWrapper(makeStore);
+export const wrapper = createWrapper(makeStore, {debug: true});
 
 // let store;
 // export const initialiseStore = (preloadedState) => {

@@ -48,10 +48,10 @@ const user = useSelector(state => state.user.loginData)
     setSliderData(story);
   };
 
-  useEffect(() => {
-    dispatch(fetchStoriesStart());
+  // useEffect(() => {
+  //   dispatch(fetchStoriesStart());
 
-  }, [user]);
+  // }, [user]);
 
   // useEffect(() => {
   //   if (SliderModalToggle) {
