@@ -16,13 +16,14 @@ import {
 function* fetchHomePostAPI(action) {
   var accessToken = action.payload.accessToken;
   var userId = action.payload.userId;
+  var dev_model = action.payload.device_model
 
   try {
     const skipCount = yield select((state) => state.home.homePost.skip);
 
-    const response = yield api.postMethod("home", accessToken, userId, {
+    const response = yield api.postMethod({action:"home", accessToken:accessToken, userId:userId, object: {
       skip: skipCount,
-    });
+    }, dev_model:dev_model});
 
     if (response.data.success) {
       yield put(fetchHomePostsSuccess(response.data.data));
@@ -77,7 +78,7 @@ function* fetchHomePostAPI(action) {
 function* searchUserAPI() {
   try {
     const inputData = yield select((state) => state.home.searchUser.inputData);
-    const response = yield api.postMethod("users_search",null, null, inputData);
+    const response = yield api.postMethod({action: "users_search",object: inputData});
     if (response.data.success) {
       yield put(searchUserSuccess(response.data.data));
     } else {

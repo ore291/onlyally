@@ -18,7 +18,7 @@ import {
   function* fetchUserStoriesAPI() {
     try {
       const skipCount = yield select((state) => state.stories.userStories.skip);
-      const response = yield api.postMethod("stories_list", null, null, { skip: skipCount });
+      const response = yield api.postMethod({action: "fetchstories_list",object: { skip: skipCount }});
   
       if (response.data.success) {
         yield put(fetchUserStoriesSuccess(response.data.data));
@@ -38,7 +38,7 @@ import {
   
   function* fetchStoriesAPI() {
     try {
-      const response = yield api.postMethod("stories_home");
+      const response = yield api.postMethod({action:"stories_home"});
       if (response.data.success) {
         yield put(fetchStoriesSuccess(response.data.data));
       } else {
@@ -57,7 +57,7 @@ import {
   
   function* storyFileUploadAPI(action) {
     try {
-      const response = yield api.postMethod("story_files_upload" ,null, null,  action.payload)
+      const response = yield api.postMethod({action:"story_files_upload" ,object: action.payload})
   
       if (response.data.success) {
         yield put(storyFileUploadSuccess(response.data.data));
@@ -82,7 +82,7 @@ import {
   
   function* storyFileDeleteAPI(action) {
     try {
-      const response = yield api.postMethod("stories_delete" ,null, null, action.data);
+      const response = yield api.postMethod({action:"stories_delete" ,object: action.payload});
   
       if (response.data.success) {
         yield put(storyFileDeleteSuccess(response.data.data));

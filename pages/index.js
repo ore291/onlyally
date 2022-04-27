@@ -9,6 +9,8 @@ import { END } from "redux-saga";
 import { useSession, getSession } from "next-auth/react";
 import { wrapper } from "../store";
 import { useSelector, useDispatch } from "react-redux";
+const DeviceDetector = require('node-device-detector');
+const DeviceHelper = require('node-device-detector/helper');
 
 import {
   fetchUserDetailsStart,
@@ -22,7 +24,8 @@ import configuration from "react-global-configuration";
 // import useInfiniteScroll from "../components/helper/useInfiniteScroll";
 
 
-export default function Home({ configData }) {
+export default function Home({ configData, session }) {
+  console.log(session)
   configuration.set({ config: configData }, { freeze: false });
   const posts = useSelector((state) => state.home.homePost);
   const userDetails = useSelector((state) => state.user.loginData);
@@ -42,7 +45,7 @@ export default function Home({ configData }) {
   useEffect(() => {
       localStorage.setItem("accessToken", userDetails.token);
       localStorage.setItem("userId", userDetails.user_id);
-  }, [userDetails]);
+  }, []);
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
 
@@ -141,10 +144,23 @@ export const getServerSideProps = wrapper.getServerSideProps(
       };
     }
 
+    const detector = new DeviceDetector({clientVersionTruncate: 0,});
+
+    const userAgent = req.headers['user-agent']; 
+    const result = detector.detect(userAgent);
+   
+    var device_model = "";
+    if (DeviceHelper.isMobile(result)) {
+      device_model = result.device.model;
+    } else {
+      device_model = result.client.name + " " + result.client.version;
+      // device_model = "Chrome" + " " + "100";
+    }
     store.dispatch(
       fetchHomePostsStart({
         accessToken: session.accessToken,
         userId: session.userId,
+        device_model: device_model
       })
     );
     store.dispatch(END);
@@ -152,7 +168,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
-        // user: session.user.userDetails,
         configData: configValue.data,
       },
     };

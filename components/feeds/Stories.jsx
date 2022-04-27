@@ -50,7 +50,8 @@ const user = useSelector(state => state.user.loginData)
 
   useEffect(() => {
     dispatch(fetchStoriesStart());
-  }, []);
+
+  }, [user]);
 
   // useEffect(() => {
   //   if (SliderModalToggle) {

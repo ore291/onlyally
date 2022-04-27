@@ -1800,6 +1800,13 @@ next@12.1.0:
     "@next/swc-win32-ia32-msvc" "12.1.0"
     "@next/swc-win32-x64-msvc" "12.1.0"
 
+node-device-detector@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/node-device-detector/-/node-device-detector-2.0.2.tgz#a79d6bf7a3f29aba63550bab7743e2adcbb6b687"
+  integrity sha512-RnFUAKbR08Nu0zEDb3FTESsepzGCESd/zwgSeM669Z+H7z1PAwd/u3EjC7JSNkrl+GNmGCzKHEI9UJxCfTbzeg==
+  dependencies:
+    js-yaml "^4.1.0"
+
 node-fetch@2.6.7:
   version "2.6.7"
   resolved "https://registry.npmjs.org/node-fetch/-/node-fetch-2.6.7.tgz"

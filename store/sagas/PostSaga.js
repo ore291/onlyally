@@ -14,7 +14,7 @@ function* fetchSinglePostAPI() {
   try {
     const inputData = yield select((state) => state.post.singlePost.inputData);
     const response = yield api.postMethod(
-     'posts_view_for_others', null, null, inputData
+     {action: 'posts_view_for_others', object: inputData}
     );
     if (response.data.success) {
       yield put(fetchSinglePostSuccess(response.data.data));

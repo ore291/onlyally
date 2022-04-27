@@ -21,7 +21,7 @@ import {
       const inputData = yield select(
         (state) => state.bookmark.saveBookmark.inputData
       );
-      const response = yield api.postMethod("post_bookmarks_save",null, null, inputData);
+      const response = yield api.postMethod({action:"post_bookmarks_save", object:inputData});
       if (response.data.success) {
         yield put(saveBookmarkSuccess(response.data.data));
         // const notificationMessage = getSuccessNotificationMessage(
@@ -46,7 +46,7 @@ import {
   function* deleteBookmarkAPI() {
     try {
       const inputData = yield select((state) => state.docs.delDocs.inputData);
-      const response = yield api.postMethod("post_bookmarks_delete", inputData);
+      const response = yield api.postMethod({action:"post_bookmarks_delete", object:inputData});
       if (response.data.success) {
         yield put(deleteBookmarkSuccess(response.data.data));
         // const notificationMessage = getSuccessNotificationMessage(
