@@ -21,12 +21,11 @@ import { apiConstants } from "../components/Constant/constants";
 import configuration from "react-global-configuration";
 // import useInfiniteScroll from "../components/helper/useInfiniteScroll";
 
-// const $ = window.$;
 
 export default function Home({ configData }) {
   configuration.set({ config: configData }, { freeze: false });
   const posts = useSelector((state) => state.home.homePost);
-  const userDetails = useSelector((state) => state.user.profile.data);
+  const userDetails = useSelector((state) => state.user.loginData);
   const dispatch = useDispatch();
 
   const fetchHomeData = () => {
@@ -55,33 +54,13 @@ export default function Home({ configData }) {
     setSendTip(false);
   };
 
-  const [commentInputData, setCommentInputData] = useState({});
 
-  const handleCommentSubmit = (event) => {
-    event.preventDefault();
-    props.dispatch(saveCommentStart(commentInputData));
-  };
 
   const [isVisible, setIsVisible] = useState(true);
 
-  // const showCommentSection = (event, post_id) => {
-  //   setCommentInputData({ post_id: post_id });
-  //   setIsVisible(true);
-  //   props.dispatch(fetchCommentsStart({ post_id: post_id }));
-  // };
+  
 
-  const handleLike = (event) => {
-    event.preventDefault();
-  };
 
-  const handleBookmark = (event, post) => {
-    event.preventDefault();
-    props.dispatch(saveBookmarkStart({ post_id: post.post_id }));
-  };
-
-  const closeCommentSection = (event) => {
-    setIsVisible(false);
-  };
 
   const [show, toggleShow] = useState(false);
 

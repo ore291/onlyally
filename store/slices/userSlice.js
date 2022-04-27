@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
-  loginData:{
+  loginData: {
     
   },
   profile: {
@@ -150,7 +150,7 @@ export const UserSlice = createSlice({
       state.profile.loading = true;
     },
     fetchUserDetailsSuccess: (state, action) => {
-      state.profile.data = action.payload;
+      state.loginData = action.payload;
       state.profile.loading = false;
     },
     fetchUserDetailsFailure: (state, action) => {
@@ -165,10 +165,10 @@ export const UserSlice = createSlice({
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.user.profile) {
+      if (!action.payload.user.loginData) {
         return state;
       }
-      state.profile = action.payload.user.profile;
+      state.loginData = action.payload.user.loginData;
     },
   },
 });

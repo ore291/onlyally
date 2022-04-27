@@ -5,6 +5,12 @@
 @tailwind utilities;
 
 @layer components {
+  .modalButton {
+    @apply  text-white text-[14px] font-semibold min-h-[48px] text-center rounded-full block relative mx-auto cursor-pointer w-auto py-[1em] px-[1em] md:px-[3em] bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500
+  } 
+  .modalButton > input{
+    @apply w-full h-full absolute top-0 left-0 z-[1] opacity-0 cursor-pointer block overflow-visible m-0 outline-0 appearance-none items-baseline
+  }
   .view-comments {
     @apply block px-5  py-4 text-sm font-semibold text-slate-400 hover:text-lightPlayRed cursor-pointer;
   }

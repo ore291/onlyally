@@ -9,7 +9,6 @@ const NoDataFound = () => {
         <div className="relative max-w-[30em] h-full w-full mb-[2em]">
           <img
             layout="fill"
-            objectFit="cover"
             alt="not-found"
             src={
               configuration.get("configData.frontend_no_data_image")

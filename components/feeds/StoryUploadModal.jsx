@@ -2,22 +2,16 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { storyFileUploadStart } from "../../store/slices/storiesSlice";
+import { setUploadModal } from "../../store/slices/NavSlice";
 import { MdClose } from "react-icons/md";
-
 
 const StoryUploadModal = (props) => {
   const dispatch = useDispatch();
   const storyUpload = useSelector((state) => state.stories.storyUpload);
-
-  let [isOpen, setIsOpen] = useState(true);
+  const modalState = useSelector((state) => state.navbar.uploadModal);
 
   function closeModal() {
-    setIsOpen(false);
-    props.SliderModalToggle(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
+    dispatch(setUploadModal(false));
   }
 
   const [fileData, setFileData] = useState({
@@ -26,16 +20,16 @@ const StoryUploadModal = (props) => {
     file_type: "",
   });
 
-//   useEffect(() => {
-//     if (!storyUpload.loading) {
-//       $("#addStoryModal").modal("hide");
-//       setFileData({
-//         previewImage: "",
-//         file: "",
-//         file_type: "",
-//       });
-//     }
-//   }, [storyUpload.data]);
+  useEffect(() => {
+    if (!storyUpload.loading) {
+      dispatch(setUploadModal(false));
+      setFileData({
+        previewImage: "",
+        file: "",
+        file_type: "",
+      });
+    }
+  }, [storyUpload.data]);
 
   const handleChangeImage = (event) => {
     if (event.currentTarget.type === "file") {
@@ -66,7 +60,7 @@ const StoryUploadModal = (props) => {
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={modalState} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
@@ -101,32 +95,34 @@ const StoryUploadModal = (props) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-2xl p-2 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                {/* <Dialog.Title
+              <div className="inline-block w-full max-w-lg p-2 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <Dialog.Title
                   as="div"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-lg font-medium leading-6 text-gray-900 flex justify-between items-center w-full"
                 >
-                  Payment successful
-                </Dialog.Title> */}
-                <div className="w-full flex justify-end items-center ">
+                  <h3>Add Story</h3>{" "}
                   <button
                     onClick={() => closeModal()}
-                    className="p-1 mb-5 bg-white rounded-full shadow-md border mr-2"
+                    className="p-1  bg-white rounded-full shadow-md border mr-2"
                   >
                     <MdClose className="text-black h-6 w-6 cursor-pointer" />
                   </button>
-                </div>
-                <div className="modal-body">
-                  <div className="story-upload-file">
+                </Dialog.Title>
+                <div className="upload-body py-2">
+                  <div className="grid place-items-center mb-[2em]">
                     {fileData.previewImage != "" ? (
                       fileData.file_type == "image" ? (
-                        <img src={fileData.previewImage} alt="" />
+                        <img
+                          src={fileData.previewImage}
+                          alt=""
+                          className="rounded-md"
+                        />
                       ) : (
                         <video
-                          autoPlay
+                          autoPlay={false}
                           controls
                           id="myVideo"
-                          className="user-profile1 w-100"
+                          className="user-profile1 w-full inline-block align-baseline object-contain"
                         >
                           <source
                             src={fileData.previewImage}
@@ -137,12 +133,11 @@ const StoryUploadModal = (props) => {
                     ) : null}
                   </div>
                   {fileData.previewImage != "" ? (
-                    <div className="upload-button-wrapper">
+                    <div className="flex justify-evenly whitespace-nowrap">
                       <button
-                        className="btn gradient-btn gradientcolor addBank btn btn-primary story-upload file-upload-button"
+                        className="modalButton"
                         disabled={
-                          !storyUpload.loading &&
-                          storyUpload.buttonDisable
+                          !storyUpload.loading && storyUpload.buttonDisable
                         }
                       >
                         <input
@@ -150,26 +145,26 @@ const StoryUploadModal = (props) => {
                           accept="image/*,video/*"
                           onChange={(event) => handleChangeImage(event)}
                         />
-                        {t("select_image_video")}
+                        Select Image/Video
                       </button>
                       <button
-                        className="btn gradient-btn gradientcolor addBank btn btn-primary file-upload-button"
+                        className="modalButton"
                         disabled={storyUpload.buttonDisable}
                         onClick={handleFileUpload}
                       >
                         {storyUpload.loadingButtonContent != ""
                           ? storyUpload.loadingButtonContent
-                          : "upload_image_video"}
+                          : "Upload Image/video"}
                       </button>
                     </div>
                   ) : (
-                    <button className="btn gradient-btn gradientcolor addBank btn btn-primary story-upload file-upload-button">
+                    <button className="modalButton">
                       <input
                         type="file"
                         accept="image/*,video/*"
                         onChange={(event) => handleChangeImage(event)}
                       />
-                      select_image_video
+                      Select Image/Video
                     </button>
                   )}
                 </div>

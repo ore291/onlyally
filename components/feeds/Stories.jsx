@@ -1,17 +1,20 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Story from "./Story";
 import { useSelector, useDispatch } from "react-redux";
+import {useSession, getSession} from 'next-auth/react'
 import StorySliderLoader from "./StorySliderLoader";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { PrevButton, NextButton } from "./EmblaButtons";
 import useEmblaCarousel from "embla-carousel-react";
 import { fetchStoriesStart } from "../../store/slices/storiesSlice";
+import { setUploadModal } from "../../store/slices/NavSlice";
 import StoriesSliderModal from "./StoriesSliderModal";
 import StoriesUploadModal from "./StoryUploadModal";
 
 const Stories = () => {
   const dispatch = useDispatch();
   const userStories = useSelector((state) => state.stories.stories);
+  const { data: session, status } = useSession();
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -66,12 +69,13 @@ const Stories = () => {
           <div className="embla">
             <div className="embla__viewport" ref={viewportRef}>
               <div className="embla__container">
-                <div className="embla__slide1">
+                <div className="embla__slide1"  onClick={()=>dispatch(setUploadModal(true))}>
                   <Story
                     username={"Create new story"}
-                    img={"/profile_avatar_full.jpg"}
+                    img={session.user.userDetails.picture}
                     isYou={true}
                     className="embla__slide1"
+                   
                   />
                 </div>
 

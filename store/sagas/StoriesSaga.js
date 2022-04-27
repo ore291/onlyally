@@ -57,7 +57,7 @@ import {
   
   function* storyFileUploadAPI(action) {
     try {
-      const response = yield api.postMethod("story_files_upload" ,null, null,  action.data);
+      const response = yield api.postMethod("story_files_upload" ,null, null,  action.payload)
   
       if (response.data.success) {
         yield put(storyFileUploadSuccess(response.data.data));
@@ -107,7 +107,7 @@ import {
   
   export default function* pageSaga() {
     yield all([yield takeLatest("stories/fetchStoriesStart", fetchStoriesAPI)]);
-    yield all([yield takeLatest("stories/storiesFileUploadStart", storyFileUploadAPI)]);
+    yield all([yield takeLatest("stories/storyFileUploadStart", storyFileUploadAPI)]);
     yield all([yield takeLatest("stories/fetchUserStoriesStart", fetchUserStoriesAPI)]);
-    yield all([yield takeLatest("stories/storiesFileDeleteStart", storyFileDeleteAPI)]);
+    yield all([yield takeLatest("stories/storyFileDeleteStart", storyFileDeleteAPI)]);
   }
