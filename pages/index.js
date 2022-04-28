@@ -122,10 +122,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(fetchUserDetailsSuccess(session.user.userDetails));
     }
 
-    const response = await (await fetch(apiConstants.settingsUrl)).json();
+    const response = await axios.get(apiConstants.settingsUrl)
+
   
 
-    configuration.set({ configData: response.data }, { freeze: false });
+    configuration.set({ configData: response.data.data }, { freeze: false });
 
     // this.setState({ configLoading: false });
 
@@ -155,13 +156,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
       device_model = result.client.name + " " + result.client.version;
       // device_model = "Chrome" + " " + "100";
     }
-    store.dispatch(
-      fetchHomePostsStart({
-        accessToken: session.accessToken,
-        userId: session.userId,
-        device_model: device_model
-      })
-    );
+    // store.dispatch(
+    //   fetchHomePostsStart({
+    //     accessToken: session.accessToken,
+    //     userId: session.userId,
+    //     device_model: device_model
+    //   })
+    // );
     // store.dispatch(
     //   fetchTrendingUsersStart({
     //     accessToken: session.accessToken,
@@ -169,13 +170,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
     //     device_model: device_model
     //   })
     // );
-    store.dispatch(
-    fetchStoriesStart({
-        accessToken: session.accessToken,
-        userId: session.userId,
-        device_model: device_model
-      })
-    );
+    // store.dispatch(
+    // fetchStoriesStart({
+    //     accessToken: session.accessToken,
+    //     userId: session.userId,
+    //     device_model: device_model
+    //   })
+    // );
     // store.dispatch(
     // fetchPostSuggestionsStart({
     //     accessToken: session.accessToken,
@@ -189,7 +190,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
-        configData: response.data,
+        configData: response.data.data,
       },
     };
   }
