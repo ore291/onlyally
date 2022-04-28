@@ -156,13 +156,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
       device_model = result.client.name + " " + result.client.version;
       // device_model = "Chrome" + " " + "100";
     }
-    // store.dispatch(
-    //   fetchHomePostsStart({
-    //     accessToken: session.accessToken,
-    //     userId: session.userId,
-    //     device_model: device_model
-    //   })
-    // );
+    store.dispatch(
+      fetchHomePostsStart({
+        accessToken: session.accessToken,
+        userId: session.userId,
+        device_model: device_model
+      })
+    );
     // store.dispatch(
     //   fetchTrendingUsersStart({
     //     accessToken: session.accessToken,
