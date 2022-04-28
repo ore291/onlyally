@@ -72,7 +72,8 @@ function* fetchHomePostAPI(action) {
         }
       }
     } else {
-      yield put(fetchHomePostsFailure(response.data.error));
+      console.log(response.data)
+      // yield put(fetchHomePostsFailure(response.data.error));
       //   const notificationMessage = getErrorNotificationMessage(
       //     response.data.error
       //   );
@@ -81,7 +82,7 @@ function* fetchHomePostAPI(action) {
     }
   } catch (error) {
     console.log(error);
-    yield put(fetchHomePostsFailure(error));
+    // yield put(fetchHomePostsFailure(error));
     // const notificationMessage = getErrorNotificationMessage(error.message);
     // yield put(createNotification(notificationMessage));
   }

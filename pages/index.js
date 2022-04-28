@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Stories from "../components/feeds/Stories";
 import NewsFeed from "../components/feeds/NewsFeed";
 import NewsFeedSideBar from "../components/feeds/NewsFeedSideBar";
@@ -11,6 +10,7 @@ import { wrapper } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 const DeviceDetector = require('node-device-detector');
 const DeviceHelper = require('node-device-detector/helper');
+import axios from 'axios';
 
 import {
   fetchUserDetailsStart,
@@ -18,15 +18,13 @@ import {
 } from "../store/slices/userSlice";
 import {fetchStoriesStart} from "../store/slices/storiesSlice";
 import { fetchHomePostsStart , fetchTrendingUsersStart, fetchPostSuggestionsStart} from "../store/slices/homeSlice";
-import Script from "next/script";
 import Sticky from "react-stickynode";
 import { apiConstants } from "../components/Constant/constants";
 import configuration from "react-global-configuration";
 // import useInfiniteScroll from "../components/helper/useInfiniteScroll";
 
 
-export default function Home({ configData, session }) {
-  console.log(session)
+export default function Home({configData}) {
   configuration.set({ config: configData }, { freeze: false });
   const posts = useSelector((state) => state.home.homePost);
   const userDetails = useSelector((state) => state.user.loginData);
@@ -124,10 +122,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(fetchUserDetailsSuccess(session.user.userDetails));
     }
 
-    const response = await fetch(apiConstants.settingsUrl);
-    const configValue = await response.json();
+    const response = await axios.get(apiConstants.settingsUrl);
+  
 
-    configuration.set({ configData: configValue.data }, { freeze: false });
+    configuration.set({ configData: response.data }, { freeze: false });
 
     // this.setState({ configLoading: false });
 
@@ -191,7 +189,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
-        configData: configValue.data,
+        configData: response.data.data,
       },
     };
   }

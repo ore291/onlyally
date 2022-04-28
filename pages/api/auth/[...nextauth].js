@@ -8,6 +8,17 @@ var FormData = require("form-data");
 var localStorage = require("localStorage");
 const DeviceDetector = require('node-device-detector');
 const DeviceHelper = require('node-device-detector/helper');
+'use strict';
+ 
+var rootCas = require('ssl-root-cas').create();
+ 
+rootCas
+  .addFile('pages/api/auth/ssl/ss_bundle.pem')
+  .addFile('pages/api/auth/ssl/ss_cert.pem')
+  ;
+ 
+// will work with all https requests will all libraries (i.e. request.js)
+require('https').globalAgent.options.ca = rootCas;
 
 
 export default NextAuth({
@@ -57,7 +68,7 @@ export default NextAuth({
           // device_model = "Chrome" + " " + "100";
         }
 
-        var data = new FormData();
+        const data = new FormData();
         data.append("email", credentials.email);
         data.append("password", credentials.password);
         data.append("login_by", "manual");
@@ -68,7 +79,7 @@ export default NextAuth({
 
         var config = {
           method: "post",
-          url: "https://cms.onlyally.com/api/user/login",
+          url: "https://cp.playjor.com/api/user/login",
           headers: {
             ...data.getHeaders(),
           },
@@ -77,7 +88,7 @@ export default NextAuth({
 
         try {
           const res = await axios(config);
-
+        
           const user = await res.data.data;
 
           // If no error and we have user data, return it
