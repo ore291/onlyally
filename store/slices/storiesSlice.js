@@ -1,4 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+<<<<<<< HEAD
+=======
+import { HYDRATE } from "next-redux-wrapper";
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
 
 const initialState = {
   stories: {
@@ -143,6 +147,19 @@ export const StoriesSlice = createSlice({
       };
     },
   },
+<<<<<<< HEAD
+=======
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.stories.stories) {
+        return state;
+      }
+      state.stories = action.payload.stories.stories;
+     
+    },
+  },
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
 });
 
 export const {

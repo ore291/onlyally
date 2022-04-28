@@ -20,7 +20,11 @@ const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
 // const apiUrl = "http://localhost:8000/api/user/"; // Local Mode
 
 const Environment = {
+<<<<<<< HEAD
   postMethod: async ({action, accessToken = null,userId = null, object,dev_model} = {}) => {
+=======
+  postMethod: async ({action, accessToken = null,userId = null, object,dev_model = null} = {}) => {
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
 
   // postMethod: async (action, accessToken, userId, object) => {
     let user_id = null;
@@ -53,7 +57,7 @@ const Environment = {
     const formData = new FormData();
 
     // By Default Id and token
-    if (user_id != null && token != null) {
+    if (user_id != null && token != null && user_id != "undefined" && token != "undefined") {
       formData.append("id", user_id);
       formData.append("token", token);
     } else {

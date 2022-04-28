@@ -21,14 +21,15 @@ export const navSlice = createSlice({
     }
   },
 
-//   extraReducers: {
-//     [HYDRATE]: (state, action) => {
-//       // handle client
-//       if (action.payload) {
-//         state.open = action.payload.navbar.open;
-//       }
-//     },
-//   },
+  // extraReducers: {
+  //   [HYDRATE]: (state, action) => {
+  //     // handle client
+  //     if (!action.payload.navbar.uploadModal) {
+  //       return state
+  //     }
+  //     state.uploadModal = action.payload.navbar.uploadModal;
+  //   },
+  // },
 });
 
 export const { setNavState ,setMainMobileNavState , setUploadModal} = navSlice.actions

@@ -22,7 +22,11 @@ import {
   function* fetchCommentsAPI() {
     try {
       const inputData = yield select((state) => state.comments.comments.inputData);
+<<<<<<< HEAD
       const response = yield api.postMethod({actioon:"post_comments",object: inputData});
+=======
+      const response = yield api.postMethod({action:"post_comments", object: inputData});
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
       if (response.data.success) {
         
         yield put(fetchCommentsSuccess(response.data.data));

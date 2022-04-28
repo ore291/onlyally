@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Story from "./Story";
 import { useSelector, useDispatch } from "react-redux";
+<<<<<<< HEAD
 import {useSession, getSession} from 'next-auth/react'
+=======
+import { useSession, getSession } from "next-auth/react";
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
 import StorySliderLoader from "./StorySliderLoader";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { PrevButton, NextButton } from "./EmblaButtons";
@@ -14,7 +18,12 @@ import StoriesUploadModal from "./StoryUploadModal";
 const Stories = () => {
   const dispatch = useDispatch();
   const userStories = useSelector((state) => state.stories.stories);
+<<<<<<< HEAD
 const user = useSelector(state => state.user.loginData)
+=======
+  const uploadModalState = useSelector((state) => state.navbar.uploadModal);
+  const user = useSelector((state) => state.user.loginData);
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -48,10 +57,17 @@ const user = useSelector(state => state.user.loginData)
     setSliderData(story);
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     dispatch(fetchStoriesStart());
 
   }, [user]);
+=======
+  // useEffect(() => {
+  //   dispatch(fetchStoriesStart());
+
+  // }, [user]);
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
 
   // useEffect(() => {
   //   if (SliderModalToggle) {
@@ -70,13 +86,23 @@ const user = useSelector(state => state.user.loginData)
           <div className="embla">
             <div className="embla__viewport" ref={viewportRef}>
               <div className="embla__container">
+<<<<<<< HEAD
                 <div className="embla__slide1"  onClick={()=>dispatch(setUploadModal(true))}>
+=======
+                <div
+                  className="embla__slide1"
+                  onClick={() => dispatch(setUploadModal(true))}
+                >
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
                   <Story
                     username={"Create new story"}
                     img={user.picture}
                     isYou={true}
                     className="embla__slide1"
+<<<<<<< HEAD
                    
+=======
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
                   />
                 </div>
 
@@ -120,7 +146,14 @@ const user = useSelector(state => state.user.loginData)
           renderSliderModal={renderSliderModal}
         />
       )}
+<<<<<<< HEAD
       <StoriesUploadModal  />
+=======
+      {
+        uploadModalState ? (<StoriesUploadModal />) : null
+      }
+      
+>>>>>>> a0817d176655406f99901a3c612e2f1e5e56e866
     </div>
   );
 };
