@@ -45,7 +45,7 @@ const SideNav = () => {
                     src={user.picture}
                     layout="fill"
                     className="rounded-full mr-2"
-                    objectFit="contain"
+                    objectFit="cover"
                     alt=""
                   />
                 </div>
