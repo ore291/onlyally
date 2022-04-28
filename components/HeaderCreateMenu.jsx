@@ -18,6 +18,308 @@ const people = [
 ];
 
 const HeaderMenuDropdown = () => {
+  
+  const [inputData, setInputData] = useState({});
+
+  const [image, setImage] = useState({ previewImage: "" });
+  const [paidPost, setPaidPost] = useState(false);
+  const [videoTitle, setVideoTitle] = useState("");
+
+  const [fileUploadStatus, setFileUploadStatus] = useState(false);
+
+  const [videoThumbnail, setVideoThumbnail] = useState(false);
+
+  const mentionsRef = useRef();
+
+  const [editorContentState, setEditorContentstate] = useState("");
+
+  const [editorHtmlContent, setEditorHtmlContent] = useState("");
+
+  const [disableImage, setDisableImage] = useState(false);
+
+  const [disableVideo, setDisableVideo] = useState(false);
+
+  const [videoPreview, setVideoPreview] = useState({ videoPreviewImage: "" });
+
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState("");
+
+  const [imageFiles, setImageFiles] = useState([]);
+
+  const [audioTitle, setAudioTitle] = useState("");
+
+  const [audioThumbnail, setAudioThumbnail] = useState(false);
+
+  const [disableAudio, setDisableAudio] = useState(false);
+
+  const [audioPreviewUrl, setAudioPreviewUrl] = useState("");
+
+  // useEffect(() => {
+  //   dispatch(fetchPostCategoriesStart());
+  // }, []);
+
+  const getFileArray = async (event) => {
+    let ImagesFilesArray = await Object.entries(event.target.files).map(
+      (e) => e[1]
+    );
+    return ImagesFilesArray;
+  };
+
+  const toBase64 = async (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => await resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+
+
+  // const handleChangeImage = (event, fileType) => {
+  //   if (event.currentTarget.type === "file") {
+  //     setFileUploadStatus(true);
+  //     let reader = new FileReader();
+  //     let file = event.currentTarget.files[0];
+  //     reader.onloadend = () => {
+  //       setImage({ ...image, previewImage: reader.result });
+  //     };
+
+  //     if (file) {
+  //       reader.readAsDataURL(file);
+  //     }
+  //     dispatch(
+  //       postFileUploadStart({
+  //         file: event.currentTarget.files[0],
+  //         file_type: fileType,
+  //       })
+  //     );
+  //     setPaidPost(true);
+  //     setDisableVideo(true);
+  //     setDisableAudio(true);
+  //   }
+  // };
+
+  // const handleChangeVideo = (event, fileType) => {
+  //   setVideoTitle(event.currentTarget.files[0].name);
+  //   if (event.currentTarget.type === "file") {
+  //     setFileUploadStatus(true);
+  //     let reader = new FileReader();
+  //     let file = event.currentTarget.files[0];
+
+  //     reader.onloadend = () => {
+  //       setVideoPreviewUrl(reader.result);
+  //     };
+
+  //     if (file) {
+  //       reader.readAsDataURL(file);
+  //     }
+  //     props.dispatch(
+  //       postFileUploadStart({
+  //         file: event.currentTarget.files[0],
+  //         file_type: fileType,
+  //       })
+  //     );
+  //     setPaidPost(true);
+  //     setVideoThumbnail(true);
+  //     setDisableImage(true);
+  //     setDisableAudio(true);
+  //   }
+  // };
+
+  // const handleChangeAudio = (event, fileType) => {
+  //   setAudioTitle(event.currentTarget.files[0].name);
+  //   if (event.currentTarget.type === "file") {
+  //     setFileUploadStatus(true);
+  //     let reader = new FileReader();
+  //     let file = event.currentTarget.files[0];
+
+  //     reader.onloadend = () => {
+  //       setAudioPreviewUrl(reader.result);
+  //     };
+
+  //     if (file) {
+  //       reader.readAsDataURL(file);
+  //     }
+  //     props.dispatch(
+  //       postFileUploadStart({
+  //         file: event.currentTarget.files[0],
+  //         file_type: fileType,
+  //       })
+  //     );
+  //     setPaidPost(true);
+  //     setAudioThumbnail(true);
+  //     setDisableImage(true);
+  //     setDisableVideo(true);
+  //   }
+  // };
+
+  // const imageClose = (event) => {
+  //   event.preventDefault();
+  //   if (props.fileUpload.loadingButtonContent !== null) {
+  //     const notificationMessage = getErrorNotificationMessage(
+  //       "File is being uploaded.. Please wait"
+  //     );
+  //     props.dispatch(createNotification(notificationMessage));
+  //   } else {
+  //     props.dispatch(
+  //       postFileRemoveStart({
+  //         file: props.fileUpload.data.file,
+  //         file_type: props.fileUpload.data.post_file.file_type,
+  //         blur_file: props.fileUpload.data.post_file.blur_file,
+  //         post_file_id: props.fileUpload.data.post_file.post_file_id,
+  //       })
+  //     );
+  //     setImage({ previewImage: "" });
+  //     setFileUploadStatus(false);
+  //     setDisableVideo(false);
+  //     setDisableAudio(false);
+  //     setPaidPost(false);
+  //   }
+  // };
+
+  // const videoClose = (event) => {
+  //   event.preventDefault();
+  //   if (props.fileUpload.loadingButtonContent !== null) {
+  //     const notificationMessage = getErrorNotificationMessage(
+  //       "File is being uploaded.. Please wait"
+  //     );
+  //     props.dispatch(createNotification(notificationMessage));
+  //   } else {
+  //     props.dispatch(
+  //       postFileRemoveStart({
+  //         file: props.fileUpload.data.file ? props.fileUpload.data.file : "",
+  //         file_type: props.fileUpload.data.post_file
+  //           ? props.fileUpload.data.post_file.file_type
+  //           : "",
+  //         preview_file: props.fileUpload.data.post_file
+  //           ? props.fileUpload.data.post_file.preview_file
+  //           : "",
+  //         post_file_id: props.fileUpload.data.post_file
+  //           ? props.fileUpload.data.post_file.post_file_id
+  //           : "",
+  //       })
+  //     );
+  //     setFileUploadStatus(false);
+  //     setVideoTitle("");
+  //     setVideoThumbnail(false);
+  //     setDisableImage(false);
+  //     setDisableAudio(false);
+  //     setPaidPost(false);
+  //     setVideoPreviewUrl("");
+  //   }
+  // };
+
+  // const audioClose = (event) => {
+  //   event.preventDefault();
+  //   if (props.fileUpload.loadingButtonContent !== null) {
+  //     const notificationMessage = getErrorNotificationMessage(
+  //       "File is being uploaded.. Please wait"
+  //     );
+  //     props.dispatch(createNotification(notificationMessage));
+  //   } else {
+  //     props.dispatch(
+  //       postFileRemoveStart({
+  //         file: props.fileUpload.data.file ? props.fileUpload.data.file : "",
+  //         file_type: props.fileUpload.data.post_file
+  //           ? props.fileUpload.data.post_file.file_type
+  //           : "",
+  //         preview_file: props.fileUpload.data.post_file
+  //           ? props.fileUpload.data.post_file.preview_file
+  //           : "",
+  //         post_file_id: props.fileUpload.data.post_file
+  //           ? props.fileUpload.data.post_file.post_file_id
+  //           : "",
+  //       })
+  //     );
+  //     setFileUploadStatus(false);
+  //     setAudioTitle("");
+  //     setAudioThumbnail(false);
+  //     setDisableImage(false);
+  //     setDisableVideo(false);
+  //     setPaidPost(false);
+  //     setAudioPreviewUrl("");
+  //   }
+  // };
+
+  // // const handleSubmit = (event) => {
+  // //   event.preventDefault();
+  // //   if (fileUploadStatus) {
+  // //     props.dispatch(
+  // //       savePostStart({
+  // //         content: inputData.content ? inputData.content : "",
+  // //         amount: inputData.amount ? inputData.amount : "",
+  // //         post_files: props.fileUpload.data.post_file.post_file_id,
+  // //         preview_file: inputData.preview_file ? inputData.preview_file : "",
+  // //       })
+  // //     );
+  // //   } else {
+  // //     props.dispatch(
+  // //       savePostStart({
+  // //         content: inputData.content ? inputData.content : "",
+  // //         amount: inputData.amount ? inputData.amount : "",
+  // //       })
+  // //     );
+  // //   }
+  // // };
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   if (fileUploadStatus) {
+  //     props.dispatch(
+  //       savePostStart({
+  //         content: editorHtmlContent,
+  //         amount: inputData.amount ? inputData.amount : "",
+  //         post_file_id: props.fileUpload.data.post_file.post_file_id,
+  //         preview_file: inputData.preview_file ? inputData.preview_file : "",
+  //         post_category_ids: inputData.post_category_ids
+  //           ? inputData.post_category_ids
+  //           : [],
+  //       })
+  //     );
+  //   } else {
+  //     props.dispatch(
+  //       savePostStart({
+  //         content: editorHtmlContent,
+  //         amount: inputData.amount ? inputData.amount : "",
+  //         post_category_ids: inputData.post_category_ids
+  //           ? inputData.post_category_ids
+  //           : [],
+  //       })
+  //     );
+  //   }
+  // };
+
+  // const setValues = (inputValue) => {
+  //   let user_id_arr = [];
+  //   inputValue.map((value, i) => {
+  //     user_id_arr.push(value.post_category_id);
+  //   });
+  //   setInputData({
+  //     ...inputData,
+  //     post_category_ids: user_id_arr,
+  //   });
+  // };
+
+  // const handleVideopreviewImage = (event) => {
+  //   if (event.currentTarget.type === "file") {
+  //     setFileUploadStatus(true);
+  //     let reader = new FileReader();
+  //     let file = event.currentTarget.files[0];
+  //     reader.onloadend = () => {
+  //       setVideoPreview({ ...videoPreview, videoPreviewImage: reader.result });
+  //     };
+
+  //     if (file) {
+  //       reader.readAsDataURL(file);
+  //     }
+
+  //     setInputData({
+  //       ...inputData,
+  //       preview_file: file,
+  //     });
+  //   }
+  // };
+
+
+// my own code
   let [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(people[0]);
 

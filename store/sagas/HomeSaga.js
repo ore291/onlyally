@@ -36,7 +36,6 @@ function* fetchHomePostAPI(action) {
       },
       dev_model: dev_model,
     });
-
     if (response.data.success) {
       yield put(fetchHomePostsSuccess(response.data.data));
       if (response.data.data.user) {
@@ -72,8 +71,7 @@ function* fetchHomePostAPI(action) {
         }
       }
     } else {
-      console.log(response.data)
-      // yield put(fetchHomePostsFailure(response.data.error));
+      yield put(fetchHomePostsFailure(response.data.error));
       //   const notificationMessage = getErrorNotificationMessage(
       //     response.data.error
       //   );
@@ -82,7 +80,7 @@ function* fetchHomePostAPI(action) {
     }
   } catch (error) {
     console.log(error);
-    // yield put(fetchHomePostsFailure(error));
+    yield put(fetchHomePostsFailure(error.message));
     // const notificationMessage = getErrorNotificationMessage(error.message);
     // yield put(createNotification(notificationMessage));
   }

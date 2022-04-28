@@ -15,7 +15,7 @@ import {
 
 var FormData = require("form-data");
 
-const apiUrl = "https://cp.playjor.com/api/user/"; // Production Mode
+const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
 
 // const apiUrl = "http://localhost:8000/api/user/"; // Local Mode
 

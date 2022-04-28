@@ -22,6 +22,10 @@ require('https').globalAgent.options.ca = rootCas;
 
 
 export default NextAuth({
+  session: {
+    jwt: true,
+    maxAge: 30 * 24 * 60 * 60
+    },
   // Configure one or more authentication providers
   providers: [
     // GoogleProvider({
@@ -79,7 +83,7 @@ export default NextAuth({
 
         var config = {
           method: "post",
-          url: "https://cp.playjor.com/api/user/login",
+          url: "https://cms.onlyally.com/api/user/login",
           headers: {
             ...data.getHeaders(),
           },
@@ -109,8 +113,6 @@ export default NextAuth({
   secret: "jhsggsjfjsdgf7ueshgfsjfhgj",
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      localStorage.setItem("accessToken", user.token);
-      localStorage.setItem("userId", user.user_id);
       return true;
     },
     // async redirect({ url, baseUrl }) {
@@ -136,4 +138,5 @@ export default NextAuth({
     signIn: "/login",
     signOut: "/logout",
   },
+ 
 });
