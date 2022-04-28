@@ -162,13 +162,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
         device_model: device_model
       })
     );
-    store.dispatch(
-      fetchTrendingUsersStart({
-        accessToken: session.accessToken,
-        userId: session.userId,
-        device_model: device_model
-      })
-    );
+    // store.dispatch(
+    //   fetchTrendingUsersStart({
+    //     accessToken: session.accessToken,
+    //     userId: session.userId,
+    //     device_model: device_model
+    //   })
+    // );
     store.dispatch(
     fetchStoriesStart({
         accessToken: session.accessToken,
@@ -176,13 +176,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
         device_model: device_model
       })
     );
-    store.dispatch(
-    fetchPostSuggestionsStart({
-        accessToken: session.accessToken,
-        userId: session.userId,
-        device_model: device_model
-      })
-    );
+    // store.dispatch(
+    // fetchPostSuggestionsStart({
+    //     accessToken: session.accessToken,
+    //     userId: session.userId,
+    //     device_model: device_model
+    //   })
+    // );
 
     store.dispatch(END);
     await store.sagaTask.toPromise();

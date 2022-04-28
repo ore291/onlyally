@@ -1,9 +1,19 @@
 import CreatorCard from "./CreatorCard.jsx";
 import { RiVipCrownFill } from "react-icons/ri";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {fetchPostSuggestionsStart} from "../../store/slices/homeSlice";
+import CommonCenterLoader from "../helpers/CommonCenterLoader.jsx";
+import { useEffect } from "react";
 
 const TopCreators = () => {
-  const postSug = useSelector(state => state.home.postSug);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPostSuggestionsStart());
+  }, [])
+  
+
+  const postSug = useSelector((state) => state.home.postSug);
   return (
     <div className="side-container items-start">
       <div className="flex items-center justify-center  space-x-1">
@@ -13,7 +23,9 @@ const TopCreators = () => {
         <p className="text-start">Top Content Creators</p>
       </div>
       <div className="grid grid-cols-3 gap-2">
-        {postSug.data.users.map((user, index) => (
+
+        {
+        postSug.loading ? (<CommonCenterLoader/>) : postSug.data.users.map((user, index) => (
           <CreatorCard
             username={user.username}
             verified={user.is_verified_badge}

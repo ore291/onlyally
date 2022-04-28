@@ -1,5 +1,15 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {useEffect} from "react"
+import {fetchTrendingUsersStart} from "../store/slices/homeSlice";
+import CommonCenterLoader from "./helpers/CommonCenterLoader";
+
 const Trending = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+   dispatch(fetchTrendingUsersStart())
+  }, [])
+  
   const trendingUsers = useSelector((state) => state.home.trendingUsers);
   return (
     <div className="side-container items-start pl-4">
@@ -7,7 +17,7 @@ const Trending = () => {
         <p className="text-start font-bold">Trending !</p>
       </div>
       <div className="flex flex-col">
-        {trendingUsers &&
+        {trendingUsers.loading ? (<CommonCenterLoader/>) :
           trendingUsers.data.trending_users.map((user) => (
             <a
               className="hover:underline text-blue-600 font-semibold"
