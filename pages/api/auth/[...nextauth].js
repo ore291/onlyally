@@ -22,10 +22,10 @@ const DeviceHelper = require('node-device-detector/helper');
 
 
 export default NextAuth({
-  session: {
-    jwt: true,
-    maxAge: 30 * 24 * 60 * 60
-    },
+  // session: {
+  //   jwt: true,
+  //   maxAge: 30 * 24 * 60 * 60
+  //   },
   // Configure one or more authentication providers
   providers: [
     // GoogleProvider({

@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Story from "./Story";
 import { useSelector, useDispatch } from "react-redux";
-import { useSession, getSession } from "next-auth/react";
 import StorySliderLoader from "./StorySliderLoader";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { PrevButton, NextButton } from "./EmblaButtons";
