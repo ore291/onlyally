@@ -122,7 +122,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(fetchUserDetailsSuccess(session.user.userDetails));
     }
 
-    const response = await axios.get(apiConstants.settingsUrl);
+    const response = await (await fetch(apiConstants.settingsUrl)).json();
   
 
     configuration.set({ configData: response.data }, { freeze: false });
@@ -189,7 +189,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
-        configData: response.data.data,
+        configData: response.data,
       },
     };
   }
