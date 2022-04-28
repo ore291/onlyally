@@ -12,20 +12,30 @@ import {
   searchUserStart,
   searchUserSuccess,
   fetchTrendingUsersFailure,
-  fetchTrendingUsersSuccess
+  fetchTrendingUsersSuccess,
+  fetchPostSuggestionsSuccess,
+  fetchPostSuggestionsFailure,
 } from "../slices/homeSlice";
 
 function* fetchHomePostAPI(action) {
-  var accessToken = action.payload.accessToken;
-  var userId = action.payload.userId;
-  var dev_model = action.payload.device_model
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
 
   try {
     const skipCount = yield select((state) => state.home.homePost.skip);
 
-    const response = yield api.postMethod({action:"home", accessToken:accessToken, userId:userId, object: {
-      skip: skipCount,
-    }, dev_model:dev_model});
+    const response = yield api.postMethod({
+      action: "home",
+      accessToken: accessToken,
+      userId: userId,
+      object: {
+        skip: skipCount,
+      },
+      dev_model: dev_model,
+    });
 
     if (response.data.success) {
       yield put(fetchHomePostsSuccess(response.data.data));
@@ -80,7 +90,10 @@ function* fetchHomePostAPI(action) {
 function* searchUserAPI() {
   try {
     const inputData = yield select((state) => state.home.searchUser.inputData);
-    const response = yield api.postMethod({action: "users_search",object: inputData});
+    const response = yield api.postMethod({
+      action: "users_search",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(searchUserSuccess(response.data.data));
     } else {
@@ -99,13 +112,23 @@ function* searchUserAPI() {
 }
 
 function* fetchTrendingUsersAPI(action) {
-  var accessToken = action.payload.accessToken;
-  var userId = action.payload.userId;
-  var dev_model = action.payload.device_model
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
 
   try {
-    const inputData = yield select((state) => state.home.trendingUsers.inputData);
-    const response = yield api.postMethod({action:"trending_users",accessToken, userId, dev_model, object : inputData});
+    const inputData = yield select(
+      (state) => state.home.trendingUsers.inputData
+    );
+    const response = yield api.postMethod({
+      action: "trending_users",
+      accessToken,
+      userId,
+      dev_model,
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(fetchTrendingUsersSuccess(response.data.data));
     } else {
@@ -123,8 +146,45 @@ function* fetchTrendingUsersAPI(action) {
   }
 }
 
+function* fetchPostSuggestionAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
+  try {
+    const inputData = yield select((state) => state.post.delPost.inputData);
+    const response = yield api.postMethod({
+      action: "user_suggestions",
+      object: inputData,
+      accessToken,
+      userId,
+      dev_model,
+    });
+    if (response.data.success) {
+      yield put(fetchPostSuggestionsSuccess(response.data.data));
+    } else {
+      yield put(fetchPostSuggestionsFailure(response.data.error));
+      // const notificationMessage = getErrorNotificationMessage(
+      //   response.data.error
+      // );
+      // yield put(checkLogoutStatus(response.data));
+      // yield put(createNotification(notificationMessage));
+    }
+  } catch (error) {
+    yield put(fetchPostSuggestionsFailure(error));
+    // const notificationMessage = getErrorNotificationMessage(error.message);
+    // yield put(createNotification(notificationMessage));
+  }
+}
+
 export default function* pageSaga() {
   yield all([yield takeLatest("home/fetchHomePostsStart", fetchHomePostAPI)]);
   yield all([yield takeLatest("home/searchUserStart", searchUserAPI)]);
-  yield all([yield takeLatest("home/fetchTrendingUsersStart", fetchTrendingUsersAPI)]);
+  yield all([
+    yield takeLatest("home/fetchTrendingUsersStart", fetchTrendingUsersAPI),
+  ]);
+  yield all([
+    yield takeLatest("home/fetchPostSuggestionsStart", fetchPostSuggestionAPI),
+  ]);
 }

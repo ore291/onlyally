@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { BsHeart, BsThreeDots } from "react-icons/bs";
-import { FaCheckCircle } from "react-icons/fa";
+import { BsHeart, BsHeartFill, BsThreeDots } from "react-icons/bs";
+import { FaCheckCircle , FaBookmark} from "react-icons/fa";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import Lightbox from "react-image-lightbox";
 import ReactPlayer from "react-player/lazy";
@@ -18,7 +18,7 @@ import EmblaSlide from "./EmblaSlide";
 import { fetchSinglePostStart } from "../../store/slices/postSlice";
 import { savePostLikedStart } from "../../store/slices/postLikeSlice";
 import { fetchCommentsStart } from "../../store/slices/commentsSlice";
-import {saveBookmarkStart} from "../../store/slices/bookmarkSlice";
+import { saveBookmarkStart } from "../../store/slices/bookmarkSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
 import Comment from "./Comment";
 import Comments from "./Comments";
@@ -177,9 +177,10 @@ const NewsFeedCard = ({ post, index }) => {
     });
   }, [embla, setSlidesInView]);
 
-  const scrollTo = useCallback((index) => embla && embla.scrollTo(index), [
-    embla,
-  ]);
+  const scrollTo = useCallback(
+    (index) => embla && embla.scrollTo(index),
+    [embla]
+  );
 
   const onSelect = useCallback(() => {
     if (!embla) return;
@@ -534,14 +535,15 @@ const NewsFeedCard = ({ post, index }) => {
                         to="#"
                         onClick={(event) => handleLike(event, "removed")}
                       >
-                        <div className="relative news-feed-card-icon">
+                        <BsHeartFill className="news-feed-card-icon text-lightPlayRed" />
+                        {/* <div className="relative news-feed-card-icon">
                           <Image
                             alt=""
                             layout="fill"
                             src={"/images/icons/heart-active.svg"}
                             className="svg-clone"
                           />
-                        </div>
+                        </div> */}
                         <p
                           className={`${
                             likeCount == 0 ? "hidden" : "post-like-text"
@@ -559,14 +561,8 @@ const NewsFeedCard = ({ post, index }) => {
                         className=" row-container "
                         onClick={(event) => handleLike(event, "added")}
                       >
-                        <div className="relative news-feed-card-icon">
-                          <Image
-                            alt=""
-                            layout="fill"
-                            src={"/images/icons/heart.svg"}
-                            className="svg-clone"
-                          />
-                        </div>
+                        <BsHeart className="news-feed-card-icon" />
+
                         <p
                           className={`${
                             likeCount == 0 ? "hidden" : "post-like-text"
@@ -584,14 +580,8 @@ const NewsFeedCard = ({ post, index }) => {
                   className=" row-container "
                   onClick={(event) => handleLike(event, "removed")}
                 >
-                  <div className="relative news-feed-card-icon">
-                    <Image
-                      alt=""
-                      layout="fill"
-                      src={"/images/icons/heart-active.svg"}
-                      className="svg-clone"
-                    />
-                  </div>
+                  <BsHeartFill className="news-feed-card-icon text-lightPlayRed" />
+
                   <p
                     className={`${
                       likeCount == 0 ? "hidden" : "post-like-text"
@@ -604,14 +594,8 @@ const NewsFeedCard = ({ post, index }) => {
                   className=" row-container "
                   onClick={(event) => handleLike(event, "added")}
                 >
-                  <div className="relative news-feed-card-icon">
-                    <Image
-                      alt=""
-                      layout="fill"
-                      src={"/images/icons/heart.svg"}
-                      className="svg-clone"
-                    />
-                  </div>
+                  <BsHeart className="news-feed-card-icon " />
+
                   <p
                     className={`${
                       likeCount == 0 ? "hidden" : "post-like-text"
@@ -620,14 +604,6 @@ const NewsFeedCard = ({ post, index }) => {
                 </button>
               )}
 
-              {/* <button
-                type="button"
-                title="Like post"
-                className="flex items-center justify-center space-x-1"
-              >
-                <BsHeart className="news-feed-card-icon" />
-                <span className="text-sm">{likeCount}</span>
-              </button> */}
               <button
                 onClick={() => showCommentSection(post.post_id)}
                 type="button"
@@ -671,13 +647,7 @@ const NewsFeedCard = ({ post, index }) => {
                         title="Bookmark post"
                         className="flex items-center justify-center"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 512 512"
-                          className="news-feed-card-icon text-lightPlayRed"
-                        >
-                          <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
-                        </svg>
+                       <FaBookmark className="news-feed-card-icon text-lightPlayRed"/>
                       </button>
                     ) : null}
                   </>
@@ -691,13 +661,7 @@ const NewsFeedCard = ({ post, index }) => {
                         title="Bookmark post"
                         className="flex items-center justify-center"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 512 512"
-                          className="news-feed-card-icon"
-                        >
-                          <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
-                        </svg>
+                        <FaBookmark className="news-feed-card-icon "/>
                       </button>
                     ) : null}
                   </>
@@ -709,13 +673,7 @@ const NewsFeedCard = ({ post, index }) => {
                   title="Bookmark post"
                   className="flex items-center justify-center"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                    className="news-feed-card-icon text-lightPlayRed"
-                  >
-                    <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
-                  </svg>
+                  <FaBookmark className="news-feed-card-icon text-lightPlayRed"/>
                 </button>
               ) : (
                 <button
@@ -724,13 +682,7 @@ const NewsFeedCard = ({ post, index }) => {
                   title="Bookmark post"
                   className="flex items-center justify-center"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                    className="news-feed-card-icon"
-                  >
-                    <path d="M424,496H388.75L256.008,381.19,123.467,496H88V16H424ZM120,48V456.667l135.992-117.8L392,456.5V48Z"></path>
-                  </svg>
+                 <FaBookmark className="news-feed-card-icon " />
                 </button>
               )}
             </div>

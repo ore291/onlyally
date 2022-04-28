@@ -155,6 +155,36 @@ export const HomeSlice = createSlice({
         buttonDisable: false,
       };
     },
+    fetchPostSuggestionsStart: (state, action) => {
+      state.postSug = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "Loading... Please wait",
+        buttonDisable: true,
+      }
+    },
+    fetchPostSuggestionsSuccess: (state, action) => {
+      state.postSug = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      }
+    },
+    fetchPostSuggestionsFailure: (state, action) => {
+      state.postSug = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      }
+    }
   },
 
   extraReducers: {
@@ -165,6 +195,7 @@ export const HomeSlice = createSlice({
       }
       state.homePost = action.payload.home.homePost;
       state.trendingUsers = action.payload.home.trendingUsers;
+      state.postSug = action.payload.home.postSug;
       // state.homePost.posts = action.payload.home.homePost.posts;
       // state.homePost.skip = action.payload.home.homePost.skip;
       // state.homePost.length = action.payload.home.homePost.length;
@@ -182,7 +213,10 @@ export const {
   searchUserSuccess,
   fetchTrendingUsersFailure,
   fetchTrendingUsersSuccess,
-  fetchTrendingUsersStart
+  fetchTrendingUsersStart,
+  fetchPostSuggestionsFailure,
+  fetchPostSuggestionsSuccess,
+  fetchPostSuggestionsStart
 } = HomeSlice.actions;
 
 export default HomeSlice.reducer;

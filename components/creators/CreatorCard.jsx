@@ -1,6 +1,7 @@
 import Image from "next/image";
+import VerifiedBadge from "../handlers/VerifiedBadge";
 
-const CreatorCard = ({ username, image, main }) => {
+const CreatorCard = ({ username, image, main, verified }) => {
   if (main) {
     return (
       <div className="col-container my-3">
@@ -32,7 +33,10 @@ const CreatorCard = ({ username, image, main }) => {
           className="rounded-lg"
         />
       </div>
-      <p>{username}</p>
+      <div className="row-container space-x-1 py-[1px]">
+        <p className="text-xs">{`@${username}`}</p>
+        {verified == 1 ? ( <span><VerifiedBadge /></span> ): null}
+      </div>
     </div>
   );
 };
