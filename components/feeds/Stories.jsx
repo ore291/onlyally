@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Story from "./Story";
 import { useSelector, useDispatch } from "react-redux";
-import {useSession, getSession} from 'next-auth/react'
+import { useSession, getSession } from "next-auth/react";
 import StorySliderLoader from "./StorySliderLoader";
 import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 import { PrevButton, NextButton } from "./EmblaButtons";
@@ -14,7 +14,8 @@ import StoriesUploadModal from "./StoryUploadModal";
 const Stories = () => {
   const dispatch = useDispatch();
   const userStories = useSelector((state) => state.stories.stories);
-const user = useSelector(state => state.user.loginData)
+  const uploadModalState = useSelector((state) => state.navbar.uploadModal);
+  const user = useSelector((state) => state.user.loginData);
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -70,13 +71,15 @@ const user = useSelector(state => state.user.loginData)
           <div className="embla">
             <div className="embla__viewport" ref={viewportRef}>
               <div className="embla__container">
-                <div className="embla__slide1"  onClick={()=>dispatch(setUploadModal(true))}>
+                <div
+                  className="embla__slide1"
+                  onClick={() => dispatch(setUploadModal(true))}
+                >
                   <Story
                     username={"Create new story"}
                     img={user.picture}
                     isYou={true}
                     className="embla__slide1"
-                   
                   />
                 </div>
 
@@ -120,7 +123,10 @@ const user = useSelector(state => state.user.loginData)
           renderSliderModal={renderSliderModal}
         />
       )}
-      <StoriesUploadModal  />
+      {
+        uploadModalState ? (<StoriesUploadModal />) : null
+      }
+      
     </div>
   );
 };

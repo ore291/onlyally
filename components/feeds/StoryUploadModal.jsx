@@ -7,10 +7,12 @@ import { MdClose } from "react-icons/md";
 
 const StoryUploadModal = (props) => {
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(true)
   const storyUpload = useSelector((state) => state.stories.storyUpload);
   const modalState = useSelector((state) => state.navbar.uploadModal);
 
   function closeModal() {
+    setIsOpen(false);
     dispatch(setUploadModal(false));
   }
 
@@ -22,7 +24,7 @@ const StoryUploadModal = (props) => {
 
   useEffect(() => {
     if (!storyUpload.loading) {
-      dispatch(setUploadModal(false));
+      closeModal();
       setFileData({
         previewImage: "",
         file: "",
@@ -60,7 +62,7 @@ const StoryUploadModal = (props) => {
 
   return (
     <>
-      <Transition appear show={modalState} as={Fragment}>
+      <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
