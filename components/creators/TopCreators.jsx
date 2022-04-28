@@ -26,13 +26,15 @@ const TopCreators = () => {
 
         {
         postSug.loading ? (<CommonCenterLoader/>) : postSug.data.users.map((user, index) => (
+          postSug.data.users.length > 0 ? (
           <CreatorCard
             username={user.username}
             verified={user.is_verified_badge}
             image={user.picture}
             key={index}
-          />
+          /> ) : (<p>No Top Creator</p>)
         ))}
+
       </div>
     </div>
   );
