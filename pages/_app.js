@@ -1,18 +1,16 @@
 import "../styles/globals.css";
-
-
 import Layout from "../components/Layout";
 import { SessionProvider } from "next-auth/react";
 import { wrapper } from "../store";
 import { apiConstants } from "../components/Constant/constants";
 import configuration from "react-global-configuration";
-import {useEffect} from "react";
+import { useEffect } from "react";
 // require('default-passive-events');
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   // useEffect(() => {
   //   fetchConfig();
-    
+
   //   // let userLanguage = localStorage.getItem("lang")
   //   //   ? localStorage.getItem("lang")
   //   //   : "en";
@@ -31,10 +29,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   //     // this.setState({ configLoading: false });
   //   }
   // }
-  
-
-
-
 
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>

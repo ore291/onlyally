@@ -5,6 +5,18 @@
 @tailwind utilities;
 
 @layer components {
+  .btn {
+    @apply bg-red-400 py-1 rounded-sm shadow-md px-6 text-white hover:bg-red-800;
+  }
+  .settings {
+    @apply bg-white flex w-4/5 justify-around px-4 mx-auto mt-20 mr-16 ml-6 shadow py-4;
+  }
+  .input-form {
+    @apply block w-full px-4 py-3 mt-2 text-black bg-gray-100 border-b-2 border-0 border-gray-500 rounded-sm  dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-gray-400 focus:ring-gray-300 focus:ring-opacity-40 dark:focus:border-gray-300 focus:outline-none focus:ring;
+  }
+  .input-textarea {
+    @apply block w-full px-4 py-8 mt-2 text-black bg-gray-100 border-b-2 border-0 border-gray-500 rounded-sm  dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-gray-400 focus:ring-gray-300 focus:ring-opacity-40 dark:focus:border-gray-300 focus:outline-none focus:ring;
+  }
   .view-comments {
     @apply block px-5  py-4 text-sm font-semibold text-slate-400 hover:text-lightPlayRed cursor-pointer;
   }
