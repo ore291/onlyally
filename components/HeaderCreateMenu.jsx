@@ -2,12 +2,16 @@ import { Menu, Transition, Dialog } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { MdSmartDisplay, MdClose, MdCheck } from "react-icons/md";
 import { BsPlusSquare } from "react-icons/bs";
-import {BiImageAdd} from "react-icons/bi"
+import { BiImageAdd } from "react-icons/bi";
 import { HiSelector } from "react-icons/hi";
 import { TiVideo } from "react-icons/ti";
-import {FaMusic, FaVideo} from "react-icons/fa";
+import { FaMusic, FaVideo } from "react-icons/fa";
 import Button from "./Button";
 import { Listbox } from "@headlessui/react";
+import { Multiselect } from "multiselect-react-dropdown";
+import { useSelector, useDispatch } from "react-redux";
+import {fetchPostCategoriesStart} from "../store/slices/postSlice";
+import PostEditor from "./feeds/PostEditor";
 
 const people = [
   { id: 1, name: "Choose Category", unavailable: false },
@@ -18,7 +22,14 @@ const people = [
 ];
 
 const HeaderMenuDropdown = () => {
-  
+  const dispatch = useDispatch();
+  const savePost = useSelector((state) => state.post.savePost);
+  const fileUpload = useSelector((state) => state.post.fileUpload);
+  const searchUser = useSelector((state) => state.home.searchUser);
+  const postCategories = useSelector((state) => state.post.postCategories);
+
+  // new addditions
+
   const [inputData, setInputData] = useState({});
 
   const [image, setImage] = useState({ previewImage: "" });
@@ -53,9 +64,9 @@ const HeaderMenuDropdown = () => {
 
   const [audioPreviewUrl, setAudioPreviewUrl] = useState("");
 
-  // useEffect(() => {
-  //   dispatch(fetchPostCategoriesStart());
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchPostCategoriesStart());
+  }, []);
 
   const getFileArray = async (event) => {
     let ImagesFilesArray = await Object.entries(event.target.files).map(
@@ -71,7 +82,6 @@ const HeaderMenuDropdown = () => {
       reader.onload = async () => await resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
-
 
   // const handleChangeImage = (event, fileType) => {
   //   if (event.currentTarget.type === "file") {
@@ -111,7 +121,7 @@ const HeaderMenuDropdown = () => {
   //     if (file) {
   //       reader.readAsDataURL(file);
   //     }
-  //     props.dispatch(
+  //     dispatch(
   //       postFileUploadStart({
   //         file: event.currentTarget.files[0],
   //         file_type: fileType,
@@ -138,7 +148,7 @@ const HeaderMenuDropdown = () => {
   //     if (file) {
   //       reader.readAsDataURL(file);
   //     }
-  //     props.dispatch(
+  //     dispatch(
   //       postFileUploadStart({
   //         file: event.currentTarget.files[0],
   //         file_type: fileType,
@@ -153,18 +163,18 @@ const HeaderMenuDropdown = () => {
 
   // const imageClose = (event) => {
   //   event.preventDefault();
-  //   if (props.fileUpload.loadingButtonContent !== null) {
+  //   if (fileUpload.loadingButtonContent !== null) {
   //     const notificationMessage = getErrorNotificationMessage(
   //       "File is being uploaded.. Please wait"
   //     );
-  //     props.dispatch(createNotification(notificationMessage));
+  //     dispatch(createNotification(notificationMessage));
   //   } else {
-  //     props.dispatch(
+  //     dispatch(
   //       postFileRemoveStart({
-  //         file: props.fileUpload.data.file,
-  //         file_type: props.fileUpload.data.post_file.file_type,
-  //         blur_file: props.fileUpload.data.post_file.blur_file,
-  //         post_file_id: props.fileUpload.data.post_file.post_file_id,
+  //         file: fileUpload.data.file,
+  //         file_type: fileUpload.data.post_file.file_type,
+  //         blur_file: fileUpload.data.post_file.blur_file,
+  //         post_file_id: fileUpload.data.post_file.post_file_id,
   //       })
   //     );
   //     setImage({ previewImage: "" });
@@ -177,23 +187,23 @@ const HeaderMenuDropdown = () => {
 
   // const videoClose = (event) => {
   //   event.preventDefault();
-  //   if (props.fileUpload.loadingButtonContent !== null) {
+  //   if (fileUpload.loadingButtonContent !== null) {
   //     const notificationMessage = getErrorNotificationMessage(
   //       "File is being uploaded.. Please wait"
   //     );
-  //     props.dispatch(createNotification(notificationMessage));
+  //     dispatch(createNotification(notificationMessage));
   //   } else {
-  //     props.dispatch(
+  //     dispatch(
   //       postFileRemoveStart({
-  //         file: props.fileUpload.data.file ? props.fileUpload.data.file : "",
-  //         file_type: props.fileUpload.data.post_file
-  //           ? props.fileUpload.data.post_file.file_type
+  //         file: fileUpload.data.file ? fileUpload.data.file : "",
+  //         file_type: fileUpload.data.post_file
+  //           ? fileUpload.data.post_file.file_type
   //           : "",
-  //         preview_file: props.fileUpload.data.post_file
-  //           ? props.fileUpload.data.post_file.preview_file
+  //         preview_file: fileUpload.data.post_file
+  //           ? fileUpload.data.post_file.preview_file
   //           : "",
-  //         post_file_id: props.fileUpload.data.post_file
-  //           ? props.fileUpload.data.post_file.post_file_id
+  //         post_file_id: fileUpload.data.post_file
+  //           ? fileUpload.data.post_file.post_file_id
   //           : "",
   //       })
   //     );
@@ -209,23 +219,23 @@ const HeaderMenuDropdown = () => {
 
   // const audioClose = (event) => {
   //   event.preventDefault();
-  //   if (props.fileUpload.loadingButtonContent !== null) {
+  //   if (fileUpload.loadingButtonContent !== null) {
   //     const notificationMessage = getErrorNotificationMessage(
   //       "File is being uploaded.. Please wait"
   //     );
-  //     props.dispatch(createNotification(notificationMessage));
+  //     dispatch(createNotification(notificationMessage));
   //   } else {
-  //     props.dispatch(
+  //     dispatch(
   //       postFileRemoveStart({
-  //         file: props.fileUpload.data.file ? props.fileUpload.data.file : "",
-  //         file_type: props.fileUpload.data.post_file
-  //           ? props.fileUpload.data.post_file.file_type
+  //         file: fileUpload.data.file ? fileUpload.data.file : "",
+  //         file_type: fileUpload.data.post_file
+  //           ? fileUpload.data.post_file.file_type
   //           : "",
-  //         preview_file: props.fileUpload.data.post_file
-  //           ? props.fileUpload.data.post_file.preview_file
+  //         preview_file: fileUpload.data.post_file
+  //           ? fileUpload.data.post_file.preview_file
   //           : "",
-  //         post_file_id: props.fileUpload.data.post_file
-  //           ? props.fileUpload.data.post_file.post_file_id
+  //         post_file_id: fileUpload.data.post_file
+  //           ? fileUpload.data.post_file.post_file_id
   //           : "",
   //       })
   //     );
@@ -242,16 +252,16 @@ const HeaderMenuDropdown = () => {
   // // const handleSubmit = (event) => {
   // //   event.preventDefault();
   // //   if (fileUploadStatus) {
-  // //     props.dispatch(
+  // //     dispatch(
   // //       savePostStart({
   // //         content: inputData.content ? inputData.content : "",
   // //         amount: inputData.amount ? inputData.amount : "",
-  // //         post_files: props.fileUpload.data.post_file.post_file_id,
+  // //         post_files: fileUpload.data.post_file.post_file_id,
   // //         preview_file: inputData.preview_file ? inputData.preview_file : "",
   // //       })
   // //     );
   // //   } else {
-  // //     props.dispatch(
+  // //     dispatch(
   // //       savePostStart({
   // //         content: inputData.content ? inputData.content : "",
   // //         amount: inputData.amount ? inputData.amount : "",
@@ -263,11 +273,11 @@ const HeaderMenuDropdown = () => {
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   if (fileUploadStatus) {
-  //     props.dispatch(
+  //     dispatch(
   //       savePostStart({
   //         content: editorHtmlContent,
   //         amount: inputData.amount ? inputData.amount : "",
-  //         post_file_id: props.fileUpload.data.post_file.post_file_id,
+  //         post_file_id: fileUpload.data.post_file.post_file_id,
   //         preview_file: inputData.preview_file ? inputData.preview_file : "",
   //         post_category_ids: inputData.post_category_ids
   //           ? inputData.post_category_ids
@@ -275,7 +285,7 @@ const HeaderMenuDropdown = () => {
   //       })
   //     );
   //   } else {
-  //     props.dispatch(
+  //     dispatch(
   //       savePostStart({
   //         content: editorHtmlContent,
   //         amount: inputData.amount ? inputData.amount : "",
@@ -287,16 +297,16 @@ const HeaderMenuDropdown = () => {
   //   }
   // };
 
-  // const setValues = (inputValue) => {
-  //   let user_id_arr = [];
-  //   inputValue.map((value, i) => {
-  //     user_id_arr.push(value.post_category_id);
-  //   });
-  //   setInputData({
-  //     ...inputData,
-  //     post_category_ids: user_id_arr,
-  //   });
-  // };
+  const setValues = (inputValue) => {
+    let user_id_arr = [];
+    inputValue.map((value, i) => {
+      user_id_arr.push(value.post_category_id);
+    });
+    setInputData({
+      ...inputData,
+      post_category_ids: user_id_arr,
+    });
+  };
 
   // const handleVideopreviewImage = (event) => {
   //   if (event.currentTarget.type === "file") {
@@ -318,8 +328,7 @@ const HeaderMenuDropdown = () => {
   //   }
   // };
 
-
-// my own code
+  // my own code
   let [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(people[0]);
 
@@ -524,118 +533,87 @@ const HeaderMenuDropdown = () => {
                   <div onClick={closeModal}>
                     <MdClose className="h-7 w-7 cursor-pointer" />
                   </div>
-                  
+
                   <Button text="POST" active={true} extraClasses="w-24 h-8" />
                 </Dialog.Title>
                 <div className="mt-2">
-                  <textarea
-                    className="
-        form-control
-        overflow-auto
-        block
-        max-h-[calc(100vh - 220px)]
-        min-h-[130px]
-        resize-none
-        w-full
-        px-3
-        py-1.5
-        text-base
-        font-normal
-        text-gray-700
-        bg-transparent bg-clip-padding
-        focus:ring-0
-        rounded
-        transition
-        ease-in-out
-        m-0
-        focus:text-gray-700 focus:bg-white border border-playRed focus:outline-none
-      "
-                    rows="3"
-                    placeholder="Create new post"
-                  ></textarea>
+                  <div className="bg-white rounded-md shadow-sm pl-[1em] border">
+                    <div className="PostEditor">
+                      <PostEditor
+                        className="PostEditor__input"
+                        placeholder="Compose New Post ..."
+                        ref={mentionsRef}
+                        getEditorRawContent={setEditorContentstate}
+                        getEditorHtmlContent={setEditorHtmlContent}
+                        dispatch={dispatch}
+                        // searchUser={props.searchUser}
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-between my-3">
-                  <p className="text-lg font-semibold">
-                    CATEGORY &#40;OPTIONAL&#41;
-                  </p>
-                  <Listbox value={selected} onChange={setSelected}>
-                    <div className="relative mt-1 w-1/2">
-                      <Listbox.Button className="relative w-full py-2 pl-3 pr-10 z-40 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-                        <span className="block truncate">{selected.name}</span>
-                        <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                          <HiSelector
-                            className="w-5 h-5 text-gray-400"
-                            aria-hidden="true"
+                <div className="my-3 lg:my-4">
+                  {postCategories.data.post_categories &&
+                  postCategories.data.post_categories.length > 0 ? (
+                    <>
+                      <form className="mb-0 create-post without-ring">
+                        <label className="!pl-0 mb-3 lg:mb-3">
+                          <p className="text-sm font-light">
+                            CATEGORY &#40;OPTIONAL&#41;
+                          </p>
+                        </label>
+                        {postCategories.data.post_categories ? (
+                          <Multiselect
+                            name="post_category_ids"
+                            options={postCategories.data.post_categories}
+                            displayValue="name"
+                            avoidHighlightFirstOption="true"
+                            placeholder="choose category"
+                            onSelect={(values) => setValues(values)}
                           />
-                        </span>
-                      </Listbox.Button>
-                      <Transition
-                        as={Fragment}
-                        leave="transition ease-in duration-100"
-                        leaveFrom="opacity-100"
-                        leaveTo="opacity-0"
-                      >
-                        <Listbox.Options className="absolute w-full py-1 mt-1 z-40 overflow-y-scroll overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                          {people.map((person, personIdx) => (
-                            <Listbox.Option
-                              key={personIdx}
-                              className={({ active }) =>
-                                `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                                  active
-                                    ? "text-amber-900 bg-amber-100"
-                                    : "text-gray-900"
-                                }`
-                              }
-                              value={person}
-                            >
-                              {({ selected }) => (
-                                <>
-                                  <span
-                                    className={`block truncate ${
-                                      selected ? "font-medium" : "font-normal"
-                                    }`}
-                                  >
-                                    {person.name}
-                                  </span>
-                                  {selected ? (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                      <MdCheck
-                                        className="w-5 h-5"
-                                        aria-hidden="true"
-                                      />
-                                    </span>
-                                  ) : null}
-                                </>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </Transition>
-                    </div>
-                  </Listbox>
+                        ) : null}
+                      </form>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <div className="row-container space-x-4 my-4">
                   <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
-                    <BiImageAdd className="w-4 h-4"/>
+                    <BiImageAdd className="w-4 h-4" />
                     <span className="text-xs">Upload Images</span>
-                    <input accept="image/x-png, image/gif, image/jpeg" multiple="multiple" type="file" className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100"  />
-                   
+                    <input
+                      accept="image/x-png, image/gif, image/jpeg"
+                      multiple="multiple"
+                      type="file"
+                      className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100"
+                    />
+
                     {/* onChange={e => setSelectedImage(e.target.files[0])} */}
                   </div>
                   <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
-                    <FaVideo className="w-3 h-3"/>
+                    <FaVideo className="w-3 h-3" />
                     <span className="text-xs">Upload Video</span>
-                    <input accept="video/*" type="file" className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100" placeholder="Upload Images"  />
-                   
+                    <input
+                      accept="video/*"
+                      type="file"
+                      className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100"
+                      placeholder="Upload Images"
+                    />
+
                     {/* onChange={e => setSelectedImage(e.target.files[0])} */}
                   </div>
                   <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
-                    <FaMusic className="w-3 h-3"/>
+                    <FaMusic className="w-3 h-3" />
                     <span className="text-xs">Audio Upload</span>
-                    <input accept="image/*" type="file" className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100" placeholder="Upload Images"  />
-                   
+                    <input
+                      accept="image/*"
+                      type="file"
+                      className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100"
+                      placeholder="Upload Images"
+                    />
+
                     {/* onChange={e => setSelectedImage(e.target.files[0])} */}
                   </div>
                 </div>

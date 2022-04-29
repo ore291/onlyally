@@ -5,6 +5,9 @@
 @tailwind utilities;
 
 @layer components {
+  #search_input {
+   @apply ring-0 focus:ring-0 focus:ring-offset-0 
+}
   .modalButton {
     @apply  text-white text-[14px] font-semibold min-h-[48px] text-center rounded-full block relative mx-auto cursor-pointer w-auto py-[1em] px-[1em] md:px-[3em] bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500
   } 
@@ -112,6 +115,24 @@
 } */
 /* endselect */
 /*home-sidebar slider css*/
+
+.multiselect-container .search-wrapper {
+  border: 0 !important;
+}
+
+.multiselect-container {
+  background-color: #ffffff;
+  border: 0 !important;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 15%);
+  border-radius: 8px;
+  padding: 0em;
+}
+
+.create-post .search-wrapper .searchBox {
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
 
 .post-like-text {
   font-size: 14px;
