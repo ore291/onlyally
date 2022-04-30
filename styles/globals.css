@@ -118,6 +118,7 @@
 
 .multiselect-container .search-wrapper {
   border: 0 !important;
+  padding: 0 5px !important;
 }
 
 .multiselect-container {
@@ -128,10 +129,10 @@
   padding: 0em;
 }
 
-.create-post .search-wrapper .searchBox {
+/* .create-post .search-wrapper .searchBox {
   font-size: 1.3em;
   font-weight: 500;
-}
+} */
 
 
 .post-like-text {

@@ -6,7 +6,8 @@ export const navSlice = createSlice({
   initialState: {
     open: false,
     mainMobileNav: false,
-    uploadModal: false
+    uploadModal: false,
+    createPostModal: false,
   },
 
   reducers: {
@@ -18,6 +19,9 @@ export const navSlice = createSlice({
     },
     setUploadModal: (state, action) => {
       state.uploadModal = action.payload;
+    },
+    setCreatePostModal: (state, action) => {
+      state.createPostModal = action.payload;
     }
   },
 
@@ -32,7 +36,7 @@ export const navSlice = createSlice({
   // },
 });
 
-export const { setNavState ,setMainMobileNavState , setUploadModal} = navSlice.actions
+export const { setNavState ,setMainMobileNavState , setUploadModal, setCreatePostModal} = navSlice.actions
 
 
 

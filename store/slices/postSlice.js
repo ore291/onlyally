@@ -263,6 +263,36 @@ export const PostSlice = createSlice({
         error: action.payload,
       };
     },
+    postFileRemoveStart: (state, action) => {
+      state.fileRemove = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "File Deleting....",
+        buttonDisable: true,
+      };
+    },
+    postFileRemoveSuccess: (state, action) => {
+      state.fileRemove = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    postFileRemoveFailure: (state, action) => {
+      state.fileRemove = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
   },
 });
 
@@ -281,7 +311,10 @@ export const {
   postFileUploadFailure,
   fetchPostCategoriesFailure,
   fetchPostCategoriesSuccess,
-  fetchPostCategoriesStart
+  fetchPostCategoriesStart,
+  postFileRemoveStart,
+  postFileRemoveFailure,
+  postFileRemoveSuccess,
 } = PostSlice.actions;
 
 export default PostSlice.reducer;

@@ -10,9 +10,9 @@ export const Notifications = () => {
 
   return (
     <NotificationList>
-      {notifications.length > 0 ? notifications.map((notification) => (
+      {notifications.map((notification) => (
         <NotificationItem key={notification.id} notification={notification} />
-      )) : ""}
+      ))}
     </NotificationList>
   );
 };

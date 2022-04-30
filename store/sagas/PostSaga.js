@@ -15,6 +15,8 @@ import {
   postFileUploadFailure,
   fetchPostsSuccess,
   fetchPostsFailure,
+  postFileRemoveSuccess,
+  postFileRemoveFailure
 } from "../slices/postSlice";
 
 import {addNotification} from "../slices/notificationsSlice";
@@ -119,6 +121,25 @@ function* fetchPostCategories() {
   }
 }
 
+function* postFileRemoveAPI() {
+  try {
+    const inputData = yield select((state) => state.post.fileRemove.inputData);
+    const response = yield api.postMethod({action:"post_files_remove",object: inputData});
+    if (response.data.success) {
+      yield put(postFileRemoveSuccess(response.data.data));
+    } else {
+      yield put(postFileRemoveFailure(response.data.error));
+      yield put(addNotification({message: response.data.error, type:"error"}))
+      // yield put(checkLogoutStatus(response.data));
+      
+    }
+  } catch (error) {
+    yield put(postFileRemoveFailure(error));
+    yield put(addNotification({message: error.message, type:"error"}))
+  }
+}
+
+
 
 export default function* pageSaga() {
   yield all([yield takeLatest("post/savePostStart", savePostAPI)]);
@@ -130,7 +151,7 @@ export default function* pageSaga() {
   // yield all([yield takeLatest(DELETE_POST_START, deletePostAPI)]);
   // yield all([yield takeLatest(CHANGE_POST_STATUS_START, changePostStatusAPI)]);
   yield all([yield takeLatest("post/postFileUploadStart", postFileUploadAPI)]);
-  // yield all([yield takeLatest(POST_FILE_REMOVE_START, postFileRemoveAPI)]);
+  yield all([yield takeLatest("post/postFileRemoveStart", postFileRemoveAPI)]);
 
   // yield all([yield takeLatest(PPV_PAYMENT_STRIPE_START, PPVPaymentStripeAPI)]);
   // yield all([yield takeLatest(PPV_PAYMENT_WALLET_START, PPVPaymentWalletAPI)]);
