@@ -4,15 +4,16 @@ import NotificationList from "./NotificationList";
 import NotificationItem from "./NotificationItem";
 
 export const Notifications = () => {
-  const notifications = useSelector(
-    (state) => state.notifications.notifications
-  );
+  const notificationsArray =
+    useSelector((state) => state.notifications.notifications) || [];
 
   return (
     <NotificationList>
-      {notifications.map((notification) => (
-        <NotificationItem key={notification.id} notification={notification} />
-      ))}
+      <div>
+        {notificationsArray.map((notification, index) => (
+          <NotificationItem key={index} notification={notification} />
+        ))}
+      </div>
     </NotificationList>
   );
 };

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { useSelector } from "react-redux";
-import { AnimatePresence } from "framer-motion";
-import * as Portal from '@radix-ui/react-portal';
+import { AnimatePresence, AnimateSharedLayout } from "framer-motion";
+import * as Portal from "@radix-ui/react-portal";
 
 const positions = {
   top: "top-0 right-0 left-0 items-center",
@@ -15,8 +15,8 @@ const positions = {
 const NotificationList = ({ children }) => {
   const position = useSelector((state) => state.notifications.position);
   return (
-    <> 
-    <ul
+    <AnimateSharedLayout>
+      <ul
         aria-live="assertive"
         className={clsx(
           "flex fixed z-50 flex-col gap-4 m-4 lg:m-8 pointer-events-none",
@@ -25,9 +25,7 @@ const NotificationList = ({ children }) => {
       >
         <AnimatePresence initial={false}>{children}</AnimatePresence>
       </ul>
-    </>
-     
-    
+    </AnimateSharedLayout>
   );
 };
 
