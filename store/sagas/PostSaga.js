@@ -17,6 +17,8 @@ import {
   fetchPostsFailure,
 } from "../slices/postSlice";
 
+import {addNotification} from "../slices/notificationsSlice";
+
 
 function* savePostAPI() {
   try {
@@ -25,32 +27,22 @@ function* savePostAPI() {
     if (!inputData.content && !inputData.post_files) {
       // !!!!! Dont change this condition. If changing get confirmation vidhya
       yield put(savePostFailure("Please fill the content"));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   "Please fill the content"
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: "Please fill the content", type:"error"}))
     } else {
       const response = yield api.postMethod({action:"posts_save_for_owner", object : inputData});
       if (response.data.success) {
         yield put(savePostSuccess(response.data.data));
-        // const notificationMessage = getSuccessNotificationMessage(
-        //   response.data.message
-        // );
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.message}))
         window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
         yield put(savePostFailure(response.data.error));
-        // const notificationMessage = getErrorNotificationMessage(
-        //   response.data.error
-        // );
         // yield put(checkLogoutStatus(response.data));
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}))
       }
     }
   } catch (error) {
     yield put(savePostFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
@@ -62,16 +54,12 @@ function* fetchPostsAPI() {
       yield put(fetchPostsSuccess(response.data.data));
     } else {
       yield put(fetchPostsFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
       // yield put(checkLogoutStatus(response.data));
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(fetchPostsFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
@@ -83,16 +71,12 @@ function* postFileUploadAPI() {
       yield put(postFileUploadSuccess(response.data.data));
     } else {
       yield put(postFileUploadFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
       // yield put(checkLogoutStatus(response.data));
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(postFileUploadFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
@@ -107,16 +91,13 @@ function* fetchSinglePostAPI() {
       yield put(fetchSinglePostSuccess(response.data.data));
     } else {
       yield put(fetchSinglePostFailure(response.data.error));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error
-      );
+      yield put(addNotification({message: response.data.error, type:"error"}))
     //   yield put(checkLogoutStatus(response.data));
-    //   yield put(createNotification(notificationMessage));
+    
     }
   } catch (error) {
     yield put(fetchSinglePostFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
@@ -130,15 +111,11 @@ function* fetchPostCategories() {
       yield put(fetchPostCategoriesSuccess(response.data.data));
     } else {
       yield put(fetchPostCategoriesFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(fetchPostCategoriesFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 

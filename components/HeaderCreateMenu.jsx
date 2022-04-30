@@ -10,7 +10,11 @@ import Button from "./Button";
 import { Listbox } from "@headlessui/react";
 import { Multiselect } from "multiselect-react-dropdown";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchPostCategoriesStart} from "../store/slices/postSlice";
+import {
+  fetchPostCategoriesStart,
+  savePostStart,
+  postFileUploadStart,
+} from "../store/slices/postSlice";
 import PostEditor from "./feeds/PostEditor";
 
 const people = [
@@ -21,7 +25,7 @@ const people = [
   { id: 5, name: "travel", unavailable: false },
 ];
 
-const HeaderMenuDropdown = () => {
+const HeaderMenuDropdown = ({ user }) => {
   const dispatch = useDispatch();
   const savePost = useSelector((state) => state.post.savePost);
   const fileUpload = useSelector((state) => state.post.fileUpload);
@@ -63,6 +67,7 @@ const HeaderMenuDropdown = () => {
   const [disableAudio, setDisableAudio] = useState(false);
 
   const [audioPreviewUrl, setAudioPreviewUrl] = useState("");
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     dispatch(fetchPostCategoriesStart());
@@ -72,6 +77,7 @@ const HeaderMenuDropdown = () => {
     let ImagesFilesArray = await Object.entries(event.target.files).map(
       (e) => e[1]
     );
+    console.log(ImagesFilesArray)
     return ImagesFilesArray;
   };
 
@@ -83,219 +89,202 @@ const HeaderMenuDropdown = () => {
       reader.onerror = (error) => reject(error);
     });
 
-  // const handleChangeImage = (event, fileType) => {
-  //   if (event.currentTarget.type === "file") {
-  //     setFileUploadStatus(true);
-  //     let reader = new FileReader();
-  //     let file = event.currentTarget.files[0];
-  //     reader.onloadend = () => {
-  //       setImage({ ...image, previewImage: reader.result });
-  //     };
+  const handleChangeImage = (event, fileType) => {
+    if (event.currentTarget.type === "file") {
+      setImages(getFileArray(event))
+      setFileUploadStatus(true);
 
-  //     if (file) {
-  //       reader.readAsDataURL(file);
-  //     }
-  //     dispatch(
-  //       postFileUploadStart({
-  //         file: event.currentTarget.files[0],
-  //         file_type: fileType,
-  //       })
-  //     );
-  //     setPaidPost(true);
-  //     setDisableVideo(true);
-  //     setDisableAudio(true);
-  //   }
-  // };
+      let reader = new FileReader();
+      let file = event.currentTarget.files[0];
+      console.log(file)
+      reader.onloadend = () => {
+        setImage({ ...image, previewImage: reader.result });
+      };
 
-  // const handleChangeVideo = (event, fileType) => {
-  //   setVideoTitle(event.currentTarget.files[0].name);
-  //   if (event.currentTarget.type === "file") {
-  //     setFileUploadStatus(true);
-  //     let reader = new FileReader();
-  //     let file = event.currentTarget.files[0];
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+      // dispatch(
+      //   postFileUploadStart({
+      //     file: event.currentTarget.files[0],
+      //     // file: event.currentTarget.files,
+      //     file_type: fileType,
+      //   })
+      // );
+      setPaidPost(true);
+      setDisableVideo(true);
+      setDisableAudio(true);
+    }
+  };
 
-  //     reader.onloadend = () => {
-  //       setVideoPreviewUrl(reader.result);
-  //     };
+  const handleChangeVideo = (event, fileType) => {
+    setVideoTitle(event.currentTarget.files[0].name);
+    if (event.currentTarget.type === "file") {
+      setFileUploadStatus(true);
+      let reader = new FileReader();
+      let file = event.currentTarget.files[0];
 
-  //     if (file) {
-  //       reader.readAsDataURL(file);
-  //     }
-  //     dispatch(
-  //       postFileUploadStart({
-  //         file: event.currentTarget.files[0],
-  //         file_type: fileType,
-  //       })
-  //     );
-  //     setPaidPost(true);
-  //     setVideoThumbnail(true);
-  //     setDisableImage(true);
-  //     setDisableAudio(true);
-  //   }
-  // };
+      reader.onloadend = () => {
+        setVideoPreviewUrl(reader.result);
+      };
 
-  // const handleChangeAudio = (event, fileType) => {
-  //   setAudioTitle(event.currentTarget.files[0].name);
-  //   if (event.currentTarget.type === "file") {
-  //     setFileUploadStatus(true);
-  //     let reader = new FileReader();
-  //     let file = event.currentTarget.files[0];
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+      dispatch(
+        postFileUploadStart({
+          file: event.currentTarget.files,
+          file_type: fileType,
+        })
+      );
+      setPaidPost(true);
+      setVideoThumbnail(true);
+      setDisableImage(true);
+      setDisableAudio(true);
+    }
+  };
 
-  //     reader.onloadend = () => {
-  //       setAudioPreviewUrl(reader.result);
-  //     };
+  const handleChangeAudio = (event, fileType) => {
+    setAudioTitle(event.currentTarget.files[0].name);
+    if (event.currentTarget.type === "file") {
+      setFileUploadStatus(true);
+      let reader = new FileReader();
+      let file = event.currentTarget.files[0];
 
-  //     if (file) {
-  //       reader.readAsDataURL(file);
-  //     }
-  //     dispatch(
-  //       postFileUploadStart({
-  //         file: event.currentTarget.files[0],
-  //         file_type: fileType,
-  //       })
-  //     );
-  //     setPaidPost(true);
-  //     setAudioThumbnail(true);
-  //     setDisableImage(true);
-  //     setDisableVideo(true);
-  //   }
-  // };
+      reader.onloadend = () => {
+        setAudioPreviewUrl(reader.result);
+      };
 
-  // const imageClose = (event) => {
-  //   event.preventDefault();
-  //   if (fileUpload.loadingButtonContent !== null) {
-  //     const notificationMessage = getErrorNotificationMessage(
-  //       "File is being uploaded.. Please wait"
-  //     );
-  //     dispatch(createNotification(notificationMessage));
-  //   } else {
-  //     dispatch(
-  //       postFileRemoveStart({
-  //         file: fileUpload.data.file,
-  //         file_type: fileUpload.data.post_file.file_type,
-  //         blur_file: fileUpload.data.post_file.blur_file,
-  //         post_file_id: fileUpload.data.post_file.post_file_id,
-  //       })
-  //     );
-  //     setImage({ previewImage: "" });
-  //     setFileUploadStatus(false);
-  //     setDisableVideo(false);
-  //     setDisableAudio(false);
-  //     setPaidPost(false);
-  //   }
-  // };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+      dispatch(
+        postFileUploadStart({
+          file: event.currentTarget.files[0],
+          file_type: fileType,
+        })
+      );
+      setPaidPost(true);
+      setAudioThumbnail(true);
+      setDisableImage(true);
+      setDisableVideo(true);
+    }
+  };
 
-  // const videoClose = (event) => {
-  //   event.preventDefault();
-  //   if (fileUpload.loadingButtonContent !== null) {
-  //     const notificationMessage = getErrorNotificationMessage(
-  //       "File is being uploaded.. Please wait"
-  //     );
-  //     dispatch(createNotification(notificationMessage));
-  //   } else {
-  //     dispatch(
-  //       postFileRemoveStart({
-  //         file: fileUpload.data.file ? fileUpload.data.file : "",
-  //         file_type: fileUpload.data.post_file
-  //           ? fileUpload.data.post_file.file_type
-  //           : "",
-  //         preview_file: fileUpload.data.post_file
-  //           ? fileUpload.data.post_file.preview_file
-  //           : "",
-  //         post_file_id: fileUpload.data.post_file
-  //           ? fileUpload.data.post_file.post_file_id
-  //           : "",
-  //       })
-  //     );
-  //     setFileUploadStatus(false);
-  //     setVideoTitle("");
-  //     setVideoThumbnail(false);
-  //     setDisableImage(false);
-  //     setDisableAudio(false);
-  //     setPaidPost(false);
-  //     setVideoPreviewUrl("");
-  //   }
-  // };
+  const imageClose = (event) => {
+    event.preventDefault();
+    if (fileUpload.loadingButtonContent !== null) {
+      const notificationMessage = getErrorNotificationMessage(
+        "File is being uploaded.. Please wait"
+      );
+      dispatch(createNotification(notificationMessage));
+    } else {
+      dispatch(
+        postFileRemoveStart({
+          file: fileUpload.data.file,
+          file_type: fileUpload.data.post_file.file_type,
+          blur_file: fileUpload.data.post_file.blur_file,
+          post_file_id: fileUpload.data.post_file.post_file_id,
+        })
+      );
+      setImage({ previewImage: "" });
+      setFileUploadStatus(false);
+      setDisableVideo(false);
+      setDisableAudio(false);
+      setPaidPost(false);
+    }
+  };
 
-  // const audioClose = (event) => {
-  //   event.preventDefault();
-  //   if (fileUpload.loadingButtonContent !== null) {
-  //     const notificationMessage = getErrorNotificationMessage(
-  //       "File is being uploaded.. Please wait"
-  //     );
-  //     dispatch(createNotification(notificationMessage));
-  //   } else {
-  //     dispatch(
-  //       postFileRemoveStart({
-  //         file: fileUpload.data.file ? fileUpload.data.file : "",
-  //         file_type: fileUpload.data.post_file
-  //           ? fileUpload.data.post_file.file_type
-  //           : "",
-  //         preview_file: fileUpload.data.post_file
-  //           ? fileUpload.data.post_file.preview_file
-  //           : "",
-  //         post_file_id: fileUpload.data.post_file
-  //           ? fileUpload.data.post_file.post_file_id
-  //           : "",
-  //       })
-  //     );
-  //     setFileUploadStatus(false);
-  //     setAudioTitle("");
-  //     setAudioThumbnail(false);
-  //     setDisableImage(false);
-  //     setDisableVideo(false);
-  //     setPaidPost(false);
-  //     setAudioPreviewUrl("");
-  //   }
-  // };
+  const videoClose = (event) => {
+    event.preventDefault();
+    if (fileUpload.loadingButtonContent !== null) {
+      const notificationMessage = getErrorNotificationMessage(
+        "File is being uploaded.. Please wait"
+      );
+      dispatch(createNotification(notificationMessage));
+    } else {
+      dispatch(
+        postFileRemoveStart({
+          file: fileUpload.data.file ? fileUpload.data.file : "",
+          file_type: fileUpload.data.post_file
+            ? fileUpload.data.post_file.file_type
+            : "",
+          preview_file: fileUpload.data.post_file
+            ? fileUpload.data.post_file.preview_file
+            : "",
+          post_file_id: fileUpload.data.post_file
+            ? fileUpload.data.post_file.post_file_id
+            : "",
+        })
+      );
+      setFileUploadStatus(false);
+      setVideoTitle("");
+      setVideoThumbnail(false);
+      setDisableImage(false);
+      setDisableAudio(false);
+      setPaidPost(false);
+      setVideoPreviewUrl("");
+    }
+  };
 
-  // // const handleSubmit = (event) => {
-  // //   event.preventDefault();
-  // //   if (fileUploadStatus) {
-  // //     dispatch(
-  // //       savePostStart({
-  // //         content: inputData.content ? inputData.content : "",
-  // //         amount: inputData.amount ? inputData.amount : "",
-  // //         post_files: fileUpload.data.post_file.post_file_id,
-  // //         preview_file: inputData.preview_file ? inputData.preview_file : "",
-  // //       })
-  // //     );
-  // //   } else {
-  // //     dispatch(
-  // //       savePostStart({
-  // //         content: inputData.content ? inputData.content : "",
-  // //         amount: inputData.amount ? inputData.amount : "",
-  // //       })
-  // //     );
-  // //   }
-  // // };
+  const audioClose = (event) => {
+    event.preventDefault();
+    if (fileUpload.loadingButtonContent !== null) {
+      const notificationMessage = getErrorNotificationMessage(
+        "File is being uploaded.. Please wait"
+      );
+      dispatch(createNotification(notificationMessage));
+    } else {
+      dispatch(
+        postFileRemoveStart({
+          file: fileUpload.data.file ? fileUpload.data.file : "",
+          file_type: fileUpload.data.post_file
+            ? fileUpload.data.post_file.file_type
+            : "",
+          preview_file: fileUpload.data.post_file
+            ? fileUpload.data.post_file.preview_file
+            : "",
+          post_file_id: fileUpload.data.post_file
+            ? fileUpload.data.post_file.post_file_id
+            : "",
+        })
+      );
+      setFileUploadStatus(false);
+      setAudioTitle("");
+      setAudioThumbnail(false);
+      setDisableImage(false);
+      setDisableVideo(false);
+      setPaidPost(false);
+      setAudioPreviewUrl("");
+    }
+  };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   if (fileUploadStatus) {
-  //     dispatch(
-  //       savePostStart({
-  //         content: editorHtmlContent,
-  //         amount: inputData.amount ? inputData.amount : "",
-  //         post_file_id: fileUpload.data.post_file.post_file_id,
-  //         preview_file: inputData.preview_file ? inputData.preview_file : "",
-  //         post_category_ids: inputData.post_category_ids
-  //           ? inputData.post_category_ids
-  //           : [],
-  //       })
-  //     );
-  //   } else {
-  //     dispatch(
-  //       savePostStart({
-  //         content: editorHtmlContent,
-  //         amount: inputData.amount ? inputData.amount : "",
-  //         post_category_ids: inputData.post_category_ids
-  //           ? inputData.post_category_ids
-  //           : [],
-  //       })
-  //     );
-  //   }
-  // };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (fileUploadStatus) {
+      dispatch(
+        savePostStart({
+          content: editorHtmlContent,
+          amount: inputData.amount ? inputData.amount : "",
+          post_file_id: props.fileUpload.data.post_file.post_file_id,
+          preview_file: inputData.preview_file ? inputData.preview_file : "",
+          post_category_ids: inputData.post_category_ids
+            ? inputData.post_category_ids
+            : [],
+        })
+      );
+    } else {
+      dispatch(
+        savePostStart({
+          content: editorHtmlContent,
+          amount: inputData.amount ? inputData.amount : "",
+          post_category_ids: inputData.post_category_ids
+            ? inputData.post_category_ids
+            : [],
+        })
+      );
+    }
+  };
 
   const setValues = (inputValue) => {
     let user_id_arr = [];
@@ -308,25 +297,25 @@ const HeaderMenuDropdown = () => {
     });
   };
 
-  // const handleVideopreviewImage = (event) => {
-  //   if (event.currentTarget.type === "file") {
-  //     setFileUploadStatus(true);
-  //     let reader = new FileReader();
-  //     let file = event.currentTarget.files[0];
-  //     reader.onloadend = () => {
-  //       setVideoPreview({ ...videoPreview, videoPreviewImage: reader.result });
-  //     };
+  const handleVideopreviewImage = (event) => {
+    if (event.currentTarget.type === "file") {
+      setFileUploadStatus(true);
+      let reader = new FileReader();
+      let file = event.currentTarget.files[0];
+      reader.onloadend = () => {
+        setVideoPreview({ ...videoPreview, videoPreviewImage: reader.result });
+      };
 
-  //     if (file) {
-  //       reader.readAsDataURL(file);
-  //     }
+      if (file) {
+        reader.readAsDataURL(file);
+      }
 
-  //     setInputData({
-  //       ...inputData,
-  //       preview_file: file,
-  //     });
-  //   }
-  // };
+      setInputData({
+        ...inputData,
+        preview_file: file,
+      });
+    }
+  };
 
   // my own code
   let [isOpen, setIsOpen] = useState(false);
@@ -525,7 +514,7 @@ const HeaderMenuDropdown = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-lg p-6 my-10 overflow-hidden h-[450px] text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div className="inline-block w-full max-w-xl p-6 my-10 overflow-hidden min-h-[450px] text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
                 <Dialog.Title
                   as="div"
                   className="flex justify-between text-lg font-medium leading-6 text-gray-900"
@@ -533,8 +522,21 @@ const HeaderMenuDropdown = () => {
                   <div onClick={closeModal}>
                     <MdClose className="h-7 w-7 cursor-pointer" />
                   </div>
-
-                  <Button text="POST" active={true} extraClasses="w-24 h-8" />
+                  <button
+                    type="submit"
+                    className="px-3 py-1 text-white rounded-lg bg-gradient-to-r  from-lightPlayRed to-playRed hover:from-pink-500 hover:to-yellow-500"
+                    onClick={handleSubmit}
+                    disabled={
+                      fileUpload.buttonDisable || savePost.buttonDisable
+                    }
+                  >
+                    {fileUpload.loadingButtonContent !== null
+                      ? fileUpload.loadingButtonContent
+                      : savePost.loadingButtonContent !== null
+                      ? savePost.loadingButtonContent
+                      : "POST"}
+                  </button>
+                  {/* <Button text="POST" active={true} extraClasses="w-24 h-8" /> */}
                 </Dialog.Title>
                 <div className="mt-2">
                   <div className="bg-white rounded-md shadow-sm pl-[1em] border">
@@ -542,7 +544,7 @@ const HeaderMenuDropdown = () => {
                       <PostEditor
                         className="PostEditor__input"
                         placeholder="Compose New Post ..."
-                        ref={mentionsRef}
+                        refs={mentionsRef}
                         getEditorRawContent={setEditorContentstate}
                         getEditorHtmlContent={setEditorHtmlContent}
                         dispatch={dispatch}
@@ -551,7 +553,6 @@ const HeaderMenuDropdown = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="my-3 lg:my-4">
                   {postCategories.data.post_categories &&
                   postCategories.data.post_categories.length > 0 ? (
@@ -578,44 +579,219 @@ const HeaderMenuDropdown = () => {
                     ""
                   )}
                 </div>
-
+                <div className="grid grid-cols-1">
+                  {paidPost == true ? (
+                    <form className="md-mrg-btm mt-3 mt-lg-4">
+                      <label className="text-muted m-1 mb-3 mb-lg-3">
+                        Price (Optional)
+                      </label>
+                      <input
+                        type="number"
+                        placeholder="Set price for the post"
+                        name="amount"
+                        pattern="[0-9]*"
+                        min="1"
+                        inputMode="numeric"
+                        value={inputData.amount}
+                        width="50%"
+                        onChange={(event) =>
+                          setInputData({
+                            ...inputData,
+                            amount: event.currentTarget.value,
+                          })
+                        }
+                      />
+                    </form>
+                  ) : (
+                    ""
+                  )}
+                  {videoThumbnail === true ? (
+                    <>
+                      <form className="md-mrg-btm mb-3 mb-lg-3">
+                        <label className="text-muted m-1 mt-3 f-12 text-uppercase mb-3 mb-lg-3">
+                          Upload Video Thumbnail (Optional)
+                        </label>
+                        <input
+                          style={{ display: "block" }}
+                          type="file"
+                          placeholder="Upload Video thumbnail"
+                          name="preview_file"
+                          width="50%"
+                          className="form-control"
+                          accept=".gif,.jpg,.jpeg,.gif,.png,.jpg,.jpeg,.png"
+                          onChange={(event) => handleVideopreviewImage(event)}
+                        />
+                      </form>
+                      {videoPreview.videoPreviewImage !== "" ? (
+                        <div grid grid-cols-1 className="mb-3 mb-lg-4">
+                          <div className="post-img-preview-sec m-0">
+                            <img
+                              alt="#"
+                              src={videoPreview.videoPreviewImage}
+                              className="post-video-preview"
+                            />
+                          </div>
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
                 <div className="row-container space-x-4 my-4">
-                  <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
-                    <BiImageAdd className="w-4 h-4" />
-                    <span className="text-xs">Upload Images</span>
-                    <input
-                      accept="image/x-png, image/gif, image/jpeg"
-                      multiple="multiple"
-                      type="file"
-                      className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100"
-                    />
+                  <button>
+                    <form
+                      action="
+                  "
+                    >
+                      <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
+                        <input
+                          id="fileupload_photo"
+                          type="file"
+                          multiple="multiple"
+                          disabled={disableImage ? true : false}
+                          accept=".gif,.jpg,.jpeg,.gif,.png,.jpg,.jpeg,.png"
+                          onChange={(event) =>
+                            handleChangeImage(event, "image")
+                          }
+                          name="post_files"
+                          className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
+                        />
+                        <label
+                          id="attach_file_photo"
+                          htmlFfor="fileupload_photo"
+                          className="chat-attach_file"
+                          data-original-title="null"
+                        >
+                          <div className="row-container">
+                            <BiImageAdd className="w-4 h-4" />
+                            <span className="text-xs">Upload Images</span>
+                          </div>
+                        </label>
+                      </div>
+                    </form>
+                  </button>
+                  <button>
+                    <form>
+                      <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
+                        <label
+                          id="attach_file_video"
+                          htmlFor="fileupload_video"
+                          className="chat-attach_file"
+                          data-original-title="null"
+                        >
+                          <div className="row-container space-x-1">
+                            <FaVideo className="w-3 h-3" />
+                            <span className="text-xs">Upload Video</span>
+                          </div>
+                        </label>
 
-                    {/* onChange={e => setSelectedImage(e.target.files[0])} */}
-                  </div>
-                  <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
-                    <FaVideo className="w-3 h-3" />
-                    <span className="text-xs">Upload Video</span>
-                    <input
-                      accept="video/*"
-                      type="file"
-                      className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100"
-                      placeholder="Upload Images"
-                    />
+                        <input
+                          id="fileupload_video"
+                          type="file"
+                          multiple="multiple"
+                          disabled={disableVideo ? true : false}
+                          accept="video/mp4,video/x-m4v,video/*"
+                          onChange={(event) =>
+                            handleChangeVideo(event, "video")
+                          }
+                          name="post_files"
+                          className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
+                        />
 
-                    {/* onChange={e => setSelectedImage(e.target.files[0])} */}
-                  </div>
-                  <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
-                    <FaMusic className="w-3 h-3" />
-                    <span className="text-xs">Audio Upload</span>
-                    <input
-                      accept="image/*"
-                      type="file"
-                      className="opacity-0 absolute top-0 right-o min-w-full min-h-full text-right bg-white block placeholder:opacity-100"
-                      placeholder="Upload Images"
-                    />
+                      
+                      </div>
+                    </form>
+                  </button>
+                  {videoTitle !== "" ? (
+                    <div className="post-title-content create-post-video-title">
+                      <h4>{videoTitle}</h4>
+                    </div>
+                  ) : null}
+                  <button>
+                    <form action="">
+                      <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
+                        <label
+                          id="attach_file_audio"
+                          htmlFor="fileupload_audio"
+                          className="chat-attach_file"
+                          data-original-title="null"
+                        >
+                          <div className="row-container space-x-1">
+                            <FaMusic className="w-3 h-3" />
+                            <span className="text-xs">Audio Upload</span>
+                          </div>
+                        </label>
 
-                    {/* onChange={e => setSelectedImage(e.target.files[0])} */}
-                  </div>
+                        <input
+                          id="fileupload_audio"
+                          type="file"
+                          multiple="multiple"
+                          disabled={disableAudio ? true : false}
+                          accept="audio/mp3,audio/*"
+                          onChange={(event) =>
+                            handleChangeAudio(event, "audio")
+                          }
+                          name="post_files"
+                          className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
+                        />
+                      </div>
+                    </form>
+                  </button>
+                  {audioTitle !== "" ? (
+                    <div className="post-title-content create-post-video-title">
+                      <h4>{audioTitle}</h4>
+                    </div>
+                  ) : null}
+                </div>{" "}
+                <div>
+                  {image.previewImage !== "" ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2">
+                      <div className="post-img-preview-sec">
+                        <a to="#" onClick={imageClose}>
+                          <i className="far fa-times-circle"></i>
+                        </a>
+                        <img
+                          alt="#"
+                          src={image.previewImage}
+                          className="post-video-preview"
+                        />
+                      </div>
+                    </div>
+                  ) : null}
+                  {videoPreviewUrl !== "" ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2">
+                      <div className="post-img-preview-sec my-3 my-lg-4">
+                        <video
+                          autoPlay
+                          controls
+                          id="myVideo"
+                          className="user-profile1 create-post-video"
+                        >
+                          <source src={videoPreviewUrl} type="video/mp4" />
+                        </video>
+                        <a to="#" onClick={videoClose} className="close-video">
+                          <i className="far fa-window-close"></i>
+                        </a>
+                      </div>
+                    </div>
+                  ) : null}
+                  {audioPreviewUrl !== "" ? (
+                    <div className="grid-cols-1 grid">
+                      <div className="post-img-preview-sec">
+                        <audio controls id="myVideo" className="user-profile1">
+                          <source src={audioPreviewUrl} type="audio/mp3" />
+                        </audio>
+                        <a
+                          to="#"
+                          onClick={audioClose}
+                          className="close-audio"
+                        >
+                          <i className="far fa-window-close"></i>
+                        </a>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </Transition.Child>

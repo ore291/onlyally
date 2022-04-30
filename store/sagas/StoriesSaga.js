@@ -14,6 +14,8 @@ import {
   fetchUserStoriesStart,
 } from "../slices/storiesSlice";
 
+import { addNotification} from "../slices/notificationsSlice";
+
 function* fetchUserStoriesAPI(action) {
   try {
     const skipCount = yield select((state) => state.stories.userStories.skip);
@@ -59,15 +61,11 @@ function* fetchStoriesAPI(action) {
       yield put(fetchStoriesSuccess(response.data.data));
     } else {
       yield put(fetchStoriesFailure(response.data.error.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(fetchStoriesFailure(error));
-    //   const notificationMessage = getErrorNotificationMessage(error.message);
-    //   yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
@@ -81,21 +79,14 @@ function* storyFileUploadAPI(action) {
     if (response.data.success) {
       yield put(storyFileUploadSuccess(response.data.data));
       yield put(fetchStoriesStart());
-      // const notificationMessage = getSuccessNotificationMessage(
-      //   response.data.message
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.message}))
     } else {
       yield put(storyFileUploadFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(storyFileUploadFailure(error));
-    //   const notificationMessage = getErrorNotificationMessage(error.message);
-    //   yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
@@ -109,21 +100,14 @@ function* storyFileDeleteAPI(action) {
     if (response.data.success) {
       yield put(storyFileDeleteSuccess(response.data.data));
       yield put(fetchUserStoriesStart());
-      // const notificationMessage = getSuccessNotificationMessage(
-      //   response.data.message
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.message}))
     } else {
       yield put(storyFileDeleteFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(storyFileDeleteFailure(error));
-    //   const notificationMessage = getErrorNotificationMessage(error.message);
-    //   yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 

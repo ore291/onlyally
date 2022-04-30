@@ -18,6 +18,8 @@ import {
     fetchCommentsStart
   } from "../slices/commentsSlice";
 
+  import { addNotification } from "../slices/notificationsSlice";
+
 
   function* fetchCommentsAPI() {
     try {
@@ -28,16 +30,13 @@ import {
         yield put(fetchCommentsSuccess(response.data.data));
       } else {
         yield put(fetchCommentsFailure(response.data.error));
-        // const notificationMessage = getErrorNotificationMessage(
-        //   response.data.error
-        // );
+        
         // yield put(checkLogoutStatus(response.data));
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}));
       }
     } catch (error) {
       yield put(fetchCommentsFailure(error));
-    //   const notificationMessage = getErrorNotificationMessage(error.message);
-    //   yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}));
     }
   }
 
@@ -50,22 +49,15 @@ import {
       if (response.data.success) {
         yield put(saveCommentSuccess(response.data.data));
         yield put(fetchCommentsStart(inputData))
-        // const notificationMessage = getSuccessNotificationMessage(
-        //   response.data.message
-        // );
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.message}))
       } else {
         yield put(saveCommentFailure(response.data.error));
-        // const notificationMessage = getErrorNotificationMessage(
-        //   response.data.error
-        // );
         // yield put(checkLogoutStatus(response.data));
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}));
       }
     } catch (error) {
       yield put(saveCommentFailure(error));
-      // const notificationMessage = getErrorNotificationMessage(error.message);
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: error.message, type:"error"}));
     }
   }
 
@@ -77,16 +69,12 @@ import {
         yield put(fetchCommentRepliesSuccess(response.data.data));
       } else {
         yield put(fetchCommentRepliesFailure(response.data.error));
-        // const notificationMessage = getErrorNotificationMessage(
-        //   response.data.error
-        // );
         // yield put(checkLogoutStatus(response.data));
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}));
       }
     } catch (error) {
       yield put(fetchCommentRepliesFailure(error));
-      // const notificationMessage = getErrorNotificationMessage(error.message);
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: error.message, type:"error"}));
     }
   }
   
@@ -98,22 +86,16 @@ import {
       const response = yield api.postMethod({action:"post_comments_replies_save",object:inputData});
       if (response.data.success) {
         yield put(saveCommentRepliesSuccess(response.data.data));
-        // const notificationMessage = getSuccessNotificationMessage(
-        //   response.data.message
-        // );
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.message}));
+        
       } else {
         yield put(saveCommentRepliesFailure(response.data.error));
-        // const notificationMessage = getErrorNotificationMessage(
-        //   response.data.error
-        // );
         // yield put(checkLogoutStatus(response.data));
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}));
       }
     } catch (error) {
       yield put(saveCommentRepliesFailure(error));
-      // const notificationMessage = getErrorNotificationMessage(error.message);
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: error.message, type:"error"}));
     }
   }
 

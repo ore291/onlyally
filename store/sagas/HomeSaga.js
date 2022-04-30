@@ -17,6 +17,8 @@ import {
   fetchPostSuggestionsFailure,
 } from "../slices/homeSlice";
 
+import { addNotification } from "../slices/notificationsSlice";
+
 function* fetchHomePostAPI(action) {
   if (action.payload) {
     var accessToken = action.payload.accessToken;
@@ -72,17 +74,12 @@ function* fetchHomePostAPI(action) {
       }
     } else {
       yield put(fetchHomePostsFailure(response.data.error));
-      //   const notificationMessage = getErrorNotificationMessage(
-      //     response.data.error
-      //   );
       //   yield put(checkLogoutStatus(response.data));
-      //   yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}));
     }
   } catch (error) {
-    console.log(error);
     yield put(fetchHomePostsFailure(error.message));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}));
   }
 }
 
@@ -97,16 +94,12 @@ function* searchUserAPI() {
       yield put(searchUserSuccess(response.data.data));
     } else {
       yield put(searchUserFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
       // yield put(checkLogoutStatus(response.data));
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(searchUserFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
@@ -132,16 +125,12 @@ function* fetchTrendingUsersAPI(action) {
       yield put(fetchTrendingUsersSuccess(response.data.data));
     } else {
       yield put(fetchTrendingUsersFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
       // yield put(checkLogoutStatus(response.data));
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(fetchTrendingUsersFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
@@ -164,16 +153,12 @@ function* fetchPostSuggestionAPI(action) {
       yield put(fetchPostSuggestionsSuccess(response.data.data));
     } else {
       yield put(fetchPostSuggestionsFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
       // yield put(checkLogoutStatus(response.data));
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}));
     }
   } catch (error) {
     yield put(fetchPostSuggestionsFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
