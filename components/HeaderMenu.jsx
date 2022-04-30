@@ -33,10 +33,11 @@ const router = useRouter();
         <Menu.Button>
           <div className="row-container rounded-full bg-[#BA253D] space-x-1 pr-2 cursor-pointer">
             <Image
+            alt=""
               src={user.picture}
-              width={35}
-              height={35}
-              objectFit="contain"
+              width={38}
+              height={38}
+              objectFit="cover"
               className="rounded-full"
             />
 
@@ -68,8 +69,9 @@ const router = useRouter();
                       <Image
                         src={user.picture}
                         layout="fill"
-                        className="rounded-full mr-2"
-                        objectFit="contain"
+                        className="rounded-full"
+                        objectFit="cover"
+                        alt=""
                       />
                     </div>
                     My Profile

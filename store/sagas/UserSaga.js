@@ -5,13 +5,13 @@ import api from "../../Environment";
 var localStorage = require("localStorage");
 
 import {fetchUserDetailsStart, fetchUserDetailsSuccess, fetchUserDetailsFailure} from "../slices/userSlice";
+import {addNotification} from "../slices/notificationsSlice";
 
 function* getUserDetailsAPI(action) {
     var accessToken = action.payload.accessToken;
     var userId = action.payload.userId;
     try {
-      const response = yield api.postMethod("profile",accessToken, userId );
-      console.log(response)
+      const response = yield api.postMethod({action:"profile",accessToken:accessToken, userId: userId });
   
       if (response.data.success) {
         yield put(fetchUserDetailsSuccess(response.data.data));
@@ -58,20 +58,13 @@ function* getUserDetailsAPI(action) {
         }
         
       } else {
-        yield put(fetchUserDetailsFailure(response));
+        yield put(fetchUserDetailsFailure(response.data.error));
         // yield put(checkLogoutStatus(response.data));
-        // const notificationMessage = getErrorNotificationMessage(
-        //   response.data.error
-        // );
-        // yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}))
       }
     } catch (error) {
-      console.log(error);
       yield put(fetchUserDetailsFailure(error));
-    //   const notificationMessage = getErrorNotificationMessage(
-    //     error.response.data.error
-    //   );
-    //   yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: error.message, type:"error"}))
     }
   }
   
@@ -105,24 +98,15 @@ function* getUserDetailsAPI(action) {
           "default_payment_method",
           response.data.data.default_payment_method
         );
-        const notificationMessage = getSuccessNotificationMessage(
-          response.data.message
-        );
-        yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.message}))
         window.location.assign("/profile");
       } else {
-        const notificationMessage = getErrorNotificationMessage(
-          response.data.error
-        );
-        yield put(createNotification(notificationMessage));
-        yield put(updateUserDetailsFailure(response.data.error));
+        yield put(addNotification({message: response.data.error, type:"error"}))
+        // yield put(updateUserDetailsFailure(response.data.error));
       }
     } catch (error) {
-      yield put(updateUserDetailsFailure(error));
-      const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
-      );
-      yield put(createNotification(notificationMessage));
+      // yield put(updateUserDetailsFailure(error));
+      yield put(addNotification({message: error.message, type:"error"}))
     }
   }
   
@@ -177,25 +161,18 @@ function* getUserDetailsAPI(action) {
             response.data.data.is_two_step_auth_enabled
           );
           localStorage.setItem("emailId", response.data.data.email);
-          const notificationMessage = getSuccessNotificationMessage(
-            response.data.message
-          );
-          yield put(createNotification(notificationMessage));
+          yield put(addNotification({message: response.data.message}))
           window.location.assign("/home");
           localStorage.setItem("userId", response.data.data.user_id);
           localStorage.setItem("accessToken", response.data.data.token);
           }
         }
       } else {
-        const notificationMessage = getErrorNotificationMessage(
-          response.data.error
-        );
-        yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}))
       }
     } catch (error) {
       yield put(userLoginFailure(error));
-      const notificationMessage = getErrorNotificationMessage(error.message);
-      yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: error.message, type:"error"}))
     }
   }
   
@@ -237,10 +214,7 @@ function* getUserDetailsAPI(action) {
             "is_two_step_auth_enabled",
             response.data.data.is_two_step_auth_enabled
           );
-          const notificationMessage = getSuccessNotificationMessage(
-            response.data.message
-          );
-          yield put(createNotification(notificationMessage));
+          yield put(addNotification({message: response.data.message}))
           if (response.data.data.is_welcome_steps == 1) {
             window.location.assign("/upload-profile-picture");
           } else {
@@ -249,17 +223,11 @@ function* getUserDetailsAPI(action) {
         }
         
       } else {
-        const notificationMessage = getErrorNotificationMessage(
-          response.data.error
-        );
-        yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}))
       }
     } catch (error) {
       yield put(userRegisterFailure(error));
-      const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
-      );
-      yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: error.message, type:"error"}))
     }
   }
   

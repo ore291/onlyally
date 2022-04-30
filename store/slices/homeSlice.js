@@ -103,17 +103,17 @@ export const HomeSlice = createSlice({
         inputData: action.payload,
         loadingButtonContent: "Loading...",
         buttonDisable: true,
-      }
+      };
     },
     searchUserSuccess: (state, action) => {
-     state.searchUser = {
-      data: action.payload,
-      loading: false,
-      error: false,
-      inputData: {},
-      loadingButtonContent: null,
-      buttonDisable: false,
-     }
+      state.searchUser = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
     },
     searchUserFailure: (state, action) => {
       state.searchUser = {
@@ -123,24 +123,85 @@ export const HomeSlice = createSlice({
         inputData: {},
         loadingButtonContent: null,
         buttonDisable: false,
+      };
+    },
+    fetchTrendingUsersStart: (state, action) => {
+      state.trendingUsers = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "Loading... Please wait",
+        buttonDisable: true,
+      };
+    },
+    fetchTrendingUsersSuccess: (state, action) => {
+      state.trendingUsers = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    fetchTrendingUsersFailure: (state, action) => {
+      state.trendingUsers = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    fetchPostSuggestionsStart: (state, action) => {
+      state.postSug = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "Loading... Please wait",
+        buttonDisable: true,
       }
     },
-   
+    fetchPostSuggestionsSuccess: (state, action) => {
+      state.postSug = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      }
+    },
+    fetchPostSuggestionsFailure: (state, action) => {
+      state.postSug = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      }
+    }
   },
 
-    extraReducers: {
-      [HYDRATE]: (state, action) => {
-        // handle client
-        if (!action.payload.home.homePost) {
-          return state;
-        }
-        state.homePost = action.payload.home.homePost;
-        // state.homePost.posts = action.payload.home.homePost.posts;
-        // state.homePost.skip = action.payload.home.homePost.skip;
-        // state.homePost.length = action.payload.home.homePost.length;
-        // state.homePost.error = action.payload.home.homePost.error;
-      },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.home.homePost) {
+        return state;
+      }
+      state.homePost = action.payload.home.homePost;
+      state.trendingUsers = action.payload.home.trendingUsers;
+      state.postSug = action.payload.home.postSug;
+      // state.homePost.posts = action.payload.home.homePost.posts;
+      // state.homePost.skip = action.payload.home.homePost.skip;
+      // state.homePost.length = action.payload.home.homePost.length;
+      // state.homePost.error = action.payload.home.homePost.error;
     },
+  },
 });
 
 export const {
@@ -149,7 +210,13 @@ export const {
   fetchHomePostsFailure,
   searchUserFailure,
   searchUserStart,
-  searchUserSuccess
+  searchUserSuccess,
+  fetchTrendingUsersFailure,
+  fetchTrendingUsersSuccess,
+  fetchTrendingUsersStart,
+  fetchPostSuggestionsFailure,
+  fetchPostSuggestionsSuccess,
+  fetchPostSuggestionsStart
 } = HomeSlice.actions;
 
 export default HomeSlice.reducer;

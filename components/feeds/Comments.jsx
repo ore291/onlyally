@@ -4,18 +4,20 @@ import Image from "next/image";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 
 import { EditorState, convertToRaw, Modifier } from "draft-js";
-import { useSession, getSession } from "next-auth/react";
-import { saveCommentStart, fetchCommentsStart} from "../../store/slices/commentsSlice";
+import { useSelector } from "react-redux";
+import {
+  saveCommentStart,
+  fetchCommentsStart,
+} from "../../store/slices/commentsSlice";
 
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import PostEditor from "./PostEditor";
 import { useDispatch } from "react-redux";
 
-
-const Comments = ({post, currentIndex}) => {
+const Comments = ({ post, currentIndex }) => {
   const dispatch = useDispatch();
-  const { data: session, status } = useSession();
+  const user = useSelector(state => state.user.loginData)
 
   const mentionsRef = useRef();
 
@@ -99,7 +101,7 @@ const Comments = ({post, currentIndex}) => {
               <div className="relative w-10 h-10 rounded-full max-w-full">
                 <Image
                   alt=""
-                  src={"/profile_avatar_full.jpg"}
+                  src={user.picture}
                   objectFit="cover"
                   layout="fill"
                   className="rounded-full"
@@ -133,7 +135,7 @@ const Comments = ({post, currentIndex}) => {
           )}
           <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
             <li className="mt-0 mr-1 flex items-start">
-              <button to="#" onClick={()=>handleCommentSubmit}>
+              <button to="#" onClick={() => handleCommentSubmit}>
                 {/* <i className="fas fa-paper-plane"></i> */}
                 <div className="commentBtn row-container">
                   <div className="relative w-7 h-7">

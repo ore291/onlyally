@@ -6,8 +6,8 @@ const Story = ({ username, img, isYou }) => {
     return (
       <div className="col-container cursor-pointer">
         {/* <div className="relative bg-gradient-to-tr from-yellow-400 to-playRed p-0.5 rounded-full"> */}
-          <div className="bg-white p-[1px] rounded-full relative">
-            <div className="h-16 w-16 md:h-20 md:w-20 relative rounded-full">
+          <div className="bg-white p-[2px] pb-[3px] rounded-full relative">
+            <div className="h-12 w-12 md:h-16 md:w-16 relative rounded-full">
               <Image
                 className="rounded-full"
                 layout="fill"
@@ -32,7 +32,7 @@ const Story = ({ username, img, isYou }) => {
       <div className="col-container cursor-pointer">
         <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-[2px] rounded-full">
           <div className="bg-white p-[1px] rounded-full transform transition hover:-rotate-6">
-            <div className="h-[60px] w-[60px] md:h-20 md:w-20  relative rounded-full">
+            <div className="h-12 w-12 md:h-16 md:w-16  relative rounded-full">
               <Image
                 className="rounded-full"
                 layout="fill"
