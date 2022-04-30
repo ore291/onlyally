@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "nanoid";
+import {HYDRATE} from "next-redux-wrapper"
 
 const initialState = {
   notifications: [],
@@ -29,6 +30,20 @@ const NotificationsSlice = createSlice({
         if (index !== -1) {
           state.notifications.splice(index, 1)
         }
+    },
+  },
+
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.notifications.notifications) {
+        return state;
+      }
+      state.notifications = action.payload.notifications.notifications;
+      // state.homePost.posts = action.payload.home.homePost.posts;
+      // state.homePost.skip = action.payload.home.homePost.skip;
+      // state.homePost.length = action.payload.home.homePost.length;
+      // state.homePost.error = action.payload.home.homePost.error;
     },
   },
 });

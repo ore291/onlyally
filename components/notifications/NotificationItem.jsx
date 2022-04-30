@@ -125,10 +125,10 @@ const NotificationItem = ({
         "flex w-max items-center shadow px-4 py-2 rounded border transition-colors duration-100 min-w-[260px] text-sm pointer-events-auto",
         notificationStyleVariants[type]
       )}
-      initial="initial"
       animate="animate"
       exit="exit"
       layout="position"
+      layoutId={id}
       custom={position}
       variants={!prefersReducedMotion ? motionVariants : {}}
       onMouseEnter={onMouseEnter}

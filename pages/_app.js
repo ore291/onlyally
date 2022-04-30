@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-      {/* <Notifications/> */}
+      <Notifications/>
     </SessionProvider>
   );
 }
