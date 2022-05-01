@@ -37,8 +37,13 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
             className="flex space-x-5 cursor-pointer"
             onClick={handleProfileClick}
           >
-            <BiUserCircle className="mt-1 font-semibold" />
-            <p>Profile</p>
+            <Link href="/bookmarks/profile">
+              <a className="flex space-x-5 cursor-pointer">
+                <BiUserCircle className="mt-1 font-semibold" />
+
+                <p>Profile</p>
+              </a>
+            </Link>
           </span>
           {profileClick && <ProfileClick className="absolute  top-5 right-0" />}
 
