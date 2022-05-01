@@ -11,7 +11,6 @@ import { HiOutlineEmojiHappy } from "react-icons/hi";
 import Lightbox from "react-image-lightbox";
 import ReactPlayer from "react-player/lazy";
 import { useDispatch, useSelector } from "react-redux";
-import TextareaAutosize from "react-textarea-autosize";
 import Button from "../Button";
 import scrollToTop from "../helpers/ScrollToTop";
 import EmblaSlide from "./EmblaSlide";
