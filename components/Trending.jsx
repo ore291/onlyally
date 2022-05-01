@@ -1,14 +1,16 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { fetchTrendingUsersStart } from "../store/slices/homeSlice";
 import CommonCenterLoader from "./helpers/CommonCenterLoader";
 
 const Trending = () => {
   const dispatch = useDispatch();
+  const { data: session } = useSession()
 
   useEffect(() => {
     dispatch(fetchTrendingUsersStart());
-  }, []);
+  }, [session]);
 
   const trendingUsers = useSelector((state) => state.home.trendingUsers);
   return (

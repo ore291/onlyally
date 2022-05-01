@@ -40,13 +40,13 @@ const ProfileTabs = () => {
     <div>
       <Tab.Group>
         <Tab.List>
-          <div className="flex justify-start space-x-3 items-center  border rounded-b-lg shadow-md py-3 bg-slate-50">
+          <div className="flex justify-center space-x-0 md:space-x-1 items-center  border rounded-b-lg shadow-md py-3 bg-slate-50">
             {categories.map((category, index) => (
               <Tab
                 key={index}
                 className={({ selected }) =>
                   classNames(
-                    "w-auto h-8 px-4 text-sm leading-5 font-semibold ",
+                    "w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-semibold ",
                     "focus:outline-none focus:ring-0 ",
                     selected
                       ? "text-lightPlayRed underline decoration-lightPlayRed underline-offset-8 decoration-[3px] font-bold"

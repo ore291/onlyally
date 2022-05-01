@@ -15,6 +15,7 @@ import axios from 'axios';
 import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
+  fetchUserLoginSuccess
 } from "../store/slices/userSlice";
 import {fetchStoriesStart} from "../store/slices/storiesSlice";
 import { fetchHomePostsStart , fetchTrendingUsersStart, fetchPostSuggestionsStart} from "../store/slices/homeSlice";
@@ -119,7 +120,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     // const dispatch = useDispatch();
     if (session) {
-      store.dispatch(fetchUserDetailsSuccess(session.user.userDetails));
+      store.dispatch(fetchUserLoginSuccess(session.user.userDetails));
     }
 
     const response = await axios.get(apiConstants.settingsUrl)

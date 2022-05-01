@@ -2,6 +2,7 @@ import SideNavLayout from "../components/SideNavLayout";
 import ProfileTabs from "../components/userProfile/ProfileTabs";
 import Button from "../components/Button";
 import Image from "next/image";
+import ProfileLoader from "../components/Profile/ProfileLoader";
 import {
   BsFillArrowLeftCircleFill,
   BsGenderAmbiguous,
@@ -20,8 +21,10 @@ import { useRouter } from "next/router";
 import { GiPhone } from "react-icons/gi";
 import { useSelector, useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
-import {fetchUserDetailsStart, fetchUserDetailsSuccess} from '../store/slices/userSlice';
-import { useEffect } from "react";
+import { fetchUserDetailsStart } from "../store/slices/userSlice";
+import { fetchPostsStart } from "../store/slices/postSlice";
+import { useEffect, useState } from "react";
+import VerifiedBadge from "../components/handlers/VerifiedBadge";
 import configuration from "react-global-configuration";
 
 import { Popover, Transition } from "@headlessui/react";
@@ -30,205 +33,256 @@ import { Fragment } from "react";
 const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const {data: session} =  useSession();
+  const { data: session } = useSession();
+  const profile = useSelector((state) => state.user.profile);
+  const posts = useSelector((state) => state.post.posts);
 
-  // console.log(configuration.get('config.site_name'));
-  // useEffect(() => {
-  //   if(session){
-  //      var accessToken =  session.accessToken;
-  //   var userId = session.userId;
-  //   dispatch(fetchUserDetailsStart({accessToken, userId }));
-  //   }
- 
-  // },[dispatch, session])
+  const [badgeStatus, setBadgeStatus] = useState(0);
+
+  const [activeSec, setActiveSec] = useState("post");
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  useEffect(() => {
+    if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
+    if (profile.loading) {
+      dispatch(fetchUserDetailsStart());
+      setBadgeStatus(localStorage.getItem("is_verified_badge"));
+    }
+  }, []);
+
+  const onCopy = (event) => {
+    const notificationMessage = getSuccessNotificationMessage(
+      t("profile_link_copied")
+    );
+    dispatch(createNotification(notificationMessage));
+  };
+  const onVerificationBadgeChange = (event) => {
+    props.dispatch(updateVerifyBadgeStatusStart());
+    setTimeout(() => {
+      setBadgeStatus(localStorage.getItem("is_verified_badge"));
+    }, 1000);
+  };
+
+  const setActiveSection = (event, key) => {
+    setActiveSec(key);
+    if (key === "post")
+      props.dispatch(
+        fetchPostsStart({
+          type: "all",
+        })
+      );
+    else if (key === "photo")
+      props.dispatch(
+        fetchPostsStart({
+          type: "image",
+        })
+      );
+    else if (key === "video")
+      props.dispatch(
+        fetchPostsStart({
+          type: "video",
+        })
+      );
+    else if (key === "audio")
+      props.dispatch(
+        fetchPostsStart({
+          type: "audio",
+        })
+      );
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleShareClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const popoverId = open ? "simple-popover" : undefined;
+
+  const handleChangeLang = ({ currentTarget: input }) => {
+    console.log(input.value);
+    setLanguage(input.value);
+    localStorage.setItem("lang", input.value);
+    // window.location.reload();
+  };
   return (
     <SideNavLayout>
-      <div className="max-w-4xl xl:max-w-6xl">
-        <div className="w-full bg-gradient-to-t from-transparent to-lightPlayRed px-10 relative -mt-24">
-          <img
-            src="https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
-            alt=""
-            srcSet=""
-            className="object-cover w-full h-[400px]"
-          />
-          <div
-            className="w-8 h-8 rounded-full absolute z-10 top-28 left-8 bg-white cursor-pointer"
-            onClick={() => router.back()}
-          >
-            <BsFillArrowLeftCircleFill className="h-8 w-8  " />
-          </div>
-          <div className="absolute z-10 top-28 right-12">
-            <Popover className="relative">
-              {({ open }) => (
-                <>
-                  <Popover.Button
-                    className={`
-                ${open ? "" : "text-opacity-90"}
-                group  hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
-                  >
-                    <div className="w-8 h-8 rounded-full  bg-black cursor-pointer row-container">
-                      <BsThreeDotsVertical className="h-5 w-5 text-white " />
-                    </div>
-                  </Popover.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="opacity-0 translate-y-1"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 translate-y-1"
-                  >
-                    <Popover.Panel className="absolute z-10 w-[150px] lg:w-[15vw]  px-4 mt-3 transform shadow-md -translate-x-1/2 -left-20 sm:px-0 lg:max-w-3xl">
-                      <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                        <div className="relative grid gap-y-1 bg-white p-1 grid-cols-1">
-                          <div className="hover:bg-gray-100 hover:text-lightPlayRed   h-8 p-1 rounded-md cursor-pointer flex items-center justify-start">
-                            <p className="font-bold text-xs">
-                             Report User
-                            </p>
-                          </div>
-                         
-                          <div className="hover:bg-gray-100 hover:text-lightPlayRed  h-10 p-1 rounded-md cursor-pointer flex items-center justify-start">
-                            <p className="font-bold text-xs">
-                              I don&apos;t like the user. Add to blocklists.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </Popover.Panel>
-                  </Transition>
-                </>
-              )}
-            </Popover>
-          </div>
+      {profile.loading ? (
+        <ProfileLoader></ProfileLoader>
+      ) : (
+        <>
+          <div className="profile-bg filter-[blur(20px)] relative  -mt-24 ">
+            <div className="relative w-full !h-[30vh] md:!h-[70vh]">
+              <Image
+                src={profile.data.cover}
+                alt={profile.data.name}
+                layout="fill"
+                objectFit="cover"
+                objectPosition="center"
+                srcSet=""
+                className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
+              />
+            </div>
+            <div
+              className="w-8 h-8 rounded-full absolute z-10 top-28 left-8 bg-white cursor-pointer"
+              onClick={() => router.back()}
+            >
+              <BsFillArrowLeftCircleFill className="h-8 w-8  " />
+            </div>
 
-          <div className="absolute -bottom-16 left-36">
-            <div className="row-container bg-white p-1 rounded-3xl">
-              <div className="w-16 h-16 md:w-32 md:h-32 relative rounded-3xl">
-                <Image
-                  src="https://picsum.photos/200/200?random=3"
-                  alt="side-img"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-3xl"
+            <div className="absolute -bottom-16 left-24">
+              <div className="row-container bg-white p-1 rounded-3xl">
+                <div className="w-16 h-16 md:w-32 md:h-32 relative rounded-3xl">
+                  <Image
+                    src={profile.data.picture}
+                    alt={profile.data.name}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-3xl"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white mb-10">
+            <div className="space-y-3 mt-16 flex flex-col ">
+              <div className="col-container ">
+                <div className="flex items-center justify-center space-x-2 ">
+                  <p className="text-2xl font-bold leading-[40px]">
+                    {profile.data.name}
+                  </p>
+                  <small>
+                    {profile.data.is_verified_badge == 1 ? (
+                      <VerifiedBadge />
+                    ) : null}
+                  </small>
+                </div>
+                <p className="text-lg font-semibold mb-1">{`@${profile.data.username}`}</p>
+              </div>
+
+              <div className="row-container space-x-3 ">
+                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <FaBell className="w-5 h-5" />
+                </div>
+                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <MdMail className="w-5 h-5" />
+                </div>
+                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <FaVideo className="w-5 h-5" />
+                </div>
+                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <GiPhone className="w-5 h-5" />
+                </div>
+                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <RiUpload2Line className="w-5 h-5" />
+                </div>
+              </div>
+              <div className="flex justify-between px-8">
+                <div className="col-container space-y-0.5">
+                  <p className="text-lg font-semibold">45</p>
+                  <span>Post</span>
+                </div>
+                <div className="col-container space-y-0.5">
+                  <p className="text-lg font-semibold">
+                    {localStorage.getItem("total_followings")
+                      ? localStorage.getItem("total_followings")
+                      : 0}{" "}
+                  </p>
+                  <span>Following</span>
+                </div>
+                <div className="col-container space-y-0.5">
+                  <p className="text-lg font-semibold">
+                    {localStorage.getItem("total_followers")
+                      ? localStorage.getItem("total_followers")
+                      : 0}
+                  </p>
+                  <span>Fans</span>
+                </div>
+              </div>
+              <div className="flex justify-center items-center space-x-2 ">
+                <Button
+                  text="Subscribe"
+                  active={true}
+                  extraClasses="w-32 h-9"
                 />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="px-10 grid grid-cols-1 lg:grid-cols-3 gap-x-3 bg-white mb-10">
-          <div className="space-y-3 mt-16 ">
-            <div className="ml-14">
-              <div className="flex items-center justify-start space-x-2 ">
-                <p className="text-2xl font-bold leading-[40px]">
-                  oreoluwa padonu
-                </p>
-                <div className="bg-[#FEBA44] py-1 px-2 text-xs text-white font-semibold rounded-md">
-                  <span className="leading-2">PRO</span>
-                </div>
-              </div>
-              <p className="text-lg font-semibold mb-1">@orex</p>
-            </div>
 
-            <div className="row-container space-x-3 ml-12">
-              <div className="row-container  p-3 bg-gray-200 rounded-md">
-                <FaBell className="w-5 h-5" />
-              </div>
-              <div className="row-container  p-3 bg-gray-200 rounded-md">
-                <MdMail className="w-5 h-5" />
-              </div>
-              <div className="row-container  p-3 bg-gray-200 rounded-md">
-                <FaVideo className="w-5 h-5" />
-              </div>
-              <div className="row-container  p-3 bg-gray-200 rounded-md">
-                <GiPhone className="w-5 h-5" />
-              </div>
-              <div className="row-container  p-3 bg-gray-200 rounded-md">
-                <RiUpload2Line className="w-5 h-5" />
-              </div>
-            </div>
-            <div className="flex justify-between px-2 ml-12">
-              <div className="col-container space-y-0.5">
-                <p className="text-lg font-semibold">45</p>
-                <span>Post</span>
-              </div>
-              <div className="col-container space-y-0.5">
-                <p className="text-lg font-semibold">352</p>
-                <span>Following</span>
-              </div>
-              <div className="col-container space-y-0.5">
-                <p className="text-lg font-semibold">52.3k</p>
-                <span>Fans</span>
-              </div>
-            </div>
-            <div className="flex justify-between ml-12">
-              <Button text="Subscribe" active={true} extraClasses="w-32 h-9" />
-
-              <div className="row-container w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer">
-                <img
-                  src="/tips.png"
-                  alt=""
-                  srcSet=""
-                  className="w-4 h-4 invert object-contain"
-                />
-                <p className="text-sm font-semibold text-white ml-1">Tip</p>
-              </div>
-            </div>
-            <div className="row-container bg-gray-50 p-1 rounded-md py-2">
-              <div className="bg-gray-100 p-1 rounded-md">
-                <p className="text-sm font-bold">
-                  {" "}
-                  See Oreoluwa &apos;s about info
-                </p>
-              </div>
-            </div>
-            <p className=" text-sm font-semibold">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. At rem
-              esse facilis corporis non. Sit voluptatum error labore suscipit
-              quidem modi accusamus iusto est recusandae cupiditate ullam cumque
-              itaque earum aspernatur, cum quo laborum dolores eaque maiores
-              corrupti maxime, quas animi.
-            </p>
-            <div className="flex flex-col">
-              <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
-                <BsEye className="w-4 h-4" />
-                <div className="flex space-x-1 items-center">
-                  <span className="text-sm">19m</span>
-                  <span className="text-sm text-lightPlayRed">online</span>
+                <div className="row-container w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer">
+                  <img
+                    src="/tips.png"
+                    alt=""
+                    srcSet=""
+                    className="w-4 h-4 invert object-contain"
+                  />
+                  <p className="text-sm font-semibold text-white ml-1">Tip</p>
                 </div>
               </div>
-              <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
-                <AiOutlineLink className="w-4 h-4" />
-                <span className="text-sm">Gaming</span>
+              <div className="row-container bg-gray-50 p-1 rounded-md py-2">
+                <div className="bg-gray-100 p-1 rounded-md">
+                  <p className="text-sm font-bold">
+                    {" "}
+                    See Oreoluwa &apos;s about info
+                  </p>
+                </div>
               </div>
-              <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
-                <BsGenderAmbiguous className="w-4 h-4" />
-                <span className="text-sm">Male</span>
-              </div>
-              <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
-                <FaGlobeAfrica className="w-4 h-4" />
-                <span className="text-sm">Living in Nigeria</span>
-              </div>
-              <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
-                <MdOutlineLocationOn className="w-4 h-4" />
-                <span className="text-sm">Located in Lagos Nigeria</span>
-              </div>
-              <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
-                <BsShare className="w-4 h-4" />
-                <div className="row-container space-x-2">
-                  <BsTwitter className="w-4 h-4 text-[#1DA1F2]  cursor-pointer" />
-                  <BsFacebook className="w-4 h-4 text-[#4267B2] cursor-pointer" />
-                  <BsYoutube className="w-4 h-4 text-[#FF0000] cursor-pointer" />
-                  <RiInstagramFill className="w-4 h-4 text-[#C13584] cursor-pointer" />
+              <p className=" text-sm font-semibold">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. At rem
+                esse facilis corporis non. Sit voluptatum error labore suscipit
+                quidem modi accusamus iusto est recusandae cupiditate ullam
+                cumque itaque earum aspernatur, cum quo laborum dolores eaque
+                maiores corrupti maxime, quas animi.
+              </p>
+              <div className="flex flex-col">
+                <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
+                  <BsEye className="w-4 h-4" />
+                  <div className="flex space-x-1 items-center">
+                    <span className="text-sm">19m</span>
+                    <span className="text-sm text-lightPlayRed">online</span>
+                  </div>
+                </div>
+                <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
+                  <AiOutlineLink className="w-4 h-4" />
+                  <span className="text-sm">Gaming</span>
+                </div>
+                <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
+                  <BsGenderAmbiguous className="w-4 h-4" />
+                  <span className="text-sm">Male</span>
+                </div>
+                <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
+                  <FaGlobeAfrica className="w-4 h-4" />
+                  <span className="text-sm">Living in Nigeria</span>
+                </div>
+                <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
+                  <MdOutlineLocationOn className="w-4 h-4" />
+                  <span className="text-sm">Located in Lagos Nigeria</span>
+                </div>
+                <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
+                  <BsShare className="w-4 h-4" />
+                  <div className="row-container space-x-2">
+                    <BsTwitter className="w-4 h-4 text-[#1DA1F2]  cursor-pointer" />
+                    <BsFacebook className="w-4 h-4 text-[#4267B2] cursor-pointer" />
+                    <BsYoutube className="w-4 h-4 text-[#FF0000] cursor-pointer" />
+                    <RiInstagramFill className="w-4 h-4 text-[#C13584] cursor-pointer" />
+                  </div>
                 </div>
               </div>
             </div>
+            <div className="md:col-span-2">
+              <ProfileTabs />
+            </div>
           </div>
-          <div className="col-span-2">
-            <ProfileTabs />
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </SideNavLayout>
   );
 };
