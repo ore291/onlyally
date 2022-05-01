@@ -3,7 +3,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { MdSmartDisplay, MdClose, MdCheck } from "react-icons/md";
 import { BsPlusSquare } from "react-icons/bs";
 import CreatePost from "./Post/CreatePost";
-import {setCreatePostModal} from "../store/slices/NavSlice";
+import { setCreatePostModal } from "../store/slices/NavSlice";
 import { BiImageAdd } from "react-icons/bi";
 import { HiSelector } from "react-icons/hi";
 import { TiVideo } from "react-icons/ti";
@@ -19,18 +19,16 @@ import {
 } from "../store/slices/postSlice";
 import PostEditor from "./feeds/PostEditor";
 
-
-
 const HeaderMenuDropdown = ({ user }) => {
   const dispatch = useDispatch();
-  const createPostModalState = useSelector(state => state.navbar.createPostModal) 
+  const createPostModalState = useSelector(
+    (state) => state.navbar.createPostModal
+  );
   // my own code
   let [isOpen, setIsOpen] = useState(false);
 
-
-
   function openModal() {
-    dispatch(setCreatePostModal(true))
+    dispatch(setCreatePostModal(true));
   }
   return (
     <>
@@ -183,11 +181,7 @@ const HeaderMenuDropdown = ({ user }) => {
           </Menu.Items>
         </Transition>
       </Menu>
-      {
-        createPostModalState ? (<CreatePost />) : null
-      }
-      
-      
+      {createPostModalState ? <CreatePost /> : null}
     </>
   );
 };
