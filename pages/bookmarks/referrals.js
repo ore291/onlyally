@@ -105,13 +105,11 @@ export default function Referrals() {
 
                 <div className="flex gap-6">
                   {logos.map((logo) => (
-                    <section className="shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-fit">
-                      <img
-                        key={logo.id}
-                        src={logo.image}
-                        alt="logo"
-                        width="50px"
-                      />
+                    <section
+                      key={logo.id}
+                      className="shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-fit"
+                    >
+                      <img src={logo.image} alt="logo" width="50px" />
                       <p className="font-bold text-sm">{logo.logoName}</p>
                     </section>
                   ))}
