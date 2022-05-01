@@ -116,17 +116,14 @@ function* fetchTrendingUsersAPI(action) {
     );
     const response = yield api.postMethod({
       action: "trending_users",
-      accessToken,
-      userId,
-      dev_model,
       object: inputData,
     });
     if (response.data.success) {
       yield put(fetchTrendingUsersSuccess(response.data.data));
     } else {
-      yield put(fetchTrendingUsersFailure(response.data.error));
+      yield put(fetchTrendingUsersFailure(response.data.error.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(notify({message: response.data.error, status:"error"}))
+      yield put(notify({message: response.data.error.error, status:"error"}))
     }
   } catch (error) {
     yield put(fetchTrendingUsersFailure(error));
@@ -145,16 +142,13 @@ function* fetchPostSuggestionAPI(action) {
     const response = yield api.postMethod({
       action: "user_suggestions",
       object: inputData,
-      accessToken,
-      userId,
-      dev_model,
     });
     if (response.data.success) {
       yield put(fetchPostSuggestionsSuccess(response.data.data));
     } else {
-      yield put(fetchPostSuggestionsFailure(response.data.error));
+      yield put(fetchPostSuggestionsFailure(response.data.error.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(notify({message: response.data.error, status:"error"}));
+      yield put(notify({message: response.data.error.error, status:"error"}));
     }
   } catch (error) {
     yield put(fetchPostSuggestionsFailure(error));

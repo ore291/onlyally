@@ -30,8 +30,8 @@ function* fetchUserStoriesAPI(action) {
     if (response.data.success) {
       yield put(fetchUserStoriesSuccess(response.data.data));
     } else {
-      yield put(fetchUserStoriesFailure(response.data.error));
-      yield put(notify(response.data.error, 'error'));
+      yield put(fetchUserStoriesFailure( response.data.error.error));
+      yield put(notify( response.data.error.error, 'error'));
     }
   } catch (error) {
     yield put(fetchUserStoriesFailure(error));
@@ -56,8 +56,8 @@ function* fetchStoriesAPI(action) {
     if (response.data.success) {
       yield put(fetchStoriesSuccess(response.data.data));
     } else {
-      yield put(fetchStoriesFailure(response.data.error.error));
-      yield put(notify({message: response.data.error, status:"error"}))
+      yield put(fetchStoriesFailure( response.data.error.error.error));
+      yield put(notify({message:  response.data.error.error, status:"error"}))
     }
   } catch (error) {
     yield put(fetchStoriesFailure(error));
@@ -77,8 +77,8 @@ function* storyFileUploadAPI(action) {
       yield put(fetchStoriesStart());
       yield put(notify({ message: response.data.message, status: 'success' }))
     } else {
-      yield put(storyFileUploadFailure(response.data.error));
-      yield put(notify({message: response.data.error, status:"error"}))
+      yield put(storyFileUploadFailure( response.data.error.error));
+      yield put(notify({message:  response.data.error.error, status:"error"}))
     }
   } catch (error) {
     yield put(storyFileUploadFailure(error));
@@ -98,8 +98,8 @@ function* storyFileDeleteAPI(action) {
       yield put(fetchUserStoriesStart());
       yield put(notify({ message: response.data.message, status: 'success' }))
     } else {
-      yield put(storyFileDeleteFailure(response.data.error));
-      yield put(notify({message: response.data.error, status:"error"}))
+      yield put(storyFileDeleteFailure( response.data.error.error));
+      yield put(notify({message:  response.data.error.error, status:"error"}))
     }
   } catch (error) {
     yield put(storyFileDeleteFailure(error));

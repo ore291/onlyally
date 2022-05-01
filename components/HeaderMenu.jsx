@@ -53,7 +53,7 @@ const router = useRouter();
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute z-10 origin-top-right -right-6 tag_scroll py-[3px] px-[10px] overflow-y-scroll overscroll-y-contain rounded-[8px] min-w-[350px] max-h-[90vh]   bg-white divide-y divide-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute z-10 origin-top-right right-1 tag_scroll py-[3px] px-[10px] overflow-y-scroll overscroll-y-contain rounded-[8px] min-w-[320px] max-h-[90vh]   bg-white divide-y divide-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
               <Menu.Item>
                 {({ active }) => (

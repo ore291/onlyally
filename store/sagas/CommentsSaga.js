@@ -29,10 +29,10 @@ import {notify} from 'reapop';
         
         yield put(fetchCommentsSuccess(response.data.data));
       } else {
-        yield put(fetchCommentsFailure(response.data.error));
+        yield put(fetchCommentsFailure( response.data.error.error));
         
         // yield put(checkLogoutStatus(response.data));
-        yield put(notify({message: response.data.error,status:"error"}));
+        yield put(notify({message:  response.data.error.error,status:"error"}));
       }
     } catch (error) {
       yield put(fetchCommentsFailure(error));
@@ -51,9 +51,9 @@ import {notify} from 'reapop';
         yield put(fetchCommentsStart(inputData))
         yield put(notify({ message: response.data.message, status: 'success' }))
       } else {
-        yield put(saveCommentFailure(response.data.error));
+        yield put(saveCommentFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(notify({message: response.data.error,status:"error"}));
+        yield put(notify({message:  response.data.error.error,status:"error"}));
       }
     } catch (error) {
       yield put(saveCommentFailure(error));
@@ -68,9 +68,9 @@ import {notify} from 'reapop';
       if (response.data.success) {
         yield put(fetchCommentRepliesSuccess(response.data.data));
       } else {
-        yield put(fetchCommentRepliesFailure(response.data.error));
+        yield put(fetchCommentRepliesFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(notify({message: response.data.error,status:"error"}));
+        yield put(notify({message:  response.data.error.error,status:"error"}));
       }
     } catch (error) {
       yield put(fetchCommentRepliesFailure(error));
@@ -89,9 +89,9 @@ import {notify} from 'reapop';
         yield put(notify({ message: response.data.message, status: 'success' }));
         
       } else {
-        yield put(saveCommentRepliesFailure(response.data.error));
+        yield put(saveCommentRepliesFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(notify({message: response.data.error,status:"error"}));
+        yield put(notify({message:  response.data.error.error,status:"error"}));
       }
     } catch (error) {
       yield put(saveCommentRepliesFailure(error));

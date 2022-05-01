@@ -24,9 +24,9 @@ import {
         yield put(notify({ message: response.data.message, status: 'success' }))
       } else {
      
-        yield put(savePostLikedFailure(response.data.error));
+        yield put(savePostLikedFailure( response.data.error.error));
         // yield put(checkLogo1utStatus(response.data));
-        yield put(notify({message: response.data.error, status:"error"}))
+        yield put(notify({message:  response.data.error.error, status:"error"}))
       }
     } catch (error) {
     
@@ -44,9 +44,9 @@ import {
       if (response.data.success) {
         yield put(fetchPostLikedSuccess(response.data.data));
       } else {
-        yield put(fetchPostLikedFailure(response.data.error));
+        yield put(fetchPostLikedFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(notify({message: response.data.error, status:"error"}))
+        yield put(notify({message:  response.data.error.error, status:"error"}))
       }
     } catch (error) {
       yield put(fetchPostLikedFailure(error));

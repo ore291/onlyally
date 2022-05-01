@@ -31,11 +31,11 @@ function* saveBookmarkAPI() {
       yield put(saveBookmarkSuccess(response.data.data));
       yield put(notify({ message: response.data.message, status: 'success' }));
     } else {
-      yield put(saveBookmarkFailure(response.data.error));
+      yield put(saveBookmarkFailure( response.data.error.error));
 
       // yield put(checkLogoutStatus(response.data));
       yield put(
-        notify({ message: response.data.error, status: "error" })
+        notify({ message:  response.data.error.error, status: "error" })
       );
     }
   } catch (error) {
@@ -58,9 +58,9 @@ function* deleteBookmarkAPI() {
       // );
       // yield put(createNotification(notificationMessage));
     } else {
-      yield put(deleteBookmarkFailure(response.data.error));
+      yield put(deleteBookmarkFailure( response.data.error.error));
       // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
+      //    response.data.error.error
       // );
       // yield put(checkLogoutStatus(response.data));
       // yield put(createNotification(notificationMessage));

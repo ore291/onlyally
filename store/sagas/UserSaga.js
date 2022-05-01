@@ -58,9 +58,9 @@ function* getUserDetailsAPI(action) {
         }
         
       } else {
-        yield put(fetchUserDetailsFailure(response.data.error));
+        yield put(fetchUserDetailsFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(notify({message: response.data.error, status:"error"}))
+        yield put(notify({message:  response.data.error.error, status:"error"}))
       }
     } catch (error) {
       yield put(fetchUserDetailsFailure(error));
@@ -98,11 +98,11 @@ function* getUserDetailsAPI(action) {
           "default_payment_method",
           response.data.data.default_payment_method
         );
-        yield put(notify({message: response.data.message}))
+        yield put(notify({message: response.data.message, status: 'success'}))
         window.location.assign("/profile");
       } else {
-        yield put(notify({message: response.data.error, status:"error"}))
-        // yield put(updateUserDetailsFailure(response.data.error));
+        yield put(notify({message:  response.data.error.error, status:"error"}))
+        // yield put(updateUserDetailsFailure( response.data.error.error));
       }
     } catch (error) {
       // yield put(updateUserDetailsFailure(error));
@@ -168,7 +168,7 @@ function* getUserDetailsAPI(action) {
           }
         }
       } else {
-        yield put(notify({message: response.data.error, status:"error"}))
+        yield put(notify({message:  response.data.error.error, status:"error"}))
       }
     } catch (error) {
       yield put(userLoginFailure(error));
@@ -223,7 +223,7 @@ function* getUserDetailsAPI(action) {
         }
         
       } else {
-        yield put(notify({message: response.data.error, status:"error"}))
+        yield put(notify({message:  response.data.error.error, status:"error"}))
       }
     } catch (error) {
       yield put(userRegisterFailure(error));
@@ -258,7 +258,7 @@ function* getUserDetailsAPI(action) {
           window.location.assign("/");
         } else {
           const notificationMessage = getErrorNotificationMessage(
-            response.data.error
+             response.data.error.error
           );
           yield put(createNotification(notificationMessage));
         }
@@ -266,7 +266,7 @@ function* getUserDetailsAPI(action) {
     } catch (error) {
       yield put(forgotPasswordFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -287,14 +287,14 @@ function* getUserDetailsAPI(action) {
         window.location.assign("/");
       } else {
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
     } catch (error) {
       yield put(deleteAccountFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -329,9 +329,9 @@ function* getUserDetailsAPI(action) {
         yield put(createNotification(notificationMessage));
         window.location.assign("/welcome");
       } else {
-        yield put(registerVerifyFailure(response.data.error));
+        yield put(registerVerifyFailure( response.data.error.error));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
@@ -353,16 +353,16 @@ function* getUserDetailsAPI(action) {
         );
         yield put(createNotification(notificationMessage));
       } else {
-        yield put(registerVerifyResendFailure(response.data.error));
+        yield put(registerVerifyResendFailure( response.data.error.error));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
     } catch (error) {
       yield put(registerVerifyResendFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -385,15 +385,15 @@ function* getUserDetailsAPI(action) {
         yield put(createNotification(notificationMessage));
       } else {
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
-        yield put(notificationStatusUpdateFailure(response.data.error));
+        yield put(notificationStatusUpdateFailure( response.data.error.error));
       }
     } catch (error) {
       yield put(notificationStatusUpdateFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -419,15 +419,15 @@ function* getUserDetailsAPI(action) {
         yield put(createNotification(notificationMessage));
       } else {
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
-        yield put(notificationStatusUpdateFailure(response.data.error));
+        yield put(notificationStatusUpdateFailure( response.data.error.error));
       }
     } catch (error) {
       yield put(notificationStatusUpdateFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -440,16 +440,16 @@ function* getUserDetailsAPI(action) {
       if (response.data.success) {
         yield put(fetchPaymentsSuccess(response.data));
       } else {
-        yield put(fetchPaymentsFailure(response.data.error));
+        yield put(fetchPaymentsFailure( response.data.error.error));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
     } catch (error) {
       yield put(fetchPaymentsFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -461,9 +461,9 @@ function* getUserDetailsAPI(action) {
       if (response.data.success) {
         yield put(fetchBlockUsersSuccess(response.data.data));
       } else {
-        yield put(fetchBlockUsersFailure(response.data.error));
+        yield put(fetchBlockUsersFailure( response.data.error.error));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
@@ -500,9 +500,9 @@ function* getUserDetailsAPI(action) {
           window.location.reload();
         }
       } else {
-        yield put(saveBlockUserFailure(response.data.error));
+        yield put(saveBlockUserFailure( response.data.error.error));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
@@ -547,7 +547,7 @@ function* getUserDetailsAPI(action) {
         window.location.assign("/home");
       } else {
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
@@ -569,7 +569,7 @@ function* getUserDetailsAPI(action) {
       } else {
         yield put(usernameValidationFailure(response));
         // const notificationMessage = getErrorNotificationMessage(
-        //   response.data.error
+        //    response.data.error.error
         // );
         // yield put(createNotification(notificationMessage));
       }
@@ -597,7 +597,7 @@ function* getUserDetailsAPI(action) {
       } else {
         yield put(referralValidationFailure(response));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
@@ -615,17 +615,17 @@ function* getUserDetailsAPI(action) {
       if (response.data.success) {
         yield put(fetchContentCreatorDashboardSuccess(response.data));
       } else {
-        yield put(fetchContentCreatorDashboardFailure(response.data.error));
+        yield put(fetchContentCreatorDashboardFailure( response.data.error.error));
         yield put(checkLogoutStatus(response.data));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
     } catch (error) {
       yield put(fetchContentCreatorDashboardFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -665,15 +665,15 @@ function* getUserDetailsAPI(action) {
         yield put(createNotification(notificationMessage));
       } else {
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
-        yield put(updateUserDetailsFailure(response.data.error));
+        yield put(updateUserDetailsFailure( response.data.error.error));
       }
     } catch (error) {
       yield put(updateUserDetailsFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -694,16 +694,16 @@ function* getUserDetailsAPI(action) {
         );
         yield put(createNotification(notificationMessage));
       } else {
-        yield put(twoStepAuthUpdateFAilure(response.data.error));
+        yield put(twoStepAuthUpdateFAilure( response.data.error.error));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
     } catch (error) {
       yield put(twoStepAuthUpdateFAilure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
@@ -760,10 +760,10 @@ function* getUserDetailsAPI(action) {
         }
       } else {
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
-        yield put(twoStepAuthenticationLoginFailure(response.data.error));
+        yield put(twoStepAuthenticationLoginFailure( response.data.error.error));
       }
     } catch (error) {
       yield put(twoStepAuthenticationLoginFailure(error));
@@ -783,16 +783,16 @@ function* getUserDetailsAPI(action) {
         );
         yield put(createNotification(notificationMessage));
       } else {
-        yield put(twoStepAuthenticationCodeResendFailure(response.data.error));
+        yield put(twoStepAuthenticationCodeResendFailure( response.data.error.error));
         const notificationMessage = getErrorNotificationMessage(
-          response.data.error
+           response.data.error.error
         );
         yield put(createNotification(notificationMessage));
       }
     } catch (error) {
       yield put(twoStepAuthenticationCodeResendFailure(error));
       const notificationMessage = getErrorNotificationMessage(
-        error.response.data.error
+        error. response.data.error.error
       );
       yield put(createNotification(notificationMessage));
     }
