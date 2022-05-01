@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 @layer components {
+
   .btn {
     @apply bg-red-400 py-1 rounded-sm shadow-md px-6 text-white hover:bg-red-800;
   }
@@ -16,6 +17,16 @@
   }
   .input-textarea {
     @apply block w-full px-4 py-8 mt-2 text-black bg-gray-100 border-b-2 border-0 border-gray-500 rounded-sm  dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-gray-400 focus:ring-gray-300 focus:ring-opacity-40 dark:focus:border-gray-300 focus:outline-none focus:ring;
+
+  #search_input {
+   @apply ring-0 focus:ring-0 focus:ring-offset-0 
+}
+  .modalButton {
+    @apply  text-white text-[14px] font-semibold min-h-[48px] text-center rounded-full block relative mx-auto cursor-pointer w-auto py-[1em] px-[1em] md:px-[3em] bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500
+  } 
+  .modalButton > input{
+    @apply w-full h-full absolute top-0 left-0 z-[1] opacity-0 cursor-pointer block overflow-visible m-0 outline-0 appearance-none items-baseline
+
   }
   .view-comments {
     @apply block px-5  py-4 text-sm font-semibold text-slate-400 hover:text-lightPlayRed cursor-pointer;
@@ -118,6 +129,25 @@
 } */
 /* endselect */
 /*home-sidebar slider css*/
+
+.multiselect-container .search-wrapper {
+  border: 0 !important;
+  padding: 0 5px !important;
+}
+
+.multiselect-container {
+  background-color: #ffffff;
+  border: 0 !important;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 15%);
+  border-radius: 8px;
+  padding: 0em;
+}
+
+/* .create-post .search-wrapper .searchBox {
+  font-size: 1.3em;
+  font-weight: 500;
+} */
+
 
 .post-like-text {
   font-size: 14px;

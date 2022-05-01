@@ -1,7 +1,11 @@
 import "../styles/globals.css";
+
+import NextNProgress from "nextjs-progressbar";
+
 import Layout from "../components/Layout";
 import { SessionProvider } from "next-auth/react";
 import { wrapper } from "../store";
+import {Notifications} from "../components/notifications/Notifications.jsx"
 import { apiConstants } from "../components/Constant/constants";
 import configuration from "react-global-configuration";
 import { useEffect } from "react";
@@ -32,9 +36,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>
+      <NextNProgress color="#FF1636" />
       <Layout>
         <Component {...pageProps} />
       </Layout>
+      <Notifications/>
     </SessionProvider>
   );
 }

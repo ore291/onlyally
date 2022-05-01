@@ -6,9 +6,26 @@ import CredentialsProvider from "next-auth/providers/credentials";
 var axios = require("axios");
 var FormData = require("form-data");
 var localStorage = require("localStorage");
+const DeviceDetector = require('node-device-detector');
+const DeviceHelper = require('node-device-detector/helper');
+// 'use strict';
+ 
+// var rootCas = require('ssl-root-cas').create();
+ 
+// rootCas
+//   .addFile('pages/api/auth/ssl/ss_bundle.pem')
+//   .addFile('pages/api/auth/ssl/ss_cert.pem')
+//   ;
+ 
+// // will work with all https requests will all libraries (i.e. request.js)
+// require('https').globalAgent.options.ca = rootCas;
 
 
 export default NextAuth({
+  // session: {
+  //   jwt: true,
+  //   maxAge: 30 * 24 * 60 * 60
+  //   },
   // Configure one or more authentication providers
   providers: [
     // GoogleProvider({
@@ -42,15 +59,27 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        console.log(credentials.device_model)
 
-        var data = new FormData();
+        const detector = new DeviceDetector({clientVersionTruncate: 0,});
+
+        const userAgent = req.headers['user-agent']; 
+        const result = detector.detect(userAgent);
+        var device_model = "";
+        if (DeviceHelper.isMobile(result)) {
+          device_model = result.device.model;
+        } else {
+          device_model = result.client.name + " " + result.client.version;
+          // device_model = "Chrome" + " " + "100";
+        }
+
+        const data = new FormData();
         data.append("email", credentials.email);
         data.append("password", credentials.password);
         data.append("login_by", "manual");
         data.append("device_token", "123456");
         data.append("device_type", "web");
-        data.append("device_model", credentials.device_model);
+        data.append("device_model", device_model);
+        // data.append("device_model", credentials.device_model);
 
         var config = {
           method: "post",
@@ -63,7 +92,7 @@ export default NextAuth({
 
         try {
           const res = await axios(config);
-
+        
           const user = await res.data.data;
 
           // If no error and we have user data, return it
@@ -84,8 +113,6 @@ export default NextAuth({
   secret: "jhsggsjfjsdgf7ueshgfsjfhgj",
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      localStorage.setItem("accessToken", user.token);
-      localStorage.setItem("userId", user.user_id);
       return true;
     },
     // async redirect({ url, baseUrl }) {
@@ -111,4 +138,5 @@ export default NextAuth({
     signIn: "/login",
     signOut: "/logout",
   },
+ 
 });

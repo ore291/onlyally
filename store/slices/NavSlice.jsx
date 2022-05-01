@@ -5,7 +5,9 @@ export const navSlice = createSlice({
   name: "navbar",
   initialState: {
     open: false,
-    mainMobileNav: false
+    mainMobileNav: false,
+    uploadModal: false,
+    createPostModal: false,
   },
 
   reducers: {
@@ -14,20 +16,27 @@ export const navSlice = createSlice({
     },
     setMainMobileNavState: (state, action) => {
       state.mainMobileNav = action.payload;
+    },
+    setUploadModal: (state, action) => {
+      state.uploadModal = action.payload;
+    },
+    setCreatePostModal: (state, action) => {
+      state.createPostModal = action.payload;
     }
   },
 
-//   extraReducers: {
-//     [HYDRATE]: (state, action) => {
-//       // handle client
-//       if (action.payload) {
-//         state.open = action.payload.navbar.open;
-//       }
-//     },
-//   },
+  // extraReducers: {
+  //   [HYDRATE]: (state, action) => {
+  //     // handle client
+  //     if (!action.payload.navbar.uploadModal) {
+  //       return state
+  //     }
+  //     state.uploadModal = action.payload.navbar.uploadModal;
+  //   },
+  // },
 });
 
-export const { setNavState ,setMainMobileNavState } = navSlice.actions
+export const { setNavState ,setMainMobileNavState , setUploadModal, setCreatePostModal} = navSlice.actions
 
 
 

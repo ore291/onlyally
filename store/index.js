@@ -2,29 +2,10 @@ import { applyMiddleware, createStore } from 'redux'
 import { createWrapper } from 'next-redux-wrapper';
 import {Action} from 'redux'
 import createSagaMiddleware from 'redux-saga';
-import userReducer from './slices/userSlice';
-import creatorReducer from './slices/creatorSlice';
-import navReducer from "./slices/NavSlice";
-import homeReducer from './slices/homeSlice';
-import postReducer from './slices/postSlice';
-import postLikesReducer from './slices/postLikeSlice';
-import commentsReducer from "./slices/commentsSlice";
-import bookmarkReducer from "./slices/bookmarkSlice";
-import storiesReducer from "./slices/storiesSlice";
+import reducers from './slices/'
 import mySaga from "./sagas";
-import { combineReducers } from "redux";
 
-const reducers = combineReducers({
-  user: userReducer,
-  creators: creatorReducer,
-  navbar: navReducer,
-  home: homeReducer,
-  post: postReducer,
-  postlikes: postLikesReducer,
-  comments: commentsReducer,
-  bookmark: bookmarkReducer,
-  stories: storiesReducer
-})
+
 
 
 
