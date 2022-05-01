@@ -4,7 +4,45 @@ import {
   MdOutlineVideoCameraFront,
 } from "react-icons/md";
 import { AiOutlineAudio } from "react-icons/ai";
+import { ImBin } from "react-icons/im";
+import { RiMailSendFill, RiLockPasswordFill } from "react-icons/ri";
 
+const ProfileClick = () => {
+  return (
+    <div>
+      <div className="bg-white p-2">
+        <div className="space-y-4 text-xs flex justify-center ml-4 mt-[-10px] flex-col">
+          <Link href="/bookmarks/password" replace>
+            <a>
+              <span className="flex space-x-4 text-gray-500 ">
+                <RiLockPasswordFill className="mt-1 font-semibold" />
+                <p>Change Password</p>
+              </span>
+            </a>
+          </Link>
+
+          <Link href="/bookmarks/session" replace>
+            <a>
+              <span className="flex space-x-4 text-gray-500 ">
+                <RiMailSendFill className="mt-1 font-semibold" />
+                <p>Session Management</p>
+              </span>
+            </a>
+          </Link>
+
+          <Link href="/bookmarks/deleteaccount" replace>
+            <a>
+              <span className="flex space-x-4 text-gray-500 ">
+                <ImBin className="mt-1 font-semibold" />
+                <p>Delete Account</p>
+              </span>
+            </a>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
 const BookmarkClick = () => {
   return (
     <div>
@@ -18,9 +56,9 @@ const BookmarkClick = () => {
               </span>
             </a>
           </Link>
-          <Link  href="/bookmarks/videos" replace>
+          <Link href="/bookmarks/videos" replace>
             <a>
-              <span className="flex space-x-4 ">
+              <span className="flex space-x-4 text-gray-500 ">
                 <MdOutlineVideoCameraFront className="mt-1 font-semibold" />
                 <p>Videos</p>
               </span>
@@ -34,8 +72,7 @@ const BookmarkClick = () => {
       </div>
     </div>
   );
-}
-
+};
 
 const MarketClick = () => {
   return (
@@ -50,7 +87,7 @@ const MarketClick = () => {
               </span>
             </a>
           </Link>
-          <Link  href="/market/marketB" replace>
+          <Link href="/market/marketB" replace>
             <a>
               <span className="flex space-x-4 ">
                 <MdOutlineVideoCameraFront className="mt-1 font-semibold" />
@@ -58,7 +95,7 @@ const MarketClick = () => {
               </span>
             </a>
           </Link>
-          
+
           <Link href="/market/orderList" replace>
             <a>
               <span className="flex space-x-4 text-gray-600 ">
@@ -80,7 +117,6 @@ const MarketClick = () => {
       </div>
     </div>
   );
-}
+};
 
-export  {BookmarkClick, MarketClick};
-
+export { BookmarkClick, MarketClick, ProfileClick };

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-undef */
 import React, { useState } from "react";
 import Link from "next/link";
-import { BookmarkClick, MarketClick, ProfileClick } from "./NavClicks";
+import { BookmarkClick, MarketClick, ProfileClick } from "../NavClicks";
 import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { BiHistory, BiUserCircle } from "react-icons/bi";
 import { BsBookmark, BsListStars } from "react-icons/bs";
@@ -13,13 +13,13 @@ import {
 import { VscReferences } from "react-icons/vsc";
 import { FaSuitcase, FaCartPlus } from "react-icons/fa";
 import { GrShieldSecurity } from "react-icons/gr";
-import Menus from "./linksWrapper/Menus";
+import Menus from "./Menus";
 
-function ProfileNavItem({ linkcolor, securitycolor }) {
+function ProfileNav({ linkcolor, securitycolor }) {
   const [bookClick, setBookClick] = useState(false);
   const handleBookClick = () => setBookClick(!bookClick);
 
-  const [profileClick, setProfileClick] = useState(false);
+  const [profileClick, setProfileClick] = useState(true);
   const handleProfileClick = () => setProfileClick(!profileClick);
 
   const [marketPageClick, setMarketPageClick] = useState(false);
@@ -33,14 +33,14 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
             <RiBarChartHorizontalFill className="mt-1 font-semibold" />
             <p>Dashboard</p>
           </span>
-          <span
-            className="flex space-x-5 cursor-pointer"
-            onClick={handleProfileClick}
-          >
-            <BiUserCircle className="mt-1 font-semibold" />
-            <p>Profile</p>
-          </span>
-          {profileClick && <ProfileClick className="absolute  top-5 right-0" />}
+          <Link href="/bookmarks/profile">
+            <span className="flex space-x-5 cursor-pointer">
+              <BiUserCircle className="mt-1 font-semibold" />
+              <p>Profile</p>
+            </span>
+          </Link>
+
+          <ProfileClick className="absolute  top-5 right-0" />
 
           <span className="flex space-x-5 cursor-pointer">
             <BiHistory className="mt-1 font-semibold" />
@@ -108,4 +108,4 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
   );
 }
 
-export default ProfileNavItem;
+export default ProfileNav;
