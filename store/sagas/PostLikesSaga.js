@@ -9,7 +9,7 @@ import {
     savePostLikedStart
   } from "../slices/postLikeSlice";
 
-  import {addNotification} from "../slices/notificationsSlice";
+  import {notify} from "reapop";
 
 
   function* savePostLikesAPI() {
@@ -21,17 +21,17 @@ import {
 
       if (response.data.success) {
         yield put(savePostLikedSuccess(response.data.data));
-        yield put(addNotification({message: response.data.message}))
+        yield put(notify({ message: response.data.message, status: 'success' }))
       } else {
      
         yield put(savePostLikedFailure(response.data.error));
         // yield put(checkLogo1utStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}))
+        yield put(notify({message: response.data.error, status:"error"}))
       }
     } catch (error) {
     
       yield put(savePostLikedFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}))
+      yield put(notify({message: error.message, status:"error"}))
     }
   }
   
@@ -46,11 +46,11 @@ import {
       } else {
         yield put(fetchPostLikedFailure(response.data.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}))
+        yield put(notify({message: response.data.error, status:"error"}))
       }
     } catch (error) {
       yield put(fetchPostLikedFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}))
+      yield put(notify({message: error.message, status:"error"}))
     }
   }
   

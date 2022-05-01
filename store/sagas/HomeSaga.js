@@ -17,7 +17,7 @@ import {
   fetchPostSuggestionsFailure,
 } from "../slices/homeSlice";
 
-import { addNotification } from "../slices/notificationsSlice";
+import {notify} from 'reapop';
 
 function* fetchHomePostAPI(action) {
   if (action.payload) {
@@ -75,11 +75,11 @@ function* fetchHomePostAPI(action) {
     } else {
       yield put(fetchHomePostsFailure(response.data.error));
       //   yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}));
+        yield put(notify({message: response.data.error, status:"error"}));
     }
   } catch (error) {
     yield put(fetchHomePostsFailure(error.message));
-    yield put(addNotification({message: error.message, type:"error"}));
+    yield put(notify({message: error.message, status:"error"}));
   }
 }
 
@@ -95,11 +95,11 @@ function* searchUserAPI() {
     } else {
       yield put(searchUserFailure(response.data.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(notify({message: response.data.error, status:"error"}))
     }
   } catch (error) {
     yield put(searchUserFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -126,11 +126,11 @@ function* fetchTrendingUsersAPI(action) {
     } else {
       yield put(fetchTrendingUsersFailure(response.data.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(notify({message: response.data.error, status:"error"}))
     }
   } catch (error) {
     yield put(fetchTrendingUsersFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -154,11 +154,11 @@ function* fetchPostSuggestionAPI(action) {
     } else {
       yield put(fetchPostSuggestionsFailure(response.data.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(addNotification({message: response.data.error, type:"error"}));
+      yield put(notify({message: response.data.error, status:"error"}));
     }
   } catch (error) {
     yield put(fetchPostSuggestionsFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 

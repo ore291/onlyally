@@ -4,8 +4,8 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 import api from "../../Environment";
 var localStorage = require("localStorage");
 
-import {fetchUserDetailsStart, fetchUserDetailsSuccess, fetchUserDetailsFailure} from "../slices/userSlice";
-import {addNotification} from "../slices/notificationsSlice";
+import { fetchUserDetailsSuccess, fetchUserDetailsFailure} from "../slices/userSlice";
+import {notify} from "reapop";
 
 function* getUserDetailsAPI(action) {
     var accessToken = action.payload.accessToken;
@@ -60,11 +60,11 @@ function* getUserDetailsAPI(action) {
       } else {
         yield put(fetchUserDetailsFailure(response.data.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}))
+        yield put(notify({message: response.data.error, status:"error"}))
       }
     } catch (error) {
       yield put(fetchUserDetailsFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}))
+      yield put(notify({message: error.message, status:"error"}))
     }
   }
   
@@ -98,15 +98,15 @@ function* getUserDetailsAPI(action) {
           "default_payment_method",
           response.data.data.default_payment_method
         );
-        yield put(addNotification({message: response.data.message}))
+        yield put(notify({message: response.data.message}))
         window.location.assign("/profile");
       } else {
-        yield put(addNotification({message: response.data.error, type:"error"}))
+        yield put(notify({message: response.data.error, status:"error"}))
         // yield put(updateUserDetailsFailure(response.data.error));
       }
     } catch (error) {
       // yield put(updateUserDetailsFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}))
+      yield put(notify({message: error.message, status:"error"}))
     }
   }
   
@@ -161,18 +161,18 @@ function* getUserDetailsAPI(action) {
             response.data.data.is_two_step_auth_enabled
           );
           localStorage.setItem("emailId", response.data.data.email);
-          yield put(addNotification({message: response.data.message}))
+          yield put(notify({message: response.data.message}))
           window.location.assign("/home");
           localStorage.setItem("userId", response.data.data.user_id);
           localStorage.setItem("accessToken", response.data.data.token);
           }
         }
       } else {
-        yield put(addNotification({message: response.data.error, type:"error"}))
+        yield put(notify({message: response.data.error, status:"error"}))
       }
     } catch (error) {
       yield put(userLoginFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}))
+      yield put(notify({message: error.message, status:"error"}))
     }
   }
   
@@ -214,7 +214,7 @@ function* getUserDetailsAPI(action) {
             "is_two_step_auth_enabled",
             response.data.data.is_two_step_auth_enabled
           );
-          yield put(addNotification({message: response.data.message}))
+          yield put(notify({message: response.data.message}))
           if (response.data.data.is_welcome_steps == 1) {
             window.location.assign("/upload-profile-picture");
           } else {
@@ -223,11 +223,11 @@ function* getUserDetailsAPI(action) {
         }
         
       } else {
-        yield put(addNotification({message: response.data.error, type:"error"}))
+        yield put(notify({message: response.data.error, status:"error"}))
       }
     } catch (error) {
       yield put(userRegisterFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}))
+      yield put(notify({message: error.message, status:"error"}))
     }
   }
   
