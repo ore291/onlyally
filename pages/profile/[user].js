@@ -1,6 +1,6 @@
-import SideNavLayout from "../components/SideNavLayout";
-import ProfileTabs from "../components/userProfile/ProfileTabs";
-import Button from "../components/Button";
+import SideNavLayout from "../../components/SideNavLayout";
+import ProfileTabs from "../../components/userProfile/ProfileTabs";
+import Button from "../../components/Button";
 import Image from "next/image";
 import {
   BsFillArrowLeftCircleFill,
@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 import { GiPhone } from "react-icons/gi";
 import { useSelector, useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
-import {fetchUserDetailsStart, fetchUserDetailsSuccess} from '../store/slices/userSlice';
+import {fetchUserDetailsStart, fetchUserDetailsSuccess} from '../../store/slices/userSlice';
 import { useEffect } from "react";
 import configuration from "react-global-configuration";
 
