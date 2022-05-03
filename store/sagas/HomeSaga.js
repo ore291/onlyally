@@ -10,20 +10,34 @@ import {
   fetchHomePostsFailure,
   searchUserFailure,
   searchUserStart,
-  searchUserSuccess
+  searchUserSuccess,
+  fetchTrendingUsersFailure,
+  fetchTrendingUsersSuccess,
+  fetchPostSuggestionsSuccess,
+  fetchPostSuggestionsFailure,
 } from "../slices/homeSlice";
 
+import { addNotification } from "../slices/notificationsSlice";
+
 function* fetchHomePostAPI(action) {
-  var accessToken = action.payload.accessToken;
-  var userId = action.payload.userId;
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
 
   try {
     const skipCount = yield select((state) => state.home.homePost.skip);
 
-    const response = yield api.postMethod("home", accessToken, userId, {
-      skip: skipCount,
+    const response = yield api.postMethod({
+      action: "home",
+      accessToken: accessToken,
+      userId: userId,
+      object: {
+        skip: skipCount,
+      },
+      dev_model: dev_model,
     });
-
     if (response.data.success) {
       yield put(fetchHomePostsSuccess(response.data.data));
       if (response.data.data.user) {
@@ -60,42 +74,101 @@ function* fetchHomePostAPI(action) {
       }
     } else {
       yield put(fetchHomePostsFailure(response.data.error));
-      //   const notificationMessage = getErrorNotificationMessage(
-      //     response.data.error
-      //   );
       //   yield put(checkLogoutStatus(response.data));
-      //   yield put(createNotification(notificationMessage));
+        yield put(addNotification({message: response.data.error, type:"error"}));
     }
   } catch (error) {
-    console.log(error);
-    yield put(fetchHomePostsFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(fetchHomePostsFailure(error.message));
+    yield put(addNotification({message: error.message, type:"error"}));
   }
 }
 
 function* searchUserAPI() {
   try {
     const inputData = yield select((state) => state.home.searchUser.inputData);
-    const response = yield api.postMethod("users_search",null, null, inputData);
+    const response = yield api.postMethod({
+      action: "users_search",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(searchUserSuccess(response.data.data));
     } else {
       yield put(searchUserFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
       // yield put(checkLogoutStatus(response.data));
-      // yield put(createNotification(notificationMessage));
+      yield put(addNotification({message: response.data.error, type:"error"}))
     }
   } catch (error) {
     yield put(searchUserFailure(error));
-    // const notificationMessage = getErrorNotificationMessage(error.message);
-    // yield put(createNotification(notificationMessage));
+    yield put(addNotification({message: error.message, type:"error"}))
+  }
+}
+
+function* fetchTrendingUsersAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
+
+  try {
+    const inputData = yield select(
+      (state) => state.home.trendingUsers.inputData
+    );
+    const response = yield api.postMethod({
+      action: "trending_users",
+      accessToken,
+      userId,
+      dev_model,
+      object: inputData,
+    });
+    if (response.data.success) {
+      yield put(fetchTrendingUsersSuccess(response.data.data));
+    } else {
+      yield put(fetchTrendingUsersFailure(response.data.error));
+      // yield put(checkLogoutStatus(response.data));
+      yield put(addNotification({message: response.data.error, type:"error"}))
+    }
+  } catch (error) {
+    yield put(fetchTrendingUsersFailure(error));
+    yield put(addNotification({message: error.message, type:"error"}))
+  }
+}
+
+function* fetchPostSuggestionAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
+  try {
+    const inputData = yield select((state) => state.post.delPost.inputData);
+    const response = yield api.postMethod({
+      action: "user_suggestions",
+      object: inputData,
+      accessToken,
+      userId,
+      dev_model,
+    });
+    if (response.data.success) {
+      yield put(fetchPostSuggestionsSuccess(response.data.data));
+    } else {
+      yield put(fetchPostSuggestionsFailure(response.data.error));
+      // yield put(checkLogoutStatus(response.data));
+      yield put(addNotification({message: response.data.error, type:"error"}));
+    }
+  } catch (error) {
+    yield put(fetchPostSuggestionsFailure(error));
+    yield put(addNotification({message: error.message, type:"error"}))
   }
 }
 
 export default function* pageSaga() {
   yield all([yield takeLatest("home/fetchHomePostsStart", fetchHomePostAPI)]);
   yield all([yield takeLatest("home/searchUserStart", searchUserAPI)]);
+  yield all([
+    yield takeLatest("home/fetchTrendingUsersStart", fetchTrendingUsersAPI),
+  ]);
+  yield all([
+    yield takeLatest("home/fetchPostSuggestionsStart", fetchPostSuggestionAPI),
+  ]);
 }

@@ -82,7 +82,7 @@ const Header = () => {
           <MdOutlineSearch className="h-8 w-8 text-white" />
         </div>
         <div className="items-center space-x-2 hidden lg:flex  col-span-4">
-          <HeaderCreateMenu />
+          <HeaderCreateMenu user={session.user.userDetails}/>
           <Link href="/messages" passHref>
             <div className="icon-bg">
               <SiGooglechat className="h-5 w-5 text-white" />

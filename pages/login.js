@@ -31,7 +31,7 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
-  const [devModel, setDevModel] = useState("");
+
 
   const userLogin = async () => {
     var email = emailRef.current.value;
@@ -39,23 +39,11 @@ const Login = () => {
     const res = await signIn("credentials", {
       callbackUrl: "/",
       email: email,
-      password: password,
-      device_model: 'iphone',
-      device_type: 'web'
+      password: password
     });
   };
 
-  useEffect(() => {
-    var device_model = "";
-    if (isAndroid == true) {
-      device_model = mobileModel;
-    } else if (isIOS == true) {
-      device_model = mobileModel;
-    } else {
-      device_model = browserName + " " + browserVersion;
-    }
-    setDevModel(device_model)
-  }, []);
+
 
   useEffect(() => {
     if (router.query.error) {

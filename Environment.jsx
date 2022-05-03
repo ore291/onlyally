@@ -20,10 +20,17 @@ const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
 // const apiUrl = "http://localhost:8000/api/user/"; // Local Mode
 
 const Environment = {
-  postMethod: async (action, accessToken, userId, object) => {
+  postMethod: async ({
+    action,
+    accessToken = null,
+    userId = null,
+    object,
+    dev_model = null,
+  } = {}) => {
+    // postMethod: async (action, accessToken, userId, object) => {
     let user_id = null;
     let token = null;
-    if (typeof(window) !== "undefined") {
+    if (typeof window !== "undefined") {
       user_id =
         localStorage.getItem("userId") !== "" &&
         localStorage.getItem("userId") !== null &&
@@ -40,18 +47,22 @@ const Environment = {
     }
 
     const url = apiUrl + action;
-  
 
     // if(typeof(window) == "undefined"){
     //   const formData = new FormData();
     // } else{
     //   const formData = new window.FormData()
     // }
-    
+
     const formData = new FormData();
 
     // By Default Id and token
-    if (user_id != null && token != null) {
+    if (
+      user_id != null &&
+      token != null &&
+      user_id != "undefined" &&
+      token != "undefined"
+    ) {
       formData.append("id", user_id);
       formData.append("token", token);
     } else {
@@ -78,44 +89,37 @@ const Environment = {
     formData.append("device_type", apiConstants.DEVICE_TYPE);
     formData.append("device_token", apiConstants.DEVICE_TOKEN);
 
-    var device_model = "";
-    if (isAndroid == true) {
-      device_model = mobileModel;
-    } else if (isIOS == true) {
-      device_model = mobileModel;
+    if (dev_model != "undefined" && dev_model != null && dev_model != "") {
+      formData.append("device_model", dev_model);
     } else {
-      device_model = browserName + " " + browserVersion;
-      // device_model = "Chrome" + " " + "100";
+      var device_model = "";
+      if (isAndroid == true) {
+        device_model = mobileModel;
+      } else if (isIOS == true) {
+        device_model = mobileModel;
+      } else {
+        device_model = browserName + " " + browserVersion;
+        // device_model = "Chrome" + " " + "100";
+      }
+      console.log(device_model);
+      formData.append("device_model", device_model);
     }
-  
-    formData.append("device_model", 'iphone');
 
-    // let cert_file = fs.readFileSync("./ssl/ss_cert.crt")
-    // let ca_file = fs.readFileSync("./ssl/ss_bundle.ca-bundle")
-
-    // const agent = new https.Agent({
-    // 	// requestCert:true,
-    // 	rejectUnauthorized: true,
-    // 	// cert: cert_file,
-    // 	// ca: ca_file
-    // });
-
-   
-
-    if(typeof window != "undefined"){
+    if (typeof window != "undefined") {
       var config = {
         method: "POST",
         url: url,
-        data: formData };
-    } else{
-       var config = {
-      method: "POST",
-      url: url,
-      headers: {
-        ...formData.getHeaders(),
-      },
-      data: formData,
-    };
+        data: formData,
+      };
+    } else {
+      var config = {
+        method: "POST",
+        url: url,
+        headers: {
+          ...formData.getHeaders(),
+        },
+        data: formData,
+      };
     }
 
     // var config = {
@@ -127,9 +131,7 @@ const Environment = {
     //   data: formData };
 
     try {
-      
       const response = await axios(config);
-     
       return response;
     } catch (error) {
       return error;

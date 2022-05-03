@@ -5,8 +5,8 @@ const StorySliderLoader = (props) => (
     <ContentLoader
       speed={2}
       width={1200}
-      height={200}
-      viewBox="0 0 1200 200"
+      height={150}
+      viewBox="0 0 1200 150"
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
       {...props}

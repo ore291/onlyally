@@ -26,13 +26,14 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
   const handleMarketPageClick = () => setMarketPageClick(!marketPageClick);
 
   return (
-    <div className="mt-16 w-1/5">
+    <div className="mt-16 w-[20%]">
       <div className="pr-7 py-7 block bg-white rounded shadow-sm">
-        <div className="space-y-4 ml-7 font-semibold">
+        <div className="space-y-4 px-8 font-semibold">
           <span className="flex cursor-pointer space-x-5">
             <RiBarChartHorizontalFill className="mt-1 font-semibold" />
             <p>Dashboard</p>
           </span>
+<<<<<<< HEAD
           <Link href="/bookmarks/profile">
             <span
               className="flex space-x-5 cursor-pointer"
@@ -42,6 +43,20 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
               <p>Profile</p>
             </span>
           </Link>
+=======
+          <span
+            className="flex space-x-5 cursor-pointer"
+            onClick={handleProfileClick}
+          >
+            <Link href="/bookmarks/profile">
+              <a className="flex space-x-5 cursor-pointer">
+                <BiUserCircle className="mt-1 font-semibold" />
+
+                <p>Profile</p>
+              </a>
+            </Link>
+          </span>
+>>>>>>> fda2cac73edf269c211c7ea6d7a501ed4bd45d01
           {profileClick && <ProfileClick className="absolute  top-5 right-0" />}
 
           <span className="flex space-x-5 cursor-pointer">
