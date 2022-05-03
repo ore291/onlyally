@@ -7,6 +7,7 @@ import postLikesReducer from "./postLikeSlice";
 import commentsReducer from "./commentsSlice";
 import bookmarkReducer from "./bookmarkSlice";
 import storiesReducer from "./storiesSlice";
+import errorReducer from "./errorSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -21,6 +22,7 @@ const reducers = combineReducers({
   comments: commentsReducer,
   bookmark: bookmarkReducer,
   stories: storiesReducer,
+  errorDetails: errorReducer,
 });
 
 export default reducers;

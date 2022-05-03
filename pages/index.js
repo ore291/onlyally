@@ -45,7 +45,7 @@ export default function Home({configData}) {
   useEffect(() => {
       localStorage.setItem("accessToken", userDetails.token);
       localStorage.setItem("userId", userDetails.user_id);
-  }, []);
+  }, [userDetails]);
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
 

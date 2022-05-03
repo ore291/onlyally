@@ -17,6 +17,8 @@ import {
   fetchPostSuggestionsFailure,
 } from "../slices/homeSlice";
 
+import {errorLogoutCheck} from "../slices/errorSlice";
+
 import {notify} from 'reapop';
 
 function* fetchHomePostAPI(action) {
@@ -74,12 +76,12 @@ function* fetchHomePostAPI(action) {
       }
     } else {
       yield put(fetchHomePostsFailure(response.data.error));
-      //   yield put(checkLogoutStatus(response.data));
-        yield put(notify({message: response.data.error, status:"error"}));
+        yield put(errorLogoutCheck(response.data));
+        // yield put(notify({message: response.data.error, status:"error"}));
     }
   } catch (error) {
     yield put(fetchHomePostsFailure(error.message));
-    yield put(notify({message: error.message, status:"error"}));
+    // yield put(notify({message: error.message, status:"error"}));
   }
 }
 
@@ -94,12 +96,12 @@ function* searchUserAPI() {
       yield put(searchUserSuccess(response.data.data));
     } else {
       yield put(searchUserFailure(response.data.error));
-      // yield put(checkLogoutStatus(response.data));
-      yield put(notify({message: response.data.error, status:"error"}))
+      yield put(errorLogoutCheck(response.data));
+      // yield put(notify({message: response.data.error, status:"error"}))
     }
   } catch (error) {
     yield put(searchUserFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    // yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -121,13 +123,13 @@ function* fetchTrendingUsersAPI(action) {
     if (response.data.success) {
       yield put(fetchTrendingUsersSuccess(response.data.data));
     } else {
-      yield put(fetchTrendingUsersFailure(response.data.error.error));
-      // yield put(checkLogoutStatus(response.data));
-      yield put(notify({message: response.data.error.error, status:"error"}))
+      yield put(fetchTrendingUsersFailure(response.data));
+      yield put(errorLogoutCheck(response.data));
+      // yield put(notify({message: 'ore', status:"error"}))
     }
   } catch (error) {
-    yield put(fetchTrendingUsersFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    yield put(fetchTrendingUsersFailure(error.message));
+    // yield put(notify({message: 'ore', status:"error"}))
   }
 }
 
@@ -146,13 +148,14 @@ function* fetchPostSuggestionAPI(action) {
     if (response.data.success) {
       yield put(fetchPostSuggestionsSuccess(response.data.data));
     } else {
-      yield put(fetchPostSuggestionsFailure(response.data.error.error));
-      // yield put(checkLogoutStatus(response.data));
-      yield put(notify({message: response.data.error.error, status:"error"}));
+      yield put(fetchPostSuggestionsFailure(response.data));
+      yield put(errorLogoutCheck(response.data));
+      // yield put(notify({message: response.data.error, status:"error"}));
     }
   } catch (error) {
-    yield put(fetchPostSuggestionsFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    yield put(fetchPostSuggestionsFailure(error.response));
+
+    // yield put(notify({message: error.message, status:"error"}))
   }
 }
 

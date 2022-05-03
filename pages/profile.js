@@ -4,6 +4,21 @@ import Button from "../components/Button";
 import Image from "next/image";
 import ProfileLoader from "../components/Profile/ProfileLoader";
 import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+  EmailIcon,
+  RedditIcon,
+  TelegramIcon,
+} from "react-share";
+
+import {
   BsFillArrowLeftCircleFill,
   BsGenderAmbiguous,
   BsShare,
@@ -122,8 +137,8 @@ const Profile = () => {
         <ProfileLoader></ProfileLoader>
       ) : (
         <>
-          <div className="profile-bg filter-[blur(20px)] relative  -mt-24 ">
-            <div className="relative w-full !h-[30vh] md:!h-[70vh]">
+          <div className="profile-bg  relative  -mt-20 ">
+            <div className="relative w-full !h-[50vh] md:!h-[70vh]">
               <Image
                 src={profile.data.cover}
                 alt={profile.data.name}
@@ -141,9 +156,9 @@ const Profile = () => {
               <BsFillArrowLeftCircleFill className="h-8 w-8  " />
             </div>
 
-            <div className="absolute -bottom-16 left-24">
-              <div className="row-container bg-white p-1 rounded-3xl">
-                <div className="w-16 h-16 md:w-32 md:h-32 relative rounded-3xl">
+            <div className="row-container  absolute -bottom-16 inset-x-0  md:inset-x-auto md:-bottom-16 md:left-24">
+              <div className="p-1 bg-white rounded-3xl">
+                <div className="w-36 h-36 relative rounded-3xl ">
                   <Image
                     src={profile.data.picture}
                     alt={profile.data.name}
@@ -212,67 +227,99 @@ const Profile = () => {
               </div>
               <div className="flex justify-center items-center space-x-2 ">
                 <Button
-                  text="Subscribe"
+                  text="Edit profile"
                   active={true}
                   extraClasses="w-32 h-9"
                 />
 
                 <div className="row-container w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer">
-                  <img
-                    src="/tips.png"
-                    alt=""
-                    srcSet=""
-                    className="w-4 h-4 invert object-contain"
-                  />
-                  <p className="text-sm font-semibold text-white ml-1">Tip</p>
+                  <p className="text-xs font-medium text-white">Dashboard</p>
                 </div>
               </div>
               <div className="row-container bg-gray-50 p-1 rounded-md py-2">
                 <div className="bg-gray-100 p-1 rounded-md">
-                  <p className="text-sm font-bold">
-                    {" "}
-                    See Oreoluwa &apos;s about info
-                  </p>
+                  <p className="text-sm font-semibold"> About Me</p>
                 </div>
               </div>
-              <p className=" text-sm font-semibold">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. At rem
-                esse facilis corporis non. Sit voluptatum error labore suscipit
-                quidem modi accusamus iusto est recusandae cupiditate ullam
-                cumque itaque earum aspernatur, cum quo laborum dolores eaque
-                maiores corrupti maxime, quas animi.
+              <p className=" text-sm font-semibold text-justify">
+                {profile.data.about_formatted
+                  ? profile.data.about_formatted
+                  : "N/A"}
               </p>
               <div className="flex flex-col">
                 <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
                   <BsEye className="w-4 h-4" />
-                  <div className="flex space-x-1 items-center">
-                    <span className="text-sm">19m</span>
+                  <div className="row-container">
                     <span className="text-sm text-lightPlayRed">online</span>
                   </div>
                 </div>
                 <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
                   <AiOutlineLink className="w-4 h-4" />
-                  <span className="text-sm">Gaming</span>
+                  <span className="text-sm">
+                    {profile.data.selected_category.name
+                      ? profile.data.selected_category.name
+                      : "N/A"}
+                  </span>
                 </div>
                 <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
                   <BsGenderAmbiguous className="w-4 h-4" />
-                  <span className="text-sm">Male</span>
+                  <span className="text-sm">
+                    {profile.data.gender ? profile.data.gender : "N/A"}
+                  </span>
                 </div>
                 <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
                   <FaGlobeAfrica className="w-4 h-4" />
-                  <span className="text-sm">Living in Nigeria</span>
+                  <span className="text-sm">
+                    {profile.data.timezone ? profile.data.timezone : "N/A"}
+                  </span>
                 </div>
                 <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
                   <MdOutlineLocationOn className="w-4 h-4" />
-                  <span className="text-sm">Located in Lagos Nigeria</span>
+                  <span className="text-sm">
+                    {profile.data.address ? profile.data.address : "N/A"}
+                  </span>
                 </div>
                 <div className="flex justify-start items-center space-x-2 p-2 rounded-md hover:bg-gray-100 w-full">
                   <BsShare className="w-4 h-4" />
                   <div className="row-container space-x-2">
-                    <BsTwitter className="w-4 h-4 text-[#1DA1F2]  cursor-pointer" />
-                    <BsFacebook className="w-4 h-4 text-[#4267B2] cursor-pointer" />
-                    <BsYoutube className="w-4 h-4 text-[#FF0000] cursor-pointer" />
-                    <RiInstagramFill className="w-4 h-4 text-[#C13584] cursor-pointer" />
+                    {profile.data.twitter_link ? (
+                      <a
+                        href={profile.data.twitter_link}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <BsTwitter className="w-4 h-4 text-[#1DA1F2]  cursor-pointer" />
+                      </a>
+                    ) : null}
+
+                    {profile.data.facebook_link ? (
+                      <a
+                        href={profile.data.facebook_link}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <BsFacebook className="w-4 h-4 text-[#4267B2] cursor-pointer" />
+                      </a>
+                    ) : null}
+
+                    {profile.data.youtube_link ? (
+                      <a
+                        href={profile.data.youtube_link}
+                        target="_blank"
+                        rel=" noreferrer"
+                      >
+                        <BsYoutube className="w-4 h-4 text-[#FF0000] cursor-pointer" />
+                      </a>
+                    ) : null}
+                    {profile.data.instagram_link ? (
+                      <a
+                        href={profile.data.instagram_link}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <RiInstagramFill className="w-4 h-4 text-[#C13584] cursor-pointer" />
+                      </a>
+                    ) : null}
                   </div>
                 </div>
               </div>

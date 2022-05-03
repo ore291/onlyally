@@ -16,6 +16,7 @@ function classNames(...classes) {
 
 const ProfileTabs = () => {
   const posts = useSelector(state => state.home.homePost.data.posts)
+  
   let [categories] = useState([
     "Timeline",
     "Channel",
