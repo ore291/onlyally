@@ -33,13 +33,15 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
             <RiBarChartHorizontalFill className="mt-1 font-semibold" />
             <p>Dashboard</p>
           </span>
-          <span
-            className="flex space-x-5 cursor-pointer"
-            onClick={handleProfileClick}
-          >
-            <BiUserCircle className="mt-1 font-semibold" />
-            <p>Profile</p>
-          </span>
+          <Link href="/bookmarks/profile">
+            <span
+              className="flex space-x-5 cursor-pointer"
+              onClick={handleProfileClick}
+            >
+              <BiUserCircle className="mt-1 font-semibold" />
+              <p>Profile</p>
+            </span>
+          </Link>
           {profileClick && <ProfileClick className="absolute  top-5 right-0" />}
 
           <span className="flex space-x-5 cursor-pointer">
