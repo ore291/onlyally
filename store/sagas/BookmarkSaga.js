@@ -16,6 +16,7 @@ import {
   fetchBookmarksAudioSuccess,
 } from "../slices/bookmarkSlice";
 
+import {errorLogoutCheck} from "../slices/errorSlice";
 import {notify} from 'reapop'
 
 function* saveBookmarkAPI() {
@@ -31,15 +32,14 @@ function* saveBookmarkAPI() {
       yield put(saveBookmarkSuccess(response.data.data));
       yield put(notify({ message: response.data.message, status: 'success' }));
     } else {
-      yield put(saveBookmarkFailure( response.data.error.error));
-
-      // yield put(checkLogoutStatus(response.data));
+      yield put(saveBookmarkFailure( response.data.error));
+      yield put(errorLogoutCheck(response.data));
       yield put(
-        notify({ message:  response.data.error.error, status: "error" })
+        notify({ message:  response.data.error, status: "error" })
       );
     }
   } catch (error) {
-    yield put(saveBookmarkFailure(error));
+    yield put(saveBookmarkFailure(error.message));
     yield put(notify({ message: error.message, status: "error" }));
    }
 }

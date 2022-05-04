@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { fetchTrendingUsersStart } from "../store/slices/homeSlice";
+import Link from "next/link";
 import CommonCenterLoader from "./helpers/CommonCenterLoader";
 
 const Trending = () => {
@@ -23,11 +24,11 @@ const Trending = () => {
           <CommonCenterLoader />
         ) : trendingUsers.data.trending_users.length > 0 ? (
           trendingUsers.data.trending_users.map((user) => (
-            <a
-              className="hover:underline text-blue-600 font-semibold"
-              href="#"
+            <Link
+             passHref
+              href={`/profile/${user.username}`}
               key={user.user_id}
-            >{`#${user.username}`}</a>
+            ><span className="hover:underline text-blue-600 font-semibold cursor-pointer">{`#${user.username}`}</span></Link>
           ))
         ) : (
           <p>No Trending Users</p>

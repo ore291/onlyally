@@ -40,7 +40,7 @@
     @apply bg-textPlayRed text-white rounded-md flex items-center justify-center w-8 h-8  p-1;
   }
   .side-nav-button {
-    @apply flex items-center space-x-1 w-full ml-4 mr-20 cursor-pointer;
+    @apply flex items-center space-x-1 w-[90%] ml-4 cursor-pointer;
   }
   .side-nav-mobile-button {
     @apply side-nav-button mx-0;

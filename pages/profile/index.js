@@ -1,8 +1,9 @@
-import SideNavLayout from "../components/SideNavLayout";
-import ProfileTabs from "../components/userProfile/ProfileTabs";
-import Button from "../components/Button";
+/* eslint-disable react-hooks/exhaustive-deps */
+import SideNavLayout from "../../components/SideNavLayout";
+import ProfileTabs from "../../components/userProfile/ProfileTabs";
+import Button from "../../components/Button";
 import Image from "next/image";
-import ProfileLoader from "../components/Profile/ProfileLoader";
+import ProfileLoader from "../../components/Profile/ProfileLoader";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -36,10 +37,10 @@ import { useRouter } from "next/router";
 import { GiPhone } from "react-icons/gi";
 import { useSelector, useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
-import { fetchUserDetailsStart } from "../store/slices/userSlice";
-import { fetchPostsStart } from "../store/slices/postSlice";
+import { fetchUserDetailsStart } from "../../store/slices/userSlice";
+import { fetchPostsStart } from "../../store/slices/postSlice";
 import { useEffect, useState } from "react";
-import VerifiedBadge from "../components/handlers/VerifiedBadge";
+import VerifiedBadge from "../../components/handlers/VerifiedBadge";
 import configuration from "react-global-configuration";
 
 import { Popover, Transition } from "@headlessui/react";
@@ -79,33 +80,6 @@ const Profile = () => {
     }, 1000);
   };
 
-  const setActiveSection = (event, key) => {
-    setActiveSec(key);
-    if (key === "post")
-      props.dispatch(
-        fetchPostsStart({
-          type: "all",
-        })
-      );
-    else if (key === "photo")
-      props.dispatch(
-        fetchPostsStart({
-          type: "image",
-        })
-      );
-    else if (key === "video")
-      props.dispatch(
-        fetchPostsStart({
-          type: "video",
-        })
-      );
-    else if (key === "audio")
-      props.dispatch(
-        fetchPostsStart({
-          type: "audio",
-        })
-      );
-  };
 
   const scrollToTop = () => {
     window.scrollTo({

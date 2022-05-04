@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 
 const Comments = ({ post, currentIndex }) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.loginData)
+  const user = useSelector((state) => state.user.loginData);
 
   const mentionsRef = useRef();
 
@@ -102,7 +102,7 @@ const Comments = ({ post, currentIndex }) => {
                 <Image
                   alt=""
                   src={
-                    user.picture ? user.picture : localStorage.getItem("user_picture")
+                   typeof(window) != "undefined" ? localStorage.getItem("user_picture") : user.picture  
                   }
                   objectFit="cover"
                   layout="fill"
@@ -175,13 +175,5 @@ const Comments = ({ post, currentIndex }) => {
     </div>
   );
 };
-
-// const mapStateToPros = (state) => ({});
-
-// function mapDispatchToProps(dispatch) {
-//   return { dispatch };
-// }
-
-// export default connect(mapStateToPros, mapDispatchToProps)(translate(Comments));
 
 export default Comments;
