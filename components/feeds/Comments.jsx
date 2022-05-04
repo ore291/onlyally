@@ -101,7 +101,9 @@ const Comments = ({ post, currentIndex }) => {
               <div className="relative w-10 h-10 rounded-full max-w-full">
                 <Image
                   alt=""
-                  src={user.picture}
+                  src={
+                    user.picture ? user.picture : localStorage.getItem("user_picture")
+                  }
                   objectFit="cover"
                   layout="fill"
                   className="rounded-full"

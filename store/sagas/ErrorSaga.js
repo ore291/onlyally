@@ -14,10 +14,6 @@ function* logoutStatusCheck() {
       console.log("Error Check started", inputData);
 
       if (errorCode.indexOf(inputData.error_code) !== -1) {
-        setTimeout(() => {
-            signOut();
-          }, 300);
-       
         if (typeof window !== "undefined") {
         console.log("Error Check true");
         localStorage.removeItem("accessToken");
@@ -38,12 +34,13 @@ function* logoutStatusCheck() {
         localStorage.removeItem("total_followers");
         localStorage.removeItem("total_followings");
         localStorage.removeItem("is_subscription_enabled");
-        // signOut();
-        yield put(notify({message: inputData.error, status:"error"}));
+
         }
         yield put(notify({message: inputData.error, status:"error"}));
-        // const notificationMessage = getErrorNotificationMessage(inputData.error);
-        // yield put(createNotification(notificationMessage));
+        setTimeout(() => {
+            signOut();
+          }, 300);
+
        
       } else {
         console.log("Error Check false");
@@ -54,8 +51,6 @@ function* logoutStatusCheck() {
       }
     } catch (error) {
       console.log("Error Check false", error);
-      // const notificationMessage = getErrorNotificationMessage(error.message);
-      // yield put(createNotification(notificationMessage));
     }
   }
   

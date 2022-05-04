@@ -4,19 +4,52 @@ import ChannelCard from "../channels/ChannelCard";
 import NewsFeedCard from "../feeds/NewsFeedCard";
 import ShopList from "../shop/ShopList";
 import GroupCard from "../groups/GroupCard";
-import { useSelector } from "react-redux";
-import { MdSmartDisplay, MdPhotoSizeSelectActual} from "react-icons/md";
-import {FaVideo} from "react-icons/fa";
-import {GiSpeaker} from "react-icons/gi";
+import { MdSmartDisplay, MdPhotoSizeSelectActual } from "react-icons/md";
+import { FaVideo } from "react-icons/fa";
+import { GiSpeaker } from "react-icons/gi";
 import Image from "next/image";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPostsStart } from "../../store/slices/postSlice";
+import NoDataFound from "../NoDataFound/NoDataFound";
+import Link from "next/link";
+import ReactPlayer from "react-player/lazy";
+import ReactAudioPlayer from "react-audio-player";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const ProfileTabs = () => {
-  const posts = useSelector(state => state.home.homePost.data.posts)
-  
+const ProfileTabs = ({ otherUserUniqueId }) => {
+  const posts = useSelector((state) => state.post.posts);
+  const dispatch = useDispatch();
+
+  const setActiveSection = (key) => {
+    if (key === 0)
+      dispatch(
+        fetchPostsStart({
+          type: "all",
+        })
+      );
+    else if (key === 3)
+      dispatch(
+        fetchPostsStart({
+          type: "image",
+        })
+      );
+    else if (key === 4)
+      dispatch(
+        fetchPostsStart({
+          type: "video",
+        })
+      );
+    else if (key === 5)
+      dispatch(
+        fetchPostsStart({
+          type: "audio",
+        })
+      );
+  };
+
   let [categories] = useState([
     "Timeline",
     "Channel",
@@ -39,7 +72,12 @@ const ProfileTabs = () => {
 
   return (
     <div>
-      <Tab.Group>
+      <Tab.Group
+        onChange={(index) => {
+          console.log("Changed selected tab to:", index);
+          setActiveSection(index);
+        }}
+      >
         <Tab.List>
           <div className="flex justify-center space-x-0 md:space-x-1 items-center  border rounded-b-lg shadow-md py-3 bg-slate-50">
             {categories.map((category, index) => (
@@ -62,14 +100,20 @@ const ProfileTabs = () => {
         </Tab.List>
         <Tab.Panels className="mt-2">
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <div className="p-2 grid grid-cols-1 gap-y-3">
-            {posts.map((post, index) => (
-                  <NewsFeedCard
-                    post={post}
-                    key={index}
-                  />
+            {posts.loading ? (
+              "Loading..."
+            ) : posts.data.posts.length > 0 ? (
+              <div className="p-2 grid grid-cols-1 gap-y-3">
+                {posts.data.posts.map((post) => (
+                  <NewsFeedCard post={post} key={post.post_id} />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <NoDataFound />
+            )}
+            {/* {posts.data.posts.map((post, index) => (
+                <NewsFeedCard post={post} key={index} />
+              ))} */}
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="p-2 bg-white rounded-lg shadow-lg border">
@@ -136,18 +180,39 @@ const ProfileTabs = () => {
               </div>
               <h1 className="text-2xl font-semibold">Photos</h1>
             </div>
-            <div className="grid grid-cols-4 gap-2">
-            {images.map((image, i) => (
-              <Image
-                key={i}
-                className="h-48 rounded cursor-pointer"
-                src={`/images/${image}.jpg`}
-                alt={image}
-                height={250}
-                width={250}
-              />
-            ))}
-          </div>
+
+            {posts.loading ? (
+              "Loading..."
+            ) : posts.data.posts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3  gap-2">
+                {posts.data.posts.map((post) =>
+                  post.postFiles.length > 0
+                    ? post.postFiles.map((p_file, i) => (
+                        <div key={post.post_id}>
+                          <div className="inner list-none">
+                            <Link
+                              href={"/post/" + post.post_unique_id}
+                              className="list-none"
+                              passHref
+                            >
+                              <Image
+                                className="rounded cursor-pointer list-none"
+                                src={p_file.post_file}
+                                alt={post.post_unique_id}
+                                objectFit="cover"
+                                height={350}
+                                width={300}
+                              />
+                            </Link>
+                          </div>
+                        </div>
+                      ))
+                    : ""
+                )}
+              </div>
+            ) : (
+              <NoDataFound></NoDataFound>
+            )}
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="flex items-center space-x-2 my-5">
@@ -156,18 +221,38 @@ const ProfileTabs = () => {
               </div>
               <h1 className="text-2xl font-semibold">Videos</h1>
             </div>
-            <div className="grid grid-cols-4 gap-2">
-            {images.map((image, i) => (
-              <Image
-                key={i}
-                className="h-48 rounded cursor-pointer"
-                src={`/images/${image}.jpg`}
-                alt={image}
-                height={250}
-                width={250}
-              />
-            ))}
-          </div>
+
+            {posts.loading ? (
+              "Loading..."
+            ) : posts.data.posts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3  gap-2">
+                {posts.data.posts.map((post) =>
+                  post.postFiles.length > 0
+                    ? post.postFiles.map((p_file) => (
+                        <ul
+                          className="list-unstyled list-none"
+                          key={post.post_id}
+                        >
+                          <li className="box">
+                            <div className="p-[1px] w-full h-auto object-cover relative">
+                              <ReactPlayer
+                                light={p_file.preview_file}
+                                url={p_file.post_file}
+                                controls={true}
+                                width="100%"
+                                height="100%"
+                                className="post-video-size !w-full min-h-[30em] !h-[30em] object-cover"
+                              />
+                            </div>
+                          </li>
+                        </ul>
+                      ))
+                    : ""
+                )}
+              </div>
+            ) : (
+              <NoDataFound />
+            )}
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="flex items-center space-x-2 my-5">
@@ -176,18 +261,36 @@ const ProfileTabs = () => {
               </div>
               <h1 className="text-2xl font-semibold">Audio</h1>
             </div>
-            <div className="grid grid-cols-4 gap-2">
-            {images.map((image, i) => (
-              <Image
-                key={i}
-                className="h-48 rounded cursor-pointer"
-                src={`/images/${image}.jpg`}
-                alt={image}
-                height={250}
-                width={250}
-              />
-            ))}
-          </div>
+
+            {posts.loading ? (
+              "Loading..."
+            ) : posts.data.posts.length > 0 ? (
+              <div className="grid grid-cols-4 gap-2">
+                {posts.data.posts.map((post) =>
+                  post.postFiles.length > 0
+                    ? post.postFiles.map((p_file) => (
+                        <ul className="list-none" key={post.post_id}>
+                          <li className="w-full list-none">
+                            <div className="p-[1px] w-full h-auto object-cover relative">
+                              <ReactAudioPlayer
+                                src={p_file.post_file}
+                                controls={true}
+                                width="100%"
+                                height="100%"
+                                autoPlay={false}
+                                className="post-video-size !w-full min-h-[30em] !h-[30em] object-cover"
+                                controlsList={"nodownload"}
+                              />
+                            </div>
+                          </li>
+                        </ul>
+                      ))
+                    : ""
+                )}{" "}
+              </div>
+            ) : (
+              <NoDataFound />
+            )}
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <ShopList />

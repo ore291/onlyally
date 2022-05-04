@@ -125,12 +125,6 @@ const Profile = () => {
   const open = Boolean(anchorEl);
   const popoverId = open ? "simple-popover" : undefined;
 
-  const handleChangeLang = ({ currentTarget: input }) => {
-    console.log(input.value);
-    setLanguage(input.value);
-    localStorage.setItem("lang", input.value);
-    // window.location.reload();
-  };
   return (
     <SideNavLayout>
       {profile.loading ? (
@@ -205,8 +199,8 @@ const Profile = () => {
               </div>
               <div className="flex justify-between px-8">
                 <div className="col-container space-y-0.5">
-                  <p className="text-lg font-semibold">45</p>
-                  <span>Post</span>
+                  <p className="text-lg font-semibold">{posts.data.total}</p>
+                  <span>Posts</span>
                 </div>
                 <div className="col-container space-y-0.5">
                   <p className="text-lg font-semibold">
@@ -325,7 +319,7 @@ const Profile = () => {
               </div>
             </div>
             <div className="md:col-span-2">
-              <ProfileTabs />
+              <ProfileTabs otherUserUniqueId={profile.data.username} />
             </div>
           </div>
         </>
