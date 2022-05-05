@@ -1,6 +1,8 @@
 import "../styles/globals.css";
+import "../styles/custom.scss";
 
 import NextNProgress from "nextjs-progressbar";
+
 import Layout from "../components/Layout";
 import { SessionProvider } from "next-auth/react";
 import { wrapper } from "../store";
@@ -9,6 +11,7 @@ import { apiConstants } from "../components/Constant/constants";
 import configuration from "react-global-configuration";
 import { useEffect } from "react";
 import { setUpNotifications } from "reapop";
+
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   setUpNotifications({

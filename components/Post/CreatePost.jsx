@@ -102,7 +102,9 @@ const CreatePost = () => {
         reader.readAsDataURL(file);
       }
       if (!file) {
-        dispatch(addNotification({ message: "file field is required", type: "error" }));
+        dispatch(
+          addNotification({ message: "file field is required", type: "error" })
+        );
       } else {
         dispatch(
           postFileUploadStart({
