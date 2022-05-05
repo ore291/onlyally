@@ -18,7 +18,7 @@ import {
     fetchCommentsStart
   } from "../slices/commentsSlice";
 
-  import { addNotification } from "../slices/notificationsSlice";
+import {notify} from 'reapop';
 
 
   function* fetchCommentsAPI() {
@@ -29,14 +29,14 @@ import {
         
         yield put(fetchCommentsSuccess(response.data.data));
       } else {
-        yield put(fetchCommentsFailure(response.data.error));
+        yield put(fetchCommentsFailure( response.data.error.error));
         
         // yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}));
+        yield put(notify({message:  response.data.error.error,status:"error"}));
       }
     } catch (error) {
       yield put(fetchCommentsFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}));
+    yield put(notify({message: error.message,status:"error"}));
     }
   }
 
@@ -49,15 +49,15 @@ import {
       if (response.data.success) {
         yield put(saveCommentSuccess(response.data.data));
         yield put(fetchCommentsStart(inputData))
-        yield put(addNotification({message: response.data.message}))
+        yield put(notify({ message: response.data.message, status: 'success' }))
       } else {
-        yield put(saveCommentFailure(response.data.error));
+        yield put(saveCommentFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}));
+        yield put(notify({message:  response.data.error.error,status:"error"}));
       }
     } catch (error) {
       yield put(saveCommentFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}));
+      yield put(notify({message: error.message,status:"error"}));
     }
   }
 
@@ -68,13 +68,13 @@ import {
       if (response.data.success) {
         yield put(fetchCommentRepliesSuccess(response.data.data));
       } else {
-        yield put(fetchCommentRepliesFailure(response.data.error));
+        yield put(fetchCommentRepliesFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}));
+        yield put(notify({message:  response.data.error.error,status:"error"}));
       }
     } catch (error) {
       yield put(fetchCommentRepliesFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}));
+      yield put(notify({message: error.message,status:"error"}));
     }
   }
   
@@ -86,16 +86,16 @@ import {
       const response = yield api.postMethod({action:"post_comments_replies_save",object:inputData});
       if (response.data.success) {
         yield put(saveCommentRepliesSuccess(response.data.data));
-        yield put(addNotification({message: response.data.message}));
+        yield put(notify({ message: response.data.message, status: 'success' }));
         
       } else {
-        yield put(saveCommentRepliesFailure(response.data.error));
+        yield put(saveCommentRepliesFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}));
+        yield put(notify({message:  response.data.error.error,status:"error"}));
       }
     } catch (error) {
       yield put(saveCommentRepliesFailure(error));
-      yield put(addNotification({message: error.message, type:"error"}));
+      yield put(notify({message: error.message,status:"error"}));
     }
   }
 

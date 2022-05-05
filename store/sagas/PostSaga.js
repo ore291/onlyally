@@ -19,7 +19,7 @@ import {
   postFileRemoveFailure
 } from "../slices/postSlice";
 
-import {addNotification} from "../slices/notificationsSlice";
+import {notify} from "reapop";
 
 
 function* savePostAPI() {
@@ -29,22 +29,22 @@ function* savePostAPI() {
     if (!inputData.content && !inputData.post_files) {
       // !!!!! Dont change this condition. If changing get confirmation vidhya
       yield put(savePostFailure("Please fill the content"));
-      yield put(addNotification({message: "Please fill the content", type:"error"}))
+      yield put(notify({message: "Please fill the content", status:"error"}))
     } else {
       const response = yield api.postMethod({action:"posts_save_for_owner", object : inputData});
       if (response.data.success) {
         yield put(savePostSuccess(response.data.data));
-        yield put(addNotification({message: response.data.message}))
+        yield put(notify({ message: response.data.message, status: 'success' }))
         window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
-        yield put(savePostFailure(response.data.error));
+        yield put(savePostFailure( response.data.error.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}))
+        yield put(notify({message:  response.data.error.error, status:"error"}))
       }
     }
   } catch (error) {
     yield put(savePostFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -55,13 +55,13 @@ function* fetchPostsAPI() {
     if (response.data.success) {
       yield put(fetchPostsSuccess(response.data.data));
     } else {
-      yield put(fetchPostsFailure(response.data.error));
+      yield put(fetchPostsFailure( response.data.error.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(notify({message:  response.data.error.error, status:"error"}))
     }
   } catch (error) {
     yield put(fetchPostsFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -72,13 +72,13 @@ function* postFileUploadAPI() {
     if (response.data.success) {
       yield put(postFileUploadSuccess(response.data.data));
     } else {
-      yield put(postFileUploadFailure(response.data.error));
+      yield put(postFileUploadFailure( response.data.error.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(notify({message:  response.data.error.error, status:"error"}))
     }
   } catch (error) {
     yield put(postFileUploadFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -92,14 +92,14 @@ function* fetchSinglePostAPI() {
     if (response.data.success) {
       yield put(fetchSinglePostSuccess(response.data.data));
     } else {
-      yield put(fetchSinglePostFailure(response.data.error));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(fetchSinglePostFailure( response.data.error.error));
+      yield put(notify({message:  response.data.error.error, status:"error"}))
     //   yield put(checkLogoutStatus(response.data));
     
     }
   } catch (error) {
     yield put(fetchSinglePostFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -112,12 +112,12 @@ function* fetchPostCategories() {
     if (response.data.success) {
       yield put(fetchPostCategoriesSuccess(response.data.data));
     } else {
-      yield put(fetchPostCategoriesFailure(response.data.error));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(fetchPostCategoriesFailure( response.data.error.error));
+      yield put(notify({message:  response.data.error.error, status:"error"}))
     }
   } catch (error) {
     yield put(fetchPostCategoriesFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -128,14 +128,14 @@ function* postFileRemoveAPI() {
     if (response.data.success) {
       yield put(postFileRemoveSuccess(response.data.data));
     } else {
-      yield put(postFileRemoveFailure(response.data.error));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(postFileRemoveFailure( response.data.error.error));
+      yield put(notify({message:  response.data.error.error, status:"error"}))
       // yield put(checkLogoutStatus(response.data));
       
     }
   } catch (error) {
     yield put(postFileRemoveFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 

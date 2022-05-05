@@ -147,28 +147,39 @@ export const UserSlice = createSlice({
 
   reducers: {
     fetchUserDetailsStart: (state, action) => {
-      state.profile.loading = true;
+      state.profile = {
+        data: {},
+        loading: true,
+        error: false,
+      };
     },
     fetchUserDetailsSuccess: (state, action) => {
+      state.profile = {
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchUserLoginSuccess: (state, action) => {
       state.loginData = action.payload;
-      state.profile.loading = false;
     },
     fetchUserDetailsFailure: (state, action) => {
-      state.profile.error = action.payload;
-      state.profile.loading = false;
+      state.profile = {
+        data: {},
+        loading: true,
+        error: action.payload,
+      };
     },
-    // editUserDetails: ()=>{
-
-    // }
   },
 
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.user.loginData) {
+      if (!action.payload.user.loginData && !action.payload.user.profile) {
         return state;
       }
       state.loginData = action.payload.user.loginData;
+      state.profile = action.payload.user.profile;
     },
   },
 });
@@ -177,8 +188,9 @@ export const {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
   fetchUserDetailsFailure,
+  fetchUserLoginSuccess
 } = UserSlice.actions;
 
-// export const selectUser = UserSlice.state;
+
 
 export default UserSlice.reducer;

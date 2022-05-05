@@ -9,6 +9,7 @@ const StorySliderLoader = (props) => (
       viewBox="0 0 1200 150"
       backgroundColor="#f3f3f3"
       foregroundColor="#ecebeb"
+      uniqueKey="stories-loader"
       {...props}
     >
       <rect x="20" y="130" rx="0" ry="0" width="0" height="9" />

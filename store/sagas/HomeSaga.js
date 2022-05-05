@@ -17,7 +17,9 @@ import {
   fetchPostSuggestionsFailure,
 } from "../slices/homeSlice";
 
-import { addNotification } from "../slices/notificationsSlice";
+import {errorLogoutCheck} from "../slices/errorSlice";
+
+import {notify} from 'reapop';
 
 function* fetchHomePostAPI(action) {
   if (action.payload) {
@@ -73,13 +75,13 @@ function* fetchHomePostAPI(action) {
         }
       }
     } else {
-      yield put(fetchHomePostsFailure(response.data.error));
-      //   yield put(checkLogoutStatus(response.data));
-        yield put(addNotification({message: response.data.error, type:"error"}));
+      yield put(fetchHomePostsFailure(response.data));
+        yield put(errorLogoutCheck(response.data));
+        yield put(notify({message: response.data.error, status:"error"}));
     }
   } catch (error) {
     yield put(fetchHomePostsFailure(error.message));
-    yield put(addNotification({message: error.message, type:"error"}));
+    yield put(notify({message: error.message, status:"error"}));
   }
 }
 
@@ -93,13 +95,13 @@ function* searchUserAPI() {
     if (response.data.success) {
       yield put(searchUserSuccess(response.data.data));
     } else {
-      yield put(searchUserFailure(response.data.error));
-      // yield put(checkLogoutStatus(response.data));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(searchUserFailure(response.data));
+      yield put(errorLogoutCheck(response.data));
+      yield put(notify({message: response.data.error, status:"error"}))
     }
   } catch (error) {
     yield put(searchUserFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -116,21 +118,18 @@ function* fetchTrendingUsersAPI(action) {
     );
     const response = yield api.postMethod({
       action: "trending_users",
-      accessToken,
-      userId,
-      dev_model,
       object: inputData,
     });
     if (response.data.success) {
       yield put(fetchTrendingUsersSuccess(response.data.data));
     } else {
-      yield put(fetchTrendingUsersFailure(response.data.error));
-      // yield put(checkLogoutStatus(response.data));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(fetchTrendingUsersFailure(response.data));
+      yield put(errorLogoutCheck(response.data));
+      yield put(notify({message: response.data.error, status:"error"}))
     }
   } catch (error) {
-    yield put(fetchTrendingUsersFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(fetchTrendingUsersFailure(error.message));
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -145,20 +144,18 @@ function* fetchPostSuggestionAPI(action) {
     const response = yield api.postMethod({
       action: "user_suggestions",
       object: inputData,
-      accessToken,
-      userId,
-      dev_model,
     });
     if (response.data.success) {
       yield put(fetchPostSuggestionsSuccess(response.data.data));
     } else {
-      yield put(fetchPostSuggestionsFailure(response.data.error));
-      // yield put(checkLogoutStatus(response.data));
-      yield put(addNotification({message: response.data.error, type:"error"}));
+      yield put(fetchPostSuggestionsFailure(response.data));
+      yield put(errorLogoutCheck(response.data));
+      yield put(notify({message: response.data.error, status:"error"}));
     }
   } catch (error) {
-    yield put(fetchPostSuggestionsFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(fetchPostSuggestionsFailure(error.response));
+
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 

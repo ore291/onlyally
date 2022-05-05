@@ -3,14 +3,16 @@ import { RiVipCrownFill } from "react-icons/ri";
 import { useSelector, useDispatch } from "react-redux";
 import {fetchPostSuggestionsStart} from "../../store/slices/homeSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader.jsx";
+import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 const TopCreators = () => {
   const dispatch = useDispatch();
+  const { data: session } = useSession()
 
   useEffect(() => {
     dispatch(fetchPostSuggestionsStart());
-  }, [])
+  }, [session])
   
 
   const postSug = useSelector((state) => state.home.postSug);

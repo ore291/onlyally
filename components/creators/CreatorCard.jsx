@@ -1,5 +1,6 @@
 import Image from "next/image";
 import VerifiedBadge from "../handlers/VerifiedBadge";
+import Link from "next/link";
 
 const CreatorCard = ({ username, image, main, verified }) => {
   if (main) {
@@ -23,7 +24,8 @@ const CreatorCard = ({ username, image, main, verified }) => {
     );
   }
   return (
-    <div className="bg-white rounded-lg shadow-sm border flex flex-col items-center justify-center cursor-pointer">
+    <Link href={`/profile/${username}`} passHref>
+     <div className="bg-white rounded-lg shadow-sm border flex flex-col items-center justify-center cursor-pointer">
       <div className="px-1 pt-1 w-20 h-20 relative rounded-lg">
         <Image
           src={image}
@@ -38,6 +40,8 @@ const CreatorCard = ({ username, image, main, verified }) => {
         {verified == 1 ? ( <span><VerifiedBadge /></span> ): null}
       </div>
     </div>
+    </Link>
+   
   );
 };
 

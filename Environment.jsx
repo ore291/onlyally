@@ -27,7 +27,7 @@ const Environment = {
     object,
     dev_model = null,
   } = {}) => {
-    // postMethod: async (action, accessToken, userId, object) => {
+    
     let user_id = null;
     let token = null;
     if (typeof window !== "undefined") {
@@ -36,16 +36,21 @@ const Environment = {
         localStorage.getItem("userId") !== null &&
         localStorage.getItem("userId") !== undefined
           ? localStorage.getItem("userId")
-          : "";
+          : null;
+
+          
 
       token =
         localStorage.getItem("accessToken") !== "" &&
         localStorage.getItem("accessToken") !== null &&
         localStorage.getItem("accessToken") !== undefined
           ? localStorage.getItem("accessToken")
-          : "";
+          : null;
+
     }
 
+
+    
     const url = apiUrl + action;
 
     // if(typeof(window) == "undefined"){
@@ -100,8 +105,7 @@ const Environment = {
       } else {
         device_model = browserName + " " + browserVersion;
         // device_model = "Chrome" + " " + "100";
-      }
-      console.log(device_model);
+      }  
       formData.append("device_model", device_model);
     }
 
@@ -149,7 +153,7 @@ const Environment = {
   },
 
   getMethod: async (action, object) => {
-    let userId =
+    let userId = 
       localStorage.getItem("userId") !== "" &&
       localStorage.getItem("userId") !== null &&
       localStorage.getItem("userId") !== undefined

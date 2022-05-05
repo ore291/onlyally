@@ -3,6 +3,8 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useSelector, useDispatch } from "react-redux";
 import { setNavState } from "../../store/slices/NavSlice";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import {
   BsDot,
@@ -24,9 +26,19 @@ import { MdMail, MdClose } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 
 const SideNav = () => {
+  const router = useRouter()
+  const toggleSideBar = () => {
+    dispatch(setNavState(!navOpen));
+  };
+
+  const navigate = (url) => {
+    dispatch(setNavState(false));
+    router.push(url);
+  };
+
   const dispatch = useDispatch();
   const navOpen = useSelector((state) => state.navbar.open);
-  const user = useSelector((state) => state.user.profile.data);
+  const user = useSelector((state) => state.user.loginData);
 
   // console.log(user);
   if (navOpen) {
@@ -74,12 +86,15 @@ const SideNav = () => {
             </div>{" "}
             <hr className="w-full  mb-2" />
             <div className="p-3 pb-20 flex flex-col space-y-3 max-h-[calc(100vh-248px)] overflow-hidden overflow-y-scroll overscroll-y-contain scrollbar-hide z-10">
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
-                <div className="row-container bg-gray-100 rounded-full p-2 mr-3">
-                  <FaUserCircle className="h-6 w-6 " />
-                </div>
-                My Profile
-              </button>
+            
+                <button onClick={()=>navigate('/profile')} className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+                  <div className="row-container bg-gray-100 rounded-full p-2 mr-3">
+                    <FaUserCircle className="h-6 w-6 " />
+                  </div>
+                  My Profile
+                </button>
+         
+
               <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <RiBarChartHorizontalFill className="h-6 w-6" />

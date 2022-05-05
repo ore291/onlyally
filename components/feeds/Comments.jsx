@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 
 const Comments = ({ post, currentIndex }) => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.loginData)
+  const user = useSelector((state) => state.user.loginData);
 
   const mentionsRef = useRef();
 
@@ -32,6 +32,12 @@ const Comments = ({ post, currentIndex }) => {
   );
 
   const [commentActiveIndex, setCommentActiveIndex] = useState(null);
+
+  const [userPicture, setUserPicture] = useState('');
+
+    useEffect(() => {
+      setUserPicture(localStorage.getItem("user_picture"))
+    },[])
 
   const handleCommentSubmit = (event) => {
     event.preventDefault();
@@ -101,7 +107,9 @@ const Comments = ({ post, currentIndex }) => {
               <div className="relative w-10 h-10 rounded-full max-w-full">
                 <Image
                   alt=""
-                  src={user.picture}
+                  src={
+                    userPicture || user.picture  
+                  }
                   objectFit="cover"
                   layout="fill"
                   className="rounded-full"
@@ -173,13 +181,5 @@ const Comments = ({ post, currentIndex }) => {
     </div>
   );
 };
-
-// const mapStateToPros = (state) => ({});
-
-// function mapDispatchToProps(dispatch) {
-//   return { dispatch };
-// }
-
-// export default connect(mapStateToPros, mapDispatchToProps)(translate(Comments));
 
 export default Comments;

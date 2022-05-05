@@ -27,15 +27,17 @@ const Comment = ({ comment, index , post}) => {
   return (
     <div className="flex items-center justify-between text-sm mx-2">
       <div className=" flex justify-start  items-center  basis-[10%]">
-        <Link href={`/user/${comment.user_unique_id}`} passHref>
+        <Link href={`/profile/${comment.user_unique_id}`} passHref>
           <div className="relative w-12 h-12 rounded-full  mr-1">
-            <Image
-              src={comment.user_picture}
+           
+                <Image
+              src={comment.user_picture !== "" ? comment.user_picture : "https://cms.onlyally.com/placeholder.jpeg"}
               alt="side-img"
               objectFit="cover"
               layout="fill"
               className="rounded-full"
             />
+           
           </div>
         </Link>
       </div>
