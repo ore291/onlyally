@@ -17,10 +17,11 @@
   }
   .input-textarea {
     @apply block w-full px-4 py-8 mt-2 text-black bg-gray-100 border-b-2 border-0 border-gray-500 rounded-sm  dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-gray-400 focus:ring-gray-300 focus:ring-opacity-40 dark:focus:border-gray-300 focus:outline-none focus:ring;
-
+  }
     #search_input {
       @apply ring-0 focus:ring-0 focus:ring-offset-0;
     }
+
     .modalButton {
       @apply text-white text-[14px] font-semibold min-h-[48px] text-center rounded-full block relative mx-auto cursor-pointer w-auto py-[1em] px-[1em] md:px-[3em] bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500;
     }
@@ -110,10 +111,8 @@
     .dropdown-icon {
       @apply w-4 h-4 text-lightPlayRed;
     }
-  }
-  /* select */
-  /* select {
-
+  
+  
   .sub-button{
     @apply bg-lightPlayRed text-white text-xs py-3 px-1 rounded-lg flex items-center justify-center cursor-pointer space-x-0.5
   }
