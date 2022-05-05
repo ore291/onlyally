@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
@@ -32,6 +32,12 @@ const Comments = ({ post, currentIndex }) => {
   );
 
   const [commentActiveIndex, setCommentActiveIndex] = useState(null);
+
+  const [userPicture, setUserPicture] = useState('');
+
+    useEffect(() => {
+      setUserPicture(localStorage.getItem("user_picture"))
+    },[])
 
   const handleCommentSubmit = (event) => {
     event.preventDefault();
@@ -102,7 +108,7 @@ const Comments = ({ post, currentIndex }) => {
                 <Image
                   alt=""
                   src={
-                   typeof(window) != "undefined" ? localStorage.getItem("user_picture") : user.picture  
+                    userPicture || user.picture  
                   }
                   objectFit="cover"
                   layout="fill"

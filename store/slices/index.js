@@ -9,6 +9,8 @@ import bookmarkReducer from "./bookmarkSlice";
 import storiesReducer from "./storiesSlice";
 import errorReducer from "./errorSlice";
 import otherUserReducer from "./OtherUsersSlice";
+import subscriptionReducer from "./subscriptionSlice";
+import walletReducer from "./walletSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -24,7 +26,9 @@ const reducers = combineReducers({
   bookmark: bookmarkReducer,
   stories: storiesReducer,
   errorDetails: errorReducer,
-  otherUser: otherUserReducer
+  otherUser: otherUserReducer,
+  subscriptions: subscriptionReducer,
+  wallet: walletReducer,
 });
 
 export default reducers;

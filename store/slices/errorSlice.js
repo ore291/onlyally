@@ -25,6 +25,7 @@ const initialState = {
           return state;
         }
         state.error = action.payload.errorDetails.error;
+        state.isOpen = action.payload.errorDetails.isOpen
       },
     },
 

@@ -13,7 +13,7 @@ import {
   BsThreeDotsVertical,
 } from "react-icons/bs";
 import { AiOutlineLink } from "react-icons/ai";
-import { FaBell, FaVideo, FaGlobeAfrica } from "react-icons/fa";
+import { FaBell, FaVideo, FaGlobeAfrica, FaUnlock } from "react-icons/fa";
 import { MdMail, MdOutlineLocationOn } from "react-icons/md";
 import { RiUpload2Line, RiInstagramFill } from "react-icons/ri";
 import { useRouter } from "next/router";
@@ -26,16 +26,22 @@ import {
   fetchSingleUserProfileStart,
   fetchSingleUserPostsStart,
 } from "../../store/slices/OtherUsersSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import configuration from "react-global-configuration";
+import {setPaymentModal} from "../../store/slices/NavSlice";
 
-import { Popover, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Popover, Transition, Dialog } from "@headlessui/react";
+import PaymentModal from "../../components/helpers/PaymentModal";
+
+
+
 
 const Profile = () => {
+
+
   const router = useRouter();
   const { username } = router.query;
-
+  const toggleVisibility = () => {};
   const dispatch = useDispatch();
 
   const comments = useSelector((state) => state.comments.comments);
@@ -45,8 +51,6 @@ const Profile = () => {
   // const products = useSelector(
   //   (state) => state.userProducts.otherModelProducts
   // );
-
-  const toggleVisibility = () => {};
 
   useEffect(() => {
     dispatch(
@@ -87,7 +91,6 @@ const Profile = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const [subscrptionPayment, setPaymentModal] = useState(false);
   const closeSendTipModal = () => {
     setSendTip(false);
   };
@@ -114,8 +117,6 @@ const Profile = () => {
       })
     );
   };
-
- 
 
   const handleUnfollowModalClose = () => setShowUnfollow(false);
   const handleUnfollowModalShow = () => setShowUnfollow(true);
@@ -150,13 +151,12 @@ const Profile = () => {
   };
 
   const subscriptionPayment = (
-    event,
     plan_type,
     amount,
     amount_formatted,
     is_free = 0
   ) => {
-    event.preventDefault();
+ 
     setSubscriptionData({
       ...subscriptionData,
       is_free: is_free,
@@ -164,7 +164,7 @@ const Profile = () => {
       amount: amount,
       amount_formatted: amount_formatted,
     });
-    setPaymentModal(true);
+    dispatch(setPaymentModal(true));
   };
 
   const onCopy = (event) => {
@@ -321,26 +321,91 @@ const Profile = () => {
                   </div>
                   <div className="col-container space-y-0.5">
                     <p className="text-lg font-semibold">
-                    {userDetails.data.total_followings}
+                      {userDetails.data.total_followings}
                     </p>
                     <span>Following</span>
                   </div>
                   <div className="col-container space-y-0.5">
                     <p className="text-lg font-semibold">
-                    {userDetails.data.total_followers}
+                      {userDetails.data.total_followers}
                     </p>
                     <span>Fans</span>
                   </div>
                 </div>
-                <div className="flex justify-center items-center space-x-2 ">
-                  <Button
-                    text="Subscribe"
-                    active={true}
-                    extraClasses="w-32 h-9"
-                  />
+                <div className="grid grid-cols-1 justify-content-center ">
+                  {
+                    userDetails.data.is_block_user == 0 ? (
+                      <div>
+                        {userDetails.data.payment_info.is_user_needs_pay == 1 &&
+                        userDetails.data.payment_info.unsubscribe_btn_status ==
+                          0 ? (
+                          userDetails.data.payment_info.is_free_account == 0 ? (
+                            <>
+                              <div className="grid grid-cols-2 gap-x-1">
+                                <div className="active">
+                                  <div
+                                    className="sub-button"
+                                    onClick={(event) =>
+                                      subscriptionPayment(
+                                        
+                                        "months",
+                                        userDetails.data.payment_info
+                                          .subscription_info.monthly_amount,
+                                        userDetails.data.payment_info
+                                          .subscription_info
+                                          .monthly_amount_formatted
+                                      )
+                                    }
+                                  >
+                                    <span>
+                                      <FaUnlock />
+                                    </span>
+                                    {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
+                                  </div>
+                                </div>
+                                <div className="active">
+                                  <div
+                                    className="sub-button"
+                                    onClick={(event) =>
+                                      subscriptionPayment(
+                                        event,
+                                        "years",
+                                        userDetails.data.payment_info
+                                          .subscription_info.yearly_amount,
+                                        userDetails.data.payment_info
+                                          .subscription_info
+                                          .yearly_amount_formatted
+                                      )
+                                    }
+                                  >
+                                    <span>
+                                      <FaUnlock />
+                                    </span>
+
+                                    {`Get access ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          ) : null
+                        ) : null}
+                      </div>
+                    ) : // <Button
+                    //   text="Subscribe"
+                    //   active={true}
+                    //   extraClasses="w-32 h-9"
+                    // />
+
+                    null
+                    // where you will add unblock code
+                  }
 
                   <div className="row-container space-x-2 w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer">
-                    <img src="/materials/tips.png" alt="tips" className="h-5 w-5 text-white invert" />
+                    <img
+                      src="/materials/tips.png"
+                      alt="tips"
+                      className="h-5 w-5 text-white invert"
+                    />
                     <p className="text-xs font-medium text-white">Tip</p>
                   </div>
                 </div>
@@ -450,6 +515,25 @@ const Profile = () => {
             </div>
           </>
         )}
+        {userDetails.loading ? (
+        "loading"
+      ) : localStorage.getItem("userId") !== "" &&
+      localStorage.getItem("userId") !== null &&
+      localStorage.getItem("userId") !== undefined ? (
+
+          <PaymentModal 
+            userPicture={userDetails.data.user.picture}
+            name={userDetails.data.user.name}
+            user_unique_id={userDetails.data.user.user_unique_id}
+            subscriptionData={subscriptionData}
+            username={userDetails.data.user.username}
+          
+          /> 
+          // tips payment will go here
+          ) : null
+                        
+                        
+                        }
       </div>
     </SideNavLayout>
   );

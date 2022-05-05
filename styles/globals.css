@@ -5,6 +5,10 @@
 @tailwind utilities;
 
 @layer components {
+
+  .sub-button{
+    @apply bg-lightPlayRed text-white text-xs py-3 px-1 rounded-lg flex items-center justify-center cursor-pointer space-x-0.5
+  }
   
   #search_input {
    @apply ring-0 focus:ring-0 focus:ring-offset-0 }
