@@ -9,7 +9,7 @@ import { FaVideo } from "react-icons/fa";
 import { GiSpeaker } from "react-icons/gi";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchPostsStart } from "../../store/slices/postSlice";
+import {fetchSingleUserPostsStart} from "../../store/slices/OtherUsersSlice";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import Link from "next/link";
 import ReactPlayer from "react-player/lazy";
@@ -19,35 +19,45 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const ProfileTabs = () => {
-  const posts = useSelector((state) => state.post.posts);
+const OtherUserProfileTabs = ({other_user_username : username}) => {
+  const posts = useSelector((state) => state.otherUser.userPosts);
   const dispatch = useDispatch();
-
+    
   const setActiveSection = (key) => {
     if (key === 0)
       dispatch(
-        fetchPostsStart({
+        fetchSingleUserPostsStart({
+          user_unique_id: username,
           type: "all",
         })
       );
     else if (key === 3)
       dispatch(
-        fetchPostsStart({
+        fetchSingleUserPostsStart({
+          user_unique_id: username,
           type: "image",
         })
       );
     else if (key === 4)
       dispatch(
-        fetchPostsStart({
+        fetchSingleUserPostsStart({
+          user_unique_id: username,
           type: "video",
         })
       );
     else if (key === 5)
       dispatch(
-        fetchPostsStart({
+        fetchSingleUserPostsStart({
+          user_unique_id: username,
           type: "audio",
         })
       );
+    // else if (key === "store")
+    //   dispatch(
+    //     fetchOtherModelProductListStart({
+    //       user_unique_id: username,
+    //     })
+    //   );
   };
 
   let [categories] = useState([
@@ -187,7 +197,7 @@ const ProfileTabs = () => {
                 {posts.data.posts.map((post) =>
                   post.postFiles.length > 0
                     ? post.postFiles.map((p_file, i) => (
-                        <div key={post.post_id}>
+                        <div key={i}>
                           <div className="inner list-none">
                             <Link
                               href={"/post/" + post.post_unique_id}
@@ -227,10 +237,10 @@ const ProfileTabs = () => {
               <div className="grid grid-cols-1 md:grid-cols-3  gap-2">
                 {posts.data.posts.map((post) =>
                   post.postFiles.length > 0
-                    ? post.postFiles.map((p_file) => (
+                    ? post.postFiles.map((p_file, i) => (
                         <ul
                           className="list-unstyled list-none"
-                          key={post.post_id}
+                          key={i}
                         >
                           <li className="box">
                             <div className="p-[1px] w-full h-auto object-cover relative">
@@ -267,8 +277,8 @@ const ProfileTabs = () => {
               <div className="grid grid-cols-4 gap-2">
                 {posts.data.posts.map((post) =>
                   post.postFiles.length > 0
-                    ? post.postFiles.map((p_file) => (
-                        <ul className="list-none" key={post.post_id}>
+                    ? post.postFiles.map((p_file, i) => (
+                        <ul className="list-none" key={i}>
                           <li className="w-full list-none">
                             <div className="p-[1px] w-full h-auto object-cover relative">
                               <ReactAudioPlayer
@@ -300,4 +310,4 @@ const ProfileTabs = () => {
   );
 };
 
-export default ProfileTabs;
+export default OtherUserProfileTabs;

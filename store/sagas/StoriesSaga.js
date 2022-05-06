@@ -14,7 +14,7 @@ import {
   fetchUserStoriesStart,
 } from "../slices/storiesSlice";
 
-import { addNotification} from "../slices/notificationsSlice";
+import { notify} from "reapop";
 
 function* fetchUserStoriesAPI(action) {
   try {
@@ -30,16 +30,12 @@ function* fetchUserStoriesAPI(action) {
     if (response.data.success) {
       yield put(fetchUserStoriesSuccess(response.data.data));
     } else {
-      yield put(fetchUserStoriesFailure(response.data.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(fetchUserStoriesFailure( response.data.error));
+      yield put(notify( response.data.error, 'error'));
     }
   } catch (error) {
     yield put(fetchUserStoriesFailure(error));
-    //   const notificationMessage = getErrorNotificationMessage(error.message);
-    //   yield put(createNotification(notificationMessage));
+    yield put(notify(error.message, 'error'));
   }
 }
 
@@ -60,12 +56,12 @@ function* fetchStoriesAPI(action) {
     if (response.data.success) {
       yield put(fetchStoriesSuccess(response.data.data));
     } else {
-      yield put(fetchStoriesFailure(response.data.error.error));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(fetchStoriesFailure( response.data.error));
+      yield put(notify({message:  response.data.error, status:"error"}))
     }
   } catch (error) {
     yield put(fetchStoriesFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -79,14 +75,14 @@ function* storyFileUploadAPI(action) {
     if (response.data.success) {
       yield put(storyFileUploadSuccess(response.data.data));
       yield put(fetchStoriesStart());
-      yield put(addNotification({message: response.data.message}))
+      yield put(notify({ message: response.data.message, status: 'success' }))
     } else {
-      yield put(storyFileUploadFailure(response.data.error));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(storyFileUploadFailure( response.data.error));
+      yield put(notify({message:  response.data.error, status:"error"}))
     }
   } catch (error) {
     yield put(storyFileUploadFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 
@@ -100,14 +96,14 @@ function* storyFileDeleteAPI(action) {
     if (response.data.success) {
       yield put(storyFileDeleteSuccess(response.data.data));
       yield put(fetchUserStoriesStart());
-      yield put(addNotification({message: response.data.message}))
+      yield put(notify({ message: response.data.message, status: 'success' }))
     } else {
-      yield put(storyFileDeleteFailure(response.data.error));
-      yield put(addNotification({message: response.data.error, type:"error"}))
+      yield put(storyFileDeleteFailure( response.data.error));
+      yield put(notify({message:  response.data.error, status:"error"}))
     }
   } catch (error) {
     yield put(storyFileDeleteFailure(error));
-    yield put(addNotification({message: error.message, type:"error"}))
+    yield put(notify({message: error.message, status:"error"}))
   }
 }
 

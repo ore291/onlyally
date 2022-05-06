@@ -11,7 +11,6 @@ import { HiOutlineEmojiHappy } from "react-icons/hi";
 import Lightbox from "react-image-lightbox";
 import ReactPlayer from "react-player/lazy";
 import { useDispatch, useSelector } from "react-redux";
-import TextareaAutosize from "react-textarea-autosize";
 import Button from "../Button";
 import scrollToTop from "../helpers/ScrollToTop";
 import EmblaSlide from "./EmblaSlide";
@@ -201,7 +200,7 @@ const NewsFeedCard = ({ post, index }) => {
       {postDisplayStatus == true ? (
         <div className="sm:rounded-2xl bg-white sm:border shadow-md w-full ">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b">
-            <Link passHref href={`/${post.user_unique_id}`}>
+            <Link passHref href={`/profile/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
                 <div className="relative w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700">
                   <Image
@@ -507,22 +506,7 @@ const NewsFeedCard = ({ post, index }) => {
             </div>
           </div>
 
-          {/* <div>
-        <div className="flex  rounded object-center bg-transparent cursor-pointer">
-          <div className="object-center p-0 lg:p-1 h-full w-[100%] my-0 mx-auto"> */}
-          {/* <div className="h-full w-full relative">
-                <Image layout="fill" src={image} layout="fill" priority objectFit="cover"  className="block mx-auto h-full w-full max-w-[800px]"/>
-              </div> */}
-          {/* <img
-                src={image}
-                height="100%"
-                width="100%"
-                alt="image attached to post"
-                className="block mx-auto w-full max-w-[800px]"
-              ></img> */}
-          {/* </div>
-        </div>
-      </div> */}
+         
 
           <div className="p-3 px-7">
             <div className="flex items-center justify-between px-2">
@@ -536,14 +520,7 @@ const NewsFeedCard = ({ post, index }) => {
                         onClick={(event) => handleLike(event, "removed")}
                       >
                         <BsHeartFill className="news-feed-card-icon text-lightPlayRed" />
-                        {/* <div className="relative news-feed-card-icon">
-                          <Image
-                            alt=""
-                            layout="fill"
-                            src={"/images/icons/heart-active.svg"}
-                            className="svg-clone"
-                          />
-                        </div> */}
+                        
                         <p
                           className={`${
                             likeCount == 0 ? "hidden" : "post-like-text"
@@ -688,9 +665,7 @@ const NewsFeedCard = ({ post, index }) => {
             </div>
             {post.like_count > 0 && (
               <div className="likes py-1">
-                {/* <p>
-                  <p>{`${likeCount} ${likeCount > 1 ? 'likes' : 'like}'`}</p>
-                </p> */}
+                
                 <p
                   className={`${likeCount == 0 ? "hidden" : "post-like-text"}`}
                 >
@@ -743,33 +718,7 @@ const NewsFeedCard = ({ post, index }) => {
               ) : null}
             </div>
             <Comments key="index" post={post} currentIndex={index} />
-            {/* <div className="flex items-center mt-2">
-              <div className="w-10 h-10 relative rounded-full mr-2">
-                <Image
-                  layout="fill"
-                  src={"/profile_avatar_full.jpg"}
-                  className="rounded-full"
-                  objectFit="cover"
-                  alt=""
-                />
-              </div>
-              <form className="bg-gray-100 flex items-center px-2 rounded-2xl flex-1">
-                <TextareaAutosize
-                  maxLength="1280"
-                  rows={1}
-                  maxRows={4}
-                  placeholder="Add a comment"
-                  className="rounded-2xl flex-1 resize-none outline-0 border-none bg-gray-100 text-sm focus:outline-0 ring-0 focus:ring-0"
-                />
-                <div className="flex space-x-1 items-center justify-center ">
-                  <HiOutlineEmojiHappy className="commentBtn" />
-                  <div className="relative w-9 h-9 cursor-pointer lg:commentBtn">
-                    <Image layout="fill" src="/comment.png" alt="" />
-                  </div>
-                  <HiPaperAirplane className="commentBtn rotate-90" />
-                </div>
-              </form>
-            </div> */}
+            
           </div>
           <div />
         </div>

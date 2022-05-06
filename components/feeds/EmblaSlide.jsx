@@ -40,7 +40,7 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
                       src={inView ? postFile.post_file : PLACEHOLDER_SRC}
                       onLoad={setLoaded}
                       className={`postViewImg blur-[20px]  ${hasLoaded ? 'opacity-1' : "opacity-0"}`}
-                      // style={{ filter: "blur(20px)" }}
+                      
                     />
                   </div>
                 ) : (

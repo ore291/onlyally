@@ -16,7 +16,8 @@ import {
   fetchBookmarksAudioSuccess,
 } from "../slices/bookmarkSlice";
 
-import { addNotification } from "../slices/notificationsSlice";
+import {errorLogoutCheck} from "../slices/errorSlice";
+import {notify} from 'reapop'
 
 function* saveBookmarkAPI() {
   try {
@@ -29,18 +30,17 @@ function* saveBookmarkAPI() {
     });
     if (response.data.success) {
       yield put(saveBookmarkSuccess(response.data.data));
-      yield put(addNotification({ message: response.data.message }));
+      yield put(notify({ message: response.data.message, status: 'success' }));
     } else {
-      yield put(saveBookmarkFailure(response.data.error));
-
-      // yield put(checkLogoutStatus(response.data));
+      yield put(saveBookmarkFailure( response.data.error));
+      yield put(errorLogoutCheck(response.data));
       yield put(
-        addNotification({ message: response.data.error, type: "error" })
+        notify({ message:  response.data.error, status: "error" })
       );
     }
   } catch (error) {
-    yield put(saveBookmarkFailure(error));
-    yield put(addNotification({ message: error.message, type: "error" }));
+    yield put(saveBookmarkFailure(error.message));
+    yield put(notify({ message: error.message, status: "error" }));
    }
 }
 
@@ -58,9 +58,9 @@ function* deleteBookmarkAPI() {
       // );
       // yield put(createNotification(notificationMessage));
     } else {
-      yield put(deleteBookmarkFailure(response.data.error));
+      yield put(deleteBookmarkFailure( response.data.error.error));
       // const notificationMessage = getErrorNotificationMessage(
-      //   response.data.error
+      //    response.data.error.error
       // );
       // yield put(checkLogoutStatus(response.data));
       // yield put(createNotification(notificationMessage));
