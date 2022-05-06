@@ -11,6 +11,8 @@ import errorReducer from "./errorSlice";
 import otherUserReducer from "./OtherUsersSlice";
 import subscriptionReducer from "./subscriptionSlice";
 import walletReducer from "./walletSlice";
+import cardReducer from "./cardsSlice";
+import configReducer from './configurationSlice';
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -29,6 +31,8 @@ const reducers = combineReducers({
   otherUser: otherUserReducer,
   subscriptions: subscriptionReducer,
   wallet: walletReducer,
+  cards : cardReducer,
+  config : configReducer
 });
 
 export default reducers;

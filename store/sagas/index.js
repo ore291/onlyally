@@ -9,6 +9,10 @@ import BookmarkSaga from "./BookmarkSaga";
 import StoriesSaga from "./StoriesSaga";
 import ErrorSaga from "./ErrorSaga";
 import OtherUserSaga from "./OtherUsersSaga";
+import WalletSaga from "./WalletSaga";
+import SubscriptionSaga from "./SubscriptionSaga";
+import CardSaga from "./CardSaga";
+import ConfigSaga from './ConfigSaga';
 
 export default function* rootSaga() {
     yield all([fork(UserSaga)]);
@@ -20,5 +24,9 @@ export default function* rootSaga() {
     yield all([fork(StoriesSaga)]);
     yield all([fork(ErrorSaga)])
     yield all([fork(OtherUserSaga)])
+    yield all([fork(WalletSaga)])
+    yield all([fork(SubscriptionSaga)])
+    yield all([fork(CardSaga)])
+    yield all([fork(ConfigSaga)])
     
 }
