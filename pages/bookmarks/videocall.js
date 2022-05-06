@@ -18,7 +18,7 @@ export default function VideoCall() {
               contain the request you received from other users
             </p>
           </section>
-          <div className="w-[95%] px-4 mx-auto shadow-md py-4">
+          <div className="w-[95%] px-4 mt-8 mx-auto shadow-md py-4">
             <table className="text-center w-full space-y-4">
               <tr className="border-b-2">
                 <th>S.NO</th>
