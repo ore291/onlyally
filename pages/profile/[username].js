@@ -13,7 +13,13 @@ import {
   BsThreeDotsVertical,
 } from "react-icons/bs";
 import { AiOutlineLink } from "react-icons/ai";
-import { FaBell, FaVideo, FaGlobeAfrica, FaUnlock } from "react-icons/fa";
+import {
+  FaBell,
+  FaVideo,
+  FaGlobeAfrica,
+  FaUnlock,
+  FaUserTimes,
+} from "react-icons/fa";
 import { MdMail, MdOutlineLocationOn } from "react-icons/md";
 import { RiUpload2Line, RiInstagramFill } from "react-icons/ri";
 import { useRouter } from "next/router";
@@ -28,17 +34,14 @@ import {
 } from "../../store/slices/OtherUsersSlice";
 import { useEffect, useState, Fragment } from "react";
 import configuration from "react-global-configuration";
-import {setPaymentModal} from "../../store/slices/NavSlice";
+import { setPaymentModal, setUnfollowerModal } from "../../store/slices/NavSlice";
+import { subscriptionPaymentPaystackStart } from "../../store/slices/subscriptionSlice";
 
 import { Popover, Transition, Dialog } from "@headlessui/react";
 import PaymentModal from "../../components/helpers/PaymentModal";
-
-
-
+import UnfollowModal from "../../components/helpers/UnfollowModal";
 
 const Profile = () => {
-
-
   const router = useRouter();
   const { username } = router.query;
   const toggleVisibility = () => {};
@@ -48,6 +51,7 @@ const Profile = () => {
   // const chat = useSelector((state) => state.chat);
   const userDetails = useSelector((state) => state.otherUser.userDetails);
   const userPosts = useSelector((state) => state.otherUser.userPosts);
+  const unfollowModal = useSelector((state) => state.navbar.unfollowUserModal)
   // const products = useSelector(
   //   (state) => state.userProducts.otherModelProducts
   // );
@@ -118,17 +122,9 @@ const Profile = () => {
     );
   };
 
-  const handleUnfollowModalClose = () => setShowUnfollow(false);
-  const handleUnfollowModalShow = () => setShowUnfollow(true);
+ 
 
-  const handleUnfollow = (event, user_id) => {
-    event.preventDefault();
-    props.dispatch(
-      unFollowUserStart({
-        user_id: user_id,
-      })
-    );
-  };
+
 
   const handleStar = (event, user_id, status) => {
     event.preventDefault();
@@ -156,7 +152,6 @@ const Profile = () => {
     amount_formatted,
     is_free = 0
   ) => {
- 
     setSubscriptionData({
       ...subscriptionData,
       is_free: is_free,
@@ -332,81 +327,112 @@ const Profile = () => {
                     <span>Fans</span>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 justify-content-center ">
-                  {
-                    userDetails.data.is_block_user == 0 ? (
-                      <div>
-                        {userDetails.data.payment_info.is_user_needs_pay == 1 &&
-                        userDetails.data.payment_info.unsubscribe_btn_status ==
-                          0 ? (
-                          userDetails.data.payment_info.is_free_account == 0 ? (
-                            <>
-                              <div className="grid grid-cols-2 gap-x-1">
-                                <div className="active">
-                                  <div
-                                    className="sub-button"
-                                    onClick={(event) =>
-                                      subscriptionPayment(
-                                        
-                                        "months",
-                                        userDetails.data.payment_info
-                                          .subscription_info.monthly_amount,
-                                        userDetails.data.payment_info
-                                          .subscription_info
-                                          .monthly_amount_formatted
-                                      )
-                                    }
-                                  >
-                                    <span>
-                                      <FaUnlock />
-                                    </span>
-                                    {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
-                                  </div>
-                                </div>
-                                <div className="active">
-                                  <div
-                                    className="sub-button"
-                                    onClick={(event) =>
-                                      subscriptionPayment(
-                                        event,
-                                        "years",
-                                        userDetails.data.payment_info
-                                          .subscription_info.yearly_amount,
-                                        userDetails.data.payment_info
-                                          .subscription_info
-                                          .yearly_amount_formatted
-                                      )
-                                    }
-                                  >
-                                    <span>
-                                      <FaUnlock />
-                                    </span>
-
-                                    {`Get access ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
-                                  </div>
-                                </div>
+                <div className={`grid ${userDetails.data.payment_info.is_free_account == 0 &&
+                    userDetails.data.payment_info.unsubscribe_btn_status ==
+                      0 ? 'grid-cols-1 gap-1' : "grid-cols-2 gap-2" }   justify-items-center place-content-center `}>
+                  {userDetails.data.is_block_user == 0 ? (
+                    userDetails.data.payment_info.is_user_needs_pay == 1 &&
+                    userDetails.data.payment_info.unsubscribe_btn_status ==
+                      0 ? (
+                      userDetails.data.payment_info.is_free_account == 0 ? (
+                        <>
+                          <div className="grid grid-cols-2 gap-x-1">
+                            
+                              <div
+                                className="sub-button"
+                                onClick={(event) =>
+                                  subscriptionPayment(
+                                    "months",
+                                    userDetails.data.payment_info
+                                      .subscription_info.monthly_amount,
+                                    userDetails.data.payment_info
+                                      .subscription_info
+                                      .monthly_amount_formatted
+                                  )
+                                }
+                              >
+                                <span>
+                                  <FaUnlock />
+                                </span>
+                                {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
                               </div>
-                            </>
-                          ) : null
-                        ) : null}
+                        
+                          
+                              <div
+                                className="sub-button"
+                                onClick={(event) =>
+                                  subscriptionPayment(
+                                    event,
+                                    "years",
+                                    userDetails.data.payment_info
+                                      .subscription_info.yearly_amount,
+                                    userDetails.data.payment_info
+                                      .subscription_info.yearly_amount_formatted
+                                  )
+                                }
+                              >
+                                <span>
+                                  <FaUnlock />
+                                </span>
+
+                                {`Get access ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
+                              </div>
+                            </div>
+                         
+                        </>
+                      ) : (
+                      
+                          <div
+                            className="sub-button"
+                            onClick={(event) =>
+                              dispatch(
+                                subscriptionPaymentPaystackStart({
+                                  user_unique_id:
+                                    userDetails.data.user.user_unique_id,
+                                  plan_type: "months",
+                                  is_free: 0,
+                                })
+                              )
+                            }
+                          >
+                            <span>
+                              <FaUnlock />
+                            </span>
+                            {userDetails.data.payment_info.payment_text}
+                          </div>
+                       
+                      )
+                    ) : null
+                  ) : null}
+
+                  {userDetails.data.payment_info.unsubscribe_btn_status == 1 ? (
+                    <>
+                      <div
+                        className="sub-button row-container space-x-1"
+                        onClick={()=>dispatch(setUnfollowerModal(true))}
+                      >
+                        <span>
+                          <FaUserTimes className="h-4 w-4" />
+                        </span>
+                        <p className="text-sm font-medium text-white">
+                          Unfollow
+                        </p>
                       </div>
-                    ) : // <Button
-                    //   text="Subscribe"
-                    //   active={true}
-                    //   extraClasses="w-32 h-9"
-                    // />
-
-                    null
-                    // where you will add unblock code
-                  }
-
-                  <div className="row-container space-x-2 w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer">
-                    <img
+                      {
+                        unfollowModal ? ( <UnfollowModal  user_id={userDetails.data.user.user_id}/> ) : null
+                      }
+                     
+                    </>
+                  ) : null}
+                  <div className="row-container space-x-2  sub-button">
+                    <Image
                       src="/materials/tips.png"
                       alt="tips"
-                      className="h-5 w-5 text-white invert"
+                      width="16"
+                      height="16"
+                      className="h-4 w-4 text-white invert"
                     />
-                    <p className="text-xs font-medium text-white">Tip</p>
+                    <p className="text-sm font-medium text-white">Tip</p>
                   </div>
                 </div>
                 <div className="row-container bg-gray-50 p-1 rounded-md py-2">
@@ -516,24 +542,20 @@ const Profile = () => {
           </>
         )}
         {userDetails.loading ? (
-        "loading"
-      ) : localStorage.getItem("userId") !== "" &&
-      localStorage.getItem("userId") !== null &&
-      localStorage.getItem("userId") !== undefined ? (
-
-          <PaymentModal 
+          "loading"
+        ) : localStorage.getItem("userId") !== "" &&
+          localStorage.getItem("userId") !== null &&
+          localStorage.getItem("userId") !== undefined ? (
+          <PaymentModal
             userPicture={userDetails.data.user.picture}
             name={userDetails.data.user.name}
             user_unique_id={userDetails.data.user.user_unique_id}
             subscriptionData={subscriptionData}
             username={userDetails.data.user.username}
-          
-          /> 
-          // tips payment will go here
-          ) : null
-                        
-                        
-                        }
+          />
+        ) : // tips payment will go here
+        null}
+
       </div>
     </SideNavLayout>
   );

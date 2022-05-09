@@ -13,6 +13,7 @@ import subscriptionReducer from "./subscriptionSlice";
 import walletReducer from "./walletSlice";
 import cardReducer from "./cardsSlice";
 import configReducer from './configurationSlice';
+import followReducer from "./followerSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -32,7 +33,8 @@ const reducers = combineReducers({
   subscriptions: subscriptionReducer,
   wallet: walletReducer,
   cards : cardReducer,
-  config : configReducer
+  config : configReducer,
+  follow : followReducer
 });
 
 export default reducers;

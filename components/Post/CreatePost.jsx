@@ -8,7 +8,7 @@ import { TiVideo } from "react-icons/ti";
 import { FaMusic, FaVideo, FaRegTimesCircle } from "react-icons/fa";
 import { Multiselect } from "multiselect-react-dropdown";
 import { useSelector, useDispatch } from "react-redux";
-import { addNotification } from "../../store/slices/notificationsSlice";
+import {notify} from 'reapop';
 import {
   fetchPostCategoriesStart,
   savePostStart,
@@ -103,7 +103,7 @@ const CreatePost = () => {
       }
       if (!file) {
         dispatch(
-          addNotification({ message: "file field is required", type: "error" })
+          notify("file field is required", "error" )
         );
       } else {
         dispatch(
@@ -180,9 +180,9 @@ const CreatePost = () => {
     event.preventDefault();
     if (fileUpload.loadingButtonContent !== null) {
       dispatch(
-        addNotification({
+        notify({
           message: "file is being uploaded.. Please wait",
-          type: "error",
+          status: "error",
         })
       );
     } else {
@@ -206,9 +206,9 @@ const CreatePost = () => {
     event.preventDefault();
     if (fileUpload.loadingButtonContent !== null) {
       dispatch(
-        addNotification({
+        notify({
           message: "file is being uploaded.. Please wait",
-          type: "error",
+          status: "error",
         })
       );
     } else {
@@ -240,9 +240,9 @@ const CreatePost = () => {
     event.preventDefault();
     if (fileUpload.loadingButtonContent !== null) {
       dispatch(
-        addNotification({
+        notify({
           message: "file is being uploaded.. Please wait",
-          type: "error",
+          status: "error",
         })
       );
     } else {

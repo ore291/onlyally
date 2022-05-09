@@ -26,11 +26,11 @@ function* getCardDetailsAPI() {
     } else {
       yield put(fetchCardDetailsFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({ message: response.data.error, type: "error" }));
+      yield put(notify({ message: response.data.error, status :"error" }));
     }
   } catch (error) {
     yield put(fetchCardDetailsFailure(error));
-    yield put(notify({ message: error.message, type: "error" }));
+    yield put(notify({ message: error.message, status :"error" }));
   }
 }
 
@@ -43,18 +43,18 @@ function* deleteCardAPI() {
     });
     yield put(deleteCardSuccess(response.data.data));
     if (response.data.success) {
-      yield put(notify({ message: response.data.message, type: "error" }));
+      yield put(notify({ message: response.data.message, status :"error" }));
       yield put(fetchCardDetailsStart());
     } else {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error
       );
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({ message: response.data.error, type: "error" }));
+      yield put(notify({ message: response.data.error, status :"error" }));
     }
   } catch (error) {
     yield put(deleteCardFailure(error));
-    yield put(notify({ message: error.message, type: "error" }));
+    yield put(notify({ message: error.message, status :"error" }));
   }
 }
 
@@ -69,15 +69,15 @@ function* selectDefaultCardAPI() {
     });
     yield put(selectDefaultCardSuccess(response.data.data));
     if (response.data.success) {
-      yield put(notify({ message: response.data.message, type: "success" }));
+      yield put(notify({ message: response.data.message, status :"success" }));
       yield put(fetchCardDetailsStart());
     } else {
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({ message: response.data.error, type: "error" }));
+      yield put(notify({ message: response.data.error, status :"error" }));
     }
   } catch (error) {
     yield put(selectDefaultCardFailure(error));
-    yield put(notify({ message: error.message, type: "error" }));
+    yield put(notify({ message: error.message, status :"error" }));
   }
 }
 

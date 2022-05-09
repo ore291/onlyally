@@ -28,12 +28,12 @@ function* fetchOtherUserProfileAPI() {
       } else {
         yield put(fetchSingleUserProfileFailure(response.data.error));
         yield put(errorLogoutCheck(response.data));
-        yield put(notify({message: response.data.error, type: "error"}));
+        yield put(notify({message: response.data.error, status: "error"}));
         window.location.assign("/");
       }
     } catch (error) {
       yield put(fetchSingleUserProfileFailure(error.message));
-      yield put(notify({message: error.message, type: "error"}));
+      yield put(notify({message: error.message, status: "error"}));
     }
   }
   

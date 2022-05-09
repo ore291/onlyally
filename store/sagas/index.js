@@ -13,6 +13,7 @@ import WalletSaga from "./WalletSaga";
 import SubscriptionSaga from "./SubscriptionSaga";
 import CardSaga from "./CardSaga";
 import ConfigSaga from './ConfigSaga';
+import FollowSaga from "./FollowSaga";
 
 export default function* rootSaga() {
     yield all([fork(UserSaga)]);
@@ -28,5 +29,6 @@ export default function* rootSaga() {
     yield all([fork(SubscriptionSaga)])
     yield all([fork(CardSaga)])
     yield all([fork(ConfigSaga)])
+    yield all([fork(FollowSaga)])
     
 }

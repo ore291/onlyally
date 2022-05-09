@@ -22,11 +22,11 @@ function* fetchWalletDetailsAPI() {
       } else {
         yield put(errorLogoutCheck(response.data));
         yield put(fetchWalletDetailsFailure(response.data.error));
-        yield put(createNotification({message: response.data.error, type: "error"}));
+        yield put(createNotification({message: response.data.error, status: "error"}));
       }
     } catch (error) {
       yield put(fetchWalletDetailsFailure(error));
-      yield put(notify({message: error.response.data.error, type: "error"}))
+      yield put(notify({message: error.response.data.error, status: "error"}))
     }
   }
   
@@ -39,15 +39,15 @@ function* fetchWalletDetailsAPI() {
       );
       if (response.data.success) {
         yield put(addMoneyViaCardSuccess(response.data.data));
-        yield put(notify({message: response.data.message, type: "success"}))
+        yield put(notify({message: response.data.message, status: "success"}))
         window.location.assign("/wallet");
       } else {
         yield put(addMoneyViaCardFailure(response.data.error));
-        yield put(notify({message: response.data.error, type: "error"}))
+        yield put(notify({message: response.data.error, status: "error"}))
       }
     } catch (error) {
       yield put(addMoneyViaCardFailure(error));
-      yield put(notify({message: error.response.data.error, type: "error"}))
+      yield put(notify({message: error.response.data.error, status: "error"}))
     }
   }
   
