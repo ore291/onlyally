@@ -53,22 +53,15 @@ function* deleteBookmarkAPI() {
     });
     if (response.data.success) {
       yield put(deleteBookmarkSuccess(response.data.data));
-      // const notificationMessage = getSuccessNotificationMessage(
-      //   response.data.message
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(notify({message: response.data.message, status: "success"}));
     } else {
       yield put(deleteBookmarkFailure( response.data.error.error));
-      // const notificationMessage = getErrorNotificationMessage(
-      //    response.data.error.error
-      // );
-      // yield put(checkLogoutStatus(response.data));
-      // yield put(createNotification(notificationMessage));
+      yield put(errorLogoutCheck(response.data));
+      yield put(notify({ message: response.data.error, status: "error"}));
     }
   } catch (error) {
     yield put(deleteBookmarkFailure(error));
-    //   const notificationMessage = getErrorNotificationMessage(error.message);
-    //   yield put(createNotification(notificationMessage));
+      yield put(notify({message: error.message, status:"error"}));
   }
 }
 
