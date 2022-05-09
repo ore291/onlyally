@@ -5,9 +5,10 @@ import TwitterProvider from "next-auth/providers/twitter";
 import CredentialsProvider from "next-auth/providers/credentials";
 var axios = require("axios");
 var FormData = require("form-data");
+import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
 var localStorage = require("localStorage");
-const DeviceDetector = require('node-device-detector');
-const DeviceHelper = require('node-device-detector/helper');
+// const DeviceDetector = require('node-device-detector');
+// const DeviceHelper = require('node-device-detector/helper');
 // 'use strict';
  
 // var rootCas = require('ssl-root-cas').create();
@@ -60,17 +61,37 @@ export default NextAuth({
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
 
-        const detector = new DeviceDetector({clientVersionTruncate: 0,});
+        // const detector = new DeviceDetector({clientVersionTruncate: 0,});
 
         const userAgent = req.headers['user-agent']; 
-        const result = detector.detect(userAgent);
-        var device_model = "";
-        if (DeviceHelper.isMobile(result)) {
-          device_model = result.device.model;
-        } else {
-          device_model = result.client.name + " " + result.client.version;
-          // device_model = "Chrome" + " " + "100";
-        }
+        const {  isAndroid,
+          isIOS,
+          isWindows,
+          isMacOs,
+          mobileModel,
+          browserName,
+          osName,
+          mobileVendor,
+          browserVersion, } = getSelectorsByUserAgent(userAgent)
+
+          var device_model = "";
+          if (isAndroid == true) {
+            device_model = mobileModel;
+          } else if (isIOS == true) {
+            device_model = mobileModel;
+          } else {
+            device_model = browserName + " " + browserVersion;
+            // device_model = "Chrome" + " " + "100";
+          }  
+        // const result = detector.detect(userAgent);
+        // var device_model = "";
+        // if (DeviceHelper.isMobile(result)) {
+        //   console.log(result)
+        //   device_model = result.device.model;
+        // } else {
+        //   device_model = result.client.name + " " + result.client.version;
+        //   // device_model = "Chrome" + " " + "100";
+        // }
 
         const data = new FormData();
         data.append("email", credentials.email);

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { apiConstants } from "./components/Constant/constants";
-import { getSession } from "next-auth/react";
+import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
 import {
   isAndroid,
   isIOS,
@@ -12,6 +12,7 @@ import {
   mobileVendor,
   browserVersion,
 } from "react-device-detect";
+
 
 var FormData = require("form-data");
 
@@ -107,6 +108,7 @@ const Environment = {
         // device_model = "Chrome" + " " + "100";
       }  
       formData.append("device_model", device_model);
+      console.log(device_model);
     }
 
     if (typeof window != "undefined") {

@@ -8,8 +8,9 @@ import { END } from "redux-saga";
 import { useSession, getSession } from "next-auth/react";
 import { wrapper } from "../store";
 import { useSelector, useDispatch } from "react-redux";
-const DeviceDetector = require("node-device-detector");
-const DeviceHelper = require("node-device-detector/helper");
+// const DeviceDetector = require("node-device-detector");
+// const DeviceHelper = require("node-device-detector/helper");
+import { getSelectorsByUserAgent} from 'react-device-detect';
 import axios from "axios";
 
 import {
@@ -125,18 +126,41 @@ export const getServerSideProps = wrapper.getServerSideProps(
         };
       }
 
-      const detector = new DeviceDetector({ clientVersionTruncate: 0 });
+      // const detector = new DeviceDetector({ clientVersionTruncate: 0 });
 
-      const userAgent = req.headers["user-agent"];
-      const result = detector.detect(userAgent);
+      // const userAgent = req.headers["user-agent"];
+      // const result = detector.detect(userAgent);
 
-      var device_model = "";
-      if (DeviceHelper.isMobile(result)) {
-        device_model = result.device.model;
-      } else {
-        device_model = result.client.name + " " + result.client.version;
-        // device_model = "Chrome" + " " + "100";
-      }
+      // var device_model = "";
+      // if (DeviceHelper.isMobile(result)) {
+      //   device_model = result.device.model;
+      // } else {
+      //   device_model = result.client.name + " " + result.client.version;
+      //   // device_model = "Chrome" + " " + "100";
+      // }
+
+      const userAgent = req.headers['user-agent']; 
+      const {  isAndroid,
+        isIOS,
+        isWindows,
+        isMacOs,
+        mobileModel,
+        browserName,
+        osName,
+        mobileVendor,
+        browserVersion, } = getSelectorsByUserAgent(userAgent)
+
+        var device_model = "";
+        if (isAndroid == true) {
+          device_model = mobileModel;
+        } else if (isIOS == true) {
+          device_model = mobileModel;
+        } else {
+          device_model = browserName + " " + browserVersion;
+          // device_model = "Chrome" + " " + "100";
+        }  
+       
+
       store.dispatch(
         fetchHomePostsStart({
           accessToken: session.accessToken,
