@@ -5,9 +5,9 @@ import MarketBody from "../../components/MarketBody";
 
 function Market() {
   return (
-    <div className="flex p-2 rounded shadow">
+    <div className="flex">
       <ProfileNavBar className="w-24 mb-8" />
-      <div className=" w-full px-1 mx-auto pt-3 mr-24  mt-12 bg-white rounded">
+      <div className="w-4/5 bg-white px-4 mx-auto mt-20 mr-16 ml-6 shadow py-4">
         <p className="font-semibold mt1.5 mb-3.5 pl-2">Order View</p>
         <MarketButtons />
         <MarketBody />

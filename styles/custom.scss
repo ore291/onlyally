@@ -7,3 +7,8 @@ $highlight-color: #b30d28;
 $icon-bg-color: #fcfafa;
 $submenu-indent: 24px;
 @import "~react-pro-sidebar/dist/scss/styles.scss";
+
+th,
+td {
+  padding: 20px;
+}
