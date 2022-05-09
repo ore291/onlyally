@@ -5,9 +5,9 @@ import MarketForm from "../../components/MarketForm.jsx";
 function MaeketB() {
   return (
     <div>
-      <div className="flex p-2 rounded shadow">
-        <ProfileNavBar className="w-24 mb-8" />
-        <div className=" w-full px-1 mx-auto pt-3 mr-24  mt-12 bg-white rounded">
+      <div className="flex">
+        <ProfileNavBar />
+        <div className="w-4/5 bg-white px-4 mx-auto mt-20 mr-16 ml-6 shadow py-4">
           <MarketButtons />
           <p className="font-semibold ml-10 mt-4">Product</p>
           <MarketForm />

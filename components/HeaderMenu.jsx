@@ -1,9 +1,8 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
-
 
 import {
   BsDot,
@@ -25,7 +24,7 @@ import { MdMail } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 
 const HeaderMenu = ({ user }) => {
-const router = useRouter();
+  const router = useRouter();
 
   return (
     <div>
@@ -33,7 +32,7 @@ const router = useRouter();
         <Menu.Button>
           <div className="row-container rounded-full bg-[#BA253D] space-x-1 pr-2 cursor-pointer">
             <Image
-            alt=""
+              alt=""
               src={user.picture}
               width={38}
               height={38}
@@ -58,7 +57,7 @@ const router = useRouter();
               <Menu.Item>
                 {({ active }) => (
                   <button
-                  onClick={()=>router.push("/profile")}
+                    onClick={() => router.push("/profile")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-bold"
@@ -190,25 +189,21 @@ const router = useRouter();
                 )}
               </Menu.Item>
               <Menu.Item>
-               
-                  {({ active }) => ( 
-                    <button
-                      onClick={()=>router.push("/bookmarks/photos")}
-                      className={`${
-                        active
-                          ? "bg-gray-100 text-[#252525] font-semibold"
-                          : "text-[#252525] font-semibold"
-                      } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
-                    >
-                      <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
-                        <FaBookmark className="h-6 w-6" />
-                      </div>
-                      Bookmarks
-                    </button>
-                      
-                
-                  )}
-                
+                {({ active }) => (
+                  <button
+                    onClick={() => router.push("/dashboard")}
+                    className={`${
+                      active
+                        ? "bg-gray-100 text-[#252525] font-semibold"
+                        : "text-[#252525] font-semibold"
+                    } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
+                  >
+                    <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                      <FaBookmark className="h-6 w-6" />
+                    </div>
+                    Bookmarks
+                  </button>
+                )}
               </Menu.Item>
 
               <Menu.Item>
