@@ -1,4 +1,4 @@
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders, signIn ,useSession} from "next-auth/react";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -31,16 +31,19 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
-
+  const { data: session, status } = useSession()
 
   const userLogin = async () => {
     var email = emailRef.current.value;
     var password = passwordRef.current.value;
     const res = await signIn("credentials", {
       callbackUrl: "/",
+      // redirect: false,
       email: email,
       password: password
     });
+    
+    
   };
 
 

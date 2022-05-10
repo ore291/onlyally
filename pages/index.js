@@ -24,10 +24,10 @@ import Sticky from "react-stickynode";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
 // import useInfiniteScroll from "../components/helper/useInfiniteScroll";
 
-export default function Home() {
+export default function Home({userDetails}) {
   const posts = useSelector((state) => state.home.homePost);
   const configData = useSelector((state) => state.config.configData)
-  const userDetails = useSelector((state) => state.user.loginData);
+  // const userDetails = useSelector((state) => state.user.loginData);
   const dispatch = useDispatch();
 
   const fetchHomeData = () => {
@@ -44,7 +44,42 @@ export default function Home() {
   useEffect(() => {
     localStorage.setItem("accessToken", userDetails.token);
     localStorage.setItem("userId", userDetails.user_id);
-  }, [userDetails]);
+    localStorage.setItem("userLoginStatus", true);
+        localStorage.setItem("user_picture", userDetails.picture);
+        localStorage.setItem("user_cover", userDetails.cover);
+        localStorage.setItem("name", userDetails.name);
+        localStorage.setItem("username", userDetails.username);
+        localStorage.setItem("socket", true);
+        localStorage.setItem(
+          "user_unique_id",
+          userDetails.user_unique_id
+        );
+        localStorage.setItem(
+          "is_document_verified",
+          userDetails.is_document_verified
+        );
+        localStorage.setItem(
+          "is_verified_badge",
+          userDetails.is_verified_badge
+            ? userDetails.is_verified_badge
+            : 0
+        );
+        localStorage.setItem(
+          "is_content_creator",
+          userDetails.is_content_creator
+        );
+        localStorage.setItem(
+          "default_payment_method",
+          userDetails.default_payment_method
+        );
+        localStorage.setItem(
+          "is_two_step_auth_enabled",
+          userDetails.is_two_step_auth_enabled
+        );
+        localStorage.setItem("emailId", userDetails.email);
+        
+
+  }, []);
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
 
@@ -181,7 +216,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
       await store.sagaTask.toPromise();
 
       return {
-        props: {},
+        props: {
+          userDetails : session.user.userDetails
+        },
       };
     }
 );

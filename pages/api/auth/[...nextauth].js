@@ -83,6 +83,7 @@ export default NextAuth({
             device_model = browserName + " " + browserVersion;
             // device_model = "Chrome" + " " + "100";
           }  
+          console.log(device_model);
         // const result = detector.detect(userAgent);
         // var device_model = "";
         // if (DeviceHelper.isMobile(result)) {
