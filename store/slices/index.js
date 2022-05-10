@@ -14,6 +14,7 @@ import walletReducer from "./walletSlice";
 import cardReducer from "./cardsSlice";
 import configReducer from './configurationSlice';
 import followReducer from "./followerSlice";
+import alertReducer from "./AlertSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -34,7 +35,8 @@ const reducers = combineReducers({
   wallet: walletReducer,
   cards : cardReducer,
   config : configReducer,
-  follow : followReducer
+  follow : followReducer,
+  alert : alertReducer
 });
 
 export default reducers;
