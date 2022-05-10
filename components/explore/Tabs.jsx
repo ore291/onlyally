@@ -39,8 +39,8 @@ export default function Tabs() {
           </div>
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-          <div className="p-2 grid grid-cols-2 gap-3">
+          <Tab.Panel className={classNames("bg-white rounded-xl")}>
+          <div className="py-2 grid grid-cols-1 md:grid-cols-2  gap-1">
               {posts.map((post, index) => (
                 <NewsFeedCard
                   index={index}

@@ -6,7 +6,7 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { BsHeart, BsHeartFill, BsThreeDots } from "react-icons/bs";
-import { FaCheckCircle , FaBookmark} from "react-icons/fa";
+import { FaCheckCircle, FaBookmark } from "react-icons/fa";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 import Lightbox from "react-image-lightbox";
 import ReactPlayer from "react-player/lazy";
@@ -21,6 +21,7 @@ import { saveBookmarkStart } from "../../store/slices/bookmarkSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
 import Comment from "./Comment";
 import Comments from "./Comments";
+import ReadMoreMaster from "../helpers/ReadMoreMaster";
 
 const NewsFeedCard = ({ post, index }) => {
   const dispatch = useDispatch();
@@ -300,10 +301,11 @@ const NewsFeedCard = ({ post, index }) => {
                   ? "hidden"
                   : "p-2 break-words text-[14px] font-normal leading-5 tracking-wide"
               }`}
-              dangerouslySetInnerHTML={{
-                __html: post.content != undefined ? post.content : "",
-              }}
-            ></div>
+            >
+              <ReadMoreMaster byWords={true} length={5} ellipsis="...">
+                {post.content}
+              </ReadMoreMaster>
+            </div>
 
             <div className="embla">
               <div className="embla__viewport" ref={viewportRef}>
@@ -506,8 +508,6 @@ const NewsFeedCard = ({ post, index }) => {
             </div>
           </div>
 
-         
-
           <div className="p-3 px-7">
             <div className="flex items-center justify-between px-2">
               {likeStatus !== "" ? (
@@ -520,7 +520,7 @@ const NewsFeedCard = ({ post, index }) => {
                         onClick={(event) => handleLike(event, "removed")}
                       >
                         <BsHeartFill className="news-feed-card-icon text-lightPlayRed" />
-                        
+
                         <p
                           className={`${
                             likeCount == 0 ? "hidden" : "post-like-text"
@@ -624,7 +624,7 @@ const NewsFeedCard = ({ post, index }) => {
                         title="Bookmark post"
                         className="flex items-center justify-center"
                       >
-                       <FaBookmark className="news-feed-card-icon text-lightPlayRed"/>
+                        <FaBookmark className="news-feed-card-icon text-lightPlayRed" />
                       </button>
                     ) : null}
                   </>
@@ -638,7 +638,7 @@ const NewsFeedCard = ({ post, index }) => {
                         title="Bookmark post"
                         className="flex items-center justify-center"
                       >
-                        <FaBookmark className="news-feed-card-icon "/>
+                        <FaBookmark className="news-feed-card-icon " />
                       </button>
                     ) : null}
                   </>
@@ -650,7 +650,7 @@ const NewsFeedCard = ({ post, index }) => {
                   title="Bookmark post"
                   className="flex items-center justify-center"
                 >
-                  <FaBookmark className="news-feed-card-icon text-lightPlayRed"/>
+                  <FaBookmark className="news-feed-card-icon text-lightPlayRed" />
                 </button>
               ) : (
                 <button
@@ -659,13 +659,12 @@ const NewsFeedCard = ({ post, index }) => {
                   title="Bookmark post"
                   className="flex items-center justify-center"
                 >
-                 <FaBookmark className="news-feed-card-icon " />
+                  <FaBookmark className="news-feed-card-icon " />
                 </button>
               )}
             </div>
             {post.like_count > 0 && (
               <div className="likes py-1">
-                
                 <p
                   className={`${likeCount == 0 ? "hidden" : "post-like-text"}`}
                 >
@@ -718,7 +717,6 @@ const NewsFeedCard = ({ post, index }) => {
               ) : null}
             </div>
             <Comments key="index" post={post} currentIndex={index} />
-            
           </div>
           <div />
         </div>

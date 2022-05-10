@@ -422,7 +422,7 @@
 
 .gallery.js-gallery .react-player__preview {
   /* min-height: 100vh; */
-  min-height: 35em;
+  min-height: 20em;
   background-repeat: no-repeat !important;
 }
 @media only screen and (max-width: 450px) {

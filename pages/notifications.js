@@ -12,6 +12,7 @@ import { BiMicrophone } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
+import Image from "next/image";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -133,7 +134,8 @@ const Notifications = () => {
                   )
                 }
               >
-                <AiOutlineDollarCircle className="w-6 h-6 " />
+                {/* <AiOutlineDollarCircle className="w-6 h-6 " /> */}
+                <Image src='/tips.png' width='24' height="24" objectFit="cover" alt=""/>
                 <h2 className="text-sm font-medium ">TIPPED</h2>
               </Tab>
               <Tab
