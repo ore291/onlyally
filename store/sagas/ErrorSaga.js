@@ -39,7 +39,7 @@ function* logoutStatusCheck() {
         yield put(notify({message: inputData.error, status:"error"}));
         setTimeout(() => {
             signOut();
-          }, 300);
+          }, 500);
 
        
       } else {

@@ -10,7 +10,7 @@ import { wrapper } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 // const DeviceDetector = require("node-device-detector");
 // const DeviceHelper = require("node-device-detector/helper");
-import { getSelectorsByUserAgent} from 'react-device-detect';
+import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
 
 import {
@@ -24,10 +24,10 @@ import Sticky from "react-stickynode";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
 // import useInfiniteScroll from "../components/helper/useInfiniteScroll";
 
-export default function Home({userDetails}) {
+export default function Home({ userDetails }) {
   const posts = useSelector((state) => state.home.homePost);
-  const configData = useSelector((state) => state.config.configData)
-  // const userDetails = useSelector((state) => state.user.loginData);
+  const configData = useSelector((state) => state.config.configData);
+  const loginDetails = useSelector((state) => state.user.loginData);
   const dispatch = useDispatch();
 
   const fetchHomeData = () => {
@@ -45,41 +45,31 @@ export default function Home({userDetails}) {
     localStorage.setItem("accessToken", userDetails.token);
     localStorage.setItem("userId", userDetails.user_id);
     localStorage.setItem("userLoginStatus", true);
-        localStorage.setItem("user_picture", userDetails.picture);
-        localStorage.setItem("user_cover", userDetails.cover);
-        localStorage.setItem("name", userDetails.name);
-        localStorage.setItem("username", userDetails.username);
-        localStorage.setItem("socket", true);
-        localStorage.setItem(
-          "user_unique_id",
-          userDetails.user_unique_id
-        );
-        localStorage.setItem(
-          "is_document_verified",
-          userDetails.is_document_verified
-        );
-        localStorage.setItem(
-          "is_verified_badge",
-          userDetails.is_verified_badge
-            ? userDetails.is_verified_badge
-            : 0
-        );
-        localStorage.setItem(
-          "is_content_creator",
-          userDetails.is_content_creator
-        );
-        localStorage.setItem(
-          "default_payment_method",
-          userDetails.default_payment_method
-        );
-        localStorage.setItem(
-          "is_two_step_auth_enabled",
-          userDetails.is_two_step_auth_enabled
-        );
-        localStorage.setItem("emailId", userDetails.email);
-        
-
-  }, []);
+    localStorage.setItem("user_picture", userDetails.picture);
+    localStorage.setItem("user_cover", userDetails.cover);
+    localStorage.setItem("name", userDetails.name);
+    localStorage.setItem("username", userDetails.username);
+    localStorage.setItem("socket", true);
+    localStorage.setItem("user_unique_id", userDetails.user_unique_id);
+    localStorage.setItem(
+      "is_document_verified",
+      userDetails.is_document_verified
+    );
+    localStorage.setItem(
+      "is_verified_badge",
+      userDetails.is_verified_badge ? userDetails.is_verified_badge : 0
+    );
+    localStorage.setItem("is_content_creator", userDetails.is_content_creator);
+    localStorage.setItem(
+      "default_payment_method",
+      userDetails.default_payment_method
+    );
+    localStorage.setItem(
+      "is_two_step_auth_enabled",
+      userDetails.is_two_step_auth_enabled
+    );
+    localStorage.setItem("emailId", userDetails.email);
+  }, [loginDetails]);
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
 
@@ -103,10 +93,6 @@ export default function Home({userDetails}) {
       props.dispatch(searchUserStart({ key: event.currentTarget.value }));
     }
   };
-
-
-
- 
 
   return (
     <>
@@ -174,8 +160,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
       //   // device_model = "Chrome" + " " + "100";
       // }
 
-      const userAgent = req.headers['user-agent']; 
-      const {  isAndroid,
+      const userAgent = req.headers["user-agent"];
+      const {
+        isAndroid,
         isIOS,
         isWindows,
         isMacOs,
@@ -183,18 +170,18 @@ export const getServerSideProps = wrapper.getServerSideProps(
         browserName,
         osName,
         mobileVendor,
-        browserVersion, } = getSelectorsByUserAgent(userAgent)
+        browserVersion,
+      } = getSelectorsByUserAgent(userAgent);
 
-        var device_model = "";
-        if (isAndroid == true) {
-          device_model = mobileModel;
-        } else if (isIOS == true) {
-          device_model = mobileModel;
-        } else {
-          device_model = browserName + " " + browserVersion;
-          // device_model = "Chrome" + " " + "100";
-        }  
-       
+      var device_model = "";
+      if (isAndroid == true) {
+        device_model = mobileModel;
+      } else if (isIOS == true) {
+        device_model = mobileModel;
+      } else {
+        device_model = browserName + " " + browserVersion;
+        // device_model = "Chrome" + " " + "100";
+      }
 
       store.dispatch(
         fetchHomePostsStart({
@@ -217,7 +204,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       return {
         props: {
-          userDetails : session.user.userDetails
+          userDetails: session.user.userDetails,
         },
       };
     }

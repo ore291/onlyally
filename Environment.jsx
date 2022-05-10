@@ -67,7 +67,9 @@ const Environment = {
       user_id != null &&
       token != null &&
       user_id != "undefined" &&
-      token != "undefined"
+      token != "undefined" &&
+      user_id != "" && 
+      token != ""
     ) {
       formData.append("id", user_id);
       formData.append("token", token);
@@ -144,14 +146,7 @@ const Environment = {
       console.log(error);
     }
 
-    // Progress bar
-    // {
-    //   onUploadProgress: (ProgressEvent) => {
-    //     console.log({
-    //       loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
-    //     });
-    //   },
-    // }
+    
   },
 
   getMethod: async (action, object) => {
@@ -199,9 +194,7 @@ const Environment = {
 
     formData.append("device_model", device_model);
 
-    for (var p of formData) {
-      console.log(p);
-    }
+   
 
     return await axios.get(url, formData);
   },

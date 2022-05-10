@@ -3,9 +3,8 @@ import ContentLoader from "react-content-loader"
 const NotificationLoader = (props) => (
   <ContentLoader 
     speed={2}
-    width={1100}
-    height={650}
-    viewBox="0 0 1200 650"
+   
+    viewBox="0 0 900 650"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
     {...props}

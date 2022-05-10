@@ -36,6 +36,28 @@ const SideNav = () => {
     router.push(url);
   };
 
+  const logout = async () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userLoginStatus");
+    localStorage.removeItem("user_picture");
+    localStorage.removeItem("username");
+    localStorage.removeItem("socket");
+    localStorage.removeItem("user_cover");
+    localStorage.removeItem("name");
+    localStorage.removeItem("user_unique_id");
+    localStorage.removeItem("is_document_verified");
+    localStorage.removeItem("is_verified_badge");
+    localStorage.removeItem("is_two_step_auth_enabled");
+    localStorage.removeItem("is_content_creator");
+    localStorage.removeItem("default_payment_method");
+    localStorage.removeItem("emailId");
+    localStorage.removeItem("total_followers");
+    localStorage.removeItem("total_followings");
+    localStorage.removeItem("is_subscription_enabled");
+    await signOut({ callbackUrl: "/login" });
+  };
+
   const dispatch = useDispatch();
   const navOpen = useSelector((state) => state.navbar.open);
   const user = useSelector((state) => state.user.loginData);
@@ -189,7 +211,7 @@ const SideNav = () => {
               </button>
               <button
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
-                onClick={() => signOut({ callbackUrl: "/login" })}
+                onClick={() => logout()}
               >
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <IoLogOut className="h-6 w-6" />
