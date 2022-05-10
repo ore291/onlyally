@@ -3,11 +3,28 @@ import React, { useState } from "react";
 import { ProSidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Link from "next/link";
 import { RiBarChartHorizontalFill } from "react-icons/ri";
-import { GiSpeaker } from "react-icons/gi";
-import { BiHistory, BiUserCircle } from "react-icons/bi";
-import { BsBookmark, BsListStars } from "react-icons/bs";
+import { GiSpeaker, GiPlayerNext } from "react-icons/gi";
+import {
+  BiHistory,
+  BiUserCircle,
+  BiTransferAlt,
+  BiMessageAdd,
+  BiWallet,
+} from "react-icons/bi";
+import {
+  BsBookmark,
+  BsListStars,
+  BsPeopleFill,
+  BsBagCheck,
+  BsCreditCard2Back,
+  BsBank,
+} from "react-icons/bs";
 import { FaLock } from "react-icons/fa";
-import { AiFillSetting, AiFillAudio } from "react-icons/ai";
+import {
+  AiFillSetting,
+  AiFillAudio,
+  AiOutlineCheckSquare,
+} from "react-icons/ai";
 import { IoDocuments } from "react-icons/io5";
 import {
   MdWifiCalling,
@@ -22,7 +39,12 @@ import { FiPhoneCall } from "react-icons/fi";
 import { ImProfile } from "react-icons/im";
 import { IoVideocam } from "react-icons/io5";
 import { IoIosPeople, IoMdPhotos } from "react-icons/io";
-import { MdPassword } from "react-icons/md";
+import {
+  MdPassword,
+  MdOutlineNotes,
+  MdOutlinePayments,
+  MdSubscriptions,
+} from "react-icons/md";
 
 function ProfileNavItem({ linkcolor, securitycolor }) {
   return (
@@ -34,7 +56,7 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
               icon={<RiBarChartHorizontalFill size="20px" />}
               className="text-gray-600"
             >
-              <Link href="/bookmarks/referrals">Dashborad</Link>
+              <Link href="/dashboard">Dashboard</Link>
             </MenuItem>
 
             <SubMenu title="Profile" icon={<BiUserCircle size="20px" />}>
@@ -55,7 +77,7 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
             </SubMenu>
 
             <MenuItem icon={<BiHistory size="20px" />}>
-              <Link href="/bookmarks/referrals">Stories</Link>
+              <Link href="/stories">Stories</Link>
             </MenuItem>
 
             <SubMenu title="Bookmarks" icon={<BsBookmark />}>
@@ -87,23 +109,23 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
             </SubMenu>
 
             <SubMenu title="List" icon={<BsListStars size="20px" />}>
-              <MenuItem>
-                <Link href="/bookmarks/referrals">Fans</Link>
+              <MenuItem icon={<BsPeopleFill size="18px" />}>
+                <Link href="/bookmarks/fans">Fans</Link>
               </MenuItem>
 
-              <MenuItem>
+              <MenuItem icon={<BsPeopleFill size="18px" />}>
                 <Link href="/bookmarks/referrals">Following</Link>
               </MenuItem>
 
-              <MenuItem>
+              <MenuItem icon={<BsPeopleFill size="18px" />}>
                 <Link href="/bookmarks/referrals">Favorites</Link>
               </MenuItem>
 
-              <MenuItem>
+              <MenuItem icon={<BsPeopleFill size="18px" />}>
                 <Link href="/bookmarks/referrals">Bookmarks</Link>
               </MenuItem>
 
-              <MenuItem>
+              <MenuItem icon={<BsPeopleFill size="18px" />}>
                 <Link href="/bookmarks/referrals">Blocked Users</Link>
               </MenuItem>
             </SubMenu>
@@ -116,26 +138,41 @@ function ProfileNavItem({ linkcolor, securitycolor }) {
             </MenuItem>
 
             <SubMenu title="Market" icon={<FaShoppingBag />}>
-              <MenuItem>
-                <Link href="/bookmarks/referrals">Favorites</Link>
+              <MenuItem icon={<BiMessageAdd size="18px" />}>
+                <Link href="/market/marketB">Add Products</Link>
               </MenuItem>
-              <MenuItem>
-                <Link href="/bookmarks/referrals">Bookmarks</Link>
+              <MenuItem icon={<BiTransferAlt size="18px" />}>
+                <Link href="/market/transaction">View Transactions</Link>
               </MenuItem>
-              <MenuItem>
-                <Link href="/bookmarks/referrals">Blocked Users</Link>
+              <MenuItem icon={<BsBagCheck size="18px" />}>
+                <Link href="/market/market">Market Checkout</Link>
+              </MenuItem>
+              <MenuItem icon={<MdOutlineNotes size="18px" />}>
+                <Link href="/market/orderList">Orders</Link>
+              </MenuItem>
+              <MenuItem icon={<AiOutlineCheckSquare size="18px" />}>
+                <Link href="/market/payment">Checkout</Link>
               </MenuItem>
             </SubMenu>
 
             <SubMenu title="Payments" icon={<MdOutlinePayment size="20px" />}>
-              <MenuItem>
-                <Link href="/bookmarks/referrals">Favorites</Link>
+              <MenuItem icon={<BsCreditCard2Back size="18px" />}>
+                <Link href="/payment/your-cards">Your Cards</Link>
               </MenuItem>
-              <MenuItem>
-                <Link href="/bookmarks/referrals">Bookmarks</Link>
+              <MenuItem icon={<BsBank size="18px" />}>
+                <Link href="/payment/addbank">Add Bank</Link>
               </MenuItem>
-              <MenuItem>
-                <Link href="/bookmarks/referrals">Blocked Users</Link>
+              <MenuItem icon={<BiWallet size="18px" />}>
+                <Link href="/payment/addbank">Wallet</Link>
+              </MenuItem>
+              <MenuItem icon={<MdOutlinePayments size="18px" />}>
+                <Link href="/payment/my-payment">My Payments</Link>
+              </MenuItem>
+              <MenuItem icon={<GiPlayerNext size="18px" />}>
+                <Link href="/payment/subscription">My Subscriptions</Link>
+              </MenuItem>
+              <MenuItem icon={<MdSubscriptions size="18px" />}>
+                <Link href="/payment/transaction-history">My Subscribers</Link>
               </MenuItem>
             </SubMenu>
 

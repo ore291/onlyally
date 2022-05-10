@@ -5,9 +5,9 @@ import AddBankBody from "../../components/AddBankBody.jsx";
 function MyPayment() {
   return (
     <div>
-      <div className="flex p-2 rounded shadow">
+      <div className="flex">
         <ProfileNavBar className="w-24 mb-8" />
-        <div className=" w-full px-1 text-[20px] mb-10 space-y-4 mx-auto pt-3 mr-24  mt-12 bg-white rounded justify-start">
+        <div className="w-4/5 bg-white px-4 mx-auto mt-20 mr-16 ml-6 shadow py-4">
           <span className="flex space-x-2">
             <AiOutlineArrowLeft className="mt-1.5" />
             <p className=" font-bold">Add Bank</p>
