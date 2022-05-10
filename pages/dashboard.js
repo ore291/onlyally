@@ -121,7 +121,10 @@ export default function Dashboard() {
 
             <div className="space-y-2">
               {followers.map((eachFollow) => (
-                <section className="flex gap-4 border-b-2 border-gray-200 pb-4">
+                <section
+                  className="flex gap-4 border-b-2 border-gray-200 pb-4"
+                  key={eachFollow.name}
+                >
                   <img
                     src="/images/settings/pic.jpg"
                     alt="person"
