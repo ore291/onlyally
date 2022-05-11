@@ -9,10 +9,8 @@ import {
     fetchChatMessageSuccess,
     fetchChatUsersFailure,
     fetchChatUsersSuccess,
-    saveChatUserFailure,
-    saveChatUserStart,
-    saveChatUserSuccess,
-    fetchChatMoreDataSucess
+    saveChatUsersFailure,
+    saveChatUsersSuccess,
 } from "../slices/chatSlice";
 
 import { errorLogoutCheck } from "../slices/errorSlice";
@@ -79,16 +77,16 @@ function* fetchChatUserAPI() {
       );
       const response = yield api.postMethod({action :"chat_users_save",object :inputData});
       if (response.data.success) {
-        yield put(saveChatUserSuccess(response.data.data));
+        yield put(saveChatUsersSuccess(response.data.data));
         window.location.assign("/messages");
   
       } else {
-        yield put(saveChatUserFailure(response.data.error));
+        yield put(saveChatUsersFailure(response.data.error));
         yield put(errorLogoutCheck(response.data));
         yield put(notify({message: response.data.error, status: "error"}));
       }
     } catch (error) {
-      yield put(saveChatUserFailure(error));
+      yield put(saveChatUsersFailure(error));
       yield put(notify({message: error.message, status: "error"}));
     }
   }

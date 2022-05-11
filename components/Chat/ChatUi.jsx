@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef , Component} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ChatUserList from "./ChatUserList";
@@ -16,8 +16,8 @@ import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import ReactAudioPlayer from "react-audio-player";
 import { isMobile } from "react-device-detect";
-import ReactFancyBox from "react-fancybox";
-import "react-fancybox/lib/fancybox.css";
+// import ReactFancyBox from 'react-fancybox'
+// import 'react-fancybox/lib/fancybox.css'
 import io from "socket.io-client";
 
 import { useDispatch, useSelector } from "react-redux";
