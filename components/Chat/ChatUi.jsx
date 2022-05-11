@@ -22,7 +22,7 @@ import io from "socket.io-client";
 
 import { useDispatch, useSelector } from "react-redux";
 
-const $ = window.$;
+
 
 let chatSocket;
 
