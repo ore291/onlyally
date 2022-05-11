@@ -46,7 +46,7 @@ const ChatUi = () => {
   const [chatPayment, setPaymentModal] = useState(false);
   const [paymentData, setPaymentData] = useState({
     chat_message_id: 0,
-    from_user_id: localStorage??.getItem("userId"),
+    from_user_id: localStorage?.getItem("userId"),
     to_user_id: toUserId,
     amount_formatted: 0,
     amount: 0,
