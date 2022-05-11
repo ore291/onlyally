@@ -12,9 +12,11 @@ import otherUserReducer from "./OtherUsersSlice";
 import subscriptionReducer from "./subscriptionSlice";
 import walletReducer from "./walletSlice";
 import cardReducer from "./cardsSlice";
-import configReducer from './configurationSlice';
+import configReducer from "./configurationSlice";
 import followReducer from "./followerSlice";
 import alertReducer from "./AlertSlice";
+import chatReducer from "./chatSlice";
+import chatAssetReducer from "./chatAssetSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -33,10 +35,12 @@ const reducers = combineReducers({
   otherUser: otherUserReducer,
   subscriptions: subscriptionReducer,
   wallet: walletReducer,
-  cards : cardReducer,
-  config : configReducer,
-  follow : followReducer,
-  alert : alertReducer
+  cards: cardReducer,
+  config: configReducer,
+  follow: followReducer,
+  alert: alertReducer,
+  chat: chatReducer,
+  chatAsset: chatAssetReducer,
 });
 
 export default reducers;
