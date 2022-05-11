@@ -28,6 +28,8 @@ let chatSocket;
 
 const ChatUi = () => {
   const dispatch = useDispatch();
+
+  
   const chatUsers = useSelector((state) => state.chat.chatUsers);
   const chatMessages = useSelector((state) => state.chat.messages);
   const assetUpload = useSelector((state) => state.chatAsset.saveAssetUpload);
@@ -36,6 +38,7 @@ const ChatUi = () => {
   );
   const [activeChat, setActiveChat] = useState(0);
   const [toUserId, setToUserId] = useState(0);
+  const [toLocUserId, setToLocUserId] = useState(0)
   const [inputMessage, setInputMessage] = useState("");
   const [initialHeight, setInitialHeight] = useState(0);
 
@@ -46,7 +49,7 @@ const ChatUi = () => {
   const [chatPayment, setPaymentModal] = useState(false);
   const [paymentData, setPaymentData] = useState({
     chat_message_id: 0,
-    from_user_id: localStorage?.getItem("userId"),
+    from_user_id: toLocUserId,
     to_user_id: toUserId,
     amount_formatted: 0,
     amount: 0,
@@ -63,7 +66,10 @@ const ChatUi = () => {
   const [emptyMessageCheck, setEmptyMessageCheck] = useState(false);
   const [searchKey, setSearchKey] = useState("");
 
+
+
   useEffect(() => {
+    setToLocUserId(localStorage.getItem("userId"))
     dispatch(fetchChatUsersStart({ search_key: searchKey }));
     let chatSocketUrl = socketUrl;
     if (chatSocketUrl === "") {
@@ -120,20 +126,20 @@ const ChatUi = () => {
       chatSocket = io(chatSocketUrl, {
         query:
           `commonid:'user_id_` +
-          localStorage?.getItem("userId") +
+          toLocUserId +
           `_to_user_id_` +
           to_user_id +
           `',myid:` +
-          localStorage?.getItem("userId"),
+          toLocUserId,
       });
       console.log("chatSocket", chatSocket);
       chatSocket.emit("update sender", {
         commonid:
           "user_id_" +
-          localStorage?.getItem("userId") +
+          toLocUserId +
           "_to_user_id_" +
           to_user_id,
-        myid: localStorage?.getItem("userId"),
+        myid: toLocUserId,
       });
       let chatContent;
       chatSocket.on("message", (newData) => {
@@ -157,7 +163,7 @@ const ChatUi = () => {
     event.preventDefault();
     setActiveChat(index);
     let to_user_id =
-      chat.to_user_id == localStorage?.getItem("userId")
+      chat.to_user_id == toLocUserId
         ? chat.from_user_id
         : chat.to_user_id;
     setToUserId(to_user_id);
@@ -182,12 +188,12 @@ const ChatUi = () => {
     if (chatSocketUrl != undefined && inputMessage) {
       let chatData = [
         {
-          from_user_id: localStorage?.getItem("userId"),
+          from_user_id: toLocUserId,
           to_user_id: toUserId,
           message: inputMessage,
           type: "uu",
           user_picture: localStorage?.getItem("user_picture"),
-          loggedin_user_id: localStorage?.getItem("userId"),
+          loggedin_user_id: toLocUserId,
           created: Date(),
           from_username: localStorage?.getItem("username"),
           from_displayname: localStorage?.getItem("name"),
@@ -223,13 +229,13 @@ const ChatUi = () => {
     if (chatSocketUrl != undefined && assetData && assetMessage) {
       let chatData = [
         {
-          from_user_id: localStorage?.getItem("userId"),
+          from_user_id: toLocUserId,
           to_user_id: toUserId,
           chat_message_id: assetMessage ? assetMessage.chat_message_id : "",
           message: assetMessage ? assetMessage.message : "",
           type: "uu",
           user_picture: localStorage?.getItem("user_picture"),
-          loggedin_user_id: localStorage?.getItem("userId"),
+          loggedin_user_id: toLocUserId,
           created: Date(),
           from_username: localStorage?.getItem("username"),
           from_displayname: localStorage?.getItem("name"),
@@ -256,13 +262,13 @@ const ChatUi = () => {
 
       let chatMessageData = [
         {
-          from_user_id: localStorage?.getItem("userId"),
+          from_user_id: toLocUserId,
           to_user_id: toUserId,
           chat_message_id: assetMessage ? assetMessage.chat_message_id : "",
           message: assetMessage ? assetMessage.message : "",
           type: "uu",
           user_picture: localStorage?.getItem("user_picture"),
-          loggedin_user_id: localStorage?.getItem("userId"),
+          loggedin_user_id: toLocUserId,
           created: Date(),
           from_username: localStorage?.getItem("username"),
           from_displayname: localStorage?.getItem("name"),
