@@ -5,6 +5,9 @@
 @tailwind utilities;
 
 @layer components {
+  .post-video-size{
+    @apply !w-full !h-[20em] object-cover min-h-[20em]
+  }
   .btn {
     @apply bg-red-400 py-1 rounded-sm shadow-md px-6 text-white hover:bg-red-800;
   }
@@ -215,6 +218,14 @@
   .dropdown-icon {
     @apply w-4 h-4 text-lightPlayRed;
   }
+}
+
+.emojiWrapper.chat-emoji {
+  position: absolute;
+  bottom: calc(3em + 53px);
+  right: 1em;
+  content: "";
+  z-index: 99;
 }
 /* select */
 /* select {

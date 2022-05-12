@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef , Component} from "react";
+import React, { useEffect, useState, useRef, Component } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ChatUserList from "./ChatUserList";
 import VerifiedBadge from "../handlers/VerifiedBadge";
-
+import {HiOutlineVideoCamera} from "react-icons/hi";
+import {notify} from "reapop";
 import {
   addMessageContent,
   fetchChatMessageStart,
@@ -22,14 +23,13 @@ import io from "socket.io-client";
 
 import { useDispatch, useSelector } from "react-redux";
 
-
-
 let chatSocket;
 
 const ChatUi = () => {
   const dispatch = useDispatch();
 
-  
+  const [toggler, setToggler] = useState(false);
+
   const chatUsers = useSelector((state) => state.chat.chatUsers);
   const chatMessages = useSelector((state) => state.chat.messages);
   const assetUpload = useSelector((state) => state.chatAsset.saveAssetUpload);
@@ -38,7 +38,7 @@ const ChatUi = () => {
   );
   const [activeChat, setActiveChat] = useState(0);
   const [toUserId, setToUserId] = useState(0);
-  const [toLocUserId, setToLocUserId] = useState(0)
+  const [toLocUserId, setToLocUserId] = useState(0);
   const [inputMessage, setInputMessage] = useState("");
   const [initialHeight, setInitialHeight] = useState(0);
 
@@ -66,10 +66,8 @@ const ChatUi = () => {
   const [emptyMessageCheck, setEmptyMessageCheck] = useState(false);
   const [searchKey, setSearchKey] = useState("");
 
-
-
   useEffect(() => {
-    setToLocUserId(localStorage.getItem("userId"))
+    setToLocUserId(localStorage.getItem("userId"));
     dispatch(fetchChatUsersStart({ search_key: searchKey }));
     let chatSocketUrl = socketUrl;
     if (chatSocketUrl === "") {
@@ -134,11 +132,7 @@ const ChatUi = () => {
       });
       console.log("chatSocket", chatSocket);
       chatSocket.emit("update sender", {
-        commonid:
-          "user_id_" +
-          toLocUserId +
-          "_to_user_id_" +
-          to_user_id,
+        commonid: "user_id_" + toLocUserId + "_to_user_id_" + to_user_id,
         myid: toLocUserId,
       });
       let chatContent;
@@ -163,9 +157,7 @@ const ChatUi = () => {
     event.preventDefault();
     setActiveChat(index);
     let to_user_id =
-      chat.to_user_id == toLocUserId
-        ? chat.from_user_id
-        : chat.to_user_id;
+      chat.to_user_id == toLocUserId ? chat.from_user_id : chat.to_user_id;
     setToUserId(to_user_id);
 
     dispatch(
@@ -183,6 +175,7 @@ const ChatUi = () => {
 
     if (inputMessage.length == 0) {
       setEmptyMessageCheck(true);
+      dispatch(notify({message: " Please type a message", status: "error"}));
     }
 
     if (chatSocketUrl != undefined && inputMessage) {
@@ -412,7 +405,7 @@ const ChatUi = () => {
           ""
         ) : chatMessages.data.user && chatMessages.data.user.user_unique_id ? (
           <div className="hidden lg:col-span-2 lg:block">
-            <div className="w-full">
+            <div className="w-full ">
               <Link
                 href={`/profile/${chatMessages.data.user.user_unique_id}`}
                 passHref
@@ -439,106 +432,357 @@ const ChatUi = () => {
                     ""
                   )}
                   <span className="ml-1 text-lightPlayRed text-xs font-light">
-                  @{chatMessages.data.user.username}
+                    @{chatMessages.data.user.username}
                   </span>
                 </div>
               </Link>
+              <div className="flex-1 p-2 justify-between flex flex-col h-[80vh]">
+                <div
+                  id="messages"
+                  className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+                  ref={messageRef}
+                >
+                  {chatMessages.data.messages.length > 0
+                    ? chatMessages.data.messages.map((chatMessage, index) => (
+                        <>
+                          {chatMessage.from_user_id ==
+                          localStorage.getItem("userId") ? (
+                            // main user
+                            <div className="chat-message">
+                              <div className="flex items-end justify-end">
+                                <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 items-end">
+                                  {chatMessage.chat_asset_url &&
+                                  chatMessage.file_type == "video" ? (
+                                    <ReactPlayer
+                                      url={chatMessage.chat_asset_url}
+                                      controls={true}
+                                      className="post-video-size chat-video"
+                                      width="450px"
+                                      height="450px"
+                                    />
+                                  ) : (
+                                    ""
+                                  )}
+                                  <div>
+                                    {chatMessage.chat_asset_url &&
+                                    chatMessage.file_type == "audio" ? (
+                                      <ReactAudioPlayer
+                                        src={chatMessage.chat_asset_url}
+                                        controls={true}
+                                        width="450px"
+                                        height="450px"
+                                        className="chat-room-audio-display"
+                                        autoPlay={false}
+                                        controlsList={"nodownload"}
+                                      />
+                                    ) : (
+                                      ""
+                                    )}
+                                    {chatMessage.chat_asset_url &&
+                                    chatMessage.file_type == "image" ? (
+                                      <div
+                                        className="relative w-[300px] h-[250px] max-w-[600px]
+                                      
+                                      "
+                                      >
+                                        <Image
+                                          src={chatMessage.chat_asset_url}
+                                          className="ml-[1em] my-[1em] align-middle rounded-md"
+                                          layout="fill"
+                                          objectFit="cover"
+                                          alt=""
+                                        />
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {chatMessage.is_user_needs_pay === 1 ? (
+                                      <div className=" relative  p-[1em] rounded-[5px]  text-center z-[2] bottom-[7em] left[2em] w-[300px]">
+                                        <button
+                                          className="bg-lightPlayRed text-white font-semibold !py-[0.5em] !px-[2em] text-xs !border-none rounded-full inline-block text-center align-middle"
+                                          onClick={(event) =>
+                                            handleAssetPayment(
+                                              event,
+                                              chatMessage.chat_message_id,
+                                              chatMessage.amount,
+                                              chatMessage.amount_formatted
+                                            )
+                                          }
+                                        >
+                                          {chatMessage.payment_text}
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </div>
 
-              <div className="relative w-full p-6 overflow-y-auto h-[40rem]">
-                <ul className="space-y-2">
-                  <li className="flex justify-start">
-                    <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                      <span className="block">Hi</span>
-                    </div>
-                  </li>
-                  <li className="flex justify-end">
-                    <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                      <span className="block">Hiiii</span>
-                    </div>
-                  </li>
-                  <li className="flex justify-end">
-                    <div className="relative max-w-xl px-4 py-2 text-gray-700 bg-gray-100 rounded shadow">
-                      <span className="block">how are you?</span>
-                    </div>
-                  </li>
-                  <li className="flex justify-start">
-                    <div className="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-                      <span className="block">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit.
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+                                  {chatMessage.message == "" ? null : (
+                                    <>
+                                      <p>You, {chatMessage.created}</p>
+                                      <div>
+                                        <span className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">
+                                          {chatMessage.message}
+                                        </span>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
 
-              <div className="flex items-center justify-between w-full p-3 border-t border-gray-300">
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 text-gray-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                <Image
+                                  src={localStorage.getItem("user_picture")}
+                                  width="32"
+                                  height="32"
+                                  alt="My profile"
+                                  className="w-6 h-6 rounded-full order-1"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            // other user
+                            <div className="chat-message">
+                              <div className="flex items-end">
+                                <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                                  {chatMessage.chat_asset_url &&
+                                  chatMessage.file_type == "video" ? (
+                                    chatMessage.is_user_needs_pay === 1 ? (
+                                      <div className="relative w-[300px] h-[250px] max-w-[600px]">
+                                        <Image
+                                          src={chatMessage.chat_asset_url}
+                                          className="ml-[1em] my-[1em] align-middle rounded-md"
+                                          layout="fill"
+                                          objectFit="cover"
+                                          alt=""
+                                        />
+                                      </div>
+                                    ) : (
+                                      <ReactPlayer
+                                        url={chatMessage.chat_asset_url}
+                                        controls={true}
+                                        className="post-video-size"
+                                        width="450px"
+                                        height="450px"
+                                      />
+                                    )
+                                  ) : (
+                                    ""
+                                  )}
+                                  <div>
+                                    {chatMessage.chat_asset_url &&
+                                    chatMessage.file_type == "image" ? (
+                                      <div
+                                        className="relative w-[300px] h-[250px] max-w-[600px]
+                                      
+                                      "
+                                      >
+                                        <Image
+                                          src={chatMessage.chat_asset_url}
+                                          className="ml-[1em] my-[1em] align-middle rounded-md"
+                                          layout="fill"
+                                          objectFit="cover"
+                                          alt=""
+                                        />
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {chatMessage.chat_asset_url &&
+                                    chatMessage.file_type == "audio" ? (
+                                      chatMessage.is_user_needs_pay === 1 ? (
+                                        <Image
+                                          width="300"
+                                          height="250"
+                                          alt=""
+                                          src={chatMessage.chat_asset_url}
+                                          className="mt-[1em] ml-[1em]"
+                                          objectFit="cover"
+                                        ></Image>
+                                      ) : (
+                                        <ReactAudioPlayer
+                                          src={chatMessage.chat_asset_url}
+                                          controls={true}
+                                          width="450px"
+                                          height="450px"
+                                          className="chat-room-audio-display"
+                                          autoPlay={false}
+                                          controlsList={"nodownload"}
+                                        />
+                                      )
+                                    ) : (
+                                      ""
+                                    )}
+                                    {chatMessage.is_user_needs_pay === 1 ? (
+                                      <div className=" relative  p-[1em] rounded-[5px]  text-center z-[2] bottom-[7em] left[2em] w-[300px]">
+                                        <button
+                                          className="bg-lightPlayRed text-white font-semibold !py-[0.5em] !px-[2em] text-xs !border-none rounded-full inline-block text-center align-middle"
+                                          onClick={(event) =>
+                                            handleAssetPayment(
+                                              event,
+                                              chatMessage.chat_message_id,
+                                              chatMessage.amount,
+                                              chatMessage.amount_formatted
+                                            )
+                                          }
+                                        >
+                                          {chatMessage.payment_text}
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                  </div>
+                                  {chatMessage.message == "" ? null : (
+                                    <>
+                                      <p>
+                                        {chatMessages.data.user.name},{" "}
+                                        {chatMessage.created}
+                                      </p>
+                                      <div>
+                                        <span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">
+                                          {chatMessage.message}
+                                        </span>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                                <Image
+                                  src={chatMessages.data.user.picture}
+                                  width="32"
+                                  height="32"
+                                  alt="My profile"
+                                  className="w-6 h-6 rounded-full order-1"
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      ))
+                    : ""}
+                </div>
+                <div className="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
+                  <form onSubmit={handleChatSubmit} className="relative flex">
+                    <span className="absolute inset-y-0 flex items-center">
+                      <button
+                        type="button"
+                        data-can_send="true"
+                        className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                        onClick={() => handleAssetUploadModal("audio")}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="h-6 w-6 text-gray-600"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                          ></path>
+                        </svg>
+                      </button>
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="Type a message!"
+                      aria-label="Type a message"
+                      value={inputMessage}
+                      onChange={(event) => {
+                        chatInputChange(event.currentTarget.value);
+                      }}
+                      className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
                     />
-                  </svg>
-                </button>
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                    />
-                  </svg>
-                </button>
+                    <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
+                      <button
+                      data-can_send="true"
+                      onClick={() =>
+                        handleAssetUploadModal("image")
+                      }
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="h-6 w-6 text-gray-600"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                          ></path>
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                        onClick={() =>
+                          handleAssetUploadModal("video")
+                        }
+                        data-can_send="true"
+                      >
 
-                <input
-                  type="text"
-                  placeholder="Message"
-                  className="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-                  name="message"
-                  required
-                />
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-5 h-5 text-gray-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                    />
-                  </svg>
-                </button>
-                <button type="submit">
-                  <svg
-                    className="w-5 h-5 text-gray-500 origin-center transform rotate-90"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                  </svg>
-                </button>
+                        <HiOutlineVideoCamera className="h-6 w-6 text-gray-600"/>
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                        onClick={triggerPicker}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="h-6 w-6 text-gray-600"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
+                      onClick={handleChatSubmit}
+                      ref={invalidMessageRef}
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+                      >
+                        <span className="font-bold">Send</span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="h-6 w-6 ml-2 transform rotate-90"
+                        >
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </form>
+                  {emojiPickerState && (
+                      <div className="emojiWrapper chat-emoji">
+                        <Picker
+                          title=""
+                          emoji="point_up"
+                          onSelect={(emoji) => handleEmojiSelect(emoji)}
+                        />
+                      </div>
+                    )}
+                </div>
               </div>
             </div>
           </div>
