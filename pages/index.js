@@ -143,7 +143,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         // device_model = "Chrome" + " " + "100";
       }
 
-      var user = getCookies({ req, res});
+      var user = session.user.userDetails;
       console.log("ore",user);
       store.dispatch(
         fetchHomePostsStart({

@@ -37,8 +37,8 @@ const Login = () => {
     var email = emailRef.current.value;
     var password = passwordRef.current.value;
     const res = await signIn("credentials", {
-      // callbackUrl: "/",
-      redirect: false,
+      callbackUrl: "/",
+      // redirect: false,
       email: email,
       password: password
     });
