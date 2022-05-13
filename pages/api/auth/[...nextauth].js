@@ -15,7 +15,6 @@ var localStorage = require("localStorage");
 var rootCas = require('ssl-root-cas').create();
  
 rootCas
-  .addFile('pages/api/auth/ssl/ss_bundle.pem')
   .addFile('pages/api/auth/ssl/ss_cert.pem')
   ;
  
@@ -135,7 +134,6 @@ export default NextAuth({
       },
     }),
   ],
-  secret: "jhsggsjfjsdgf7ueshgfsjfhgj",
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       return true;
