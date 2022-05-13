@@ -85,16 +85,8 @@ export default NextAuth({
             device_model = browserName + " " + browserVersion;
             // device_model = "Chrome" + " " + "100";
           }  
-          console.log(device_model);
-        // const result = detector.detect(userAgent);
-        // var device_model = "";
-        // if (DeviceHelper.isMobile(result)) {
-        //   console.log(result)
-        //   device_model = result.device.model;
-        // } else {
-        //   device_model = result.client.name + " " + result.client.version;
-        //   // device_model = "Chrome" + " " + "100";
-        // }
+         
+       
 
         const data = new FormData();
         data.append("email", credentials.email);
@@ -111,7 +103,7 @@ export default NextAuth({
           headers: {
             ...data.getHeaders(),
           },
-          data: data,
+          data: data
       
         };
 
@@ -128,7 +120,7 @@ export default NextAuth({
           }
         } catch (e) {
           const errorMessage = e;
-          console.log(errorMessage);
+          console.log("error", errorMessage);
           // throw new Error(errorMessage + "&email" + credentials.email);
         }
         // Return null if user data could not be retrieved
