@@ -11,15 +11,15 @@ var localStorage = require("localStorage");
 // const DeviceHelper = require('node-device-detector/helper');
 // 'use strict';
  
-// var rootCas = require('ssl-root-cas').create();
+var rootCas = require('ssl-root-cas').create();
  
-// rootCas
-//   .addFile('pages/api/auth/ssl/ss_bundle.pem')
-//   .addFile('pages/api/auth/ssl/ss_cert.pem')
-//   ;
+rootCas
+  .addFile('pages/api/auth/ssl/ss_bundle.pem')
+  .addFile('pages/api/auth/ssl/ss_cert.pem')
+  ;
  
-// // will work with all https requests will all libraries (i.e. request.js)
-// require('https').globalAgent.options.ca = rootCas;
+// will work with all https requests will all libraries (i.e. request.js)
+require('https').globalAgent.options.ca = rootCas;
 
 
 export default NextAuth({
@@ -105,7 +105,7 @@ export default NextAuth({
 
         var config = {
           method: "post",
-          url: "https://cms.onlyally.com/api/user/login",
+          url: "https://cp.playjor.com/api/user/login",
           headers: {
             ...data.getHeaders(),
           },

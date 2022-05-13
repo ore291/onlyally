@@ -3,8 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import ChatUserList from "./ChatUserList";
 import VerifiedBadge from "../handlers/VerifiedBadge";
-import {HiOutlineVideoCamera} from "react-icons/hi";
-import {notify} from "reapop";
+import { HiOutlineVideoCamera } from "react-icons/hi";
+import { notify } from "reapop";
 import {
   addMessageContent,
   fetchChatMessageStart,
@@ -71,6 +71,7 @@ const ChatUi = () => {
     dispatch(fetchChatUsersStart({ search_key: searchKey }));
     let chatSocketUrl = socketUrl;
     if (chatSocketUrl === "") {
+      console.log("here", chatSocketUrl);
       // const notificationMessage = getErrorNotificationMessage(
       //   "Socket URL is not configured. Chat wil not work..."
       // );
@@ -175,7 +176,7 @@ const ChatUi = () => {
 
     if (inputMessage.length == 0) {
       setEmptyMessageCheck(true);
-      dispatch(notify({message: " Please type a message", status: "error"}));
+      dispatch(notify({ message: " Please type a message", status: "error" }));
     }
 
     if (chatSocketUrl != undefined && inputMessage) {
@@ -696,10 +697,8 @@ const ChatUi = () => {
                     />
                     <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
                       <button
-                      data-can_send="true"
-                      onClick={() =>
-                        handleAssetUploadModal("image")
-                      }
+                        data-can_send="true"
+                        onClick={() => handleAssetUploadModal("image")}
                         type="button"
                         className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
                       >
@@ -727,13 +726,10 @@ const ChatUi = () => {
                       <button
                         type="button"
                         className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-                        onClick={() =>
-                          handleAssetUploadModal("video")
-                        }
+                        onClick={() => handleAssetUploadModal("video")}
                         data-can_send="true"
                       >
-
-                        <HiOutlineVideoCamera className="h-6 w-6 text-gray-600"/>
+                        <HiOutlineVideoCamera className="h-6 w-6 text-gray-600" />
                       </button>
                       <button
                         type="button"
@@ -756,17 +752,16 @@ const ChatUi = () => {
                         </svg>
                       </button>
                       <button
-                      onClick={handleChatSubmit}
-                      ref={invalidMessageRef}
+                        onClick={handleChatSubmit}
+                        ref={invalidMessageRef}
                         type="button"
-                        className="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+                        className="inline-flex items-center justify-center rounded-full p-2 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-lightPlayRed  mr-1 focus:outline-none"
                       >
-                        <span className="font-bold">Send</span>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
-                          className="h-6 w-6 ml-2 transform rotate-90"
+                          className="h-6 w-6  transform rotate-90"
                         >
                           <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
                         </svg>
@@ -774,14 +769,14 @@ const ChatUi = () => {
                     </div>
                   </form>
                   {emojiPickerState && (
-                      <div className="emojiWrapper chat-emoji">
-                        <Picker
-                          title=""
-                          emoji="point_up"
-                          onSelect={(emoji) => handleEmojiSelect(emoji)}
-                        />
-                      </div>
-                    )}
+                    <div className="emojiWrapper chat-emoji">
+                      <Picker
+                        title=""
+                        emoji="point_up"
+                        onSelect={(emoji) => handleEmojiSelect(emoji)}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
