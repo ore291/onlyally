@@ -15,6 +15,7 @@ var localStorage = require("localStorage");
 var rootCas = require('ssl-root-cas').create();
  
 rootCas
+  .addFile('pages/api/auth/ssl/ss_bundle.pem')
   .addFile('pages/api/auth/ssl/ss_cert.pem')
   ;
  
