@@ -14,10 +14,10 @@ var localStorage = require("localStorage");
 
 var rootCas = require('ssl-root-cas').create();
  
-rootCas
-  .addFile('pages/api/auth/ssl/ss_bundle.pem')
-  .addFile('pages/api/auth/ssl/ss_cert.pem')
-  ;
+// rootCas
+//   .addFile('pages/api/auth/ssl/ss_bundle.pem')
+//   .addFile('pages/api/auth/ssl/ss_cert.pem')
+//   ;
  
 // will work with all https requests will all libraries (i.e. request.js)
 require('https').globalAgent.options.ca = rootCas;
