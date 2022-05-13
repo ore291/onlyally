@@ -104,7 +104,9 @@ export default NextAuth({
         data.append("device_type", "web");
         data.append("device_model", device_model);
         // data.append("device_model", credentials.device_model);
-
+        const agent = new https.Agent({  
+          rejectUnauthorized: false
+        });
         var config = {
           method: "post",
           url: "https://cp.playjor.com/api/user/login",
@@ -112,6 +114,7 @@ export default NextAuth({
             ...data.getHeaders(),
           },
           data: data,
+          httpsAgent: agent
         };
 
         try {

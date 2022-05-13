@@ -43,7 +43,7 @@ const Login = () => {
       password: password
     });
 
-    console.log(res)
+    
     
     
   };
