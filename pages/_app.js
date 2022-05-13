@@ -1,5 +1,3 @@
-
-
 import "../styles/globals.css";
 import "../styles/custom.scss";
 
@@ -27,6 +25,25 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     },
   });
 
+  const fetchConfig = async () => {
+    try {
+      const response = await fetch(apiConstants.settingsUrl);
+      const configValue = await response.json();
+
+      configuration.set({ configData: configValue.data }, { freeze: false });
+      console.log(configValue.data);
+      
+    } catch (error) {
+      configuration.set({ configData: [] }, { freeze: false });
+      
+    }
+
+  
+  };
+
+  useEffect(() => {
+    fetchConfig();
+  }, []);
 
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>

@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 // const DeviceHelper = require("node-device-detector/helper");
 import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
-
+import { getCookies, setCookies, removeCookies } from 'cookies-next';
 import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
@@ -24,7 +24,7 @@ import Sticky from "react-stickynode";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
 // import useInfiniteScroll from "../components/helper/useInfiniteScroll";
 
-export default function Home({ userDetails }) {
+export default function Home({ user_img }) {
   const posts = useSelector((state) => state.home.homePost);
   const configData = useSelector((state) => state.config.configData);
   const loginDetails = useSelector((state) => state.user.loginData);
@@ -41,35 +41,7 @@ export default function Home({ userDetails }) {
     }, 3000);
   };
 
-  useEffect(() => {
-    localStorage.setItem("accessToken", userDetails.token);
-    localStorage.setItem("userId", userDetails.user_id);
-    localStorage.setItem("userLoginStatus", true);
-    localStorage.setItem("user_picture", userDetails.picture);
-    localStorage.setItem("user_cover", userDetails.cover);
-    localStorage.setItem("name", userDetails.name);
-    localStorage.setItem("username", userDetails.username);
-    localStorage.setItem("socket", true);
-    localStorage.setItem("user_unique_id", userDetails.user_unique_id);
-    localStorage.setItem(
-      "is_document_verified",
-      userDetails.is_document_verified
-    );
-    localStorage.setItem(
-      "is_verified_badge",
-      userDetails.is_verified_badge ? userDetails.is_verified_badge : 0
-    );
-    localStorage.setItem("is_content_creator", userDetails.is_content_creator);
-    localStorage.setItem(
-      "default_payment_method",
-      userDetails.default_payment_method
-    );
-    localStorage.setItem(
-      "is_two_step_auth_enabled",
-      userDetails.is_two_step_auth_enabled
-    );
-    localStorage.setItem("emailId", userDetails.email);
-  }, [loginDetails]);
+ 
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
 
@@ -90,7 +62,7 @@ export default function Home({ userDetails }) {
       toggleShow(false);
     } else {
       toggleShow(true);
-      props.dispatch(searchUserStart({ key: event.currentTarget.value }));
+      dispatch(searchUserStart({ key: event.currentTarget.value }));
     }
   };
 
@@ -108,7 +80,7 @@ export default function Home({ userDetails }) {
 
       <SideNavLayout>
         <main className=" lg:p-5">
-          <Stories />
+          <Stories img={user_img}/>
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5">
             <NewsFeed />
             <Sticky>
@@ -124,6 +96,7 @@ export default function Home({ userDetails }) {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ req, res }) => {
+      
       const session = await getSession({ req });
 
       // const dispatch = useDispatch();
@@ -146,19 +119,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
           },
         };
       }
-
-      // const detector = new DeviceDetector({ clientVersionTruncate: 0 });
-
-      // const userAgent = req.headers["user-agent"];
-      // const result = detector.detect(userAgent);
-
-      // var device_model = "";
-      // if (DeviceHelper.isMobile(result)) {
-      //   device_model = result.device.model;
-      // } else {
-      //   device_model = result.client.name + " " + result.client.version;
-      //   // device_model = "Chrome" + " " + "100";
-      // }
 
       const userAgent = req.headers["user-agent"];
       const {
@@ -183,17 +143,19 @@ export const getServerSideProps = wrapper.getServerSideProps(
         // device_model = "Chrome" + " " + "100";
       }
 
+      var user = getCookies({ req, res});
+      console.log("ore",user);
       store.dispatch(
         fetchHomePostsStart({
-          accessToken: session.accessToken,
-          userId: session.userId,
+          accessToken: user.accessToken,
+          userId: user.userId,
           device_model: device_model,
         })
       );
       store.dispatch(
         fetchStoriesStart({
-          accessToken: session.accessToken,
-          userId: session.userId,
+          accessToken: user.accessToken,
+          userId: user.userId,
           device_model: device_model,
         })
       );
@@ -202,10 +164,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(END);
       await store.sagaTask.toPromise();
 
-      return {
-        props: {
-          userDetails: session.user.userDetails,
-        },
-      };
+      return { props: {
+        user_img : user.user_picture
+      }};
     }
 );

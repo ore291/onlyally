@@ -1,11 +1,15 @@
 import { call, select, put, takeLatest, all } from "redux-saga/effects";
-
+import { setCookies } from 'cookies-next';
 import api from "../../Environment";
 var localStorage = require("localStorage");
 
 import {
   fetchUserDetailsSuccess,
   fetchUserDetailsFailure,
+  getLoginDetails,
+  loginSuccess,
+  loginFailure,
+  fetchUserLoginSuccess
 } from "../slices/userSlice";
 import { notify } from "reapop";
 
@@ -130,22 +134,21 @@ function* updateUserDetailsAPI() {
 
 function* userLoginAPI() {
   try {
-    const userData = yield select((state) => state.users.loginInputData.data);
-
-    const response = yield api.postMethod("login", userData);
-    yield put(userLoginSuccess(response.data));
+    const userData = yield select((state) => state.user.loginInputData.data);
+    const response = yield api.postMethod({action: "login",object: userData});
+    yield put(loginSuccess(response.data));
+    yield put(fetchUserLoginSuccess(response.data));
     if (response.data.success) {
       if (response.data.code == 1001)
         window.location.assign("/register/verify");
       else {
         if (response.data.code == 240) {
-          const notificationMessage = getSuccessNotificationMessage(
-            response.data.message
-          );
-          yield put(createNotification(notificationMessage));
+         
+          yield put(notify({message: response.data.message, status:"success"}));
           window.location.assign("/verification");
           localStorage.setItem("emailId", response.data.data.email);
         } else {
+          
           localStorage.setItem("userLoginStatus", true);
           localStorage.setItem("user_picture", response.data.data.picture);
           localStorage.setItem("user_cover", response.data.data.cover);
@@ -179,19 +182,24 @@ function* userLoginAPI() {
             response.data.data.is_two_step_auth_enabled
           );
           localStorage.setItem("emailId", response.data.data.email);
-          yield put(notify({ message: response.data.message }));
-          window.location.assign("/home");
+          yield put(notify({ message: response.data.message , status: "success"}));
           localStorage.setItem("userId", response.data.data.user_id);
           localStorage.setItem("accessToken", response.data.data.token);
+          setCookies('userId', response.data.data.user_id);
+          setCookies('accessToken',  response.data.data.token);
+          setCookies('user_picture', response.data.data.picture);
+          
+          window.location.assign("/");
+         
         }
       }
     } else {
       yield put(
-        notify({ message: response.data.error.error, status: "error" })
+        notify({ message: response.data.error, status: "error" })
       );
     }
   } catch (error) {
-    yield put(userLoginFailure(error));
+    yield put(loginFailure(error.message));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
@@ -831,7 +839,7 @@ export default function* pageSaga() {
     yield takeLatest("user/fetchUserDetailsStart", getUserDetailsAPI),
     //   yield takeLatest(UPDATE_USER_DETAILS_START, updateUserDetailsAPI),
     //   yield takeLatest(UPDATE_USER_SUBSCRIPTION_DETAILS_START, updateUserSubscriptionDetailsAPI),
-    //   yield takeLatest(LOGIN_START, userLoginAPI),
+      yield takeLatest("user/loginStart", userLoginAPI),
     //   yield takeLatest(REGISTER_START, userRegisterAPI),
     //   yield takeLatest(FORGOT_PASSWORD_START, forgotPasswordAPI),
     //   yield takeLatest(DELETE_ACCOUNT_START, deleteAccountAPI),

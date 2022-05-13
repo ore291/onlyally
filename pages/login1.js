@@ -1,7 +1,9 @@
-import { getProviders, signIn ,useSession} from "next-auth/react";
+import { useSelector, useDispatch } from "react-redux";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { loginStart } from "../store/slices/userSlice";
+import configuration from "react-global-configuration";
 
 import {
   FaUserCircle,
@@ -26,37 +28,73 @@ import {
 } from "react-device-detect";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const login = useSelector((state) => state.user.loginInputData);
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
-  const { data: session, status } = useSession()
+  const [show, setShow] = useState("login");
 
-  const userLogin = async () => {
-    var email = emailRef.current.value;
-    var password = passwordRef.current.value;
-    const res = await signIn("credentials", {
-      // callbackUrl: "/",
-      redirect: false,
-      email: email,
-      password: password
-    });
-
-    console.log(res)
-    
-    
-  };
-
-
+  const [loginInputData, setLoginInputData] = useState({});
 
   useEffect(() => {
-    if (router.query.error) {
-      console.log(router.query.error);
-      setLoginError(router.query.error);
-      setEmail(router.query.email);
+    const referral = "";
+    // if(configuration.get("configData.is_referral_enabled") == 1) {
+    //   const query = new URLSearchParams(props.location.search);
+    //   const referral = query.get("referral");
+
+    //   if(referral)
+    //     setShow("signup");
+    // }
+
+    var device_type = "";
+    var device_model = "";
+    var browser_type = browserName;
+
+    if (isAndroid == true) {
+      device_type = "android";
+      device_model = mobileModel;
+    } else if (isIOS == true) {
+      device_type = "ios";
+      device_model = mobileModel;
+    } else {
+      device_type = "web";
+      device_model = browserName + " " + browserVersion;
     }
-  }, [router]);
+  }, []);
+
+  useEffect(() => {
+    var device_type = "";
+    var device_model = "";
+    var browser_type = browserName;
+
+    if (isAndroid == true) {
+      device_type = "android";
+      device_model = mobileModel;
+    } else if (isIOS == true) {
+      device_type = "ios";
+      device_model = mobileModel;
+    } else {
+      device_type = "web";
+      device_model = browserName + " " + browserVersion;
+    }
+
+    setLoginInputData({
+      ...loginInputData,
+      email: "",
+      password: "",
+      device_type: device_type,
+      device_model: device_model,
+      browser_type: browser_type,
+    });
+  }, []);
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    dispatch(loginStart(loginInputData));
+  };
 
   return (
     <div className="pt-[70px] ">
@@ -108,7 +146,13 @@ const Login = () => {
                 type="email"
                 name="email"
                 id="email"
-                ref={emailRef}
+                value={loginInputData.email}
+                onChange={(event) =>
+                  setLoginInputData({
+                    ...loginInputData,
+                    email: event.currentTarget.value,
+                  })
+                }
               />
               <p className="text-red">{loginError}</p>
             </div>
@@ -120,16 +164,28 @@ const Login = () => {
                 type="password"
                 name="Password"
                 id="Password"
-                ref={passwordRef}
+                value={loginInputData.password}
+                onChange={(event) =>
+                  setLoginInputData({
+                    ...loginInputData,
+                    password: event.currentTarget.value,
+                  })
+                }
               />
               <FaQuestionCircle className="w-5 h-5 absolute right-3 text-lightPlayRed" />
             </div>
-            <div
-              onClick={userLogin}
+            <button
+              type="submit"
+              onClick={handleLogin}
+              disabled={login.buttonDisable}
               className="bg-lightPlayRed inputBox cursor-pointer"
             >
-              <p className="text-white text-lg font-semibold ">Login</p>
-            </div>
+              <p className="text-white text-lg font-semibold ">
+                {login.loadingButtonContent !== null
+                  ? login.loadingButtonContent
+                  : "Login"}
+              </p>
+            </button>
             <div className=" flex flex-col space-y-3 items-center py-14">
               <p className="text-playRed lg:text-white text-sm text-center  font-semibold shadow-sm">
                 Or login with

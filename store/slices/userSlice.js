@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
-  loginData: {},
+  loginData: {
+  },
   profile: {
     data: {},
     loading: true,
@@ -435,12 +436,12 @@ export const UserSlice = createSlice({
         loading: true,
       };
     },
-    notificationStatusUpdateStart: (state, action)=> {
+    notificationStatusUpdateStart: (state, action) => {
       state.notificationUpdate = {
         inputData: action.payload,
-          data: {},
-          loading: true,
-      }
+        data: {},
+        loading: true,
+      };
     },
     notificationStatusUpdateSuccess: (state, action) => {
       state.notificationUpdate = {
@@ -455,57 +456,57 @@ export const UserSlice = createSlice({
         error: false,
       };
     },
-    notificationStatusUpdateFailure: (state, action)=> {
+    notificationStatusUpdateFailure: (state, action) => {
       state.notificationUpdate = {
         inputData: {},
-          data: {},
-          error: action.payload,
-          loading: true,
-      }
+        data: {},
+        error: action.payload,
+        loading: true,
+      };
     },
-    fetchPaymentsStart: (state, action)=>{
+    fetchPaymentsStart: (state, action) => {
       state.payments = {
         data: {},
         loading: true,
         error: false,
-      }
+      };
     },
-    fetchPaymentsSuccess: (state, action)=>{
+    fetchPaymentsSuccess: (state, action) => {
       state.payments = {
         data: action.payload.data,
-          loading: false,
-          error: false,
-      }
+        loading: false,
+        error: false,
+      };
     },
-    fetchPaymentsFailure: (state, action)=>{
+    fetchPaymentsFailure: (state, action) => {
       state.payments = {
         data: {},
-          loading: true,
-          error: action.payload,
-      }
+        loading: true,
+        error: action.payload,
+      };
     },
-    fetchBlockUsersStart: (state, action)=>{
+    fetchBlockUsersStart: (state, action) => {
       state.blockUsers = {
         data: {},
-          loading: true,
-          error: false,
-      }
+        loading: true,
+        error: false,
+      };
     },
-    fetchBlockUsersSuccess: (state, action)=>{
+    fetchBlockUsersSuccess: (state, action) => {
       state.blockUsers = {
         data: action.payload,
-          loading: false,
-          error: false,
-      }
+        loading: false,
+        error: false,
+      };
     },
-    fetchBlockUsersFailure: (state, action)=>{
+    fetchBlockUsersFailure: (state, action) => {
       state.blockUsers = {
         data: {},
         loading: true,
         error: action.payload,
-      }
+      };
     },
-    saveBlockUserStart: (state,action)=>{
+    saveBlockUserStart: (state, action) => {
       state.saveBlockUser = {
         data: {},
         loading: true,
@@ -513,9 +514,9 @@ export const UserSlice = createSlice({
         inputData: action.payload,
         loadingButtonContent: "Loading... Please wait.",
         buttonDisable: true,
-      }
+      };
     },
-    saveBlockUserSuccess: (state,action)=>{
+    saveBlockUserSuccess: (state, action) => {
       state.saveBlockUser = {
         data: action.payload,
         loading: false,
@@ -523,69 +524,68 @@ export const UserSlice = createSlice({
         inputData: {},
         loadingButtonContent: null,
         buttonDisable: false,
-      }
+      };
     },
-    saveBlockUserFailure: (state,action)=>{
+    saveBlockUserFailure: (state, action) => {
       state.saveBlockUser = {
         data: {},
-          loading: true,
-          error: action.payload,
-          inputData: {},
-          loadingButtonContent: null,
-          buttonDisable: false,
-      }
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
     },
-    userVerifyBadgeStatusStart : (state,action)=>{
+    userVerifyBadgeStatusStart: (state, action) => {
       state.verifyBadgeUpdate = {
         inputData: action.payload,
-          data: {},
-          loading: true,
-      }
+        data: {},
+        loading: true,
+      };
     },
-    userVerifyBadgeStatusSuccess : (state,action)=>{
+    userVerifyBadgeStatusSuccess: (state, action) => {
       state.verifyBadgeUpdate = {
         inputData: {},
-          data: action.payload,
-          loading: false,
-          error: false,
+        data: action.payload,
+        loading: false,
+        error: false,
       };
       state.profile = {
         data: action.payload.data,
         loading: false,
         error: false,
-      }
+      };
     },
-    userVerifyBadgeStatusFailure: (state,action)=>{
+    userVerifyBadgeStatusFailure: (state, action) => {
       state.verifyBadgeUpdate = {
-       inputData: {},
+        inputData: {},
         data: {},
         error: action.payload,
         loading: true,
-      }
+      };
     },
-    resetPasswordStart:  (state, action)=>{
+    resetPasswordStart: (state, action) => {
       state.resetPasswordInputData = {
         inputData: action.payload,
-       
-      } 
-      state.buttonDisable = true
-      state.loadingButtonContent = "Loading please wait"
+      };
+      state.buttonDisable = true;
+      state.loadingButtonContent = "Loading please wait";
     },
-    resetPasswordSuccess: (state, action)=> {
+    resetPasswordSuccess: (state, action) => {
       state.profile = {
         data: action.payload.data,
-          loading: false,
-          error: false,
-      }
+        loading: false,
+        error: false,
+      };
       state.inputData = {
         data: {},
-          loading: true,
-          error: false,
-          buttonDisable: false,
-          loadingButtonContent: null,
-      }
+        loading: true,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
     },
-    resetPasswordFailure: (state, action)=>{
+    resetPasswordFailure: (state, action) => {
       state.buttonDisable = false;
       state.loadingButtonContent = null;
     },
@@ -598,7 +598,7 @@ export const UserSlice = createSlice({
         error: false,
         buttonDisable: true,
         loadingButtonContent: "Loading please wait",
-      }
+      };
     },
     userNameValidationSuccess: (state, action) => {
       state.validationInputData = {
@@ -607,7 +607,7 @@ export const UserSlice = createSlice({
         error: false,
         isValid: true,
         isInValid: false,
-      }
+      };
     },
     userNameValidationFailure: (state, action) => {
       state.validationInputData = {
@@ -616,7 +616,7 @@ export const UserSlice = createSlice({
         error: action.payload,
         isInValid: true,
         isValid: false,
-      }
+      };
     },
     referralValidationStart: (state, action) => {
       state.referralInputData = {
@@ -627,38 +627,84 @@ export const UserSlice = createSlice({
         error: false,
         buttonDisable: true,
         loadingButtonContent: "Loading please wait",
-      }
+      };
     },
     referralValidationSuccess: (state, action) => {
       state.referralInputData = {
         data: {},
-          loading: false,
-          error: false,
-      }
+        loading: false,
+        error: false,
+      };
     },
     referralValidationFailure: (state, action) => {
       state.referralInputData = {
         data: {},
-          loading: false,
-          error: action.payload,
-      }
+        loading: false,
+        error: action.payload,
+      };
     },
-
+    getLoginDetails: (state, action) => {
+      state.loginInputData = {
+        loading: false,
+        error: false,
+        data: {
+          ...state.loginInputData.data,
+          [action.payload.name]: action.payload.value,
+        },
+      };
+    },
+    loginStart: (state, action) => {
+      state.loginInputData = {
+        data: {
+          ...action.payload,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        },
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    loginSuccess: (state, action) => {
+      state.loginInputData = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+      state.profile = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+      };
+    },
+    loginFailure: (state, action) => {
+      state.loginInputData = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
   },
 
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.user.loginData && !action.payload.user.profile) {
-        return state;
-      }
-      state.loginData = action.payload.user.loginData;
-      state.profile = action.payload.user.profile;
+      // if (!action.payload.user.loginData) {
+      //   return state;
+      // }
+      // state.loginData = action.payload.user.loginData;
+      // state.profile = action.payload.user.profile;
     },
   },
 });
 
 export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  getLoginDetails,
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
   fetchUserDetailsFailure,
@@ -708,8 +754,7 @@ export const {
   userNameValidationFailure,
   referralValidationStart,
   referralValidationSuccess,
-  referralValidationFailure
-
+  referralValidationFailure,
 } = UserSlice.actions;
 
 export default UserSlice.reducer;

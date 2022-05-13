@@ -9,12 +9,14 @@ import { fetchStoriesStart } from "../../store/slices/storiesSlice";
 import { setUploadModal } from "../../store/slices/NavSlice";
 import StoriesSliderModal from "./StoriesSliderModal";
 import StoriesUploadModal from "./StoryUploadModal";
+import { getCookies } from "cookies-next";
 
-const Stories = () => {
+const Stories = ({img}) => {
+ 
+ console.log(img)
   const dispatch = useDispatch();
   const userStories = useSelector((state) => state.stories.stories);
   const uploadModalState = useSelector((state) => state.navbar.uploadModal);
-  const user = useSelector((state) => state.user.loginData);
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -76,7 +78,7 @@ const Stories = () => {
                 >
                   <Story
                     username={"Create new story"}
-                    img={user.picture}
+                    img={img}
                     isYou={true}
                     className="embla__slide1"
                   />
@@ -130,4 +132,6 @@ const Stories = () => {
   );
 };
 
+
 export default Stories;
+

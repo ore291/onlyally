@@ -10,7 +10,7 @@ var localStorage = require("localStorage");
 // const DeviceDetector = require('node-device-detector');
 // const DeviceHelper = require('node-device-detector/helper');
 'use strict';
-const fs = require('fs');
+
 
 var rootCas = require('ssl-root-cas').create();
  
@@ -116,6 +116,7 @@ export default NextAuth({
 
         try {
           const res = await axios(config);
+          console.log(res)
         
           const user = await res.data.data;
 
@@ -127,7 +128,7 @@ export default NextAuth({
         } catch (e) {
           const errorMessage = e;
           console.log(errorMessage);
-          throw new Error(errorMessage + "&email" + credentials.email);
+          // throw new Error(errorMessage + "&email" + credentials.email);
         }
         // Return null if user data could not be retrieved
         return null;
