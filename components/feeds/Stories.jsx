@@ -76,12 +76,12 @@ const Stories = ({img}) => {
                   className="embla__slide1"
                   onClick={() => dispatch(setUploadModal(true))}
                 >
-                  <Story
+                  {/* <Story
                     username={"Create new story"}
                     img={img}
                     isYou={true}
                     className="embla__slide1"
-                  />
+                  /> */}
                 </div>
 
                 {userStories.data.stories &&
