@@ -107,7 +107,7 @@ export default NextAuth({
 
         var config = {
           method: "post",
-          url: "https://cp.playjor.com/api/user/login",
+          url: "https://cms.onlyally.com/api/user/login",
           headers: {
             ...data.getHeaders(),
           },
