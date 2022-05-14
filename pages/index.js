@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 // const DeviceHelper = require("node-device-detector/helper");
 import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
-import { getCookies, setCookies, removeCookies } from 'cookies-next';
+import { getCookies, setCookies, removeCookies } from "cookies-next";
 import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
@@ -24,7 +24,7 @@ import Sticky from "react-stickynode";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
 // import useInfiniteScroll from "../components/helper/useInfiniteScroll";
 
-export default function Home({ user_img }) {
+export default function Home() {
   const posts = useSelector((state) => state.home.homePost);
   const configData = useSelector((state) => state.config.configData);
   const loginDetails = useSelector((state) => state.user.loginData);
@@ -41,12 +41,35 @@ export default function Home({ user_img }) {
     }, 3000);
   };
 
-    useEffect(() => {
-      localStorage.setItem("userId", loginDetails.user_id)
-      localStorage.setItem("token", loginDetails.token)
-    }, [])
-    
- 
+  useEffect(() => {
+    localStorage.setItem("userId", loginDetails.user_id);
+    localStorage.setItem("token", loginDetails.token);
+    localStorage.setItem("userLoginStatus", true);
+    localStorage.setItem("user_picture", loginDetails.picture);
+    localStorage.setItem("user_cover", loginDetails.cover);
+    localStorage.setItem("name", loginDetails.name);
+    localStorage.setItem("username", loginDetails.username);
+    localStorage.setItem("socket", true);
+    localStorage.setItem("user_unique_id", loginDetails.user_unique_id);
+    localStorage.setItem(
+      "is_document_verified",
+      loginDetails.is_document_verified
+    );
+    localStorage.setItem(
+      "is_verified_badge",
+      loginDetails.is_verified_badge ? loginDetails.is_verified_badge : 0
+    );
+    localStorage.setItem("is_content_creator", loginDetails.is_content_creator);
+    localStorage.setItem(
+      "default_payment_method",
+      loginDetails.default_payment_method
+    );
+    localStorage.setItem(
+      "is_two_step_auth_enabled",
+      loginDetails.is_two_step_auth_enabled
+    );
+    localStorage.setItem("emailId", loginDetails.email);
+  }, []);
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
 
@@ -85,7 +108,7 @@ export default function Home({ user_img }) {
 
       <SideNavLayout>
         <main className=" lg:p-5">
-          <Stories img={user_img}/>
+          <Stories  />
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5">
             <NewsFeed />
             <Sticky>
@@ -101,7 +124,6 @@ export default function Home({ user_img }) {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ req, res }) => {
-      
       const session = await getSession({ req });
 
       // const dispatch = useDispatch();
@@ -149,9 +171,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
       }
 
       var user = session.user.userDetails;
-      setCookies('userId',  user.user_id, { req, res });
-      setCookies('accessToken', user.token, { req, res }); 
-      
+      setCookies("userId", user.user_id, { req, res });
+      setCookies("accessToken", user.token, { req, res });
+
       store.dispatch(
         fetchHomePostsStart({
           accessToken: user.token,
@@ -171,8 +193,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(END);
       await store.sagaTask.toPromise();
 
-      return { props: {
-        user_img : user.picture
-      }};
+      return {
+        props: {
+          user_img: user.picture,
+        },
+      };
     }
 );

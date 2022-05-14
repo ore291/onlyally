@@ -11,9 +11,9 @@ import StoriesSliderModal from "./StoriesSliderModal";
 import StoriesUploadModal from "./StoryUploadModal";
 import { getCookies } from "cookies-next";
 
-const Stories = ({img}) => {
+const Stories = () => {
  
- console.log(img)
+  const loginDetails = useSelector((state) => state.user.loginData);
   const dispatch = useDispatch();
   const userStories = useSelector((state) => state.stories.stories);
   const uploadModalState = useSelector((state) => state.navbar.uploadModal);
@@ -76,12 +76,12 @@ const Stories = ({img}) => {
                   className="embla__slide1"
                   onClick={() => dispatch(setUploadModal(true))}
                 >
-                  {/* <Story
+                  <Story
                     username={"Create new story"}
-                    img={img}
+                    img={loginDetails.picture}
                     isYou={true}
                     className="embla__slide1"
-                  /> */}
+                  />
                 </div>
 
                 {userStories.data.stories &&

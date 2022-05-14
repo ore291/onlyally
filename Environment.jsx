@@ -33,7 +33,7 @@ const Environment = {
     let user_id = null;
     let token = null;
     const cookies = getCookies()
-    console.log(cookies);
+   
 
     user_id = cookies.userId
     token = cookies.accessToken

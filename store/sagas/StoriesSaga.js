@@ -34,7 +34,7 @@ function* fetchUserStoriesAPI(action) {
       yield put(notify( response.data.error, 'error'));
     }
   } catch (error) {
-    yield put(fetchUserStoriesFailure(error));
+    yield put(fetchUserStoriesFailure(error.message));
     yield put(notify(error.message, 'error'));
   }
 }
@@ -60,7 +60,7 @@ function* fetchStoriesAPI(action) {
       yield put(notify({message:  response.data.error, status:"error"}))
     }
   } catch (error) {
-    yield put(fetchStoriesFailure(error));
+    yield put(fetchStoriesFailure(error.message));
     yield put(notify({message: error.message, status:"error"}))
   }
 }
@@ -81,7 +81,7 @@ function* storyFileUploadAPI(action) {
       yield put(notify({message:  response.data.error, status:"error"}))
     }
   } catch (error) {
-    yield put(storyFileUploadFailure(error));
+    yield put(storyFileUploadFailure(error.message));
     yield put(notify({message: error.message, status:"error"}))
   }
 }

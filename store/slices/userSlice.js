@@ -691,11 +691,10 @@ export const UserSlice = createSlice({
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      // if (!action.payload.user.loginData) {
-      //   return state;
-      // }
-      // state.loginData = action.payload.user.loginData;
-      // state.profile = action.payload.user.profile;
+      if (!action.payload.user.loginData) {
+        return state;
+      }
+      state.loginData = action.payload.user.loginData;
     },
   },
 });
