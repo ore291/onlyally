@@ -2,6 +2,7 @@ const webpack = require("webpack");
 
 'use strict';
 
+console.log(`${__dirname}\\intermediate.pem`);
 
 var rootCas = require('ssl-root-cas').create();
 
