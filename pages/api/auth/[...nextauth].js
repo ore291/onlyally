@@ -3,11 +3,15 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import TwitterProvider from "next-auth/providers/twitter";
 import CredentialsProvider from "next-auth/providers/credentials";
-const axios = require("axios");
+import axios from "axios";
 var FormData = require("form-data");
 import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
 var localStorage = require("localStorage");
+import https from "https";
 
+axios.defaults.httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+})
 
 
 
