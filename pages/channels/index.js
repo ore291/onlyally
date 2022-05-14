@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 
 const Channels = () => {
-  const creators = useSelector((state) => state.creators.creators);
+
 
 
   return (
@@ -16,7 +16,7 @@ const Channels = () => {
           <h1 className="text-3xl font-semibold mb-2">Channels</h1>
           <ChannelTabs />
         </div>
-        <div className="p-5 mt-3 lg:mt-6 mb-40 bg-white rounded-xl shadow-lg  outline-none ">
+        {/* <div className="p-5 mt-3 lg:mt-6 mb-40 bg-white rounded-xl shadow-lg  outline-none ">
           <div className="grid cols-1 lg:grid-cols-4 md:grid-cols-3 gap-4">
             {[...Array(4)].map((_, index) => (
               <ChannelCard key={index} main={true}/>
@@ -35,7 +35,7 @@ const Channels = () => {
               <ChannelCard key={index} main={true}/>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </SideNavLayout>
   );
