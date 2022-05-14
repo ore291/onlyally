@@ -1,6 +1,7 @@
 import axios from "axios";
 import { apiConstants } from "./components/Constant/constants";
 import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
+import  { getCookies, getCookie, setCookies, removeCookies } from 'cookies-next'
 import {
   isAndroid,
   isIOS,
@@ -31,24 +32,29 @@ const Environment = {
     
     let user_id = null;
     let token = null;
-    if (typeof window !== "undefined") {
-      user_id =
-        localStorage.getItem("userId") !== "" &&
-        localStorage.getItem("userId") !== null &&
-        localStorage.getItem("userId") !== undefined
-          ? localStorage.getItem("userId")
-          : null;
+    const cookies = getCookies()
+    console.log(cookies);
+
+    user_id = cookies.userId
+    token = cookies.accessToken
+    // if (typeof window !== "undefined") {
+    //   user_id =
+    //     localStorage.getItem("userId") !== "" &&
+    //     localStorage.getItem("userId") !== null &&
+    //     localStorage.getItem("userId") !== undefined
+    //       ? localStorage.getItem("userId")
+    //       : null;
 
           
 
-      token =
-        localStorage.getItem("accessToken") !== "" &&
-        localStorage.getItem("accessToken") !== null &&
-        localStorage.getItem("accessToken") !== undefined
-          ? localStorage.getItem("accessToken")
-          : null;
+    //   token =
+    //     localStorage.getItem("accessToken") !== "" &&
+    //     localStorage.getItem("accessToken") !== null &&
+    //     localStorage.getItem("accessToken") !== undefined
+    //       ? localStorage.getItem("accessToken")
+    //       : null;
 
-    }
+    // }
 
 
     

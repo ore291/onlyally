@@ -41,6 +41,11 @@ export default function Home({ user_img }) {
     }, 3000);
   };
 
+    useEffect(() => {
+      localStorage.setItem("userId", loginDetails.user_id)
+      localStorage.setItem("token", loginDetails.token)
+    }, [])
+    
  
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
@@ -144,18 +149,20 @@ export const getServerSideProps = wrapper.getServerSideProps(
       }
 
       var user = session.user.userDetails;
-      console.log("ore",user);
+      setCookies('userId',  user.user_id, { req, res });
+      setCookies('accessToken', user.token, { req, res }); 
+      
       store.dispatch(
         fetchHomePostsStart({
-          accessToken: user.accessToken,
-          userId: user.userId,
+          accessToken: user.token,
+          userId: user.user_id,
           device_model: device_model,
         })
       );
       store.dispatch(
         fetchStoriesStart({
-          accessToken: user.accessToken,
-          userId: user.userId,
+          accessToken: user.token,
+          userId: user.user_id,
           device_model: device_model,
         })
       );
@@ -165,7 +172,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       await store.sagaTask.toPromise();
 
       return { props: {
-        user_img : user.user_picture
+        user_img : user.picture
       }};
     }
 );

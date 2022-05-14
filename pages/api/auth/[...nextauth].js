@@ -3,24 +3,12 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import TwitterProvider from "next-auth/providers/twitter";
 import CredentialsProvider from "next-auth/providers/credentials";
-var axios = require("axios");
+const axios = require("axios");
 var FormData = require("form-data");
 import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
 var localStorage = require("localStorage");
-// const DeviceDetector = require('node-device-detector');
-// const DeviceHelper = require('node-device-detector/helper');
-'use strict';
 
 
-var rootCas = require('ssl-root-cas').create();
- 
-rootCas
-  .addFile('public/ssl/ss_bundle.pem')
-  .addFile('public/ssl/ss_cert.pem')
-  ;
- 
-// will work with all https requests will all libraries (i.e. request.js)
-require('https').globalAgent.options.ca = rootCas;
 
 
 
@@ -109,7 +97,7 @@ export default NextAuth({
 
         try {
           const res = await axios(config);
-          console.log(res)
+         
         
           const user = await res.data.data;
 
