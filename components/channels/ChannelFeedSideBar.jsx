@@ -11,7 +11,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 
 const ChannelFeedSideBar = () => {
-  const creators = useSelector((state) => state.creators.creators.slice(0, 3));
+ 
   return (
     <div className="grid grid-cols-1 space-y-5 pr-1 mt-3  sticky -top-96 ">
       <div className="flex flex-col w-full space-y-2  bg-white rounded-md shadow-md p-2 pb-4 border">
@@ -96,13 +96,13 @@ const ChannelFeedSideBar = () => {
           </div>
         </div>{" "}
         <div className="grid grid-cols-3 gap-2 px-2">
-          {creators.map((creator) => (
+          {/* {creators.map((creator) => (
             <CreatorCard
               username={creator.username}
               image={creator.image}
               key={creator.username}
             />
-          ))}
+          ))} */}
         </div>
       </div>{" "}
       <div className="p-2 rounded-md border shadow-lg bg-white">
