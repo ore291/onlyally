@@ -31,11 +31,11 @@ function* fetchUserStoriesAPI(action) {
       yield put(fetchUserStoriesSuccess(response.data.data));
     } else {
       yield put(fetchUserStoriesFailure( response.data.error));
-      yield put(notify( response.data.error, 'error'));
+      yield put(notify( {message:  response.data.error, status:"error"}));
     }
   } catch (error) {
     yield put(fetchUserStoriesFailure(error.message));
-    yield put(notify(error.message, 'error'));
+    yield put(notify({message:  error.message, status:"error"}));
   }
 }
 

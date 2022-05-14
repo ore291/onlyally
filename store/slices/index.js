@@ -1,5 +1,4 @@
 import userReducer from "./userSlice";
-import creatorReducer from "./creatorSlice";
 import navReducer from "./NavSlice";
 import homeReducer from "./homeSlice";
 import postReducer from "./postSlice";
@@ -17,13 +16,13 @@ import followReducer from "./followerSlice";
 import alertReducer from "./AlertSlice";
 import chatReducer from "./chatSlice";
 import chatAssetReducer from "./chatAssetSlice";
+import channelsReducer from "./channelsSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
 const reducers = combineReducers({
   notifications: notificationsReducer(),
   user: userReducer,
-  creators: creatorReducer,
   navbar: navReducer,
   home: homeReducer,
   post: postReducer,
@@ -41,6 +40,7 @@ const reducers = combineReducers({
   alert: alertReducer,
   chat: chatReducer,
   chatAsset: chatAssetReducer,
+  channels : channelsReducer
 });
 
 export default reducers;
