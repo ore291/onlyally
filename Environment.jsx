@@ -34,11 +34,13 @@ const Environment = {
     let user_id = null;
     let token = null;
 
-    
     const cookies = getCookies();
 
-    user_id = cookies.userId;
-    token = cookies.accessToken;
+    if (typeof window !== "undefined") {
+      user_id = cookies.userId;
+      token = cookies.accessToken;
+    }
+
     // if (typeof window !== "undefined") {
     //   user_id =
     //     localStorage.getItem("userId") !== "" &&
@@ -122,10 +124,10 @@ const Environment = {
         method: "POST",
         url: url,
         data: formData,
-        headers: {
-          'content-type': 'application/json',
-          'accept' : 'application/json'
-        }
+        // headers: {
+        //   "content-type": "application/json",
+        //   accept: "application/json",
+        // },
       };
     } else {
       var config = {
@@ -133,14 +135,12 @@ const Environment = {
         url: url,
         headers: {
           ...formData.getHeaders(),
-          'content-type': 'application/json',
-          'accept' : 'application/json'
+          // "content-type": "application/json",
+          // accept: "application/json",
         },
         data: formData,
       };
     }
-
-   
 
     try {
       const response = await axios(config);
@@ -152,17 +152,14 @@ const Environment = {
   },
 
   getMethod: async ({ action, object } = {}) => {
-  
-    
     const cookies = getCookies();
-
 
     const url = apiUrl + action;
 
     const formData = new FormData();
 
     // By Default Id and token
- 
+
     // formData.append("id", cookies.userId);
     // formData.append("token", cookies.accessToken);
 
@@ -189,13 +186,13 @@ const Environment = {
     // formData.append("device_model", device_model);
 
     var data = {
-      'id' : cookies.userId,
-      'token' : cookies.accessToken,
-      'device_model' : device_model,
-      'login_by' : apiConstants.LOGIN_BY,
-      'device_type' : apiConstants.DEVICE_TYPE,
-      'device_token' : apiConstants.DEVICE_TOKEN
-    } 
+      id: cookies.userId,
+      token: cookies.accessToken,
+      device_model: device_model,
+      login_by: apiConstants.LOGIN_BY,
+      device_type: apiConstants.DEVICE_TYPE,
+      device_token: apiConstants.DEVICE_TOKEN,
+    };
 
     if (typeof window != "undefined") {
       var config = {
@@ -203,9 +200,9 @@ const Environment = {
         url: url,
         data: data,
         headers: {
-          'content-type': 'application/json',
-          'accept' : 'application/json'
-        }
+          "content-type": "application/json",
+          accept: "application/json",
+        },
       };
     } else {
       var config = {
@@ -213,18 +210,16 @@ const Environment = {
         url: url,
         headers: {
           ...formData.getHeaders(),
-          'content-type': 'application/json',
-          'accept' : 'application/json'
+          "content-type": "application/json",
+          accept: "application/json",
         },
         data: formData,
       };
     }
 
-   
-
     try {
       const response = await axios(config);
-      if(action === "channels"){
+      if (action === "channels") {
         console.log(response);
       }
       return response;
@@ -233,8 +228,6 @@ const Environment = {
       console.log(error);
     }
   },
-
- 
 };
 
 export default Environment;
