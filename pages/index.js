@@ -8,26 +8,24 @@ import { END } from "redux-saga";
 import { useSession, getSession } from "next-auth/react";
 import { wrapper } from "../store";
 import { useSelector, useDispatch } from "react-redux";
-const DeviceDetector = require('node-device-detector');
-const DeviceHelper = require('node-device-detector/helper');
-import axios from 'axios';
+const DeviceDetector = require("node-device-detector");
+const DeviceHelper = require("node-device-detector/helper");
+import axios from "axios";
 
 import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
-  fetchUserLoginSuccess
+  fetchUserLoginSuccess,
 } from "../store/slices/userSlice";
-import {fetchStoriesStart} from "../store/slices/storiesSlice";
-import { fetchHomePostsStart , fetchTrendingUsersStart, fetchPostSuggestionsStart} from "../store/slices/homeSlice";
+import { fetchStoriesStart } from "../store/slices/storiesSlice";
+import { fetchHomePostsStart } from "../store/slices/homeSlice";
 import Sticky from "react-stickynode";
-import { apiConstants } from "../components/Constant/constants";
-import configuration from "react-global-configuration";
+import { fetchConfigurationStart } from "../store/slices/configurationSlice";
 // import useInfiniteScroll from "../components/helper/useInfiniteScroll";
 
-
-export default function Home({configData}) {
-  configuration.set({ config: configData }, { freeze: false });
+export default function Home() {
   const posts = useSelector((state) => state.home.homePost);
+  const configData = useSelector((state) => state.config.configData)
   const userDetails = useSelector((state) => state.user.loginData);
   const dispatch = useDispatch();
 
@@ -43,8 +41,8 @@ export default function Home({configData}) {
   };
 
   useEffect(() => {
-      localStorage.setItem("accessToken", userDetails.token);
-      localStorage.setItem("userId", userDetails.user_id);
+    localStorage.setItem("accessToken", userDetails.token);
+    localStorage.setItem("userId", userDetails.user_id);
   }, [userDetails]);
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
@@ -57,13 +55,7 @@ export default function Home({configData}) {
     setSendTip(false);
   };
 
-
-
   const [isVisible, setIsVisible] = useState(true);
-
-  
-
-
 
   const [show, toggleShow] = useState(false);
 
@@ -76,16 +68,9 @@ export default function Home({configData}) {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(configuration.get('config.site_name'));
-  // }, []);
 
-  // useEffect(() => {
-  //   console.log(configData);
-  //   configuration.set({ configData: configData }, { freeze: false });
-  //   console.log(configuration.get("configData?.site_name?"))
-  //   //  console.log(title);
-  // },[configData])
+
+ 
 
   return (
     <>
@@ -96,9 +81,9 @@ export default function Home({configData}) {
           type="image/png"
           href={configData.site_icon}
           // sizes="16x16"
-        /> 
+        />
       </Head>
-     
+
       <SideNavLayout>
         <main className=" lg:p-5">
           <Stories />
@@ -115,84 +100,64 @@ export default function Home({configData}) {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async ({ req, res }) => {
-    const session = await getSession({ req });
+  (store) =>
+    async ({ req, res }) => {
+      const session = await getSession({ req });
 
-    // const dispatch = useDispatch();
-    if (session) {
-      store.dispatch(fetchUserLoginSuccess(session.user.userDetails));
-    }
+      // const dispatch = useDispatch();
+      if (session) {
+        store.dispatch(fetchUserLoginSuccess(session.user.userDetails));
+      }
 
-    const response = await axios.get(apiConstants.settingsUrl)
+      // this.setState({ configLoading: false });
 
-  
+      // session && store.dispatch(setUserData(session.user.userDetails))
+      // store.dispatch(fetchUserDetailsStart({accessToken: session.accessToken, userId: session.userId}));
+      // store.dispatch(END)
+      // await store.sagaTask.toPromise();
 
-    configuration.set({ configData: response.data.data }, { freeze: false });
+      if (!session) {
+        return {
+          redirect: {
+            destination: "/login",
+            permanent: false,
+          },
+        };
+      }
 
-    // this.setState({ configLoading: false });
+      const detector = new DeviceDetector({ clientVersionTruncate: 0 });
 
-    // session && store.dispatch(setUserData(session.user.userDetails))
-    // store.dispatch(fetchUserDetailsStart({accessToken: session.accessToken, userId: session.userId}));
-    // store.dispatch(END)
-    // await store.sagaTask.toPromise();
+      const userAgent = req.headers["user-agent"];
+      const result = detector.detect(userAgent);
 
-    if (!session) {
+      var device_model = "";
+      if (DeviceHelper.isMobile(result)) {
+        device_model = result.device.model;
+      } else {
+        device_model = result.client.name + " " + result.client.version;
+        // device_model = "Chrome" + " " + "100";
+      }
+      store.dispatch(
+        fetchHomePostsStart({
+          accessToken: session.accessToken,
+          userId: session.userId,
+          device_model: device_model,
+        })
+      );
+      store.dispatch(
+        fetchStoriesStart({
+          accessToken: session.accessToken,
+          userId: session.userId,
+          device_model: device_model,
+        })
+      );
+      store.dispatch(fetchConfigurationStart());
+
+      store.dispatch(END);
+      await store.sagaTask.toPromise();
+
       return {
-        redirect: {
-          destination: "/login",
-          permanent: false,
-        },
+        props: {},
       };
     }
-
-    const detector = new DeviceDetector({clientVersionTruncate: 0,});
-
-    const userAgent = req.headers['user-agent']; 
-    const result = detector.detect(userAgent);
-   
-    var device_model = "";
-    if (DeviceHelper.isMobile(result)) {
-      device_model = result.device.model;
-    } else {
-      device_model = result.client.name + " " + result.client.version;
-      // device_model = "Chrome" + " " + "100";
-    }
-    store.dispatch(
-      fetchHomePostsStart({
-        accessToken: session.accessToken,
-        userId: session.userId,
-        device_model: device_model
-      })
-    );
-    // store.dispatch(
-    //   fetchTrendingUsersStart({
-    //     accessToken: session.accessToken,
-    //     userId: session.userId,
-    //     device_model: device_model
-    //   })
-    // );
-    store.dispatch(
-    fetchStoriesStart({
-        accessToken: session.accessToken,
-        userId: session.userId,
-        device_model: device_model
-      })
-    );
-    // store.dispatch(
-    // fetchPostSuggestionsStart({
-    //     accessToken: session.accessToken,
-    //     userId: session.userId,
-    //     device_model: device_model
-    //   })
-    // );
-
-    store.dispatch(END);
-    await store.sagaTask.toPromise();
-
-    return {
-      props: {
-        configData: response.data.data,
-      },
-    };
-  }
 );

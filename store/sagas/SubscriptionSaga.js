@@ -10,6 +10,8 @@ import {
   fetchMySubscriptionFailure,
   fetchSingleSubscriptionSuccess,
   fetchSingleSubscriptionFailure,
+  subscriptionPaymentWalletSuccess,
+  subscriptionPaymentWalletFailure,
   subscriptionPaymentPaystackSuccess,
   subscriptionPaymentPaystackFailure,
   subscriptionAutoRenewalSuccess,
@@ -23,11 +25,11 @@ function* getSubscriptionAPI() {
     if (response.data.success) {
       // Do nothing
     } else {
-      yield put(notify({ message: response.data.error, type: "error" }));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchSubscriptionFailure(error));
-    yield put(notify({ message: error.message, type: "error" }));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -38,11 +40,11 @@ function* getMySubscriptionAPI() {
     if (response.data.success) {
       // Do nothing
     } else {
-      yield put(notify({ message: response.data.error, type: "error" }));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchMySubscriptionFailure(error.message));
-    yield put(notify({ message: error.message, type: "error" }));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -60,15 +62,15 @@ function* getSingleSubscriptionAPI() {
     if (response.data.success) {
       // Do nothing
     } else {
-      yield put(notify({ message: response.data.error, type: "error" }));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchSingleSubscriptionFailure(error));
-    yield put(notify({ message: error.message, type: "error" }));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
-function* subscriptionPaymentStripeAPI() {
+function* subscriptionPaymentPayStackAPI() {
     try {
       const subscriptionDetails = yield select(
         (state) => state.subscriptions.subPayPaystack.inputData
@@ -81,7 +83,7 @@ function* subscriptionPaymentStripeAPI() {
         });
       if (response.data.success) {
         yield put(subscriptionPaymentPaystackSuccess(response.data.data));
-        yield put(notify({ message: response.data.message, type: "success" }));
+        yield put(notify({ message: response.data.message, status: "success" }));
         localStorage.setItem(
           "total_followers",
           JSON.stringify(response.data.data.total_followers)
@@ -93,11 +95,11 @@ function* subscriptionPaymentStripeAPI() {
         window.location.assign(`/profile/${subscriptionDetails.user_unique_id}`);
       } else {
         yield put(subscriptionPaymentPaystackFailure(response.data.error));
-        yield put(notify({ message: response.data.error, type: "error" }));;
+        yield put(notify({ message: response.data.error, status: "error" }));;
       }
     } catch (error) {
       yield put(subscriptionPaymentPaystackFailure(error));
-      yield put(notify({ message: error.message, type: "error" }));
+      yield put(notify({ message: error.message, status: "error" }));
     }
   }
   
@@ -116,10 +118,7 @@ function* subscriptionPaymentStripeAPI() {
   
       if (response.data.success) {
         yield put(subscriptionPaymentWalletSuccess(response.data.data));
-        const notificationMessage = getSuccessNotificationMessage(
-          response.data.message
-        );
-        yield put(createNotification(notificationMessage));
+        yield put(notify({ message: response.data.message, status: "success" }));
         localStorage.setItem(
           "total_followers",
           JSON.stringify(response.data.data.total_followers)
@@ -128,119 +127,85 @@ function* subscriptionPaymentStripeAPI() {
           "total_followings",
           JSON.stringify(response.data.data.total_followings)
         );
-        window.location.assign(`${subscriptioDetails.user_unique_id}`);
+        window.location.assign(`${subscriptionDetails.user_unique_id}`);
       } else {
         yield put(subscriptionPaymentWalletFailure(response.data.error));
-        const notificationMessage = getErrorNotificationMessage(
-          response.data.error
-        );
-        yield put(createNotification(notificationMessage));
+        yield put(notify({ message: response.data.error, status: "error" }));
       }
     } catch (error) {
       yield put(subscriptionPaymentWalletFailure(error));
-      const notificationMessage = getErrorNotificationMessage(error.message);
-      yield put(createNotification(notificationMessage));
+      yield put(notify({ message: error.message, status: "error" }));
     }
   }
   
   function* subscriptionAutoRenewalAPI() {
     try {
-      const subscriptioDetails = yield select(
+      const subscriptionDetails = yield select(
         (state) => state.subscriptions.subscriptionRenew.inputData
       );
-      const response = yield api.postMethod(
-        "subscriptions_autorenewal_status",
-        subscriptioDetails
-      );
+      const response = yield api.postMethod({
+        action :
+        "subscriptions_autorenewal_status", object :
+        subscriptionDetails
+      });
       yield put(subscriptionAutoRenewalSuccess(response.data.data));
       if (response.data.success) {
-        const notificationMessage = getSuccessNotificationMessage(
-          response.data.message
-        );
-        yield put(createNotification(notificationMessage));
+        yield put(notify({ message: response.data.message, status: "error" }));
         yield put(subscriptionAutoRenewalFailure(response.data.error));
       } else {
-        const notificationMessage = getErrorNotificationMessage(
-          response.data.error
-        );
-        yield put(createNotification(notificationMessage));
+        yield put(notify({ message: response.data.error, status: "error" }));
       }
     } catch (error) {
       yield put(subscriptionAutoRenewalFailure(error));
-      const notificationMessage = getErrorNotificationMessage(error.message);
-      yield put(createNotification(notificationMessage));
-    }
-  }
-  
-  function* subscriptionPaymentCCBillAPI() {
-    try {
-      const subscriptioDetails = yield select(
-        (state) => state.subscriptions.subPayCCBill.inputData
-      );
-      const response = yield api.postMethod(
-        "user_subscriptions_payment_by_ccbill",
-        subscriptioDetails
-      );
-      if (response.data.success) {
-        yield put(subscriptionPaymentCCBillSuccess(response.data.data));
-        window.location.assign(`${response.data.data.redirect_web_url}`);
-      } else {
-        yield put(subscriptionPaymentCCBillFailure(response.data.error));
-        const notificationMessage = getErrorNotificationMessage(
-          response.data.error
-        );
-        yield put(createNotification(notificationMessage));
-      }
-    } catch (error) {
-      yield put(subscriptionPaymentCCBillFailure(error));
-      const notificationMessage = getErrorNotificationMessage(error.message);
-      yield put(createNotification(notificationMessage));
+      yield put(notify({ message: error.message, status: "error" }));
     }
   }
   
 
+  
+
 export default function* pageSaga() {
-  yield all([yield takeLatest(FETCH_SUBSCRIPTION_START, getSubscriptionAPI)]);
+  yield all([yield takeLatest('subscriptions/fetchSubscriptionStart', getSubscriptionAPI)]);
   yield all([
-    yield takeLatest(FETCH_MY_SUBSCRIPTION_START, getMySubscriptionAPI),
+    yield takeLatest('subscriptions/fetchMySubscriptionStart', getMySubscriptionAPI),
   ]);
   yield all([
-    yield takeLatest(FETCH_SINGLE_SUBSCRIPTION_START, getSingleSubscriptionAPI),
+    yield takeLatest('subscriptions/fetchSingleSubscriptionStart', getSingleSubscriptionAPI),
   ]);
   yield all([
     yield takeLatest(
-      SUBSCRIPTION_PAYMENT_STRIPE_START,
-      subscriptionPaymentStripeAPI
+      'subscriptions/subscriptionPaymentPaystackStart',
+      subscriptionPaymentPayStackAPI
     ),
   ]);
   yield all([
     yield takeLatest(
-      SUBSCRIPTION_PAYMENT_WALLET_START,
+      'subscriptions/subscriptionPaymentWalletStart',
       subscriptionPaymentWalletAPI
     ),
   ]);
   yield all([
     yield takeLatest(
-      SUBSCRIPTION_AUTO_RENEWAL_START,
+      'subscriptions/subscriptionAutoRenewalStart',
       subscriptionAutoRenewalAPI
     ),
   ]);
-  yield all([
-    yield takeLatest(
-      SUBSCRIPTION_PAYMENT_PAYPAL_START,
-      subscriptionPaymentPaypalAPI
-    ),
-  ]);
-  yield all([
-    yield takeLatest(
-      SUBSCRIPTION_PAYMENT_CCBILL_START,
-      subscriptionPaymentCCBillAPI
-    ),
-  ]);
-  yield all([
-    yield takeLatest(
-      SUBSCRIPTION_PAYMENT_COINPAYMENT_START,
-      subscriptionPaymentCoinPaymentAPI
-    ),
-  ]);
+  // yield all([
+  //   yield takeLatest(
+  //     SUBSCRIPTION_PAYMENT_PAYPAL_START,
+  //     subscriptionPaymentPaypalAPI
+  //   ),
+  // ]);
+  // yield all([
+  //   yield takeLatest(
+  //     SUBSCRIPTION_PAYMENT_CCBILL_START,
+  //     subscriptionPaymentCCBillAPI
+  //   ),
+  // ]);
+  // yield all([
+  //   yield takeLatest(
+  //     SUBSCRIPTION_PAYMENT_COINPAYMENT_START,
+  //     subscriptionPaymentCoinPaymentAPI
+  //   ),
+  // ]);
 }

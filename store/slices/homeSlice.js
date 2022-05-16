@@ -196,10 +196,6 @@ export const HomeSlice = createSlice({
       state.homePost = action.payload.home.homePost;
       state.trendingUsers = action.payload.home.trendingUsers;
       state.postSug = action.payload.home.postSug;
-      // state.homePost.posts = action.payload.home.homePost.posts;
-      // state.homePost.skip = action.payload.home.homePost.skip;
-      // state.homePost.length = action.payload.home.homePost.length;
-      // state.homePost.error = action.payload.home.homePost.error;
     },
   },
 });

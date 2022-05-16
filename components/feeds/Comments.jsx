@@ -108,7 +108,7 @@ const Comments = ({ post, currentIndex }) => {
                 <Image
                   alt=""
                   src={
-                    userPicture || user.picture  
+                    userPicture || user.picture || 'https://cms.onlyally.com/placeholder.jpeg'
                   }
                   objectFit="cover"
                   layout="fill"
