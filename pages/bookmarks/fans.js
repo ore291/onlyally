@@ -30,10 +30,10 @@ export default function Fan() {
   ];
   return (
     <>
-      <div className="flex">
+      <div className="flex flex-col justify-center md:flex-row">
         <ProfileNavItem color="red" />
 
-        <div className="w-4/5 bg-white px-4 mx-auto mt-20 mr-16 ml-6 shadow py-4">
+        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
           <section className="space-y-2  p-4">
             <div className="flex gap-4 items-center uppercase font-semibold">
               <FaArrowLeft size="20px" />
@@ -41,7 +41,7 @@ export default function Fan() {
             </div>
           </section>
 
-          <div className="border-b-2 pb-2 flex items-center gap-4">
+          <div className="border-b-2 pb-2 block lg:flex items-center gap-4">
             <article className="flex gap-2">
               <AiOutlineCheckCircle size="20px" />
               <p>Active</p>
@@ -58,10 +58,10 @@ export default function Fan() {
           <section className="my-4">
             <h3 className="font-medium">4 ALL</h3>
 
-            <div className="flex justify-between flex-wrap">
+            <div className="block lg:flex justify-between flex-wrap">
               {user.map((EachUser) => (
                 <article
-                  className="w-1/3 border-2 border-grey-500 "
+                  className="w-full lg:w-1/3 border-2 border-grey-500 "
                   key={EachUser.name}
                 >
                   <div className="bg-[url('/images/settings/grey.jpg')] h-32 flex justify-end items-end">

@@ -4,9 +4,9 @@ import ProfileNavItem from "../../components/ProfileNavBar";
 export default function Profile() {
   return (
     <>
-      <div className="flex">
+      <div className="flex flex-col justify-center md:flex-row">
         <ProfileNavItem />
-        <div className="w-4/5 bg-white px-4 mx-auto mt-20 mr-16 ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-12">
+        <div className="w-full lg:w-4/5 bg-white px-4 mx-auto mt-20 lg:mr-16 lg:ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-12">
           <section className="space-y-2 ">
             <h1 className="font-semibold text-gray-400 uppercase">
               Edit Profile
@@ -30,11 +30,11 @@ export default function Profile() {
                   alt="profile-pic"
                 />
 
-                <section className="flex justify-end gap-4">
-                  <button className="border-2 border-red-600 px-4 py-2 cursor-pointer text-lg rounded-lg shadow-md text-red-700 font-bold  hover:bg-red-500 hover:text-white transition duration-150 ">
+                <section className="flex mt-6 lg:mt-0 justify-end gap-4">
+                  <button className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold  hover:bg-red-500 hover:text-white transition duration-150 ">
                     Upload Feature Profile
                   </button>
-                  <button className="border-2 border-red-600 px-4 py-2 cursor-pointer text-lg rounded-lg shadow-md text-red-700 font-bold hover:bg-red-500 hover:text-white transition duration-150 ">
+                  <button className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold hover:bg-red-500 hover:text-white transition duration-150 ">
                     Upload profile photo
                   </button>
                 </section>
@@ -46,7 +46,7 @@ export default function Profile() {
             </p>
           </section>
 
-          <section className="flex gap-12 text-gray-500 mt-8">
+          <section className="block lg:flex gap-12 text-gray-500 mt-8">
             <article className="space-y-4">
               <div className="flex flex-col">
                 <label htmlFor="" className="font-medium text-lg">
@@ -208,7 +208,7 @@ export default function Profile() {
               Social Settings (optional)
             </h1>
 
-            <div className="flex gap-8 my-8">
+            <div className="block lg:flex gap-8 my-8">
               <div className="w-full">
                 <article className="space-y-4">
                   <div className="flex flex-col">

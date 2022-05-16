@@ -35,10 +35,10 @@ export default function Dashboard() {
   ];
   return (
     <>
-      <div className="flex">
-        <ProfileNavItem />
-        <div className=" bg-white mx-auto mt-20 mr-16 ml-6 shadow py-4 px-8 flex  gap-12 justify-between">
-          <div className="flex gap-4 w-[66%]">
+      <div className="flex flex-col justify-center md:flex-row">
+        <ProfileNavItem dashboardColor={"#B30D28"} />
+        <div className=" bg-white  mx-auto mt-20 mr-0 md:mr-16 ml-0 md:ml-6 shadow py-4 px-8 block md:flex  gap-12 justify-between">
+          <div className="block md:flex gap-4 w-full md:w-[66%]">
             <section className="space-y-4">
               <Card
                 style={{ backgroundColor: "#ffad01" }}
@@ -75,7 +75,7 @@ export default function Dashboard() {
                 image="/images/settings/Green-Star.png"
               />
             </section>
-            <section className="space-y-4">
+            <section className="space-y-4 mt-4 md:mt-0">
               <Card
                 style={{ backgroundColor: "#F1103C" }}
                 heading="Total Post Amount"

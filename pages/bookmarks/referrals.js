@@ -78,9 +78,9 @@ export default function Referrals() {
   ];
   return (
     <>
-      <div className="flex">
-        <ProfileNavItem color="red" />
-        <div className="w-[95%] border-0 border-b-2 border-gray-300 bg-white px-4 mx-auto mt-20 mr-16 ml-6 shadow py-4">
+      <div className="flex flex-col justify-center md:flex-row">
+        <ProfileNavItem referralsColor={"#B30D28"} />
+        <div className="w-full lg:w-[95%] border-0 border-b-2 border-gray-300 bg-white px-4 mx-auto mt-20 lg:mr-16 lg:ml-6 shadow py-4">
           <section className="flex justify-center">
             <MdPeopleAlt size={20} />
             <h4 className="font-bold mb-4">Tell your friends about Playjor </h4>
@@ -91,7 +91,7 @@ export default function Referrals() {
                 Share this link so your friends can join the conversation around
                 all your favorite Creators
               </h4>
-              <section className="flex gap-4  items-center">
+              <section className="block lg:flex gap-4  items-center">
                 <div className="flex p-4 justify-between border-dashed border-2 gap-2 items-center">
                   <p className="text-sm bg-gray-200 rounded-md py-2">
                     https://playjor.com/?referral=618e5f04c1558
@@ -103,11 +103,11 @@ export default function Referrals() {
                   </div>
                 </div>
 
-                <div className="flex gap-6">
+                <div className="block lg:flex gap-6 space-y-4 lg:space-y-0">
                   {logos.map((logo) => (
                     <section
                       key={logo.id}
-                      className="shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-fit"
+                      className="shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit"
                     >
                       <img src={logo.image} alt="logo" width="50px" />
                       <p className="font-bold text-sm">{logo.logoName}</p>
@@ -116,7 +116,7 @@ export default function Referrals() {
                 </div>
               </section>
 
-              <div className="w-1/2 space-y-8 shadow-md bg-white px-2 py-8 rounded-md">
+              <div className="w-full lg:w-1/2 space-y-8 shadow-md bg-white px-2 py-8 rounded-md">
                 {ReferralInfo.map((EachInfo, index) => (
                   <article
                     key={index}
@@ -131,11 +131,11 @@ export default function Referrals() {
 
             <div className="py-4">
               <h5 className="font-medium mb-4">How it Works</h5>
-              <section className="flex justify-between gap-4">
+              <section className="block lg:flex justify-between gap-4">
                 {steps.map((EachStep) => (
                   <div
                     key={EachStep.steps}
-                    className="w-1/3 bg-white rounded-md shadow-md py-4 px-2 flex gap-4 items-center"
+                    className="w-full lg:w-1/3 bg-white rounded-md shadow-md py-4 px-2 flex gap-4 items-center"
                   >
                     <span>
                       <BsShare size={20} />

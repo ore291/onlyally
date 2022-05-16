@@ -9,9 +9,9 @@ export default function Contact() {
   }
   return (
     <>
-      <div className="flex">
-        <ProfileNavItem linkcolor="red" />
-        <div className="settings">
+      <div className="flex flex-col justify-center md:flex-row">
+        <ProfileNavItem helpColor={"#B30D28"} />
+        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
           <div>
             <p className="text-red-500 font-semibold">Contact us</p>
             <h1 className="font-semibold">
@@ -23,7 +23,7 @@ export default function Contact() {
               height="300px"
             />
           </div>
-          <form className="w-1/3 space-y-4">
+          <form className="w-ful lg:w-1/3 space-y-4">
             <input
               type="text"
               className="input-form"

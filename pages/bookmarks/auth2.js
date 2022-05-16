@@ -11,9 +11,9 @@ export default function Auth2() {
 
   return (
     <>
-      <div className="flex">
-        <ProfileNavItem color="red" />
-        <div className="w-4/5 bg-white px-4 mx-auto mt-20 mr-16 ml-6 shadow py-4">
+      <div className="flex flex-col justify-center md:flex-row">
+        <ProfileNavItem authColor={"#B30D28"} />
+        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
           <section className="w-2/3 mx-auto space-y-4 ">
             <h1 className="font-semibold border-b-2 border-gray-300 text-center pb-4 ">
               Two Step Authetication
@@ -25,7 +25,7 @@ export default function Auth2() {
                 width="300px"
                 height="200px"
               />
-              <div className="flex gap-4">
+              <div className="block lg:flex gap-4">
                 <Switch
                   onChange={handleChange}
                   checked={checked}

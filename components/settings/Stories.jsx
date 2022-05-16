@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import ProfileNavItem from "../components/ProfileNavBar";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { GoCalendar } from "react-icons/go";
 
 const Story = () => {
   return (
     <>
-      <section className="w-full lg:w-1/3 ">
+      <section className=" w-1/3 ">
         <div className="bg-[url('/images/settings/sec1.jpg')] bg-center bg-cover bg-no-repeat h-40 text-white flex justify-end items-end">
           <span className="bg-red-500 hover:bg-red-600 p-2 m-1 rounded-sm">
             3.50
@@ -43,19 +42,19 @@ const Story = () => {
   );
 };
 
-export default function Stories() {
+const Stories = () => {
   return (
     <>
-      <div className="flex flex-col justify-center md:flex-row">
-        <ProfileNavItem storiesColor={"#B30D28"} />
-        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
-          <div className="block lg:flex gap-4">
+      <div className="flex">
+        <ProfileNavItem />
+        <div className="bg-[#F9F9F9] mx-auto mt-20 mr-16 ml-6 shadow py-4 space-y-8">
+          <div className="flex gap-4">
             <Story />
             <Story />
             <Story />
             <Story />
           </div>
-          <div className="block lg:flex gap-4">
+          <div className="flex gap-4">
             <Story />
             <Story />
             <Story />
@@ -65,4 +64,6 @@ export default function Stories() {
       </div>
     </>
   );
-}
+};
+
+export default Stories;
