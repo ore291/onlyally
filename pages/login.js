@@ -136,9 +136,9 @@ const Login = () => {
             >
               {loginState ? (
                 <div className="flex justify-center">
-                  <span className="circle animate-loader"></span>
-                  <span className="circle animate-loader animation-delay-200"></span>
-                  <span className="circle animate-loader animation-delay-400"></span>
+                  <span className="login-circle animate-loader"></span>
+                  <span className="login-circle animate-loader animation-delay-200"></span>
+                  <span className="login-ircle animate-loader animation-delay-400"></span>
                 </div>
               ) : (
                 <p className="text-white text-lg font-semibold ">Login</p>
