@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { GoCalendar } from "react-icons/go";
+import ProfileNavItem from "../ProfileNavBar";
 
 const Story = () => {
   return (

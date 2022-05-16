@@ -102,11 +102,8 @@ export default function Auth2() {
                 </span>
               </h1>
               {Features.map((eachFeature) => (
-                <section className="space-y-4">
-                  <div
-                    key={eachFeature.name}
-                    className="flex items-center gap-2"
-                  >
+                <section className="space-y-4" key={eachFeature.name}>
+                  <div className="flex items-center gap-2">
                     <span>
                       <AiOutlineCheckCircle className="text-green-500 text-lg" />
                     </span>
@@ -133,10 +130,9 @@ export default function Auth2() {
 
             <div className="flex gap-2">
               {user.map((eachUser) => (
-                <div>
+                <div key={eachUser.pic}>
                   <img
                     src={eachUser.pic}
-                    key={eachUser.pic}
                     alt="image"
                     className="rounded-2xl w-32"
                   />
@@ -169,7 +165,7 @@ export default function Auth2() {
                   <h6>Payout is 55% of all earnings</h6>
 
                   {payout.map((pay) => (
-                    <article className="flex gap-2 items-center">
+                    <article className="flex gap-2 items-center" key={pay.name}>
                       <span>
                         {pay.value ? (
                           <FaCheckCircle className="text-red-500" />
@@ -202,7 +198,7 @@ export default function Auth2() {
                   <h6>Payout is 55% of all earnings</h6>
 
                   {payout.map((pay) => (
-                    <article className="flex gap-2 items-center">
+                    <article className="flex gap-2 items-center" key={pay.name}>
                       <span>
                         {pay.value ? (
                           <FaCheckCircle className="text-red-500" />
@@ -235,7 +231,7 @@ export default function Auth2() {
                   <h6>Payout is 55% of all earnings</h6>
 
                   {payout.map((pay) => (
-                    <article className="flex gap-2 items-center">
+                    <article className="flex gap-2 items-center" key={pay.name}>
                       <span>
                         {pay.value ? (
                           <FaCheckCircle className="text-red-500" />
