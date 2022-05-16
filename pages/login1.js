@@ -1,8 +1,9 @@
-import { getProviders, signIn, useSession } from "next-auth/react";
-
+import { useSelector, useDispatch } from "react-redux";
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { loginStart } from "../store/slices/userSlice";
+import configuration from "react-global-configuration";
 
 import {
   FaUserCircle,
@@ -27,46 +28,77 @@ import {
 } from "react-device-detect";
 
 const Login = () => {
-  const [loginState, setLoginState] = useState(false);
+  const dispatch = useDispatch();
+  const login = useSelector((state) => state.user.loginInputData);
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const [show, setShow] = useState("login");
 
-  const userLogin = async () => {
-    setLoginState(true)
-    var email = emailRef.current.value;
-    var password = passwordRef.current.value;
-    try {
-      const res = await signIn("credentials", {
-      callbackUrl: "/",
-      // redirect: false,
-      email: email,
-      password: password,
-    })
-    if(res.ok == false){
-      setLoginState(false);
-    }
-    ;
-    } catch (error) {
-      console.log(error.message);
-    }
-    
-  };
+  const [loginInputData, setLoginInputData] = useState({});
 
   useEffect(() => {
-    if (router.query.error) {
-      console.log(router.query.error);
-      setLoginError(router.query.error);
-      setEmail(router.query.email);
+    const referral = "";
+    // if(configuration.get("configData.is_referral_enabled") == 1) {
+    //   const query = new URLSearchParams(props.location.search);
+    //   const referral = query.get("referral");
+
+    //   if(referral)
+    //     setShow("signup");
+    // }
+
+    var device_type = "";
+    var device_model = "";
+    var browser_type = browserName;
+
+    if (isAndroid == true) {
+      device_type = "android";
+      device_model = mobileModel;
+    } else if (isIOS == true) {
+      device_type = "ios";
+      device_model = mobileModel;
+    } else {
+      device_type = "web";
+      device_model = browserName + " " + browserVersion;
     }
-  }, [router]);
+  }, []);
+
+  useEffect(() => {
+    var device_type = "";
+    var device_model = "";
+    var browser_type = browserName;
+
+    if (isAndroid == true) {
+      device_type = "android";
+      device_model = mobileModel;
+    } else if (isIOS == true) {
+      device_type = "ios";
+      device_model = mobileModel;
+    } else {
+      device_type = "web";
+      device_model = browserName + " " + browserVersion;
+    }
+
+    setLoginInputData({
+      ...loginInputData,
+      email: "",
+      password: "",
+      device_type: device_type,
+      device_model: device_model,
+      browser_type: browser_type,
+    });
+  }, []);
+
+  const handleLogin = (event) => {
+    event.preventDefault();
+    dispatch(loginStart(loginInputData));
+  };
 
   return (
-    <div className=" ">
-      <div className="relative p-1 bg-cover  md:mx-auto w-full md:max-w-7xl rounded-b-3xl h-[500px] bg-[url('/banner-mobile.jpg')] bg-playRed/40 lg:bg-playRed/50 bg-blend-darken ">
+    <div className="pt-[70px] ">
+      <div className="relative p-1 bg-cover  md:mx-auto w-full md:max-w-7xl rounded-3xl h-[500px] bg-[url('/banner-mobile.jpg')] bg-playRed/40 lg:bg-playRed/50 bg-blend-darken ">
         <div className="col-container">
           <div className="w-40 h-10 lg:h-14 relative">
             <Image
@@ -114,9 +146,15 @@ const Login = () => {
                 type="email"
                 name="email"
                 id="email"
-                ref={emailRef}
+                value={loginInputData.email}
+                onChange={(event) =>
+                  setLoginInputData({
+                    ...loginInputData,
+                    email: event.currentTarget.value,
+                  })
+                }
               />
-              {/* <p className="text-red">{loginError}</p> */}
+              <p className="text-red">{loginError}</p>
             </div>
             <div className="inputBox text-gray-900 relative">
               <IoIosLock className="w-8 h-8 text-lightPlayRed" />
@@ -126,24 +164,28 @@ const Login = () => {
                 type="password"
                 name="Password"
                 id="Password"
-                ref={passwordRef}
+                value={loginInputData.password}
+                onChange={(event) =>
+                  setLoginInputData({
+                    ...loginInputData,
+                    password: event.currentTarget.value,
+                  })
+                }
               />
               <FaQuestionCircle className="w-5 h-5 absolute right-3 text-lightPlayRed" />
             </div>
-            <div
-              onClick={userLogin}
+            <button
+              type="submit"
+              onClick={handleLogin}
+              disabled={login.buttonDisable}
               className="bg-lightPlayRed inputBox cursor-pointer"
             >
-              {loginState ? (
-                <div className="flex justify-center">
-                  <span className="circle animate-loader"></span>
-                  <span className="circle animate-loader animation-delay-200"></span>
-                  <span className="circle animate-loader animation-delay-400"></span>
-                </div>
-              ) : (
-                <p className="text-white text-lg font-semibold ">Login</p>
-              )}
-            </div>
+              <p className="text-white text-lg font-semibold ">
+                {login.loadingButtonContent !== null
+                  ? login.loadingButtonContent
+                  : "Login"}
+              </p>
+            </button>
             <div className=" flex flex-col space-y-3 items-center py-14">
               <p className="text-playRed lg:text-white text-sm text-center  font-semibold shadow-sm">
                 Or login with
@@ -183,11 +225,11 @@ const Login = () => {
           <p className="text-sm md:text-lg font-semibold text-gray-800 text-center md:text-left mt-4">
             Simply create a profile post exclusive images, video and tutorials
             and invite your social media fans to subscribe to view.
-            <span>
+            <p>
               You set the monthly membership &#40; subs &#41; rate, so
               you&apos;re always in control of how much your fans pay. and how
               much you earn.
-            </span>
+            </p>
           </p>
         </div>
         <div className="md:rounded-l-none login-card ">
@@ -218,16 +260,16 @@ const Login = () => {
             create
           </h1>
           <div className="relative w-44 h-36 my-5">
-            <Image src={"/icon-6.png"} layout="fill" objectFit="contain" alt=""/>
+            <Image src={"/icon-6.png"} layout="fill" objectFit="contain" />
           </div>
           <div className="text-center flex flex-col items-center justify-center space-y-4">
             <p className="text-xl font-semibold text-slate-700 leading-tight">
               Create exclusive, unique, original, picture, audio, video content
               your fans {"can't"} find anywhere else but here.
             </p>
-            <button className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
+            <div className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
               <span className="font-bold text-white">Create account</span>
-            </button>
+            </div>
           </div>
         </div>
         <div className="login-card z-10">
@@ -247,9 +289,9 @@ const Login = () => {
               your own chosen subscription fee, weekly, monthly or one time
               payment.
             </p>
-            <button className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
+            <div className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
               <span className="font-bold text-white">Create account</span>
-            </button>
+            </div>
           </div>
         </div>
         <div className="login-card z-10">
@@ -269,9 +311,9 @@ const Login = () => {
               with other fans, earn from the m,onthly fees fans pay to join your
               exclusive group.
             </p>
-            <button className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
+            <div className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
               <span className="font-bold text-white">Create account</span>
-            </button>
+            </div>
           </div>
         </div>
       </div>

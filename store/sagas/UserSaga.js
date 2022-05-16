@@ -1,11 +1,22 @@
 import { call, select, put, takeLatest, all } from "redux-saga/effects";
-
+import { setCookies } from 'cookies-next';
+import { getProviders, signIn, useSession } from "next-auth/react";
 import api from "../../Environment";
 var localStorage = require("localStorage");
 
 import {
   fetchUserDetailsSuccess,
   fetchUserDetailsFailure,
+  userNameValidationSuccess,
+  userNameValidationFailure,
+  referralValidationSuccess,
+  referralValidationFailure,
+  getLoginDetails,
+  loginSuccess,
+  loginFailure,
+  fetchUserLoginSuccess,
+  registerSuccess,
+  registerFailure,
 } from "../slices/userSlice";
 import { notify } from "reapop";
 
@@ -130,22 +141,21 @@ function* updateUserDetailsAPI() {
 
 function* userLoginAPI() {
   try {
-    const userData = yield select((state) => state.users.loginInputData.data);
-
-    const response = yield api.postMethod("login", userData);
-    yield put(userLoginSuccess(response.data));
+    const userData = yield select((state) => state.user.loginInputData.data);
+    const response = yield api.postMethod({action: "login",object: userData});
+    yield put(loginSuccess(response.data));
+    yield put(fetchUserLoginSuccess(response.data));
     if (response.data.success) {
       if (response.data.code == 1001)
         window.location.assign("/register/verify");
       else {
         if (response.data.code == 240) {
-          const notificationMessage = getSuccessNotificationMessage(
-            response.data.message
-          );
-          yield put(createNotification(notificationMessage));
+         
+          yield put(notify({message: response.data.message, status:"success"}));
           window.location.assign("/verification");
           localStorage.setItem("emailId", response.data.data.email);
         } else {
+          
           localStorage.setItem("userLoginStatus", true);
           localStorage.setItem("user_picture", response.data.data.picture);
           localStorage.setItem("user_cover", response.data.data.cover);
@@ -179,19 +189,24 @@ function* userLoginAPI() {
             response.data.data.is_two_step_auth_enabled
           );
           localStorage.setItem("emailId", response.data.data.email);
-          yield put(notify({ message: response.data.message }));
-          window.location.assign("/home");
+          yield put(notify({ message: response.data.message , status: "success"}));
           localStorage.setItem("userId", response.data.data.user_id);
           localStorage.setItem("accessToken", response.data.data.token);
+          setCookies('userId', response.data.data.user_id);
+          setCookies('accessToken',  response.data.data.token);
+          setCookies('user_picture', response.data.data.picture);
+          
+          window.location.assign("/");
+         
         }
       }
     } else {
       yield put(
-        notify({ message: response.data.error.error, status: "error" })
+        notify({ message: response.data.error, status: "error" })
       );
     }
   } catch (error) {
-    yield put(userLoginFailure(error));
+    yield put(loginFailure(error.message));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
@@ -199,10 +214,10 @@ function* userLoginAPI() {
 function* userRegisterAPI() {
   try {
     const userData = yield select(
-      (state) => state.users.registerInputData.data
+      (state) => state.user.registerInputData.data
     );
-    const response = yield api.postMethod("register", userData);
-    yield put(userRegisterSuccess(response.data));
+    const response = yield api.postMethod({action : "register", object :  userData});
+    yield put(registerSuccess(response.data));
 
     if (response.data.success) {
       if (response.data.code == 1001)
@@ -238,16 +253,21 @@ function* userRegisterAPI() {
         if (response.data.data.is_welcome_steps == 1) {
           window.location.assign("/upload-profile-picture");
         } else {
-          window.location.assign("/home");
+          signIn("credentials", {
+            callbackUrl: "/",
+            // redirect: false,
+            email: userData.email,
+            password: userData.password,
+          })
         }
       }
     } else {
       yield put(
-        notify({ message: response.data.error.error, status: "error" })
+        notify({ message: response.data.error, status: "error" })
       );
     }
   } catch (error) {
-    yield put(userRegisterFailure(error));
+    yield put(registerFailure(error));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
@@ -266,7 +286,7 @@ function* forgotPasswordAPI() {
       const notificationMessage = getErrorNotificationMessage(
         "Please enter the email address"
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
       yield put(forgotPasswordFailure());
     } else {
       const response = yield api.postMethod("forgot_password", userData);
@@ -275,13 +295,13 @@ function* forgotPasswordAPI() {
         const notificationMessage = getSuccessNotificationMessage(
           response.data.message
         );
-        yield put(createNotification(notificationMessage));
+        yield put(notify(notificationMessage));
         window.location.assign("/");
       } else {
         const notificationMessage = getErrorNotificationMessage(
           response.data.error.error
         );
-        yield put(createNotification(notificationMessage));
+        yield put(notify(notificationMessage));
       }
     }
   } catch (error) {
@@ -289,7 +309,7 @@ function* forgotPasswordAPI() {
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -304,20 +324,20 @@ function* deleteAccountAPI() {
       const notificationMessage = getSuccessNotificationMessage(
         response.data.message
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
       window.location.assign("/");
     } else {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(deleteAccountFailure(error));
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -347,19 +367,19 @@ function* registerVerify() {
       const notificationMessage = getSuccessNotificationMessage(
         response.data.message
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
       window.location.assign("/welcome");
     } else {
       yield put(registerVerifyFailure(response.data.error.error));
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(registerVerifyFailure(error));
     const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -372,20 +392,20 @@ function* registerVerifyResend() {
       const notificationMessage = getSuccessNotificationMessage(
         response.data.message
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     } else {
       yield put(registerVerifyResendFailure(response.data.error.error));
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(registerVerifyResendFailure(error));
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -403,12 +423,12 @@ function* notificationStatusUpdateAPI() {
       const notificationMessage = getSuccessNotificationMessage(
         response.data.message
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     } else {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
       yield put(notificationStatusUpdateFailure(response.data.error.error));
     }
   } catch (error) {
@@ -416,7 +436,7 @@ function* notificationStatusUpdateAPI() {
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -437,12 +457,12 @@ function* verificationBadgeStatusUpdateAPI() {
           ? response.data.data.is_verified_badge
           : 0
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     } else {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
       yield put(notificationStatusUpdateFailure(response.data.error.error));
     }
   } catch (error) {
@@ -450,7 +470,7 @@ function* verificationBadgeStatusUpdateAPI() {
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -465,14 +485,14 @@ function* getPaymentsAPI() {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(fetchPaymentsFailure(error));
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -486,12 +506,12 @@ function* fetchBlockUsersAPI() {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(fetchBlockUsersFailure(error));
     const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -506,7 +526,7 @@ function* saveBlockUserAPI() {
       const notificationMessage = getSuccessNotificationMessage(
         response.data.message
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
 
       localStorage.setItem(
         "total_followers",
@@ -525,12 +545,12 @@ function* saveBlockUserAPI() {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(saveBlockUserFailure(error));
     const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -564,66 +584,57 @@ function* resetPasswordAPI() {
       );
       localStorage.setItem("userId", response.data.data.user_id);
       localStorage.setItem("accessToken", response.data.data.token);
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
       window.location.assign("/home");
     } else {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(resetPasswordFailure(error));
     const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
 function* usernameValidationAPI() {
   try {
     const inputData = yield select(
-      (state) => state.users.validationInputData.data
+      (state) => state.user.validationInputData.data
     );
-    const response = yield api.postMethod("username_validation", inputData);
-    yield put(usernameValidationSuccess(response.data));
+    const response = yield api.postMethod({action: "username_validation",object : inputData});
+    yield put(userNameValidationSuccess(response.data));
     if (response.data.success) {
     } else {
-      yield put(usernameValidationFailure(response));
-      // const notificationMessage = getErrorNotificationMessage(
-      //    response.data.error.error
-      // );
-      // yield put(createNotification(notificationMessage));
+      yield put(userNameValidationFailure(response.data.error));
+
+      yield put(notify({ message: response.data.error , status : "error" }));
     }
   } catch (error) {
-    yield put(usernameValidationFailure(error));
-    const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(createNotification(notificationMessage));
+    yield put(userNameValidationFailure(error));
+    yield put(notify({ message: error.message , status : "error"}));
   }
 }
 
 function* referralValidationAPI() {
   try {
     const inputData = yield select(
-      (state) => state.users.referralInputData.data
+      (state) => state.user.referralInputData.data
     );
-    const response = yield api.postMethod("referral_code_validate", inputData);
+    const response = yield api.postMethod({action : "referral_code_validate",object :  inputData});
     yield put(referralValidationSuccess(response.data));
     if (response.data.success) {
-      const notificationMessage = getSuccessNotificationMessage(
-        response.data.message
-      );
-      yield put(createNotification(notificationMessage));
+      yield put(notify({message : response.data.message, status: "success"}));
     } else {
       yield put(referralValidationFailure(response));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(createNotification(notificationMessage));
+      yield put(notify({message : response.data.error, status: "error"}));
     }
   } catch (error) {
-    yield put(referralValidationFailure(error));
-    const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(createNotification(notificationMessage));
+    yield put(referralValidationFailure(error.message));
+   
+    yield put(notify({message : error.message, status: "error"}));
   }
 }
 
@@ -639,14 +650,14 @@ function* getContentCreatorDashboardAPI() {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(fetchContentCreatorDashboardFailure(error));
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -685,12 +696,12 @@ function* updateUserSubscriptionDetailsAPI() {
       const notificationMessage = getSuccessNotificationMessage(
         "User Subscription Details Updated"
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     } else {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
       yield put(updateUserDetailsFailure(response.data.error.error));
     }
   } catch (error) {
@@ -698,7 +709,7 @@ function* updateUserSubscriptionDetailsAPI() {
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -715,20 +726,20 @@ function* twoStepAuthenticationUpdateAPI(action) {
       const notificationMessage = getSuccessNotificationMessage(
         response.data.message
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     } else {
       yield put(twoStepAuthUpdateFAilure(response.data.error.error));
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(twoStepAuthUpdateFAilure(error));
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -776,7 +787,7 @@ function* twoStepAuthenticationLoginAPI(action) {
           response.data.message
         );
         localStorage.setItem("emailId", response.data.data.email);
-        yield put(createNotification(notificationMessage));
+        yield put(notify(notificationMessage));
         window.location.assign("/home");
         localStorage.setItem("userId", response.data.data.user_id);
         localStorage.setItem("accessToken", response.data.data.token);
@@ -785,13 +796,13 @@ function* twoStepAuthenticationLoginAPI(action) {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
       yield put(twoStepAuthenticationLoginFailure(response.data.error.error));
     }
   } catch (error) {
     yield put(twoStepAuthenticationLoginFailure(error));
     const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -807,7 +818,7 @@ function* twoStepAuthenticationCodeResendAPI(action) {
       const notificationMessage = getSuccessNotificationMessage(
         response.data.message
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     } else {
       yield put(
         twoStepAuthenticationCodeResendFailure(response.data.error.error)
@@ -815,14 +826,14 @@ function* twoStepAuthenticationCodeResendAPI(action) {
       const notificationMessage = getErrorNotificationMessage(
         response.data.error.error
       );
-      yield put(createNotification(notificationMessage));
+      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(twoStepAuthenticationCodeResendFailure(error));
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(createNotification(notificationMessage));
+    yield put(notify(notificationMessage));
   }
 }
 
@@ -831,8 +842,8 @@ export default function* pageSaga() {
     yield takeLatest("user/fetchUserDetailsStart", getUserDetailsAPI),
     //   yield takeLatest(UPDATE_USER_DETAILS_START, updateUserDetailsAPI),
     //   yield takeLatest(UPDATE_USER_SUBSCRIPTION_DETAILS_START, updateUserSubscriptionDetailsAPI),
-    //   yield takeLatest(LOGIN_START, userLoginAPI),
-    //   yield takeLatest(REGISTER_START, userRegisterAPI),
+      yield takeLatest("user/loginStart", userLoginAPI),
+      yield takeLatest("user/registerStart", userRegisterAPI),
     //   yield takeLatest(FORGOT_PASSWORD_START, forgotPasswordAPI),
     //   yield takeLatest(DELETE_ACCOUNT_START, deleteAccountAPI),
     //   yield takeLatest(REGISTER_VERIFY_START, registerVerify),
@@ -849,8 +860,8 @@ export default function* pageSaga() {
     //     verificationBadgeStatusUpdateAPI
     //   ),
     //   yield takeLatest(RESET_PASSWORD_START, resetPasswordAPI),
-    //   yield takeLatest(USERNAME_VALIDATION_START, usernameValidationAPI),
-    //   yield takeLatest(REFERRAL_VALIDATION_START, referralValidationAPI),
+      yield takeLatest('user/userNameValidationStart', usernameValidationAPI),
+      yield takeLatest('user/referralValidationStart', referralValidationAPI),
     //   yield takeLatest(FETCH_CONTENT_CREATOR_DASHBOARD_START, getContentCreatorDashboardAPI),
     //   yield takeLatest(TWO_STEP_AUTH_UPDATE_START, twoStepAuthenticationUpdateAPI),
     //   yield takeLatest(TWO_STEP_AUTHENTICATION_LOGIN_START, twoStepAuthenticationLoginAPI),

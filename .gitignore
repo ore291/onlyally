@@ -7,6 +7,8 @@
 
 /ore
 
+/http
+
 /ore1
 # testing
 /coverage
@@ -20,7 +22,7 @@
 
 # misc
 .DS_Store
-*.pem
+
 
 # debug
 npm-debug.log*

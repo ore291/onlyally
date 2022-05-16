@@ -1,7 +1,17 @@
 import Button from "../Button";
 import Image from "next/image";
 
+import { useEffect } from "react";
+import {useDispatch, useSelector} from "react-redux";
+import { fetchChannelsStart } from "../../store/slices/channelsSlice";
+import CommonCenterLoader from "../helpers/CommonCenterLoader";
+
 const LikedChannels = () => {
+  const dispatch = useDispatch();
+  const channels = useSelector(state => state.channels.channels)
+  useEffect(() => {
+    dispatch(fetchChannelsStart())
+  }, [])
   return (
     <div className="side-container">
       <p className="text-start font-bold">Channels you may like</p>
@@ -11,7 +21,14 @@ const LikedChannels = () => {
           <Button text="NEWEST" active={false} />
           <Button text="SEE ALL" active={false} />
         </div>
-        {[...Array(4)].map((_, i) => (
+        {
+          channels.loading ? (
+            <div className="row-container">
+              <CommonCenterLoader/>
+            </div>
+          ) : (
+            <>
+            {[...Array(4)].map((_, i) => (
           <div className="flex flex-col" key={i}>
             <div className="flex justify-between items-center space-x-6">
               <div className=" w-12 h-12 relative">
@@ -31,6 +48,10 @@ const LikedChannels = () => {
             </div>
           </div>
         ))}
+            </>
+          )
+        }
+        
       </div>
     </div>
   );

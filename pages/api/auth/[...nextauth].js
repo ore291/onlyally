@@ -3,22 +3,19 @@ import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import TwitterProvider from "next-auth/providers/twitter";
 import CredentialsProvider from "next-auth/providers/credentials";
-var axios = require("axios");
+import axios from "axios";
 var FormData = require("form-data");
+import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
 var localStorage = require("localStorage");
-const DeviceDetector = require('node-device-detector');
-const DeviceHelper = require('node-device-detector/helper');
-// 'use strict';
- 
-// var rootCas = require('ssl-root-cas').create();
- 
-// rootCas
-//   .addFile('pages/api/auth/ssl/ss_bundle.pem')
-//   .addFile('pages/api/auth/ssl/ss_cert.pem')
-//   ;
- 
-// // will work with all https requests will all libraries (i.e. request.js)
-// require('https').globalAgent.options.ca = rootCas;
+import https from "https";
+
+
+// add back for playjor api
+// axios.defaults.httpsAgent = new https.Agent({
+//   rejectUnauthorized: false,
+// })
+
+
 
 
 export default NextAuth({
@@ -60,17 +57,30 @@ export default NextAuth({
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
 
-        const detector = new DeviceDetector({clientVersionTruncate: 0,});
+        // const detector = new DeviceDetector({clientVersionTruncate: 0,});
 
         const userAgent = req.headers['user-agent']; 
-        const result = detector.detect(userAgent);
-        var device_model = "";
-        if (DeviceHelper.isMobile(result)) {
-          device_model = result.device.model;
-        } else {
-          device_model = result.client.name + " " + result.client.version;
-          // device_model = "Chrome" + " " + "100";
-        }
+        const {  isAndroid,
+          isIOS,
+          isWindows,
+          isMacOs,
+          mobileModel,
+          browserName,
+          osName,
+          mobileVendor,
+          browserVersion, } = getSelectorsByUserAgent(userAgent)
+
+          var device_model = "";
+          if (isAndroid == true) {
+            device_model = mobileModel;
+          } else if (isIOS == true) {
+            device_model = mobileModel;
+          } else {
+            device_model = browserName + " " + browserVersion;
+            // device_model = "Chrome" + " " + "100";
+          }  
+         
+       
 
         const data = new FormData();
         data.append("email", credentials.email);
@@ -80,18 +90,20 @@ export default NextAuth({
         data.append("device_type", "web");
         data.append("device_model", device_model);
         // data.append("device_model", credentials.device_model);
-
+        
         var config = {
           method: "post",
           url: "https://cms.onlyally.com/api/user/login",
           headers: {
             ...data.getHeaders(),
           },
-          data: data,
+          data: data
+      
         };
 
         try {
           const res = await axios(config);
+         
         
           const user = await res.data.data;
 
@@ -102,15 +114,14 @@ export default NextAuth({
           }
         } catch (e) {
           const errorMessage = e;
-          console.log(errorMessage);
-          throw new Error(errorMessage + "&email" + credentials.email);
+          console.log("error", errorMessage);
+          // throw new Error(errorMessage + "&email" + credentials.email);
         }
         // Return null if user data could not be retrieved
         return null;
       },
     }),
   ],
-  secret: "jhsggsjfjsdgf7ueshgfsjfhgj",
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       return true;

@@ -293,6 +293,28 @@ export const PostSlice = createSlice({
         buttonDisable: false,
       };
     },
+    fetchExploreStart: (state, action) => {
+      state.explorePosts = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+    fetchExploreSuccess: (state, action) => {
+      state.explorePosts = {
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchExploreFailure: (state, action) => {
+      state.explorePosts = {
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
   },
 });
 
@@ -315,6 +337,9 @@ export const {
   postFileRemoveStart,
   postFileRemoveFailure,
   postFileRemoveSuccess,
+  fetchExploreStart,
+  fetchExploreSuccess,
+  fetchExploreFailure
 } = PostSlice.actions;
 
 export default PostSlice.reducer;

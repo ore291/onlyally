@@ -1,6 +1,10 @@
 import axios from "axios";
 import { apiConstants } from "./components/Constant/constants";
-import { getSession } from "next-auth/react";
+import {
+  useDeviceSelectors,
+  getSelectorsByUserAgent,
+} from "react-device-detect";
+import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 import {
   isAndroid,
   isIOS,
@@ -27,30 +31,33 @@ const Environment = {
     object,
     dev_model = null,
   } = {}) => {
-    
     let user_id = null;
     let token = null;
+
+    const cookies = getCookies();
+
     if (typeof window !== "undefined") {
-      user_id =
-        localStorage.getItem("userId") !== "" &&
-        localStorage.getItem("userId") !== null &&
-        localStorage.getItem("userId") !== undefined
-          ? localStorage.getItem("userId")
-          : null;
-
-          
-
-      token =
-        localStorage.getItem("accessToken") !== "" &&
-        localStorage.getItem("accessToken") !== null &&
-        localStorage.getItem("accessToken") !== undefined
-          ? localStorage.getItem("accessToken")
-          : null;
-
+      user_id = cookies.userId;
+      token = cookies.accessToken;
     }
 
+    // if (typeof window !== "undefined") {
+    //   user_id =
+    //     localStorage.getItem("userId") !== "" &&
+    //     localStorage.getItem("userId") !== null &&
+    //     localStorage.getItem("userId") !== undefined
+    //       ? localStorage.getItem("userId")
+    //       : null;
 
-    
+    //   token =
+    //     localStorage.getItem("accessToken") !== "" &&
+    //     localStorage.getItem("accessToken") !== null &&
+    //     localStorage.getItem("accessToken") !== undefined
+    //       ? localStorage.getItem("accessToken")
+    //       : null;
+
+    // }
+
     const url = apiUrl + action;
 
     // if(typeof(window) == "undefined"){
@@ -66,7 +73,9 @@ const Environment = {
       user_id != null &&
       token != null &&
       user_id != "undefined" &&
-      token != "undefined"
+      token != "undefined" &&
+      user_id != "" &&
+      token != ""
     ) {
       formData.append("id", user_id);
       formData.append("token", token);
@@ -105,8 +114,9 @@ const Environment = {
       } else {
         device_model = browserName + " " + browserVersion;
         // device_model = "Chrome" + " " + "100";
-      }  
+      }
       formData.append("device_model", device_model);
+      console.log(device_model);
     }
 
     if (typeof window != "undefined") {
@@ -114,6 +124,10 @@ const Environment = {
         method: "POST",
         url: url,
         data: formData,
+        // headers: {
+        //   "content-type": "application/json",
+        //   accept: "application/json",
+        // },
       };
     } else {
       var config = {
@@ -121,18 +135,12 @@ const Environment = {
         url: url,
         headers: {
           ...formData.getHeaders(),
+          // "content-type": "application/json",
+          // accept: "application/json",
         },
         data: formData,
       };
     }
-
-    // var config = {
-    //   method: "POST",
-    //   url: url,
-    //   headers: {
-    //         ...formData.getHeaders(),
-    //       },
-    //   data: formData };
 
     try {
       const response = await axios(config);
@@ -141,50 +149,30 @@ const Environment = {
       return error;
       console.log(error);
     }
-
-    // Progress bar
-    // {
-    //   onUploadProgress: (ProgressEvent) => {
-    //     console.log({
-    //       loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100,
-    //     });
-    //   },
-    // }
   },
 
-  getMethod: async (action, object) => {
-    let userId = 
-      localStorage.getItem("userId") !== "" &&
-      localStorage.getItem("userId") !== null &&
-      localStorage.getItem("userId") !== undefined
-        ? localStorage.getItem("userId")
-        : "";
-    let accessToken =
-      localStorage.getItem("accessToken") !== "" &&
-      localStorage.getItem("accessToken") !== null &&
-      localStorage.getItem("accessToken") !== undefined
-        ? localStorage.getItem("accessToken")
-        : "";
+  getMethod: async ({ action, object } = {}) => {
+    const cookies = getCookies();
 
     const url = apiUrl + action;
 
-    let formData = new FormData();
+    const formData = new FormData();
 
     // By Default Id and token
 
-    formData.append("id", userId);
-    formData.append("token", accessToken);
+    // formData.append("id", cookies.userId);
+    // formData.append("token", cookies.accessToken);
 
-    // append your data
-    for (var key in object) {
-      formData.append(key, object[key]);
-    }
+    // // append your data
+    // for (var key in object) {
+    //   formData.append(key, object[key]);
+    // }
 
-    // By Default added device type and login type in future use
+    // // By Default added device type and login type in future use
 
-    formData.append("login_by", apiConstants.LOGIN_BY);
-    formData.append("device_type", apiConstants.DEVICE_TYPE);
-    formData.append("device_token", apiConstants.DEVICE_TOKEN);
+    // formData.append("login_by", apiConstants.LOGIN_BY);
+    // formData.append("device_type", apiConstants.DEVICE_TYPE);
+    // formData.append("device_token", apiConstants.DEVICE_TOKEN);
 
     var device_model = "";
     if (isAndroid == true) {
@@ -195,27 +183,51 @@ const Environment = {
       device_model = browserName + " " + browserVersion;
     }
 
-    formData.append("device_model", device_model);
+    // formData.append("device_model", device_model);
 
-    for (var p of formData) {
-      console.log(p);
+    var data = {
+      id: cookies.userId,
+      token: cookies.accessToken,
+      device_model: device_model,
+      login_by: apiConstants.LOGIN_BY,
+      device_type: apiConstants.DEVICE_TYPE,
+      device_token: apiConstants.DEVICE_TOKEN,
+    };
+
+    if (typeof window != "undefined") {
+      var config = {
+        method: "GET",
+        url: url,
+        data: data,
+        headers: {
+          "content-type": "application/json",
+          accept: "application/json",
+        },
+      };
+    } else {
+      var config = {
+        method: "GET",
+        url: url,
+        headers: {
+          ...formData.getHeaders(),
+          "content-type": "application/json",
+          accept: "application/json",
+        },
+        data: formData,
+      };
     }
 
-    return await axios.get(url, formData);
+    try {
+      const response = await axios(config);
+      if (action === "channels") {
+        console.log(response);
+      }
+      return response;
+    } catch (error) {
+      return error;
+      console.log(error);
+    }
   },
-
-  /*methods(action) {
-
-        const url = apiUrl+'/api/'+action;
-
-        return {
-            getOne: ({ id }) => axios.get(`${url}/${id}`),
-            getAll: (toGet) => axios.post(url, toGet),
-            update: (toUpdate) =>  axios.put(url,toUpdate),
-            create: (toCreate) =>  axios.put(url,toCreate),
-            delete: ({ id }) =>  axios.delete(`${url}/${id}`)
-        }
-    }*/
 };
 
 export default Environment;
