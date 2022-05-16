@@ -16,7 +16,9 @@ import {
   fetchPostsSuccess,
   fetchPostsFailure,
   postFileRemoveSuccess,
-  postFileRemoveFailure
+  postFileRemoveFailure,
+  fetchExploreSuccess,
+  fetchExploreFailure
 } from "../slices/postSlice";
 
 import {notify} from "reapop";
@@ -139,12 +141,31 @@ function* postFileRemoveAPI() {
   }
 }
 
+function* fetchExploreAPI() {
+  try {
+    const inputData = yield select(
+      (state) => state.post.explorePosts.inputData
+    );
+    const response = yield api.postMethod({action : "explore",object : inputData});
+    if (response.data.success) {
+      yield put(fetchExploreSuccess(response.data.data));
+    } else {
+      yield put(fetchExploreFailure(response.data.error));
+      yield put(notify({message: response.data.error, status: "error"}));
+    }
+  } catch (error) {
+    yield put(fetchExploreFailure(error.message));
+    yield put(postFileRemoveFailure(error.message));
+    yield put(notify({message: error.message, status:"error"}));
+  }
+}
+
 
 
 export default function* pageSaga() {
   yield all([yield takeLatest("post/savePostStart", savePostAPI)]);
   yield all([yield takeLatest("post/fetchPostsStart", fetchPostsAPI)]);
-  // yield all([yield takeLatest(FETCH_EXPLORE_START, fetchExploreAPI)]);
+  yield all([yield takeLatest("post/fetchExploreStart", fetchExploreAPI)]);
   yield all([
     yield takeLatest("post/fetchSinglePostStart", fetchSinglePostAPI),
   ]);

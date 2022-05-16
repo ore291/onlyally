@@ -47,6 +47,7 @@ function* fetchOtherUserProfileAPI() {
         ...inputData,
         skip: skipCount,
       } });
+      console.log(response)
       if (response.data.success) {
         yield put(fetchSingleUserPostsSuccess(response.data.data));
       } else {
@@ -56,7 +57,7 @@ function* fetchOtherUserProfileAPI() {
         yield put(notify({message:response.data.error, type:"error"}));
       }
     } catch (error) {
-      yield put(fetchSingleUserPostsFailure(error));
+      yield put(fetchSingleUserPostsFailure(error.message));
       yield put(notify(error.message));
     }
   }

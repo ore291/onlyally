@@ -9,9 +9,11 @@ import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect
 var localStorage = require("localStorage");
 import https from "https";
 
-axios.defaults.httpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-})
+
+// add back for playjor api
+// axios.defaults.httpsAgent = new https.Agent({
+//   rejectUnauthorized: false,
+// })
 
 
 
@@ -91,7 +93,7 @@ export default NextAuth({
         
         var config = {
           method: "post",
-          url: "https://cp.playjor.com/api/user/login",
+          url: "https://cms.onlyally.com/api/user/login",
           headers: {
             ...data.getHeaders(),
           },

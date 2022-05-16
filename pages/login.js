@@ -1,4 +1,5 @@
-import { getProviders, signIn ,useSession} from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
+
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -26,29 +27,34 @@ import {
 } from "react-device-detect";
 
 const Login = () => {
+  const [loginState, setLoginState] = useState(false);
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
 
   const userLogin = async () => {
+    setLoginState(true)
     var email = emailRef.current.value;
     var password = passwordRef.current.value;
-    const res = await signIn("credentials", {
+    try {
+      const res = await signIn("credentials", {
       callbackUrl: "/",
       // redirect: false,
       email: email,
-      password: password
-    });
-   
-    
-    
+      password: password,
+    })
+    if(res.ok == false){
+      setLoginState(false);
+    }
+    ;
+    } catch (error) {
+      console.log(error.message);
+    }
     
   };
-
-
 
   useEffect(() => {
     if (router.query.error) {
@@ -59,8 +65,8 @@ const Login = () => {
   }, [router]);
 
   return (
-    <div className="pt-[70px] ">
-      <div className="relative p-1 bg-cover  md:mx-auto w-full md:max-w-7xl rounded-3xl h-[500px] bg-[url('/banner-mobile.jpg')] bg-playRed/40 lg:bg-playRed/50 bg-blend-darken ">
+    <div className=" ">
+      <div className="relative p-1 bg-cover  md:mx-auto w-full md:max-w-7xl rounded-b-3xl h-[500px] bg-[url('/banner-mobile.jpg')] bg-playRed/40 lg:bg-playRed/50 bg-blend-darken ">
         <div className="col-container">
           <div className="w-40 h-10 lg:h-14 relative">
             <Image
@@ -110,7 +116,7 @@ const Login = () => {
                 id="email"
                 ref={emailRef}
               />
-              <p className="text-red">{loginError}</p>
+              {/* <p className="text-red">{loginError}</p> */}
             </div>
             <div className="inputBox text-gray-900 relative">
               <IoIosLock className="w-8 h-8 text-lightPlayRed" />
@@ -128,7 +134,15 @@ const Login = () => {
               onClick={userLogin}
               className="bg-lightPlayRed inputBox cursor-pointer"
             >
-              <p className="text-white text-lg font-semibold ">Login</p>
+              {loginState ? (
+                <div className="flex justify-center">
+                  <span className="circle animate-loader"></span>
+                  <span className="circle animate-loader animation-delay-200"></span>
+                  <span className="circle animate-loader animation-delay-400"></span>
+                </div>
+              ) : (
+                <p className="text-white text-lg font-semibold ">Login</p>
+              )}
             </div>
             <div className=" flex flex-col space-y-3 items-center py-14">
               <p className="text-playRed lg:text-white text-sm text-center  font-semibold shadow-sm">
@@ -169,11 +183,11 @@ const Login = () => {
           <p className="text-sm md:text-lg font-semibold text-gray-800 text-center md:text-left mt-4">
             Simply create a profile post exclusive images, video and tutorials
             and invite your social media fans to subscribe to view.
-            <p>
+            <span>
               You set the monthly membership &#40; subs &#41; rate, so
               you&apos;re always in control of how much your fans pay. and how
               much you earn.
-            </p>
+            </span>
           </p>
         </div>
         <div className="md:rounded-l-none login-card ">
@@ -204,16 +218,16 @@ const Login = () => {
             create
           </h1>
           <div className="relative w-44 h-36 my-5">
-            <Image src={"/icon-6.png"} layout="fill" objectFit="contain" />
+            <Image src={"/icon-6.png"} layout="fill" objectFit="contain" alt=""/>
           </div>
           <div className="text-center flex flex-col items-center justify-center space-y-4">
             <p className="text-xl font-semibold text-slate-700 leading-tight">
               Create exclusive, unique, original, picture, audio, video content
               your fans {"can't"} find anywhere else but here.
             </p>
-            <div className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
+            <button className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
               <span className="font-bold text-white">Create account</span>
-            </div>
+            </button>
           </div>
         </div>
         <div className="login-card z-10">
@@ -233,9 +247,9 @@ const Login = () => {
               your own chosen subscription fee, weekly, monthly or one time
               payment.
             </p>
-            <div className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
+            <button className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
               <span className="font-bold text-white">Create account</span>
-            </div>
+            </button>
           </div>
         </div>
         <div className="login-card z-10">
@@ -255,9 +269,9 @@ const Login = () => {
               with other fans, earn from the m,onthly fees fans pay to join your
               exclusive group.
             </p>
-            <div className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
+            <button className="w-40 h-10 rounded-3xl flex items-center justify-center bg-lightPlayRed cursor-pointer">
               <span className="font-bold text-white">Create account</span>
-            </div>
+            </button>
           </div>
         </div>
       </div>
