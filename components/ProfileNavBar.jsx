@@ -169,6 +169,9 @@ function ProfileNavItem({
                 </MenuItem>
 
                 <SubMenu title="Market" icon={<FaShoppingBag />}>
+                  <MenuItem icon={<FaShoppingBag size="18px" />}>
+                    <Link href="/market/marketplace">Market Place</Link>
+                  </MenuItem>
                   <MenuItem icon={<BiMessageAdd size="18px" />}>
                     <Link href="/market/marketB">Add Products</Link>
                   </MenuItem>
@@ -347,6 +350,9 @@ function ProfileNavItem({
               </MenuItem>
 
               <SubMenu title="Market" icon={<FaShoppingBag />}>
+                <MenuItem icon={<FaShoppingBag size="18px" />}>
+                  <Link href="/market/marketplace">Market Place</Link>
+                </MenuItem>
                 <MenuItem icon={<BiMessageAdd size="18px" />}>
                   <Link href="/market/marketB">Add Products</Link>
                 </MenuItem>

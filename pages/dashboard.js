@@ -43,35 +43,35 @@ export default function Dashboard() {
               <Card
                 style={{ backgroundColor: "#ffad01" }}
                 heading="Total Revenue Amount"
-                price="$44.88"
+                price="₦44.88"
                 image="/images/settings/Star.png"
               />
 
               <Card
                 style={{ backgroundColor: "#60B93A" }}
                 heading="Total Video Call Amount"
-                price="$260.00"
+                price="₦260.00"
                 image="/images/settings/Green-Star.png"
               />
 
               <Card
-                style={{ backgroundColor: "#ffad01" }}
-                heading="Total Revenue Amount"
-                price="$44.88"
-                image="/images/settings/Star.png"
+                style={{ backgroundColor: "#2AB4B3" }}
+                heading="Total Post"
+                price="76"
+                image="/images/settings/book.png"
               />
 
               <Card
                 style={{ backgroundColor: "#F1103C" }}
                 heading="Total Subscription Amount"
-                price="$39.98"
+                price="₦39.98"
                 image="/images/settings/heartStar.png"
               />
 
               <Card
                 style={{ backgroundColor: "#60B93A" }}
                 heading="Total Groups Revenue"
-                price="$260.00"
+                price="₦260.00"
                 image="/images/settings/Green-Star.png"
               />
             </section>
@@ -79,35 +79,35 @@ export default function Dashboard() {
               <Card
                 style={{ backgroundColor: "#F1103C" }}
                 heading="Total Post Amount"
-                price="$4.00"
+                price="₦4.00"
                 image="/images/settings/heartStar.png"
               />
 
               <Card
                 style={{ backgroundColor: "#2AB4B3" }}
                 heading="Total Audio Call Amount"
-                price="$0.99"
+                price="₦.99"
                 image="/images/settings/TealStar.png"
               />
 
               <Card
                 style={{ backgroundColor: "#60B93A" }}
                 heading="Total Video Call Amount"
-                price="$44.88"
-                image="/images/settings/Green-Star.png"
+                price="₦44.88"
+                image="/images/settings/chart.png"
               />
 
               <Card
-                style={{ backgroundColor: "#60B93A" }}
-                heading="Total Video Call Amount"
-                price="$44.88"
-                image="/images/settings/Green-Star.png"
+                style={{ backgroundColor: "#ffad01" }}
+                heading="Total Tips Amount"
+                price="₦44.88"
+                image="/images/settings/orangechart.png"
               />
 
               <Card
                 style={{ backgroundColor: "#2AB4B3" }}
                 heading="Total Channels Revenue"
-                price="$0.99"
+                price="₦0.99"
                 image="/images/settings/TealStar.png"
               />
             </section>

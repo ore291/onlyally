@@ -9,7 +9,7 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 
 function MarketButtons() {
   return (
-    <div className="flex justify-between">
+    <div className="block justify-center lg:flex lg:justify-between items-center">
       <div className="flex space-x-2.5 mt-1 ml-2 text-[11px]">
         <div className=" py-1 px-2 rounded flex items-center text-white justify-between gap-2 hover:bg-red-700 bg-lightPlayRed cursor-pointer">
           <div className="font-semibold">
