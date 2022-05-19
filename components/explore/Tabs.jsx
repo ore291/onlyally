@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { Tab } from "@headlessui/react";
-import UserCard from "../userProfile/UserCard";
+
 import { FaChevronDown } from "react-icons/fa";
 import ChannelFilter from "../channels/ChannelFilter";
 import GroupCard from "../groups//GroupCard";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import NewsFeedCard from "../feeds/NewsFeedCard";
 import ExplorePostCard from "./ExplorePostCard";
 import ExploreLoader from "./ExploreLoader";
 import NoDataFound from "../NoDataFound/NoDataFound";
+import CategoryListingIndex from "./CategoryListingIndex";
+
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Tabs() {
+  const dispatch = useDispatch();
   let [categories] = useState(["Post", "Users", "Channels", "Groups"]);
   const posts = useSelector((state) => state.home.homePost.data.posts);
   const explorePosts = useSelector((state) => state.post.explorePosts);
@@ -59,13 +63,6 @@ export default function Tabs() {
               <NoDataFound></NoDataFound>
             )}
 
-            {/* {posts.map((post, index) => (
-                <NewsFeedCard
-                  index={index}
-                  post={post}
-                  key={index}
-                />
-              ))} */}
 
             <div className="w-full row-container space-x-1 py-5">
               <div className="!bg-white border !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
@@ -78,35 +75,7 @@ export default function Tabs() {
           </Tab.Panel>
           {/* users tab */}
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <div className="grid grid-cols-4 gap-x-2 md:gap-x-3 mb-8 md:mb-14 mt-8">
-              <div className="row-container cursor-pointer px-2 py-2 md:w-auto  bg-gray-100 rounded-lg  shadow-lg text-lightPlayRed">
-                <p className="text-xs lg:text-sm font-medium">
-                  Business &#38; funds
-                </p>
-              </div>
-              <div className="row-container cursor-pointer px-3 py-1 md:w-auto  bg-gray-100 rounded-lg  shadow-lg text-lightPlayRed">
-                <p className="text-xs lg:text-sm font-medium">Celebrity</p>
-              </div>
-              <div className="row-container cursor-pointer  px-3 py-1  md:w-auto  bg-gray-100 rounded-lg  shadow-lg text-lightPlayRed">
-                <p className="text-xs lg:text-sm font-medium">Cooking</p>
-              </div>
-              <div className="row-container cursor-pointer  px-3 py-1  md:w-auto  bg-gray-100 rounded-lg  shadow-lg text-lightPlayRed">
-                <p className="text-xs lg:text-sm font-medium">Gaming</p>
-              </div>
-            </div>
-            <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {[...Array(10)].map((_, index) => (
-                <UserCard key={index} />
-              ))}
-            </div>
-            <div className="w-full row-container space-x-1 py-5">
-              <div className="!bg-white border !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
-                <FaChevronDown className="h-3 w-3 text-lightPlayRed" />
-              </div>
-              <p className="text-lightPlayRed font-medium text-sm cursor-pointer">
-                Load more Users
-              </p>
-            </div>
+            <CategoryListingIndex />
           </Tab.Panel>
           {/* channels tab */}
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>

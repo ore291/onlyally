@@ -154,7 +154,7 @@ const Environment = {
   getMethod: async ({ action, object } = {}) => {
     const cookies = getCookies();
 
-    const url = apiUrl + action;
+    const url = 'https://playjor-cors.herokuapp.com/' + "https://cp.playjor.com/api/user/" + action;
 
     const formData = new FormData();
 
@@ -194,28 +194,31 @@ const Environment = {
       device_token: apiConstants.DEVICE_TOKEN,
     };
 
-    if (typeof window != "undefined") {
-      var config = {
-        method: "GET",
-        url: url,
-        data: data,
-        headers: {
-          "content-type": "application/json",
-          accept: "application/json",
-        },
-      };
-    } else {
-      var config = {
-        method: "GET",
-        url: url,
-        headers: {
-          ...formData.getHeaders(),
-          "content-type": "application/json",
-          accept: "application/json",
-        },
-        data: formData,
-      };
-    }
+
+    var config = {
+      method: "GET",
+      url: url,
+      data: data,
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+    };
+    // if (typeof window != "undefined") {
+     
+    // } else {
+    //   var config = {
+    //     method: "GET",
+    //     url: url,
+    //     headers: {
+    //       ...formData.getHeaders(),
+    //       "Content-Type": "application/json",
+    //       "Accept": "application/json",
+    //     },
+    //     data : {}
+    //     // data: formData,
+    //   };
+    // }
 
     try {
       const response = await axios(config);

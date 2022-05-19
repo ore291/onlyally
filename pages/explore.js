@@ -13,6 +13,7 @@ const Explore = () => {
 
   useEffect(() => {
     dispatch(fetchExploreStart());
+   
   }, []);
 
   return (

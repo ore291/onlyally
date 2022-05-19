@@ -17,6 +17,7 @@ import alertReducer from "./AlertSlice";
 import chatReducer from "./chatSlice";
 import chatAssetReducer from "./chatAssetSlice";
 import channelsReducer from "./channelsSlice";
+import userCategoryReducer from "./userCategory";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -40,7 +41,8 @@ const reducers = combineReducers({
   alert: alertReducer,
   chat: chatReducer,
   chatAsset: chatAssetReducer,
-  channels : channelsReducer
+  channels : channelsReducer,
+  userCategory : userCategoryReducer
 });
 
 export default reducers;
