@@ -62,18 +62,12 @@ const CategoryListingIndex = () => {
                   </Tab>
                 ))}
                 {selectedList != null && (
-                  <Tab
+                  <button
                     onClick={handleListClear}
-                    className={({ selected }) =>
-                      classNames(
-                        "w-[150px] rounded-lg py-2.5 text-sm font-medium leading-5 bg-white shadow-lg",
-
-                        selected ? "bg-lightPlayRed/90 text-white" : "bg-white "
-                      )
-                    }
+                    className="w-[150px] shrink-0 rounded-lg py-2.5 text-sm font-medium leading-5 bg-white shadow-lg"
                   >
                     Show All
-                  </Tab>
+                  </button>
                 )}
               </Tab.List>
               <Tab.Panels>

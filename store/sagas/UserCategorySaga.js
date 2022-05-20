@@ -29,9 +29,12 @@ import {
   }
   
   function* fetchContentCreatorListAPI(action) {
-    console.log("ore here:",action.payload)
+    if (action.payload) {
+     var id = action.payload;
+    }
+  
     try {
-      const response = yield api.postMethod({action : "content_creators_list" ,object : action.payload.category_id});
+      const response = yield api.postMethod({action : "content_creators_list" ,object : id});
   
       if (response.data.success) {
         yield put(fetchContentCreatorListSuccess(response.data));

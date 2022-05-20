@@ -4,7 +4,7 @@ const NotificationLoader = (props) => (
   <ContentLoader 
     speed={2}
    
-    viewBox="0 0 900 650"
+    // viewBox="0 0 900 650"
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
     {...props}
