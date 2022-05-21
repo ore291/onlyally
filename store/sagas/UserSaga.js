@@ -17,7 +17,10 @@ import {
   fetchUserLoginSuccess,
   registerSuccess,
   registerFailure,
+  fetchContentCreatorDashboardFailure,
+  fetchContentCreatorDashboardSuccess
 } from "../slices/userSlice";
+
 import { notify } from "reapop";
 
 function* getUserDetailsAPI(action) {
@@ -640,24 +643,19 @@ function* referralValidationAPI() {
 
 function* getContentCreatorDashboardAPI() {
   try {
-    const response = yield api.postMethod("content_creators_dashboard");
+    const response = yield api.postMethod({action : "content_creators_dashboard"});
 
     if (response.data.success) {
       yield put(fetchContentCreatorDashboardSuccess(response.data));
     } else {
-      yield put(fetchContentCreatorDashboardFailure(response.data.error.error));
-      yield put(checkLogoutStatus(response.data));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(notify(notificationMessage));
+      yield put(fetchContentCreatorDashboardFailure(response.data.error));
+      // always change checkLogoutstatus to errorLogoutcheck
+      yield put(errorLogoutCheck(response.data));
+      yield put(notify({message: response.data.error, status: "error"}));
     }
   } catch (error) {
     yield put(fetchContentCreatorDashboardFailure(error));
-    const notificationMessage = getErrorNotificationMessage(
-      error.response.data.error.error
-    );
-    yield put(notify(notificationMessage));
+    yield put(notify({message: error.message, status: "error"}));
   }
 }
 
@@ -862,7 +860,7 @@ export default function* pageSaga() {
     //   yield takeLatest(RESET_PASSWORD_START, resetPasswordAPI),
       yield takeLatest('user/userNameValidationStart', usernameValidationAPI),
       yield takeLatest('user/referralValidationStart', referralValidationAPI),
-    //   yield takeLatest(FETCH_CONTENT_CREATOR_DASHBOARD_START, getContentCreatorDashboardAPI),
+      yield takeLatest('user/fetchContentCreatorDashboardStart', getContentCreatorDashboardAPI),
     //   yield takeLatest(TWO_STEP_AUTH_UPDATE_START, twoStepAuthenticationUpdateAPI),
     //   yield takeLatest(TWO_STEP_AUTHENTICATION_LOGIN_START, twoStepAuthenticationLoginAPI),
     //   yield takeLatest(TWO_STEP_AUTHENTICATION_CODE_RESEND_START, twoStepAuthenticationCodeResendAPI)

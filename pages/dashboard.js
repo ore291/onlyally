@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import Charts from "../components/Charts";
 import ProfileNavItem from "../components/ProfileNavBar";
+import {fetchContentCreatorDashboardStart} from "../store/slices/userSlice";
+import {useDispatch, useSelector} from "react-redux";
+import NoDataFound from "../components/NoDataFound/NoDataFound";
 
 const Card = ({ style, heading, price, image }) => {
   return (
@@ -19,6 +22,13 @@ const Card = ({ style, heading, price, image }) => {
 };
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
+  const dashboardData = useSelector(state => state.user.dashboard)
+
+  useEffect(() => {
+    dispatch(fetchContentCreatorDashboardStart())
+  }, [])
+  
   const followers = [
     {
       name: "SUSHMA H G",
@@ -43,28 +53,28 @@ export default function Dashboard() {
               <Card
                 style={{ backgroundColor: "#ffad01" }}
                 heading="Total Revenue Amount"
-                price="₦44.88"
+                price={dashboardData.data.total_payments}
                 image="/images/settings/Star.png"
               />
 
               <Card
                 style={{ backgroundColor: "#60B93A" }}
                 heading="Total Video Call Amount"
-                price="₦260.00"
+                price={dashboardData.data.video_call_payments}
                 image="/images/settings/Green-Star.png"
               />
 
               <Card
                 style={{ backgroundColor: "#2AB4B3" }}
                 heading="Total Post"
-                price="76"
+                price={dashboardData.data.total_posts}
                 image="/images/settings/book.png"
               />
 
               <Card
                 style={{ backgroundColor: "#F1103C" }}
                 heading="Total Subscription Amount"
-                price="₦39.98"
+                price={dashboardData.data.subscription_payments}
                 image="/images/settings/heartStar.png"
               />
 
@@ -79,28 +89,28 @@ export default function Dashboard() {
               <Card
                 style={{ backgroundColor: "#F1103C" }}
                 heading="Total Post Amount"
-                price="₦4.00"
+                price={dashboardData.data.post_payments}
                 image="/images/settings/heartStar.png"
               />
 
               <Card
                 style={{ backgroundColor: "#2AB4B3" }}
                 heading="Total Audio Call Amount"
-                price="₦.99"
+                price={dashboardData.data.audio_call_payments}
                 image="/images/settings/TealStar.png"
               />
 
               <Card
                 style={{ backgroundColor: "#60B93A" }}
                 heading="Total Video Call Amount"
-                price="₦44.88"
+                price={dashboardData.data.video_call_payments}
                 image="/images/settings/chart.png"
               />
 
               <Card
                 style={{ backgroundColor: "#ffad01" }}
                 heading="Total Tips Amount"
-                price="₦44.88"
+                price={dashboardData.data.user_tips}
                 image="/images/settings/orangechart.png"
               />
 
@@ -116,27 +126,31 @@ export default function Dashboard() {
           <section className="flex-1 space-y-12">
             <h1 className="mb-4">Recent Followers</h1>
             <div>
-              <Charts />
+              <Charts data={dashboardData} />
             </div>
 
             <div className="space-y-2">
-              {followers.map((eachFollow) => (
+             
+              {dashboardData.data?.followers?.length > 0 ? (
+                dashboardData.data?.followers?.map((follower) => (
                 <section
                   className="flex gap-4 border-b-2 border-gray-200 pb-4"
-                  key={eachFollow.name}
+                  key={follower.u_id}
                 >
                   <img
-                    src="/images/settings/pic.jpg"
+                    src={follower.picture}
                     alt="person"
                     width="50px"
                     className="rounded-full"
                   />
                   <div>
-                    <h4 className="font-medium">{eachFollow.name}</h4>
-                    <p className="text-gray-400">{eachFollow.handle}</p>
+                    <h4 className="font-medium">{follower.name}</h4>
+                    <p className="text-gray-400">{follower.username}</p>
                   </div>
-                </section>
-              ))}
+                </section>)
+              )): (
+                <NoDataFound></NoDataFound>
+              )}
             </div>
           </section>
         </div>

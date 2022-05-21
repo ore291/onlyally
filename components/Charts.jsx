@@ -1,50 +1,42 @@
 import React from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { Bar } from "react-chartjs-2";
+import {CategoryScale} from 'chart.js'; 
+import Chart from 'chart.js/auto';
+Chart.register(CategoryScale);
 
-export default function Charts() {
-  const data = [
-    {
-      value: 0,
-      date: 2021,
-    },
-    {
-      value: 50,
-      date: 2022,
-    },
-    {
-      value: 100,
-      date: 2023,
-    },
-    {
-      value: 150,
-      date: 2024,
-    },
-    {
-      value: 200,
-      date: 2025,
-    },
-    {
-      value: 250,
-      date: 2026,
-    },
-  ];
+export default function Charts({ data }) {
+  const state = {
+    labels: data.loading
+      ? ["January", "February", "March", "April", "May"]
+      : data.data.analytics.last_x_days_month,
+    datasets: [
+      {
+        label: "Revenue",
+        backgroundColor: "rgba(75,192,192,1)",
+        borderColor: "rgba(0,0,0,1)",
+        borderWidth: 2,
+        data: data.loading
+          ? [65, 59, 80, 81, 56]
+          : data.data.analytics.last_x_days_earning,
+      },
+    ],
+  };
   return (
     <>
-      <ResponsiveContainer width="100%" height="100%" aspect={1 / 1}>
-        <LineChart data={data}>
-          <XAxis dataKey="date" stroke="#5550bd" />
-          <Line type="monotone" dataKey={"value"} stroke="#5550bd" />
-          <Tooltip />
-          <CartesianGrid stroke="#e0dfdf" strokeDasharray="5 5" />
-        </LineChart>
-      </ResponsiveContainer>
+      <Bar
+        data={state}
+        options={{
+          title: {
+            display: true,
+            text: "last x days revenue",
+            fontSize: 20,
+          },
+          legend: {
+            display: true,
+            position: "right",
+          },
+        }}
+      />
     </>
   );
 }
