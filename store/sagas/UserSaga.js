@@ -7,6 +7,8 @@ var localStorage = require("localStorage");
 import {
   fetchUserDetailsSuccess,
   fetchUserDetailsFailure,
+  updateUserDetailsSuccess,
+  updateUserDetailsFailure,
   userNameValidationSuccess,
   userNameValidationFailure,
   referralValidationSuccess,
@@ -100,8 +102,8 @@ function* getUserDetailsAPI(action) {
 
 function* updateUserDetailsAPI() {
   try {
-    const userData = yield select((state) => state.users.profileInputData.data);
-    const response = yield api.postMethod("update_profile", userData);
+    const userData = yield select((state) => state.user.profileInputData.data);
+    const response = yield api.postMethod({action : "update_profile", object : userData});
     if (response.data.success) {
       yield put(updateUserDetailsSuccess(response.data));
       localStorage.setItem("user_picture", response.data.data.picture);
@@ -132,12 +134,12 @@ function* updateUserDetailsAPI() {
       window.location.assign("/profile");
     } else {
       yield put(
-        notify({ message: response.data.error.error, status: "error" })
+        notify({ message: response.data.error, status: "error" })
       );
-      // yield put(updateUserDetailsFailure( response.data.error.error));
+      yield put(updateUserDetailsFailure( response.data.error));
     }
   } catch (error) {
-    // yield put(updateUserDetailsFailure(error));
+    yield put(updateUserDetailsFailure(error));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
@@ -838,7 +840,7 @@ function* twoStepAuthenticationCodeResendAPI(action) {
 export default function* pageSaga() {
   yield all([
     yield takeLatest("user/fetchUserDetailsStart", getUserDetailsAPI),
-    //   yield takeLatest(UPDATE_USER_DETAILS_START, updateUserDetailsAPI),
+      yield takeLatest("user/updateUserDetailsStart", updateUserDetailsAPI),
     //   yield takeLatest(UPDATE_USER_SUBSCRIPTION_DETAILS_START, updateUserSubscriptionDetailsAPI),
       yield takeLatest("user/loginStart", userLoginAPI),
       yield takeLatest("user/registerStart", userRegisterAPI),
