@@ -152,6 +152,7 @@ const HeaderMenu = ({ user }) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                  onClick={() => router.push("/gopro")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
