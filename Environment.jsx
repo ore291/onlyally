@@ -151,12 +151,13 @@ const Environment = {
     }
   },
 
+  // used for playjor new routes
   getMethod: async ({ action, object } = {}) => {
     const cookies = getCookies();
 
-    const url = apiUrl + action;
+    const url = 'https://playjor-cors.herokuapp.com/' + "https://cp.playjor.com/api/user/" + "groups";
 
-    const formData = new FormData();
+    // const formData = new FormData();
 
     // By Default Id and token
 
@@ -185,37 +186,32 @@ const Environment = {
 
     // formData.append("device_model", device_model);
 
-    var data = {
-      id: cookies.userId,
-      token: cookies.accessToken,
-      device_model: device_model,
-      login_by: apiConstants.LOGIN_BY,
-      device_type: apiConstants.DEVICE_TYPE,
-      device_token: apiConstants.DEVICE_TOKEN,
+    const data = {
+      "id": cookies.userId,
+      "token": cookies.accessToken,
+      "device_model": device_model,
+      "login_by": apiConstants.LOGIN_BY,
+      "device_type": apiConstants.DEVICE_TYPE,
+      "device_token": apiConstants.DEVICE_TOKEN
     };
 
-    if (typeof window != "undefined") {
-      var config = {
-        method: "GET",
-        url: url,
-        data: data,
-        headers: {
-          "content-type": "application/json",
-          accept: "application/json",
-        },
-      };
-    } else {
-      var config = {
-        method: "GET",
-        url: url,
-        headers: {
-          ...formData.getHeaders(),
-          "content-type": "application/json",
-          accept: "application/json",
-        },
-        data: formData,
-      };
-    }
+    console.log(data);
+
+
+
+    var config = {
+      method: "get",
+      url: url,
+      mode: 'no-cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+        "Accept": 'application/json'
+      },
+     credentials: 'same-origin',
+      data
+    };
+   
 
     try {
       const response = await axios(config);

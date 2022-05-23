@@ -14,7 +14,7 @@
 }
 
 @layer components {
-  .circle {
+  .login-circle {
     @apply w-3 h-3 my-6 mx-1 bg-white rounded-full;
   }
 

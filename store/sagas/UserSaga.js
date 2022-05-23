@@ -7,6 +7,8 @@ var localStorage = require("localStorage");
 import {
   fetchUserDetailsSuccess,
   fetchUserDetailsFailure,
+  updateUserDetailsSuccess,
+  updateUserDetailsFailure,
   userNameValidationSuccess,
   userNameValidationFailure,
   referralValidationSuccess,
@@ -17,7 +19,10 @@ import {
   fetchUserLoginSuccess,
   registerSuccess,
   registerFailure,
+  fetchContentCreatorDashboardFailure,
+  fetchContentCreatorDashboardSuccess
 } from "../slices/userSlice";
+
 import { notify } from "reapop";
 
 function* getUserDetailsAPI(action) {
@@ -97,8 +102,8 @@ function* getUserDetailsAPI(action) {
 
 function* updateUserDetailsAPI() {
   try {
-    const userData = yield select((state) => state.users.profileInputData.data);
-    const response = yield api.postMethod("update_profile", userData);
+    const userData = yield select((state) => state.user.profileInputData.data);
+    const response = yield api.postMethod({action : "update_profile", object : userData});
     if (response.data.success) {
       yield put(updateUserDetailsSuccess(response.data));
       localStorage.setItem("user_picture", response.data.data.picture);
@@ -129,12 +134,12 @@ function* updateUserDetailsAPI() {
       window.location.assign("/profile");
     } else {
       yield put(
-        notify({ message: response.data.error.error, status: "error" })
+        notify({ message: response.data.error, status: "error" })
       );
-      // yield put(updateUserDetailsFailure( response.data.error.error));
+      yield put(updateUserDetailsFailure( response.data.error));
     }
   } catch (error) {
-    // yield put(updateUserDetailsFailure(error));
+    yield put(updateUserDetailsFailure(error));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
@@ -640,24 +645,19 @@ function* referralValidationAPI() {
 
 function* getContentCreatorDashboardAPI() {
   try {
-    const response = yield api.postMethod("content_creators_dashboard");
+    const response = yield api.postMethod({action : "content_creators_dashboard"});
 
     if (response.data.success) {
       yield put(fetchContentCreatorDashboardSuccess(response.data));
     } else {
-      yield put(fetchContentCreatorDashboardFailure(response.data.error.error));
-      yield put(checkLogoutStatus(response.data));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(notify(notificationMessage));
+      yield put(fetchContentCreatorDashboardFailure(response.data.error));
+      // always change checkLogoutstatus to errorLogoutcheck
+      yield put(errorLogoutCheck(response.data));
+      yield put(notify({message: response.data.error, status: "error"}));
     }
   } catch (error) {
     yield put(fetchContentCreatorDashboardFailure(error));
-    const notificationMessage = getErrorNotificationMessage(
-      error.response.data.error.error
-    );
-    yield put(notify(notificationMessage));
+    yield put(notify({message: error.message, status: "error"}));
   }
 }
 
@@ -840,7 +840,7 @@ function* twoStepAuthenticationCodeResendAPI(action) {
 export default function* pageSaga() {
   yield all([
     yield takeLatest("user/fetchUserDetailsStart", getUserDetailsAPI),
-    //   yield takeLatest(UPDATE_USER_DETAILS_START, updateUserDetailsAPI),
+      yield takeLatest("user/updateUserDetailsStart", updateUserDetailsAPI),
     //   yield takeLatest(UPDATE_USER_SUBSCRIPTION_DETAILS_START, updateUserSubscriptionDetailsAPI),
       yield takeLatest("user/loginStart", userLoginAPI),
       yield takeLatest("user/registerStart", userRegisterAPI),
@@ -862,7 +862,7 @@ export default function* pageSaga() {
     //   yield takeLatest(RESET_PASSWORD_START, resetPasswordAPI),
       yield takeLatest('user/userNameValidationStart', usernameValidationAPI),
       yield takeLatest('user/referralValidationStart', referralValidationAPI),
-    //   yield takeLatest(FETCH_CONTENT_CREATOR_DASHBOARD_START, getContentCreatorDashboardAPI),
+      yield takeLatest('user/fetchContentCreatorDashboardStart', getContentCreatorDashboardAPI),
     //   yield takeLatest(TWO_STEP_AUTH_UPDATE_START, twoStepAuthenticationUpdateAPI),
     //   yield takeLatest(TWO_STEP_AUTHENTICATION_LOGIN_START, twoStepAuthenticationLoginAPI),
     //   yield takeLatest(TWO_STEP_AUTHENTICATION_CODE_RESEND_START, twoStepAuthenticationCodeResendAPI)

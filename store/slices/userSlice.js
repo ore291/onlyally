@@ -2,8 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
-  loginData: {
-  },
+  loginData: {},
   profile: {
     data: {},
     loading: true,
@@ -686,6 +685,27 @@ export const UserSlice = createSlice({
         loadingButtonContent: null,
       };
     },
+    fetchContentCreatorDashboardStart: (state, action) => {
+      state.dashboard = {
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+    fetchContentCreatorDashboardSuccess: (state, action) => {
+      state.dashboard = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchContentCreatorDashboardFailure: (state, action) => {
+      state.dashboard = {
+        data: {},
+        loading: true,
+        error: action.payload,
+      };
+    },
   },
 
   extraReducers: {
@@ -754,6 +774,9 @@ export const {
   referralValidationStart,
   referralValidationSuccess,
   referralValidationFailure,
+  fetchContentCreatorDashboardStart,
+  fetchContentCreatorDashboardFailure,
+  fetchContentCreatorDashboardSuccess
 } = UserSlice.actions;
 
 export default UserSlice.reducer;
