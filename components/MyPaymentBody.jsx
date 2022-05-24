@@ -65,8 +65,8 @@ function MyPaymentBody() {
   ];
   return (
     <div className="space-y-7">
-      <div className="h-[85%] bg-white width-full rounded-lg space-y-3">
-        <div className="grid grid-cols-4 justify-items-center	text-[13px] text-lightPlayRed font-bold">
+      <div className="h-fit bg-white w-full rounded-lg space-y-3">
+        <div className="block lg:flex text-[13px] text-lightPlayRed font-bold">
           <p>Paid to</p>
           <p>Date</p>
           <p>Amount</p>
@@ -101,7 +101,9 @@ function MyPaymentBody() {
       </div>
       <div className="flex justify-center space-x-5 font-semibold text-lightPlayRed">
         <div className="flex justify-center space-x-2.5">
-          <p className="text-white bg-lightPlayRed px-[7px]  rounded-md font-semibold">1</p>
+          <p className="text-white bg-lightPlayRed px-[7px]  rounded-md font-semibold">
+            1
+          </p>
           <p>2</p>
         </div>
         <p>Next</p>

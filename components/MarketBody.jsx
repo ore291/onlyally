@@ -1,11 +1,11 @@
 function MarketBody() {
   return (
-    <div className="flex w-full space-x-5">
-      <div className="mt-6 p-2 shadow-md shadow-gray-300 rounded-md w-[48%] ml-3">
+    <div className="block lg:flex w-full space-x-5">
+      <div className="mt-6 p-2 shadow-md shadow-gray-300 rounded-md w-full lg:w-[48%] lg:ml-3">
         <img
-          src="images/Illustration/football.jpg"
+          src="/images/settings/1.jpg"
           alt="Order image"
-          className="w-32 h-[100px] flex justify-start"
+          className="w-1/5 flex justify-start"
         />
         <div className="mt-4 mb-4">
           <div>
@@ -65,7 +65,7 @@ function MarketBody() {
         </div>
       </div>
 
-      <div className=" shadow-md shadow-gray-300 rounded-md w-[48%] px-3  mt-6 p-2 h-[110%]">
+      <div className=" shadow-md shadow-gray-300 rounded-md w-full lg:w-[48%]   mt-6 p-2 h-[110%]">
         <div className="">
           <p className="text-gray-400 font-medium mb-4 mt-1.5 ">
             Order Summary

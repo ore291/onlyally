@@ -65,7 +65,7 @@ function ProfileNavItem({
   };
   return (
     <>
-      <div className="mt-16 flex justify-end  p-2  md:hidden">
+      <div className="mt-16 flex justify-end  p-2  lg:hidden">
         {icon ? (
           <FaTimes size="25px" color="#B30D28" onClick={handleNav} />
         ) : (
@@ -73,8 +73,8 @@ function ProfileNavItem({
         )}
       </div>
       {nav ? (
-        <div className="mt-0 md:mt-16 w-[20%] px-2 md:px-0 z-0">
-          <div className="pr-7 py-7 block md:bg-white rounded shadow-sm ">
+        <div className="lg-0 lg:mt-16 w-[20%] px-2 lg:px-0 z-0">
+          <div className="pr-7 py-7 block lg:bg-white rounded shadow-sm ">
             <ProSidebar className="block">
               <Menu iconShape="circle" className="font-medium text-gray-600">
                 <MenuItem
@@ -256,7 +256,7 @@ function ProfileNavItem({
           </div>
         </div>
       ) : null}
-      <div className="mt-0 md:mt-16 w-[20%] px-2 md:px-0 z-0 hidden md:block">
+      <div className="lg-0 lg:mt-16 w-[20%] px-2 lg:px-0 z-0 hidden lg:block">
         <div className="pr-7 py-7 block md:bg-white rounded shadow-sm ">
           <ProSidebar className="block">
             <Menu iconShape="circle" className="font-medium text-gray-600">

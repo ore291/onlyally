@@ -78,7 +78,7 @@ export default function Referrals() {
   ];
   return (
     <>
-      <div className="flex flex-col justify-center md:flex-row">
+      <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem referralsColor={"#B30D28"} />
         <div className="w-full lg:w-[95%] border-0 border-b-2 border-gray-300 bg-white px-4 mx-auto mt-20 lg:mr-16 lg:ml-6 shadow py-4">
           <section className="flex justify-center">
