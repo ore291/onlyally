@@ -19,7 +19,9 @@ import {
 
 var FormData = require("form-data");
 
-const apiUrl = "https://cms.onlyally.com/api/user/"; // Production Mode
+
+
+const apiUrl = "https://cp.playjor.com/api/user/"; // Production Mode
 
 // const apiUrl = "http://localhost:8000/api/user/"; // Local Mode
 
@@ -155,25 +157,26 @@ const Environment = {
   getMethod: async ({ action, object } = {}) => {
     const cookies = getCookies();
 
-    const url = 'https://playjor-cors.herokuapp.com/' + "https://cp.playjor.com/api/user/" + "groups";
+    const url =
+      "https://playjor-cors.herokuapp.com/" +
+      "https://cp.playjor.com/api/user/" + action;
 
-    // const formData = new FormData();
+    const formData = new FormData();
 
     // By Default Id and token
+    formData.append("id", cookies.userId);
+    formData.append("token", cookies.accessToken);
 
-    // formData.append("id", cookies.userId);
-    // formData.append("token", cookies.accessToken);
+    // append your data
+    for (var key in object) {
+      formData.append(key, object[key]);
+    }
 
-    // // append your data
-    // for (var key in object) {
-    //   formData.append(key, object[key]);
-    // }
+    // By Default added device type and login type in future use
 
-    // // By Default added device type and login type in future use
-
-    // formData.append("login_by", apiConstants.LOGIN_BY);
-    // formData.append("device_type", apiConstants.DEVICE_TYPE);
-    // formData.append("device_token", apiConstants.DEVICE_TOKEN);
+    formData.append("login_by", apiConstants.LOGIN_BY);
+    formData.append("device_type", apiConstants.DEVICE_TYPE);
+    formData.append("device_token", apiConstants.DEVICE_TOKEN);
 
     var device_model = "";
     if (isAndroid == true) {
@@ -184,46 +187,97 @@ const Environment = {
       device_model = browserName + " " + browserVersion;
     }
 
-    // formData.append("device_model", device_model);
+    formData.append("device_model", device_model);
 
-    const data = {
-      "id": cookies.userId,
-      "token": cookies.accessToken,
-      "device_model": device_model,
-      "login_by": apiConstants.LOGIN_BY,
-      "device_type": apiConstants.DEVICE_TYPE,
-      "device_token": apiConstants.DEVICE_TOKEN
-    };
+    // const data = {
+    //   id: cookies.userId,
+    //   token: cookies.accessToken,
+    //   device_model: device_model,
+    //   device_type: apiConstants.DEVICE_TYPE,
+    //   device_token: apiConstants.DEVICE_TOKEN,
+    // };
 
-    console.log(data);
+    // console.log(data);
 
+    // var config = {
+    //   method: "get",
+    //   url: url,
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     "Accept": 'application/json'
+    //   },
+    //   data : {
+    //     "id": cookies.userId,
+    //     "token": cookies.accessToken,
+    //     "device_model": device_model,
+    //     "device_type": apiConstants.DEVICE_TYPE,
+    //     "device_token": apiConstants.DEVICE_TOKEN
+    //   }
+    // };
 
+    //   try {
+    //     // const response = await axios(config);
+    //     const response = await axios.get(
+    //       url,
+
+    //       {
+
+    //         headers: {
+    //           // Overwrite Axios's automatically set Content-Type
+    //           'Content-Type' : "application/json",
+    //           'Accept': "application/json",
+    //         },
+    //       }
+    //     );
+    //     if (action === "channels") {
+    //       console.log(response);
+    //     }
+    //     return response;
+    //   } catch (error) {
+    //     return error;
+    //     console.log(error);
+    //   }
+
+    var data = JSON.stringify({
+      id: 4,
+      token: "2y10Y8IQpKSTSvwXbsw7DsfEOpyb0RJ2ejWKdSFcvsF3P7IO0ADDZ5i",
+      device_model: "Chrome 101",
+    });
 
     var config = {
-      method: "get",
+      method: "POST",
       url: url,
-      mode: 'no-cors',
       headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json',
-        "Accept": 'application/json'
+        "Accept": "application/json",
+        'X-HTTP-Method-Override': 'GET' ,
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Authorization",
       },
-     credentials: 'same-origin',
-      data
+      data : formData,
     };
-   
 
     try {
       const response = await axios(config);
-      if (action === "channels") {
-        console.log(response);
-      }
       return response;
     } catch (error) {
-      return error;
-      console.log(error);
+      console.log(error.message);
     }
+    // axios(config)
+    //   .then(function (response) {
+    //     return response
+    //   })
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+
+  
+  
   },
+
+
+
 };
 
 export default Environment;

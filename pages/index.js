@@ -18,6 +18,7 @@ import {
   fetchUserDetailsSuccess,
   fetchUserLoginSuccess,
 } from "../store/slices/userSlice";
+import { fetchChannelsStart } from "../store/slices/channelsSlice";
 import { fetchStoriesStart } from "../store/slices/storiesSlice";
 import { fetchHomePostsStart } from "../store/slices/homeSlice";
 import Sticky from "react-stickynode";
@@ -188,6 +189,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
           device_model: device_model,
         })
       );
+
+      store.dispatch(fetchChannelsStart());
+
       store.dispatch(fetchConfigurationStart());
 
       store.dispatch(END);
