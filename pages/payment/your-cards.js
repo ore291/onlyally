@@ -24,17 +24,18 @@ function CardPayment() {
 
   return (
     <div>
-      <div className="flex p-2 rounded shadow">
+      <div className="flex flex-col justify-center lg:flex-row">
+        {" "}
         <ProfileNavBar className="w-24 mb-8" />
-        <div className=" w-full px-1 mx-auto pt-3 mr-24  mt-12 bg-white space-y-4">
+        <div className=" bg-white  mx-auto mt-10 mr-0 lg:mr-16 ml-0 lg:ml-6 shadow py-4 px-8 block ">
           <p className=" ml-10 mt-4 font-bold flex justify-center ">
             Your Card
           </p>
           <hr />
-          <div className="grid grid-cols-3 gap-y-4 gap-x-6">
+          <div className="block lg:flex flex-wrap gap-8 mt-8 space-y-4">
             {cardDetails.map((card, index) => (
               <div
-                className="w-[335px] h-32 shadow-md shadow-gray-200  border border-gray-300 space-y-3 rounded-lg p-3 "
+                className="w-full lg:w-1/3 h-fit shadow-md shadow-gray-200 hover:bg-gray-50 border border-gray-300 space-y-3 rounded-lg p-3 "
                 key={index}
               >
                 <p className="text-[16px] font-bold ">{card.cardNumber}</p>
@@ -52,8 +53,8 @@ function CardPayment() {
                 </div>
               </div>
             ))}
-              <div className="w-[335px] h-30 shadow-md shadow-gray-200  border border-gray-300 rounded-lg p-2 ">
-                  <div className="flex flex-col justify-center items-center space-y-2 ">
+            <div className="w-full lg:w-1/3 h-fit shadow-md shadow-gray-200 hover:bg-gray-50 border border-gray-300 rounded-lg p-2 ">
+              <div className="flex flex-col justify-center items-center space-y-2 ">
                 <Image
                   src="/images/Illustration/add a card.jpg"
                   alt="Picture of the author"

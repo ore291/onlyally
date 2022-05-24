@@ -4,7 +4,7 @@ import ProfileNavItem from "../../components/ProfileNavBar";
 export default function Profile() {
   return (
     <>
-      <div className="flex flex-col justify-center md:flex-row">
+      <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem />
         <div className="w-full lg:w-4/5 bg-white px-4 mx-auto mt-20 lg:mr-16 lg:ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-12">
           <section className="space-y-2 ">
@@ -12,7 +12,7 @@ export default function Profile() {
               Edit Profile
             </h1>
             <p className="font-semibold text-gray-400  uppercase">
-              Change Profile and Cover PHOTOS
+              Change Profile and Cover PHOTO
             </p>
 
             <div className="shadow-md">

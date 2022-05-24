@@ -6,7 +6,7 @@ import OrderList from "../../components/OrderList.jsx";
 function Order() {
   return (
     <div>
-      <div className="flex flex-col justify-center md:flex-row">
+      <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavBar className="w-24 mb-8" />
         <div className=" w-full px-1 mx-auto pt-3 mr-24  mt-12 bg-white rounded space-y-3">
           <MarketButtons className=" mr-4" />

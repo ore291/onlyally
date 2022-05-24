@@ -1,8 +1,8 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Charts from "../components/Charts";
 import ProfileNavItem from "../components/ProfileNavBar";
-import {fetchContentCreatorDashboardStart} from "../store/slices/userSlice";
-import {useDispatch, useSelector} from "react-redux";
+import { fetchContentCreatorDashboardStart } from "../store/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import NoDataFound from "../components/NoDataFound/NoDataFound";
 
 const Card = ({ style, heading, price, image }) => {
@@ -23,12 +23,12 @@ const Card = ({ style, heading, price, image }) => {
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const dashboardData = useSelector(state => state.user.dashboard)
+  const dashboardData = useSelector((state) => state.user.dashboard);
 
   useEffect(() => {
-    dispatch(fetchContentCreatorDashboardStart())
-  }, [])
-  
+    dispatch(fetchContentCreatorDashboardStart());
+  }, []);
+
   const followers = [
     {
       name: "SUSHMA H G",
@@ -45,10 +45,10 @@ export default function Dashboard() {
   ];
   return (
     <>
-      <div className="flex flex-col justify-center md:flex-row">
+      <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem dashboardColor={"#B30D28"} />
-        <div className=" bg-white  mx-auto mt-20 mr-0 md:mr-16 ml-0 md:ml-6 shadow py-4 px-8 block md:flex  gap-12 justify-between">
-          <div className="block md:flex gap-4 w-full md:w-[66%]">
+        <div className=" bg-white  mx-auto mt-20 mr-0 md:mr-16 ml-0 md:ml-6 shadow py-4 px-8 block lg:flex  gap-12 justify-between">
+          <div className="block lg:flex gap-4 w-full lg:w-[66%] space-y-4">
             <section className="space-y-4">
               <Card
                 style={{ backgroundColor: "#ffad01" }}
@@ -130,25 +130,25 @@ export default function Dashboard() {
             </div>
 
             <div className="space-y-2">
-             
               {dashboardData.data?.followers?.length > 0 ? (
                 dashboardData.data?.followers?.map((follower) => (
-                <section
-                  className="flex gap-4 border-b-2 border-gray-200 pb-4"
-                  key={follower.u_id}
-                >
-                  <img
-                    src={follower.picture}
-                    alt="person"
-                    width="50px"
-                    className="rounded-full"
-                  />
-                  <div>
-                    <h4 className="font-medium">{follower.name}</h4>
-                    <p className="text-gray-400">{follower.username}</p>
-                  </div>
-                </section>)
-              )): (
+                  <section
+                    className="flex gap-4 border-b-2 border-gray-200 pb-4"
+                    key={follower.u_id}
+                  >
+                    <img
+                      src={follower.picture}
+                      alt="person"
+                      width="50px"
+                      className="rounded-full"
+                    />
+                    <div>
+                      <h4 className="font-medium">{follower.name}</h4>
+                      <p className="text-gray-400">{follower.username}</p>
+                    </div>
+                  </section>
+                ))
+              ) : (
                 <NoDataFound></NoDataFound>
               )}
             </div>

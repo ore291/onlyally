@@ -1,5 +1,5 @@
-import { BiPaperPlane } from 'react-icons/bi'
-import Image from 'next/image';
+import { BiPaperPlane } from "react-icons/bi";
+import Image from "next/image";
 
 function SubscribeBody() {
   const paymentDetails = [
@@ -8,70 +8,70 @@ function SubscribeBody() {
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
     {
       name: "John Doe",
       date: "15 march 2022",
       interval: "Monthly",
       end: "15 jun 2022",
-      status: "Active"
+      status: "Active",
     },
   ];
   return (
@@ -90,23 +90,21 @@ function SubscribeBody() {
           <div className="space-y-2" key={index}>
             <div className="grid grid-cols-5 justify-items-center	text-[13px]">
               <div className="flex justify-center space-x-2">
-                <Image
+                <img
                   src="/images/person 9.jpg"
                   alt="Picture of the author"
-                  width={20}
-                  height={20}
-                  className="rounded-full"
+                  className="rounded-full w-1/2 lg:w-1/6 "
                 />
-                <span className='flex justify-center space-x-2 text-lightPlayRed'>
-                <p >{payment.name} </p>
-                <BiPaperPlane /> 
+                <span className="flex justify-center space-x-2 text-lightPlayRed">
+                  <p>{payment.name} </p>
+                  <BiPaperPlane />
                 </span>
               </div>
               <p>{payment.date}</p>
               <p>{payment.interval}</p>
               <p>{payment.end}</p>
               <button className="text-white bg-green-600 text-10 px-1 rounded-md font-semibold">
-              <p>{payment.status}</p>
+                <p>{payment.status}</p>
               </button>
             </div>
             <hr />
@@ -118,4 +116,4 @@ function SubscribeBody() {
   );
 }
 
-export default SubscribeBody
+export default SubscribeBody;
