@@ -26,7 +26,7 @@ export default function Session() {
   ];
   return (
     <>
-      <div className="flex flex-col justify-center md:flex-row">
+      <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem />
         <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
           <section className="w-2/3 mx-auto space-y-4 ">

@@ -5,7 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 export default function AudioCalls() {
   return (
     <>
-      <div className="flex flex-col justify-center md:flex-row">
+      <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem />
         <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
           <section className="bg-red-100 space-y-2  p-4">
