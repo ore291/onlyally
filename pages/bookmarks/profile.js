@@ -12,7 +12,7 @@ export default function Profile() {
               Edit Profile
             </h1>
             <p className="font-semibold text-gray-400  uppercase">
-              Change Profile and Cover PHOTOS
+              Change Profile and Cover PHOTO
             </p>
 
             <div className="shadow-md">

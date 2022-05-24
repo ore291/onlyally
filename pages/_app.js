@@ -32,13 +32,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
       configuration.set({ configData: configValue.data }, { freeze: false });
       console.log(configValue.data);
-      
     } catch (error) {
       configuration.set({ configData: [] }, { freeze: false });
-      
     }
-
-  
   };
 
   useEffect(() => {
