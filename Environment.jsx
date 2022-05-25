@@ -118,7 +118,7 @@ const Environment = {
         // device_model = "Chrome" + " " + "100";
       }
       formData.append("device_model", device_model);
-      console.log(device_model);
+
     }
 
     if (typeof window != "undefined") {

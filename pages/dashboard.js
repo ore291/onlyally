@@ -29,20 +29,7 @@ export default function Dashboard() {
     dispatch(fetchContentCreatorDashboardStart());
   }, []);
 
-  const followers = [
-    {
-      name: "SUSHMA H G",
-      handle: "@sush",
-    },
-    {
-      name: "tehseen",
-      handle: "tehseen.khan009",
-    },
-    {
-      name: "PattySibea",
-      handle: "PattySibea",
-    },
-  ];
+ 
   return (
     <>
       <div className="flex flex-col justify-center lg:flex-row">
