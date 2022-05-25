@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { fetchChannelsStart , channelSubscribeStart} from "../../store/slices/channelsSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
 
+// .filter(filterchannel => !checkMember(filterchannel.members)) code for filtering
 
 const LikedChannels = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const LikedChannels = () => {
           
              <div className="grid grid-cols-1 gap-y-2" >
              {
-            channels.length > 0 ? (channels.filter(filterchannel => !checkMember(filterchannel.members)).map((channel, i) => (
+            channels.length > 0 ? (channels.map((channel, i) => (
          
             <div className="grid grid-cols-4 place-content-center items-center justify-center  w-full" key={i}>
               <div className=" w-12 h-12 relative ">
