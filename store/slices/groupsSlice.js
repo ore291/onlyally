@@ -4,9 +4,15 @@ import { HYDRATE } from "next-redux-wrapper";
 const initialState = {
   groups: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
+  joinGroup : {
+    inputData: null,
+    data: {},
+    loading: false,
+    error: false,
+  }
 };
 
 export const GroupsSlice = createSlice({
@@ -34,6 +40,30 @@ export const GroupsSlice = createSlice({
         error: action.payload,
       };
     },
+    joinGroupStart: (state, action)=>{
+      state.joinGroup = {
+        inputData: action.payload,
+        loading: true,
+        error: false,
+        data: {},
+      }
+    },
+    joinGroupSuccess: (state, action)=>{
+      state.joinGroup = {
+        inputData:null,
+        loading: false,
+        error: false,
+        data: action.payload,
+      }
+    },
+    joinGroupFailure: (state, action)=>{
+      state.joinGroup = {
+        inputData: null,
+        loading: false,
+        error: action.payload,
+        data: {},
+      }
+    },
   },
 
  
@@ -43,6 +73,9 @@ export const {
   fetchGroupsStart,
   fetchGroupsSuccess,
   fetchGroupsFailure,
+  joinGroupStart,
+  joinGroupSuccess,
+  joinGroupFailure
 } = GroupsSlice.actions;
 
 export default GroupsSlice.reducer;

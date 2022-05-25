@@ -19,6 +19,7 @@ function* fetchChannelsAPI(action) {
       });
       if (response.data.success) {
         yield put(fetchChannelsSuccess(response.data.data));
+
       } else {
         yield put(fetchChannelsFailure( response.data.error));
         yield put(notify({message : response.data.error, status :'error'}));
@@ -35,9 +36,9 @@ function* channelSubscribeAPI(action) {
       const response = yield api.putMethod({
         action: `channels/${inputData}/member`
       });
-      console.log(response);
       if (response.data.success) {
         yield put(channelSubscribeSuccess(response.data.data));
+        yield put(notify({message : "Channel channelSubscribed", status :'success'}));
       } else {
         yield put(channelSubscribeFailure( response.data.error));
         yield put(notify({message : response.data.error, status :'error'}));

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Button from "../Button.jsx";
 import { BsFillPlusCircleFill } from "react-icons/bs";
+import { joinGroupStart } from "../../store/slices/groupsSlice.js";
 import {useSelector, useDispatch} from "react-redux";
 const GroupCard = ({
   filter,
@@ -10,6 +11,8 @@ const GroupCard = ({
   groupsSuggestion,
   group
 }) => {
+
+  const dispatch = useDispatch();
 
   const user = useSelector(state => state.user.loginData)
 
@@ -24,6 +27,10 @@ const GroupCard = ({
      return members.includes(user.user_id)
   }
     
+  const handleJoinGroup = (slug)=>{
+      dispatch(joinGroupStart(slug));
+  }
+  
 
   if (groupsSuggestion) {
     return (
@@ -247,7 +254,12 @@ const GroupCard = ({
       </div>
       <div className="flex justify-between ml-20 items-center space-x-6">
         <p className="text-sm font-bold whitespace-nowrap">{group.name}</p>
-        <Button text={checkMember(group.members) ? "View" : "Join" } active={true} />
+        {
+                  checkMember(channel.members) ? (
+                    <Button  text="view" active={true}  />
+                  ) : <Button  text="Join" active={true} onClick={(e)=>handleJoinGroup(group.slug)} />
+                }
+        
       </div>
     </div>
   );
