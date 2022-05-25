@@ -255,7 +255,7 @@ const GroupCard = ({
       <div className="flex justify-between ml-20 items-center space-x-6">
         <p className="text-sm font-bold whitespace-nowrap">{group.name}</p>
         {
-                  checkMember(channel.members) ? (
+                  checkMember(group.members) ? (
                     <Button  text="view" active={true}  />
                   ) : <Button  text="Join" active={true} onClick={(e)=>handleJoinGroup(group.slug)} />
                 }
