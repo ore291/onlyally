@@ -1,13 +1,30 @@
 import Image from "next/image";
 import Button from "../Button.jsx";
 import { BsFillPlusCircleFill } from "react-icons/bs";
+import {useSelector, useDispatch} from "react-redux";
 const GroupCard = ({
   filter,
   profile,
   groups,
   groupsAll,
   groupsSuggestion,
+  group
 }) => {
+
+  const user = useSelector(state => state.user.loginData)
+
+
+  const checkMember = (memberList) =>{
+    console.log(memberList);
+      var members =  memberList.map((member)=>{
+        return member.user_id
+        
+      })
+
+     return members.includes(user.user_id)
+  }
+    
+
   if (groupsSuggestion) {
     return (
       <div className="row-container space-x-1">
@@ -204,6 +221,7 @@ const GroupCard = ({
       </div>
     );
   }
+
   return (
     <div className="flex flex-col w-full relative space-y-1 rounded-t-lg ">
       <div className="w-full h-24 rounded-lg relative">
@@ -228,8 +246,8 @@ const GroupCard = ({
         </div>
       </div>
       <div className="flex justify-between ml-20 items-center space-x-6">
-        <p className="text-sm font-bold">thesidegist</p>
-        <Button text="JOIN" active={true} />
+        <p className="text-sm font-bold whitespace-nowrap">{group.name}</p>
+        <Button text={checkMember(group.members) ? "View" : "Join" } active={true} />
       </div>
     </div>
   );

@@ -190,7 +190,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         })
       );
 
-      store.dispatch(fetchChannelsStart());
+      
 
       store.dispatch(fetchConfigurationStart());
 

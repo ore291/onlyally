@@ -189,54 +189,7 @@ const Environment = {
 
     formData.append("device_model", device_model);
 
-    // const data = {
-    //   id: cookies.userId,
-    //   token: cookies.accessToken,
-    //   device_model: device_model,
-    //   device_type: apiConstants.DEVICE_TYPE,
-    //   device_token: apiConstants.DEVICE_TOKEN,
-    // };
-
-    // console.log(data);
-
-    // var config = {
-    //   method: "get",
-    //   url: url,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     "Accept": 'application/json'
-    //   },
-    //   data : {
-    //     "id": cookies.userId,
-    //     "token": cookies.accessToken,
-    //     "device_model": device_model,
-    //     "device_type": apiConstants.DEVICE_TYPE,
-    //     "device_token": apiConstants.DEVICE_TOKEN
-    //   }
-    // };
-
-    //   try {
-    //     // const response = await axios(config);
-    //     const response = await axios.get(
-    //       url,
-
-    //       {
-
-    //         headers: {
-    //           // Overwrite Axios's automatically set Content-Type
-    //           'Content-Type' : "application/json",
-    //           'Accept': "application/json",
-    //         },
-    //       }
-    //     );
-    //     if (action === "channels") {
-    //       console.log(response);
-    //     }
-    //     return response;
-    //   } catch (error) {
-    //     return error;
-    //     console.log(error);
-    //   }
+  
 
     var data = JSON.stringify({
       id: 4,

@@ -4,7 +4,7 @@ import { HYDRATE } from "next-redux-wrapper";
 const initialState = {
   channels: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
 };
@@ -33,6 +33,16 @@ export const ChannelsSlice = createSlice({
         loading: false,
         error: action.payload,
       };
+    },
+  },
+
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.channels.channels.data) {
+        return state;
+      }
+      state.data = action.payload.channels.channels.data;
     },
   },
 });

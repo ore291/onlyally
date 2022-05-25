@@ -8,9 +8,21 @@ import CommonCenterLoader from "../helpers/CommonCenterLoader";
 
 const LikedChannels = () => {
   const dispatch = useDispatch();
-  const channels = useSelector(state => state.channels.channels)
+  const channels = useSelector(state => state.channels.channels.data);
+  const user = useSelector(state => state.user.loginData)
+
+
+  const checkMember = (memberList) =>{
+      var members =  memberList.map((member)=>{
+        return member.user_id
+        
+      })
+
+     return members.includes(user.user_id)
+  }
   useEffect(() => {
     dispatch(fetchChannelsStart())
+    
   }, [])
   return (
     <div className="side-container">
@@ -28,26 +40,33 @@ const LikedChannels = () => {
             </div>
           ) : (
             <>
-            {[...Array(4)].map((_, i) => (
-          <div className="flex flex-col" key={i}>
-            <div className="flex justify-between items-center space-x-6">
-              <div className=" w-12 h-12 relative">
+          
+             <div className="grid grid-cols-1 gap-y-2" >
+             {
+            channels.length > 0 ? (channels.filter(filterchannel => !checkMember(filterchannel.members)).map((channel, i) => (
+         
+            <div className="grid grid-cols-4 place-content-center items-center justify-center  w-full" key={i}>
+              <div className=" w-12 h-12 relative ">
                 <Image
                   src="/profile_avatar_full.jpg"
                   alt="side-img"
                   layout="fill"
                   objectFit="cover"
-                  className="relative rounded-full w-12 h-12"
+                  className="rounded-full"
                 />
               </div>
-              <div className="flex flex-col space-y-.5">
-                <p className="font-bold  text-gray-600">Graphic Design</p>
-                <span className="text-sm font-semibold">345k Following</span>
+              <div className="flex flex-col space-y-.5 col-span-2 " >
+                <p className="font-bold text-sm  text-gray-600 whitespace-nowrap">{channel.name}</p>
+                <span className="text-xs font-semibold">{channel.members.length} Subscribers</span>
               </div>
-              <Button text="Subscribe" active={true} />
+              <div className=" row-container" >
+                <Button text={checkMember(channel.members) ? "view" : "Subscribe"} active={true}  />
+              </div>
+              
             </div>
-          </div>
-        ))}
+         
+        ))) : null}
+         </div>
             </>
           )
         }
