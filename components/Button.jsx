@@ -1,6 +1,7 @@
-const Button = ({ text, active, extraClasses, textClass }) => {
+const Button = ({ text, active, extraClasses, textClass , onClick }) => {
   return (
     <button
+      onClick={onClick}
       className={`${
         extraClasses ? extraClasses : "w-20 h-7"
       } ${

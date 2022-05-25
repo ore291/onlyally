@@ -7,6 +7,12 @@ const initialState = {
     loading: false,
     error: false,
   },
+  channelSubscribe:{
+    inputData: null,
+    loading: false,
+    error: false,
+    data: {},
+  }
 };
 
 export const ChannelsSlice = createSlice({
@@ -34,6 +40,30 @@ export const ChannelsSlice = createSlice({
         error: action.payload,
       };
     },
+    channelSubscribeStart: (state, action)=>{
+      state.channelSubscribe = {
+        inputData: action.payload,
+        loading: true,
+        error: false,
+        data: {},
+      }
+    },
+    channelSubscribeSuccess: (state, action)=>{
+      state.channelSubscribe = {
+        inputData:null,
+        loading: false,
+        error: false,
+        data: action.payload,
+      }
+    },
+    channelSubscribeFailure: (state, action)=>{
+      state.channelSubscribe = {
+        inputData: null,
+        loading: false,
+        error: action.payload,
+        data: {},
+      }
+    },
   },
 
   extraReducers: {
@@ -51,6 +81,9 @@ export const {
   fetchChannelsStart,
   fetchChannelsSuccess,
   fetchChannelsFailure,
+  channelSubscribeStart,
+  channelSubscribeSuccess,
+  channelSubscribeFailure
 } = ChannelsSlice.actions;
 
 export default ChannelsSlice.reducer;

@@ -3,13 +3,18 @@ import Image from "next/image";
 
 import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
-import { fetchChannelsStart } from "../../store/slices/channelsSlice";
+import { fetchChannelsStart , channelSubscribeStart} from "../../store/slices/channelsSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
+
 
 const LikedChannels = () => {
   const dispatch = useDispatch();
   const channels = useSelector(state => state.channels.channels.data);
   const user = useSelector(state => state.user.loginData)
+
+  const joinChannel = (slug)=>{
+    dispatch(channelSubscribeStart(slug))
+  }
 
 
   const checkMember = (memberList) =>{
@@ -60,7 +65,12 @@ const LikedChannels = () => {
                 <span className="text-xs font-semibold">{channel.members.length} Subscribers</span>
               </div>
               <div className=" row-container" >
-                <Button text={checkMember(channel.members) ? "view" : "Subscribe"} active={true}  />
+                {
+                  checkMember(channel.members) ? (
+                    <Button  text="view" active={true}  />
+                  ) : <Button  text="Subscribe" active={true} onClick={e => joinChannel(channel.slug)} />
+                }
+                
               </div>
               
             </div>

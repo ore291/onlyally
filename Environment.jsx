@@ -19,8 +19,6 @@ import {
 
 var FormData = require("form-data");
 
-
-
 const apiUrl = "https://cp.playjor.com/api/user/"; // Production Mode
 
 // const apiUrl = "http://localhost:8000/api/user/"; // Local Mode
@@ -118,7 +116,6 @@ const Environment = {
         // device_model = "Chrome" + " " + "100";
       }
       formData.append("device_model", device_model);
-
     }
 
     if (typeof window != "undefined") {
@@ -159,6 +156,70 @@ const Environment = {
 
     const url =
       "https://playjor-cors.herokuapp.com/" +
+      "https://cp.playjor.com/api/user/" +
+      action;
+
+    const formData = new FormData();
+
+    // By Default Id and token
+    formData.append("id", cookies.userId);
+    formData.append("token", cookies.accessToken);
+
+    // append your data
+    for (var key in object) {
+      formData.append(key, object[key]);
+    }
+
+    // By Default added device type and login type in future use
+
+    formData.append("login_by", apiConstants.LOGIN_BY);
+    formData.append("device_type", apiConstants.DEVICE_TYPE);
+    formData.append("device_token", apiConstants.DEVICE_TOKEN);
+
+    var device_model = "";
+    if (isAndroid == true) {
+      device_model = mobileModel;
+    } else if (isIOS == true) {
+      device_model = mobileModel;
+    } else {
+      device_model = browserName + " " + browserVersion;
+    }
+
+    formData.append("device_model", device_model);
+
+    var data = JSON.stringify({
+      id: 4,
+      token: "2y10Y8IQpKSTSvwXbsw7DsfEOpyb0RJ2ejWKdSFcvsF3P7IO0ADDZ5i",
+      device_model: "Chrome 101",
+    });
+
+    var config = {
+      method: "POST",
+      url: url,
+      headers: {
+        Accept: "application/json",
+        "X-HTTP-Method-Override": "GET",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Authorization",
+      },
+      data: formData,
+    };
+
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+
+  putMethod: async ({ action, object } = {}) => {
+    const cookies = getCookies();
+
+    const url =
+      "https://playjor-cors.herokuapp.com/" +
       "https://cp.playjor.com/api/user/" + action;
 
     const formData = new FormData();
@@ -192,23 +253,22 @@ const Environment = {
   
 
     var data = JSON.stringify({
-      id: 4,
-      token: "2y10Y8IQpKSTSvwXbsw7DsfEOpyb0RJ2ejWKdSFcvsF3P7IO0ADDZ5i",
-      device_model: "Chrome 101",
+      id: cookies.userId,
+      token: cookies.accessToken,
+      device_model: device_model,
     });
 
     var config = {
-      method: "POST",
+      method: "PUT",
       url: url,
       headers: {
         "Accept": "application/json",
-        'X-HTTP-Method-Override': 'GET' ,
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
       },
-      data : formData,
+      data : data,
     };
 
     try {
@@ -217,20 +277,7 @@ const Environment = {
     } catch (error) {
       console.log(error.message);
     }
-    // axios(config)
-    //   .then(function (response) {
-    //     return response
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-
-  
-  
   },
-
-
-
 };
 
 export default Environment;
