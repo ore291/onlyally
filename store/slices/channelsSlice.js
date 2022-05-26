@@ -12,6 +12,12 @@ const initialState = {
     loading: false,
     error: false,
     data: {},
+  },
+  channelData: {
+    inputData: '',
+    data: [],
+    loading: false,
+    error: false,
   }
 };
 
@@ -21,6 +27,7 @@ export const ChannelsSlice = createSlice({
   reducers: {
     fetchChannelsStart: (state, action) => {
       state.channels = {
+      
         data: {},
         loading: true,
         error: false,
@@ -64,17 +71,33 @@ export const ChannelsSlice = createSlice({
         data: {},
       }
     },
-  },
-
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      // handle client
-      if (!action.payload.channels.channels.data) {
-        return state;
+    fetchSingleChannelStart: (state, action)=>{
+      state.channelData = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false
       }
-      state.data = action.payload.channels.channels.data;
+    },
+    fetchSingleChannelSuccess: (state, action)=>{
+      state.channelData = {
+        inputData : "",
+        data: action.payload,
+        loading: false,
+        error: false
+      }
+    },
+    fetchSingleChannelFailure: (state, action)=>{
+      state.channelData = {
+        inputData : "",
+        data: {},
+        loading: false,
+        error: action.payload
+      }
     },
   },
+
+
 });
 
 export const {
@@ -83,7 +106,10 @@ export const {
   fetchChannelsFailure,
   channelSubscribeStart,
   channelSubscribeSuccess,
-  channelSubscribeFailure
+  channelSubscribeFailure,
+  fetchSingleChannelStart,
+  fetchSingleChannelSuccess,
+  fetchSingleChannelFailure
 } = ChannelsSlice.actions;
 
 export default ChannelsSlice.reducer;

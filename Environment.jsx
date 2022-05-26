@@ -187,17 +187,17 @@ const Environment = {
 
     formData.append("device_model", device_model);
 
-    var data = JSON.stringify({
-      id: 4,
-      token: "2y10Y8IQpKSTSvwXbsw7DsfEOpyb0RJ2ejWKdSFcvsF3P7IO0ADDZ5i",
-      device_model: "Chrome 101",
-    });
+    // var data = JSON.stringify({
+    //   id: 4,
+    //   token: "2y10Y8IQpKSTSvwXbsw7DsfEOpyb0RJ2ejWKdSFcvsF3P7IO0ADDZ5i",
+    //   device_model: "Chrome 101",
+    // });
 
     var config = {
       method: "POST",
       url: url,
       headers: {
-        Accept: "application/json",
+        "Accept": "application/json",
         "X-HTTP-Method-Override": "GET",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
@@ -278,6 +278,8 @@ const Environment = {
       console.log(error.message);
     }
   },
+
+ 
 };
 
 export default Environment;

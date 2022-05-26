@@ -1,5 +1,7 @@
 import Button from "../Button";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,6 +11,7 @@ import CommonCenterLoader from "../helpers/CommonCenterLoader";
 // .filter(filterchannel => !checkMember(filterchannel.members)) code for filtering
 
 const LikedChannels = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const channels = useSelector(state => state.channels.channels.data);
   const user = useSelector(state => state.user.loginData)
@@ -68,7 +71,10 @@ const LikedChannels = () => {
               <div className=" row-container" >
                 {
                   checkMember(channel.members) ? (
-                    <Button  text="view" active={true}  />
+               
+                     <Button onClick={()=>router.push(`/channels/${channel.slug}`)} text="view" active={true}  />
+                  
+                   
                   ) : <Button  text="Subscribe" active={true} onClick={e => joinChannel(channel.slug)} />
                 }
                 
