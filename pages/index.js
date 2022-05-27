@@ -192,7 +192,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       
 
-      store.dispatch(fetchConfigurationStart());
+      // store.dispatch(fetchConfigurationStart());
 
       store.dispatch(END);
       await store.sagaTask.toPromise();

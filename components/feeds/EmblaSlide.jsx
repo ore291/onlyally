@@ -37,7 +37,7 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
                     <Image
                       layout="fill"
                       alt=""
-                      src={inView ? postFile.post_file : PLACEHOLDER_SRC}
+                      src={inView ? postFile.post_file ? postFile.post_file : "/images/no-image-found.png" : PLACEHOLDER_SRC}
                       onLoad={setLoaded}
                       className={`postViewImg blur-[20px]  ${hasLoaded ? 'opacity-1' : "opacity-0"}`}
                       
@@ -48,7 +48,7 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
                     <Image
                       alt=""
                       layout="fill"
-                      src={inView ? postFile.post_file : PLACEHOLDER_SRC}
+                      src={inView ? postFile.post_file ? postFile.post_file : "/images/no-image-found.png" : PLACEHOLDER_SRC}
                       className={`postViewImg `}
                       // onClick={handleImagePreview}
                       // onClick={(event) =>

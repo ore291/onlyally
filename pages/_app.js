@@ -10,8 +10,11 @@ import Notifications from "../components/notifications/Notifications.jsx";
 import { apiConstants } from "../components/Constant/constants";
 import configuration from "react-global-configuration";
 import { useEffect } from "react";
+import {fetchUserDetailsStart} from "../store/slices/userSlice";
+import {useDispatch, useSelector} from "react-redux";
 import { setUpNotifications } from "reapop";
-import axios from "axios";
+import { fetchConfigurationStart } from "../store/slices/configurationSlice";
+
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   setUpNotifications({
@@ -25,6 +28,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     },
   });
 
+  const dispatch = useDispatch();
   const fetchConfig = async () => {
     try {
       const response = await fetch(apiConstants.settingsUrl);
@@ -38,6 +42,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   };
 
   useEffect(() => {
+    dispatch(fetchUserDetailsStart());
+    dispatch(fetchConfigurationStart());
     fetchConfig();
   }, []);
 

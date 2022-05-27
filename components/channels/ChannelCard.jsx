@@ -101,8 +101,8 @@ const ChannelCard = ({ main, channel, profile }) => {
   }
 
   return (
-    <div className="first:ml-auto last:mr-auto w-56 h-[300px] mb-5 border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0 space-y-3">
-      <Link href={`/channels/${channel}`} passHref>
+    <div className="last:mr-auto w-56 h-[300px] mb-5 border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0 space-y-3">
+      <Link href={`/channels/${channel.slug}`} passHref>
         <div className="relative w-full h-[90px] rounded-t-lg mb-16">
           <Image
             src={"https://picsum.photos/200/200?random=9"}
@@ -128,11 +128,11 @@ const ChannelCard = ({ main, channel, profile }) => {
       </Link>
 
       <div className="col-container w-full ">
-        <p className="font-semibold text-center text-lg">Fashionista</p>
+        <p className="font-semibold text-center text-lg">{channel.name}</p>
         <div className=" grid grid-cols-2 ">
           <div className="col-container w-full">
             <span className="    font-bold text-sm">
-              4
+              {/* {channel.posts.length} */}4
             </span>
             <span className=" font-semibold text-gray-400 ">Posts</span>
           </div>

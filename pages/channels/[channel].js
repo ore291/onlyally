@@ -38,7 +38,7 @@ const Channel = () => {
   useEffect(() => {
     if (router.isReady) {
       // Code using query
-      dispatch(fetchUserDetailsStart());
+      
       dispatch(fetchSingleChannelStart(router.query.channel));
     }
   }, [router.isReady] );
@@ -112,7 +112,7 @@ const Channel = () => {
               <BsFillArrowLeftCircleFill className="h-8 w-8  " />
             </div>
           </div>
-          {subscribed ? (
+          {checkMember ? (
             <div className="max-w-[950px] mx-auto mt-14">
               <ChannelPageTabs />
             </div>

@@ -3,10 +3,9 @@ import { Popover, Transition, Dialog, Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { setPaymentModal } from "../../store/slices/NavSlice";
 import {
-    subscriptionPaymentPaystackStart,
-    subscriptionPaymentWalletStart,
-   
-  } from "../../store/slices/subscriptionSlice";
+  subscriptionPaymentPaystackStart,
+  subscriptionPaymentWalletStart,
+} from "../../store/slices/subscriptionSlice";
 
 import { fetchCardDetailsStart } from "../../store/slices/cardsSlice";
 import { fetchWalletDetailsStart } from "../../store/slices/walletSlice";
@@ -77,7 +76,7 @@ const PaymentModal = ({
         subscriptionPaymentWalletStart({
           user_unique_id: user_unique_id,
           plan_type: subscriptionData.plan_type,
-          is_free: subscriptionData.is_free
+          is_free: subscriptionData.is_free,
         })
       );
   };
@@ -180,72 +179,66 @@ const PaymentModal = ({
                       <h1>coming soon</h1>
                     </Tab.Panel>
 
-                    {configData.is_wallet_payment_enabled == 1 ? (
-                      <Tab.Panel
-                        className={classNames("rounded-xl bg-white p-3")}
-                      >
-                        {" "}
-                        <form onSubmit={handleSubmit} className="block mt-0">
-                          <div className="mb-[1em]">
-                            <input
-                              type="text"
-                              placeholder="amount"
-                              value={subscriptionData.amount_formatted}
-                              disabled
-                              className="bg-white font-semibold cursor-not-allowed focus:ring-0 !outline-none border-0.5 ring-0  rounded-lg pl-[1em] w-full shadow-md"
-                            />
-                          </div>
-                          {wallet.loading ? (
-                            ""
-                          ) : (
-                            <div className="block ">
-                              <div className="bg-white p-[1em] ring-0 border !outline-none shadow-lg font-semibold flex justify-between rounded-lg items-center">
-                                <h4>Available</h4>
-                                <p>
-                                  {wallet.data.user_wallet.remaining_formatted}
-                                </p>
-                              </div>
-                              {subscriptionData.amount >
-                              wallet.data.user_wallet.remaining ? (
-                                <div className="">
-                                  <p className="conv-desc desc">Low Balance</p>
-                                  <div className="d-flex">
-                                    <Link
-                                      href="/wallet"
-                                      className="withdraw-money-btn"
-                                    >
-                                      add amount
-                                    </Link>
-                                  </div>
-                                </div>
-                              ) : null}
+                    <Tab.Panel
+                      className={classNames("rounded-xl bg-white p-3")}
+                    >
+                      <form onSubmit={handleSubmit} className="block mt-0">
+                        <div className="mb-[1em]">
+                          <input
+                            type="text"
+                            placeholder="amount"
+                            value={subscriptionData.amount_formatted}
+                            disabled
+                            className="bg-white font-semibold cursor-not-allowed focus:ring-0 !outline-none border-0.5 ring-0  rounded-lg pl-[1em] w-full shadow-md"
+                          />
+                        </div>
+                        {wallet.loading ? (
+                          ""
+                        ) : (
+                          <div className="block ">
+                            <div className="bg-white p-[1em] ring-0 border !outline-none shadow-lg font-semibold flex justify-between rounded-lg items-center">
+                              <h4>Available</h4>
+                              <p>
+                                {wallet.data.user_wallet.remaining_formatted}
+                              </p>
                             </div>
-                          )}
-                        </form>
-                      </Tab.Panel>
-                    ) : null}
+                            {subscriptionData.amount >
+                            wallet.data.user_wallet.remaining ? (
+                              <div className="">
+                                <p className="conv-desc desc">Low Balance</p>
+                                <div className="d-flex">
+                                  <Link
+                                    href="/wallet"
+                                    className="withdraw-money-btn"
+                                  >
+                                    add amount
+                                  </Link>
+                                </div>
+                              </div>
+                            ) : null}
+                          </div>
+                        )}
+                      </form>
+                    </Tab.Panel>
                   </Tab.Panels>
                   <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
-                  <button
-                type="button"
-                className="bg-red-600 text-white rounded-md px-3 py-1"
-        
-                onClick={()=>closeModal()}
-              >
-                Cancel
-              </button>
-              <button
-                  type="button"
-                  className="bg-green-600 text-white rounded-md px-3 py-1"
-
-                  onClick={handleSubmit}
-                  disabled={subPayPaystack.buttonDisable}
-                >
-                  {subPayPaystack.loadingButtonContent !== null
-                    ? subPayPaystack.loadingButtonContent
-                    : 'Pay Now'}
-                </button>
-          
+                    <button
+                      type="button"
+                      className="bg-red-600 text-white rounded-md px-3 py-1"
+                      onClick={() => closeModal()}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-green-600 text-white rounded-md px-3 py-1"
+                      onClick={handleSubmit}
+                      disabled={subPayPaystack.buttonDisable}
+                    >
+                      {subPayPaystack.loadingButtonContent !== null
+                        ? subPayPaystack.loadingButtonContent
+                        : "Pay Now"}
+                    </button>
                   </div>
                 </Tab.Group>
               </Dialog.Panel>
