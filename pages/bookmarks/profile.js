@@ -1,7 +1,60 @@
 import React, { useState } from "react";
 import ProfileNavItem from "../../components/ProfileNavBar";
+import Multiselect from "multiselect-react-dropdown";
+import {
+  editUserDetails,
+  userNameValidationStart,
+  updateUserDetailsStart,
+} from "../../store/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+const options = [
+  {
+    name: "Rather Not Select",
+    value: "rather-not-select",
+    id: 1,
+  },
+  {
+    name: "Male",
+    value: "male",
+    id: 2,
+  },
+  {
+    name: "Female",
+    value: "female",
+    id: 3,
+  },
+  {
+    name: "Others",
+    value: "others",
+    id: 4,
+  },
+];
 
 export default function Profile() {
+  const dispatch = useDispatch();
+  const profile = useSelector((state) => state.user.profile);
+  const validation = useSelector((state) => state.user.validationInputData);
+  const profileInputData = useSelector((state) => state.user.profileInputData);
+
+  const userGender = useState([[profile.data.gender]]);
+
+  const handleCategoryEdit = (data) => {
+    dispatch(editUserDetails(data));
+  };
+  const handleUsernameValidation = (event, username, value) => {
+    event.preventDefault();
+    dispatch(editUserDetails(username, value));
+    dispatch(userNameValidationStart({ username: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (Object.keys(profileInputData).length > 0)
+      dispatch(updateUserDetailsStart(profileInputData));
+    else dispatch(updateUserDetailsStart());
+  };
+
   return (
     <>
       <div className="flex flex-col justify-center lg:flex-row">
@@ -53,9 +106,20 @@ export default function Profile() {
                   Name
                 </label>
                 <input
+                  id="name"
                   type="text"
-                  placeholder="Enter Name"
+                  name="name"
+                  placeholder=""
                   className="border-gray-500 rounded-md"
+                  defaultValue={profile.data.name}
+                  onChange={(event) => {
+                    dispatch(
+                      editUserDetails({
+                        name: event.currentTarget.name,
+                        value: event.currentTarget.value,
+                      })
+                    );
+                  }}
                 />
               </div>
 
@@ -84,10 +148,28 @@ export default function Profile() {
                 <label htmlFor="" className="font-medium text-lg">
                   Gender
                 </label>
-                <input
+                {/* <input
                   type="text"
                   placeholder="Enter Gender"
                   className="border-gray-500 rounded-md"
+                /> */}
+                <Multiselect
+                  name="gender"
+                  options={options}
+                  displayValue="name"
+                  selectedValues={[
+                    { name: profile.data.gender, value: profile.data.gender },
+                  ]}
+                  placeholder="choose gender"
+                  onSelect={(value) =>
+                    dispatch(
+                      editUserDetails({
+                        name: "gender",
+                        value: value[0].value,
+                      })
+                    )
+                  }
+                  singleSelect={true}
                 />
               </div>
             </article>
@@ -98,21 +180,76 @@ export default function Profile() {
                   User Name
                 </label>
                 <input
+                  id="username"
                   type="text"
-                  placeholder="Enter User Name"
+                  placeholder=""
+                  name="username"
                   className="border-gray-500 rounded-md"
+                  defaultValue={profile.data.username}
+                  onChange={(event) =>
+                    handleUsernameValidation(
+                      event,
+                      event.currentTarget.name,
+                      event.currentTarget.value
+                    )
+                  }
+                  // isValid={validation.isValid}
+                  // isInvalid={validation.isInValid}
                 />
+                {validation.isInValid ? (
+                  <span className="text-xs text-red-500 font-light text-right">
+                    Username already taken, Please try another
+                  </span>
+                ) : (
+                  ""
+                )}
+                {validation.isValid ? (
+                  <span className="text-xs text-green-500 font-light text-right">
+                    Looks Good, the username is availaible
+                  </span>
+                ) : (
+                  ""
+                )}
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="" className="font-medium text-lg">
+                {/* <label htmlFor="" className="font-medium text-lg">
                   User Category
                 </label>
                 <input
                   type="text"
                   placeholder="Enter Name"
                   className="border-gray-500 rounded-md"
-                />
+                /> */}
+                {profile &&
+                profile.data.categories &&
+                profile.data.categories.length > 0 ? (
+                  <>
+                    <label className="!pl-0 mb-3 lg:mb-3">
+                      <p className="text-sm font-light">
+                        CATEGORY &#40;OPTIONAL&#41;
+                      </p>
+                    </label>
+                    {profile.data.categories ? (
+                      <Multiselect
+                        name="u_category_id"
+                        options={profile.data.categories}
+                        displayValue="name"
+                        placeholder="choose category"
+                        selectedValues={[profile.data.categories[0]]}
+                        onSelect={(values) =>
+                          handleCategoryEdit({
+                            name: "u_category_id",
+                            value: values[0].u_category_id ? values[0].u_category_id : 3,
+                          })
+                        }
+                        singleSelect={true}
+                      />
+                    ) : null}
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
 
               <div className="flex flex-col">
@@ -131,8 +268,19 @@ export default function Profile() {
                   Country
                 </label>
                 <input
+                  id="edit-address"
+                  name="address"
                   type="text"
-                  placeholder="Enter Country"
+                  placeholder=""
+                  defaultValue={profile.data.address}
+                  onChange={(event) => {
+                    dispatch(
+                      editUserDetails({
+                        name: "address",
+                        value: event.target.value,
+                      })
+                    );
+                  }}
                   className="border-gray-500 rounded-md"
                 />
               </div>
@@ -145,14 +293,49 @@ export default function Profile() {
                 Subscription Price (Per Month)
               </span>
               <div className="border-2 border-gray-400 rounded-md py-2 px-2">
-                <h4>$29.95</h4>
+                {/* <h4>$29.95</h4> */}
+                <input
+                  id="monthly_amount"
+                  type="number"
+                  step="any"
+                  min="0"
+                  placeholder=""
+                  name="monthly_amount"
+                  defaultValue={profile.data.monthly_amount}
+                 
+                  onChange={(event) => {
+                    dispatch(
+                      editUserDetails({
+                        name: event.currentTarget.name,
+                        value: event.currentTarget.value,
+                      })
+                    );
+                  }}
+                />
               </div>
             </div>
 
             <div>
               <span className="font-medium">Subscription Price (1 year)</span>
               <div className="border-2 border-gray-400 rounded-md py-2 px-2">
-                <h4>$69.99</h4>
+                <input
+                  id="yearly_amount"
+                  type="number"
+                  step="any"
+                  min="0"
+                  placeholder=""
+                  name="yearly_amount"
+                  defaultValue={profile.data.yearly_amount}
+                 
+                  onChange={(event) => {
+                    dispatch(
+                      editUserDetails({
+                        name: event.currentTarget.name,
+                        value: event.currentTarget.value,
+                      })
+                    );
+                  }}
+                />
               </div>
             </div>
           </section>
@@ -163,9 +346,23 @@ export default function Profile() {
                 Video call amount(usd) optional
               </span>
               <input
+                id="video_call_amount"
                 type="number"
+                step="any"
+                min="0"
+                placeholder=""
+                name="video_call_amount"
                 className="input-form bg-white"
-                placeholder="0"
+                
+                defaultValue={profile.data.video_call_amount}
+                onChange={(event) => {
+                  dispatch(
+                    editUserDetails({
+                      name: event.currentTarget.name,
+                      value: event.currentTarget.value,
+                    })
+                  );
+                }}
               />
               <span className="text-xs pl-8">
                 Note: set price for the video call this amount will be paid by
@@ -178,9 +375,16 @@ export default function Profile() {
                 Audio call amount(usd) optional
               </span>
               <input
+                id="audio_call_amount"
                 type="number"
+                step="any"
+                min="0"
+                placeholder=""
+                name="audio_call_amount"
                 className="input-form bg-white"
-                placeholder="0"
+                
+                defaultValue={profile.data.audio_call_amount}
+                onChange={(event) => {}}
               />
               <span className="text-xs pl-8">
                 Note: set price for the audio call this amount will be paid by
@@ -192,9 +396,37 @@ export default function Profile() {
               <span className="uppercase font-medium">
                 default payment method optional
               </span>
-              <select className="w-full border-0 border-b-2 border-gray-300 focus:border-0 outline-none">
-                <option value="Online">Wallet</option>
-                <option value="Offline">Card</option>
+              <select
+                className="w-full border-0 border-b-2 border-gray-300 focus:border-0 outline-none"
+                onChange={(event) => {
+                  dispatch(
+                    editUserDetails({
+                      name: event.currentTarget.name,
+                      value: event.currentTarget.value,
+                    })
+                  );
+                }}
+                name="default_payment_method"
+                defaultValue={profile.data.default_payment_method}
+              >
+                <option
+                  value="WALLET"
+                  selected={
+                    profile.data.default_payment_method == "WALLET"
+                      ? true
+                      : false
+                  }
+                >
+                  Wallet
+                </option>
+                <option
+                  value="CARD"
+                  selected={
+                    profile.data.default_payment_method == "CARD" ? true : false
+                  }
+                >
+                  Card
+                </option>
               </select>
               <span className="text-xs pl-8">
                 Note: set price for the audio call this amount will be paid by
@@ -216,9 +448,21 @@ export default function Profile() {
                       Website
                     </label>
                     <input
-                      type="text"
+                       id="edit-website"
+                       type="text"
+                       autoComplete="off"
+                       defaultValue={profile.data.website}
                       placeholder="Website"
                       className="border-gray-500 rounded-md"
+                      name="website"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
 
@@ -227,9 +471,21 @@ export default function Profile() {
                       Instagram
                     </label>
                     <input
-                      type="text"
-                      placeholder="Instagram Link"
+                        id="edit_instagram_link"
+                        type="text"
+                        autoComplete="off"
+                        value={profile.data.instagram_link}
+                        placeholder={'instagaram link'}
+                        name="instagram_link"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
 
@@ -238,9 +494,22 @@ export default function Profile() {
                       Twitter
                     </label>
                     <input
+                      id="edit_twitter_link"
                       type="text"
+                      autoComplete="off"
+                      value={profile.data.twitter_link}
+                      
+                      name="twitter_link"
                       placeholder="Twitter Link"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -248,9 +517,22 @@ export default function Profile() {
                       Pinterest
                     </label>
                     <input
+                      id="edit_pinterest_link"
                       type="text"
+                      autoComplete="off"
+                      defaultValue={profile.data.pinterest_link}
+                      
+                      name="pinterest_link"
                       placeholder="Pinterest Link"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -258,9 +540,22 @@ export default function Profile() {
                       Twitch
                     </label>
                     <input
-                      type="text"
+                       id="edit_twitch_link"
+                       type="text"
+                       autoComplete="off"
+                       defaultValue={profile.data.twitch_link}
+                      
+                       name="twitch_link"
                       placeholder="Twitch Link"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -271,6 +566,14 @@ export default function Profile() {
                       type="number"
                       placeholder="100"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
                 </article>
@@ -283,9 +586,22 @@ export default function Profile() {
                       Amazon Wishlist
                     </label>
                     <input
+                      id="edit-amazon-wishlist"
                       type="text"
+                      autoComplete="off"
+                      defaultValue={profile.data.amazon_wishlist}
+              
+                      name="amazon_wishlist"
                       placeholder="Amazon Wishlist"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
 
@@ -294,9 +610,22 @@ export default function Profile() {
                       Facebook
                     </label>
                     <input
+                      id="edit_facebook_link"
                       type="text"
-                      placeholder="Facebook Link"
+                      autoComplete="off"
+                      defaultValue={profile.data.facebook_link}
+                  
+                      name="facebook_link"
+                      placeholder={"Facebook Link"}
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
 
@@ -305,9 +634,22 @@ export default function Profile() {
                       LinkedIn
                     </label>
                     <input
+                      id="edit_linkedin_link"
                       type="text"
+                      autoComplete="off"
+                      defaultValue={profile.data.linkedin_link}
+                     
+                      name="linkedin_link"
                       placeholder="LinkedIn Link"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -315,9 +657,22 @@ export default function Profile() {
                       Youtube
                     </label>
                     <input
+                      id="edit_youtube_link"
                       type="text"
+                      autoComplete="off"
+                      defaultValue={profile.data.youtube_link}
+                     
+                      name="youtube_link"
                       placeholder="Youtube Link"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -325,9 +680,22 @@ export default function Profile() {
                       Snapchat
                     </label>
                     <input
+                      id="edit_snapchat_link"
                       type="text"
+                      autoComplete="off"
+                      defaultValue={profile.data.snapchat_link}
+                  
+                      name="snapchat_link"
                       placeholder="Snapchat Link"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
                   <div className="flex flex-col">
@@ -338,6 +706,14 @@ export default function Profile() {
                       type="number"
                       placeholder="100"
                       className="border-gray-500 rounded-md"
+                      onChange={(event) => {
+                        dispatch(
+                          editUserDetails({
+                            name: event.currentTarget.name,
+                            value: event.currentTarget.value,
+                          })
+                        );
+                      }}
                     />
                   </div>
                 </article>
@@ -362,8 +738,10 @@ export default function Profile() {
           </section>
 
           <div className="text-center">
-            <button className="btn bg-red-600 uppercase text-base rounded-lg px-8 py-2">
-              Save
+            <button  onClick={handleSubmit} disabled={profileInputData.buttonDisable} className="btn bg-red-600 uppercase text-base rounded-lg px-8 py-2">
+            {profileInputData.loadingButtonContent !== null
+                ? profileInputData.loadingButtonContent
+                : "save"}
             </button>
           </div>
         </div>

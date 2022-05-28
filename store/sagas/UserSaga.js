@@ -13,6 +13,7 @@ import {
   userNameValidationFailure,
   referralValidationSuccess,
   referralValidationFailure,
+  editUserDetails,
   getLoginDetails,
   loginSuccess,
   loginFailure,
@@ -139,7 +140,7 @@ function* updateUserDetailsAPI() {
       yield put(updateUserDetailsFailure( response.data.error));
     }
   } catch (error) {
-    yield put(updateUserDetailsFailure(error));
+    yield put(updateUserDetailsFailure(error.message));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
