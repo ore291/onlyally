@@ -43,7 +43,9 @@ function* getUserDetailsAPI(action) {
     });
 
     if (response.data.success) {
-      yield put(fetchUserDetailsSuccess(response.data.data));
+      yield put(fetchUserDetailsSuccess(
+        { ...response.data.data, u_category_id : response.data.data.selected_category.u_category_id }
+        ));
       if (typeof window !== "undefined") {
         localStorage.setItem("user_picture", response.data.data.picture);
         localStorage.setItem(
@@ -89,10 +91,10 @@ function* getUserDetailsAPI(action) {
         );
       }
     } else {
-      yield put(fetchUserDetailsFailure(response.data.error.error));
+      yield put(fetchUserDetailsFailure(response.data.error));
       // yield put(checkLogoutStatus(response.data));
       yield put(
-        notify({ message: response.data.error.error, status: "error" })
+        notify({ message: response.data.error, status: "error" })
       );
     }
   } catch (error) {

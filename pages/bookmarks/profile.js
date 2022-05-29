@@ -235,8 +235,8 @@ export default function Profile() {
                         name="u_category_id"
                         options={profile.data.categories}
                         displayValue="name"
-                        placeholder="choose category"
-                        selectedValues={[profile.data.categories[0]]}
+                        placeholder=""
+                        selectedValues={[profile.data.selected_category,]}
                         onSelect={(values) =>
                           handleCategoryEdit({
                             name: "u_category_id",
