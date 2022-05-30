@@ -42,9 +42,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   };
 
   useEffect(() => {
-    dispatch(fetchUserDetailsStart());
-    dispatch(fetchConfigurationStart());
     fetchConfig();
+    dispatch(fetchUserDetailsStart());
+    dispatch(fetchConfigurationStart()); 
   }, []);
 
   return (
