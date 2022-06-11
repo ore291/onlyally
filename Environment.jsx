@@ -123,10 +123,11 @@ const Environment = {
         method: "POST",
         url: url,
         data: formData,
-        // headers: {
-        //   "content-type": "application/json",
-        //   accept: "application/json",
-        // },
+        headers: {
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}` ,
+          "Access-Control-Allow-Origin": "*",
+        },
       };
     } else {
       var config = {
@@ -134,6 +135,9 @@ const Environment = {
         url: url,
         headers: {
           ...formData.getHeaders(),
+          'Authorization': `Bearer ${accessToken}`,
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "*",
           // "content-type": "application/json",
           // accept: "application/json",
         },
@@ -155,8 +159,8 @@ const Environment = {
     const cookies = getCookies();
 
     const url =
-      "https://playjor-cors.herokuapp.com/" +
-      "https://cp.playjor.com/api/user/" +
+      // "https://playjor-cors.herokuapp.com/" +
+      apiUrl +
       action;
 
     const formData = new FormData();
@@ -203,6 +207,70 @@ const Environment = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
+        "Authorization": `Bearer ${cookies.accessToken}` 
+      },
+      data: formData,
+    };
+
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
+
+  playPostMethod: async ({ action, object } = {}) => {
+    const cookies = getCookies();
+
+    const url =
+      apiUrl +
+      action;
+
+    const formData = new FormData();
+
+    // By Default Id and token
+    formData.append("id", cookies.userId);
+    formData.append("token", cookies.accessToken);
+
+    // append your data
+    for (var key in object) {
+      formData.append(key, object[key]);
+    }
+
+    // By Default added device type and login type in future use
+
+    formData.append("login_by", apiConstants.LOGIN_BY);
+    formData.append("device_type", apiConstants.DEVICE_TYPE);
+    formData.append("device_token", apiConstants.DEVICE_TOKEN);
+
+    var device_model = "";
+    if (isAndroid == true) {
+      device_model = mobileModel;
+    } else if (isIOS == true) {
+      device_model = mobileModel;
+    } else {
+      device_model = browserName + " " + browserVersion;
+    }
+
+    formData.append("device_model", device_model);
+
+    // var data = JSON.stringify({
+    //   id: 4,
+    //   token: "2y10Y8IQpKSTSvwXbsw7DsfEOpyb0RJ2ejWKdSFcvsF3P7IO0ADDZ5i",
+    //   device_model: "Chrome 101",
+    // });
+
+    var config = {
+      method: "POST",
+      url: url,
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Authorization",
+        "Authorization": `Bearer ${cookies.accessToken}`
       },
       data: formData,
     };
@@ -219,8 +287,7 @@ const Environment = {
     const cookies = getCookies();
 
     const url =
-      "https://playjor-cors.herokuapp.com/" +
-      "https://cp.playjor.com/api/user/" + action;
+      apiUrl + action;
 
     const formData = new FormData();
 
@@ -267,6 +334,7 @@ const Environment = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
+        "Authorization": `Bearer ${cookies.accessToken}`
       },
       data : data,
     };
