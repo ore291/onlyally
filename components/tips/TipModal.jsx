@@ -10,10 +10,9 @@ import {
   sendTipByWalletStart,
 } from "../../store/slices/sendTipSlice";
 
-import {
-  subscriptionPaymentPaystackStart,
-  subscriptionPaymentWalletStart,
-} from "../../store/slices/subscriptionSlice";
+import {notify} from "reapop"
+
+
 
 import { fetchCardDetailsStart } from "../../store/slices/cardsSlice";
 import { fetchWalletDetailsStart } from "../../store/slices/walletSlice";
@@ -45,81 +44,68 @@ const TipModal = (props) => {
   const [config, setConfig] = useState({
     reference: (new Date()).getTime().toString(),
     email:  user?.email,
-    amount: 1,
+    amount: 100,
     publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
   });
 
   // you can call this function anything
   const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
-    console.log(reference);
+    setTimeout(() => {
+      dispatch(
+        sendTipByPaystackStart({
+          payment_id: reference.reference,
+          post_id:
+            props.post_id != undefined || props.post_id != null
+              ? props.post_id
+              : "",
+          amount: amount,
+          user_id: props.user_id,
+        })
+      );
+    }, 1000);
+    props.closeSendTipModal();
   };
 
   // you can call this function anything
   const onClose = () => {
     // implementation for  whatever you want to do when the Paystack dialog closed.
-    console.log("closed");
+   dispatch(notify({ message : "Payment cancelled please try again..", status : "error"}))
   };
 
   useEffect(() => {
     if (props.sendTip === true) {
       setPaymentType(localStorage.getItem("default_payment_method"));
-      console.log(config);
+      setConfig({
+        ...config,
+        email : user.email
+      })
       dispatch(fetchCardDetailsStart());
       dispatch(fetchWalletDetailsStart());
     }
   }, [props.sendTip]);
 
-  const choosePaymentOption = (event) => {
-    setPaymentType(event);
-  };
+ 
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (paymentType === "CARD")
-      dispatch(
-        sendTipByPaystackStart({
-          post_id: post_id != undefined || post_id != null ? post_id : "",
-          amount: amount,
-          message: message,
-          user_id: user_id,
-        })
-      );
     if (paymentType === "WALLET")
       dispatch(
         sendTipByWalletStart({
-          post_id: post_id != undefined || post_id != null ? post_id : "",
+          post_id: props.post_id != undefined || props.post_id != null ? props.post_id : "",
           amount: amount,
           message: message,
-          user_id: user_id,
+          user_id: props.user_id,
         })
       );
 
-    closeSendTipModal();
+    props.closeSendTipModal();
   };
 
-  const paypalOnSuccess = (payment) => {
-    console.log(payment);
-    setTimeout(() => {
-      props.dispatch(
-        subscriptionPaymentPaypalStart({
-          payment_id: payment.paymentID,
-          user_unique_id: props.user_unique_id,
-          plan_type: props.subscriptionData.plan_type,
-          is_free: props.subscriptionData.is_free,
-        })
-      );
-    }, 1000);
-  };
 
   const initializePayment = usePaystackPayment(config);
 
-  const paypalOnCancel = (data) => {
-    const notificationMessage = getErrorNotificationMessage(
-      "Payment cancelled please try again.."
-    );
-    this.props.dispatch(createNotification(notificationMessage));
-  };
+  
 
   return (
     <>

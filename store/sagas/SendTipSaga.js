@@ -6,7 +6,7 @@ import {
   sendTipByWalletFailure,
   sendTipByWalletSuccess,
   sendTipByPaystackFailure,
-  sendTipByPaystackSuccess,
+  sendTipBypPaystackSuccess
 } from "../slices/sendTipSlice";
 
 
@@ -15,9 +15,9 @@ import { errorLogoutCheck } from "../slices/errorSlice";
 function* sendTipPaystackAPI() {
   try {
     const inputData = yield select((state) => state.tips.tipPaystack.inputData);
-    const response = yield api.postMethod({action : "tips_payment_by_stripe",object : inputData});
+    const response = yield api.postMethod({action : "tips_payment_by_paypal",object : inputData});
     if (response.data.success) {
-      yield put(sendTipByPaystackSuccess(response.data.data));
+      yield put(sendTipBypPaystackSuccess(response.data.data));
       yield put(notify({message : response.data.message, status : 'success'}));
     } else {
       yield put(sendTipByPaystackFailure(response.data.error));
