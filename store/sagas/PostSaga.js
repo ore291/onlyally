@@ -2,8 +2,6 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 
 import api from "../../Environment";
 
-
-
 import {
   fetchSinglePostSuccess,
   fetchSinglePostFailure,
@@ -18,11 +16,14 @@ import {
   postFileRemoveSuccess,
   postFileRemoveFailure,
   fetchExploreSuccess,
-  fetchExploreFailure
+  fetchExploreFailure,
+  ppvPaymentWalletSuccess,
+  ppvPaymentWalletFailure,
+  ppvPaymentPaystackSuccess,
+  ppvPaymentPaystackFailure,
 } from "../slices/postSlice";
 
-import {notify} from "reapop";
-
+import { notify } from "reapop";
 
 function* savePostAPI() {
   try {
@@ -31,77 +32,89 @@ function* savePostAPI() {
     if (!inputData.content && !inputData.post_files) {
       // !!!!! Dont change this condition. If changing get confirmation vidhya
       yield put(savePostFailure("Please fill the content"));
-      yield put(notify({message: "Please fill the content", status:"error"}))
+      yield put(
+        notify({ message: "Please fill the content", status: "error" })
+      );
     } else {
-      const response = yield api.postMethod({action:"posts_save_for_owner", object : inputData});
+      const response = yield api.postMethod({
+        action: "posts_save_for_owner",
+        object: inputData,
+      });
       if (response.data.success) {
         yield put(savePostSuccess(response.data.data));
-        yield put(notify({ message: response.data.message, status: 'success' }))
+        yield put(
+          notify({ message: response.data.message, status: "success" })
+        );
         window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
-        yield put(savePostFailure( response.data.error));
+        yield put(savePostFailure(response.data.error));
         // yield put(checkLogoutStatus(response.data));
-        yield put(notify({message:  response.data.error, status:"error"}))
+        yield put(notify({ message: response.data.error, status: "error" }));
       }
     }
   } catch (error) {
     yield put(savePostFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 function* fetchPostsAPI() {
   try {
     const inputData = yield select((state) => state.post.posts.inputData);
-    const response = yield api.postMethod({action:"posts_for_owner",object:inputData });
+    const response = yield api.postMethod({
+      action: "posts_for_owner",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(fetchPostsSuccess(response.data.data));
     } else {
-      yield put(fetchPostsFailure( response.data.error));
+      yield put(fetchPostsFailure(response.data.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(notify({message:  response.data.error, status:"error"}))
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchPostsFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 function* postFileUploadAPI() {
   try {
     const inputData = yield select((state) => state.post.fileUpload.inputData);
-    const response = yield api.postMethod({action:"post_files_upload", object : inputData});
+    const response = yield api.postMethod({
+      action: "post_files_upload",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(postFileUploadSuccess(response.data.data));
     } else {
-      yield put(postFileUploadFailure( response.data.error));
+      yield put(postFileUploadFailure(response.data.error));
       // yield put(checkLogoutStatus(response.data));
-      yield put(notify({message:  response.data.error, status:"error"}))
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(postFileUploadFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
-
 
 function* fetchSinglePostAPI() {
   try {
     const inputData = yield select((state) => state.post.singlePost.inputData);
-    const response = yield api.postMethod(
-     {action: 'posts_view_for_others', object: inputData}
-    );
+    const response = yield api.postMethod({
+      action: "posts_view_for_others",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(fetchSinglePostSuccess(response.data.data));
     } else {
-      yield put(fetchSinglePostFailure( response.data.error));
-      yield put(notify({message:  response.data.error, status:"error"}))
-    //   yield put(checkLogoutStatus(response.data));
-    
+      yield put(fetchSinglePostFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+      //   yield put(checkLogoutStatus(response.data));
     }
   } catch (error) {
     yield put(fetchSinglePostFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -110,34 +123,39 @@ function* fetchPostCategories() {
     const inputData = yield select(
       (state) => state.post.postCategories.inputData
     );
-    const response = yield api.postMethod({action :"post_categories_list", object : inputData});
+    const response = yield api.postMethod({
+      action: "post_categories_list",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(fetchPostCategoriesSuccess(response.data.data));
     } else {
-      yield put(fetchPostCategoriesFailure( response.data.error));
-      yield put(notify({message:  response.data.error, status:"error"}))
+      yield put(fetchPostCategoriesFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchPostCategoriesFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 function* postFileRemoveAPI() {
   try {
     const inputData = yield select((state) => state.post.fileRemove.inputData);
-    const response = yield api.postMethod({action:"post_files_remove",object: inputData});
+    const response = yield api.postMethod({
+      action: "post_files_remove",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(postFileRemoveSuccess(response.data.data));
     } else {
-      yield put(postFileRemoveFailure( response.data.error));
-      yield put(notify({message:  response.data.error, status:"error"}))
+      yield put(postFileRemoveFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
       // yield put(checkLogoutStatus(response.data));
-      
     }
   } catch (error) {
     yield put(postFileRemoveFailure(error));
-    yield put(notify({message: error.message, status:"error"}))
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -146,21 +164,70 @@ function* fetchExploreAPI() {
     const inputData = yield select(
       (state) => state.post.explorePosts.inputData
     );
-    const response = yield api.postMethod({action : "explore",object : inputData});
+    const response = yield api.postMethod({
+      action: "explore",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(fetchExploreSuccess(response.data.data));
     } else {
       yield put(fetchExploreFailure(response.data.error));
-      yield put(notify({message: response.data.error, status: "error"}));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchExploreFailure(error.message));
     yield put(postFileRemoveFailure(error.message));
-    yield put(notify({message: error.message, status:"error"}));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
+function* PPVPaymentPaystackAPI() {
+  try {
+    const paymentInputData = yield select(
+      (state) => state.post.ppvPayPaystack.inputData
+    );
+    const response = yield api.postMethod({
+      action: "posts_payment_by_paypal",
+      object: paymentInputData,
+    });
+    if (response.data.success) {
+      yield put(ppvPaymentPaystackSuccess(response.data.data));
 
+      yield put(notify({ message: response.data.message, status: "success" }));
+      window.location.assign("/post/" + response.data.data.post.post_unique_id);
+    } else {
+      yield put(ppvPaymentPaystackFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(ppvPaymentPaystackFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* PPVPaymentWalletAPI() {
+  try {
+    const paymentInputData = yield select(
+      (state) => state.post.ppvPayWallet.inputData
+    );
+    const response = yield api.postMethod({
+      action: "posts_payment_by_wallet",
+      object: paymentInputData,
+    });
+
+    if (response.data.success) {
+      yield put(ppvPaymentWalletSuccess(response.data.data));
+      yield put(notify({ message: response.data.message, status: "success"}));
+      window.location.assign("/post/" + response.data.data.post.post_unique_id);
+    } else {
+      yield put(ppvPaymentWalletFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error"}));
+    }
+  } catch (error) {
+    yield put(ppvPaymentWalletFailure(error));
+    yield put(notify({ message: error.message, status: "error"}));
+  }
+}
 
 export default function* pageSaga() {
   yield all([yield takeLatest("post/savePostStart", savePostAPI)]);
@@ -174,15 +241,15 @@ export default function* pageSaga() {
   yield all([yield takeLatest("post/postFileUploadStart", postFileUploadAPI)]);
   yield all([yield takeLatest("post/postFileRemoveStart", postFileRemoveAPI)]);
 
-  // yield all([yield takeLatest(PPV_PAYMENT_STRIPE_START, PPVPaymentStripeAPI)]);
-  // yield all([yield takeLatest(PPV_PAYMENT_WALLET_START, PPVPaymentWalletAPI)]);
+  yield all([
+    yield takeLatest("post/ppvPaymentWalletStart", PPVPaymentWalletAPI),
+  ]);
   // yield all([yield takeLatest(SAVE_REPORT_POST_START, saveReportPostAPI)]);
   // yield all([yield takeLatest(FETCH_REPORT_POSTS_START, fetchPostsAPI)]);
-  // yield all([yield takeLatest(PPV_PAYMENT_PAYPAL_START, PPVPaymentPaypalAPI)]);
-  // yield all([yield takeLatest(PPV_PAYMENT_CCBILL_START, PPVPaymentCCBillAPI)]);
-  // yield all([
-  //   yield takeLatest(PPV_PAYMENT_COINPAYMENT_START, PPVPaymentCoinPaymentAPI),
-  // ]);
+  yield all([
+    yield takeLatest("post/ppvPaymentPaystackStart", PPVPaymentPaystackAPI),
+  ]);
+
   yield all([
     yield takeLatest("post/fetchPostCategoriesStart", fetchPostCategories),
   ]);

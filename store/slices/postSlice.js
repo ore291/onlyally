@@ -48,7 +48,7 @@ const initialState = {
     loadingButtonContent: null,
     buttonDisable: false,
   },
-  ppvPayStripe: {
+  ppvPayPaystack: {
     inputData: {},
     loading: true,
     error: false,
@@ -77,22 +77,7 @@ const initialState = {
     loadingButtonContent: null,
     buttonDisable: false,
   },
-  ppvPayCCBill: {
-    inputData: {},
-    loading: true,
-    error: false,
-    success: {},
-    buttonDisable: false,
-    loadingButtonContent: null,
-  },
-  ppvPayCoinPayment: {
-    inputData: {},
-    loading: true,
-    error: false,
-    success: {},
-    buttonDisable: false,
-    loadingButtonContent: null,
-  },
+ 
   explorePosts: {
     inputData: {},
     data: {},
@@ -315,6 +300,63 @@ export const PostSlice = createSlice({
         error: action.payload,
       };
     },
+    ppvPaymentPaystackStart: (state, action) => {
+        state.ppvPayPaystack = {
+          inputData: action.payload,
+          loading: true,
+          error: false,
+          success: {},
+          buttonDisable: true,
+          loadingButtonContent: "Processing.. Please wait...",
+        }
+    },
+    ppvPaymentPaystackSuccess: (state, action) => {
+        state.ppvPayPaystack = {
+          loading: false,
+          error: false,
+          success: action.payload,
+          buttonDisable: false,
+          loadingButtonContent: null,
+        }
+    },
+    ppvPaymentPaystackFailure: (state, action) => {
+        state.ppvPayPaystack = {
+          loading: true,
+          error: action.payload,
+          success: {},
+          buttonDisable: false,
+          loadingButtonContent: null,
+        }
+    },
+    ppvPaymentWalletStart: (state, action) => {
+        state.ppvPayWallet = {
+          inputData: action.payload,
+          loading: true,
+          error: false,
+          success: {},
+          buttonDisable: true,
+          loadingButtonContent: "Processing.. Please wait...",
+        }
+    },
+    ppvPaymentWalletSuccess: (state, action) => {
+        state.ppvPayWallet = {
+          loading: false,
+          error: false,
+          success: action.payload,
+          buttonDisable: false,
+          loadingButtonContent: null,
+        }
+    },
+    ppvPaymentWalletFailure: (state, action) => {
+        state.ppvPayWallet = {
+          loading: false,
+          error: action.payload,
+          success: {},
+          buttonDisable: false,
+          loadingButtonContent: null,
+        }
+    },
+
   },
 });
 
@@ -339,7 +381,13 @@ export const {
   postFileRemoveSuccess,
   fetchExploreStart,
   fetchExploreSuccess,
-  fetchExploreFailure
+  fetchExploreFailure,
+  ppvPaymentWalletStart,
+  ppvPaymentWalletSuccess,
+  ppvPaymentWalletFailure,
+  ppvPaymentPaystackStart,
+  ppvPaymentPaystackSuccess,
+  ppvPaymentPaystackFailure,
 } = PostSlice.actions;
 
 export default PostSlice.reducer;

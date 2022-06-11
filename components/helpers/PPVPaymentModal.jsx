@@ -6,9 +6,9 @@ import { usePaystackPayment } from "react-paystack";
 import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 
 import {
-  sendTipByPaystackStart,
-  sendTipByWalletStart,
-} from "../../store/slices/sendTipSlice";
+  ppvPaymentPaystackStart,
+  ppvPaymentWalletStart,
+} from "../../store/slices/postSlice";
 
 import {notify} from "reapop"
 
@@ -17,7 +17,7 @@ import {notify} from "reapop"
 import { fetchCardDetailsStart } from "../../store/slices/cardsSlice";
 import { fetchWalletDetailsStart } from "../../store/slices/walletSlice";
 import { FaTimes } from "react-icons/fa";
-import { v4 as uuidv4 } from 'uuid';
+
 
 import Link from "next/link";
 
@@ -32,19 +32,19 @@ const TipModal = (props) => {
   const [paymentType, setPaymentType] = useState(
     localStorage.getItem("default_payment_method")
   );
-  const [message, setMessage] = useState("");
-  const configData = useSelector((state) => state.config.configData);
+
+ 
 
   const wallet = useSelector((state) => state.wallet.walletData);
   const user = useSelector((state) => state.user.profile.data);
-  const tipPaystack = useSelector((state) => state.tips.tipPaystack);
+  const ppvPaystack = useSelector((state) => state.post.ppvPayPaystack);
 
-  const [modalOpen, setModalOpen] = useState(true);
+
 
   const [config, setConfig] = useState({
     reference: (new Date()).getTime().toString(),
     email:  user?.email,
-    amount: 100,
+    amount: props.amount,
     publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
   });
 
@@ -53,18 +53,18 @@ const TipModal = (props) => {
     // Implementation for whatever you want to do with reference and after success call.
     setTimeout(() => {
       dispatch(
-        sendTipByPaystackStart({
+        ppvPaymentPaystackStart({
           payment_id: reference.reference,
           post_id:
             props.post_id != undefined || props.post_id != null
               ? props.post_id
               : "",
-          amount: amount,
+          amount: props.amount,
           user_id: props.user_id,
         })
       );
     }, 1000);
-    props.closeSendTipModal();
+    props.closePPVPaymentModal();
   };
 
   // you can call this function anything
@@ -74,7 +74,7 @@ const TipModal = (props) => {
   };
 
   useEffect(() => {
-    if (props.sendTip === true) {
+    if (props.PPVPayment === true) {
       setPaymentType(localStorage.getItem("default_payment_method"));
       setConfig({
         ...config,
@@ -83,7 +83,7 @@ const TipModal = (props) => {
       dispatch(fetchCardDetailsStart());
       dispatch(fetchWalletDetailsStart());
     }
-  }, [props.sendTip]);
+  }, [props.PPVPayment]);
 
  
 
@@ -91,7 +91,7 @@ const TipModal = (props) => {
     event.preventDefault();
     if (paymentType === "WALLET")
       dispatch(
-        sendTipByWalletStart({
+        ppvPaymentWalletStart({
           post_id: props.post_id != undefined || props.post_id != null ? props.post_id : "",
           amount: amount,
           message: message,
@@ -99,7 +99,7 @@ const TipModal = (props) => {
         })
       );
 
-    props.closeSendTipModal();
+    props.closePPVPaymentModal();
   };
 
 
@@ -109,11 +109,11 @@ const TipModal = (props) => {
 
   return (
     <>
-      <Transition appear show={props.sendTip} as={Fragment}>
+      <Transition appear show={props.PPVPayment} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
-          onClose={() => props.closeSendTipModal()}
+          onClose={() => props.closePPVPaymentModal()}
         >
           <Transition.Child
             as={Fragment}
@@ -141,11 +141,11 @@ const TipModal = (props) => {
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-1 text-left align-middle shadow-xl transition-all">
                   <div className="flex w-full items-center justify-between p-2 bg-playRed rounded-t-2xl">
                     <h3 className="text-lg font-medium leading-6 text-white">
-                      Send Tip
+                      Pay and see the Post
                     </h3>
                     <div
                       className="rounded-full bg-white p-0.5 cursor-pointer"
-                      onClick={() => props.closeSendTipModal()}
+                      onClick={() => props.closePPVPaymentModal()}
                     >
                       <FaTimes className="w-6 h-6 hover:text-red-600" />
                     </div>
@@ -163,19 +163,12 @@ const TipModal = (props) => {
                       <form onSubmit={handleSubmit} className="block mt-0">
                         <div className="mb-[1em]">
                           <input
-                            type="number"
-                            placeholder="tip amount"
-                            value={amount}
-                            onChange={(event) => {
-                              if (event.currentTarget.value > 0) {
-                                setConfig({
-                                  ...config,
-                                  amount: event.currentTarget.value * 100,
-                                });
-                                setAmount(event.currentTarget.value);
-                              }
-                            }}
-                            className="bg-white font-semibold border-none focus:ring-0 !outline-none  ring-0  rounded-lg pl-[1em] w-full shadow-xl"
+                            type="text"
+                            placeholder="pay amount"
+                            value={props.post.amount_formatted}
+
+                            disabled
+                            className="bg-white font-semibold border-none focus:ring-0 !outline-none  ring-0  rounded-lg pl-[1em] w-full shadow-xl cursor-not-allowed"
                           />
                         </div>
                         {wallet.loading ? (
@@ -210,11 +203,7 @@ const TipModal = (props) => {
                           </div>
                         )}
 
-                        <textarea
-                          rows="3"
-                          placeholder="Message (optional)"
-                          className="w-full outline-none border-0 placeholder:font-medium p-2 placeholder:text-sm my-2 placeholder:text-gray-400 bg-white !h-auto focus:ring-0 shadow-xl"
-                        />
+                        
                       </form>
                     </div>
                   </div>
@@ -238,7 +227,7 @@ const TipModal = (props) => {
                     <button
                       type="button"
                       className="bg-red-600 text-white rounded-md px-3 py-1"
-                      onClick={() => props.closeSendTipModal()}
+                      onClick={() => props.closePPVPaymentModal()}
                     >
                       Cancel
                     </button>
@@ -246,10 +235,10 @@ const TipModal = (props) => {
                       type="button"
                       className="bg-green-600 text-white rounded-md px-3 py-1"
                       onClick={handleSubmit}
-                      disabled={tipPaystack.buttonDisable}
+                      disabled={ppvPaystack.buttonDisable}
                     >
-                      {tipPaystack.loadingButtonContent !== null
-                        ? tipPaystack.loadingButtonContent
+                      {ppvPaystack.loadingButtonContent !== null
+                        ? ppvPaystack.loadingButtonContent
                         : "Pay Now"}
                     </button>
                   </div>
@@ -265,42 +254,3 @@ const TipModal = (props) => {
 
 export default TipModal;
 
-{
-  /* <form onSubmit={handleSubmit} className="block mt-0">
-                        <div className="mb-[1em]">
-                          <input
-                            type="text"
-                            placeholder="amount"
-                            value={subscriptionData.amount_formatted}
-                            disabled
-                            className="bg-white font-semibold cursor-not-allowed focus:ring-0 !outline-none border-0.5 ring-0  rounded-lg pl-[1em] w-full shadow-md"
-                          />
-                        </div>
-                        {wallet.loading ? (
-                          ""
-                        ) : (
-                          <div className="block ">
-                            <div className="bg-white p-[1em] ring-0 border !outline-none shadow-lg font-semibold flex justify-between rounded-lg items-center">
-                              <h4>Available</h4>
-                              <p>
-                                {wallet.data.user_wallet.remaining_formatted}
-                              </p>
-                            </div>
-                            {subscriptionData.amount >
-                            wallet.data.user_wallet.remaining ? (
-                              <div className="">
-                                <p className="conv-desc desc">Low Balance</p>
-                                <div className="d-flex">
-                                  <Link
-                                    href="/wallet"
-                                    className="withdraw-money-btn"
-                                  >
-                                    add amount
-                                  </Link>
-                                </div>
-                              </div>
-                            ) : null}
-                          </div>
-                        )}
-                      </form> */
-}

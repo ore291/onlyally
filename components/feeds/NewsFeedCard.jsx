@@ -5,7 +5,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
 
-import TipModal from "../tips/TipModal.jsx"
+import TipModal from "../tips/TipModal.jsx";
+import PPVPaymentModal from "../helpers/PPVPaymentModal";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { BsHeart, BsHeartFill, BsThreeDots } from "react-icons/bs";
@@ -741,7 +742,7 @@ const NewsFeedCard = ({ post, index }) => {
                 post_id={post.post_id}
                 user_id={post.user_id}
               ></TipModal>
-              {/* <PPVPaymentModal
+              <PPVPaymentModal
                 PPVPayment={PPVPayment}
                 closePPVPaymentModal={closePPVPaymentModal}
                 post={post}
@@ -752,11 +753,11 @@ const NewsFeedCard = ({ post, index }) => {
                 user_id={post.user_id}
                 amount={post.amount}
               />
-              <ReportModeModal
+              {/* <ReportModeModal
                 reportMode={reportMode}
                 closeReportModeModal={closeReportModeModal}
                 post={post}
-              /> */}
+              />  */}
             </>
           ) : null}
           </div>
