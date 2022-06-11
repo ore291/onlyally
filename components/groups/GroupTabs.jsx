@@ -7,6 +7,18 @@ function classNames(...classes) {
 }
 
 const GroupTabs = ({ groupsAll }) => {
+
+//   const checkMember = (memberList) =>{
+//     var members =  memberList.map((member)=>{
+//       return member.user_id
+      
+//     })
+//    return members.includes(user.user_id)
+// }
+
+// const filtered = groupsData.data.filter(filterchannel => checkMember(filterchannel.members));
+
+
   let [categories] = useState([
     "Subscribed Groups",
     "Suggested Groups",
@@ -131,11 +143,18 @@ const GroupTabs = ({ groupsAll }) => {
         </Tab.List>
         <Tab.Panels className="mt-2">
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
-              {[...Array(10)].map((_, index) => (
-                <GroupCard key={index} groups={true} />
+            {/* subscribed groups */}
+            {/* {
+              groupsData.loading ? (<div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
+              {groupsData.data.filter(filterchannel => checkMember(filterchannel.members)).map((group, index) => (
+                <GroupCard key={index} group={group} groupsPage={true} />
               ))}
-            </div>
+            </div>) : (
+              null
+          )
+            } */}
+            
+
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">

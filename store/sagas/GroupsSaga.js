@@ -7,7 +7,9 @@ import {
  fetchGroupsFailure,
   fetchGroupsSuccess,
   joinGroupSuccess,
-  joinGroupFailure
+  joinGroupFailure,
+  fetchGroupsCategoriesSuccess,
+  fetchGroupsCategoriesFailure
 } from "../slices/groupsSlice";
 
 
@@ -25,6 +27,23 @@ function* fetchGroupsAPI(action) {
       }
     } catch (error) {
       yield put(fetchGroupsFailure(error.message));
+      yield put(notify(error.message, 'error'));
+    }
+  }
+
+function* fetchGroupsCategoriesAPI(action) {
+    try {
+      const response = yield api.getMethod({
+        action: "groups/categories"
+      });
+      if (response.data) {
+        yield put(fetchGroupsCategoriesSuccess(response.data.data));
+      } else {
+        yield put(fetchGroupsCategoriesFailure( response.data.error));
+        yield put(notify({message : response.data.error, status :'error'}));
+      }
+    } catch (error) {
+      yield put(fetchGroupsCategoriesFailure(error.message));
       yield put(notify(error.message, 'error'));
     }
   }
@@ -52,5 +71,6 @@ function* fetchGroupsAPI(action) {
 
   export default function* pageSaga() {
     yield all([yield takeLatest("groups/fetchGroupsStart", fetchGroupsAPI)]);
+    yield all([yield takeLatest("groups/fetchGroupsCategoriesStart", fetchGroupsCategoriesAPI)]);
     yield all([yield takeLatest("groups/joinGroupStart", groupJoinAPI)]);
   }

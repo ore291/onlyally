@@ -43,6 +43,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    dispatch(fetchUserDetailsStart());
     localStorage.setItem("userId", loginDetails.user_id);
     localStorage.setItem("token", loginDetails.token);
     localStorage.setItem("userLoginStatus", true);
@@ -174,6 +175,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       var user = session.user.userDetails;
       setCookies("userId", user.user_id, { req, res });
       setCookies("accessToken", user.token, { req, res });
+      setCookies("user_email", user.email, { req, res });
 
       store.dispatch(
         fetchHomePostsStart({

@@ -44,7 +44,7 @@ const CategoryListingIndex = () => {
           userCategory.categoryList.data.length > 0 ? (
             <>
               <Tab.List className="flex space-x-4 overflow-x-scroll md:overflow-hidden scrollbar-track-black scrollbar-thin scroll-smooth  mb-4 pb-4">
-                {userCategory.categoryList.data.map((list, index) => (
+                {userCategory?.categoryList.data.map((list, index) => (
                   <Tab
                     key={index}
                     onClick={() => handleCreatorChange(list.u_category_id)}

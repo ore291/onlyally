@@ -29,6 +29,7 @@ const LikedChannels = () => {
 
      return members.includes(user.user_id)
   }
+  
   useEffect(() => {
     dispatch(fetchChannelsStart())
     

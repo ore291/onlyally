@@ -1,8 +1,11 @@
+import React,{ Fragment, useCallback, useEffect, useState } from "react";
+
 import { Popover, Transition } from "@headlessui/react";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment, useCallback, useEffect, useState } from "react";
+
+import TipModal from "../tips/TipModal.jsx"
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { BsHeart, BsHeartFill, BsThreeDots } from "react-icons/bs";
@@ -22,9 +25,12 @@ import CommonCenterLoader from "../helpers/CommonCenterLoader";
 import Comment from "./Comment";
 import Comments from "./Comments";
 import ReadMoreMaster from "../helpers/ReadMoreMaster";
+import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+
 
 const NewsFeedCard = ({ post, index }) => {
   const dispatch = useDispatch();
+  const cookies = getCookies();
 
   let totalLikes = post.total_likes ? post.total_likes : 0;
 
@@ -596,21 +602,24 @@ const NewsFeedCard = ({ post, index }) => {
                 </div>
                 <span className="text-sm">{post.total_comments}</span>
               </button>
-              <button
-                type="button"
-                title="Donate to post"
-                className="flex items-center justify-center space-x-1"
-              >
-                <div className="relative news-feed-card-icon">
-                  <Image
-                    layout="fill"
-                    src="/tips.png"
-                    objectFit="cover"
-                    alt=""
-                  />
-                </div>
-                <span className="text-xs">Tip</span>
-              </button>
+              {cookies.userId != post.user_id ? (
+                <button
+                  type="button"
+                  title="Donate to post"
+                  className="flex items-center justify-center space-x-1"
+                  onClick={() => setSendTip(true)}
+                >
+                  <div className="relative news-feed-card-icon">
+                    <Image
+                      layout="fill"
+                      src="/tips.png"
+                      objectFit="cover"
+                      alt=""
+                    />
+                  </div>
+                  <span className="text-xs">Tip</span>
+                </button>
+              ) : null}
 
               {bookmarkStatus !== "" ? (
                 <>
@@ -717,6 +726,39 @@ const NewsFeedCard = ({ post, index }) => {
               ) : null}
             </div>
             <Comments key="index" post={post} currentIndex={index} />
+
+
+            {cookies.userId !== "" &&
+          cookies.userId !== null &&
+          cookies.userId !== undefined ? (
+            <>
+              <TipModal
+                sendTip={sendTip}
+                closeSendTipModal={closeSendTipModal}
+                username={post.username}
+                userPicture={post.user_picture}
+                name={post.user_displayname}
+                post_id={post.post_id}
+                user_id={post.user_id}
+              ></TipModal>
+              {/* <PPVPaymentModal
+                PPVPayment={PPVPayment}
+                closePPVPaymentModal={closePPVPaymentModal}
+                post={post}
+                username={post.username}
+                userPicture={post.user_picture}
+                name={post.user_displayname}
+                post_id={post.post_id}
+                user_id={post.user_id}
+                amount={post.amount}
+              />
+              <ReportModeModal
+                reportMode={reportMode}
+                closeReportModeModal={closeReportModeModal}
+                post={post}
+              /> */}
+            </>
+          ) : null}
           </div>
           <div />
         </div>

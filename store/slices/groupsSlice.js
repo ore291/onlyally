@@ -12,7 +12,12 @@ const initialState = {
     data: {},
     loading: false,
     error: false,
-  }
+  },
+  categories : {
+    data: {},
+    loading: false,
+    error: false
+  },
 };
 
 export const GroupsSlice = createSlice({
@@ -64,6 +69,27 @@ export const GroupsSlice = createSlice({
         data: {},
       }
     },
+    fetchGroupsCategoriesStart: (state, action)=>{
+        state.categories = {
+          data : {},
+          loading: true,
+          error : false,
+        }
+    },
+    fetchGroupsCategoriesSuccess: (state, action)=>{
+        state.categories = {
+          data : action.payload,
+          loading: false,
+          error : false,
+        }
+    },
+    fetchGroupsCategoriesFailure: (state, action)=>{
+      state.categories = {
+        data : {},
+        loading: false,
+        error : action.payload,
+      }
+  },
   },
 
  
@@ -75,7 +101,10 @@ export const {
   fetchGroupsFailure,
   joinGroupStart,
   joinGroupSuccess,
-  joinGroupFailure
+  joinGroupFailure,
+  fetchGroupsCategoriesStart,
+  fetchGroupsCategoriesSuccess,
+  fetchGroupsCategoriesFailure
 } = GroupsSlice.actions;
 
 export default GroupsSlice.reducer;

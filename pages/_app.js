@@ -35,7 +35,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       const configValue = await response.json();
 
       configuration.set({ configData: configValue.data }, { freeze: false });
-      console.log(configValue.data);
     } catch (error) {
       configuration.set({ configData: [] }, { freeze: false });
     }
@@ -43,7 +42,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   useEffect(() => {
     fetchConfig();
-    dispatch(fetchUserDetailsStart());
+    
     dispatch(fetchConfigurationStart()); 
   }, []);
 

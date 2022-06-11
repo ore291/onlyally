@@ -32,14 +32,21 @@ import {
   fetchSingleUserProfileStart,
   fetchSingleUserPostsStart,
 } from "../../store/slices/OtherUsersSlice";
+
+import { saveChatUsersStart } from "../../store/slices/chatSlice"
 import { useEffect, useState, Fragment } from "react";
 import configuration from "react-global-configuration";
-import { setPaymentModal, setUnfollowerModal } from "../../store/slices/NavSlice";
+import {
+  setPaymentModal,
+  setUnfollowerModal,
+} from "../../store/slices/NavSlice";
 import { subscriptionPaymentPaystackStart } from "../../store/slices/subscriptionSlice";
 
 import { Popover, Transition, Dialog } from "@headlessui/react";
 import PaymentModal from "../../components/helpers/PaymentModal";
 import UnfollowModal from "../../components/helpers/UnfollowModal";
+
+
 
 const Profile = () => {
   const router = useRouter();
@@ -51,10 +58,12 @@ const Profile = () => {
   // const chat = useSelector((state) => state.chat);
   const userDetails = useSelector((state) => state.otherUser.userDetails);
   const userPosts = useSelector((state) => state.otherUser.userPosts);
-  const unfollowModal = useSelector((state) => state.navbar.unfollowUserModal)
+  const unfollowModal = useSelector((state) => state.navbar.unfollowUserModal);
   // const products = useSelector(
   //   (state) => state.userProducts.otherModelProducts
   // );
+
+
 
   useEffect(() => {
     dispatch(
@@ -122,10 +131,6 @@ const Profile = () => {
     );
   };
 
- 
-
-
-
   const handleStar = (event, user_id, status) => {
     event.preventDefault();
     setStarStatus(status);
@@ -138,8 +143,8 @@ const Profile = () => {
 
   const handleChatUser = (event, user_id) => {
     event.preventDefault();
-    props.dispatch(
-      saveChatUserStart({
+    dispatch(
+      saveChatUsersStart({
         from_user_id: localStorage.getItem("userId"),
         to_user_id: user_id,
       })
@@ -293,19 +298,24 @@ const Profile = () => {
                 </div>
 
                 <div className="row-container space-x-3 ">
-                  <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <div className="profile-buttons">
                     <FaBell className="w-5 h-5" />
                   </div>
-                  <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <div className="profile-buttons "  onClick={(event) =>
+                                handleChatUser(
+                                  event,
+                                  userDetails.data.user.user_id
+                                )
+                              }>
                     <MdMail className="w-5 h-5" />
                   </div>
-                  <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <div className="profile-buttons">
                     <FaVideo className="w-5 h-5" />
                   </div>
-                  <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <div className="profile-buttons">
                     <GiPhone className="w-5 h-5" />
                   </div>
-                  <div className="row-container  p-3 bg-gray-200 rounded-md">
+                  <div className="profile-buttons">
                     <RiUpload2Line className="w-5 h-5" />
                   </div>
                 </div>
@@ -327,80 +337,80 @@ const Profile = () => {
                     <span>Fans</span>
                   </div>
                 </div>
-                <div className={`grid ${userDetails.data.payment_info.is_free_account == 0 &&
-                    userDetails.data.payment_info.unsubscribe_btn_status ==
-                      0 ? 'grid-cols-1 gap-1' : "grid-cols-2 gap-2" }   justify-items-center place-content-center `}>
-                  {userDetails.data.is_block_user == 0 ? (
+                <div
+                  className={`grid ${
+                    userDetails.data.payment_info.is_free_account == 0 &&
+                    userDetails.data.payment_info.unsubscribe_btn_status == 0
+                      ? "grid-cols-1 gap-1"
+                      : "grid-cols-2 gap-2"
+                  }   justify-items-center place-content-center `}
+                >
+                  {
+                  userDetails.data.is_block_user == 0 ? (
                     userDetails.data.payment_info.is_user_needs_pay == 1 &&
                     userDetails.data.payment_info.unsubscribe_btn_status ==
                       0 ? (
                       userDetails.data.payment_info.is_free_account == 0 ? (
                         <>
                           <div className="grid grid-cols-2 gap-x-1">
-                            
-                              <div
-                                className="sub-button"
-                                onClick={(event) =>
-                                  subscriptionPayment(
-                                    "months",
-                                    userDetails.data.payment_info
-                                      .subscription_info.monthly_amount,
-                                    userDetails.data.payment_info
-                                      .subscription_info
-                                      .monthly_amount_formatted
-                                  )
-                                }
-                              >
-                                <span>
-                                  <FaUnlock />
-                                </span>
-                                {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
-                              </div>
-                        
-                          
-                              <div
-                                className="sub-button"
-                                onClick={(event) =>
-                                  subscriptionPayment(
-                                    event,
-                                    "years",
-                                    userDetails.data.payment_info
-                                      .subscription_info.yearly_amount,
-                                    userDetails.data.payment_info
-                                      .subscription_info.yearly_amount_formatted
-                                  )
-                                }
-                              >
-                                <span>
-                                  <FaUnlock />
-                                </span>
-
-                                {`Get access ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
-                              </div>
+                            <div
+                              className="sub-button"
+                              onClick={(event) =>
+                                subscriptionPayment(
+                                  "months",
+                                  userDetails.data.payment_info
+                                    .subscription_info.monthly_amount,
+                                  userDetails.data.payment_info
+                                    .subscription_info.monthly_amount_formatted
+                                )
+                              }
+                            >
+                              <span>
+                                <FaUnlock />
+                              </span>
+                              {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
                             </div>
-                         
+
+                            <div
+                              className="sub-button"
+                              onClick={(event) =>
+                                subscriptionPayment(
+                                  event,
+                                  "years",
+                                  userDetails.data.payment_info
+                                    .subscription_info.yearly_amount,
+                                  userDetails.data.payment_info
+                                    .subscription_info.yearly_amount_formatted
+                                )
+                              }
+                            >
+                              <span>
+                                <FaUnlock />
+                              </span>
+
+                              {`Get access ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
+                            </div>
+                          </div>
                         </>
                       ) : (
-                      
-                          <div
-                            className="sub-button"
-                            onClick={(event) =>
-                              dispatch(
-                                subscriptionPaymentPaystackStart({
-                                  user_unique_id:
-                                    userDetails.data.user.user_unique_id,
-                                  plan_type: "months",
-                                  is_free: 0,
-                                })
-                              )
-                            }
-                          >
-                            <span>
-                              <FaUnlock />
-                            </span>
-                            {userDetails.data.payment_info.payment_text}
-                          </div>
-                       
+                        <div
+                          className="sub-button"
+                          onClick={(event) =>
+                            dispatch(
+                              subscriptionPaymentPaystackStart({
+                                user_unique_id:
+                                  userDetails.data.user.user_unique_id,
+                                plan_type: "months",
+                                is_free: 0,
+                              })
+                            )
+                          }
+                        >
+                          <span>
+                            <FaUnlock />
+                          </span>
+                          {userDetails.data.payment_info.payment_text}
+                        </div>
                       )
                     ) : null
                   ) : null}
@@ -409,7 +419,7 @@ const Profile = () => {
                     <>
                       <div
                         className="sub-button row-container space-x-1"
-                        onClick={()=>dispatch(setUnfollowerModal(true))}
+                        onClick={() => dispatch(setUnfollowerModal(true))}
                       >
                         <span>
                           <FaUserTimes className="h-4 w-4" />
@@ -418,10 +428,11 @@ const Profile = () => {
                           Unfollow
                         </p>
                       </div>
-                      {
-                        unfollowModal ? ( <UnfollowModal  user_id={userDetails.data.user.user_id}/> ) : null
-                      }
-                     
+                      {unfollowModal ? (
+                        <UnfollowModal
+                          user_id={userDetails.data.user.user_id}
+                        />
+                      ) : null}
                     </>
                   ) : null}
                   <div className="row-container space-x-2  sub-button">
@@ -555,7 +566,6 @@ const Profile = () => {
           />
         ) : // tips payment will go here
         null}
-
       </div>
     </SideNavLayout>
   );

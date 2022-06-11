@@ -150,7 +150,7 @@ export const ChatSlice = createSlice({
         loadMoreLoading: false,
       };
     },
-    saveChatUsersStart: () => {
+    saveChatUsersStart: (state, action) => {
       state.saveChatUser = {
         data: {},
         loading: true,
@@ -160,7 +160,7 @@ export const ChatSlice = createSlice({
         buttonDisable: true,
       };
     },
-    saveChatUsersSuccess: () => {
+    saveChatUsersSuccess: (state, action) => {
       state.saveChatUser = {
         data: action.payload,
         loading: false,
@@ -170,7 +170,7 @@ export const ChatSlice = createSlice({
         buttonDisable: false,
       };
     },
-    saveChatUsersFailure: () => {
+    saveChatUsersFailure: (state, action) => {
       state.saveChatUser = {
         data: {},
         loading: true,

@@ -20,6 +20,7 @@ import ChannelsSaga from "./ChannelsSaga";
 import ChatAssetSaga from "./ChatAssetSaga";
 import UserCategorySaga from "./UserCategorySaga";
 import GroupsSaga from "./GroupsSaga";
+import SendTipSaga from "./SendTipSaga";
 
 export default function* rootSaga() {
     yield all([fork(UserSaga)]);
@@ -42,6 +43,7 @@ export default function* rootSaga() {
     yield all([fork(ChannelsSaga)])
     yield all([fork(UserCategorySaga)])
     yield all([fork(GroupsSaga)])
+    yield all([fork(SendTipSaga)])
 
     
 }

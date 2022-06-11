@@ -5,11 +5,14 @@
 /.pnp
 .pnp.js
 
-/certificates
+/ore
 
+.server.js
 server.js
 
-/ore
+/certificates
+
+
 
 /http
 

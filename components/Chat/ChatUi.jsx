@@ -23,9 +23,12 @@ import io from "socket.io-client";
 
 import { useDispatch, useSelector } from "react-redux";
 
-let chatSocket;
+
 
 const ChatUi = () => {
+
+  let chatSocket;
+
   const dispatch = useDispatch();
 
   const [toggler, setToggler] = useState(false);
@@ -95,7 +98,7 @@ const ChatUi = () => {
       chatSocketConnect(chatUsers.data.users[0].to_user_id);
     } else {
     }
-  }, [!chatUsers.loading]);
+  }, [!chatUsers.loading, socketUrl]);
 
   // Scroll down function..
   useEffect(() => {
@@ -118,6 +121,7 @@ const ChatUi = () => {
 
   const chatSocketConnect = (to_user_id) => {
     // check the socket url is configured
+   
     let chatSocketUrl = socketUrl;
     console.log("chatSocket", chatSocketUrl);
     console.log("Input ID", to_user_id);

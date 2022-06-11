@@ -2,35 +2,31 @@ import Image from "next/image";
 import Button from "../Button.jsx";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { joinGroupStart } from "../../store/slices/groupsSlice.js";
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 const GroupCard = ({
   filter,
   profile,
-  groups,
+  groupsPage,
   groupsAll,
   groupsSuggestion,
-  group
+  group,
 }) => {
-
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.user.loginData)
+  const user = useSelector((state) => state.user.loginData);
 
-
-  const checkMember = (memberList) =>{
+  const checkMember = (memberList) => {
     console.log(memberList);
-      var members =  memberList.map((member)=>{
-        return member.user_id
-        
-      })
+    var members = memberList.map((member) => {
+      return member.user_id;
+    });
 
-     return members.includes(user.user_id)
-  }
-    
-  const handleJoinGroup = (slug)=>{
-      dispatch(joinGroupStart(slug));
-  }
-  
+    return members.includes(user.user_id);
+  };
+
+  const handleJoinGroup = (slug) => {
+    dispatch(joinGroupStart(slug));
+  };
 
   if (groupsSuggestion) {
     return (
@@ -116,7 +112,7 @@ const GroupCard = ({
       </div>
     );
   }
-  if (groups) {
+  if (groupsPage) {
     return (
       <div className="flex flex-col w-[230px] flex-shrink-0 flex-grow-0   rounded-t-lg border shadow-md ">
         <div className="relative h-24 w-full rounded-t-lg">
@@ -132,37 +128,48 @@ const GroupCard = ({
         <div className="p-2">
           <div className="flex flex-col items-start pb-1 space-y-2 ">
             <p className="font-bold text-gray-500 text-lg truncate">
-              Wedding Ideas
+              {group.name}
             </p>
             <p className="font-medium text-sm text-gray-400 truncate">
-              234k Members 1.7k Post A Day
+              {group.members.length} Members 1.7k Post A Day
             </p>
             <div className="flex items-center space-x-8 ">
               <div className="row-container relative ">
-                <div className=" w-7 h-7 relative">
-                  <Image
-                    src="/profile_avatar_full.jpg"
-                    alt="side-img"
-                    layout="fill"
-                    objectFit="cover"
-                    className="relative rounded-full w-12 h-12"
-                  />
-                </div>
-                <div className="bg-white p-[2px] rounded-full row-container absolute left-5">
-                  <div className=" w-8 h-8 relative">
-                    <Image
-                      src="/profile_avatar_full.jpg"
-                      alt="side-img"
-                      layout="fill"
-                      objectFit="cover"
-                      className="relative rounded-full w-12 h-12"
-                    />
-                  </div>
-                </div>
+                {group.connections.length > 0
+                  ? group.connections.slice(0, 2).map((connection, i) => {
+                      if (i === 1) {
+                        return (
+                          <div className=" w-7 h-7 relative" key={i}>
+                            <Image
+                              src={connection.picture}
+                              alt="side-img"
+                              layout="fill"
+                              objectFit="cover"
+                              className="relative rounded-full w-12 h-12"
+                            />
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div className="bg-white p-[2px] rounded-full row-container absolute left-5" key={i}>
+                            <div className=" w-8 h-8 relative">
+                              <Image
+                                src={connection.picture}
+                                alt="side-img"
+                                layout="fill"
+                                objectFit="cover"
+                                className="relative rounded-full w-12 h-12"
+                              />
+                            </div>
+                          </div>
+                        );
+                      }
+                    })
+                  : null}
               </div>
-              <div className="">
-                <p className="text-sm font-medium text-gray-500">
-                  <span className="font-semibold">Alex </span>and 4 friends are
+              <div className="ml-2 pl-8 tracking-tight">
+                <p className="text-xs font-medium text-gray-500">
+                  <span className="font-semibold">{group.connections[0].name} </span>and {group.connections.length > 1 ? group.connections.length - 1 : ""} friends are
                   members
                 </p>
               </div>
@@ -170,8 +177,18 @@ const GroupCard = ({
           </div>
 
           <div className="w-full flex items-center justify-between ">
-            <Button text="Joined" extraClasses="w-[100px] h-8" active={true} />
-            <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" />
+            {/* <Button text="Joined" extraClasses="w-[100px] h-8" active={true} />
+            <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" /> */}
+            {checkMember(group.members) ? (
+          <Button text="Joined" extraClasses="w-[100px] h-8" active={true} />
+        ) : (
+          <Button
+            text="Join"
+            active={true}
+            onClick={(e) => handleJoinGroup(group.slug)}
+          />
+        )}
+        <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" />
           </div>
         </div>
       </div>
@@ -254,12 +271,15 @@ const GroupCard = ({
       </div>
       <div className="flex justify-between ml-20 items-center space-x-6">
         <p className="text-sm font-bold whitespace-nowrap">{group.name}</p>
-        {
-                  checkMember(group.members) ? (
-                    <Button  text="view" active={true}  />
-                  ) : <Button  text="Join" active={true} onClick={(e)=>handleJoinGroup(group.slug)} />
-                }
-        
+        {checkMember(group.members) ? (
+          <Button text="view" active={true} />
+        ) : (
+          <Button
+            text="Join"
+            active={true}
+            onClick={(e) => handleJoinGroup(group.slug)}
+          />
+        )}
       </div>
     </div>
   );
