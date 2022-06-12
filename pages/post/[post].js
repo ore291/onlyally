@@ -12,14 +12,14 @@ const Post = () => {
   const { post } = router.query;
 
   useEffect(() => {
-      
+    if(!router.isReady) return;
     if (singlePost.loading)
       dispatch(
         fetchSinglePostStart({
           post_unique_id : post,
         })
       );
-  }, []);
+  }, [router.isReady]);
 
   return (
       <SideNavLayout>

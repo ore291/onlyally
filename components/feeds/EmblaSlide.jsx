@@ -4,7 +4,7 @@ import Link from "next/link";
 import scrollToTop from "../helpers/ScrollToTop";
 const PLACEHOLDER_SRC = `data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D`;
 
-const EmblaSlide = ({ post,postFile, inView , index}) => {
+const EmblaSlide = ({ post,postFile, inView , index, handlePPVPayment}) => {
   const [hasLoaded, setHasLoaded] = useState(false);
 
 
@@ -15,9 +15,8 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
   return (
     <div className={`embla__slide }`}>
       <div className="embla__slide__inner">
-        <Link
-          href="#"
-          passHref
+        <a 
+          
           onClick={(event) =>
             post.payment_info.post_payment_type === "ppv" &&
             post.payment_info.is_user_needs_pay === 1
@@ -64,9 +63,9 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
                   <button
                     type="button"
                     className="gallery-pay-button"
-                    // onClick={(event) =>
-                    //   handlePPVPayment(event, 1)
-                    // }
+                    onClick={(event) =>
+                      handlePPVPayment(event, 1)
+                    }
                   >
                     {post.payment_info.payment_text}
                   </button>
@@ -86,7 +85,7 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
                     </button>
                   </div>
                 ) : (
-                  <Link to={`/` + post.user.unique_id}>
+                  <Link to={`/profile/` + post.user.unique_id}>
                     <div className="gallery-pay-button-div">
                       <button className="gallery-pay-button">
                         {post.payment_info.payment_text}
@@ -108,7 +107,7 @@ const EmblaSlide = ({ post,postFile, inView , index}) => {
                 // />
                 ""} */}
           </div>
-        </Link>
+        </a>
       </div>
     </div>
   );

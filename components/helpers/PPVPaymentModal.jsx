@@ -25,7 +25,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const TipModal = (props) => {
+const PPVPaymentModal = (props) => {
   const dispatch = useDispatch();
   const cookies = getCookies();
   const [amount, setAmount] = useState(1);
@@ -38,13 +38,15 @@ const TipModal = (props) => {
   const wallet = useSelector((state) => state.wallet.walletData);
   const user = useSelector((state) => state.user.profile.data);
   const ppvPaystack = useSelector((state) => state.post.ppvPayPaystack);
+  const PPVPaymentModal = useSelector((state) => state.navbar.ppvPaymentModal);
+ 
 
 
 
   const [config, setConfig] = useState({
     reference: (new Date()).getTime().toString(),
     email:  user?.email,
-    amount: props.amount,
+    amount: props.amount * 100,
     publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
   });
 
@@ -92,9 +94,7 @@ const TipModal = (props) => {
     if (paymentType === "WALLET")
       dispatch(
         ppvPaymentWalletStart({
-          post_id: props.post_id != undefined || props.post_id != null ? props.post_id : "",
-          amount: amount,
-          message: message,
+          post_id: props.post_id != undefined || props.post_id != null ? props.post_id : "", 
           user_id: props.user_id,
         })
       );
@@ -210,7 +210,7 @@ const TipModal = (props) => {
                   <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
                     {amount != 0 ? (
                       <button
-                        className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-white"
+                        className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-white focus:outline-none"
                         onClick={() => {
                           initializePayment(onSuccess, onClose);
                         }}
@@ -252,5 +252,5 @@ const TipModal = (props) => {
   );
 };
 
-export default TipModal;
+export default PPVPaymentModal;
 

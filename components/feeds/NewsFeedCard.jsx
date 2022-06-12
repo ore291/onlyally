@@ -1,4 +1,4 @@
-import React,{ Fragment, useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 
 import { Popover, Transition } from "@headlessui/react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -22,12 +22,12 @@ import { fetchSinglePostStart } from "../../store/slices/postSlice";
 import { savePostLikedStart } from "../../store/slices/postLikeSlice";
 import { fetchCommentsStart } from "../../store/slices/commentsSlice";
 import { saveBookmarkStart } from "../../store/slices/bookmarkSlice";
+import { setPPVPaymentModal } from "../../store/slices/NavSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
 import Comment from "./Comment";
 import Comments from "./Comments";
 import ReadMoreMaster from "../helpers/ReadMoreMaster";
 import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
-
 
 const NewsFeedCard = ({ post, index }) => {
   const dispatch = useDispatch();
@@ -321,13 +321,16 @@ const NewsFeedCard = ({ post, index }) => {
                     ? post.postFiles.length > 0
                       ? post.postFiles.map((postFile, index) =>
                           postFile.file_type === "image" ? (
-                            <EmblaSlide
-                              post={post}
-                              postFile={postFile}
-                              key={index}
-                              index={index}
-                              inView={slidesInView.indexOf(index) > -1}
-                            />
+                            PPVPayment ? null : (
+                              <EmblaSlide
+                                post={post}
+                                postFile={postFile}
+                                handlePPVPayment={handlePPVPayment}
+                                key={index}
+                                index={index}
+                                inView={slidesInView.indexOf(index) > -1}
+                              />
+                            )
                           ) : postFile.file_type === "video" ? (
                             <div className="embla__slide" key={index}>
                               <div className="postImage postVideo">
@@ -728,38 +731,37 @@ const NewsFeedCard = ({ post, index }) => {
             </div>
             <Comments key="index" post={post} currentIndex={index} />
 
-
             {cookies.userId !== "" &&
-          cookies.userId !== null &&
-          cookies.userId !== undefined ? (
-            <>
-              <TipModal
-                sendTip={sendTip}
-                closeSendTipModal={closeSendTipModal}
-                username={post.username}
-                userPicture={post.user_picture}
-                name={post.user_displayname}
-                post_id={post.post_id}
-                user_id={post.user_id}
-              ></TipModal>
-              <PPVPaymentModal
-                PPVPayment={PPVPayment}
-                closePPVPaymentModal={closePPVPaymentModal}
-                post={post}
-                username={post.username}
-                userPicture={post.user_picture}
-                name={post.user_displayname}
-                post_id={post.post_id}
-                user_id={post.user_id}
-                amount={post.amount}
-              />
-              {/* <ReportModeModal
+            cookies.userId !== null &&
+            cookies.userId !== undefined ? (
+              <>
+                <TipModal
+                  sendTip={sendTip}
+                  closeSendTipModal={closeSendTipModal}
+                  username={post.username}
+                  userPicture={post.user_picture}
+                  name={post.user_displayname}
+                  post_id={post.post_id}
+                  user_id={post.user_id}
+                ></TipModal>
+                <PPVPaymentModal
+                  PPVPayment={PPVPayment}
+                  closePPVPaymentModal={closePPVPaymentModal}
+                  post={post}
+                  username={post.username}
+                  userPicture={post.user_picture}
+                  name={post.user_displayname}
+                  post_id={post.post_id}
+                  user_id={post.user_id}
+                  amount={post.amount}
+                />
+                {/* <ReportModeModal
                 reportMode={reportMode}
                 closeReportModeModal={closeReportModeModal}
                 post={post}
               />  */}
-            </>
-          ) : null}
+              </>
+            ) : null}
           </div>
           <div />
         </div>

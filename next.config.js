@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 
+
 // 'use strict';
 
 
@@ -14,7 +15,7 @@ const webpack = require("webpack");
 
 module.exports = {
   
-  reactStrictMode: false,
+  reactStrictMode: true,
   images: {
     domains: ['picsum.photos','cms.onlyally.com','localhost','cp.playjor.com','stackdiary.com', 'playjor.ams3.digitaloceanspaces.com'],
   },

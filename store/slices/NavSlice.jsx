@@ -9,7 +9,8 @@ export const navSlice = createSlice({
     uploadModal: false,
     createPostModal: false,
     paymentSubscriptionModal : false,
-    unfollowUserModal : false
+    unfollowUserModal : false,
+    ppvPaymentModal : false,
   },
 
   reducers: {
@@ -30,6 +31,9 @@ export const navSlice = createSlice({
     },
     setUnfollowerModal: (state, action)=>{
       state.unfollowUserModal = action.payload;
+    },
+    setPPVPaymentModal: (state, action) => { 
+      state.ppvPaymentModal = action.payload;
     }
   },
 
@@ -44,7 +48,7 @@ export const navSlice = createSlice({
   // },
 });
 
-export const { setNavState ,setMainMobileNavState , setUploadModal, setCreatePostModal, setPaymentModal, setUnfollowerModal} = navSlice.actions
+export const { setNavState ,setMainMobileNavState ,setPPVPaymentModal, setUploadModal, setCreatePostModal, setPaymentModal, setUnfollowerModal} = navSlice.actions
 
 
 
