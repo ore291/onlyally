@@ -17,7 +17,7 @@ import {notify} from "reapop"
 import { fetchCardDetailsStart } from "../../store/slices/cardsSlice";
 import { fetchWalletDetailsStart } from "../../store/slices/walletSlice";
 import { FaTimes } from "react-icons/fa";
-import { v4 as uuidv4 } from 'uuid';
+
 
 import Link from "next/link";
 

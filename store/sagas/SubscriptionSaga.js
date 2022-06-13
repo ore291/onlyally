@@ -77,7 +77,7 @@ function* subscriptionPaymentPayStackAPI() {
       );
       const response = yield api.postMethod(
         {action:
-        "user_subscriptions_payment_by_stripe",
+        "user_subscriptions_payment_by_paypal",
         object :
         subscriptionDetails
         });

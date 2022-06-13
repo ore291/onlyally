@@ -1,5 +1,6 @@
 import SideNavLayout from "../../components/SideNavLayout";
 import OtherUserProfileTabs from "../../components/userProfile/OtherUserProfileTabs";
+import TipModal from "../../components/tips/TipModal";
 import Button from "../../components/Button";
 import Image from "next/image";
 import {
@@ -33,7 +34,7 @@ import {
   fetchSingleUserPostsStart,
 } from "../../store/slices/OtherUsersSlice";
 
-import { saveChatUsersStart } from "../../store/slices/chatSlice"
+import { saveChatUsersStart } from "../../store/slices/chatSlice";
 import { useEffect, useState, Fragment } from "react";
 import configuration from "react-global-configuration";
 import {
@@ -45,8 +46,6 @@ import { subscriptionPaymentPaystackStart } from "../../store/slices/subscriptio
 import { Popover, Transition, Dialog } from "@headlessui/react";
 import PaymentModal from "../../components/helpers/PaymentModal";
 import UnfollowModal from "../../components/helpers/UnfollowModal";
-
-
 
 const Profile = () => {
   const router = useRouter();
@@ -62,8 +61,6 @@ const Profile = () => {
   // const products = useSelector(
   //   (state) => state.userProducts.otherModelProducts
   // );
-
-
 
   useEffect(() => {
     dispatch(
@@ -152,6 +149,7 @@ const Profile = () => {
   };
 
   const subscriptionPayment = (
+    event,
     plan_type,
     amount,
     amount_formatted,
@@ -301,12 +299,12 @@ const Profile = () => {
                   <div className="profile-buttons">
                     <FaBell className="w-5 h-5" />
                   </div>
-                  <div className="profile-buttons "  onClick={(event) =>
-                                handleChatUser(
-                                  event,
-                                  userDetails.data.user.user_id
-                                )
-                              }>
+                  <div
+                    className="profile-buttons "
+                    onClick={(event) =>
+                      handleChatUser(event, userDetails.data.user.user_id)
+                    }
+                  >
                     <MdMail className="w-5 h-5" />
                   </div>
                   <div className="profile-buttons">
@@ -345,8 +343,7 @@ const Profile = () => {
                       : "grid-cols-2 gap-2"
                   }   justify-items-center place-content-center `}
                 >
-                  {
-                  userDetails.data.is_block_user == 0 ? (
+                  {userDetails.data.is_block_user == 0 ? (
                     userDetails.data.payment_info.is_user_needs_pay == 1 &&
                     userDetails.data.payment_info.unsubscribe_btn_status ==
                       0 ? (
@@ -357,22 +354,23 @@ const Profile = () => {
                               className="sub-button"
                               onClick={(event) =>
                                 subscriptionPayment(
+                                  event,
                                   "months",
                                   userDetails.data.payment_info
                                     .subscription_info.monthly_amount,
-                                  userDetails.data.payment_info
+                               userDetails.data.payment_info
                                     .subscription_info.monthly_amount_formatted
                                 )
                               }
                             >
                               <span>
-                                <FaUnlock />
+                                <FaUnlock className="w-3 h-3"/>
                               </span>
                               {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
                             </div>
 
                             <div
-                              className="sub-button"
+                              className="sub-button "
                               onClick={(event) =>
                                 subscriptionPayment(
                                   event,
@@ -385,7 +383,7 @@ const Profile = () => {
                               }
                             >
                               <span>
-                                <FaUnlock />
+                                <FaUnlock className="w-3 h-3"/>
                               </span>
 
                               {`Get access ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
@@ -435,7 +433,7 @@ const Profile = () => {
                       ) : null}
                     </>
                   ) : null}
-                  <div className="row-container space-x-2  sub-button">
+                  <div className="row-container space-x-2  sub-button" onClick={() => setSendTip(true)}>
                     <Image
                       src="/materials/tips.png"
                       alt="tips"
@@ -557,13 +555,26 @@ const Profile = () => {
         ) : localStorage.getItem("userId") !== "" &&
           localStorage.getItem("userId") !== null &&
           localStorage.getItem("userId") !== undefined ? (
-          <PaymentModal
-            userPicture={userDetails.data.user.picture}
-            name={userDetails.data.user.name}
-            user_unique_id={userDetails.data.user.user_unique_id}
-            subscriptionData={subscriptionData}
-            username={userDetails.data.user.username}
-          />
+          <>
+            <PaymentModal
+              userPicture={userDetails.data.user.picture}
+              name={userDetails.data.user.name}
+              user_unique_id={userDetails.data.user.user_unique_id}
+              subscriptionData={subscriptionData}
+              username={userDetails.data.user.username}
+              email={userDetails.data.user.email}
+            />
+
+            <TipModal
+              sendTip={sendTip}
+              closeSendTipModal={closeSendTipModal}
+              username={userDetails.data.user.username}
+              userPicture={userDetails.data.user.picture}
+              name={userDetails.data.user.name}
+              post_id={null}
+              user_id={userDetails.data.user.user_id}
+            />
+          </>
         ) : // tips payment will go here
         null}
       </div>

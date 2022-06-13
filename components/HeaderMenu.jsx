@@ -3,6 +3,8 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
+import { fetchWalletDetailsStart } from "../store/slices/walletSlice";
+import {useSelector, useDispatch} from "react-redux"
 
 import {
   BsDot,
@@ -25,6 +27,13 @@ import { IoLogOut } from "react-icons/io5";
 
 const HeaderMenu = ({ user }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const wallet = useSelector((state) => state.wallet.walletData);
+
+  useEffect(() => {
+    dispatch(fetchWalletDetailsStart());
+  }, []);
+
   const logout = async () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userId");
@@ -51,7 +60,7 @@ const HeaderMenu = ({ user }) => {
     <div>
       <Menu as="div" className="relative inline-block text-left">
         <Menu.Button>
-          <div className="row-container rounded-full bg-[#BA253D] space-x-1 pr-2 cursor-pointer">
+          <div className="row-container rounded-full bg-[#BA253D] space-x-1 pr-2 cursor-pointer" >
             <Image
               alt=""
               src={user.picture}
@@ -107,18 +116,19 @@ const HeaderMenu = ({ user }) => {
                   <p className="font-bold text-sm">
                     {user.total_followings} Following
                   </p>
-                  <button className="row-container bg-gray-100 rounded-full px-2 py-1 ml-2">
+                  <button className="row-container bg-gray-100 rounded-full px-2 py-1 ml-2" onClick={() => router.push("/wallet")}>
                     <FaWallet className="h-4 w-4 mr-1" />
                     <p className="text-sm font-bold">
-                      {user.wallet_balance_formatted}
+                      {wallet?.data?.user_wallet?.remaining_formatted}
                     </p>
-                    {/* <span>&#8358;</span>{ */}
+      
                   </button>
                 </div>
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
                   <button
+                  onClick={() => router.push("/profile")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"

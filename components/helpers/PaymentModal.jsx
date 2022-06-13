@@ -7,10 +7,12 @@ import {
   subscriptionPaymentWalletStart,
 } from "../../store/slices/subscriptionSlice";
 
+import { usePaystackPayment } from "react-paystack";
+
 import { fetchCardDetailsStart } from "../../store/slices/cardsSlice";
 import { fetchWalletDetailsStart } from "../../store/slices/walletSlice";
 import { FaTimes } from "react-icons/fa";
-import configuration from "react-global-configuration";
+import {notify } from "reapop";
 
 import Link from "next/link";
 
@@ -24,6 +26,7 @@ const PaymentModal = ({
   user_unique_id,
   subscriptionData,
   username,
+  email
 }) => {
   const dispatch = useDispatch();
   const [paymentType, setPaymentType] = useState("WALLET");
@@ -36,10 +39,47 @@ const PaymentModal = ({
   );
   const wallet = useSelector((state) => state.wallet.walletData);
   const cards = useSelector((state) => state.cards.cardDetails);
+  // const user = useSelector((state) => state.user.profile.data);
 
   const closeModal = () => dispatch(setPaymentModal(false));
 
-  const [showPayPal, payPal] = useState(false);
+  const [config, setConfig] = useState({
+    reference: (new Date()).getTime().toString(),
+    email:  email,
+    amount: subscriptionData.amount * 100,
+    publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
+  });
+
+   // you can call this function anything
+   const onSuccess = (reference) => {
+    // Implementation for whatever you want to do with reference and after success call.
+    setTimeout(() => {
+      dispatch(
+        subscriptionPaymentPaystackStart({
+          payment_id: reference.reference,
+          user_unique_id: user_unique_id,
+          plan_type: subscriptionData.plan_type,
+          is_free: subscriptionData.is_free,
+        })
+      );
+    }, 1000);
+    closeModal();
+  };
+
+  // you can call this function anything
+  const onClose = () => {
+    // implementation for  whatever you want to do when the Paystack dialog closed.
+   dispatch(notify({ message : "Payment cancelled please try again..", status : "error"}))
+  };
+
+  useEffect(() => {
+    setConfig({
+      ...config,
+      amount : subscriptionData.amount * 100,
+      reference: (new Date()).getTime().toString(),
+
+    })
+  }, [subscriptionData])
 
   useEffect(() => {
     setPaymentType(localStorage.getItem("default_payment_method"));
@@ -61,15 +101,7 @@ const PaymentModal = ({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (paymentType === "CARD")
-      dispatch(
-        subscriptionPaymentPaystackStart({
-          user_unique_id: props.user_unique_id,
-          plan_type: props.subscriptionData.plan_type,
-          is_free: props.subscriptionData.is_free,
-        })
-      );
-    if (paymentType === "PAYPAL") showPayPal(true);
+   
 
     if (paymentType === "WALLET")
       dispatch(
@@ -106,6 +138,8 @@ const PaymentModal = ({
     );
     this.props.dispatch(createNotification(notificationMessage));
   };
+
+  const initializePayment = usePaystackPayment(config);
 
   return (
     <Transition appear show={subscriptionPayment} as={Fragment}>
@@ -145,44 +179,9 @@ const PaymentModal = ({
                     <FaTimes className="w-6 h-6 hover:text-red-600" />
                   </div>
                 </div>
-                <Tab.Group defaultIndex={1}>
-                  <Tab.List className="flex space-x-1 rounded-b-xl bg-blue-900/20 p-1">
-                    <Tab
-                      className={({ selected }) =>
-                        classNames(
-                          "w-full rounded-lg py-2.5 text-lg font-semibold leading-5 text-lightPlayRed",
-                          "ring-white ring-opacity-60 ring-offset-2 ring-offset-lightPlayRed focus:outline-none focus:ring-2",
-                          selected
-                            ? "bg-white shadow"
-                            : "text-gray-400 hover:bg-white/[0.12] hover:text-white"
-                        )
-                      }
-                    >
-                      Card (Paystack)
-                    </Tab>
-                    <Tab
-                      className={({ selected }) =>
-                        classNames(
-                          "w-full rounded-lg py-2.5 text-lg font-semibold leading-5 text-lightPlayRed",
-                          "ring-white ring-opacity-60 ring-offset-2 ring-offset-lightPlayRed focus:outline-none focus:ring-2",
-                          selected
-                            ? "bg-white shadow"
-                            : "text-gray-400 hover:bg-white/[0.12] hover:text-white"
-                        )
-                      }
-                    >
-                      Wallet
-                    </Tab>
-                  </Tab.List>
-                  <Tab.Panels className="mt-2 p-5 bg-slate-50">
-                    <Tab.Panel>
-                      <h1>coming soon</h1>
-                    </Tab.Panel>
+                  <div className="p-5">
 
-                    <Tab.Panel
-                      className={classNames("rounded-xl bg-white p-3")}
-                    >
-                      <form onSubmit={handleSubmit} className="block mt-0">
+                     <form onSubmit={handleSubmit} className="block mt-0">
                         <div className="mb-[1em]">
                           <input
                             type="text"
@@ -204,14 +203,20 @@ const PaymentModal = ({
                             </div>
                             {subscriptionData.amount >
                             wallet.data.user_wallet.remaining ? (
-                              <div className="">
-                                <p className="conv-desc desc">Low Balance</p>
-                                <div className="d-flex">
+                              <div className="py-2">
+                                <p className="font-light text-xs text-gray-400">
+                                  * The wallet balance is low, so please and the
+                                  money to wallet
+                                </p>
+                                <div className="flex justify-start w-36 my-0.5  bg-green-400 rounded-md cursor-pointer p-2">
                                   <Link
                                     href="/wallet"
                                     className="withdraw-money-btn"
+                                    passHref
                                   >
-                                    add amount
+                                    <div className="font-medium text-sm text-white">
+                                      Add Wallet Amount
+                                    </div>
                                   </Link>
                                 </div>
                               </div>
@@ -219,9 +224,25 @@ const PaymentModal = ({
                           </div>
                         )}
                       </form>
-                    </Tab.Panel>
-                  </Tab.Panels>
+                  </div>   
+
                   <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
+                  {subscriptionData.amount != 0 ? (
+                      <button
+                        className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-white focus:outline-none ring-0"
+                        onClick={() => {
+                          initializePayment(onSuccess, onClose);
+                        }}
+                      >
+                        <span className="font-semibold text-sm">Pay with</span>
+
+                        <img
+                          className="h-24"
+                          src="/materials/paystack-logo-vector.svg"
+                          alt="Paystack"
+                        />
+                      </button>
+                    ) : null}
                     <button
                       type="button"
                       className="bg-red-600 text-white rounded-md px-3 py-1"
@@ -240,7 +261,7 @@ const PaymentModal = ({
                         : "Pay Now"}
                     </button>
                   </div>
-                </Tab.Group>
+             
               </Dialog.Panel>
             </Transition.Child>
           </div>
