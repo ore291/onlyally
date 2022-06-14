@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { notify } from "reapop";
 import Image from "next/image";
-import { BsHeartFill, BsHeart, BsThreeDots } from "react-icons/bs";
+import { BsHeartFill, BsHeart, BsThreeDots  } from "react-icons/bs";
+import {FaPlay} from "react-icons/fa"
 import {MdLockOutline} from "react-icons/md"
 
 const ExplorePostCard = ({ post , type}) => {
@@ -77,6 +78,7 @@ const ExplorePostCard = ({ post , type}) => {
               alt=""
               className="rounded-sm"
             />
+            <FaPlay className="h-8 w-8 text-lightPlayRed centered-axis-xy"/>
           </div>
         )}
       </Link>

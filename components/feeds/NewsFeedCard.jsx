@@ -248,6 +248,7 @@ const NewsFeedCard = ({ post, index }) => {
                     >
                       <BsThreeDots className="h-6 w-6 font-semibold rotate-90 lg:rotate-0" />
                     </Popover.Button>
+                    {open && (
                     <Transition
                       as={Fragment}
                       enter="transition ease-out duration-200"
@@ -257,7 +258,7 @@ const NewsFeedCard = ({ post, index }) => {
                       leaveFrom="opacity-100 translate-y-0"
                       leavehref="opacity-0 translate-y-1"
                     >
-                      <Popover.Panel className="absolute z-10 w-[250px] lg:w-[20vw]  mt-3 transform shadow-md right-4 lg:translate-x-1/2 sm:px-0 lg:max-w-3xl">
+                      <Popover.Panel static className="absolute z-10 w-[250px] lg:w-[20vw]  mt-3 transform shadow-md right-4 lg:translate-x-1/2 sm:px-0 lg:max-w-3xl">
                         <div className="overflow-hidden rounded-lg ">
                           <div className="relative grid gap-y-2 bg-white p-1 grid-cols-1">
                             <CopyToClipboard
@@ -296,6 +297,7 @@ const NewsFeedCard = ({ post, index }) => {
                         </div>
                       </Popover.Panel>
                     </Transition>
+                    )}
                   </>
                 )}
               </Popover>

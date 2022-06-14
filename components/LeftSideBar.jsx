@@ -3,6 +3,8 @@ import { MdSmartDisplay } from "react-icons/md";
 import { useRouter } from "next/router";
 import { FiPlus } from "react-icons/fi";
 import Link from "next/link";
+import CreateButton from "./helpers/CreateButton";
+
 
 const LeftSideBar = () => {
   const router = useRouter();
@@ -115,10 +117,12 @@ const LeftSideBar = () => {
           </div>
         </Link>
 
-        <div className="justify-start p-1 pl-2 space-x-4 cursor-pointer row-container  w-40 h-10 ml-5 text-white   bg-lightPlayRed rounded-full">
+        {/* <div className="justify-start p-1 pl-2 space-x-4 cursor-pointer row-container  w-40 h-10 ml-5 text-white   bg-lightPlayRed rounded-full">
           <FiPlus className="h-6 w-6" />{" "}
           <p className="text-lg font-medium">Create</p>
-        </div>
+        </div> */}
+
+        <CreateButton />
       </div>
     </aside>
   );
