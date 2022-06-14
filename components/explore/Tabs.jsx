@@ -4,14 +4,12 @@ import { Tab } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import ChannelFilter from "../channels/ChannelFilter";
 import GroupCard from "../groups//GroupCard";
-import {useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NewsFeedCard from "../feeds/NewsFeedCard";
 import ExplorePostCard from "./ExplorePostCard";
 import ExploreLoader from "./ExploreLoader";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import CategoryListingIndex from "./CategoryListingIndex";
-
-
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -53,16 +51,17 @@ export default function Tabs() {
             ) : explorePosts.data.posts &&
               explorePosts.data.posts.length > 0 ? (
               <div className="py-2 grid grid-cols-1 md:grid-cols-3  gap-1">
-                {explorePosts.data.posts.map((post) =>
-                  post.postFiles.file_type == "image" ? (
-                    <ExplorePostCard post={post} key={post.post_id} />
-                  ) : null
-                )}
+                {explorePosts.data.posts.map((post) => {
+                  if (post.postFiles.file_type == "image") {
+                    return <ExplorePostCard post={post} key={post.post_id} />;
+                  } else if (post.postFiles.file_type == "video"){
+                    return <ExplorePostCard post={post} key={post.post_id} type="video" />;
+                  }
+                })}
               </div>
             ) : (
               <NoDataFound></NoDataFound>
             )}
-
 
             <div className="w-full row-container space-x-1 py-5">
               <div className="!bg-white border !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
