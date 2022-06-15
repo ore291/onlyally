@@ -76,17 +76,18 @@ function* fetchGroupsCategoriesAPI(action) {
         const response = yield api.postMethod({
           action: 'groups', object: inputData
         });
-        if (response.status === 201) {
+      
+        if (response.status && response.status === 201) {
           yield put(createGroupSuccess(response.data));
           yield put(notify({message : "Group created successfully", status :'success'}));
           window.location.assign("/groups/" + response.data.data.slug);
         } else {
-          yield put(createGroupFailure( response.data.error));
-          yield put(notify({message : response.data.error, status :'error'}));
+          yield put(createGroupFailure(response.data.message));
+          yield put(notify({message : response.data.message, status :'error'}));
         }
       } catch (error) {
-        yield put(createGroupFailure(error.message));
-        yield put(notify(error.message, 'error'));
+        yield put(createGroupFailure(error));
+        yield put(notify({ message: error.message, status: "error"}));
       }
     }
   

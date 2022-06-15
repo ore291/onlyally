@@ -1,14 +1,17 @@
 import SideNavLayout from "../../components/SideNavLayout";
 import GroupTabs from "../../components/groups/GroupTabs";
 import GroupCard from "../../components/groups/GroupCard";
-import GroupTabsMain from  "../../components/groups/GroupTabsMain.jsx"
+import GroupTabsMain from "../../components/groups/GroupTabsMain.jsx";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
-import {useEffect} from "react"
-import {fetchGroupsStart, fetchGroupsCategoriesStart} from "../../store/slices/groupsSlice";
+import { useEffect } from "react";
+import {
+  fetchGroupsStart,
+  fetchGroupsCategoriesStart,
+} from "../../store/slices/groupsSlice";
+import GroupCardLoader from "../../components/groups/GroupCardLoader";
 
 const Groups = () => {
-
   const dispatch = useDispatch();
 
   const images = [
@@ -22,22 +25,26 @@ const Groups = () => {
     "person8",
   ];
 
-useEffect(() => {
-  dispatch(fetchGroupsStart());
-  dispatch(fetchGroupsCategoriesStart())
-}, [])
+  useEffect(() => {
+    dispatch(fetchGroupsStart());
+    dispatch(fetchGroupsCategoriesStart());
+  }, []);
 
-  const groups = useSelector(state => state.groups.groups)
-
- 
+  const groups = useSelector((state) => state.groups.groups);
 
   return (
     <SideNavLayout>
       <div className="max-w-5xl mx-auto xl:max-w-7xl p-5">
-        {
-          groups.loading ?  null : (<GroupTabsMain groupsData={groups}/>) 
-        }
-        
+        {groups.loading ? (
+          <div className="row-container">
+            <GroupCardLoader />
+          </div>
+        ) : groups.data && groups.data.length > 0 ? (
+          <GroupTabsMain groupsData={groups} />
+        ) : (
+          ""
+        )}
+
         <div className="bg-white rounded-2xl my-10 p-3 shadow-md">
           <div className="flex items-center justify-between pb-2 border-b mb-5">
             <div className="flex flex-col items-start justify-center">
@@ -73,9 +80,7 @@ useEffect(() => {
             </div>
 
             <div className="grid grid-cols-1 gap-3">
-              <h1 className="text-2xl font-semibold">
-                Suggested For You
-              </h1>
+              <h1 className="text-2xl font-semibold">Suggested For You</h1>
               {[...Array(2)].map((_, index) => (
                 <GroupCard filter={true} key={index} />
               ))}{" "}

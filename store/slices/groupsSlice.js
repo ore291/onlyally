@@ -32,14 +32,14 @@ export const GroupsSlice = createSlice({
   reducers: {
     fetchGroupsStart: (state, action) => {
       state.groups = {
-        data: {},
+        data: [],
         loading: true,
         error: false,
       };
     },
     fetchGroupsSuccess: (state, action) => {
       state.groups = {
-        data: action.payload,
+        data: [...state.groups.data, ...action.payload],
         loading: false,
         error: false,
       };

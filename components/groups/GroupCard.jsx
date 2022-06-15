@@ -3,6 +3,7 @@ import Button from "../Button.jsx";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { joinGroupStart } from "../../store/slices/groupsSlice.js";
 import { useSelector, useDispatch } from "react-redux";
+
 const GroupCard = ({
   filter,
   profile,
@@ -16,7 +17,7 @@ const GroupCard = ({
   const user = useSelector((state) => state.user.loginData);
 
   const checkMember = (memberList) => {
-    console.log(memberList);
+
     var members = memberList.map((member) => {
       return member.user_id;
     });
@@ -133,15 +134,15 @@ const GroupCard = ({
             <p className="font-medium text-sm text-gray-400 truncate">
               {group.members.length} Members 1.7k Post A Day
             </p>
-            <div className="flex items-center space-x-8 ">
+            <div className="flex items-center space-x-6 ">
               <div className="row-container relative ">
-                {group.connections.length > 0
-                  ? group.connections.slice(0, 2).map((connection, i) => {
+                {group.members && group.members.length > 0
+                  ? group.members.slice(0, 2).map((member, i) => {
                       if (i === 1) {
                         return (
-                          <div className=" w-7 h-7 relative" key={i}>
+                          <div className=" w-7 h-7 relative z-[5]" key={i}>
                             <Image
-                              src={connection.picture}
+                              src={member.picture}
                               alt="side-img"
                               layout="fill"
                               objectFit="cover"
@@ -151,10 +152,13 @@ const GroupCard = ({
                         );
                       } else {
                         return (
-                          <div className="bg-white p-[2px] rounded-full row-container absolute left-5" key={i}>
+                          <div
+                            className={`bg-white p-[2px] rounded-full row-container z-[10] absolute ${group.members.length > 1 ? 'left-5' : 'left-2'}`}
+                            key={i}
+                          >
                             <div className=" w-8 h-8 relative">
                               <Image
-                                src={connection.picture}
+                                src={member.picture}
                                 alt="side-img"
                                 layout="fill"
                                 objectFit="cover"
@@ -167,12 +171,20 @@ const GroupCard = ({
                     })
                   : null}
               </div>
-              <div className="ml-2 pl-8 tracking-tight">
-                <p className="text-xs font-medium text-gray-500">
-                  <span className="font-semibold">{group.connections[0].name} </span>and {group.connections.length > 1 ? group.connections.length - 1 : ""} friends are
-                  members
-                </p>
-              </div>
+              {group.members[0] && (
+                <div className="ml-2 pl-6 tracking-tight">
+                  <p className="text-xs font-medium text-gray-500">
+                    <span className="font-semibold">
+                      {group?.members[0]?.name}{" "}
+                    </span>
+                    and{" "}
+                    {group.members.length > 1
+                      ? group.members.length - 1
+                      : ""}{" "}
+                    friends are members
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
@@ -180,15 +192,19 @@ const GroupCard = ({
             {/* <Button text="Joined" extraClasses="w-[100px] h-8" active={true} />
             <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" /> */}
             {checkMember(group.members) ? (
-          <Button text="Joined" extraClasses="w-[100px] h-8" active={true} />
-        ) : (
-          <Button
-            text="Join"
-            active={true}
-            onClick={(e) => handleJoinGroup(group.slug)}
-          />
-        )}
-        <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" />
+              <Button
+                text="Joined"
+                extraClasses="w-[100px] h-8"
+                active={true}
+              />
+            ) : (
+              <Button
+                text="Join"
+                active={true}
+                onClick={(e) => handleJoinGroup(group.slug)}
+              />
+            )}
+            <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" />
           </div>
         </div>
       </div>
