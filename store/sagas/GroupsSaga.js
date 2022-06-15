@@ -84,6 +84,7 @@ function* fetchGroupsCategoriesAPI(action) {
         } else {
           yield put(createGroupFailure(response.data.message));
           yield put(notify({message : response.data.message, status :'error'}));
+          window.location.assign("/gopro/" );
         }
       } catch (error) {
         yield put(createGroupFailure(error));
