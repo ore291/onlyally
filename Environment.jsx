@@ -69,20 +69,20 @@ const Environment = {
     const formData = new FormData();
 
     // By Default Id and token
-    if (
-      user_id != null &&
-      token != null &&
-      user_id != "undefined" &&
-      token != "undefined" &&
-      user_id != "" &&
-      token != ""
-    ) {
-      formData.append("id", user_id);
-      formData.append("token", token);
-    } else {
-      formData.append("id", userId);
-      formData.append("token", accessToken);
-    }
+    // if (
+    //   user_id != null &&
+    //   token != null &&
+    //   user_id != "undefined" &&
+    //   token != "undefined" &&
+    //   user_id != "" &&
+    //   token != ""
+    // ) {
+    //   formData.append("id", user_id);
+    //   formData.append("token", token);
+    // } else {
+    //   formData.append("id", userId);
+    //   formData.append("token", accessToken);
+    // }
 
     var socialLoginUser = 0;
 
@@ -100,23 +100,23 @@ const Environment = {
       formData.append("login_by", apiConstants.LOGIN_BY);
     }
 
-    formData.append("device_type", apiConstants.DEVICE_TYPE);
-    formData.append("device_token", apiConstants.DEVICE_TOKEN);
+    // formData.append("device_type", apiConstants.DEVICE_TYPE);
+    // formData.append("device_token", apiConstants.DEVICE_TOKEN);
 
-    if (dev_model != "undefined" && dev_model != null && dev_model != "") {
-      formData.append("device_model", dev_model);
-    } else {
-      var device_model = "";
-      if (isAndroid == true) {
-        device_model = mobileModel;
-      } else if (isIOS == true) {
-        device_model = mobileModel;
-      } else {
-        device_model = browserName + " " + browserVersion;
-        // device_model = "Chrome" + " " + "100";
-      }
-      formData.append("device_model", device_model);
-    }
+    // if (dev_model != "undefined" && dev_model != null && dev_model != "") {
+    //   formData.append("device_model", dev_model);
+    // } else {
+    //   var device_model = "";
+    //   if (isAndroid == true) {
+    //     device_model = mobileModel;
+    //   } else if (isIOS == true) {
+    //     device_model = mobileModel;
+    //   } else {
+    //     device_model = browserName + " " + browserVersion;
+    //     // device_model = "Chrome" + " " + "100";
+    //   }
+    //   formData.append("device_model", device_model);
+    // }
 
     if (typeof window != "undefined") {
       var config = {
@@ -147,6 +147,7 @@ const Environment = {
 
     try {
       const response = await axios(config);
+   
       return response;
     } catch (error) {
       return error;
@@ -176,20 +177,20 @@ const Environment = {
 
     // By Default added device type and login type in future use
 
-    formData.append("login_by", apiConstants.LOGIN_BY);
-    formData.append("device_type", apiConstants.DEVICE_TYPE);
-    formData.append("device_token", apiConstants.DEVICE_TOKEN);
+    // formData.append("login_by", apiConstants.LOGIN_BY);
+    // formData.append("device_type", apiConstants.DEVICE_TYPE);
+    // formData.append("device_token", apiConstants.DEVICE_TOKEN);
 
-    var device_model = "";
-    if (isAndroid == true) {
-      device_model = mobileModel;
-    } else if (isIOS == true) {
-      device_model = mobileModel;
-    } else {
-      device_model = browserName + " " + browserVersion;
-    }
+    // var device_model = "";
+    // if (isAndroid == true) {
+    //   device_model = mobileModel;
+    // } else if (isIOS == true) {
+    //   device_model = mobileModel;
+    // } else {
+    //   device_model = browserName + " " + browserVersion;
+    // }
 
-    formData.append("device_model", device_model);
+    // formData.append("device_model", device_model);
 
     // var data = JSON.stringify({
     //   id: 4,
@@ -198,18 +199,18 @@ const Environment = {
     // });
 
     var config = {
-      method: "POST",
+      method: "GET",
       url: url,
       headers: {
         "Accept": "application/json",
-        "X-HTTP-Method-Override": "GET",
+      
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
         "Authorization": `Bearer ${cookies.accessToken}` 
       },
-      data: formData,
+    
     };
 
     try {

@@ -9,8 +9,13 @@ import {
   channelSubscribeSuccess,
   channelSubscribeFailure,
   fetchSingleChannelSuccess,
-  fetchSingleChannelFailure
+  fetchSingleChannelFailure,
+  createChannelSuccess,
+  createChannelFailure,
+  fetchChannelsCategoriesSuccess,
+  fetchChannelsCategoriesFailure
 } from "../slices/channelsSlice";
+import { fetchGroupsCategoriesSuccess } from "../slices/groupsSlice";
 
 
 
@@ -70,9 +75,50 @@ function* fetchSingleChannelAPI(action) {
     }
   }
 
+  function* channelCreateAPI(action) {
+    const inputData = yield select((state) => state.channels.createChannel.inputData);
+      try {
+        const response = yield api.postMethod({
+          action: 'channels', object: inputData
+        });
+   
+        if (response.status === 201) {
+          yield put(createChannelSuccess(response.data.data));
+          yield put(notify({message : "Channel created successfully", status :'success'}));
+          window.location.assign("/channels/" + response.data.data.slug);
+        } else {
+          yield put(createChannelFailure( response.data.error));
+          yield put(notify({message : response.data.error, status :'error'}));
+        }
+      } catch (error) {
+        yield put(createChannelFailure(error.message));
+        yield put(notify(error.message, 'error'));
+      }
+    }
+
+    function* fetchChannelsCategoriesAPI(action) {
+      try {
+        const response = yield api.getMethod({
+          action: "channels/categories"
+        });
+      
+        if (response.status === 200) {
+          yield put(fetchChannelsCategoriesSuccess(response.data));
+        } else {
+          yield put(fetchChannelsCategoriesFailure( response.error));
+          yield put(notify({message : response.error, status :'error'}));
+        }
+      } catch (error) {
+        yield put(fetchChannelsCategoriesFailure(error.message));
+        yield put(notify(error.message, 'error'));
+      }
+    }
+
 
   export default function* pageSaga() {
     yield all([yield takeLatest("channels/fetchChannelsStart", fetchChannelsAPI)]);
     yield all([yield takeLatest("channels/channelSubscribeStart", channelSubscribeAPI)]);
     yield all([yield takeLatest("channels/fetchSingleChannelStart", fetchSingleChannelAPI)]); 
+    yield all([yield takeLatest("channels/createChannelStart", channelCreateAPI)]); 
+    yield all([yield takeLatest("channels/fetchChannelsCategoriesStart", fetchChannelsCategoriesAPI)]); 
   }

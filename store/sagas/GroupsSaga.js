@@ -9,7 +9,9 @@ import {
   joinGroupSuccess,
   joinGroupFailure,
   fetchGroupsCategoriesSuccess,
-  fetchGroupsCategoriesFailure
+  fetchGroupsCategoriesFailure,
+  createGroupSuccess,
+  createGroupFailure
 } from "../slices/groupsSlice";
 
 
@@ -36,11 +38,12 @@ function* fetchGroupsCategoriesAPI(action) {
       const response = yield api.getMethod({
         action: "groups/categories"
       });
-      if (response.data) {
-        yield put(fetchGroupsCategoriesSuccess(response.data.data));
+    
+      if (response.status === 200) {
+        yield put(fetchGroupsCategoriesSuccess(response.data));
       } else {
-        yield put(fetchGroupsCategoriesFailure( response.data.error));
-        yield put(notify({message : response.data.error, status :'error'}));
+        yield put(fetchGroupsCategoriesFailure( response.error));
+        yield put(notify({message : response.error, status :'error'}));
       }
     } catch (error) {
       yield put(fetchGroupsCategoriesFailure(error.message));
@@ -66,6 +69,26 @@ function* fetchGroupsCategoriesAPI(action) {
         yield put(notify(error.message, 'error'));
       }
     }
+
+  function* groupCreateAPI(action) {
+    const inputData = yield select((state) => state.groups.createGroup.inputData);
+      try {
+        const response = yield api.postMethod({
+          action: 'groups', object: inputData
+        });
+        if (response.status === 201) {
+          yield put(createGroupSuccess(response.data));
+          yield put(notify({message : "Group created successfully", status :'success'}));
+          window.location.assign("/groups/" + response.data.data.slug);
+        } else {
+          yield put(createGroupFailure( response.data.error));
+          yield put(notify({message : response.data.error, status :'error'}));
+        }
+      } catch (error) {
+        yield put(createGroupFailure(error.message));
+        yield put(notify(error.message, 'error'));
+      }
+    }
   
 
 
@@ -73,4 +96,5 @@ function* fetchGroupsCategoriesAPI(action) {
     yield all([yield takeLatest("groups/fetchGroupsStart", fetchGroupsAPI)]);
     yield all([yield takeLatest("groups/fetchGroupsCategoriesStart", fetchGroupsCategoriesAPI)]);
     yield all([yield takeLatest("groups/joinGroupStart", groupJoinAPI)]);
+    yield all([yield takeLatest("groups/createGroupStart", groupCreateAPI)]);
   }

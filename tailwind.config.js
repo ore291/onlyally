@@ -8,6 +8,15 @@ module.exports = {
   },
   theme: {
     extend: {
+      zIndex: {
+        "-1": "-1",
+      },
+      transformOrigin: {
+        "0": "0%",
+      },
+      variants: {
+        borderColor: ['responsive', 'hover', 'focus', 'focus-within'],
+      },
       animation: {
         loader: 'loader 0.6s infinite alternate'
       },

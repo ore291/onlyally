@@ -18,6 +18,12 @@ const initialState = {
     loading: false,
     error: false
   },
+  createGroup : {
+    inputData: null,
+    data: {},
+    loading: false,
+    error: false,
+  }
 };
 
 export const GroupsSlice = createSlice({
@@ -90,6 +96,30 @@ export const GroupsSlice = createSlice({
         error : action.payload,
       }
   },
+  createGroupStart: (state, action)=>{
+    state.createGroup = {
+      inputData: action.payload,
+      loading: true,
+      error: false,
+      data: {},
+    }
+  },
+  createGroupSuccess: (state, action)=>{
+    state.createGroup = {
+      inputData:null,
+      loading: false,
+      error: false,
+      data: action.payload,
+    }
+  },
+  createGroupFailure: (state, action)=>{
+    state.createGroup = {
+      inputData: null,
+      loading: false,
+      error: action.payload,
+      data: {},
+    }
+  },
   },
 
  
@@ -102,6 +132,9 @@ export const {
   joinGroupStart,
   joinGroupSuccess,
   joinGroupFailure,
+  createGroupStart,
+  createGroupSuccess,
+  createGroupFailure,
   fetchGroupsCategoriesStart,
   fetchGroupsCategoriesSuccess,
   fetchGroupsCategoriesFailure

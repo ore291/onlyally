@@ -2,21 +2,21 @@ import React, { useEffect, useState } from "react";
 import SideNavLayout from "../components/SideNavLayout";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchGroupsCategoriesStart,
-  createGroupStart,
-} from "../store/slices/groupsSlice";
+  fetchChannelsCategoriesStart,
+  createChannelStart,
+} from "../store/slices/channelsSlice";
 import CommonCenterLoader from "../components/helpers/CommonCenterLoader";
 import { MdOutlineArrowBack } from "react-icons/md";
 import { useRouter } from "next/router";
 import { notify } from "reapop";
 
-const CreateGroup = () => {
+const CreateChannel = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const categories = useSelector((state) => state.groups.categories);
-  const createGroup = useSelector((state) => state.groups.createGroup);
+  const categories = useSelector((state) => state.channels.categories);
+  const createChannel = useSelector((state) => state.channels.createChannel);
 
-  const [groupData, setGroupData] = useState({
+  const [channelData, setChannelData] = useState({
     name: "",
     description: "",
     category_id: 1,
@@ -25,17 +25,17 @@ const CreateGroup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(createGroupStart(groupData));
+    dispatch(createChannelStart(channelData));
   };
 
   useEffect(() => {
-    dispatch(fetchGroupsCategoriesStart());
+    dispatch(fetchChannelsCategoriesStart());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <SideNavLayout>
       <div className="max-w-5xl mx-auto p-5">
-        <h1 className="text-3xl ml-2 font-semibold tracking-wide ">Groups</h1>
+        <h1 className="text-3xl ml-2 font-semibold tracking-wide ">Channels</h1>
         {categories?.loading ? (
           <div className="row-container">
             <CommonCenterLoader />
@@ -59,7 +59,7 @@ const CreateGroup = () => {
                   </svg>
                 </div>
 
-                <h2 className="text-sm font-medium">Create New Group</h2>
+                <h2 className="text-sm font-medium">Create New Channel</h2>
               </div>
             </div>
             <form
@@ -71,10 +71,10 @@ const CreateGroup = () => {
                   type="text"
                   name="name"
                   placeholder=" "
-                  value={groupData.name}
+                  value={channelData.name}
                   onChange={(event) =>
-                    setGroupData({
-                      ...groupData,
+                    setChannelData({
+                      ...channelData,
                       name: event.currentTarget.value,
                     })
                   }
@@ -85,7 +85,7 @@ const CreateGroup = () => {
                   htmlFor="name"
                   className="origin-0 absolute top-3 left-3 font-medium text-sm z-[2] text-gray-500 duration-300"
                 >
-                  Group Name
+                  Channel Name
                 </label>
               </div>
               <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
@@ -94,10 +94,10 @@ const CreateGroup = () => {
                   type="text"
                   name="description"
                   placeholder=" "
-                  value={groupData.description}
+                  value={channelData.description}
                   onChange={(event) =>
-                    setGroupData({
-                      ...groupData,
+                    setChannelData({
+                      ...channelData,
                       description: event.currentTarget.value,
                     })
                   }
@@ -115,11 +115,11 @@ const CreateGroup = () => {
                 <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
                   <select
                     name="privacy"
-                    value={groupData.privacy}
+                    value={channelData.privacy}
                     className="form-select relative mt-2  mb-1 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
                     onChange={(event) =>
-                      setGroupData({
-                        ...groupData,
+                      setChannelData({
+                        ...channelData,
                         privacy: event.currentTarget.value,
                       })
                     }
@@ -131,16 +131,16 @@ const CreateGroup = () => {
                     htmlFor="privacy"
                     className="origin-0 absolute -top-1 left-3 font-medium text-sm z-[2] text-gray-500 duration-300"
                   >
-                    Group Type
+                    Channel Type
                   </label>
                 </div>
                 <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
                   <select
                     name="category"
-                    value={groupData.category_id}
+                    value={channelData.category_id}
                     onChange={(event) =>
-                      setGroupData({
-                        ...groupData,
+                      setChannelData({
+                        ...channelData,
                         category_id: parseInt(event.currentTarget.value),
                       })
                     }
@@ -167,7 +167,7 @@ const CreateGroup = () => {
               <div className="my-4 w-full row-container space-x-4">
                 <div
                   className="row-container space-x-2 cursor-pointer"
-                  onClick={() => router.push("/groups")}
+                  onClick={() => router.push("/channels")}
                 >
                   <MdOutlineArrowBack className="w-4 h-4" />
                   <p className="text-sm font-semibold tracking-wide">Go Back</p>
@@ -177,7 +177,7 @@ const CreateGroup = () => {
                   className="w-36 h-10 shadow-md text-sm rounded-md hover:bg-lightPlayRed/60 transition duration-300 row-container bg-lightPlayRed text-white font-medium "
                   type="submit"
                 >
-                  {createGroup.loading ? <CommonCenterLoader /> : "Create"}
+                  {createChannel.loading ? <CommonCenterLoader /> : "Create"}
                 </button>
               </div>
             </form>
@@ -188,4 +188,4 @@ const CreateGroup = () => {
   );
 };
 
-export default CreateGroup;
+export default CreateChannel;

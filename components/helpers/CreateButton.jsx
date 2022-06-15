@@ -44,11 +44,11 @@ const CreateButton = () => {
               >
                 <div className="overflow-hidden  ">
                   <div className="relative grid gap-y-2 bg-white p-4  grid-cols-1">
-                    <div className=" group flex  items-center space-x-2 cursor-pointer bg-white">
+                    <div className=" group flex  items-center space-x-2 cursor-pointer bg-white" onClick={()=>router.push("/create-group")}>
                      <MdOutlineGroups className="w-6 h-6 group-hover:text-lightPlayRed"/>
                       <span className="text-xs font-semibold tracking-wide group-hover:text-lightPlayRed">Create New Group</span>
                     </div>
-                    <div className="group flex items-center space-x-2 cursor-pointer bg-white">
+                    <div className="group flex items-center space-x-2 cursor-pointer bg-white"  onClick={()=>router.push("/create-channel")}>
                      <BsYoutube className="w-6 h-6 group-hover:text-lightPlayRed"/>
                       <span className="text-xs font-semibold tracking-wide group-hover:text-lightPlayRed">Create New Channel</span>
                     </div>

@@ -22,7 +22,7 @@ const LikedGroups = () => {
       </div>
 
       <div className="flex flex-col items-center space-y-2 px-2 pb-4">
-        { groups.data.length > 0 ? groups.data.map((group, index) => (
+        { groups.data.length > 0 ? [...groups.data].sort(() => Math.random() - Math.random()).slice(0, 4).map((group, index) => (
           <GroupCard key={index} group={group}/>
         )) : ""}
       </div>

@@ -53,7 +53,7 @@ const LikedChannels = () => {
           
              <div className="grid grid-cols-1 gap-y-2" >
              {
-            channels.length > 0 ? (channels.map((channel, i) => (
+            channels.length > 0 ? ([...channels].sort(() => Math.random() - Math.random()).slice(0, 5).map((channel, i) => (
          
             <div className="grid grid-cols-4 place-content-center items-center justify-center  w-full" key={i}>
               <div className=" w-12 h-12 relative ">

@@ -18,7 +18,18 @@ const initialState = {
     data: [],
     loading: false,
     error: false,
-  }
+  },
+  createChannel : {
+    inputData: null,
+    data: {},
+    loading: false,
+    error: false,
+  },
+  categories : {
+    data: {},
+    loading: false,
+    error: false
+  },
 };
 
 export const ChannelsSlice = createSlice({
@@ -95,6 +106,51 @@ export const ChannelsSlice = createSlice({
         error: action.payload
       }
     },
+    createChannelStart: (state, action)=>{
+      state.createChannel = {
+        inputData: action.payload,
+        loading: true,
+        error: false,
+        data: {},
+      }
+    },
+    createChannelSuccess: (state, action)=>{
+      state.createChannel = {
+        inputData:null,
+        loading: false,
+        error: false,
+        data: action.payload,
+      }
+    },
+    createChannelFailure: (state, action)=>{
+      state.createChannel = {
+        inputData: null,
+        loading: false,
+        error: action.payload,
+        data: {},
+      }
+    },
+    fetchChannelsCategoriesStart: (state, action)=>{
+      state.categories = {
+        data : {},
+        loading: true,
+        error : false,
+      }
+  },
+  fetchChannelsCategoriesSuccess: (state, action)=>{
+      state.categories = {
+        data : action.payload,
+        loading: false,
+        error : false,
+      }
+  },
+  fetchChannelsCategoriesFailure: (state, action)=>{
+    state.categories = {
+      data : {},
+      loading: false,
+      error : action.payload,
+    }
+},
   },
 
 
@@ -109,7 +165,13 @@ export const {
   channelSubscribeFailure,
   fetchSingleChannelStart,
   fetchSingleChannelSuccess,
-  fetchSingleChannelFailure
+  fetchSingleChannelFailure,
+  createChannelStart,
+  createChannelSuccess,
+  createChannelFailure,
+  fetchChannelsCategoriesStart,
+  fetchChannelsCategoriesSuccess,
+  fetchChannelsCategoriesFailure,
 } = ChannelsSlice.actions;
 
 export default ChannelsSlice.reducer;
