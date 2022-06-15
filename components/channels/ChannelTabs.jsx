@@ -1,21 +1,33 @@
 import { useState } from "react";
 import { Tab } from "@headlessui/react";
 import ChannelCard from "./ChannelCard";
-import {useDispatch, useSelector} from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import Link from "next/link";
+import { BsPlusCircleFill } from "react-icons/bs";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const ChannelTabs = () => {
+const ChannelTabs = ({ channels }) => {
   let [categories] = useState([
     "Subscribed channels",
     "Suggested Channels",
     "My Channel",
   ]);
 
-  const channels = useSelector(state => state.user.profile.data.channels);
+  const cookies = getCookies();
+
+  const checkMember = (memberList) => {
+    var members = memberList.map((member) => {
+      return member.user_id;
+    });
+
+    return members.includes(parseInt(cookies.userId));
+  };
+
+  // const channels = useSelector(state => state.user.profile.data.channels);
 
   return (
     <Tab.Group>
@@ -42,29 +54,72 @@ const ChannelTabs = () => {
         </Tab.List>
         <Tab.Panels className="mt-2">
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <div className="p-2 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
-              {
+            <div className="p-2  pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
+              {/* {
               
              channels &&  channels.map((channel, index) => (
                 <ChannelCard key={index} channel={channel} />
               ))
               
-              }
+              } */}
+              {channels.data.length > 0
+                ? channels.data
+                    .filter((filterchannel) =>
+                      checkMember(filterchannel.members)
+                    )
+                    .map((channel, index) => (
+                      <ChannelCard key={index} channel={channel} />
+                    ))
+                : null}
             </div>
           </Tab.Panel>
 
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="p-2 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
-              {[...Array(10)].map((_, index) => (
-                <ChannelCard key={index}channel={index}/>
-              ))}
+              {/* {[...Array(10)].map((_, index) => (
+                <ChannelCard key={index} channel={index} />
+              ))} */}
+
+              {channels.data.length > 0
+                ? channels.data
+                    .filter(
+                      (filterchannel) => !checkMember(filterchannel.members)
+                    )
+                    .map((channel, index) => (
+                      <ChannelCard key={index} channel={channel} />
+                    ))
+                : null}
             </div>
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="p-2 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
-              {[...Array(10)].map((_, index) => (
-                <ChannelCard key={index}channel={index}/>
-              ))}
+            <Link href="/create-channel" passHref>
+                <div className="h-[250px] min-w-[230px] border-2 shadow-md border-dashed row-container group cursor-pointer">
+                  <div className="col-container">
+                    <BsPlusCircleFill className="w-10 h-10 text-gray-400 group-hover:text-lightPlayRed transition ease-out duration-200" />
+                    <p className="font-medium text-sm text-center text-gray-400 group-hover:text-lightPlayRed transition duration-200 ease-out">
+                      Create New Channel
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              {channels.data.length > 0
+                ? channels.data
+                    .filter(
+                      (filterchannel) => filterchannel.user_id === parseInt(cookies.userId)
+                    )
+                    .map((channel, index) => (
+                      <ChannelCard key={index} channel={channel} />
+                    ))
+                : null}
+             
+             
+             
+             
+              {/* {[...Array(10)].map((_, index) => (
+                <ChannelCard key={index} channel={index} />
+              ))} */}
             </div>
           </Tab.Panel>
         </Tab.Panels>

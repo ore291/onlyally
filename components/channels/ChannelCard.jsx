@@ -1,10 +1,28 @@
 import Image from "next/image";
 import Button from "../Button";
 import { BsHeartFill, BsEyeFill } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import { channelSubscribeStart } from "../../store/slices/channelsSlice";
+import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 
 import Link from "next/link";
 
 const ChannelCard = ({ main, channel, profile }) => {
+
+  const cookies = getCookies();
+
+  const handleChannelSubscribe = (slug) => {
+    dispatch(channelSubscribeStart(slug));
+  };
+
+  const checkMember = (memberList) => {
+
+    var members = memberList.map((member) => {
+      return member.user_id;
+    });
+
+    return members.includes(parseInt(cookies.userId));
+  };
   if (main) {
     return (
       <div className="w-full  h-[230px]  border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0 ">
@@ -136,20 +154,34 @@ const ChannelCard = ({ main, channel, profile }) => {
             </span>
             <span className=" font-semibold text-gray-400 ">Posts</span>
           </div>
-       
+
           <div className="col-container">
-            <span className=" font-bold text-sm p-0">4</span>
+            <span className=" font-bold text-sm p-0">
+              {channel.members.length}
+            </span>
             <span className=" font-semibold text-gray-400 ">Subscribers</span>
           </div>
         </div>
       </div>
       <div className="row-container px-3">
-        <Button
+        {/* <Button
           text="Subscribe N2,000"
           textClass="text-sm text-gray-100 font-semibold"
           extraClasses="w-full h-8"
           active={true}
-        />
+        /> */}
+
+        {checkMember(channel.members) ? (
+          <Button text="view" active={true} extraClasses="w-full h-8" textClass="text-sm text-gray-100 font-semibold" />
+        ) : (
+          <Button
+            text="Subscribe"
+            active={true}
+            extraClasses="w-full h-8" 
+            textClass="text-sm text-gray-100 font-semibold"
+            onClick={(e) => handleChannelSubscribe(channel.slug)}
+          />
+        )}
       </div>
     </div>
   );

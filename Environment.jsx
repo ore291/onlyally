@@ -147,12 +147,13 @@ const Environment = {
 
     try {
       const response = await axios(config);
-      console.log(response)
+
    
       return response;
     } catch (error) {
-      return error.response;
       console.log(error);
+      return error.response;
+    
     }
   },
 

@@ -89,8 +89,8 @@ const GroupTabs = ({ groupsData }) => {
             {/* suggested groups */}
 
             <div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
-              {groupValues.length > 0
-                ? groupValues
+              {groupsData.data.length > 0
+                ? groupsData.data
                     .filter(
                       (filterchannel) => !checkMember(filterchannel.members)
                     )

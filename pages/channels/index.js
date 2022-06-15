@@ -7,14 +7,19 @@ import {
   fetchUserCategoryListStart,
   fetchContentCreatorListStart,
 } from "../../store/slices/userCategory";
+import {fetchChannelsStart} from "../../store/slices/channelsSlice";
 import { useState, useEffect } from "react";
 import CategoryListingLoader from "../../components/explore/CategoryListingLoader";
+import GroupCardLoader from "../../components/groups/GroupCardLoader";
 
 const Channels = () => {
   const userCategory = useSelector((state) => state.userCategory);
+  const channels = useSelector((state) => state.channels.channels)
+  
   useEffect(() => {
     dispatch(fetchUserCategoryListStart());
     dispatch(fetchContentCreatorListStart());
+    dispatch(fetchChannelsStart());
   }, []);
 
   const dispatch = useDispatch();
@@ -24,7 +29,10 @@ const Channels = () => {
       <div className="max-w-[950px] px-1 mx-auto">
         <div className="p-5 my-3 lg:my-6  bg-white rounded-xl shadow-lg  outline-none">
           <h1 className="text-3xl font-semibold mb-2">Channels</h1>
-          <ChannelTabs />
+          {
+            channels.loading ? <GroupCardLoader/> :  <ChannelTabs channels={channels} />
+          }
+         
         </div>
         <div className="p-5 mt-3 lg:mt-6 mb-40 bg-white rounded-xl shadow-lg  outline-none ">
           <div className="grid cols-1 lg:grid-cols-4 md:grid-cols-3 gap-4">
