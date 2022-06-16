@@ -1,8 +1,23 @@
+import {useState} from "react";
 import Image from "next/image";
-import Button from "./Button";
+import Button from "../Button";
 import { FaRegEye } from "react-icons/fa";
+import {saveBookmarkStart} from "../../store/slices/bookmarkSlice";
+import {fetchCommentsStart, saveCommentStart} from "../../store/slices/commentsSlice";
+import PaymentModal from "../helpers/PaymentModal"
 
-const LiveCard = () => {
+const LiveCard = ({video}) => {
+  const [paymentModal, setPaymentModal] = useState(false);
+
+  const openPaymentModal = (event) => {
+    event.preventDefault();
+    setPaymentModal(true);
+};
+
+const closePaymentModal = () => {
+    setPaymentModal(false);
+};
+
   return (
     <div className="first:ml-auto last:mr-auto w-[150px] h-[320px] border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0">
       <div className="relative">

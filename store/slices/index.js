@@ -20,6 +20,8 @@ import channelsReducer from "./channelsSlice";
 import userCategoryReducer from "./userCategory";
 import groupsReducer from "./groupsSlice";
 import sendTipReducer from "./sendTipSlice";
+import liveVideoReducer from "./liveVideoSlice";
+import videoCallReducer from "./videoCallSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -46,7 +48,9 @@ const reducers = combineReducers({
   channels : channelsReducer,
   userCategory : userCategoryReducer,
   groups : groupsReducer,
-  tips : sendTipReducer
+  tips : sendTipReducer,
+  liveVideo: liveVideoReducer,
+  videoCall : videoCallReducer
 });
 
 export default reducers;

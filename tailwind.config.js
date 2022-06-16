@@ -48,5 +48,6 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('tailwind-scrollbar'),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/custom-forms'),
   ],
 }
