@@ -174,7 +174,7 @@ export const LiveVideoSlice = createSlice({
         length: action.payload.live_videos.length,
       };
     },
-    fetchLiveVideosHistoryStart: (state, action) => {
+    fetchLiveVideosHistoryFailure: (state, action) => {
       state.liveVideosHistory = {
         data: {},
         loading: false,

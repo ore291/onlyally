@@ -88,6 +88,7 @@ function* liveVideosHistoryAPI() {
         skip: skipCount,
       },
     });
+    console.log(response)
     if (response.data.success) {
       yield put(fetchLiveVideosHistorySuccess(response.data.data));
     } else {
