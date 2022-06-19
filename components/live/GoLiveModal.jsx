@@ -214,6 +214,7 @@ const GoLiveModal = (props) => {
                             <span className="text-gray-700">Amount</span>
                             <input
                               type="number"
+                              required
                               className="form-input mt-1 block w-full focus:ring-0 focus:outline-none border-0 outline-none shadow-md rounded-md "
                               min="0"
                               step="any"

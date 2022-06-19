@@ -42,7 +42,7 @@ const Live = () => {
               <UserLiveVideoLoader />
             </div>
             
-          ) : liveVideos.data.videos.filter(
+          ) : liveVideos.data?.videos.filter(
               (liveVideo) => liveVideo.user_id != localStorage.getItem("userId")
             ).length > 0 ? (
               <div className="flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white ">

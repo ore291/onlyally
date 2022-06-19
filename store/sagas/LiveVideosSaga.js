@@ -16,14 +16,12 @@ import {
   joinLiveVideosFailure,
   liveVideosPaymentByPaystackFailure,
   liveVideosPaymentByPaystackSuccess,
-  livePaymentStripeSuccess,
-  livePaymentStripeFailure,
   liveVideosViewerUpdateSuccess,
   liveVideosViewerUpdateFailure,
   liveVideosEndSuccess,
   liveVideosEndFailure,
-  livePaymentWalletSuccess,
-  livePaymentWalletFailure,
+  liveVideosPaymentByWalletSuccess,
+  liveVideosPaymentByWalletFailure,
 } from "../slices/liveVideoSlice";
 
 import { errorLogoutCheck } from "../slices/errorSlice";
@@ -251,7 +249,7 @@ function* liveWalletAPI() {
       inputData}
     );
     if (response.data.success) {
-      yield put(livePaymentWalletSuccess(response.data.data));
+      yield put(liveVideosPaymentByWalletSuccess(response.data.data));
       yield put(notify({message : response.data.message, status: "success"}));
       window.location.assign(
         window.location.origin +
@@ -259,12 +257,12 @@ function* liveWalletAPI() {
           response.data.data.live_video_unique_id
       );
     } else {
-      yield put(livePaymentWalletFailure(response.data.error));
+      yield put(liveVideosPaymentByWalletFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
       yield put(notify({ message: response.data.error, status: "error"}));
     }
   } catch (error) {
-    yield put(livePaymentWalletFailure(error));
+    yield put(liveVideosPaymentByWalletFailure(error));
     yield put(notify({message : error.message, status: "error"}));
   }
 }

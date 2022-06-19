@@ -7,7 +7,7 @@ import {
   fetchCommentsStart,
   saveCommentStart,
 } from "../../store/slices/commentsSlice";
-import PaymentModal from "../helpers/PaymentModal";
+import LivePaymentModal from "./LivePaymentModal";
 import Link from "next/link";
 
 const LiveCard = ({ video }) => {
@@ -66,7 +66,9 @@ const LiveCard = ({ video }) => {
       <div className="w-full bg-white  p-2 h-1/3 rounded-b-xl">
         <div className="col-container space-y-1">
           <div className="flex items-center justify-between px-1 w-full bg-gray-50">
-            <p className="font-semibold text-xs whitespace-nowrap">@{video.user_displayname}</p>
+            <p className="font-semibold text-xs whitespace-nowrap">
+              @{video.user_displayname}
+            </p>
             <div className="row-container space-x-1 text-xs">
               <FaRegEye className="h-4 w-4" />
               <span>{video.viewer_cnt}</span>
@@ -107,6 +109,12 @@ const LiveCard = ({ video }) => {
           ) : (
             ""
           )}
+
+          <LivePaymentModal
+            paymentModal={paymentModal}
+            closePaymentModal={closePaymentModal}
+            liveVideo={video}
+          />
         </div>
       </div>
     </div>
