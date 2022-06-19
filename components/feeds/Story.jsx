@@ -11,7 +11,7 @@ const Story = ({ username, img, isYou }) => {
               <Image
                 className="rounded-full"
                 layout="fill"
-                objectFit="fill"
+                objectFit="cover"
                 src={img}
                 alt={username}
               />

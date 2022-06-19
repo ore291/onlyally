@@ -32,17 +32,20 @@ const Live = () => {
   return (
     <SideNavLayout>
       <div className="lg:max-w-[980px] xl:max-w-6xl mx-auto my-8 bg-white p-5">
-        <div className="flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white ">
+       
           {/* {[...Array(10)].map((_, index) => (
             <LiveCard key={index} />
           ))} */}
 
           {liveVideos.loading ? (
-            <UserLiveVideoLoader />
+            <div className="row-container w-full">
+              <UserLiveVideoLoader />
+            </div>
+            
           ) : liveVideos.data.videos.filter(
               (liveVideo) => liveVideo.user_id != localStorage.getItem("userId")
             ).length > 0 ? (
-            <div className="video-list-sec">
+              <div className="flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white ">
               {liveVideos.data.videos
                 .filter(
                   (liveVideo) =>
@@ -56,7 +59,7 @@ const Live = () => {
           ) : (
             <NoDataFound />
           )}
-        </div>
+  
         <div className="bg-white p-5">
           <div className="row-container w-full space-x-2">
             <Button

@@ -14,6 +14,14 @@
 }
 
 @layer components {
+
+  .live-stream-button {
+    @apply w-[50px] h-[50px]  row-container rounded-full  bg-[#ecece6] cursor-pointer shadow-md
+  }
+
+  .live-stream-button > img {
+    @apply w-[1.5em] align-middle border-none border-0
+  }
   input:focus-within ~ label {
     @apply transform scale-75 -translate-y-6 text-lightPlayRed;
   }

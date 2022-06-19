@@ -10,18 +10,18 @@ import {
   fetchLiveVideosFailure,
   fetchLiveVideosHistorySuccess,
   fetchLiveVideosHistoryFailure,
-  fetchSingleLiveVideoSuccess,
-  fetchSingleLiveVideoFailure,
+  fetchSingleLiveVideosSuccess,
+  fetchSingleLiveVideosFailure,
   joinLiveVideosSuccess,
   joinLiveVideosFailure,
   liveVideosPaymentByPaystackFailure,
   liveVideosPaymentByPaystackSuccess,
   livePaymentStripeSuccess,
   livePaymentStripeFailure,
-  liveViewerUpdateSuccess,
-  liveViewerUpdateFailure,
-  liveVideoEndSuccess,
-  liveVideoEndFailure,
+  liveVideosViewerUpdateSuccess,
+  liveVideosViewerUpdateFailure,
+  liveVideosEndSuccess,
+  liveVideosEndFailure,
   livePaymentWalletSuccess,
   livePaymentWalletFailure,
 } from "../slices/liveVideoSlice";
@@ -40,11 +40,11 @@ function* liveVideoSaveAPI() {
     if (response.data.success) {
       yield put(videoCallBroadcastSuccess(response.data.data));
       yield put(notify({ message: response.data.message, status: "success" }));
-      // window.location.assign(
-      //   window.location.origin +
-      //     "/join/" +
-      //     response.data.data.live_video_unique_id
-      // );
+      window.location.assign(
+        window.location.origin +
+          "/join/" +
+          response.data.data.live_video_unique_id
+      );
     } else {
       yield put(videoCallBroadcastFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
@@ -113,14 +113,14 @@ function* fetchSingleLiveVideoAPI() {
       object: inputData,
     });
     if (response.data.success) {
-      yield put(fetchSingleLiveVideoSuccess(response.data.data));
+      yield put(fetchSingleLiveVideosSuccess(response.data.data));
     } else {
-      yield put(fetchSingleLiveVideoFailure(response.data.error));
+      yield put(fetchSingleLiveVideosFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
       yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
-    yield put(fetchSingleLiveVideoFailure(error));
+    yield put(fetchSingleLiveVideosFailure(error));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
@@ -199,18 +199,18 @@ function* liveViewerUpdateAPI() {
       inputData
     });
     if (response.data.success) {
-      yield put(liveViewerUpdateSuccess(response.data.data));
+      yield put(liveVideosViewerUpdateSuccess(response.data.data));
       // const notificationMessage = getSuccessNotificationMessage(
       //   response.data.message
       // );
       // yield put(notify(notificationMessage));
     } else {
-      yield put(liveViewerUpdateFailure(response.data.error));
+      yield put(liveVideosViewerUpdateFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
       yield put(notify({ message: response.data.error, status: "error"}));
     }
   } catch (error) {
-    yield put(liveViewerUpdateFailure(error));
+    yield put(liveVideosViewerUpdateFailure(error));
     yield put(notify({ message : error.message, status: "error"}));
   }
 }
@@ -225,17 +225,17 @@ function* liveEndAPI() {
       inputData }
     );
     if (response.data.success) {
-      yield put(liveVideoEndSuccess(response.data.data));
+      yield put(liveVideosEndSuccess(response.data.data));
       yield put(notify({ message : response.data.message, status: "success"}));
 
       window.location.assign(window.location.origin + "/live");
     } else {
-      yield put(liveVideoEndFailure(response.data.error));
+      yield put(liveVideosEndFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
       yield put(notify({ message: response.data.error, status: "error"}));
     }
   } catch (error) {
-    yield put(liveVideoEndFailure(error));
+    yield put(liveVideosEndFailure(error));
     yield put(notify({ message : error.message, status: "error"}));
   }
 }

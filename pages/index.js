@@ -176,6 +176,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       setCookies("userId", user.user_id, { req, res });
       setCookies("accessToken", user.token, { req, res });
       setCookies("user_email", user.email, { req, res });
+      setCookies("username", user.username, {req, res} )
 
       store.dispatch(
         fetchHomePostsStart({

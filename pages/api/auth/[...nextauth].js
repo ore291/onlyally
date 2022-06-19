@@ -5,6 +5,7 @@ import TwitterProvider from "next-auth/providers/twitter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 var FormData = require("form-data");
+import { getCookies, setCookies, removeCookies } from "cookies-next";
 import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
 var localStorage = require("localStorage");
 import https from "https";
@@ -106,6 +107,8 @@ export default NextAuth({
          
         
           const user = await res.data.data;
+
+    
 
           // If no error and we have user data, return it
 
