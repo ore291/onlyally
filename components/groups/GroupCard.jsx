@@ -3,6 +3,7 @@ import Button from "../Button.jsx";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { joinGroupStart } from "../../store/slices/groupsSlice.js";
 import { useSelector, useDispatch } from "react-redux";
+import Link from "next/link";
 
 const GroupCard = ({
   filter,
@@ -101,8 +102,7 @@ const GroupCard = ({
           />
         </div>
         <div
-          className="fle
-        x flex-col justify-center items-start basis-3/5"
+          className="flex flex-col justify-center items-start basis-3/5"
         >
           <h2 className="font-semibold text-lg">Graphic Design</h2>
           <p className="text-sm text-gray-400 font-medium">215k members</p>
@@ -118,7 +118,7 @@ const GroupCard = ({
       <div className="flex flex-col w-[230px] flex-shrink-0 flex-grow-0   rounded-t-lg border shadow-md ">
         <div className="relative h-24 w-full rounded-t-lg">
           <Image
-            src={"https://stackdiary.com/140x100.png"}
+            src={group.cover}
             alt="fh"
             layout="fill"
             objectFit="cover"
@@ -204,7 +204,10 @@ const GroupCard = ({
                 onClick={(e) => handleJoinGroup(group.slug)}
               />
             )}
-            <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" />
+            <Link href={`/groups/${group.slug}`} passHref>
+            <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100"  />
+            </Link>
+            
           </div>
         </div>
       </div>
@@ -263,10 +266,11 @@ const GroupCard = ({
   }
 
   return (
+    
     <div className="flex flex-col w-full relative space-y-1 rounded-t-lg ">
       <div className="w-full h-24 rounded-lg relative">
         <Image
-          src="https://stackdiary.com/140x100.png"
+          src={group.cover}
           layout="fill"
           objectFit="cover"
           className="rounded-lg"
@@ -277,7 +281,7 @@ const GroupCard = ({
       <div className="absolute bottom-1 left-1 p-1 bg-white   rounded-full">
         <div className="relative w-[75px] h-[75px] rounded-full">
           <Image
-            src="/profile_avatar_full.jpg"
+            src={group.avatar}
             className="rounded-full"
             objectFit="cover"
             layout="fill"
@@ -288,7 +292,10 @@ const GroupCard = ({
       <div className="flex justify-between ml-20 items-center space-x-6">
         <p className="text-sm font-bold whitespace-nowrap">{group.name}</p>
         {checkMember(group.members) ? (
+          <Link href={`/groups/${group.slug}`} passHref>
           <Button text="view" active={true} />
+          </Link>
+          
         ) : (
           <Button
             text="Join"

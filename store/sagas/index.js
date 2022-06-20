@@ -23,6 +23,7 @@ import GroupsSaga from "./GroupsSaga";
 import SendTipSaga from "./SendTipSaga";
 import LiveVideosSaga from "./LiveVideosSaga";
 import VideoCallSaga from "./VideoCallSaga";
+import PrivateCallSaga from "./PrivateCallSaga";
 
 export default function* rootSaga() {
   yield all([fork(UserSaga)]);
@@ -48,4 +49,5 @@ export default function* rootSaga() {
   yield all([fork(SendTipSaga)]);
   yield all([fork(LiveVideosSaga)]);
   yield all([fork(VideoCallSaga)]);
+  yield all([fork(PrivateCallSaga)]);
 }

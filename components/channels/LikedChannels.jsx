@@ -58,7 +58,7 @@ const LikedChannels = () => {
             <div className="grid grid-cols-4 place-content-center items-center justify-center  w-full" key={i}>
               <div className=" w-12 h-12 relative ">
                 <Image
-                  src="/profile_avatar_full.jpg"
+                  src={channel.avatar}
                   alt="side-img"
                   layout="fill"
                   objectFit="cover"

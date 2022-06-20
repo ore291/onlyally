@@ -1,51 +1,48 @@
-import SideNavLayout from "../../components/SideNavLayout";
-import OtherUserProfileTabs from "../../components/userProfile/OtherUserProfileTabs";
-import TipModal from "../../components/tips/TipModal";
-import Button from "../../components/Button";
+import { Popover, Transition } from "@headlessui/react";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { Fragment, useEffect, useState } from "react";
+import { AiOutlineLink } from "react-icons/ai";
 import {
+  BsEye,
+  BsFacebook,
   BsFillArrowLeftCircleFill,
   BsGenderAmbiguous,
   BsShare,
-  BsEye,
-  BsTwitter,
-  BsFacebook,
-  BsYoutube,
   BsThreeDotsVertical,
+  BsTwitter,
+  BsYoutube,
 } from "react-icons/bs";
-import { AiOutlineLink } from "react-icons/ai";
 import {
   FaBell,
-  FaVideo,
   FaGlobeAfrica,
   FaUnlock,
   FaUserTimes,
+  FaVideo,
 } from "react-icons/fa";
-import { MdMail, MdOutlineLocationOn } from "react-icons/md";
-import { RiUpload2Line, RiInstagramFill } from "react-icons/ri";
-import { useRouter } from "next/router";
 import { GiPhone } from "react-icons/gi";
-import { useSelector, useDispatch } from "react-redux";
-import ProfileLoader from "../../components/Profile/ProfileLoader";
+import { MdMail, MdOutlineLocationOn } from "react-icons/md";
+import { RiInstagramFill, RiUpload2Line } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 import VerifiedBadge from "../../components/handlers/VerifiedBadge";
-
-import {
-  fetchSingleUserProfileStart,
-  fetchSingleUserPostsStart,
-} from "../../store/slices/OtherUsersSlice";
-
+import PaymentModal from "../../components/helpers/PaymentModal";
+import UnfollowModal from "../../components/helpers/UnfollowModal";
+import ProfileLoader from "../../components/Profile/ProfileLoader";
+import PrivateCallModal from "../../components/Profile/PrivateCallModal";
+import PrivateAudioCallModal from "../../components/Profile/PrivateAudioCallModal";
+import SideNavLayout from "../../components/SideNavLayout";
+import TipModal from "../../components/tips/TipModal";
+import OtherUserProfileTabs from "../../components/userProfile/OtherUserProfileTabs";
 import { saveChatUsersStart } from "../../store/slices/chatSlice";
-import { useEffect, useState, Fragment } from "react";
-import configuration from "react-global-configuration";
 import {
   setPaymentModal,
   setUnfollowerModal,
 } from "../../store/slices/NavSlice";
+import {
+  fetchSingleUserPostsStart,
+  fetchSingleUserProfileStart,
+} from "../../store/slices/OtherUsersSlice";
 import { subscriptionPaymentPaystackStart } from "../../store/slices/subscriptionSlice";
-
-import { Popover, Transition, Dialog } from "@headlessui/react";
-import PaymentModal from "../../components/helpers/PaymentModal";
-import UnfollowModal from "../../components/helpers/UnfollowModal";
 
 const Profile = () => {
   const router = useRouter();
@@ -310,7 +307,7 @@ const Profile = () => {
                   <div className="profile-buttons">
                     <FaVideo className="w-5 h-5" />
                   </div>
-                  <div className="profile-buttons">
+                  <div className="profile-buttons "  onClick={() => setRequestVideoCall(true)}>
                     <GiPhone className="w-5 h-5" />
                   </div>
                   <div className="profile-buttons">
@@ -358,13 +355,13 @@ const Profile = () => {
                                   "months",
                                   userDetails.data.payment_info
                                     .subscription_info.monthly_amount,
-                               userDetails.data.payment_info
+                                  userDetails.data.payment_info
                                     .subscription_info.monthly_amount_formatted
                                 )
                               }
                             >
                               <span>
-                                <FaUnlock className="w-3 h-3"/>
+                                <FaUnlock className="w-3 h-3" />
                               </span>
                               {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
                             </div>
@@ -383,7 +380,7 @@ const Profile = () => {
                               }
                             >
                               <span>
-                                <FaUnlock className="w-3 h-3"/>
+                                <FaUnlock className="w-3 h-3" />
                               </span>
 
                               {`Get access ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
@@ -433,7 +430,10 @@ const Profile = () => {
                       ) : null}
                     </>
                   ) : null}
-                  <div className="row-container space-x-2  sub-button" onClick={() => setSendTip(true)}>
+                  <div
+                    className="row-container space-x-2  sub-button"
+                    onClick={() => setSendTip(true)}
+                  >
                     <Image
                       src="/materials/tips.png"
                       alt="tips"
@@ -551,7 +551,7 @@ const Profile = () => {
           </>
         )}
         {userDetails.loading ? (
-          "loading"
+          "loading...."
         ) : localStorage.getItem("userId") !== "" &&
           localStorage.getItem("userId") !== null &&
           localStorage.getItem("userId") !== undefined ? (
@@ -575,8 +575,40 @@ const Profile = () => {
               user_id={userDetails.data.user.user_id}
             />
           </>
-        ) : // tips payment will go here
-        null}
+        ) : null}
+
+        {userDetails.loading ? (
+          "Loading..."
+        ) : localStorage.getItem("userId") !== "" &&
+          localStorage.getItem("userId") !== null &&
+          localStorage.getItem("userId") !== undefined ? (
+          <>
+             <PrivateCallModal
+            requestVideoCall={requestVideoCall}
+            closePrivateCallModal={closePrivateCallModal}
+            username={userDetails.data.user.username}
+            userPicture={userDetails.data.user.picture}
+            videoAmount={
+              userDetails.data.user.video_call_amount_formatted
+            }
+            name={userDetails.data.user.name}
+            post_id={null}
+            user_id={userDetails.data.user.user_id}
+          />
+          <PrivateAudioCallModal
+            requestAudioCall={requestAudioCall}
+            closePrivateCallModal={closePrivateCallModal}
+            username={userDetails.data.user.username}
+            userPicture={userDetails.data.user.picture}
+            AudioAmount={
+              userDetails.data.user.audio_call_amount_formatted
+            }
+            name={userDetails.data.user.name}
+            post_id={null}
+            user_id={userDetails.data.user.user_id}
+          />
+          </>
+        ) : null}
       </div>
     </SideNavLayout>
   );

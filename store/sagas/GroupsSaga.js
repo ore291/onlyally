@@ -11,7 +11,9 @@ import {
   fetchGroupsCategoriesSuccess,
   fetchGroupsCategoriesFailure,
   createGroupSuccess,
-  createGroupFailure
+  createGroupFailure,
+  fetchSingleGroupSuccess,
+  fetchSingleGroupFailure,
 } from "../slices/groupsSlice";
 
 
@@ -70,6 +72,26 @@ function* fetchGroupsCategoriesAPI(action) {
       }
     }
 
+    function* fetchSingleGroupAPI(action) {
+      const inputData = yield select(
+        (state) => state.groups.groupData.inputData
+      );
+      try {
+        const response = yield api.getMethod({
+          action: `groups/${inputData}`,
+        });
+        if (response.data.success) {
+          yield put(fetchSingleGroupSuccess(response.data.data));
+        } else {
+          yield put(fetchSingleGroupFailure(response.data.error));
+          yield put(notify({ message: response.data.error, status: "error" }));
+        }
+      } catch (error) {
+        yield put(fetchSingleGroupFailure(error.message));
+        yield put(notify(error.message, "error"));
+      }
+    }
+
   function* groupCreateAPI(action) {
     const inputData = yield select((state) => state.groups.createGroup.inputData);
       try {
@@ -99,4 +121,5 @@ function* fetchGroupsCategoriesAPI(action) {
     yield all([yield takeLatest("groups/fetchGroupsCategoriesStart", fetchGroupsCategoriesAPI)]);
     yield all([yield takeLatest("groups/joinGroupStart", groupJoinAPI)]);
     yield all([yield takeLatest("groups/createGroupStart", groupCreateAPI)]);
+    yield all([yield takeLatest("groups/fetchSingleGroupStart", fetchSingleGroupAPI)]);
   }

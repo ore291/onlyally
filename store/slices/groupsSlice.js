@@ -23,6 +23,12 @@ const initialState = {
     data: {},
     loading: false,
     error: false,
+  },
+  groupData : {
+    inputData: null,
+    data: {},
+    loading: false,
+    error: false,
   }
 };
 
@@ -120,6 +126,30 @@ export const GroupsSlice = createSlice({
       data: {},
     }
   },
+  fetchSingleGroupStart: (state, action)=>{
+    state.groupData = {
+      inputData: action.payload,
+      data: {},
+      loading: true,
+      error: false
+    }
+  },
+  fetchSingleGroupSuccess: (state, action)=>{
+    state.groupData = {
+      inputData : "",
+      data: action.payload,
+      loading: false,
+      error: false
+    }
+  },
+  fetchSingleGroupFailure: (state, action)=>{
+    state.groupData = {
+      inputData : "",
+      data: {},
+      loading: false,
+      error: action.payload
+    }
+  },
   },
 
  
@@ -137,7 +167,10 @@ export const {
   createGroupFailure,
   fetchGroupsCategoriesStart,
   fetchGroupsCategoriesSuccess,
-  fetchGroupsCategoriesFailure
+  fetchGroupsCategoriesFailure,
+  fetchSingleGroupStart,
+  fetchSingleGroupFailure,
+  fetchSingleGroupSuccess
 } = GroupsSlice.actions;
 
 export default GroupsSlice.reducer;
