@@ -19,7 +19,7 @@ const CreatorCard = ({ username, image, main, verified }) => {
             </div>
           </div>
         </div>
-        <p className="text-xs font-semibold text-center">{username}</p>
+        <p className="text-xs font-semibold text-center whitespace-nowrap">{username}</p>
       </div>
     );
   }
@@ -36,7 +36,7 @@ const CreatorCard = ({ username, image, main, verified }) => {
         />
       </div>
       <div className="row-container space-x-1 py-[1px]">
-        <p className="text-xs">{`@${username}`}</p>
+        <p className="text-xs whitespace-nowrap">{`@${username}`}</p>
         {verified == 1 ? ( <span><VerifiedBadge /></span> ): null}
       </div>
     </div>

@@ -24,7 +24,7 @@ const RightSideBar = () => {
   };
 
   return (
-    <aside className="hidden lg:block col-span-1 border-solid border-black-50  h-screen border-l-[1px] pt-20 sticky top-0">
+    <aside className="hidden lg:block col-span-1 border-solid border-black-50  h-screen border-l-[1px] pt-16 sticky top-0">
       <div className="p-2 flex flex-col justify-center items-center space-y-4">
       {chatUsers.loading ? null : chatUsers.data &&
                 chatUsers.data.users.length > 0 ? (

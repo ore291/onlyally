@@ -120,12 +120,13 @@ function* fetchTrendingUsersAPI(action) {
       action: "trending_users",
       object: inputData,
     });
-    if (response.data.success) {
+    console.log(response)
+    if (response.data && response.data.success) {
       yield put(fetchTrendingUsersSuccess(response.data.data));
     } else {
-      yield put(fetchTrendingUsersFailure(response.data));
+      yield put(fetchTrendingUsersFailure(response));
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({message: response.data.error, status:"error"}))
+      yield put(notify({message: response, status:"error"}))
     }
   } catch (error) {
     yield put(fetchTrendingUsersFailure(error.message));

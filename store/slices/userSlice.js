@@ -715,6 +715,7 @@ export const UserSlice = createSlice({
         return state;
       }
       state.loginData = action.payload.user.loginData;
+      state.profile = action.payload.user.profile;
     },
   },
 });

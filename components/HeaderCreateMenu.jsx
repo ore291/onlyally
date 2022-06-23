@@ -19,11 +19,12 @@ import {
 } from "../store/slices/postSlice";
 import PostEditor from "./feeds/PostEditor";
 
-const HeaderMenuDropdown = ({ user }) => {
+const HeaderMenuDropdown = () => {
   const dispatch = useDispatch();
   const createPostModalState = useSelector(
     (state) => state.navbar.createPostModal
   );
+  const user = useSelector(state => state.user.profile.data)
   // my own code
   let [isOpen, setIsOpen] = useState(false);
 

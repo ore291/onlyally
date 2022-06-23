@@ -100,24 +100,7 @@ const Environment = {
       formData.append("login_by", apiConstants.LOGIN_BY);
     }
 
-    // formData.append("device_type", apiConstants.DEVICE_TYPE);
-    // formData.append("device_token", apiConstants.DEVICE_TOKEN);
-
-    // if (dev_model != "undefined" && dev_model != null && dev_model != "") {
-    //   formData.append("device_model", dev_model);
-    // } else {
-    //   var device_model = "";
-    //   if (isAndroid == true) {
-    //     device_model = mobileModel;
-    //   } else if (isIOS == true) {
-    //     device_model = mobileModel;
-    //   } else {
-    //     device_model = browserName + " " + browserVersion;
-    //     // device_model = "Chrome" + " " + "100";
-    //   }
-    //   formData.append("device_model", device_model);
-    // }
-
+   
     if (typeof window != "undefined") {
       var config = {
         method: "POST",
@@ -152,7 +135,14 @@ const Environment = {
       return response;
     } catch (error) {
       console.log(error);
-      return error.response;
+      if(error.response){
+         return error.response;
+      }else if(error.message){
+        return error.message;
+      }else{
+        return error
+      }
+     
     
     }
   },

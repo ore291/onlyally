@@ -42,12 +42,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   useEffect(() => {
     fetchConfig();
+    dispatch(fetchUserDetailsStart());
     
     dispatch(fetchConfigurationStart()); 
   }, []);
 
   return (
-    <SessionProvider session={session} refetchInterval={5 * 60}>
+    <SessionProvider session={session}  refetchOnWindowFocus={true} refetchInterval={5 * 60}>
       <NextNProgress color="#FF1636" />
       <Layout>
         <Component {...pageProps} />

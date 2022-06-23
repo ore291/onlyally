@@ -5,6 +5,7 @@ import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { fetchWalletDetailsStart } from "../store/slices/walletSlice";
 import {useSelector, useDispatch} from "react-redux"
+import { getCookie } from "cookies-next";
 
 import {
   BsDot,
@@ -25,10 +26,11 @@ import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { MdMail } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 
-const HeaderMenu = ({ user }) => {
+const HeaderMenu = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const wallet = useSelector((state) => state.wallet.walletData);
+  const user = useSelector(state => state.user.profile.data)
 
   useEffect(() => {
     dispatch(fetchWalletDetailsStart());
@@ -58,19 +60,22 @@ const HeaderMenu = ({ user }) => {
 
   return (
     <div>
-      <Menu as="div" className="relative inline-block text-left">
+      {
+        user ? (
+          <>
+          <Menu as="div" className="relative inline-block text-left">
         <Menu.Button>
           <div className="row-container rounded-full bg-[#BA253D] space-x-1 pr-2 cursor-pointer" >
             <Image
               alt=""
-              src={user.picture}
+              src={user.picture ? user.picture : getCookie("picture")}
               width={38}
               height={38}
               objectFit="cover"
               className="rounded-full"
             />
 
-            <p className=" text-xs font-bold text-white">{user.name}</p>
+            <p className=" text-xs font-bold text-white">{user?.name}</p>
           </div>
         </Menu.Button>
         <Transition
@@ -96,7 +101,7 @@ const HeaderMenu = ({ user }) => {
                   >
                     <div className="relative w-10 h-10 rounded-full mr-5">
                       <Image
-                        src={user.picture}
+                        src={user.picture ? user.picture : ""}
                         layout="fill"
                         className="rounded-full"
                         objectFit="cover"
@@ -110,11 +115,11 @@ const HeaderMenu = ({ user }) => {
               <Menu.Item>
                 <div className="flex items-center justify-start px-3 pb-2  border-b">
                   <p className="font-bold text-sm">
-                    {user.total_followers} Fans
+                    {user?.total_followers} Fans
                   </p>
                   <BsDot className="h-5 w-5" />
                   <p className="font-bold text-sm">
-                    {user.total_followings} Following
+                    {user?.total_followings} Following
                   </p>
                   <button className="row-container bg-gray-100 rounded-full px-2 py-1 ml-2" onClick={() => router.push("/wallet")}>
                     <FaWallet className="h-4 w-4 mr-1" />
@@ -384,6 +389,10 @@ const HeaderMenu = ({ user }) => {
           </Menu.Items>
         </Transition>
       </Menu>
+          </>
+        ) : ""
+      }
+      
     </div>
   );
 };

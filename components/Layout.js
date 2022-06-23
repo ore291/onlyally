@@ -1,16 +1,20 @@
 import Header from "./Header";
+import HeaderOffline from "./layout/HeaderOffline";
+import { checkCookies } from "cookies-next";
 
+function Layout(props) {
+  const checkSession = checkCookies('accessToken');
 
-function Layout({children}) {
-  return (
+  
+ 
+   return (
     <>
-      <Header />
-      <main>{children}</main>
+      {checkSession ? (<Header />) : (<HeaderOffline />)}
+      <main>{props.children}</main>
     </>
   );
 }
 
 
 
-export default Layout
-
+export default Layout;

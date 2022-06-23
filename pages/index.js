@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 // const DeviceHelper = require("node-device-detector/helper");
 import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
-import { getCookies, setCookies, removeCookies } from "cookies-next";
+import { getCookies, setCookies, removeCookies , checkCookies} from "cookies-next";
 import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
@@ -43,7 +43,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    dispatch(fetchUserDetailsStart());
+    
     localStorage.setItem("userId", loginDetails.user_id);
     localStorage.setItem("token", loginDetails.token);
     localStorage.setItem("userLoginStatus", true);
@@ -173,25 +173,29 @@ export const getServerSideProps = wrapper.getServerSideProps(
       }
 
       var user = session.user.userDetails;
-      setCookies("userId", user.user_id, { req, res });
-      setCookies("accessToken", user.token, { req, res });
-      setCookies("user_email", user.email, { req, res });
-      setCookies("username", user.username, {req, res} )
-
+      // setCookies("userId", user.user_id, { req, res });
+      // setCookies("accessToken", user.token, { req, res });
+      // setCookies("user_email", user.email, { req, res });
+      // setCookies("username", user.username, {req, res} )
+      const cookies = getCookies({ req, res});
       store.dispatch(
         fetchHomePostsStart({
-          accessToken: user.token,
-          userId: user.user_id,
+          accessToken: cookies.accessToken,
+          userId: cookies.userId,
           device_model: device_model,
         })
       );
       store.dispatch(
         fetchStoriesStart({
-          accessToken: user.token,
-          userId: user.user_id,
+          accessToken: cookies.accessToken,
+          userId: cookies.userId,
           device_model: device_model,
         })
       );
+
+      store.dispatch(
+        fetchUserDetailsStart({accessToken: cookies.accessToken})
+      )
 
       
 

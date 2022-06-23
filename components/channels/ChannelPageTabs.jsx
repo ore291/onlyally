@@ -6,14 +6,15 @@ import ChannelFeedSideBar from "./ChannelFeedSideBar";
 import { BsPlusCircle, BsCameraVideo } from "react-icons/bs";
 import { RiMusic2Line } from "react-icons/ri";
 import { CgNotes } from "react-icons/cg";
-import {MdOutlineBolt} from "react-icons/md";
+import { MdOutlineBolt } from "react-icons/md";
+import Sticky from "react-stickynode";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 const ChannelPageTabs = () => {
-  const posts = useSelector(state => state.home.homePost.data.posts)
+  const posts = useSelector((state) => state.home.homePost.data.posts);
   return (
     <Tab.Group>
       <div className="bg-white rounded-2xl  pb-5 shadow-md">
@@ -86,35 +87,28 @@ const ChannelPageTabs = () => {
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-3">
                 {posts.map((post, index) => (
-                  <NewsFeedCard
-                    post={post}
-                    key={index}
-                  />
+                  <NewsFeedCard post={post} key={index} />
                 ))}
               </div>
             </Tab.Panel>
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-3">
-              {posts.map((post, index) => (
-                  <NewsFeedCard
-                    post={post}
-                    key={index}
-                  />
+                {posts.map((post, index) => (
+                  <NewsFeedCard post={post} key={index} />
                 ))}
               </div>
             </Tab.Panel>
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-3">
-              {posts.map((post, index) => (
-                  <NewsFeedCard
-                    post={post}
-                    key={index}
-                  />
+                {posts.map((post, index) => (
+                  <NewsFeedCard post={post} key={index} />
                 ))}
               </div>
             </Tab.Panel>
           </Tab.Panels>
-          <div><ChannelFeedSideBar/></div>
+          <Sticky>
+            <ChannelFeedSideBar />
+          </Sticky>
         </div>
       </div>
     </Tab.Group>
