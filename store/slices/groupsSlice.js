@@ -3,30 +3,30 @@ import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
   groups: {
-    data: {},
+    data: [],
     loading: false,
     error: false,
   },
   joinGroup : {
     inputData: null,
-    data: {},
+    data: [],
     loading: false,
     error: false,
   },
   categories : {
-    data: {},
+    data: [],
     loading: false,
     error: false
   },
   createGroup : {
     inputData: null,
-    data: {},
+    data: [],
     loading: false,
     error: false,
   },
   groupData : {
     inputData: null,
-    data: {},
+    data: [],
     loading: false,
     error: false,
   }
@@ -83,7 +83,7 @@ export const GroupsSlice = createSlice({
     },
     fetchGroupsCategoriesStart: (state, action)=>{
         state.categories = {
-          data : {},
+          data : [],
           loading: true,
           error : false,
         }

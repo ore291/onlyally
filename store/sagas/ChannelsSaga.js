@@ -6,6 +6,7 @@ import { notify } from "reapop";
 import {
   fetchChannelsFailure,
   fetchChannelsSuccess,
+  fetchChannelsStart,
   channelSubscribeSuccess,
   channelSubscribeFailure,
   fetchSingleChannelSuccess,
@@ -44,6 +45,7 @@ function* channelSubscribeAPI(action) {
     });
     if (response.data.success) {
       yield put(channelSubscribeSuccess(response.data.data));
+      yield put(fetchChannelsStart());
       yield put(notify({ message: "Channel Subscribed", status: "success" }));
     } else {
       yield put(channelSubscribeFailure(response.data.error));

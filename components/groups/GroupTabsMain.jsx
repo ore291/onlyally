@@ -77,7 +77,7 @@ const GroupTabs = ({ groupsData }) => {
               {groupsData.data.length > 0
                 ? groupsData.data
                     .filter((filterchannel) =>
-                      checkMember(filterchannel.members)
+                      filterchannel.is_member == true
                     )
                     .map((group, index) => (
                       <GroupCard key={index} group={group} groupsPage={true} />
@@ -92,7 +92,7 @@ const GroupTabs = ({ groupsData }) => {
               {groupsData.data.length > 0
                 ? groupsData.data
                     .filter(
-                      (filterchannel) => !checkMember(filterchannel.members)
+                      (filterchannel) => filterchannel.is_member == false
                     )
                     .map((group, index) => (
                       <GroupCard key={index} group={group} groupsPage={true} />

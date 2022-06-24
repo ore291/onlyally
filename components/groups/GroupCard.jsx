@@ -4,6 +4,8 @@ import { BsFillPlusCircleFill } from "react-icons/bs";
 import { joinGroupStart } from "../../store/slices/groupsSlice.js";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
+import { getCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 const GroupCard = ({
   filter,
@@ -17,8 +19,9 @@ const GroupCard = ({
 
   const user = useSelector((state) => state.user.loginData);
 
-  const checkMember = (memberList) => {
+  const router = useRouter();
 
+  const checkMember = (memberList) => {
     var members = memberList.map((member) => {
       return member.user_id;
     });
@@ -26,7 +29,7 @@ const GroupCard = ({
     return members.includes(user.user_id);
   };
 
-  const handleJoinGroup = (slug) => {
+  const handleJoinGroup = async (slug) => {
     dispatch(joinGroupStart(slug));
   };
 
@@ -35,7 +38,7 @@ const GroupCard = ({
       <div className="row-container space-x-1">
         <div className="  relative basis-1/5 rounded-md">
           <Image
-            src="/profile_avatar_full.jpg"
+            src={group.avatar}
             alt="side-img"
             width={70}
             height={70}
@@ -44,9 +47,9 @@ const GroupCard = ({
           />
         </div>
         <div className="flex flex-col justify-center items-start space-y-1 basis-3/5">
-          <h2 className="font-semibold text-lg">Graphic Design</h2>
+          <h2 className="font-semibold text-lg">{group.name}</h2>
           <p className="text-sm text-gray-400 font-medium">
-            215k members &middot; 12 posts a week
+            {group.members.length} members &middot; 12 posts a week
           </p>
           <div className="flex items-center space-x-8 ">
             <div className="row-container relative ">
@@ -92,23 +95,44 @@ const GroupCard = ({
     return (
       <div className="row-container space-x-1">
         <div className="  relative basis-1/5 rounded-md">
-          <Image
-            src="/profile_avatar_full.jpg"
-            alt="side-img"
-            width={50}
-            height={50}
-            objectFit="contain"
-            className="relative rounded-md"
-          />
+          <Link href={`/groups/${group.slug}`} passHref>
+            <Image
+              src={group.avatar}
+              alt="side-img"
+              width={50}
+              height={50}
+              objectFit="contain"
+              className="relative rounded-md cursor-pointer"
+            />
+          </Link>
         </div>
-        <div
-          className="flex flex-col justify-center items-start basis-3/5"
-        >
-          <h2 className="font-semibold text-lg">Graphic Design</h2>
-          <p className="text-sm text-gray-400 font-medium">215k members</p>
-        </div>
+        <Link href={`/groups/${group.slug}`} passHref>
+          <div className="flex flex-col justify-center items-start basis-3/5 cursor-pointer">
+            <h2 className="font-medium text-lg ">{group.name}</h2>
+            <p className="text-sm text-gray-400 font-medium">
+              {group.members.length} members
+            </p>
+          </div>
+        </Link>
+
         <div className="basis-1/5">
-          <Button text="Join" />
+          {group.is_member ? (
+            group.user_id == getCookie("userId") ? (
+              <Button text="Edit" extraClasses="w-16 h-8" active={true} />
+            ) : (
+              <Button
+                text="Joined"
+                extraClasses="w-16 h-8"
+                active={true}
+              />
+            )
+          ) : (
+            <Button
+              text="Join"
+              extraClasses="hover:bg-lightPlayRed hover:text-white w-16 h-8"
+              onClick={(e) => handleJoinGroup(group.slug)}
+            />
+          )}
         </div>
       </div>
     );
@@ -153,7 +177,9 @@ const GroupCard = ({
                       } else {
                         return (
                           <div
-                            className={`bg-white p-[2px] rounded-full row-container z-[10] absolute ${group.members.length > 1 ? 'left-5' : 'left-2'}`}
+                            className={`bg-white p-[2px] rounded-full row-container z-[10] absolute ${
+                              group.members.length > 1 ? "left-5" : "left-2"
+                            }`}
                             key={i}
                           >
                             <div className=" w-8 h-8 relative">
@@ -178,9 +204,7 @@ const GroupCard = ({
                       {group?.members[0]?.name}{" "}
                     </span>
                     and{" "}
-                    {group.members.length > 1
-                      ? group.members.length - 1
-                      : ""}{" "}
+                    {group.members.length > 1 ? group.members.length - 1 : ""}{" "}
                     friends are members
                   </p>
                 </div>
@@ -191,12 +215,20 @@ const GroupCard = ({
           <div className="w-full flex items-center justify-between ">
             {/* <Button text="Joined" extraClasses="w-[100px] h-8" active={true} />
             <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" /> */}
-            {checkMember(group.members) ? (
-              <Button
-                text="Joined"
-                extraClasses="w-[100px] h-8"
-                active={true}
-              />
+            {group.is_member ? (
+              group.user_id == getCookie("userId") ? (
+                <Button
+                  text="Edit"
+                  extraClasses="w-[100px] h-8"
+                  active={true}
+                />
+              ) : (
+                <Button
+                  text="Joined"
+                  extraClasses="w-[100px] h-8"
+                  active={true}
+                />
+              )
             ) : (
               <Button
                 text="Join"
@@ -205,9 +237,8 @@ const GroupCard = ({
               />
             )}
             <Link href={`/groups/${group.slug}`} passHref>
-            <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100"  />
+              <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" />
             </Link>
-            
           </div>
         </div>
       </div>
@@ -216,21 +247,22 @@ const GroupCard = ({
   if (filter) {
     return (
       <div className="flex flex-col w-full rounded-2xl border shadow-lg ">
-        <img
-          src="https://stackdiary.com/140x100.png"
-          alt=""
-          className="w-full h-24 rounded-t-lg"
-        />
+        <img src={group.cover} alt="" className="w-full h-24 rounded-t-lg" />
         <div className="p-2 py-3">
           <div className="flex flex-col items-start pb-2">
-            <p className="font-semibold text-sm md:text-2xl">graphic</p>
+            <p className="font-medium text-sm md:text-xl">{group.name}</p>
             <p className="font-medium text-xs md:text-sm text-gray-400">
-              234 members and 1.7k Post A Day
+              {group.members.length} members
             </p>
           </div>
 
           <div className="w-full row-container">
-            <Button text="Join" extraClasses="w-full h-8" active={true} />
+            <Button
+              text="Join"
+              extraClasses="w-full h-8"
+              active={true}
+              onClick={(e) => handleJoinGroup(group.slug)}
+            />
           </div>
         </div>
       </div>
@@ -266,7 +298,6 @@ const GroupCard = ({
   }
 
   return (
-    
     <div className="flex flex-col w-full relative space-y-1 rounded-t-lg ">
       <div className="w-full h-24 rounded-lg relative">
         <Image
@@ -293,9 +324,8 @@ const GroupCard = ({
         <p className="text-sm font-bold whitespace-nowrap">{group.name}</p>
         {checkMember(group.members) ? (
           <Link href={`/groups/${group.slug}`} passHref>
-          <Button text="view" active={true} />
+            <Button text="view" active={true} />
           </Link>
-          
         ) : (
           <Button
             text="Join"

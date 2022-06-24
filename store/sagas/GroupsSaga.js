@@ -6,6 +6,7 @@ import { notify } from "reapop";
 import {
  fetchGroupsFailure,
   fetchGroupsSuccess,
+  fetchGroupsStart,
   joinGroupSuccess,
   joinGroupFailure,
   fetchGroupsCategoriesSuccess,
@@ -61,6 +62,7 @@ function* fetchGroupsCategoriesAPI(action) {
         });
         if (response.data.success) {
           yield put(joinGroupSuccess(response.data.data));
+          yield put (fetchGroupsStart())
           yield put(notify({message : "Group joined", status :'success'}));
         } else {
           yield put(joinGroupFailure( response.data.error));

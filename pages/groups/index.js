@@ -2,6 +2,7 @@ import SideNavLayout from "../../components/SideNavLayout";
 import GroupTabs from "../../components/groups/GroupTabs";
 import GroupCard from "../../components/groups/GroupCard";
 import GroupTabsMain from "../../components/groups/GroupTabsMain.jsx";
+import CategoriesLoader from "../../components/helpers/CategoriesLoader";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -10,20 +11,12 @@ import {
   fetchGroupsCategoriesStart,
 } from "../../store/slices/groupsSlice";
 import GroupCardLoader from "../../components/groups/GroupCardLoader";
+import Link from "next/link";
+import HeadBodyLoader from "../../components/helpers/HeadBodyLoader";
+import NoDataFound from "../../components/NoDataFound/NoDataFound";
 
 const Groups = () => {
   const dispatch = useDispatch();
-
-  const images = [
-    "person2",
-    "person5",
-    "person6",
-    "person7",
-    "person8",
-    "person2",
-    "person3",
-    "person8",
-  ];
 
   useEffect(() => {
     dispatch(fetchGroupsStart());
@@ -31,6 +24,7 @@ const Groups = () => {
   }, []);
 
   const groups = useSelector((state) => state.groups.groups);
+  const categories = useSelector((state) => state.groups.categories);
 
   return (
     <SideNavLayout>
@@ -53,37 +47,69 @@ const Groups = () => {
                 Find a group by browsing top categories.
               </p>
             </div>
-            <div className="row-container cursor-pointer">
-              <p className="font-semibold text-blue-400 ">See all</p>
-            </div>
+            <Link href="/groups/categories" passHref>
+              <div className="row-container cursor-pointer">
+                <p className="font-semibold text-blue-400 ">See all</p>
+              </div>
+            </Link>
           </div>
           <div className="p-2 pb-5 flex overflow-x-scroll space-x-3 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
-            {images.map((image, i) => (
-              <div className="flex-shrink-0 relative group rounded-md" key={i}>
-                <Image
-                  className="rounded-lg group-hover:cursor-pointer inset-0 "
-                  src={`/images/${image}.jpg`}
-                  alt={image}
-                  height={150}
-                  width={170}
-                />
-                <p className="font-bold text-white text-lg absolute left-3 bottom-4">
-                  Travel
-                </p>
-                {/* <div className="absolute inset-0 bg-black bg-opacity-0 transition-all duration-300 ease-in-out group-hover:bg-opacity-10 group-hover:cursor-pointer rounded-md "/> */}
-              </div>
-            ))}
+            {categories.loading ? (
+              <CategoriesLoader />
+            ) : (
+              <>
+                {categories.data.length > 0 &&
+                  categories.data.slice(0, 6).map((category, i) => (
+                    <Link
+                      key={i}
+                      href={`/groups/categories/${category.category_id}`}
+                      passHref
+                    >
+                      <div className="flex-shrink-0 relative group rounded-md">
+                        <Image
+                          className="rounded-lg group-hover:cursor-pointer inset-0 bg-blend-darken brightness-50 "
+                          src="/images/person5.jpg"
+                          alt={category.name}
+                          height={150}
+                          width={170}
+                        />
+                        <p className="font-bold text-white text-lg absolute left-3 bottom-4">
+                          {category.name}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+              </>
+            )}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 my-5">
             <div className="col-span-2">
-              <GroupTabs groupsAll={true} />
+              {groups.loading || categories.loading ? (
+                <HeadBodyLoader />
+              ) : groups.data && categories.data && groups.data.length > 0 ? (
+                <GroupTabs
+                  groupsAll={true}
+                  groupsData={groups.data}
+                  categoriesData={categories.data}
+                />
+              ) : (
+                <NoDataFound />
+              )}
             </div>
 
             <div className="grid grid-cols-1 gap-3">
               <h1 className="text-2xl font-semibold">Suggested For You</h1>
-              {[...Array(2)].map((_, index) => (
-                <GroupCard filter={true} key={index} />
-              ))}{" "}
+              {groups.data && groups.data.length > 0 ? (
+                <>
+                  {groups.data
+                    .filter((fgroup) => fgroup.is_member === false)
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 2)
+                    .map((group, index) => (
+                      <GroupCard filter={true} key={index} group={group} />
+                    ))}
+                </>
+              ) : null}
             </div>
           </div>
           <div className="flex items-center justify-between pb-2 border-b my-5 ">
@@ -94,13 +120,17 @@ const Groups = () => {
               </p>
             </div>
             <div className="row-container cursor-pointer">
-              <p className="font-semibold text-blue-400 ">See all</p>
+              <Link href="/groups/categories" passHref>
+                <p className="font-semibold text-blue-400 ">See all</p>
+              </Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-2 pb-5">
-            {[...Array(10)].map((_, index) => (
-              <GroupCard key={index} groupsSuggestion={true} />
-            ))}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-2 pb-5 max-h-[600px] overflow-y-scroll scrollb scrollbar-thin  scroll-smooth">
+            {groups.data
+              .filter((fgroup) => fgroup.is_member === false)
+              .map((group, index) => (
+                <GroupCard key={index} groupsSuggestion={true} group={group} />
+              ))}
           </div>
         </div>
       </div>

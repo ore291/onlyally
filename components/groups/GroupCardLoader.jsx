@@ -16,6 +16,7 @@ const GroupCardLoader = (props) => (
     <rect x="295" y="19" rx="0" ry="0" width="186" height="234" /> 
     <rect x="494" y="19" rx="0" ry="0" width="186" height="234" />
     <rect x="694" y="19" rx="0" ry="0" width="186" height="234" />
+    <rect x="-107" y="20" rx="0" ry="0" width="186" height="234" /> 
   </ContentLoader>
 )
 
