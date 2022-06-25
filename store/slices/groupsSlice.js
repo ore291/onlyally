@@ -129,7 +129,7 @@ export const GroupsSlice = createSlice({
   fetchSingleGroupStart: (state, action)=>{
     state.groupData = {
       inputData: action.payload,
-      data: {},
+      data: [],
       loading: true,
       error: false
     }

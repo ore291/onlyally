@@ -36,7 +36,7 @@ const Channels = () => {
         </div>
         <div className="p-5 mt-3 lg:mt-6 mb-40 bg-white rounded-xl shadow-lg  outline-none ">
           <div className="grid cols-1 lg:grid-cols-4 md:grid-cols-3 gap-4">
-            {[...Array(4)].map((_, index) => (
+            {[...Array(8)].map((_, index) => (
               <ChannelCard key={index} main={true} />
             ))}
           </div>
@@ -57,6 +57,7 @@ const Channels = () => {
                         main={true}
                         username={creator.username}
                         image={creator.picture}
+                        creator={creator}
                       />
                     )
                   )}
@@ -69,7 +70,7 @@ const Channels = () => {
             </div>
           </div>
           <div className="grid cols-1 lg:grid-cols-4 md:grid-cols-3 gap-4 my-5">
-            {[...Array(4)].map((_, index) => (
+            {[...Array(8)].map((_, index) => (
               <ChannelCard key={index} main={true} />
             ))}
           </div>

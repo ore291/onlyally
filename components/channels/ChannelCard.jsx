@@ -123,7 +123,7 @@ const ChannelCard = ({ main, channel, profile }) => {
       <Link href={`/channels/${channel.slug}`} passHref>
         <div className="relative w-full h-[90px] rounded-t-lg mb-16">
           <Image
-            src={"https://picsum.photos/200/200?random=9"}
+            src={channel.cover}
             objectFit="cover"
             layout="fill"
             className="rounded-t-lg"
@@ -133,7 +133,7 @@ const ChannelCard = ({ main, channel, profile }) => {
             <div className="row-container bg-white p-1 rounded-3xl">
               <div className="w-28 h-28 relative rounded-3xl">
                 <Image
-                  src="https://picsum.photos/200/200?random=3"
+                  src={channel.avatar}
                   alt="side-img"
                   layout="fill"
                   objectFit="cover"
@@ -145,10 +145,10 @@ const ChannelCard = ({ main, channel, profile }) => {
         </div>
       </Link>
 
-      <div className="col-container w-full ">
+      <div className="grid grid-cols-1 place-content-center w-full ">
         <p className="font-semibold text-center text-lg">{channel.name}</p>
-        <div className=" grid grid-cols-2 ">
-          <div className="col-container w-full">
+        <div className=" grid grid-cols-2 place-content-center">
+          <div className="flex flex-col items-center w-full">
             <span className="    font-bold text-sm">
               {/* {channel.posts.length} */}4
             </span>
@@ -156,7 +156,7 @@ const ChannelCard = ({ main, channel, profile }) => {
           </div>
 
           <div className="col-container">
-            <span className=" font-bold text-sm p-0">
+            <span className=" font-bold text-sm ">
               {channel.members.length}
             </span>
             <span className=" font-semibold text-gray-400 ">Subscribers</span>
@@ -171,7 +171,15 @@ const ChannelCard = ({ main, channel, profile }) => {
           active={true}
         /> */}
 
-        {checkMember(channel.members) ? (
+        {channel.user_id === parseInt(cookies.userId) ? (
+           <Button
+           text="Edit"
+           active={true}
+           extraClasses="w-full h-8" 
+           textClass="text-sm text-gray-100 font-semibold"
+           
+         />
+        ) : channel.is_member ? (
           <Button text="view" active={true} extraClasses="w-full h-8" textClass="text-sm text-gray-100 font-semibold" />
         ) : (
           <Button

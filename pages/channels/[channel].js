@@ -94,7 +94,7 @@ const Channel = () => {
                       <p className="text-xs font-semibold">@{channel.name}</p>
                     </div>
                   </div>
-                  {channel && checkMember(channel.members) ? (
+                  {channel && channel.is_member ? (
                     <Button
                       text="Unsubscribe"
                       active={true}
@@ -116,7 +116,7 @@ const Channel = () => {
                 <BsFillArrowLeftCircleFill className="h-8 w-8  " />
               </div>
             </div>
-            {checkMember ? (
+            {channel.is_member ? (
               <div className="max-w-[950px] mx-auto mt-14">
                 <ChannelPageTabs />
               </div>

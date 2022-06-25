@@ -77,7 +77,7 @@ const UserCard = ({ creator }) => {
       <div className="hidden md:inline-block !p-0 !items-center side-container relative rounded-lg">
         <div className="relative w-full h-[90px] rounded-t-lg mb-16">
           <Image
-            src={creator.cover}
+            src={creator?.cover}
             objectFit="cover"
             layout="fill"
             className="rounded-t-lg"

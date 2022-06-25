@@ -3,7 +3,7 @@ import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
   channels: {
-    data: {},
+    data: [],
     loading: false,
     error: false,
   },
@@ -26,7 +26,7 @@ const initialState = {
     error: false,
   },
   categories : {
-    data: {},
+    data: [],
     loading: false,
     error: false
   },
@@ -39,7 +39,7 @@ export const ChannelsSlice = createSlice({
     fetchChannelsStart: (state, action) => {
       state.channels = {
       
-        data: {},
+        data: [],
         loading: true,
         error: false,
       };
@@ -53,7 +53,7 @@ export const ChannelsSlice = createSlice({
     },
     fetchChannelsFailure: (state, action) => {
       state.channels = {
-        data: {},
+        data: [],
         loading: false,
         error: action.payload,
       };
@@ -132,7 +132,7 @@ export const ChannelsSlice = createSlice({
     },
     fetchChannelsCategoriesStart: (state, action)=>{
       state.categories = {
-        data : {},
+        data : [],
         loading: true,
         error : false,
       }
@@ -146,7 +146,7 @@ export const ChannelsSlice = createSlice({
   },
   fetchChannelsCategoriesFailure: (state, action)=>{
     state.categories = {
-      data : {},
+      data : [],
       loading: false,
       error : action.payload,
     }

@@ -13,6 +13,7 @@ function classNames(...classes) {
 
 const GroupPageTabs = () => {
   const posts = useSelector(state => state.home.homePost.data.posts)
+  const group = useSelector(state => state.groups.groupData.data)
   return (
     <Tab.Group>
       <div className="bg-white rounded-2xl  pb-5 shadow-md">
@@ -113,7 +114,7 @@ const GroupPageTabs = () => {
               </div>
             </Tab.Panel>
           </Tab.Panels>
-          <div><GroupFeedSideBar/></div>
+          <div><GroupFeedSideBar group={group}/></div>
         </div>
       </div>
     </Tab.Group>

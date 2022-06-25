@@ -47,32 +47,21 @@ const GroupCard = ({
           />
         </div>
         <div className="flex flex-col justify-center items-start space-y-1 basis-3/5">
-          <h2 className="font-semibold text-lg">{group.name}</h2>
+          <h2 className="font-medium text-lg">{group.name}</h2>
           <p className="text-sm text-gray-400 font-medium">
             {group.members.length} members &middot; 12 posts a week
           </p>
-          <div className="flex items-center space-x-8 ">
-            <div className="row-container relative ">
-              <div className=" w-6 h-6 relative">
-                <Image
-                  src="/profile_avatar_full.jpg"
-                  alt="side-img"
-                  layout="fill"
-                  objectFit="cover"
-                  className="relative rounded-full w-12 h-12"
+          <div className="flex items-center space-x-2 ">
+           
+            <div className="flex -space-x-4">
+              {group.members.slice(0, 3).map((member, i) => (
+                <img
+                  key={i}
+                  className="relative z-30 inline object-cover w-8 h-8 border-2 border-white rounded-full"
+                  src={member.picture}
+                  alt="Profile image"
                 />
-              </div>
-              <div className="bg-white p-[2px] rounded-full row-container absolute left-5">
-                <div className=" w-7 h-7 relative">
-                  <Image
-                    src="/profile_avatar_full.jpg"
-                    alt="side-img"
-                    layout="fill"
-                    objectFit="cover"
-                    className="relative rounded-full w-12 h-12"
-                  />
-                </div>
-              </div>
+              ))}
             </div>
 
             <p className="text-sm font-medium text-gray-400">
@@ -81,12 +70,33 @@ const GroupCard = ({
           </div>
         </div>
         <div className="basis-1/5">
-          <div className="p-2 row-container space-x-1 bg-[#FFE2E5] rounded-md cursor-pointer">
+          {group.is_member ? (
+            group.user_id == getCookie("userId") ? (
+              <Button text="Edit" extraClasses="w-[100px] h-8" active={true} />
+            ) : (
+              <Button
+                text="Joined"
+                extraClasses="w-[100px] h-8"
+                active={true}
+              />
+            )
+          ) : (
+            <div
+              className="p-2 row-container space-x-1 bg-[#FFE2E5] rounded-md cursor-pointer"
+              onClick={(e) => handleJoinGroup(group.slug)}
+            >
+              <BsFillPlusCircleFill className="w-4 h-4 text-lightPlayRed" />
+              <span className="text-sm font-semibold text-textPlayRed">
+                Follow
+              </span>
+            </div>
+          )}
+          {/* <div className="p-2 row-container space-x-1 bg-[#FFE2E5] rounded-md cursor-pointer" onClick={(e) => handleJoinGroup(group.slug)}>
             <BsFillPlusCircleFill className="w-4 h-4 text-lightPlayRed" />
             <span className="text-sm font-semibold text-textPlayRed">
               Follow
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -120,11 +130,7 @@ const GroupCard = ({
             group.user_id == getCookie("userId") ? (
               <Button text="Edit" extraClasses="w-16 h-8" active={true} />
             ) : (
-              <Button
-                text="Joined"
-                extraClasses="w-16 h-8"
-                active={true}
-              />
+              <Button text="Joined" extraClasses="w-16 h-8" active={true} />
             )
           ) : (
             <Button
@@ -158,7 +164,7 @@ const GroupCard = ({
             <p className="font-medium text-sm text-gray-400 truncate">
               {group.members.length} Members 1.7k Post A Day
             </p>
-            <div className="flex items-center space-x-6 ">
+            <div className="flex items-center space-x-2 ">
               <div className="row-container relative ">
                 {group.members && group.members.length > 0
                   ? group.members.slice(0, 2).map((member, i) => {
@@ -247,7 +253,7 @@ const GroupCard = ({
   if (filter) {
     return (
       <div className="flex flex-col w-full rounded-2xl border shadow-lg ">
-        <img src={group.cover} alt="" className="w-full h-24 rounded-t-lg" />
+        <img src={group.cover} alt="" className="w-full h-24 rounded-t-lg object-cover" />
         <div className="p-2 py-3">
           <div className="flex flex-col items-start pb-2">
             <p className="font-medium text-sm md:text-xl">{group.name}</p>
@@ -322,7 +328,7 @@ const GroupCard = ({
       </div>
       <div className="flex justify-between ml-20 items-center space-x-6">
         <p className="text-sm font-bold whitespace-nowrap">{group.name}</p>
-        {checkMember(group.members) ? (
+        {group.is_member ? (
           <Link href={`/groups/${group.slug}`} passHref>
             <Button text="view" active={true} />
           </Link>

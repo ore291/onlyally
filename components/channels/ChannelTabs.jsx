@@ -65,7 +65,7 @@ const ChannelTabs = ({ channels }) => {
               {channels.data.length > 0
                 ? channels.data
                     .filter((filterchannel) =>
-                      checkMember(filterchannel.members)
+                      filterchannel.is_member == true
                     )
                     .map((channel, index) => (
                       <ChannelCard key={index} channel={channel} />
@@ -83,7 +83,7 @@ const ChannelTabs = ({ channels }) => {
               {channels.data.length > 0
                 ? channels.data
                     .filter(
-                      (filterchannel) => !checkMember(filterchannel.members)
+                      (filterchannel) => filterchannel.is_member == false
                     )
                     .map((channel, index) => (
                       <ChannelCard key={index} channel={channel} />

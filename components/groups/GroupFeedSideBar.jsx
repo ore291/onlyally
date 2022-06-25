@@ -1,11 +1,24 @@
+import { useState, useEffect } from "react";
 import { RiPriceTag3Line } from "react-icons/ri";
 import GroupCard from "./GroupCard";
 import { MdLockOutline } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
 import { BsPeople } from "react-icons/bs";
 import { AiOutlineUserAdd } from "react-icons/ai";
+import { fetchGroupsStart } from "../../store/slices/groupsSlice";
+import { useSelector, useDispatch } from "react-redux";
+import GroupCardLoader from "./GroupCardLoader";
+import GroupSuggestionLoader from "./GroupSuggestionLoader";
 
-const GroupFeedSideBar = () => {
+const GroupFeedSideBar = ({ group }) => {
+  const dispatch = useDispatch();
+
+  const groups = useSelector((state) => state.groups.groups);
+
+  useEffect(() => {
+    dispatch(fetchGroupsStart());
+  }, []);
+
   return (
     <div className="grid grid-cols-1 space-y-5 p-1 pr-2 mt-3 sticky -top-96 ">
       <div className="flex flex-col w-full space-y-2  bg-white rounded-md shadow-md p-2 pb-4">
@@ -40,11 +53,11 @@ const GroupFeedSideBar = () => {
         </div>
         <div className="flex items-center space-x-2">
           <CgNotes className="w-4 h-4 text-gray-400" />
-          <p className="font-medium text-sm">3 post</p>
+          <p className="font-medium text-sm">{group.posts.length} post</p>
         </div>
       </div>
-      <div className="flex flex-col pt-2 pb-5 space-y-2 bg-white rounded-md shadow-lg border">
-        <div className="flex items-center justify-start py-2 px-1">
+      <div className="flex flex-col p-2 pb-5 space-y-2 bg-white rounded-md shadow-lg border">
+        <div className="flex items-center justify-start py-2 px-1 space-x-2">
           <div className="side-icon">
             <svg
               width="24"
@@ -64,9 +77,17 @@ const GroupFeedSideBar = () => {
           </div>{" "}
           <h1 className="text-xl font-semibold">Suggested Groups</h1>
         </div>
-        {[...Array(2)].map((_, index) => (
-          <GroupCard filter={true} key={index} />
-        ))}{" "}
+        {groups.loading ? (
+          <GroupSuggestionLoader />
+        ) : groups.data.length > 0 ? (
+          groups.data
+            .filter((fgroup) => fgroup.is_member == false)
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 2)
+            .map((group, index) => (
+              <GroupCard filter={true} key={index} group={group} />
+            ))
+        ) : null}
       </div>
     </div>
   );
