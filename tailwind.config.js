@@ -1,10 +1,4 @@
 module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./pages/*.{js,ts,jsx,tsx}",
-    "./components/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
   theme: {
     extend: {
       zIndex: {
@@ -46,8 +40,8 @@ module.exports = {
     require("@tailwindcss/forms"),
     require("tailwind-scrollbar"),
     require("@tailwindcss/aspect-ratio"),
-    require("@tailwindcss/custom-forms"),
   ],
+  content : ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
 };
 
 // module.exports = {

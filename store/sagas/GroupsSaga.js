@@ -4,6 +4,8 @@ import api from "../../Environment";
 import { notify } from "reapop";
 
 import {
+  fetchSingleGroupMemberSuccess,
+  fetchSingleGroupMemberFailure,
   saveGroupPostStart,
   saveGroupPostSuccess,
   saveGroupPostFailure,
@@ -132,6 +134,24 @@ function* fetchSingleGroupAPI(action) {
   }
 }
 
+function* fetchSingleGroupMembersAPI(action) {
+  const inputData = yield select((state) => state.groups.groupMembersData.inputData);
+  try {
+    const response = yield api.getMethod({
+      action: `groups/${inputData}/members`,
+    });
+    if (response.data.success) {
+      yield put(fetchSingleGroupMemberSuccess(response.data.data));
+    } else {
+      yield put(fetchSingleGroupMemberFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchSingleGroupMemberFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
 function* groupCreateAPI(action) {
   const inputData = yield select((state) => state.groups.createGroup.inputData);
   try {
@@ -170,5 +190,8 @@ export default function* pageSaga() {
   yield all([yield takeLatest("groups/createGroupStart", groupCreateAPI)]);
   yield all([
     yield takeLatest("groups/fetchSingleGroupStart", fetchSingleGroupAPI),
+  ]);
+  yield all([
+    yield takeLatest("groups/fetchSingleGroupMemberStart", fetchSingleGroupMembersAPI),
   ]);
 }

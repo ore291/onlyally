@@ -39,6 +39,12 @@ const initialState = {
     loading: false,
     error: false,
   },
+  groupMembersData : {
+    inputData: null,
+    data: [],
+    loading: false,
+    error: false,
+  }
 };
 
 export const GroupsSlice = createSlice({
@@ -190,10 +196,37 @@ export const GroupsSlice = createSlice({
         error: action.payload,
       };
     },
+    fetchSingleGroupMemberStart: (state, action) => {
+      state.groupMembersData = {
+        inputData: action.payload,
+        data: [],
+        loading: true,
+        error: false,
+      };
+    },
+    fetchSingleGroupMemberSuccess: (state, action) => {
+      state.groupMembersData = {
+        inputData: "",
+        data:  action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchSingleGroupMemberFailure: (state, action) => {
+      state.groupMembersData = {
+        inputData: "",
+        data: [],
+        loading: false,
+        error: action.payload,
+      };
+    },
   },
 });
 
 export const {
+  fetchSingleGroupMemberStart,
+  fetchSingleGroupMemberSuccess,
+  fetchSingleGroupMemberFailure,
   saveGroupPostStart,
   saveGroupPostSuccess,
   saveGroupPostFailure,
