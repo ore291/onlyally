@@ -93,11 +93,11 @@ export default function Tabs() {
             </div>
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-3")}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5">
               {[...Array(9)].map((_, index) => (
                 <GroupCard key={index} filter={true} />
               ))}
-            </div>
+            </div> */}
             <div className="w-full row-container space-x-1 py-5">
               <div className="!bg-white border !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
                 <FaChevronDown className="h-3 w-3 text-lightPlayRed" />
