@@ -9,8 +9,9 @@ import { MdLockOutline } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
 import Image from "next/image";
 import Button from "../../components/Button";
-import { fetchSingleGroupStart } from "../../store/slices/groupsSlice";
+import { fetchSingleGroupStart ,joinGroupStart} from "../../store/slices/groupsSlice";
 import ProfileLoader from "../../components/Profile/ProfileLoader";
+import { getCookie } from "cookies-next";
 
 const Group = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ const Group = () => {
 
   const [subscribed, setSubscribed] = useState(false);
 
+  const handleJoinGroup = async (slug) => {
+    dispatch(joinGroupStart(slug));
+  };
+
   return (
     <SideNavLayout>
       {loading ? (
@@ -38,7 +43,10 @@ const Group = () => {
         <div>
           <div className="w-full mx-auto relative">
             <img
-              src={group.cover || "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"}
+              src={
+                group.cover ||
+                "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+              }
               alt=""
               srcSet=""
               className="object-contain   w-full blur-[20px] -mt-28"
@@ -48,14 +56,17 @@ const Group = () => {
             <div className=" max-w-[900px] mx-auto absolute inset-0 -bottom-8">
               <div className="w-full  rounded-2xl  relative z-10 ">
                 <img
-                  src={group.cover || "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"}
+                  src={
+                    group.cover ||
+                    "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+                  }
                   alt=""
                   srcSet=""
                   className="object-cover w-full "
                 />
                 <div />
               </div>
-              <div className="flex justify-start p-2 px-4 items-center shadow-lg w-full bg-white rounded-b-lg">
+              <div className="flex justify-between p-2 px-4 items-center shadow-lg w-full bg-white rounded-b-lg">
                 <div className="row-container space-x-2">
                   <div className="relative w-14 h-14 rounded-xl">
                     <Image
@@ -77,6 +88,29 @@ const Group = () => {
                     </p>
                   </div>
                 </div>
+                <div>
+                  {group && group.user_id === parseInt(getCookie("userId")) ? (
+                    <Button
+                      text="Edit"
+                      textClass="text-sm font-medium"
+                      extraClasses="w-20 md:w-28 h-9  rounded-md bg-gray-500 text-black"
+                    />
+                  ) : group.is_member ? (
+                    <Button
+                      text="Joined"
+                    
+                      active={true}
+                      extraClasses="w-20 md:w-28 h-9  rounded-md bg-red-500"
+                    />
+                  ) : (
+                    <Button
+                      onClick={() => handleJoinGroup(group.slug)}
+                      text="Join"
+                      textClass="text-lg font-semibold"
+                      extraClasses="w-20 md:w-28 h-8  text-red-400 hover:bg-lightPlayRed hover:text-white rounded-md"
+                    />
+                  )}
+                </div>
               </div>
             </div>
 
@@ -89,12 +123,14 @@ const Group = () => {
           </div>
 
           {group.is_member ? (
-            <div className="max-w-[900px] mx-auto mt-16">
+            <div className="max-w-4xl mx-auto mt-24">
               <GroupPageTabs />
             </div>
           ) : (
             <div
-              className={`row-container my-16  ${group.is_member ? "hidden" : ""}`}
+              className={`row-container my-16  ${
+                group.is_member ? "hidden" : ""
+              }`}
             >
               <div className="bg-white w-[500px] rounded-lg shadow-lg p-5">
                 <div className="flex flex-col items-start space-y-2 mb-5">
@@ -105,8 +141,8 @@ const Group = () => {
                   <div className="flex items-center space-x-2">
                     <BsPeople className="w-5 h-5 text-gray-500" />
                     <p className="font-semibold text-lg">
-                        {group.members.length} Members
-                      </p>
+                      {group.members.length} Members
+                    </p>
                   </div>
                   <div className="flex items-center space-x-2">
                     <RiPriceTag3Line className="w-5 h-5 text-gray-500" />
@@ -115,8 +151,8 @@ const Group = () => {
                   <div className="flex items-center space-x-2">
                     <CgNotes className="w-5 h-5 text-gray-500" />
                     <p className="font-semibold text-lg">
-                        {group.posts.length} Posts
-                      </p>
+                      {group.posts.length} Posts
+                    </p>
                   </div>
                 </div>
                 <div className="col-container space-y-3">

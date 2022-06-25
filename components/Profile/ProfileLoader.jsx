@@ -5,15 +5,15 @@ const ProfileLoader = (props) => (
   <ContentLoader
     uniqueKey="profile-loader"
     speed={2}
-    width={1100}
+    width={1000}
     height={1300}
-    viewBox="0 0 1200 1300"
+  
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
     {...props}
   >
     <rect x="31" y="130" rx="0" ry="0" width="0" height="9" />
-    <rect x="8" y="1" rx="5" ry="5" width="1000" height="129" />
+    <rect x="8" y="1" rx="5" ry="5" width="900" height="129" />
     <circle cx="600" cy="124" r="51" />
     <rect x="300" y="194" rx="5" ry="5" width="600" height="106" />
     <rect x="310" y="320" rx="20" ry="20" width="280" height="37" />

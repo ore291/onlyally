@@ -9,7 +9,7 @@ import CreateButton from "./helpers/CreateButton";
 const LeftSideBar = () => {
   const router = useRouter();
   return (
-    <aside className="hidden z-10 lg:block col-span-2 border-solid border-black-50 pt-10  self-start border-r-[1px] sticky top-16 overflow-hidden ">
+    <aside className="hidden z-10 lg:block col-span-2 h-[90vh] border-solid  pt-10  self-start border-r-[1px] sticky top-16 overflow-none ">
       <div className="flex flex-col space-y-4 ">
         <Link href="/" passHref>
           <div className="side-nav-button">
