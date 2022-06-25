@@ -148,7 +148,7 @@ const GroupCard = ({
       <div className="flex flex-col w-[230px] flex-shrink-0 flex-grow-0   rounded-t-lg border shadow-md ">
         <div className="relative h-24 w-full rounded-t-lg">
           <Image
-            src={group.cover}
+            src={group.cover || "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"}
             alt="fh"
             layout="fill"
             objectFit="cover"
@@ -253,7 +253,7 @@ const GroupCard = ({
   if (filter) {
     return (
       <div className="flex flex-col w-full rounded-2xl border shadow-lg ">
-        <img src={group.cover} alt="" className="w-full h-24 rounded-t-lg object-cover" />
+        <img src={group.cover || "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"} alt="" className="w-full h-24 rounded-t-lg object-cover" />
         <div className="p-2 py-3">
           <div className="flex flex-col items-start pb-2">
             <p className="font-medium text-sm md:text-xl">{group.name}</p>
@@ -307,7 +307,7 @@ const GroupCard = ({
     <div className="flex flex-col w-full relative space-y-1 rounded-t-lg ">
       <div className="w-full h-24 rounded-lg relative">
         <Image
-          src={group.cover}
+          src={group.cover || "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"}
           layout="fill"
           objectFit="cover"
           className="rounded-lg"
