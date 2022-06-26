@@ -69,7 +69,7 @@ const Groups = () => {
                       <div className="flex-shrink-0 relative group rounded-md">
                         <Image
                           className="rounded-lg group-hover:cursor-pointer inset-0 bg-blend-darken brightness-50 "
-                          src={categories.picture || "https://playjor.ams3.digitaloceanspaces.com/public/uploads/categories/79532c239073e262897421194f3d8511e4dab589.png"}
+                          src={category.picture || "https://playjor.ams3.digitaloceanspaces.com/public/uploads/categories/79532c239073e262897421194f3d8511e4dab589.png"}
                           alt={category.name}
                           height={150}
                           width={170}
