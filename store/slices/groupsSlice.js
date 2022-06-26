@@ -221,6 +221,15 @@ export const GroupsSlice = createSlice({
       };
     },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.groups.groupData) {
+        return state;
+      }
+      state.groupData = action.payload.groups.groupData;
+    },
+  },
 });
 
 export const {

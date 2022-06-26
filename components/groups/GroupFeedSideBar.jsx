@@ -12,7 +12,7 @@ import GroupSuggestionLoader from "./GroupSuggestionLoader";
 import Sticky from "react-stickynode";
 import {
   isAndroid,
-  isMobile,
+  isMobileOnly,
   isIOS,
   isWindows,
   isMacOs,
@@ -33,7 +33,7 @@ const GroupFeedSideBar = ({ group }) => {
   }, []);
 
   return (
-    <Sticky enabled={!isMobile}>
+    <Sticky enabled={!isMobileOnly}>
       <div className="grid grid-cols-1 space-y-5 p-1  ">
         <div className="flex flex-col w-full space-y-2 border bg-white rounded-md shadow-md p-2 pb-4">
           <div className="py-2  text-gray-600">

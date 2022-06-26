@@ -117,10 +117,17 @@ function* groupJoinAPI(action) {
 }
 
 function* fetchSingleGroupAPI(action) {
-  const inputData = yield select((state) => state.groups.groupData.inputData);
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+    var slug = action.payload.group_slug;
+  }
+  // const inputData = yield select((state) => state.groups.groupData.inputData);
   try {
     const response = yield api.getMethod({
-      action: `groups/${inputData}`,
+      action: `groups/${slug}`,
+      accessToken: accessToken,
     });
     if (response.data.success) {
       yield put(fetchSingleGroupSuccess(response.data.data));
@@ -133,6 +140,23 @@ function* fetchSingleGroupAPI(action) {
     yield put(notify(error.message, "error"));
   }
 }
+// function* fetchSingleGroupAPI(action) {
+//   const inputData = yield select((state) => state.groups.groupData.inputData);
+//   try {
+//     const response = yield api.getMethod({
+//       action: `groups/${inputData}`,
+//     });
+//     if (response.data.success) {
+//       yield put(fetchSingleGroupSuccess(response.data.data));
+//     } else {
+//       yield put(fetchSingleGroupFailure(response.data.error));
+//       yield put(notify({ message: response.data.error, status: "error" }));
+//     }
+//   } catch (error) {
+//     yield put(fetchSingleGroupFailure(error.message));
+//     yield put(notify(error.message, "error"));
+//   }
+// }
 
 function* fetchSingleGroupMembersAPI(action) {
   const inputData = yield select((state) => state.groups.groupMembersData.inputData);

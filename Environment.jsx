@@ -100,15 +100,14 @@ const Environment = {
       formData.append("login_by", apiConstants.LOGIN_BY);
     }
 
-   
     if (typeof window != "undefined") {
       var config = {
         method: "POST",
         url: url,
         data: formData,
         headers: {
-          "Accept": "application/json",
-          "Authorization": `Bearer ${token}` ,
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
           "Access-Control-Allow-Origin": "*",
         },
       };
@@ -118,8 +117,8 @@ const Environment = {
         url: url,
         headers: {
           ...formData.getHeaders(),
-          'Authorization': `Bearer ${accessToken}`,
-          "Accept": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+          Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
           // "content-type": "application/json",
           // accept: "application/json",
@@ -131,37 +130,37 @@ const Environment = {
     try {
       const response = await axios(config);
 
-   
       return response;
     } catch (error) {
       console.log(error);
-      if(error.response){
-         return error.response;
-      }else if(error.message){
+      if (error.response) {
+        return error.response;
+      } else if (error.message) {
         return error.message;
-      }else{
-        return error
+      } else {
+        return error;
       }
-     
-    
     }
   },
 
   // used for playjor new routes
-  getMethod: async ({ action, object } = {}) => {
+  getMethod: async ({ action, object, accessToken = null} = {}) => {
     const cookies = getCookies();
 
     const url =
       // "https://playjor-cors.herokuapp.com/" +
-      apiUrl +
-      action;
+      apiUrl + action;
 
     const formData = new FormData();
 
     // By Default Id and token
-    formData.append("id", cookies.userId);
-    formData.append("token", cookies.accessToken);
+    // formData.append("id", cookies.userId);
 
+    // if (typeof window !== "undefined") {
+    //   formData.append("token", cookies.accessToken);
+    // } else {
+    //   formData.append("token", accessToken);
+    // }
     // append your data
     for (var key in object) {
       formData.append(key, object[key]);
@@ -194,15 +193,14 @@ const Environment = {
       method: "GET",
       url: url,
       headers: {
-        "Accept": "application/json",
-      
+        Accept: "application/json",
+
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
-        "Authorization": `Bearer ${cookies.accessToken}` 
+        Authorization: `Bearer ${accessToken ? accessToken : cookies.accessToken}`,
       },
-    
     };
 
     try {
@@ -216,9 +214,7 @@ const Environment = {
   playPostMethod: async ({ action, object } = {}) => {
     const cookies = getCookies();
 
-    const url =
-      apiUrl +
-      action;
+    const url = apiUrl + action;
 
     const formData = new FormData();
 
@@ -258,12 +254,12 @@ const Environment = {
       method: "POST",
       url: url,
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
-        "Authorization": `Bearer ${cookies.accessToken}`
+        Authorization: `Bearer ${cookies.accessToken}`,
       },
       data: formData,
     };
@@ -279,8 +275,7 @@ const Environment = {
   putMethod: async ({ action, object } = {}) => {
     const cookies = getCookies();
 
-    const url =
-      apiUrl + action;
+    const url = apiUrl + action;
 
     const formData = new FormData();
 
@@ -310,8 +305,6 @@ const Environment = {
 
     formData.append("device_model", device_model);
 
-  
-
     var data = JSON.stringify({
       id: cookies.userId,
       token: cookies.accessToken,
@@ -322,14 +315,14 @@ const Environment = {
       method: "PUT",
       url: url,
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
-        "Authorization": `Bearer ${cookies.accessToken}`
+        Authorization: `Bearer ${cookies.accessToken}`,
       },
-      data : data,
+      data: data,
     };
 
     try {
@@ -339,8 +332,6 @@ const Environment = {
       console.log(error.message);
     }
   },
-
- 
 };
 
 export default Environment;

@@ -27,11 +27,11 @@ const GroupPageTabs = () => {
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-3 bg-white">
-        <div className="col-span-2 my-5">
+        <div className="col-span-2  my-5">
           <Tab.Group>
             <div className="bg-white rounded-2xl  pb-5 shadow-md">
               <Tab.List>
-                <div className="flex justify-center space-x-3 items-center p-2 lg:overflow-x-scroll">
+                <div className="flex justify-center space-x-3 items-center p-2 overflow-hidden overflow-x-auto">
                   <div
                     onClick={() => setCategoryPost(true)}
                     className="w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium focus:outline-none focus:ring-0 row-container space-x-2 py-1 text-gray-800 bg-white rounded-full shadow-lg cursor-pointer border hover:text-white hover:bg-lightPlayRed"
@@ -115,7 +115,7 @@ const GroupPageTabs = () => {
           </Tab.Group>
         </div>
 
-        <div className="row-start-1 md:row-start-3">
+        <div className="order-first md:order-last">
           <GroupFeedSideBar group={group} />
         </div>
 

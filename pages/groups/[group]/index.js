@@ -9,10 +9,17 @@ import { MdLockOutline } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
 import Image from "next/image";
 import Button from "../../../components/Button";
-import { fetchSingleGroupStart ,joinGroupStart} from "../../../store/slices/groupsSlice";
+import { getSelectorsByUserAgent ,isMobileOnly, isMobile} from "react-device-detect";
+import {
+  fetchSingleGroupStart,
+  joinGroupStart,
+} from "../../../store/slices/groupsSlice";
 import ProfileLoader from "../../../components/Profile/ProfileLoader";
-import { getCookie } from "cookies-next";
+import { getCookies } from "cookies-next";
 import GroupPageHeader from "../../../components/groups/GroupPageHeader";
+
+import { END } from "redux-saga";
+import { wrapper } from "../../../store";
 
 const Group = () => {
   const dispatch = useDispatch();
@@ -22,13 +29,13 @@ const Group = () => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (!router.isReady) return;
+  // useEffect(() => {
+  //   if (!router.isReady) return;
 
-    // Code using query
+  //   // Code using query
 
-    dispatch(fetchSingleGroupStart(router.query.group));
-  }, [router.isReady]);
+  //   dispatch(fetchSingleGroupStart(router.query.group));
+  // }, [router.isReady]);
 
   const [subscribed, setSubscribed] = useState(false);
 
@@ -39,10 +46,12 @@ const Group = () => {
   return (
     <SideNavLayout>
       {loading ? (
-        <ProfileLoader />
+        <div className="row-container">
+          <ProfileLoader />
+        </div>
       ) : group.members && group.members.length > 0 ? (
         <div>
-          <GroupPageHeader group={group}/>
+          <GroupPageHeader group={group} />
 
           {group.is_member ? (
             <div className="max-w-4xl mx-auto mt-24">
@@ -114,3 +123,54 @@ const Group = () => {
 };
 
 export default Group;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req, res, params }) => {
+
+      const { group } = params;
+
+      const userAgent = req.headers["user-agent"];
+      const {
+        isAndroid,
+        isIOS,
+        isWindows,
+        isMacOs,
+        mobileModel,
+        browserName,
+        osName,
+        mobileVendor,
+        browserVersion,
+      } = getSelectorsByUserAgent(userAgent);
+
+      var device_model = "";
+      if (isAndroid == true) {
+        device_model = mobileModel;
+      } else if (isIOS == true) {
+        device_model = mobileModel;
+      } else {
+        device_model = browserName + " " + browserVersion;
+        // device_model = "Chrome" + " " + "100";
+      }
+
+      const cookies = getCookies({ req, res });
+
+      store.dispatch(
+        fetchSingleGroupStart({
+          accessToken: cookies.accessToken,
+          userId: cookies.userId,
+          device_model: device_model,
+          group_slug: group
+        })
+      );
+
+    
+
+      store.dispatch(END);
+      await store.sagaTask.toPromise();
+
+      return {
+        props: {},
+      };
+    }
+);
