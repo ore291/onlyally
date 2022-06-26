@@ -28,7 +28,7 @@ const Groups = () => {
 
   return (
     <SideNavLayout>
-      <div className="max-w-5xl mx-auto xl:max-w-7xl p-5">
+      <div className="max-w-5xl mx-auto xl:max-w-7xl p-0 md:p-5">
         {groups.loading ? (
           <div className="row-container">
             <GroupCardLoader />
@@ -82,10 +82,12 @@ const Groups = () => {
               </>
             )}
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 my-5">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 md:gap-3 my-5">
             <div className="col-span-2">
-              {groups.loading || categories.loading ? (
-                <HeadBodyLoader />
+              {groups.loading  || categories.loading ? (
+                <div className="row-container">
+                  <HeadBodyLoader />
+                </div>
               ) : groups.data && categories.data && groups.data.length > 0 ? (
                 <GroupTabs
                   groupsAll={true}
@@ -97,8 +99,10 @@ const Groups = () => {
               )}
             </div>
 
-            <div className="grid grid-cols-1 gap-3">
-              <h1 className="text-2xl font-semibold">Suggested For You</h1>
+            <div className="grid grid-cols-1 gap-0 md:gap-3">
+              <h1 className="text-xl md:text-2xl font-semibold">
+                Suggested For You
+              </h1>
               {groups.data && groups.data.length > 0 ? (
                 <>
                   {groups.data
@@ -114,7 +118,7 @@ const Groups = () => {
           </div>
           <div className="flex items-center justify-between pb-2 border-b my-5 ">
             <div className="flex flex-col items-start justify-center">
-              <h1 className="text-2xl font-semibold">Suggestions</h1>
+              <h1 className="text-xl md:text-2xl font-semibold">Suggestions</h1>
               <p className="text-sm font-semibold text-gray-500">
                 Find a group You Might be interested in.
               </p>
@@ -125,7 +129,7 @@ const Groups = () => {
               </Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-2 pb-5 max-h-[600px] overflow-y-scroll scrollb scrollbar-thin  scroll-smooth">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 md:gap-5 p-0 md:p-2 pb-5 max-h-[600px] overflow-y-scroll  scrollbar-thin  scroll-smooth">
             {groups.data
               .filter((fgroup) => fgroup.is_member === false)
               .map((group, index) => (

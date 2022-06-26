@@ -6,7 +6,7 @@ const GroupCardLoader = (props) => (
     speed={2}
     width={1000}
     height={250}
-    viewBox="0 0 1000 250"
+    
     backgroundColor="#f3f3f3"
     foregroundColor="#ecebeb"
     {...props}

@@ -25,71 +25,68 @@ const GroupPageTabs = () => {
     setCategoryPost(false);
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 bg-white">
-      <div className="col-span-2">
-        <Tab.Group>
-          <div className="bg-white rounded-2xl  pb-5 shadow-md">
-            <Tab.List>
-              <div className="flex justify-center space-x-3 items-center p-2">
-                <div
-                  onClick={() => setCategoryPost(true)}
-                  className="w-auto h-8 px-4 text-sm leading-5 font-medium focus:outline-none focus:ring-0 row-container space-x-2 py-1 text-gray-800 bg-white rounded-full shadow-lg cursor-pointer border hover:text-white hover:bg-lightPlayRed"
-                >
-                  <BsPlusCircle className="w-5 h-5" />
-                  <span>Create</span>
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-3 bg-white">
+        <div className="col-span-2 my-5">
+          <Tab.Group>
+            <div className="bg-white rounded-2xl  pb-5 shadow-md">
+              <Tab.List>
+                <div className="flex justify-center space-x-3 items-center p-2 lg:overflow-x-scroll">
+                  <div
+                    onClick={() => setCategoryPost(true)}
+                    className="w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium focus:outline-none focus:ring-0 row-container space-x-2 py-1 text-gray-800 bg-white rounded-full shadow-lg cursor-pointer border hover:text-white hover:bg-lightPlayRed"
+                  >
+                    <BsPlusCircle className="w-5 h-5" />
+                    <span>Create</span>
+                  </div>
+                  <Tab
+                    className={({ selected }) =>
+                      classNames(
+                        "w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium ",
+                        "focus:outline-none focus:ring-0 row-container space-x-2 py-1",
+                        selected
+                          ? "bg-[#FFCFD4] text-textPlayRed rounded-full shadow-lg"
+                          : "text-gray-800 bg-white rounded-full shadow-lg"
+                      )
+                    }
+                  >
+                    <CgNotes className="w-5 h-5" />
+                    <span>All</span>
+                  </Tab>
+                  <Tab
+                    className={({ selected }) =>
+                      classNames(
+                        "w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium ",
+                        "focus:outline-none focus:ring-0 row-container space-x-2 py-1",
+                        selected
+                          ? "bg-[#FFCFD4] text-textPlayRed rounded-full shadow-lg"
+                          : "text-gray-800 bg-white rounded-full shadow-lg"
+                      )
+                    }
+                  >
+                    <BsCameraVideo className="w-5 h-5" />
+                    <span>Videos</span>
+                  </Tab>
+                  <Tab
+                    className={({ selected }) =>
+                      classNames(
+                        "w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium ",
+                        "focus:outline-none focus:ring-0 row-container space-x-2 py-1",
+                        selected
+                          ? "bg-[#FFCFD4] text-textPlayRed rounded-full shadow-lg"
+                          : "text-gray-800 bg-white rounded-full shadow-lg"
+                      )
+                    }
+                  >
+                    <RiMusic2Line className="w-5 h-5" />
+                    <span>Sounds</span>
+                  </Tab>
                 </div>
-                <Tab
-                  className={({ selected }) =>
-                    classNames(
-                      "w-auto h-8 px-4 text-sm leading-5 font-medium ",
-                      "focus:outline-none focus:ring-0 row-container space-x-2 py-1",
-                      selected
-                        ? "bg-[#FFCFD4] text-textPlayRed rounded-full shadow-lg"
-                        : "text-gray-800 bg-white rounded-full shadow-lg"
-                    )
-                  }
-                >
-                  <CgNotes className="w-5 h-5" />
-                  <span>All</span>
-                </Tab>
-                <Tab
-                  className={({ selected }) =>
-                    classNames(
-                      "w-auto h-8 px-4 text-sm leading-5 font-medium ",
-                      "focus:outline-none focus:ring-0 row-container space-x-2 py-1",
-                      selected
-                        ? "bg-[#FFCFD4] text-textPlayRed rounded-full shadow-lg"
-                        : "text-gray-800 bg-white rounded-full shadow-lg"
-                    )
-                  }
-                >
-                  <BsCameraVideo className="w-5 h-5" />
-                  <span>Videos</span>
-                </Tab>
-                <Tab
-                  className={({ selected }) =>
-                    classNames(
-                      "w-auto h-8 px-4 text-sm leading-5 font-medium ",
-                      "focus:outline-none focus:ring-0 row-container space-x-2 py-1",
-                      selected
-                        ? "bg-[#FFCFD4] text-textPlayRed rounded-full shadow-lg"
-                        : "text-gray-800 bg-white rounded-full shadow-lg"
-                    )
-                  }
-                >
-                  <RiMusic2Line className="w-5 h-5" />
-                  <span>Sounds</span>
-                </Tab>
-              </div>
-            </Tab.List>
-            <div className="">
+              </Tab.List>
+
               <Tab.Panels className="mt-2 ">
-                {" "}
-                {/* <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-              create tab
-            </Tab.Panel> */}
                 <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-                  <div className="p-2 grid grid-cols-1 gap-y-3">
+                  <div className="p-2 grid grid-cols-1 gap-y-5">
                     {group.posts.length > 0 ? (
                       group.posts.map((post, index) => (
                         <NewsFeedCard post={post} key={index} />
@@ -115,23 +112,23 @@ const GroupPageTabs = () => {
                 </Tab.Panel>
               </Tab.Panels>
             </div>
-          </div>
-        </Tab.Group>
-      </div>
+          </Tab.Group>
+        </div>
 
-      <div>
-        <GroupFeedSideBar group={group} />
-      </div>
+        <div className="row-start-1 md:row-start-3">
+          <GroupFeedSideBar group={group} />
+        </div>
 
-      {getCookie("userId") !== null &&
-      getCookie("userId") !== "" &&
-      categoryPost === true ? (
-        <GroupPostModal
-          categoryPost={categoryPost}
-          closeModal={closeModal}
-          group_slug={router.query.group}
-        />
-      ) : null}
+        {getCookie("userId") !== null &&
+        getCookie("userId") !== "" &&
+        categoryPost === true ? (
+          <GroupPostModal
+            categoryPost={categoryPost}
+            closeModal={closeModal}
+            group_slug={router.query.group}
+          />
+        ) : null}
+      </div>
     </div>
   );
 };

@@ -47,7 +47,7 @@ const GroupTabs = ({ groupsData }) => {
 
   return (
     <Tab.Group>
-      <div className="bg-white rounded-2xl p-1 pb-5 shadow-md">
+      <div className="bg-white rounded-none md:rounded-2xl p-1 pb-5 shadow-md">
         <h1 className="text-3xl font-semibold pl-2 py-3">Groups</h1>
         <Tab.List>
           <div className="flex items-center space-x-3 py-3 overflow-x-scroll scrollbar-thin flex-shrink-0">

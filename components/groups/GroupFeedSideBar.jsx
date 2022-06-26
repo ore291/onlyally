@@ -10,6 +10,18 @@ import { useSelector, useDispatch } from "react-redux";
 import GroupCardLoader from "./GroupCardLoader";
 import GroupSuggestionLoader from "./GroupSuggestionLoader";
 import Sticky from "react-stickynode";
+import {
+  isAndroid,
+  isMobile,
+  isIOS,
+  isWindows,
+  isMacOs,
+  mobileModel,
+  browserName,
+  osName,
+  mobileVendor,
+  browserVersion,
+} from "react-device-detect";
 
 const GroupFeedSideBar = ({ group }) => {
   const dispatch = useDispatch();
@@ -21,7 +33,7 @@ const GroupFeedSideBar = ({ group }) => {
   }, []);
 
   return (
-    <Sticky>
+    <Sticky enabled={!isMobile}>
       <div className="grid grid-cols-1 space-y-5 p-1  ">
         <div className="flex flex-col w-full space-y-2 border bg-white rounded-md shadow-md p-2 pb-4">
           <div className="py-2  text-gray-600">

@@ -40,8 +40,8 @@ const GroupCard = ({
           <Image
             src={group.avatar}
             alt="side-img"
-            width={70}
-            height={70}
+            width={60}
+            height={60}
             objectFit="cover"
             className="relative rounded-md"
           />
@@ -57,7 +57,7 @@ const GroupCard = ({
               {group.members.slice(0, 3).map((member, i) => (
                 <img
                   key={i}
-                  className="relative z-30 inline object-cover w-8 h-8 border-2 border-white rounded-full"
+                  className="relative z-10 inline object-cover h-7 w-7 md:w-8 md:h-8 border-2 border-white rounded-full"
                   src={member.picture}
                   alt="Profile image"
                 />
@@ -65,7 +65,7 @@ const GroupCard = ({
             </div>
 
             <p className="text-sm font-medium text-gray-400">
-              <span className="font-semibold">2 friends are members</span>
+              <span className="font-semibold whitespace-nowrap">2 friends are members</span>
             </p>
           </div>
         </div>

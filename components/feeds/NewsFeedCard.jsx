@@ -520,7 +520,7 @@ const NewsFeedCard = ({ post, index }) => {
             </div>
           </div>
 
-          <div className="p-3 px-7">
+          <div className="p-1 px-1 md:p-3 md:px-7">
             <div className="flex items-center justify-between px-2">
               {likeStatus !== "" ? (
                 <>
