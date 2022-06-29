@@ -24,8 +24,13 @@ import liveVideoReducer from "./liveVideoSlice";
 import videoCallReducer from "./videoCallSlice";
 import privateCallReducer from "./privateCallSlice";
 import sessionReducer from "./sessionSlice"
+import changePasswordReducer from "./changePasswordSlice"
+import favReducer from "./favSlice";
+import verificationDocumentReducer from "./verificationDocumentSlice";
+import WithdrawReducer from "./withdrawSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
+import WithDrawReducer from "../../ore1/store/reducers/WithDrawReducer";
 
 const reducers = combineReducers({
   notifications: notificationsReducer(),
@@ -47,14 +52,18 @@ const reducers = combineReducers({
   alert: alertReducer,
   chat: chatReducer,
   chatAsset: chatAssetReducer,
-  channels : channelsReducer,
-  userCategory : userCategoryReducer,
-  groups : groupsReducer,
-  tips : sendTipReducer,
+  channels: channelsReducer,
+  userCategory: userCategoryReducer,
+  groups: groupsReducer,
+  tips: sendTipReducer,
   liveVideo: liveVideoReducer,
-  videoCall : videoCallReducer,
-  privateCall : privateCallReducer,
-  session : sessionReducer,
+  videoCall: videoCallReducer,
+  privateCall: privateCallReducer,
+  session: sessionReducer,
+  changePassword: changePasswordReducer,
+  fav: favReducer,
+  verificationDocument: verificationDocumentReducer,
+  withdraw:WithdrawReducer,
 });
 
 export default reducers;
