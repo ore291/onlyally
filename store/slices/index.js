@@ -23,6 +23,7 @@ import sendTipReducer from "./sendTipSlice";
 import liveVideoReducer from "./liveVideoSlice";
 import videoCallReducer from "./videoCallSlice";
 import privateCallReducer from "./privateCallSlice";
+import sessionReducer from "./sessionSlice"
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -53,6 +54,7 @@ const reducers = combineReducers({
   liveVideo: liveVideoReducer,
   videoCall : videoCallReducer,
   privateCall : privateCallReducer,
+  session : sessionReducer,
 });
 
 export default reducers;
