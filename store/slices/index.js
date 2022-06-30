@@ -31,6 +31,9 @@ import WithdrawReducer from "./withdrawSlice";
 import ReferalReducer from "./referalSlice"
 import TransactionReducer from "./transactionSlice";
 import ProductsReducer from "./productsSlice"
+import PageReducer from "./pageSlice";
+import NotificationReducer from "./notificationSlice";
+import kycDocumentReducer from "./kycDocumentSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -71,7 +74,9 @@ const reducers = combineReducers({
   transaction: TransactionReducer,
   referal: ReferalReducer,
   products: ProductsReducer,
-  
+  page: PageReducer,
+  notification: NotificationReducer,
+  kycDocument: kycDocumentReducer,
 });
 
 export default reducers;

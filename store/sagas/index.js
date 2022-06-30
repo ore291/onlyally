@@ -30,7 +30,10 @@ import FavSaga from './FavSaga';
 import VerificationDocumentSaga from './VerificationDocumentSaga';
 import TransactionSaga from './TransactionSaga';
 import ReferalSaga from './ReferalSaga';
-import ProductsSaga from './ProductsSaga'
+import ProductsSaga from './ProductsSaga';
+import PageSaga from './PageSaga';
+import NotificationSaga from './NotificationSaga';
+import KycDocumentSaga from './KycDocumentSaga'
 
 export default function* rootSaga() {
   yield all([fork(UserSaga)]);
@@ -64,4 +67,7 @@ export default function* rootSaga() {
   yield all([fork(TransactionSaga)]);
   yield all([fork(ReferalSaga)]);
   yield all([fork(ProductsSaga)]);
+  yield all([fork(PageSaga)]);
+  yield all([fork(NotificationSaga)]);
+  yield all([fork(KycDocumentSaga)]);
 }
