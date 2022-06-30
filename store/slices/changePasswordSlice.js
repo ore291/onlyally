@@ -19,7 +19,7 @@ export const ChangePasswordSlice = createSlice({
   
     reducers: {
         changePasswordStart: (state, action) => {
-            state.sessionlist = {
+            state.inputData = {
                 data: action.payload,
                 loading: true,
                 error: false,
@@ -28,7 +28,7 @@ export const ChangePasswordSlice = createSlice({
                 state.loadingButtonContent = 'Loading please wait'
         },
         changePasswordSuccess: (state, action) => {
-            state.sessionlist = {
+            state.inputData = {
                 data: {},
                 success: action.payload,
                 loading: false,
@@ -39,7 +39,7 @@ export const ChangePasswordSlice = createSlice({
               
         },
         changePasswordFailure: (state, action) => {
-            state.sessionlist = {
+            state.inputData = {
                 data: {},
                 loading: true,
                 error: action.payload,
@@ -49,7 +49,7 @@ export const ChangePasswordSlice = createSlice({
               
         },
         editChangePassword: (state, action) => {
-            state.sessionlist = {
+            state.inputData = {
                 loading: false,
                 error: false,
                 data: {

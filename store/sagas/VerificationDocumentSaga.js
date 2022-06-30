@@ -21,7 +21,7 @@ import { errorLogoutCheck } from "../slices/errorSlice";
 
 function* fetchVeriDocsAPI(action) {
   try {
-    const response = yield api.postMethod({action:'documents_list',object:action.payload});
+    const response = yield api.postMethod({action:'documents_list'});
     if (response.data.success) {
       yield put(fetchVeriDocumentsSuccess(response.data.data));
      

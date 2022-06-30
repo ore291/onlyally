@@ -45,38 +45,38 @@ const initialState = {
 
     reducers: {
       fetchWithdrawlsStart: (state, action) => {
-        state.sessionlist = {
+        state.withDrawals = {
           data: {},
           loading: true,
           error: false,
         };
       },
       fetchWithDrawalsSuccess: (state, action) => {
-        state.sessionlist = {
+        state.withDrawals = {
           data: action.payload,
           loading: false,
           error: false,
         };
       },
       fetchWithDrawalsFailure: (state, action) => {
-        state.sessionlist = {
+        state.withDrawals = {
           data: {},
           loading: true,
           error: action.payload,
         };
       },
       sendWithDrawRequestStart: (state, action) => {
-        state.sessionlist = {
+        state.sendWithDraw = {
           data: {},
           loading: true,
           error: false,
-          inputData: action.data,
+          inputData: action.payload,
           buttonDisable: true,
           loadingButtonContent: "Loading...",
         };
       },
       sendWithDrawRequestSuccess: (state, action) => {
-        state.sessionlist = {
+        state.sendWithDraw= {
           data: action.payload,
           loading: false,
           error: false,
@@ -86,7 +86,7 @@ const initialState = {
         };
       },
       sendWithDrawRequestFailure: (state, action) => {
-        state.sessionlist = {
+        state.sendWithDraw = {
           data: {},
           loading: true,
           error: action.payload,
@@ -96,17 +96,17 @@ const initialState = {
         };
       },
       cancelWithDrawRequestStart: (state, action) => {
-        state.sessionlist = {
+        state.cancelWithDraw = {
           data: {},
           loading: true,
           error: false,
-          inputData: action.data,
+          inputData: action.payload,
           buttonDisable: true,
           loadingButtonContent: "Loading...",
         };
       },
       cancelWithDrawRequestSuccess: (state, action) => {
-        state.sessionlist = {
+        state.cancelWithDraw = {
           data: action.payload,
           loading: false,
           error: false,
@@ -116,7 +116,7 @@ const initialState = {
         };
       },
       cancelWithDrawRequestFailure: (state, action) => {
-        state.sessionlist = {
+        state.cancelWithDraw = {
           data: {},
           loading: true,
           error: action.payload,
@@ -126,15 +126,15 @@ const initialState = {
         };
       },
       searchWithDrawalsStart: (state, action) => {
-        state.sessionlist = {
+        state.searchWithDraw = {
           data: {},
           loading: true,
           error: false,
-          inputData: action.data,
+          inputData: action.payload,
         };
       },
       searchWithDrawalsSuccess: (state, action) => {
-        state.sessionlist = {
+        state.searchWithDraw = {
           data: action.payload,
           loading: false,
           error: false,
@@ -142,7 +142,7 @@ const initialState = {
         };
       },
       searchWithDrawalsFailure: (state, action) => {
-        state.sessionlist = {
+        state.searchWithDraw = {
           data: {},
           loading: true,
           error: action.payload,
@@ -150,7 +150,7 @@ const initialState = {
         };
       },
       fetchSingleWithDrawalsStart: (state, action) => {
-        state.sessionlist = {
+        state.singleWithDraw = {
           data: {},
           loading: true,
           error: false,
@@ -158,7 +158,7 @@ const initialState = {
         };
       },
       fetchSingleWithDrawalsSuccess: (state, action) => {
-        state.sessionlist = {
+        state.singleWithDraw = {
           data: action.payload,
           loading: false,
           error: false,
@@ -166,7 +166,7 @@ const initialState = {
         };
       },
       fetchSingleWithDrawalsFailure: (state, action) => {
-        state.sessionlist = {
+        state.singleWithDraw = {
           data: {},
           loading: true,
           error: action.payload,

@@ -27,7 +27,10 @@ import PrivateCallSaga from "./PrivateCallSaga";
 import SessionSaga from "./SessionSaga";
 import ChangePasswordSaga from "./ChangePasswordSaga"
 import FavSaga from './FavSaga';
-import VerificationDocumentSaga from './VerificationDocumentSaga'
+import VerificationDocumentSaga from './VerificationDocumentSaga';
+import TransactionSaga from './TransactionSaga';
+import ReferalSaga from './ReferalSaga';
+import ProductsSaga from './ProductsSaga'
 
 export default function* rootSaga() {
   yield all([fork(UserSaga)]);
@@ -57,5 +60,8 @@ export default function* rootSaga() {
   yield all([fork(SessionSaga)]);
   yield all([fork(ChangePasswordSaga)]);
   yield all([fork(FavSaga)]);
-   yield all([fork(VerificationDocumentSaga)]);
+  yield all([fork(VerificationDocumentSaga)]);
+  yield all([fork(TransactionSaga)]);
+  yield all([fork(ReferalSaga)]);
+  yield all([fork(ProductsSaga)]);
 }

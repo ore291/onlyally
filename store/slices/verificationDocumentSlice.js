@@ -39,28 +39,28 @@ const initialState = {
 
     reducers: {
       fetchVeriDocumentsStart: (state, action) => {
-        state.sessionlist = {
+        state.docs = {
           data: {},
           loading: true,
           error: false,
         };
       },
       fetchVeriDocumentsSuccess: (state, action) => {
-        state.sessionlist = {
+        state.docs = {
           data: action.payload,
           loading: false,
           error: false,
         };
       },
       fetchVeriDocumentsFailure: (state, action) => {
-        state.sessionlist = {
+        state.docs = {
           data: {},
           loading: true,
           error: action.payload,
         };
       },
       saveVeriDocStart: (state, action) => {
-        state.sessionlist = {
+        state.saveDocs = {
           data: {},
           loading: true,
           error: false,
@@ -70,7 +70,7 @@ const initialState = {
         };
       },
       saveVeriDocSuccess: (state, action) => {
-        state.sessionlist = {
+        state.saveDocs = {
           data: action.payload,
           loading: false,
           error: false,
@@ -80,7 +80,7 @@ const initialState = {
         };
       },
       saveVeriDocFailure: (state, action) => {
-        state.sessionlist = {
+        state.saveDocs = {
           data: {},
           loading: true,
           error: action.payload,
@@ -90,7 +90,7 @@ const initialState = {
         };
       },
       delVeriDocStart: (state, action) => {
-        state.sessionlist = {
+        state.delDocs = {
           data: {},
           loading: true,
           error: false,
@@ -100,7 +100,7 @@ const initialState = {
         };
       },
       delVeriDocSuccess: (state, action) => {
-        state.sessionlist = {
+        state.delDocs = {
           data: action.payload,
           loading: false,
           error: false,
@@ -110,7 +110,7 @@ const initialState = {
         };
       },
       delVeriDocFailure: (state, action) => {
-        state.sessionlist = {
+        state.delDocs = {
           data: {},
           loading: true,
           error: action.payload,
@@ -120,7 +120,7 @@ const initialState = {
         };
       },
       verifictionStatusCheckStart: (state, action) => {
-        state.sessionlist = {
+        state.docStatus = {
           data: {},
           loading: true,
           error: false,
@@ -130,7 +130,7 @@ const initialState = {
         };
       },
       verificationStatusCheckSuccess: (state, action) => {
-        state.sessionlist = {
+        state.docStatus = {
           data: action.payload,
           loading: true,
           error: false,
@@ -140,7 +140,7 @@ const initialState = {
         };
       },
       verificationStatusCheckFailure: (state, action) => {
-        state.sessionlist = {
+        state.docStatus = {
           data: {},
           loading: true,
           error: action.payload,

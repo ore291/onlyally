@@ -35,7 +35,7 @@ export const FavSlice = createSlice({
 
   reducers: {
     fetchFavStart: (state, action) => {
-      state.sessionlist = {
+      state.fav = {
         inputData: action.payload,
         data: {
           favs: [...state.fav.data.favs],
@@ -47,7 +47,7 @@ export const FavSlice = createSlice({
       };
     },
     fetchFavSuccess: (state, action) => {
-      state.sessionlist = {
+      state.fav = {
         data: {
           favs: [...state.fav.data.favs, ...action.payload.fav_users],
         },
@@ -59,7 +59,7 @@ export const FavSlice = createSlice({
       };
     },
     fetchFavFailure: (state, action) => {
-      state.sessionlist = {
+      state.fav = {
         data: {},
         loading: true,
         error: action.payload,
@@ -68,7 +68,7 @@ export const FavSlice = createSlice({
       };
     },
     saveFavStart: (state, action) => {
-      state.sessionlist = {
+      state.saveFav = {
         data: {},
         loading: true,
         error: false,
@@ -78,7 +78,7 @@ export const FavSlice = createSlice({
       };
     },
     saveFavSuccess: (state, action) => {
-      state.sessionlist = {
+      state.saveFav = {
         data: action.payload,
         loading: false,
         error: false,
@@ -88,7 +88,7 @@ export const FavSlice = createSlice({
       };
     },
     saveFavFailure: (state, action) => {
-      state.sessionlist = {
+      state.saveFav = {
         data: {},
         loading: true,
         error: action.payload,
@@ -98,7 +98,7 @@ export const FavSlice = createSlice({
       };
     },
     deleteFavStart: (state, action) => {
-      state.sessionlist = {
+      state.deleteFav = {
         data: {},
         loading: true,
         error: false,
@@ -108,7 +108,7 @@ export const FavSlice = createSlice({
       };
     },
     deleteFavSuccess: (state, action) => {
-      state.sessionlist = {
+      state.deleteFav = {
         data: action.payload,
         loading: false,
         error: false,
@@ -118,7 +118,7 @@ export const FavSlice = createSlice({
       };
     },
     deleteFavFailure: (state, action) => {
-      state.sessionlist = {
+      state.deleteFav = {
         data: {},
         loading: true,
         error: action.payload,
@@ -128,6 +128,7 @@ export const FavSlice = createSlice({
       };
     },
   },
+  
 });
 
 export const {

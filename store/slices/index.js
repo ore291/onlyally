@@ -28,9 +28,13 @@ import changePasswordReducer from "./changePasswordSlice"
 import favReducer from "./favSlice";
 import verificationDocumentReducer from "./verificationDocumentSlice";
 import WithdrawReducer from "./withdrawSlice";
+import ReferalReducer from "./referalSlice"
+import TransactionReducer from "./transactionSlice";
+import ProductsReducer from "./productsSlice"
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
-import WithDrawReducer from "../../ore1/store/reducers/WithDrawReducer";
+
+
 
 const reducers = combineReducers({
   notifications: notificationsReducer(),
@@ -63,7 +67,11 @@ const reducers = combineReducers({
   changePassword: changePasswordReducer,
   fav: favReducer,
   verificationDocument: verificationDocumentReducer,
-  withdraw:WithdrawReducer,
+  withdraw: WithdrawReducer,
+  transaction: TransactionReducer,
+  referal: ReferalReducer,
+  products: ProductsReducer,
+  
 });
 
 export default reducers;

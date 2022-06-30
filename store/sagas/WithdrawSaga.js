@@ -25,7 +25,7 @@ import { errorLogoutCheck } from "../slices/errorSlice";
 
 function* fetchWithDrawAPI(action) {
   try {
-      const response = yield api.postMethod({ action: "withdrawals_index", object: action.payload });
+      const response = yield api.postMethod({ action: "withdrawals_index"});
 
     if (response.data.success) {
       yield put(fetchWithDrawalsSuccess(response.data.data));
