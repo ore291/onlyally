@@ -34,6 +34,8 @@ import ProductsReducer from "./productsSlice"
 import PageReducer from "./pageSlice";
 import NotificationReducer from "./notificationSlice";
 import kycDocumentReducer from "./kycDocumentSlice";
+import CategoryReducer from "./categorySlice";
+import BankAccountReducer  from "./bankAccountSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
 
@@ -77,6 +79,8 @@ const reducers = combineReducers({
   page: PageReducer,
   notification: NotificationReducer,
   kycDocument: kycDocumentReducer,
+  category: CategoryReducer,
+  bankAccount: BankAccountReducer,
 });
 
 export default reducers;
