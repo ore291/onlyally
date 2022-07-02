@@ -35,7 +35,8 @@ import PageSaga from './PageSaga';
 import NotificationSaga from './NotificationSaga';
 import KycDocumentSaga from './KycDocumentSaga';
 import CategorySaga from './CategorySaga';
-import BankAccountSaga from './BankAccountSaga'
+import BankAccountSaga from './BankAccountSaga';
+import ProductOwnerSaga from './ProductOwnerSaga'
 
 export default function* rootSaga() {
   yield all([fork(UserSaga)]);
@@ -74,5 +75,6 @@ export default function* rootSaga() {
   yield all([fork(KycDocumentSaga)]);
   yield all([fork(CategorySaga)]);
   yield all([fork(BankAccountSaga)]);
+   yield all([fork(ProductOwnerSaga)]);
 }
 
