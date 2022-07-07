@@ -24,8 +24,23 @@ import liveVideoReducer from "./liveVideoSlice";
 import videoCallReducer from "./videoCallSlice";
 import privateCallReducer from "./privateCallSlice";
 import sessionReducer from "./sessionSlice"
+import changePasswordReducer from "./changePasswordSlice"
+import favReducer from "./favSlice";
+import verificationDocumentReducer from "./verificationDocumentSlice";
+import WithdrawReducer from "./withdrawSlice";
+import ReferalReducer from "./referalSlice"
+import TransactionReducer from "./transactionSlice";
+import ProductsReducer from "./productsSlice"
+import PageReducer from "./pageSlice";
+import NotificationReducer from "./notificationSlice";
+import kycDocumentReducer from "./kycDocumentSlice";
+import CategoryReducer from "./categorySlice";
+import BankAccountReducer from "./bankAccountSlice";
+import ProductOwnerReducer  from "./productOwnerSlice";
 import { reducer as notificationsReducer } from "reapop";
 import { combineReducers } from "redux";
+
+
 
 const reducers = combineReducers({
   notifications: notificationsReducer(),
@@ -47,14 +62,27 @@ const reducers = combineReducers({
   alert: alertReducer,
   chat: chatReducer,
   chatAsset: chatAssetReducer,
-  channels : channelsReducer,
-  userCategory : userCategoryReducer,
-  groups : groupsReducer,
-  tips : sendTipReducer,
+  channels: channelsReducer,
+  userCategory: userCategoryReducer,
+  groups: groupsReducer,
+  tips: sendTipReducer,
   liveVideo: liveVideoReducer,
-  videoCall : videoCallReducer,
-  privateCall : privateCallReducer,
-  session : sessionReducer,
+  videoCall: videoCallReducer,
+  privateCall: privateCallReducer,
+  session: sessionReducer,
+  changePassword: changePasswordReducer,
+  fav: favReducer,
+  verificationDocument: verificationDocumentReducer,
+  withdraw: WithdrawReducer,
+  transaction: TransactionReducer,
+  referal: ReferalReducer,
+  products: ProductsReducer,
+  page: PageReducer,
+  notification: NotificationReducer,
+  kycDocument: kycDocumentReducer,
+  category: CategoryReducer,
+  bankAccount: BankAccountReducer,
+  productOwner:ProductOwnerReducer,
 });
 
 export default reducers;

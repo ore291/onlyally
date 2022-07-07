@@ -24,7 +24,19 @@ import SendTipSaga from "./SendTipSaga";
 import LiveVideosSaga from "./LiveVideosSaga";
 import VideoCallSaga from "./VideoCallSaga";
 import PrivateCallSaga from "./PrivateCallSaga";
-import SessionSaga from "./SessionSaga"
+import SessionSaga from "./SessionSaga";
+import ChangePasswordSaga from "./ChangePasswordSaga"
+import FavSaga from './FavSaga';
+import VerificationDocumentSaga from './VerificationDocumentSaga';
+import TransactionSaga from './TransactionSaga';
+import ReferalSaga from './ReferalSaga';
+import ProductsSaga from './ProductsSaga';
+import PageSaga from './PageSaga';
+import NotificationSaga from './NotificationSaga';
+import KycDocumentSaga from './KycDocumentSaga';
+import CategorySaga from './CategorySaga';
+import BankAccountSaga from './BankAccountSaga';
+import ProductOwnerSaga from './ProductOwnerSaga'
 
 export default function* rootSaga() {
   yield all([fork(UserSaga)]);
@@ -52,4 +64,17 @@ export default function* rootSaga() {
   yield all([fork(VideoCallSaga)]);
   yield all([fork(PrivateCallSaga)]);
   yield all([fork(SessionSaga)]);
+  yield all([fork(ChangePasswordSaga)]);
+  yield all([fork(FavSaga)]);
+  yield all([fork(VerificationDocumentSaga)]);
+  yield all([fork(TransactionSaga)]);
+  yield all([fork(ReferalSaga)]);
+  yield all([fork(ProductsSaga)]);
+  yield all([fork(PageSaga)]);
+  yield all([fork(NotificationSaga)]);
+  yield all([fork(KycDocumentSaga)]);
+  yield all([fork(CategorySaga)]);
+  yield all([fork(BankAccountSaga)]);
+   yield all([fork(ProductOwnerSaga)]);
 }
+
