@@ -29,13 +29,7 @@ const Group = () => {
 
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!router.isReady) return;
 
-  //   // Code using query
-
-  //   dispatch(fetchSingleGroupStart(router.query.group));
-  // }, [router.isReady]);
 
   const [subscribed, setSubscribed] = useState(false);
 

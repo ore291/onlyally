@@ -1,9 +1,10 @@
 import Header from "./Header";
 import HeaderOffline from "./layout/HeaderOffline";
-import { checkCookies } from "cookies-next";
+import { checkCookies,hasCookie } from "cookies-next";
+
 
 function Layout(props) {
-  const checkSession = checkCookies('accessToken');
+  const checkSession = hasCookie('accessToken');
 
   
  

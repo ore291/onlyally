@@ -770,6 +770,13 @@ a {
   transform: translate(-50%, -50%);
 }
 
+.centered-axis-xyz {
+  position: absolute;
+  left: 50%;
+  top: 95%;
+  transform: translate(-50%, -50%);
+}
+
 .go-live-img-sec {
   position: relative;
   top: 75%;

@@ -2,8 +2,6 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 
 import api from "../../Environment";
 
-var localStorage = require("localStorage");
-
 import {
   fetchHomePostsStart,
   fetchHomePostsSuccess,

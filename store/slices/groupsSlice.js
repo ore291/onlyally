@@ -228,6 +228,7 @@ export const GroupsSlice = createSlice({
         return state;
       }
       state.groupData = action.payload.groups.groupData;
+      state.groupMembersData = action.payload.groups.groupMembersData;
     },
   },
 });

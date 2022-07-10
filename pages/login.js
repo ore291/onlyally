@@ -132,7 +132,7 @@ const Login = () => {
             </div>
             <div
               onClick={userLogin}
-              className="bg-lightPlayRed inputBox cursor-pointer"
+              className="bg-lightPlayRed w-[275px] h-[3rem] rounded-full cursor-pointer row-container"
             >
               {loginState ? (
                 <div className="flex justify-center">
@@ -141,7 +141,7 @@ const Login = () => {
                   <span className="login-circle animate-loader animation-delay-400"></span>
                 </div>
               ) : (
-                <p className="text-white text-lg font-semibold ">Login</p>
+                <p className="text-white text-xl font-semibold">Login</p>
               )}
             </div>
             <div className=" flex flex-col space-y-3 items-center py-14">

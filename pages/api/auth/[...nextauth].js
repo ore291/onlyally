@@ -7,14 +7,10 @@ import axios from "axios";
 var FormData = require("form-data");
 import { getCookies, setCookies, removeCookies } from "cookies-next";
 import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
-var localStorage = require("localStorage");
-import https from "https";
 
 
-// add back for playjor api
-// axios.defaults.httpsAgent = new https.Agent({
-//   rejectUnauthorized: false,
-// })
+
+
 
 const nextAuthOptions = (req, res) => {
   return {

@@ -5,7 +5,6 @@ import { FaChevronDown } from "react-icons/fa";
 import ChannelFilter from "../channels/ChannelFilter";
 import GroupCard from "../groups//GroupCard";
 import { useDispatch, useSelector } from "react-redux";
-import NewsFeedCard from "../feeds/NewsFeedCard";
 import ExplorePostCard from "./ExplorePostCard";
 import ExploreLoader from "./ExploreLoader";
 import NoDataFound from "../NoDataFound/NoDataFound";

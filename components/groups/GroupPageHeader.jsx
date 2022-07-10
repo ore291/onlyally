@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Button from "../Button";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Image from "next/image";
+import Link from "next/link";
 
 const GroupPageHeader = ({ group }) => {
   const router = useRouter();
@@ -36,13 +37,15 @@ const GroupPageHeader = ({ group }) => {
         <div className="flex justify-between p-2 px-4 items-center shadow-lg w-full bg-white rounded-b-lg">
           <div className="row-container space-x-2">
             <div className="relative w-14 h-14 rounded-xl">
-              <Image
-                src={group.avatar}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-xl"
-                alt=""
-              />
+              {group.avatar && (
+                <Image
+                  src={group.avatar}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-xl"
+                  alt=""
+                />
+              )}
             </div>
             <div className="flex flex-col justify-center space-y-2">
               <div className="row-container space-x-1">
@@ -56,11 +59,13 @@ const GroupPageHeader = ({ group }) => {
           </div>
           <div>
             {group && group.user_id === parseInt(getCookie("userId")) ? (
-              <Button
-                text="Edit"
-                textClass="text-sm font-medium"
-                extraClasses="w-20 md:w-28 h-9  rounded-md bg-gray-500 text-black"
-              />
+              <Link href={`/groups/${group.slug}/settings`} passHref>
+                <Button
+                  text="Edit"
+                  textClass="text-sm font-medium"
+                  extraClasses="w-20 md:w-28 h-9  rounded-md bg-gray-500 text-black"
+                />
+              </Link>
             ) : group.is_member ? (
               <Button
                 text="Joined"

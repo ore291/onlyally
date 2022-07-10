@@ -1,53 +1,57 @@
-import React, { useEffect } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import SideNavLayout from "../../../components/SideNavLayout";
-import ProfileLoader from "../../../components/Profile/ProfileLoader";
 import GroupPageHeader from "../../../components/groups/GroupPageHeader";
-import {
-  fetchSingleGroupStart,
-  fetchSingleGroupMemberStart,
-  joinGroupStart,
-} from "../../../store/slices/groupsSlice";
-import {
-  getSelectorsByUserAgent,
-  isMobileOnly,
-  isMobile,
-} from "react-device-detect";
-import { useSelector, useDispatch } from "react-redux";
-import NoDataFound from "../../../components/NoDataFound/NoDataFound";
-import MembersGridLayout from "../../../components/helpers/MembersGridLayout";
+import { fetchSingleGroupStart } from "../../../store/slices/groupsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import ProfileLoader from "../../../components/Profile/ProfileLoader";
+import AdminSettings from "../../../components/settings/AdminSettings";
+import { getSelectorsByUserAgent ,isMobileOnly, isMobile} from "react-device-detect";
 import { getCookies } from "cookies-next";
+
 
 import { END } from "redux-saga";
 import { wrapper } from "../../../store";
 
-const Members = () => {
+const Settings = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const { data: group, loading } = useSelector(
     (state) => state.groups.groupData
   );
 
+  // useEffect(() => {
+  //   router.isReady &&
+  //     dispatch(fetchSingleGroupStart({ group_slug: router.query.group }));
+  // }, [router.isReady]);
+
+
   return (
     <SideNavLayout>
       {loading ? (
-        <ProfileLoader />
-      ) : group.members && group.members.length > 0 ? (
-        <div>
-          <GroupPageHeader group={group} />
-
-          <MembersGridLayout />
+        <div className="w-full h-screen  row-container">
+          <ProfileLoader />
         </div>
       ) : (
-        <NoDataFound />
+        group !== null && (
+          <>
+            <GroupPageHeader group={group} />
+            <div className="max-w-4xl mx-auto">
+              <AdminSettings data={group} />
+            </div>
+          </>
+        )
       )}
     </SideNavLayout>
   );
 };
 
-export default Members;
+export default Settings;
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ req, res, params }) => {
+
       const { group } = params;
 
       const userAgent = req.headers["user-agent"];
@@ -78,16 +82,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(
         fetchSingleGroupStart({
           accessToken: cookies.accessToken,
-          group_slug: group,
+          userId: cookies.userId,
+          device_model: device_model,
+          group_slug: group
         })
       );
 
-      store.dispatch(
-        fetchSingleGroupMemberStart({
-          accessToken: cookies.accessToken,
-          group_slug: group,
-        })
-      );
+    
 
       store.dispatch(END);
       await store.sagaTask.toPromise();
@@ -97,3 +98,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
       };
     }
 );
+

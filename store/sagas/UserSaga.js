@@ -2,7 +2,7 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 import { setCookies } from 'cookies-next';
 import { getProviders, signIn, useSession } from "next-auth/react";
 import api from "../../Environment";
-var localStorage = require("localStorage");
+
 
 import {
   fetchUserDetailsSuccess,

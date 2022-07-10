@@ -140,32 +140,23 @@ function* fetchSingleGroupAPI(action) {
     yield put(notify(error.message, "error"));
   }
 }
-// function* fetchSingleGroupAPI(action) {
-//   const inputData = yield select((state) => state.groups.groupData.inputData);
-//   try {
-//     const response = yield api.getMethod({
-//       action: `groups/${inputData}`,
-//     });
-//     if (response.data.success) {
-//       yield put(fetchSingleGroupSuccess(response.data.data));
-//     } else {
-//       yield put(fetchSingleGroupFailure(response.data.error));
-//       yield put(notify({ message: response.data.error, status: "error" }));
-//     }
-//   } catch (error) {
-//     yield put(fetchSingleGroupFailure(error.message));
-//     yield put(notify(error.message, "error"));
-//   }
-// }
+
 
 function* fetchSingleGroupMembersAPI(action) {
-  const inputData = yield select((state) => state.groups.groupMembersData.inputData);
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var slug = action.payload.group_slug;
+  }
+
+ 
   try {
     const response = yield api.getMethod({
-      action: `groups/${inputData}/members`,
+      action: `groups/${slug}/members`,
+      accessToken: accessToken,
     });
     if (response.data.success) {
-      yield put(fetchSingleGroupMemberSuccess(response.data.data));
+
+      yield put(fetchSingleGroupMemberSuccess(Object.values(response.data.data)));
     } else {
       yield put(fetchSingleGroupMemberFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -216,6 +207,9 @@ export default function* pageSaga() {
     yield takeLatest("groups/fetchSingleGroupStart", fetchSingleGroupAPI),
   ]);
   yield all([
-    yield takeLatest("groups/fetchSingleGroupMemberStart", fetchSingleGroupMembersAPI),
+    yield takeLatest(
+      "groups/fetchSingleGroupMemberStart",
+      fetchSingleGroupMembersAPI
+    ),
   ]);
 }
