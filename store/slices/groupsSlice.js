@@ -11,6 +11,13 @@ const initialState = {
     loadingButtonContent: null,
     buttonDisable: false,
   },
+  deleteGroup: {
+    data : [],
+    loading: false,
+    buttonDisable: false,
+    error: false
+
+  },
   groups: {
     data: [],
     loading: false,
@@ -220,6 +227,30 @@ export const GroupsSlice = createSlice({
         error: action.payload,
       };
     },
+    deleteGroupStart: (state, action) => {
+      state.deleteGroup = {
+        data : [],
+        loading: true,
+        buttonDisable: true,
+        error: false
+      }
+    },
+    deleteGroupSuccess: (state, action) => {
+      state.deleteGroup = {
+        data : action.payload,
+        loading: false,
+        buttonDisable: false,
+        error: false
+      }
+    },
+    deleteGroupFailure: (state, action) => {
+      state.deleteGroup = {
+        data : [],
+        loading: false,
+        buttonDisable: false,
+        error: action.payload
+      }
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -234,6 +265,9 @@ export const GroupsSlice = createSlice({
 });
 
 export const {
+  deleteGroupStart,
+  deleteGroupSuccess,
+  deleteGroupFailure,
   fetchSingleGroupMemberStart,
   fetchSingleGroupMemberSuccess,
   fetchSingleGroupMemberFailure,

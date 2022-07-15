@@ -332,6 +332,67 @@ const Environment = {
       console.log(error.message);
     }
   },
+
+  deleteMethod: async ({ action, object } = {}) => {
+    const cookies = getCookies();
+
+    const url = apiUrl + action;
+
+    const formData = new FormData();
+
+    // By Default Id and token
+    formData.append("id", cookies.userId);
+    formData.append("token", cookies.accessToken);
+
+    // append your data
+    for (var key in object) {
+      formData.append(key, object[key]);
+    }
+
+    // By Default added device type and login type in future use
+
+    formData.append("login_by", apiConstants.LOGIN_BY);
+    formData.append("device_type", apiConstants.DEVICE_TYPE);
+    formData.append("device_token", apiConstants.DEVICE_TOKEN);
+
+    var device_model = "";
+    if (isAndroid == true) {
+      device_model = mobileModel;
+    } else if (isIOS == true) {
+      device_model = mobileModel;
+    } else {
+      device_model = browserName + " " + browserVersion;
+    }
+
+    formData.append("device_model", device_model);
+
+    var data = JSON.stringify({
+      id: cookies.userId,
+      token: cookies.accessToken,
+      device_model: device_model,
+    });
+
+    var config = {
+      method: "DELETE",
+      url: url,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Authorization",
+        Authorization: `Bearer ${cookies.accessToken}`,
+      },
+      data: data,
+    };
+
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (error) {
+      console.log(error.message);
+    }
+  },
 };
 
 export default Environment;

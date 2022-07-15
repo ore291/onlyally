@@ -17,10 +17,11 @@ import {
   fetchGroupsCategoriesSuccess,
   fetchGroupsCategoriesFailure,
   createGroupSuccess,
-  createGroupFailure,
   fetchSingleGroupSuccess,
   fetchSingleGroupFailure,
   fetchSingleGroupStart,
+  deleteGroupSuccess,
+  deleteGroupFailure
 } from "../slices/groupsSlice";
 
 function* saveGroupPostAPI() {
@@ -182,18 +183,41 @@ function* groupCreateAPI(action) {
       );
       window.location.assign("/groups/" + response.data.data.slug);
     } else {
-      yield put(createGroupFailure(response.data.message));
+      yield put(deleteGroupFailure(response.data.message));
       yield put(notify({ message: response.data.message, status: "error" }));
       window.location.assign("/gopro/");
     }
   } catch (error) {
-    yield put(createGroupFailure(error));
+    yield put(deleteGroupFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* deleteGroupAPI(action) {
+  try {
+    const response = yield api.deleteMethod({
+      action: `groups/${action.payload}`,
+    });
+
+    if (response.status && response.status === 201) {
+      yield put(deleteGroupSuccess(response.data));
+      yield put(
+        notify({ message: "Group deleted successfully", status: "success" })
+      );
+      window.location.assign("/groups");
+    } else {
+      yield put(deleteGroupFailure(response.data.message));
+      yield put(notify({ message: response.data.message, status: "error" }));
+    }
+  } catch (error) {
+    yield put(deleteGroupFailure(error));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 export default function* pageSaga() {
   yield all([yield takeLatest("groups/saveGroupPostStart", saveGroupPostAPI)]);
+  yield all([yield takeLatest("groups/deleteGroupStart", deleteGroupAPI)]);
   yield all([yield takeLatest("groups/fetchGroupsStart", fetchGroupsAPI)]);
   yield all([
     yield takeLatest(

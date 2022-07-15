@@ -4,6 +4,7 @@ import GeneralSettings from "./GeneralSettings";
 import PrivacySettings from "./PrivacySettings";
 import DesignSettings from "./DesignSettings";
 import MembersSettings from "./MembersSettings";
+import DeleteSettings from "./DeleteSettings";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -68,6 +69,21 @@ const AdminSettings = ({ data }) => {
                 className={classNames("bg-white rounded-xl p-1")}
               >
                 <MembersSettings group={data} />
+              </Tab.Panel>
+              <Tab.Panel
+                className={classNames("bg-white rounded-xl p-1")}
+              >
+                <MembersSettings group={data} />
+              </Tab.Panel>
+              <Tab.Panel
+                className={classNames("bg-white rounded-xl p-1")}
+              >
+                <MembersSettings group={data} />
+              </Tab.Panel>
+              <Tab.Panel
+                className={classNames("bg-white rounded-xl p-1")}
+              >
+                <DeleteSettings group={data} />
               </Tab.Panel>
             </Tab.Panels>
           </div>

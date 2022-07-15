@@ -22,7 +22,6 @@ const GeneralSettings = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(watch("example")); // watch input value by passing the name of it
   return (
     <form
       onSubmit={onSubmit}
