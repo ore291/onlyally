@@ -3,6 +3,7 @@ import {
   AiOutlineCheckCircle,
   AiOutlineWarning,
   AiOutlineStar,
+  AiOutlineDollarCircle
 } from "react-icons/ai";
 import { FaArrowLeft } from "react-icons/fa";
 import { MdOutlineLibraryAddCheck } from "react-icons/md";
@@ -71,51 +72,57 @@ export default function Fan() {
                  
                   {!activeFollowers.loading ? activeFollowers.data.followers.map((EachUser, i) => (
                     <article
-                      className="w-full lg:w-1/3 border-2 border-grey-500 "
-                      key={i}
-                    >
-                      <div className="bg-[url('/images/settings/grey.jpg')] h-32 flex justify-end items-end">
-                        {/* <p className="text-white text-3xl">...</p> */}
-                        <BsThreeDots onClick={() => setOpenFansCardOption(!openFansCardOption)} size="23" className="text-white  mr-3 m-1 cursor-pointer  hover:border-2 p-1 hover:rounded-full"/>
-                      </div>
-    
-                      <section className="flex justify-between relative ">
-                     {openFansCardOption  &&
-                     
-                      <section className="w-3/4 absolute  bg-white ml-2 pl-1 rounded-b-lg"   >
-                          <ul className="list-none">
-                            <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Copy link to profile </li>
-                            <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
-                            <li className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>
-                          </ul>
-                        </section>
-                     }
-                        <img
-                          width="100px"
-                          src={EachUser.picture}
-                          className="rounded-full mt-[-50px]"
-                          alt="Placeholder"
-                        />
-                        <div>
-                          <h2 className="text-2xl">{EachUser.username}</h2>
-                          <p>{EachUser.u_unique_id}</p>
-                        </div>
-                        <BsBoxArrowRight size="22px" />
+                    className="w-full  lg:w-1/3 border-2 border-grey-500 "
+                    key={i}
+                  >
+                    <div className="bg-[url('/images/settings/grey.jpg')] h-32 flex justify-end items-end">
+                      {/* <p className="text-white text-3xl">...</p> */}
+                      <BsThreeDots onClick={() => setOpenFansCardOption(!openFansCardOption)} size="23" className="text-white  mr-3 m-1 cursor-pointer  hover:border-2 p-1 hover:rounded-full"/>
+                    </div>
+  
+                    <section className="flex w-full justify-between relative ">
+                   {openFansCardOption  &&
+                   
+                    <section className="w-4/5 absolute  bg-white ml-2 pl-1 rounded-b-lg"   >
+                        <ul className="list-none">
+                          <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Copy link to profile </li>
+                          <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
+                          <li className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>
+                        </ul>
                       </section>
-    
-                      <div className="pb-4 ">
-                    
-                        <section className="my-4 w-fit bg-gray-200 rounded-md p-1 flex gap-4 items-center">
-                          <AiOutlineStar />
-                          Remove from Favorites
-                        </section>
-                        <div className="text-center">
-                          <button className="btn bg-red-600 uppercase text-base rounded-lg w-full">
-                            Tip
-                          </button>
+                   }
+                      <img
+                        width="100px"
+                        src={EachUser.picture}
+                        className="rounded-full mx-2 mt-[-50px]"
+                        alt="Placeholder"
+                      />
+                      <div>
+                        <h2 className="text-2xl  font-semibold">{EachUser.username}</h2>
+                        <p>@{EachUser.u_unique_id}</p>
+                      </div>
+                      <div className=" flex  justify-center items-center flex-1 ">
+                        <div  className="h-10 w-10 p-1 justify-center items-center flex  border-2 border-gray-400 hover:scale-105 cursor-pointer rounded-full">
+
+                      <BsBoxArrowRight className="text-blue-400  " size="20" />
                         </div>
                       </div>
-                    </article>
+                    </section>
+  
+                    <div className="pb-4  mx-2">
+                  
+                      <section className="my-4 ml-2  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
+                        <AiOutlineStar />
+                         Remove from Favorites
+                      </section>
+                      <div className="text-center">
+                        <button className="flex justify-center items-center h-10 bg-red-600 uppercase text-base rounded-full w-full ">
+                         <AiOutlineDollarCircle className="ml-3"  size="23"/>
+                         <p  className="flex-1 text-white"> TIP</p>
+                        </button>
+                      </div>
+                    </div>
+                  </article>
                   ))
                 :
                  <h1>loading...</h1>
@@ -131,52 +138,58 @@ export default function Fan() {
                 <div className="block lg:flex justify-between flex-wrap">
                  
                   {!expiredFollowers.loading ? expiredFollowers.data.followers.map((EachUser, i) => (
-                    <article
-                      className="w-full lg:w-1/3 border-2 border-grey-500 "
-                      key={i}
-                    >
-                      <div className="bg-[url('/images/settings/grey.jpg')] h-32 flex justify-end items-end">
-                        {/* <p className="text-white text-3xl">...</p> */}
-                        <BsThreeDots onClick={() => setOpenFansCardOption(!openFansCardOption)} size="23" className="text-white  mr-3 m-1 cursor-pointer  hover:border-2 p-1 hover:rounded-full"/>
-                      </div>
-    
-                      <section className="flex justify-between relative ">
-                     {openFansCardOption  &&
-                     
-                      <section className="w-3/4 absolute  bg-white ml-2 pl-1 rounded-b-lg"   >
-                          <ul className="list-none">
-                            <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Copy link to profile </li>
-                            <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
-                            <li className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>
-                          </ul>
-                        </section>
-                     }
-                        <img
-                          width="100px"
-                          src={EachUser.picture}
-                          className="rounded-full mt-[-50px]"
-                          alt="Placeholder"
-                        />
-                        <div>
-                          <h2 className="text-2xl">{EachUser.username}</h2>
-                          <p>{EachUser.u_unique_id}</p>
-                        </div>
-                        <BsBoxArrowRight size="22px" />
-                      </section>
-    
-                      <div className="pb-4 ">
+                     <article
+                     className="w-full  lg:w-1/3 border-2 border-grey-500 "
+                     key={i}
+                   >
+                     <div className="bg-[url('/images/settings/grey.jpg')] h-32 flex justify-end items-end">
+                       {/* <p className="text-white text-3xl">...</p> */}
+                       <BsThreeDots onClick={() => setOpenFansCardOption(!openFansCardOption)} size="23" className="text-white  mr-3 m-1 cursor-pointer  hover:border-2 p-1 hover:rounded-full"/>
+                     </div>
+   
+                     <section className="flex w-full justify-between relative ">
+                    {openFansCardOption  &&
                     
-                        <section className="my-4 w-fit bg-gray-200 rounded-md p-1 flex gap-4 items-center">
-                          <AiOutlineStar />
+                     <section className="w-4/5 absolute  bg-white ml-2 pl-1 rounded-b-lg"   >
+                         <ul className="list-none">
+                           <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Copy link to profile </li>
+                           <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
+                           <li className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>
+                         </ul>
+                       </section>
+                    }
+                       <img
+                         width="100px"
+                         src={EachUser.picture}
+                         className="rounded-full mx-2 mt-[-50px]"
+                         alt="Placeholder"
+                       />
+                       <div>
+                         <h2 className="text-2xl  font-semibold">{EachUser.username}</h2>
+                         <p>@{EachUser.u_unique_id}</p>
+                       </div>
+                       <div className=" flex  justify-center items-center flex-1 ">
+                         <div  className="h-10 w-10 p-1 justify-center items-center flex  border-2 border-gray-400 hover:scale-105 cursor-pointer rounded-full">
+
+                       <BsBoxArrowRight className="text-blue-400  " size="20" />
+                         </div>
+                       </div>
+                     </section>
+   
+                     <div className="pb-4  mx-2">
+                   
+                       <section className="my-4 ml-2  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
+                         <AiOutlineStar />
                           Remove from Favorites
-                        </section>
-                        <div className="text-center">
-                          <button className="btn bg-red-600 uppercase text-base rounded-lg w-full">
-                            Tip
-                          </button>
-                        </div>
-                      </div>
-                    </article>
+                       </section>
+                       <div className="text-center">
+                         <button className="flex justify-center items-center h-10 bg-red-600 uppercase text-base rounded-full w-full ">
+                          <AiOutlineDollarCircle className="ml-3"  size="23"/>
+                          <p  className="flex-1 text-white"> TIP</p>
+                         </button>
+                       </div>
+                     </div>
+                   </article>
                   ))
                 :
                  <h1>loading...</h1>
@@ -195,7 +208,7 @@ export default function Fan() {
                  
                   {!followers.loading ? followers.data.followers.map((EachUser, i) => (
                     <article
-                      className="w-full lg:w-1/3 border-2 border-grey-500 "
+                      className="w-full  lg:w-1/3 border-2 border-grey-500 "
                       key={i}
                     >
                       <div className="bg-[url('/images/settings/grey.jpg')] h-32 flex justify-end items-end">
@@ -203,10 +216,10 @@ export default function Fan() {
                         <BsThreeDots onClick={() => setOpenFansCardOption(!openFansCardOption)} size="23" className="text-white  mr-3 m-1 cursor-pointer  hover:border-2 p-1 hover:rounded-full"/>
                       </div>
     
-                      <section className="flex justify-between relative ">
+                      <section className="flex w-full justify-between relative ">
                      {openFansCardOption  &&
                      
-                      <section className="w-3/4 absolute  bg-white ml-2 pl-1 rounded-b-lg"   >
+                      <section className="w-4/5 absolute  bg-white ml-2 pl-1 rounded-b-lg"   >
                           <ul className="list-none">
                             <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Copy link to profile </li>
                             <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
@@ -217,25 +230,31 @@ export default function Fan() {
                         <img
                           width="100px"
                           src={EachUser.picture}
-                          className="rounded-full mt-[-50px]"
+                          className="rounded-full mx-2 mt-[-50px]"
                           alt="Placeholder"
                         />
                         <div>
-                          <h2 className="text-2xl">{EachUser.username}</h2>
-                          <p>{EachUser.u_unique_id}</p>
+                          <h2 className="text-2xl  font-semibold">{EachUser.username}</h2>
+                          <p>@{EachUser.u_unique_id}</p>
                         </div>
-                        <BsBoxArrowRight size="22px" />
+                        <div className=" flex  justify-center items-center flex-1 ">
+                          <div  className="h-10 w-10 p-1 justify-center items-center flex  border-2 border-gray-400 hover:scale-105 cursor-pointer rounded-full">
+
+                        <BsBoxArrowRight className="text-blue-400  " size="20" />
+                          </div>
+                        </div>
                       </section>
     
-                      <div className="pb-4 ">
+                      <div className="pb-4  mx-2">
                     
-                        <section className="my-4 w-fit bg-gray-200 rounded-md p-1 flex gap-4 items-center">
+                        <section className="my-4 ml-2  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
                           <AiOutlineStar />
-                          Remove from Favorites
+                           Remove from Favorites
                         </section>
                         <div className="text-center">
-                          <button className="btn bg-red-600 uppercase text-base rounded-lg w-full">
-                            Tip
+                          <button className="flex justify-center items-center h-10 bg-red-600 uppercase text-base rounded-full w-full ">
+                           <AiOutlineDollarCircle className="ml-3"  size="23"/>
+                           <p  className="flex-1 text-white"> TIP</p>
                           </button>
                         </div>
                       </div>
