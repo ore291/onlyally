@@ -122,7 +122,7 @@ function ProfileNavItem({
                       className="text-xs"
                       icon={<AiFillAudio size="18px" />}
                     >
-                      <Link href="/bookmarks/videos">Audios</Link>
+                      <Link href="/bookmarks/audio">Audios</Link>
                     </MenuItem>
                   </div>
                 </SubMenu>
@@ -303,7 +303,7 @@ function ProfileNavItem({
                     className="text-xs"
                     icon={<AiFillAudio size="18px" />}
                   >
-                    <Link href="/bookmarks/videos">Audios</Link>
+                    <Link href="/bookmarks/audio">Audios</Link>
                   </MenuItem>
                 </div>
               </SubMenu>

@@ -1,24 +1,25 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable @next/next/no-img-element */
 import ProfileNavBar from "../../components/ProfileNavBar";
 import { IoMdVideocam } from "react-icons/io";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineCheckCircle, AiOutlineSmile } from "react-icons/ai";
-import { useState, useEffect } from "react";
-import { fetchBookmarksVideoStart } from "../../store/slices/bookmarkSlice";
-import { fetchCommentsStart } from "../../store/slices/commentsSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { fetchBookmarksAudioStart } from "../../store/slices/bookmarkSlice";
+import { useState } from "react";
 import NewsFeedCard from "../../components/feeds/NewsFeedCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 export default function bookmarks() {
-  const videos = ["Will Smith 1.mp4", "Will Smith 2.mp4"];
-  const [menu, SetMenu] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchBookmarksVideoStart());
+    dispatch(fetchBookmarksAudioStart());
   }, []);
-  const Bookmarks = useSelector((state) => state.bookmark.bookmarkVideo);
-  const data = Bookmarks.data.posts;
-
+  const Audios = useSelector((state) => state.bookmark.bookmarkAudio);
+  const data = Audios.data.posts;
+  // const audios = [
+  //   "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3",
+  //   "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3",
+  //   "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3",
+  // ];
+  const [menu, SetMenu] = useState(false);
   return (
     <div className="flex ">
       <ProfileNavBar className="w-20" />
@@ -29,12 +30,12 @@ export default function bookmarks() {
               <div className="side-icon ml-4">
                 <IoMdVideocam className="text-white h-5 w-5 " />
               </div>
-              <p className=" m-auto font-semibold-sm">Videos</p>
+              <p className=" m-auto font-semibold-sm">Audios</p>
             </div>
             <hr className="w-full py-3 " />
           </div>
           <div className="w-11/12 ml-auto mr-auto rounded">
-            {Bookmarks.loading ? (
+            {Audios.loading ? (
               <h1>Loading</h1>
             ) : data.length > 1 ? (
               data.map((post, i) => (
@@ -45,7 +46,7 @@ export default function bookmarks() {
                 />
               ))
             ) : (
-              <p>No data bookmarked video</p>
+              <p>No bookmarked audio </p>
             )}
           </div>
         </div>
@@ -55,7 +56,7 @@ export default function bookmarks() {
             <BiChevronDown className="text-[#CD0929] h-5 w-5" />
           </div>
           {data.length > 1 && (
-            <p className="text-[#CD0929] text-[12px]">Load more videos</p>
+            <p className="text-[#CD0929] text-[12px]">Load more audios</p>
           )}
         </div>
       </div>
