@@ -33,140 +33,138 @@ const initialState = {
   },
 };
 
-  export const VerificationDocumentSlice = createSlice({
-    name: "verificationDocument",
-    initialState,
+export const VerificationDocumentSlice = createSlice({
+  name: "verificationDocument",
+  initialState,
 
-    reducers: {
-      fetchVeriDocumentsStart: (state, action) => {
-        state.docs = {
-          data: {},
-          loading: true,
-          error: false,
-        };
-      },
-      fetchVeriDocumentsSuccess: (state, action) => {
-        state.docs = {
-          data: action.payload,
-          loading: false,
-          error: false,
-        };
-      },
-      fetchVeriDocumentsFailure: (state, action) => {
-        state.docs = {
-          data: {},
-          loading: true,
-          error: action.payload,
-        };
-      },
-      saveVeriDocStart: (state, action) => {
-        state.saveDocs = {
-          data: {},
-          loading: true,
-          error: false,
-          inputData: action.payload,
-          loadingButtonContent: "Loading... Please wait.",
-          buttonDisable: true,
-        };
-      },
-      saveVeriDocSuccess: (state, action) => {
-        state.saveDocs = {
-          data: action.payload,
-          loading: false,
-          error: false,
-          inputData: {},
-          loadingButtonContent: null,
-          buttonDisable: false,
-        };
-      },
-      saveVeriDocFailure: (state, action) => {
-        state.saveDocs = {
-          data: {},
-          loading: true,
-          error: action.payload,
-          inputData: {},
-          loadingButtonContent: null,
-          buttonDisable: false,
-        };
-      },
-      delVeriDocStart: (state, action) => {
-        state.delDocs = {
-          data: {},
-          loading: true,
-          error: false,
-          inputData: action.payload,
-          loadingButtonContent: "Loading...",
-          buttonDisable: true,
-        };
-      },
-      delVeriDocSuccess: (state, action) => {
-        state.delDocs = {
-          data: action.payload,
-          loading: false,
-          error: false,
-          inputData: {},
-          loadingButtonContent: null,
-          buttonDisable: false,
-        };
-      },
-      delVeriDocFailure: (state, action) => {
-        state.delDocs = {
-          data: {},
-          loading: true,
-          error: action.payload,
-          inputData: {},
-          loadingButtonContent: null,
-          buttonDisable: false,
-        };
-      },
-      verifictionStatusCheckStart: (state, action) => {
-        state.docStatus = {
-          data: {},
-          loading: true,
-          error: false,
-          inputData: action.payload,
-          loadingButtonContent: null,
-          buttonDisable: false,
-        };
-      },
-      verificationStatusCheckSuccess: (state, action) => {
-        state.docStatus = {
-          data: action.payload,
-          loading: true,
-          error: false,
-          inputData: {},
-          loadingButtonContent: null,
-          buttonDisable: false,
-        };
-      },
-      verificationStatusCheckFailure: (state, action) => {
-        state.docStatus = {
-          data: {},
-          loading: true,
-          error: action.payload,
-          inputData: {},
-          loadingButtonContent: null,
-          buttonDisable: false,
-        };
-      },
+  reducers: {
+    fetchVeriDocumentsStart: (state, action) => {
+      state.docs = {
+        data: {},
+        loading: true,
+        error: false,
+      };
     },
-  });
+    fetchVeriDocumentsSuccess: (state, action) => {
+      state.docs = {
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchVeriDocumentsFailure: (state, action) => {
+      state.docs = {
+        data: {},
+        loading: true,
+        error: action.payload,
+      };
+    },
+    saveVeriDocStart: (state, action) => {
+      state.saveDocs = {
+        data: {},
+        loading: true,
+        error: false,
+        inputData: action.payload,
+        loadingButtonContent: "Loading... Please wait.",
+        buttonDisable: true,
+      };
+    },
+    saveVeriDocSuccess: (state, action) => {
+      state.saveDocs = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    saveVeriDocFailure: (state, action) => {
+      state.saveDocs = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    delVeriDocStart: (state, action) => {
+      state.delDocs = {
+        data: {},
+        loading: true,
+        error: false,
+        inputData: action.payload,
+        loadingButtonContent: "Loading...",
+        buttonDisable: true,
+      };
+    },
+    delVeriDocSuccess: (state, action) => {
+      state.delDocs = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    delVeriDocFailure: (state, action) => {
+      state.delDocs = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    verifictionStatusCheckStart: (state, action) => {
+      state.docStatus = {
+        data: {},
+        loading: true,
+        error: false,
+        inputData: action.payload,
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    verificationStatusCheckSuccess: (state, action) => {
+      state.docStatus = {
+        data: action.payload,
+        loading: true,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    verificationStatusCheckFailure: (state, action) => {
+      state.docStatus = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+  },
+});
 
 export const {
-   
-    saveVeriDocFailure,
-    saveVeriDocStart,
+  saveVeriDocFailure,
+  saveVeriDocStart,
   saveVeriDocSuccess,
   fetchVeriDocumentsSuccess,
-    fetchVeriDocumentsFailure,
+  fetchVeriDocumentsFailure,
   fetchVeriDocumentsStart,
   delVeriDocSuccess,
-    delVeriDocFailure,
+  delVeriDocFailure,
   delVeriDocStart,
-    verificationStatusCheckSuccess,
+  verificationStatusCheckSuccess,
   verificationStatusCheckStart,
   verificationStatusCheckFailure,
-      
-  } = VerificationDocumentSlice.actions;
+} = VerificationDocumentSlice.actions;
 
-  export default VerificationDocumentSlice.reducer;
+export default VerificationDocumentSlice.reducer;

@@ -396,7 +396,8 @@ const Profile = () => {
                                 user_unique_id:
                                   userDetails.data.user.user_unique_id,
                                 plan_type: "months",
-                                is_free: 0,
+                                is_free: 1,
+                                payment_id: 'free',
                               })
                             )
                           }
