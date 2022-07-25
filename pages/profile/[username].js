@@ -307,7 +307,10 @@ const Profile = () => {
                   <div className="profile-buttons">
                     <FaVideo className="w-5 h-5" />
                   </div>
-                  <div className="profile-buttons "  onClick={() => setRequestVideoCall(true)}>
+                  <div
+                    className="profile-buttons "
+                    onClick={() => setRequestVideoCall(true)}
+                  >
                     <GiPhone className="w-5 h-5" />
                   </div>
                   <div className="profile-buttons">
@@ -583,30 +586,26 @@ const Profile = () => {
           localStorage.getItem("userId") !== null &&
           localStorage.getItem("userId") !== undefined ? (
           <>
-             <PrivateCallModal
-            requestVideoCall={requestVideoCall}
-            closePrivateCallModal={closePrivateCallModal}
-            username={userDetails.data.user.username}
-            userPicture={userDetails.data.user.picture}
-            videoAmount={
-              userDetails.data.user.video_call_amount_formatted
-            }
-            name={userDetails.data.user.name}
-            post_id={null}
-            user_id={userDetails.data.user.user_id}
-          />
-          <PrivateAudioCallModal
-            requestAudioCall={requestAudioCall}
-            closePrivateCallModal={closePrivateCallModal}
-            username={userDetails.data.user.username}
-            userPicture={userDetails.data.user.picture}
-            AudioAmount={
-              userDetails.data.user.audio_call_amount_formatted
-            }
-            name={userDetails.data.user.name}
-            post_id={null}
-            user_id={userDetails.data.user.user_id}
-          />
+            <PrivateCallModal
+              requestVideoCall={requestVideoCall}
+              closePrivateCallModal={closePrivateCallModal}
+              username={userDetails.data.user.username}
+              userPicture={userDetails.data.user.picture}
+              videoAmount={userDetails.data.user.video_call_amount_formatted}
+              name={userDetails.data.user.name}
+              post_id={null}
+              user_id={userDetails.data.user.user_id}
+            />
+            <PrivateAudioCallModal
+              requestAudioCall={requestAudioCall}
+              closePrivateCallModal={closePrivateCallModal}
+              username={userDetails.data.user.username}
+              userPicture={userDetails.data.user.picture}
+              AudioAmount={userDetails.data.user.audio_call_amount_formatted}
+              name={userDetails.data.user.name}
+              post_id={null}
+              user_id={userDetails.data.user.user_id}
+            />
           </>
         ) : null}
       </div>
