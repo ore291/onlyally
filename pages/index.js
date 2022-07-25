@@ -12,7 +12,12 @@ import { useSelector, useDispatch } from "react-redux";
 // const DeviceHelper = require("node-device-detector/helper");
 import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
-import { getCookies, setCookies, removeCookies , checkCookies} from "cookies-next";
+import {
+  getCookies,
+  setCookies,
+  removeCookies,
+  checkCookies,
+} from "cookies-next";
 import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
@@ -43,7 +48,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    
     localStorage.setItem("userId", loginDetails.user_id);
     localStorage.setItem("token", loginDetails.token);
     localStorage.setItem("userLoginStatus", true);
@@ -110,7 +114,7 @@ export default function Home() {
 
       <SideNavLayout>
         <main className=" lg:p-5">
-          <Stories  />
+          <Stories />
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5">
             <NewsFeed />
             <Sticky>
@@ -177,7 +181,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       // setCookies("accessToken", user.token, { req, res });
       // setCookies("user_email", user.email, { req, res });
       // setCookies("username", user.username, {req, res} )
-      const cookies = getCookies({ req, res});
+      const cookies = getCookies({ req, res });
       store.dispatch(
         fetchHomePostsStart({
           accessToken: cookies.accessToken,
@@ -194,10 +198,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
       );
 
       store.dispatch(
-        fetchUserDetailsStart({accessToken: cookies.accessToken})
-      )
-
-      
+        fetchUserDetailsStart({ accessToken: cookies.accessToken })
+      );
 
       // store.dispatch(fetchConfigurationStart());
 

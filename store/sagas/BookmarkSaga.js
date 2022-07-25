@@ -48,17 +48,20 @@ function* fetchBookmarkPhotoAPI() {
     const inputData = yield select(
       (state) => state.bookmark.bookmarkPhoto.inputData
     );
-    const response = yield api.postMethod({action : "post_bookmarks_photos",object : inputData});
+    const response = yield api.postMethod({
+      action: "post_bookmarks_photos",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(fetchBookmarksPhotoSuccess(response.data.data));
     } else {
       yield put(fetchBookmarksPhotoFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({message: response.data.error, status : "error"}));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchBookmarksPhotoFailure(error));
-    yield put(notify({message : error.message, status : "error"}));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -67,17 +70,20 @@ function* fetchBookmarkVideoAPI() {
     const inputData = yield select(
       (state) => state.bookmark.bookmarkVideo.inputData
     );
-    const response = yield api.postMethod({action : "post_bookmarks_videos", object : inputData});
+    const response = yield api.postMethod({
+      action: "post_bookmarks_videos",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(fetchBookmarksVideoSuccess(response.data.data));
     } else {
       yield put(fetchBookmarksVideoFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({message: response.data.error, status : "error"}));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchBookmarksVideoFailure(error));
-    yield put(notify({message : error.message, status : "error"}));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -106,7 +112,9 @@ function* saveBookmarkAPI() {
 
 function* deleteBookmarkAPI() {
   try {
-    const inputData = yield select((state) => state.verificationDocument.delDocs.inputData);
+    const inputData = yield select(
+      (state) => state.verificationDocument.delDocs.inputData
+    );
     const response = yield api.postMethod({
       action: "post_bookmarks_delete",
       object: inputData,
@@ -130,31 +138,47 @@ function* fetchBookmarkAudioAPI() {
     const inputData = yield select(
       (state) => state.bookmark.bookmarkAudio.inputData
     );
-    const response = yield api.postMethod({action : "post_bookmarks_audio",object : inputData});
+    const response = yield api.postMethod({
+      action: "post_bookmarks_audio",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(fetchBookmarksAudioSuccess(response.data.data));
     } else {
       yield put(fetchBookmarksAudioFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({message: response.data.error, status : "error"}));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchBookmarksAudioFailure(error));
-    yield put(notify({message : error.message, status : "error"}));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 export default function* pageSaga() {
-  yield all([yield takeLatest("bookmark/fetchBookmarksStart", fetchBookmarkAPI)]);
   yield all([
-    yield takeLatest("bookmark/fetchBookmarksPhotoStart", fetchBookmarkPhotoAPI),
+    yield takeLatest("bookmark/fetchBookmarksStart", fetchBookmarkAPI),
   ]);
   yield all([
-    yield takeLatest("bookmark/fetchBookmarksVideoStart", fetchBookmarkVideoAPI),
+    yield takeLatest(
+      "bookmark/fetchBookmarksPhotoStart",
+      fetchBookmarkPhotoAPI
+    ),
+  ]);
+  yield all([
+    yield takeLatest(
+      "bookmark/fetchBookmarksVideoStart",
+      fetchBookmarkVideoAPI
+    ),
   ]);
   yield all([yield takeLatest("bookmark/saveBookmarkStart", saveBookmarkAPI)]);
-  yield all([yield takeLatest("bookmarkDeleteBookmarkStart", deleteBookmarkAPI)]);
   yield all([
-    yield takeLatest('bookmark/fetchBookmarksAudioStart', fetchBookmarkAudioAPI),
+    yield takeLatest("bookmarkDeleteBookmarkStart", deleteBookmarkAPI),
+  ]);
+  yield all([
+    yield takeLatest(
+      "bookmark/fetchBookmarksAudioStart",
+      fetchBookmarkAudioAPI
+    ),
   ]);
 }

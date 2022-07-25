@@ -78,11 +78,10 @@ const Header = () => {
               <HeaderMenu user={session?.user?.userDetails} />
             </div>
           </div>
-          
-            <div className=" md:hidden rounded-full bg-[#C51834] flex items-center justify-center p-1 ">
-              <MdOutlineSearch className="h-8 w-8 text-white" />
-            </div>
-       
+
+          <div className=" md:hidden rounded-full bg-[#C51834] flex items-center justify-center p-1 ">
+            <MdOutlineSearch className="h-8 w-8 text-white" />
+          </div>
         </div>
         {/* end search */}
       </div>

@@ -129,20 +129,18 @@ export const BookmarkSlice = createSlice({
       };
     },
     fetchBookmarksPhotoStart: (state, action) => {
-
       state.bookmarkPhoto = {
-        inputData: action.payload,
-          data: {
-            posts: [...state.bookmarkPhoto.data.posts],
-          },
-          loading: true,
-          error: false,
-          skip: state.bookmarkPhoto.skip,
-          length: state.bookmarkPhoto.length,
-      }
+        //inputData: action.payload,
+        data: {
+          posts: [state.bookmarkPhoto.data.posts],
+        },
+        loading: true,
+        error: false,
+        skip: state.bookmarkPhoto.skip,
+        length: state.bookmarkPhoto.length,
+      };
     },
     fetchBookmarksPhotoSuccess: (state, action) => {
-
       state.bookmarkPhoto = {
         data: {
           posts: [...state.bookmarkPhoto.data.posts, ...action.payload.posts],
@@ -152,20 +150,19 @@ export const BookmarkSlice = createSlice({
         inputData: {},
         skip: action.payload.posts.length + state.bookmarkPhoto.skip,
         length: action.payload.posts.length,
-      }
+      };
     },
     fetchBookmarksPhotoFailure: (state, action) => {
-
       state.bookmarkPhoto = {
         data: {},
-          loading: true,
-          error: action.payload,
-          inputData: {},
-          skip: state.bookmarkPhoto.skip,
-          length: state.bookmarkPhoto.length,
-      }
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        skip: state.bookmarkPhoto.skip,
+        length: state.bookmarkPhoto.length,
+      };
     },
-    fetchBookmarksVideoStart : (state, action) => {
+    fetchBookmarksVideoStart: (state, action) => {
       state.bookmarkVideo = {
         inputData: action.payload,
         data: {
@@ -175,9 +172,9 @@ export const BookmarkSlice = createSlice({
         error: false,
         skip: state.bookmarkVideo.skip,
         length: state.bookmarkVideo.length,
-      }
+      };
     },
-    fetchBookmarksVideoSuccess : (state, action) => {
+    fetchBookmarksVideoSuccess: (state, action) => {
       state.bookmarkVideo = {
         data: {
           posts: [...state.bookmarkVideo.data.posts, ...action.payload.posts],
@@ -187,7 +184,7 @@ export const BookmarkSlice = createSlice({
         inputData: {},
         skip: action.payload.posts.length + state.bookmarkVideo.skip,
         length: action.payload.posts.length,
-      }
+      };
     },
     fetchBookmarksVideoFailure: (state, action) => {
       state.bookmarkVideo = {
@@ -197,9 +194,9 @@ export const BookmarkSlice = createSlice({
         inputData: {},
         skip: state.bookmarkVideo.skip,
         length: state.bookmarkVideo.length,
-      }
+      };
     },
-    deleteBookmarkStart : (state, action) => {
+    deleteBookmarkStart: (state, action) => {
       state.deleteBookmark = {
         data: {},
         loading: true,
@@ -207,7 +204,7 @@ export const BookmarkSlice = createSlice({
         inputData: action.payload,
         loadingButtonContent: "Loading...",
         buttonDisable: true,
-      }
+      };
     },
     deleteBookmarkSuccess: (state, action) => {
       state.deleteBookmark = {
@@ -229,6 +226,7 @@ export const BookmarkSlice = createSlice({
         buttonDisable: false,
       }
     },
+    
     fetchBookmarksAudioStart : (state, action) => {
       state.bookmarkAudio = {
         inputData: action.payload,
@@ -239,10 +237,10 @@ export const BookmarkSlice = createSlice({
         error: false,
         skip: state.bookmarkAudio.skip,
         length: state.bookmarkAudio.length,
-      }
+      };
     },
-    
-    fetchBookmarksAudioSuccess : (state, action) => {
+
+    fetchBookmarksAudioSuccess: (state, action) => {
       state.bookmarkAudio = {
         data: {
           posts: [...state.bookmarkAudio.data.posts, ...action.payload.posts],
@@ -252,9 +250,9 @@ export const BookmarkSlice = createSlice({
         inputData: {},
         skip: action.payload.posts.length + state.bookmarkAudio.skip,
         length: action.payload.posts.length,
-      }
+      };
     },
-    fetchBookmarksAudioFailure : (state, action) => {
+    fetchBookmarksAudioFailure: (state, action) => {
       state.bookmarkAudio = {
         data: {},
         loading: true,
@@ -262,37 +260,30 @@ export const BookmarkSlice = createSlice({
         inputData: {},
         skip: state.bookmarkAudio.skip,
         length: state.bookmarkAudio.length,
-      }
+      };
     },
-
-
-
-   
   },
 });
 
 export const {
-   fetchBookmarksFailure,
-   fetchBookmarksSuccess,
-   fetchBookmarksStart,
-   saveBookmarkStart,
-   saveBookmarkFailure,
-   saveBookmarkSuccess,
-   fetchBookmarksAudioStart,
-   fetchBookmarksAudioSuccess,
-   fetchBookmarksAudioFailure,
-   fetchBookmarksPhotoStart,
-   fetchBookmarksPhotoSuccess,
-   fetchBookmarksPhotoFailure,
-   fetchBookmarksVideoStart,
-   fetchBookmarksVideoSuccess,
-   fetchBookmarksVideoFailure,
-   deleteBookmarkStart,
-   deleteBookmarkSuccess,
-   deleteBookmarkFailure,
-  } = BookmarkSlice.actions;
+  fetchBookmarksFailure,
+  fetchBookmarksSuccess,
+  fetchBookmarksStart,
+  saveBookmarkStart,
+  saveBookmarkFailure,
+  saveBookmarkSuccess,
+  fetchBookmarksAudioStart,
+  fetchBookmarksAudioSuccess,
+  fetchBookmarksAudioFailure,
+  fetchBookmarksPhotoStart,
+  fetchBookmarksPhotoSuccess,
+  fetchBookmarksPhotoFailure,
+  fetchBookmarksVideoStart,
+  fetchBookmarksVideoSuccess,
+  fetchBookmarksVideoFailure,
+  deleteBookmarkStart,
+  deleteBookmarkSuccess,
+  deleteBookmarkFailure,
+} = BookmarkSlice.actions;
 
-  export default BookmarkSlice.reducer;
-
-
-
+export default BookmarkSlice.reducer;
