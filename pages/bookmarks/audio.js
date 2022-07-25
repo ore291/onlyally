@@ -7,7 +7,8 @@ import { useState } from "react";
 import NewsFeedCard from "../../components/feeds/NewsFeedCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-export default function bookmarks() {
+
+export default function Bookmarks() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchBookmarksAudioStart());
