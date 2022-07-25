@@ -10,7 +10,7 @@ import { fetchBookmarksPhotoStart } from "../../store/slices/bookmarkSlice";
 import { MdPhotoSizeSelectActual } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function bookmarks() {
+export default function Bookmarks() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchBookmarksPhotoStart());
