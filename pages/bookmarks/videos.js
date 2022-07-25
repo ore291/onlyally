@@ -9,7 +9,9 @@ import { fetchBookmarksVideoStart } from "../../store/slices/bookmarkSlice";
 import { fetchCommentsStart } from "../../store/slices/commentsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NewsFeedCard from "../../components/feeds/NewsFeedCard";
-export default function bookmarks() {
+
+
+export default function Bookmarks() {
   const videos = ["Will Smith 1.mp4", "Will Smith 2.mp4"];
   const [menu, SetMenu] = useState(false);
   const dispatch = useDispatch();
