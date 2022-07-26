@@ -6,13 +6,16 @@ import {
 import {
   fetchSingleUserProfileStart,
 } from "../store/slices/OtherUsersSlice";
+import { deleteFavStart } from "../store/slices/favSlice";
 import TipModal from "./tips/TipModal";
 import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentModal from "./helpers/PaymentModal";
 const FansCard = ({user, i}) => {
   const userDetails = useSelector((state) => state.otherUser.userDetails);
-    const [openFansCardOption, setOpenFansCardOption] = useState(false)
+  const deleteFav = useSelector((state) => state.fav.deleteFav);
+
+  const [openFansCardOption, setOpenFansCardOption] = useState(false)
     const [sendTip, setSendTip] = useState(false);
     const [subscriptionData, setSubscriptionData] = useState({
       is_free: 0,
@@ -28,11 +31,17 @@ const FansCard = ({user, i}) => {
         })
       )
     }, [])
-     
   
+    
+    
     const closeSendTipModal = () => {
       setSendTip(false);
     };
+
+    const removeFav = ()=> {
+      dispatch(deleteFavStart())
+    }
+
     return(
         <div
                     className="w-full  lg:w-1/3 border-2 border-grey-500 "
@@ -86,11 +95,13 @@ const FansCard = ({user, i}) => {
                     </section>
   
                     <div className="pb-4  mx-2">
+          
                   
-                      <section className="my-4 ml-2  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
+                      <section  onClick={removeFav}   className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
                         <AiOutlineStar />
                          Remove from Favorites
                       </section>
+              
                       <div className="text-center">
                         <button onClick={() => setSendTip(!sendTip)} className="flex justify-center items-center h-10 bg-red-600 uppercase text-base rounded-full w-full ">
                          <AiOutlineDollarCircle className="ml-3"  size="23"/>
