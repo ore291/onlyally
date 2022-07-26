@@ -28,7 +28,8 @@ const FansCard = ({user, i}) => {
         })
       )
     }, [])
-   
+     
+  
     const closeSendTipModal = () => {
       setSendTip(false);
     };
@@ -38,16 +39,18 @@ const FansCard = ({user, i}) => {
                     key={i}
                   >
         
-
-            <TipModal
-              sendTip={sendTip}
-              closeSendTipModal={closeSendTipModal}
-              username={user.username}
-              userPicture={user.picture}
-              name={user.name}
-              post_id={null}
-              user_id={user.user_id}
-            />
+     {userDetails.loading === false &&
+     
+     <TipModal
+     sendTip={sendTip}
+     closeSendTipModal={closeSendTipModal}
+     username={userDetails.data.user.username}
+     userPicture={userDetails.data.user.picture}
+     name={userDetails.data.user.name}
+     post_id={null}
+     user_id={userDetails.data.user.user_id}
+    />
+     }
                     <div className="bg-[url('/images/settings/grey.jpg')] h-32 flex justify-end items-end">
                       {/* <p className="text-white text-3xl">...</p> */}
                       <BsThreeDots onClick={() => setOpenFansCardOption(!openFansCardOption)} size="23" className="text-white  mr-3 m-1 cursor-pointer  hover:border-2 p-1 hover:rounded-full"/>
