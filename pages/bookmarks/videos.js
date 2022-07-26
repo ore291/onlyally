@@ -10,7 +10,6 @@ import { fetchCommentsStart } from "../../store/slices/commentsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NewsFeedCard from "../../components/feeds/NewsFeedCard";
 
-
 export default function Bookmarks() {
   const videos = ["Will Smith 1.mp4", "Will Smith 2.mp4"];
   const [menu, SetMenu] = useState(false);
@@ -19,8 +18,8 @@ export default function Bookmarks() {
     dispatch(fetchBookmarksVideoStart());
   }, []);
   const Bookmarks = useSelector((state) => state.bookmark.bookmarkVideo);
-  const data = Bookmarks.data.posts;
-
+  const data = Bookmarks.data.posts.slice(1);
+  console.log(data);
   return (
     <div className="flex ">
       <ProfileNavBar className="w-20" />

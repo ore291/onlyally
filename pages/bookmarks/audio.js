@@ -14,7 +14,7 @@ export default function Bookmarks() {
     dispatch(fetchBookmarksAudioStart());
   }, []);
   const Audios = useSelector((state) => state.bookmark.bookmarkAudio);
-  const data = Audios.data.posts;
+  const data = Audios.data.posts.slice(1);
   // const audios = [
   //   "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3",
   //   "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3",
