@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileNavItem from "../../components/ProfileNavBar";
+import ProfileNavItem from "../components/ProfileNavBar";
 import { MdPeopleAlt } from "react-icons/md";
 import { BsShare } from "react-icons/bs";
 

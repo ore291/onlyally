@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import ProfileNavItem from "../../components/ProfileNavBar";
+import ProfileNavItem from "../components/ProfileNavBar";
 
 export default function Contact() {
   function onChange(value) {

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { fetchWalletDetailsStart } from "../store/slices/walletSlice";
 import {useSelector, useDispatch} from "react-redux"
 import { getCookie, removeCookies } from "cookies-next";
+import Link from "next/link";
 
 import {
   BsDot,
@@ -33,8 +34,8 @@ const HeaderMenu = () => {
   const user = useSelector(state => state.user.profile.data)
 
   useEffect(() => {
-    dispatch(fetchWalletDetailsStart());
-  }, []);
+    !wallet.data.user_wallet.remaining_formatted &&  dispatch(fetchWalletDetailsStart());
+  }, [wallet]);
 
   const logout = async () => {
     removeCookies("userId");
@@ -118,15 +119,15 @@ const HeaderMenu = () => {
                 )}
               </Menu.Item>
               <Menu.Item>
-                <div className="flex items-center justify-start px-3 pb-2  border-b">
-                  <p className="font-bold text-sm">
+                <div className="flex items-center justify-start px-1 pb-2  border-b">
+                  <p className="font-bold text-sm whitespace-nowrap">
                     {user?.total_followers} Fans
                   </p>
                   <BsDot className="h-5 w-5" />
-                  <p className="font-bold text-sm">
+                  <p className="font-bold text-sm whitespace-nowrap">
                     {user?.total_followings} Following
                   </p>
-                  <button className="row-container bg-gray-100 rounded-full px-2 py-1 ml-2" onClick={() => router.push("/wallet")}>
+                  <button className="row-container bg-gray-100 rounded-full px-2 py-1 ml-2" onClick={() => router.push("/payment/wallet")}>
                     <FaWallet className="h-4 w-4 mr-1" />
                     <p className="text-sm font-bold">
                       {wallet?.data?.user_wallet?.remaining_formatted}
@@ -172,7 +173,7 @@ const HeaderMenu = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                  onClick={() => router.push("/gopro")}
+                  onClick={() => router.push("/go-pro")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
@@ -201,7 +202,8 @@ const HeaderMenu = () => {
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <button
+                  <Link href="/market/market" passHref>
+                    <button
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
@@ -213,11 +215,14 @@ const HeaderMenu = () => {
                     </div>
                     Shop
                   </button>
+                  </Link>
+                
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
-                  <button
+                  <Link href="/stories" passHref>
+                    <button
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
@@ -229,12 +234,14 @@ const HeaderMenu = () => {
                     </div>
                     Stories
                   </button>
+                  </Link>
+                
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => router.push("/dashboard")}
+                    onClick={() => router.push("/bookmarks/photos")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
@@ -252,6 +259,7 @@ const HeaderMenu = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                  onClick={() => router.push("/calls/video-call")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
@@ -268,6 +276,7 @@ const HeaderMenu = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                  onClick={() => router.push("/list/fans")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
@@ -285,6 +294,7 @@ const HeaderMenu = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                  onClick={() => router.push("/referrals")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
@@ -301,6 +311,7 @@ const HeaderMenu = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
+                  onClick={() => router.push("/settings/profile")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"
@@ -315,7 +326,7 @@ const HeaderMenu = () => {
                 )}
               </Menu.Item>
 
-              <Menu.Item>
+              {/* <Menu.Item>
                 {({ active }) => (
                   <button
                     className={`${
@@ -359,7 +370,7 @@ const HeaderMenu = () => {
                     Night Mode
                   </button>
                 )}
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item>
                 {({ active }) => (
                   <button

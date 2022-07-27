@@ -49,7 +49,7 @@ const initialState = {
         state.allTransaction = {
           data: {},
           loading: true,
-          error: action.error,
+          error: action.payload,
         };
       },
       fetchSentPaymentTransactionStart: (state, action) => {
@@ -116,6 +116,18 @@ const initialState = {
         };
       },
     },
+
+    
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.transaction.allTransaction) {
+        return state;
+      }
+      state.allTransaction = action.payload.transaction.allTransaction;
+     
+    },
+  },
   });
 
 export const {

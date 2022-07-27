@@ -45,7 +45,7 @@ const TipModal = (props) => {
     reference: (new Date()).getTime().toString(),
     email:  user?.email,
     amount: 100,
-    publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
+    publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
   });
 
   // you can call this function anything

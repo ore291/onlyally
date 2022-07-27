@@ -90,16 +90,16 @@ const SideNav = () => {
               <p className="font-semibold text-sm">{user.name}</p>
               <p className="text-xs font-light">{`@${user.username}`}</p>
               <div className="flex items-center justify-between  pb-2">
-                <p className="font-semibold text-xs xs:text-sm">
+                <p className="font-semibold text-xs xs:text-sm whitespace-nowrap">
                   {user.total_followers} Fans
                 </p>
                 <BsDot className="h-5 w-4" />
-                <p className="font-semibold text-xs xs:text-sm">
+                <p className="font-semibold text-xs xs:text-sm whitespace-nowrap">
                   {user.total_followings} Following
                 </p>
-                <button className="row-container bg-gray-100 rounded-full px-2 py-1 ">
+                <button className="row-container bg-gray-100 rounded-full px-1 py-1 " onClick={()=>navigate("/payment/wallet")}>
                   <FaWallet className="h-4 w-4 mr-1" />
-                  <p className="text-xs xs:text-sm font-semibold">
+                  <p className="text-xs xs:text-sm font-semibold whitespace-nowrap">
                     {user.wallet_balance_formatted}
                   </p>
                   {/* <span>&#8358;</span>{ */}
@@ -117,13 +117,13 @@ const SideNav = () => {
                 </button>
          
 
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/dashboard')}>
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <RiBarChartHorizontalFill className="h-6 w-6" />
                 </div>
                 Dashboard
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/go-pro')}>
                 <div className="row-container bg-[#00000014] rounded-full p-2 mr-3">
                   <svg
                     width="24"
@@ -142,49 +142,49 @@ const SideNav = () => {
                 </div>
                 Upgrade to Pro
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/market/market')}>
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <FaShoppingBag className="h-6 w-6 " />
                 </div>
                 Shop
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/stories')}>
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <FaHistory className="h-6 w-6" />
                 </div>
                 Stories
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/bookmarks/photos')}>
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <FaBookmark className="h-6 w-6" />
                 </div>
                 Bookmarks
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/calls/video-call')}>
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <FaVideo className="h-6 w-6" />
                 </div>
                 Video Calls
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/list/fans')}>
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <BsListStars className="h-6 w-6" />
                 </div>
                 Lists
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/referrals')}>
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <MdMail className="h-6 w-6" />
                 </div>
                 Invite Your Friends
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm" onClick={()=>navigate('/settings/profile')}>
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <BsShieldFillCheck className="h-6 w-6" />
                 </div>
                 Privacy Settings
               </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+              {/* <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
                 <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
                   <svg
                     width="24"
@@ -208,7 +208,7 @@ const SideNav = () => {
                   <BsMoonFill className="h-6 w-6" />
                 </div>
                 Night Mode
-              </button>
+              </button> */}
               <button
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => logout()}

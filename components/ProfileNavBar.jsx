@@ -65,7 +65,7 @@ function ProfileNavItem({
   };
   return (
     <>
-      <div className="mt-16 flex justify-end  p-2  lg:hidden">
+      <div className=" flex justify-end  p-2  lg:hidden">
         {icon ? (
           <FaTimes size="25px" color="#B30D28" onClick={handleNav} />
         ) : (
@@ -73,7 +73,7 @@ function ProfileNavItem({
         )}
       </div>
       {nav ? (
-        <div className="lg-0 lg:mt-16 w-[20%] px-2 lg:px-0 z-0">
+        <div className="lg-0 w-[20%] px-2 lg:px-0 z-0">
           <div className="pr-7 py-7 block lg:bg-white rounded shadow-sm ">
             <ProSidebar className="block">
               <Menu iconShape="circle" className="font-medium text-gray-600">
@@ -87,16 +87,16 @@ function ProfileNavItem({
                 <SubMenu title="Profile" icon={<BiUserCircle size="20px" />}>
                   <div className="space-y-4">
                     <MenuItem className="text-xs" icon={<ImProfile />}>
-                      <Link href="/bookmarks/profile">My Profile</Link>
+                      <Link href="/settings/profile">My Profile</Link>
                     </MenuItem>
                     <MenuItem icon={<RiLockPasswordLine size="18px" />}>
-                      <Link href="/bookmarks/password">Change Password</Link>
+                      <Link href="/settings/change-password">Change Password</Link>
                     </MenuItem>
                     <MenuItem icon={<IoIosPeople size="18px" />}>
-                      <Link href="/bookmarks/session">Session Management</Link>
+                      <Link href="/settings/session">Session Management</Link>
                     </MenuItem>
                     <MenuItem icon={<RiDeleteBin5Line size="18px" />}>
-                      <Link href="/bookmarks/deleteaccount">
+                      <Link href="/settings/delete-account">
                         Delete Account
                       </Link>
                     </MenuItem>
@@ -130,21 +130,21 @@ function ProfileNavItem({
                 <SubMenu title="Calls" icon={<FiPhoneCall size="20px" />}>
                   <div className="space-y-4">
                     <MenuItem className="text-xs" icon={<IoVideocam />}>
-                      <Link href="/bookmarks/videocall">Videos Calls</Link>
+                      <Link href="/calls/video-call">Videos Calls</Link>
                     </MenuItem>
                     <MenuItem className="text-xs" icon={<GiSpeaker />}>
-                      <Link href="/bookmarks/audiocall">Audios Calls</Link>
+                      <Link href="/calls/audio-call">Audios Calls</Link>
                     </MenuItem>
                   </div>
                 </SubMenu>
 
                 <SubMenu title="List" icon={<BsListStars size="20px" />}>
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
-                    <Link href="/bookmarks/fans">Fans</Link>
+                    <Link href="/list/fans">Fans</Link>
                   </MenuItem>
 
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
-                    <Link href="/bookmarks/referrals">Following</Link>
+                    <Link href="/referrals">Following</Link>
                   </MenuItem>
 
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
@@ -165,7 +165,7 @@ function ProfileNavItem({
                   className="text-gray-600"
                   style={{ color: referralsColor }}
                 >
-                  <Link href="/bookmarks/referrals">Referrals</Link>
+                  <Link href="/referrals">Referrals</Link>
                 </MenuItem>
 
                 <SubMenu title="Market" icon={<FaShoppingBag />}>
@@ -197,10 +197,10 @@ function ProfileNavItem({
                     <Link href="/payment/your-cards">Your Cards</Link>
                   </MenuItem>
                   <MenuItem icon={<BsBank size="18px" />}>
-                    <Link href="/payment/addbank">Add Bank</Link>
+                    <Link href="/payment/add-bank">Add Bank</Link>
                   </MenuItem>
                   <MenuItem icon={<BiWallet size="18px" />}>
-                    <Link href="/payment/addbank">Wallet</Link>
+                    <Link href="/payment/wallet">Wallet</Link>
                   </MenuItem>
                   <MenuItem icon={<MdOutlinePayments size="18px" />}>
                     <Link href="/payment/my-payment">My Payments</Link>
@@ -226,13 +226,13 @@ function ProfileNavItem({
                     icon={<FaLock size="18px" />}
                     style={{ color: authColor }}
                   >
-                    <Link href="/bookmarks/auth2">Two Step Authentication</Link>
+                    <Link href="/settings/auth2">Two Step Authentication</Link>
                   </MenuItem>
                   <MenuItem icon={<AiFillSetting size="18px" />}>
-                    <Link href="/bookmarks/security">Availability Status</Link>
+                    <Link href="/settings/security">Availability Status</Link>
                   </MenuItem>
                   <MenuItem icon={<IoDocuments size="18px" />}>
-                    <Link href="/bookmarks/documents">Document</Link>
+                    <Link href="/settings/documents">Document</Link>
                   </MenuItem>
                 </SubMenu>
 
@@ -244,19 +244,19 @@ function ProfileNavItem({
                     />
                   }
                 >
-                  <Link href="/bookmarks/contact">Help and Support</Link>
+                  <Link href="/contact-us">Help and Support</Link>
                 </MenuItem>
                 <MenuItem
                   icon={<FaCrown size="20px" style={{ color: helpColor }} />}
                 >
-                  <Link href="/gopro">Go Pro</Link>
+                  <Link href="/go-pro">Go Pro</Link>
                 </MenuItem>
               </Menu>
             </ProSidebar>
           </div>
         </div>
       ) : null}
-      <div className="lg-0 lg:mt-16 w-[20%] px-2 lg:px-0 z-0 hidden lg:block">
+      <div className="lg-0  w-[20%] px-2 lg:px-0 z-0 hidden lg:block">
         <div className="pr-7 py-7 block md:bg-white rounded shadow-sm ">
           <ProSidebar className="block">
             <Menu iconShape="circle" className="font-medium text-gray-600">
@@ -270,16 +270,16 @@ function ProfileNavItem({
               <SubMenu title="Profile" icon={<BiUserCircle size="20px" />}>
                 <div className="space-y-4">
                   <MenuItem className="text-xs" icon={<ImProfile />}>
-                    <Link href="/bookmarks/profile">My Profile</Link>
+                    <Link href="/settings/profile">My Profile</Link>
                   </MenuItem>
                   <MenuItem icon={<RiLockPasswordLine size="18px" />}>
-                    <Link href="/bookmarks/password">Change Password</Link>
+                    <Link href="/settings/change-password">Change Password</Link>
                   </MenuItem>
                   <MenuItem icon={<IoIosPeople size="18px" />}>
-                    <Link href="/bookmarks/session">Session Management</Link>
+                    <Link href="/settings/session">Session Management</Link>
                   </MenuItem>
                   <MenuItem icon={<RiDeleteBin5Line size="18px" />}>
-                    <Link href="/bookmarks/deleteaccount">Delete Account</Link>
+                    <Link href="/settings/delete-account">Delete Account</Link>
                   </MenuItem>
                 </div>
               </SubMenu>
@@ -311,21 +311,21 @@ function ProfileNavItem({
               <SubMenu title="Calls" icon={<FiPhoneCall size="20px" />}>
                 <div className="space-y-4">
                   <MenuItem className="text-xs" icon={<IoVideocam />}>
-                    <Link href="/bookmarks/videocall">Videos Calls</Link>
+                    <Link href="/calls/video-call">Videos Calls</Link>
                   </MenuItem>
                   <MenuItem className="text-xs" icon={<GiSpeaker />}>
-                    <Link href="/bookmarks/audiocall">Audios Calls</Link>
+                    <Link href="/calls/audio-call">Audios Calls</Link>
                   </MenuItem>
                 </div>
               </SubMenu>
 
               <SubMenu title="List" icon={<BsListStars size="20px" />}>
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/fans">Fans</Link>
+                  <Link href="/list/fans">Fans</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/referrals">Following</Link>
+                  <Link href="/referrals">Following</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
@@ -346,7 +346,7 @@ function ProfileNavItem({
                 className="text-gray-600"
                 style={{ color: referralsColor }}
               >
-                <Link href="/bookmarks/referrals">Referrals</Link>
+                <Link href="/referrals">Referrals</Link>
               </MenuItem>
 
               <SubMenu title="Market" icon={<FaShoppingBag />}>
@@ -375,10 +375,10 @@ function ProfileNavItem({
                   <Link href="/payment/your-cards">Your Cards</Link>
                 </MenuItem>
                 <MenuItem icon={<BsBank size="18px" />}>
-                  <Link href="/payment/addbank">Add Bank</Link>
+                  <Link href="/payment/add-bank">Add Bank</Link>
                 </MenuItem>
                 <MenuItem icon={<BiWallet size="18px" />}>
-                  <Link href="/payment/addbank">Wallet</Link>
+                  <Link href="/payment/wallet">Wallet</Link>
                 </MenuItem>
                 <MenuItem icon={<MdOutlinePayments size="18px" />}>
                   <Link href="/payment/my-payment">My Payments</Link>
@@ -404,13 +404,13 @@ function ProfileNavItem({
                   icon={<FaLock size="18px" />}
                   style={{ color: authColor }}
                 >
-                  <Link href="/bookmarks/auth2">Two Step Authentication</Link>
+                  <Link href="/settings/auth2">Two Step Authentication</Link>
                 </MenuItem>
                 <MenuItem icon={<AiFillSetting size="18px" />}>
-                  <Link href="/bookmarks/security">Availability Status</Link>
+                  <Link href="/settings/security">Availability Status</Link>
                 </MenuItem>
                 <MenuItem icon={<IoDocuments size="18px" />}>
-                  <Link href="/bookmarks/documents">Document</Link>
+                  <Link href="/settings/documents">Document</Link>
                 </MenuItem>
               </SubMenu>
 
@@ -422,13 +422,13 @@ function ProfileNavItem({
                   />
                 }
               >
-                <Link href="/bookmarks/contact">Help and Support</Link>
+                <Link href="/contact-us">Help and Support</Link>
               </MenuItem>
 
               <MenuItem
                 icon={<FaCrown size="20px" style={{ color: helpColor }} />}
               >
-                <Link href="/gopro">Go Pro</Link>
+                <Link href="/go-pro">Go Pro</Link>
               </MenuItem>
             </Menu>
           </ProSidebar>

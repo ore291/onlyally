@@ -117,7 +117,7 @@ const Profile = () => {
   const handleBlockUser = (event, status, user_id) => {
     event.preventDefault();
     setBlockUserStatus(status);
-    props.dispatch(
+    dispatch(
       saveBlockUserStart({
         user_id: user_id,
         is_other_profile: 1,
