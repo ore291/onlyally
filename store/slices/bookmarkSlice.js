@@ -166,7 +166,7 @@ export const BookmarkSlice = createSlice({
       state.bookmarkVideo = {
         inputData: action.payload,
         data: {
-          posts: [...state.bookmarkVideo.data.posts],
+          posts: [state.bookmarkVideo.data.posts],
         },
         loading: true,
         error: false,
@@ -214,9 +214,9 @@ export const BookmarkSlice = createSlice({
         inputData: {},
         loadingButtonContent: null,
         buttonDisable: false,
-      }
+      };
     },
-    deleteBookmarkFailure : (state, action) => {
+    deleteBookmarkFailure: (state, action) => {
       state.deleteBookmark = {
         data: {},
         loading: true,
@@ -224,14 +224,14 @@ export const BookmarkSlice = createSlice({
         inputData: {},
         loadingButtonContent: null,
         buttonDisable: false,
-      }
+      };
     },
-    
-    fetchBookmarksAudioStart : (state, action) => {
+
+    fetchBookmarksAudioStart: (state, action) => {
       state.bookmarkAudio = {
         inputData: action.payload,
         data: {
-          posts: [...state.bookmarkAudio.data.posts],
+          posts: [state.bookmarkAudio.data.posts],
         },
         loading: true,
         error: false,

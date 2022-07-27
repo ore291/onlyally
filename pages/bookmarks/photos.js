@@ -61,7 +61,7 @@ export default function Bookmarks() {
                 />
               ))
             ) : (
-              <p>No data bookmarked video</p>
+              <p>No data bookmarked photo</p>
             )}
           </div>
         </div>
