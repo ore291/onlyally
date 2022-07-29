@@ -11,6 +11,7 @@ import TipModal from "./tips/TipModal";
 import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentModal from "./helpers/PaymentModal";
+import { unFollowUserStart } from "../store/slices/followerSlice";
 const FansCard = ({user, i}) => {
   const userDetails = useSelector((state) => state.otherUser.userDetails);
   const deleteFav = useSelector((state) => state.fav.deleteFav);
@@ -32,7 +33,7 @@ const FansCard = ({user, i}) => {
       )
     }, [])
   
-    
+  
     
     const closeSendTipModal = () => {
       setSendTip(false);
@@ -40,6 +41,11 @@ const FansCard = ({user, i}) => {
 
     const removeFav = ()=> {
       dispatch(deleteFavStart())
+    }
+    const unFollowUser = () => {
+      dispatch(unFollowUserStart({
+        user_id : userDetails.data.user.user_id
+      }))
     }
 
     return(
@@ -72,7 +78,7 @@ const FansCard = ({user, i}) => {
                         <ul className="list-none">
                           <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Copy link to profile </li>
                           <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
-                          <li className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>
+                          <li onClick={unFollowUser} className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>
                         </ul>
                       </section>
                    }
