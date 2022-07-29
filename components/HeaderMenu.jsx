@@ -34,8 +34,8 @@ const HeaderMenu = () => {
   const user = useSelector(state => state.user.profile.data)
 
   useEffect(() => {
-    !wallet.data.user_wallet.remaining_formatted &&  dispatch(fetchWalletDetailsStart());
-  }, [wallet]);
+     dispatch(fetchWalletDetailsStart());
+  }, []);
 
   const logout = async () => {
     removeCookies("userId");
