@@ -25,7 +25,7 @@ const AddWalletAmountModal = (props) => {
 
   const wallet = useSelector((state) => state.wallet.walletData);
   const user = useSelector((state) => state.user.profile.data);
-  const fund = useSelector((state) => state.wallet.readyFund);
+  const fund = useSelector((state) => state.wallet.readyFund.start_fund);
   const test = useSelector((state) => state.wallet.fundWallet.data);
 
   //   useEffect(() => {
@@ -55,6 +55,7 @@ const AddWalletAmountModal = (props) => {
     setTimeout(() => {
       dispatch(fetchWalletDetailsStart());
       props.closeAddWalletAmountModal();
+       window.location.assign("/payment/wallet");
     }, 3000);
   };
 
@@ -100,10 +101,8 @@ const AddWalletAmountModal = (props) => {
 
   useEffect(() => {
     setConfig({ ...config, reference: test.user_wallet_payment_unique_id });
-    console.log(config)
-    config.reference != "" &&
-      initializePayment(onSuccess, onClose);
-  }, [test.user_wallet_payment_unique_id, config.reference]);
+    test.user_wallet_payment_unique_id  && config.reference != "" && fund && initializePayment(onSuccess, onClose);
+  }, [fund, test]);
 
   const initializePayment = usePaystackPayment(config);
 

@@ -1,8 +1,7 @@
 import { call, select, put, takeLatest, all } from "redux-saga/effects";
-import { setCookies } from 'cookies-next';
+import { setCookies } from "cookies-next";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import api from "../../Environment";
-
 
 import {
   fetchUserDetailsSuccess,
@@ -21,7 +20,20 @@ import {
   registerSuccess,
   registerFailure,
   fetchContentCreatorDashboardFailure,
-  fetchContentCreatorDashboardSuccess
+  fetchContentCreatorDashboardSuccess,
+  twoStepAuthUpdateStart,
+  twoStepAuthUpdateSuccess,
+  twoStepAuthUpdateFailure,
+  twoStepAuthenticationLoginStart,
+  twoStepAuthenticationLoginSuccess,
+  twoStepAuthenticationLoginFailure,
+  twoStepAuthenticationCodeResendStart,
+  twoStepAuthenticationCodeResendSuccess,
+  twoStepAuthenticationCodeResendFailure,
+  fetchBlockUsersSuccess,
+  fetchBlockUsersFailure,
+  saveBlockUserSuccess,
+  saveBlockUserFailure,
 } from "../slices/userSlice";
 
 import { notify } from "reapop";
@@ -30,7 +42,7 @@ function* getUserDetailsAPI(action) {
   if (action.payload) {
     var accessToken = action.payload.accessToken;
     var userId = action.payload.userId;
-  }else{
+  } else {
     var accessToken = null;
     var userId = null;
   }
@@ -43,9 +55,12 @@ function* getUserDetailsAPI(action) {
     });
 
     if (response.data.success) {
-      yield put(fetchUserDetailsSuccess(
-        { ...response.data.data, u_category_id : response.data.data.selected_category.u_category_id }
-        ));
+      yield put(
+        fetchUserDetailsSuccess({
+          ...response.data.data,
+          u_category_id: response.data.data.selected_category.u_category_id,
+        })
+      );
       if (typeof window !== "undefined") {
         localStorage.setItem("user_picture", response.data.data.picture);
         localStorage.setItem(
@@ -106,7 +121,10 @@ function* getUserDetailsAPI(action) {
 function* updateUserDetailsAPI() {
   try {
     const userData = yield select((state) => state.user.profileInputData.data);
-    const response = yield api.postMethod({action : "update_profile", object : userData});
+    const response = yield api.postMethod({
+      action: "update_profile",
+      object: userData,
+    });
     if (response.data.success) {
       yield put(updateUserDetailsSuccess(response.data));
       localStorage.setItem("user_picture", response.data.data.picture);
@@ -136,10 +154,8 @@ function* updateUserDetailsAPI() {
       yield put(notify({ message: response.data.message, status: "success" }));
       window.location.assign("/profile");
     } else {
-      yield put(
-        notify({ message: response.data.error, status: "error" })
-      );
-      yield put(updateUserDetailsFailure( response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+      yield put(updateUserDetailsFailure(response.data.error));
     }
   } catch (error) {
     yield put(updateUserDetailsFailure(error.message));
@@ -150,7 +166,10 @@ function* updateUserDetailsAPI() {
 function* userLoginAPI() {
   try {
     const userData = yield select((state) => state.user.loginInputData.data);
-    const response = yield api.postMethod({action: "login",object: userData});
+    const response = yield api.postMethod({
+      action: "login",
+      object: userData,
+    });
     yield put(loginSuccess(response.data));
     yield put(fetchUserLoginSuccess(response.data));
     if (response.data.success) {
@@ -158,12 +177,12 @@ function* userLoginAPI() {
         window.location.assign("/register/verify");
       else {
         if (response.data.code == 240) {
-         
-          yield put(notify({message: response.data.message, status:"success"}));
+          yield put(
+            notify({ message: response.data.message, status: "success" })
+          );
           window.location.assign("/verification");
           localStorage.setItem("emailId", response.data.data.email);
         } else {
-          
           localStorage.setItem("userLoginStatus", true);
           localStorage.setItem("user_picture", response.data.data.picture);
           localStorage.setItem("user_cover", response.data.data.cover);
@@ -197,21 +216,20 @@ function* userLoginAPI() {
             response.data.data.is_two_step_auth_enabled
           );
           localStorage.setItem("emailId", response.data.data.email);
-          yield put(notify({ message: response.data.message , status: "success"}));
+          yield put(
+            notify({ message: response.data.message, status: "success" })
+          );
           localStorage.setItem("userId", response.data.data.user_id);
           localStorage.setItem("accessToken", response.data.data.token);
-          setCookies('userId', response.data.data.user_id);
-          setCookies('accessToken',  response.data.data.token);
-          setCookies('user_picture', response.data.data.picture);
-          
+          setCookies("userId", response.data.data.user_id);
+          setCookies("accessToken", response.data.data.token);
+          setCookies("user_picture", response.data.data.picture);
+
           window.location.assign("/");
-         
         }
       }
     } else {
-      yield put(
-        notify({ message: response.data.error, status: "error" })
-      );
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(loginFailure(error.message));
@@ -221,10 +239,11 @@ function* userLoginAPI() {
 
 function* userRegisterAPI() {
   try {
-    const userData = yield select(
-      (state) => state.user.registerInputData.data
-    );
-    const response = yield api.postMethod({action : "register", object :  userData});
+    const userData = yield select((state) => state.user.registerInputData.data);
+    const response = yield api.postMethod({
+      action: "register",
+      object: userData,
+    });
     yield put(registerSuccess(response.data));
 
     if (response.data.success) {
@@ -266,13 +285,11 @@ function* userRegisterAPI() {
             // redirect: false,
             email: userData.email,
             password: userData.password,
-          })
+          });
         }
       }
     } else {
-      yield put(
-        notify({ message: response.data.error, status: "error" })
-      );
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(registerFailure(error));
@@ -506,20 +523,17 @@ function* getPaymentsAPI() {
 
 function* fetchBlockUsersAPI() {
   try {
-    const response = yield api.postMethod("block_users");
+    const response = yield api.postMethod({ action: "block_users" });
     if (response.data.success) {
       yield put(fetchBlockUsersSuccess(response.data.data));
     } else {
       yield put(fetchBlockUsersFailure(response.data.error.error));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(notify(notificationMessage));
+      yield put(notify({ mesage: response.data.error.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchBlockUsersFailure(error));
     const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(notify(notificationMessage));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -528,13 +542,13 @@ function* saveBlockUserAPI() {
     const inputData = yield select(
       (state) => state.users.saveBlockUser.inputData
     );
-    const response = yield api.postMethod("block_users_save", inputData);
+    const response = yield api.postMethod({
+      action: "block_users_save",
+      object: inputData,
+    });
     if (response.data.success) {
       yield put(saveBlockUserSuccess(response.data.data));
-      const notificationMessage = getSuccessNotificationMessage(
-        response.data.message
-      );
-      yield put(notify(notificationMessage));
+      yield put(notify({ message: response.data.message, status: "success" }));
 
       localStorage.setItem(
         "total_followers",
@@ -550,15 +564,13 @@ function* saveBlockUserAPI() {
       }
     } else {
       yield put(saveBlockUserFailure(response.data.error.error));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
+      yield put(
+        notify({ message: response.data.error.error, status: "error" })
       );
-      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(saveBlockUserFailure(error));
-    const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(notify(notificationMessage));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -612,17 +624,20 @@ function* usernameValidationAPI() {
     const inputData = yield select(
       (state) => state.user.validationInputData.data
     );
-    const response = yield api.postMethod({action: "username_validation",object : inputData});
+    const response = yield api.postMethod({
+      action: "username_validation",
+      object: inputData,
+    });
     yield put(userNameValidationSuccess(response.data));
     if (response.data.success) {
     } else {
       yield put(userNameValidationFailure(response.data.error));
 
-      yield put(notify({ message: response.data.error , status : "error" }));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(userNameValidationFailure(error));
-    yield put(notify({ message: error.message , status : "error"}));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -631,24 +646,29 @@ function* referralValidationAPI() {
     const inputData = yield select(
       (state) => state.user.referralInputData.data
     );
-    const response = yield api.postMethod({action : "referral_code_validate",object :  inputData});
+    const response = yield api.postMethod({
+      action: "referral_code_validate",
+      object: inputData,
+    });
     yield put(referralValidationSuccess(response.data));
     if (response.data.success) {
-      yield put(notify({message : response.data.message, status: "success"}));
+      yield put(notify({ message: response.data.message, status: "success" }));
     } else {
       yield put(referralValidationFailure(response));
-      yield put(notify({message : response.data.error, status: "error"}));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(referralValidationFailure(error.message));
-   
-    yield put(notify({message : error.message, status: "error"}));
+
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 function* getContentCreatorDashboardAPI() {
   try {
-    const response = yield api.postMethod({action : "content_creators_dashboard"});
+    const response = yield api.postMethod({
+      action: "content_creators_dashboard",
+    });
 
     if (response.data.success) {
       yield put(fetchContentCreatorDashboardSuccess(response.data));
@@ -656,11 +676,11 @@ function* getContentCreatorDashboardAPI() {
       yield put(fetchContentCreatorDashboardFailure(response.data.error));
       // always change checkLogoutstatus to errorLogoutcheck
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({message: response.data.error, status: "error"}));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchContentCreatorDashboardFailure(error));
-    yield put(notify({message: error.message, status: "error"}));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -716,39 +736,12 @@ function* updateUserSubscriptionDetailsAPI() {
   }
 }
 
-function* twoStepAuthenticationUpdateAPI(action) {
-  try {
-    const response = yield api.postMethod("two_step_auth_update", action.data);
-
-    if (response.data.success) {
-      yield put(twoStepAuthUpdateSuccess(response.data));
-      localStorage.setItem(
-        "is_two_step_auth_enabled",
-        response.data.data.is_two_step_auth_enabled
-      );
-      const notificationMessage = getSuccessNotificationMessage(
-        response.data.message
-      );
-      yield put(notify(notificationMessage));
-    } else {
-      yield put(twoStepAuthUpdateFAilure(response.data.error.error));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(notify(notificationMessage));
-    }
-  } catch (error) {
-    yield put(twoStepAuthUpdateFAilure(error));
-    const notificationMessage = getErrorNotificationMessage(
-      error.response.data.error.error
-    );
-    yield put(notify(notificationMessage));
-  }
-}
-
 function* twoStepAuthenticationLoginAPI(action) {
   try {
-    const response = yield api.postMethod("two_step_auth_login", action.data);
+    const response = yield api.postMethod({
+      action: "two_step_auth_login",
+      object: action.data,
+    });
     yield put(twoStepAuthenticationLoginSuccess(response.data));
     if (response.data.success) {
       if (response.data.code == 1001)
@@ -796,57 +789,78 @@ function* twoStepAuthenticationLoginAPI(action) {
         localStorage.setItem("accessToken", response.data.data.token);
       }
     } else {
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
+      yield put(
+        notify({ message: response.data.error.error, status: "error" })
       );
-      yield put(notify(notificationMessage));
       yield put(twoStepAuthenticationLoginFailure(response.data.error.error));
     }
   } catch (error) {
     yield put(twoStepAuthenticationLoginFailure(error));
-    const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(notify(notificationMessage));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 function* twoStepAuthenticationCodeResendAPI(action) {
   try {
-    const response = yield api.postMethod(
-      "two_step_auth_resend_code",
-      action.data
-    );
+    const response = yield api.postMethod({
+      action: "two_step_auth_resend_code",
+      object: action.data,
+    });
 
     if (response.data.success) {
       yield put(twoStepAuthenticationCodeResendSuccess(response.data));
-      const notificationMessage = getSuccessNotificationMessage(
-        response.data.message
-      );
-      yield put(notify(notificationMessage));
+
+      yield put(notify({ message: response.data.message, status: "success" }));
     } else {
       yield put(
         twoStepAuthenticationCodeResendFailure(response.data.error.error)
       );
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
+      yield put(
+        notify({ message: response.data.error.error, status: "error" })
       );
-      yield put(notify(notificationMessage));
     }
   } catch (error) {
     yield put(twoStepAuthenticationCodeResendFailure(error));
-    const notificationMessage = getErrorNotificationMessage(
-      error.response.data.error.error
+
+    yield put(
+      notify({ message: error.response.data.error.error, status: "error" })
     );
-    yield put(notify(notificationMessage));
+  }
+}
+
+function* twoStepAuthenticationUpdateAPI(action) {
+  try {
+    const response = yield api.postMethod({
+      action: "two_step_auth_update",
+      object: action.data,
+    });
+
+    if (response.data.success) {
+      yield put(twoStepAuthUpdateSuccess(response.data));
+      localStorage.setItem(
+        "is_two_step_auth_enabled",
+        response.data.data.is_two_step_auth_enabled
+      );
+
+      yield put(notify({ message: response.data.message, status: "success" }));
+    } else {
+      yield put(twoStepAuthUpdateFailure(response.data.error));
+
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(twoStepAuthUpdateFailure(error));
+    yield put(notify({ message: error.response.data.error, status: "error" }));
   }
 }
 
 export default function* pageSaga() {
   yield all([
     yield takeLatest("user/fetchUserDetailsStart", getUserDetailsAPI),
-      yield takeLatest("user/updateUserDetailsStart", updateUserDetailsAPI),
+    yield takeLatest("user/updateUserDetailsStart", updateUserDetailsAPI),
     //   yield takeLatest(UPDATE_USER_SUBSCRIPTION_DETAILS_START, updateUserSubscriptionDetailsAPI),
-      yield takeLatest("user/loginStart", userLoginAPI),
-      yield takeLatest("user/registerStart", userRegisterAPI),
+    yield takeLatest("user/loginStart", userLoginAPI),
+    yield takeLatest("user/registerStart", userRegisterAPI),
     //   yield takeLatest(FORGOT_PASSWORD_START, forgotPasswordAPI),
     //   yield takeLatest(DELETE_ACCOUNT_START, deleteAccountAPI),
     //   yield takeLatest(REGISTER_VERIFY_START, registerVerify),
@@ -856,18 +870,30 @@ export default function* pageSaga() {
     //     notificationStatusUpdateAPI
     //   ),
     //   yield takeLatest(FETCH_PAYMENTS_START, getPaymentsAPI),
-    //   yield takeLatest(FETCH_BLOCK_USERS_START, fetchBlockUsersAPI),
-    //   yield takeLatest(SAVE_BLOCK_USER_START, saveBlockUserAPI),
+    yield takeLatest("user/fetchBlockUsersStart", fetchBlockUsersAPI),
+    yield takeLatest("user/saveBlockUserStart", saveBlockUserAPI),
     //   yield takeLatest(
     //     USER_VERIFY_BADGE_STATUS_START,
     //     verificationBadgeStatusUpdateAPI
     //   ),
     //   yield takeLatest(RESET_PASSWORD_START, resetPasswordAPI),
-      yield takeLatest('user/userNameValidationStart', usernameValidationAPI),
-      yield takeLatest('user/referralValidationStart', referralValidationAPI),
-      yield takeLatest('user/fetchContentCreatorDashboardStart', getContentCreatorDashboardAPI),
-    //   yield takeLatest(TWO_STEP_AUTH_UPDATE_START, twoStepAuthenticationUpdateAPI),
-    //   yield takeLatest(TWO_STEP_AUTHENTICATION_LOGIN_START, twoStepAuthenticationLoginAPI),
-    //   yield takeLatest(TWO_STEP_AUTHENTICATION_CODE_RESEND_START, twoStepAuthenticationCodeResendAPI)
+    yield takeLatest("user/userNameValidationStart", usernameValidationAPI),
+    yield takeLatest("user/referralValidationStart", referralValidationAPI),
+    yield takeLatest(
+      "user/fetchContentCreatorDashboardStart",
+      getContentCreatorDashboardAPI
+    ),
+    yield takeLatest(
+      "user/twoStepAuthUpdateStart",
+      twoStepAuthenticationUpdateAPI
+    ),
+    yield takeLatest(
+      "user/twoStepAuthenticationLoginStart",
+      twoStepAuthenticationLoginAPI
+    ),
+    yield takeLatest(
+      "user/twoStepAuthenticactionCodeResendStart",
+      twoStepAuthenticationCodeResendAPI
+    ),
   ]);
 }

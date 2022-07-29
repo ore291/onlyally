@@ -50,12 +50,11 @@ function* addMoneyViaPaystackAPI(action) {
         amount: action.payload
       },
     });
-    console.log(response);
     if (response.data.success) {
       yield put(initializePaystackSuccess(response.data.data));
       yield put(notify({ message: response.data.message, status: "success" }));
       yield put(setPaystackInfo(response.data.data.user_wallet_payment_unique_id))
-      // window.location.assign("/payment/wallet");
+ 
     } else {
       yield put(initializePaystackFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));

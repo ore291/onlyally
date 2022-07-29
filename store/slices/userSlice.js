@@ -706,6 +706,87 @@ export const UserSlice = createSlice({
         error: action.payload,
       };
     },
+    twoStepAuthUpdateStart: (state, action) => {
+      state.twoStepAuthUpdate = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    twoStepAuthUpdateSuccess: (state, action) => {
+      state.twoStepAuthUpdate = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthUpdateFailure: (state, action) => {
+      state.twoStepAuthUpdate = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthenticationLoginStart: (state, action) => {
+      state.twoStepAuthLogin = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    twoStepAuthenticationLoginSuccess: (state, action) => {
+      state.twoStepAuthLogin = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthenticationLoginFailure: (state, action) => {
+      state.twoStepAuthLogin = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthenticationCodeResendStart: (state, action) => {
+      state.twoStepAuthCodeResend = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    twoStepAuthenticationCodeResendSuccess: (state, action) => {
+      state.twoStepAuthCodeResend = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthenticationCodeResendFailure: (state, action) => {
+      state.twoStepAuthCodeResend = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
   },
 
   extraReducers: {
@@ -777,7 +858,16 @@ export const {
   referralValidationFailure,
   fetchContentCreatorDashboardStart,
   fetchContentCreatorDashboardFailure,
-  fetchContentCreatorDashboardSuccess
+  fetchContentCreatorDashboardSuccess,
+  twoStepAuthUpdateStart,
+  twoStepAuthUpdateSuccess,
+  twoStepAuthUpdateFailure,
+  twoStepAuthenticationLoginStart,
+  twoStepAuthenticationLoginSuccess,
+  twoStepAuthenticationLoginFailure,
+  twoStepAuthenticationCodeResendStart,
+  twoStepAuthenticationCodeResendSuccess,
+  twoStepAuthenticationCodeResendFailure
 } = UserSlice.actions;
 
 export default UserSlice.reducer;

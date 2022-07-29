@@ -21,7 +21,7 @@ const initialState = {
   },
   deleteFav: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
     inputData: {},
     loadingButtonContent: null,
