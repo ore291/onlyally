@@ -38,7 +38,7 @@ const FansCard = ({user, i}) => {
     const closeSendTipModal = () => {
       setSendTip(false);
     };
-
+   console.log(user)
     const removeFav = ()=> {
       dispatch(deleteFavStart())
     }
@@ -66,7 +66,7 @@ const FansCard = ({user, i}) => {
      user_id={userDetails.data.user.user_id}
     />
      }
-                    <div className="bg-[url('/images/settings/grey.jpg')] h-32 flex justify-end items-end">
+                    <div className=" h-32 flex justify-end items-end"  style={{backgroundImage: `url(${user?.cover})`, backgroundSize: "cover"}}>
                       {/* <p className="text-white text-3xl">...</p> */}
                       <BsThreeDots onClick={() => setOpenFansCardOption(!openFansCardOption)} size="23" className="text-white  mr-3 m-1 cursor-pointer  hover:border-2 p-1 hover:rounded-full"/>
                     </div>
