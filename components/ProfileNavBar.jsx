@@ -205,14 +205,14 @@ function ProfileNavItem({
                   <MenuItem icon={<MdOutlinePayments size="18px" />}>
                     <Link href="/payment/my-payment">My Payments</Link>
                   </MenuItem>
-                  <MenuItem icon={<GiPlayerNext size="18px" />}>
+                  {/* <MenuItem icon={<GiPlayerNext size="18px" />}>
                     <Link href="/payment/subscription">My Subscriptions</Link>
                   </MenuItem>
                   <MenuItem icon={<MdSubscriptions size="18px" />}>
                     <Link href="/payment/transaction-history">
                       My Subscribers
                     </Link>
-                  </MenuItem>
+                  </MenuItem> */}
                 </SubMenu>
 
                 <SubMenu
@@ -383,14 +383,14 @@ function ProfileNavItem({
                 <MenuItem icon={<MdOutlinePayments size="18px" />}>
                   <Link href="/payment/my-payment">My Payments</Link>
                 </MenuItem>
-                <MenuItem icon={<GiPlayerNext size="18px" />}>
+                {/* <MenuItem icon={<GiPlayerNext size="18px" />}>
                   <Link href="/payment/subscription">My Subscriptions</Link>
                 </MenuItem>
                 <MenuItem icon={<MdSubscriptions size="18px" />}>
                   <Link href="/payment/transaction-history">
                     My Subscribers
                   </Link>
-                </MenuItem>
+                </MenuItem> */}
               </SubMenu>
 
               <SubMenu

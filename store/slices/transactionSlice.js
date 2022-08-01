@@ -48,7 +48,7 @@ const initialState = {
       fetchAllTransactionFailure: (state, action) => {
         state.allTransaction = {
           data: {},
-          loading: true,
+          loading: false,
           error: action.payload,
         };
       },
@@ -125,6 +125,9 @@ const initialState = {
         return state;
       }
       state.allTransaction = action.payload.transaction.allTransaction;
+      state.sentPayTrans = action.payload.transaction.sentPayTrans;
+      state.receivedPayTrans = action.payload.transaction.receivedPayTrans;
+      state.depositTrans = action.payload.transaction.depositTrans;
      
     },
   },

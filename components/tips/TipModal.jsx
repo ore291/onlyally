@@ -61,6 +61,7 @@ const TipModal = (props) => {
               : "",
           amount: amount,
           user_id: props.user_id,
+          pro_balance : true
         })
       );
     }, 1000);
@@ -96,6 +97,7 @@ const TipModal = (props) => {
           amount: amount,
           message: message,
           user_id: props.user_id,
+          pro_balance : true
         })
       );
 

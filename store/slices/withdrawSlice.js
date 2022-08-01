@@ -174,6 +174,17 @@ export const WithdrawSlice = createSlice({
       };
     },
   },
+
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.withdraw.withDrawals) {
+        return state;
+      }
+      state.withDrawals = action.payload.withdraw.withDrawals;
+     
+    },
+  },
 });
 
 export const {

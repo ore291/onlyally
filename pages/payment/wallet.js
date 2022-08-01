@@ -50,7 +50,7 @@ const Wallet = () => {
                 <BalanceCard
                   title="PRO BALANCE"
                   Icon={BiDollarCircle}
-                  balance={wallet.data?.user_wallet.pro_balance}
+                  balance={"₦" + wallet.data?.user_wallet.pro_balance}
                 />
                 <BalanceCard
                   title="REFERRAL BALANCE"
@@ -72,6 +72,12 @@ const Wallet = () => {
                 onClick={() => setWithdrawModal(true)}
               >
                 <p className="text-sm font-semibold">Withdraw</p>
+              </div>
+              <div
+                className="cursor-pointer rounded-full h-8 bg-white row-container"
+                // onClick={() => setWithdrawModal(true)}
+              >
+                <p className="text-sm font-semibold">Send Money</p>
               </div>
             </div>
           </div>
