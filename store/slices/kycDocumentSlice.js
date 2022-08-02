@@ -4,7 +4,7 @@ import { HYDRATE } from "next-redux-wrapper";
 const initialState = {
   addKycDocInput: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
     inputData: {},
     buttonDisable: false,

@@ -55,7 +55,6 @@ const DesignSettings = () => {
               onChange={coverChange}
               type="file"
               id="add-cover-img"
-              accept="image/jpeg"
               className="opacity-0 h-0"
             />
           </div>
@@ -94,14 +93,18 @@ const DesignSettings = () => {
               onChange={imageChange}
               type="file"
               id="add-single-img"
-              accept="image/jpeg"
               className="opacity-0 h-0"
             />
           </div>
         </div>
-        <br/>
+        <br />
         <div className="w-full row-container mt-12 ">
-          <button type="submit" className="w-32 h-9 rounded-md  bg-lightPlayRed text-white font-medium text-sm row-container">Save</button>
+          <button
+            type="submit"
+            className="w-32 h-9 rounded-md  bg-lightPlayRed text-white font-medium text-sm row-container"
+          >
+            Save
+          </button>
         </div>
       </form>
     </>

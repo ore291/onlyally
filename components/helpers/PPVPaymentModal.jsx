@@ -97,6 +97,7 @@ const PPVPaymentModal = (props) => {
         ppvPaymentWalletStart({
           post_id: props.post_id != undefined || props.post_id != null ? props.post_id : "", 
           user_id: props.user_id,
+          pro_balance : true
         })
       );
 

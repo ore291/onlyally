@@ -110,6 +110,7 @@ const PaymentModal = ({
           user_unique_id: user_unique_id,
           plan_type: subscriptionData.plan_type,
           is_free: subscriptionData.is_free,
+          pro_balance : true
         })
       );
   };
