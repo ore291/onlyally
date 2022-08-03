@@ -206,7 +206,7 @@ const NewsFeedCard = ({ post, index }) => {
   return (
     <>
       {postDisplayStatus == true ? (
-        <div className="sm:rounded-2xl bg-white sm:border shadow-md w-full ">
+        <div className="sm:rounded-2xl bg-white sm:border shadow-md w-full cursor-pointer">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b">
             <Link passHref href={`/profile/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
@@ -249,54 +249,59 @@ const NewsFeedCard = ({ post, index }) => {
                       <BsThreeDots className="h-6 w-6 font-semibold rotate-90 lg:rotate-0" />
                     </Popover.Button>
                     {open && (
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-200"
-                      enterFrom="opacity-0 translate-y-1"
-                      enterhref="opacity-100 translate-y-0"
-                      leave="transition ease-in duration-150"
-                      leaveFrom="opacity-100 translate-y-0"
-                      leavehref="opacity-0 translate-y-1"
-                    >
-                      <Popover.Panel static className="absolute z-10 w-[250px] lg:w-[20vw]  mt-3 transform shadow-md right-4 lg:translate-x-1/2 sm:px-0 lg:max-w-3xl">
-                        <div className="overflow-hidden rounded-lg ">
-                          <div className="relative grid gap-y-2 bg-white p-1 grid-cols-1">
-                            <CopyToClipboard
-                              text={post.share_link}
-                              onCopy={() => console.log("notification copied")}
-                            >
-                              <div className="hover:bg-gray-100 hover:text-red-500  border-b h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                <p className="font-bold text-xs">
-                                  Copy link to post
-                                </p>
-                              </div>
-                            </CopyToClipboard>
-                            {userId != post.user_id ? (
-                              <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                {/* onClick={() => setReportMode(true)} */}
-                                <p className="font-bold text-xs">Report</p>
-                              </div>
-                            ) : null}
-                            {userId != post.user_id ? (
-                              <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                <p className="font-bold text-xs">
-                                  {/* onClick={(event) => handleBlockUser(event, post)} */}
-                                  Add to blocklists.
-                                </p>
-                              </div>
-                            ) : null}
-                            {post.delete_btn_status == 1 ? (
-                              <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                <p className="font-bold text-xs">
-                                  {/* onClick={(event) => handleDeletePost(event, post)} */}
-                                  Delete Post.
-                                </p>
-                              </div>
-                            ) : null}
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="opacity-0 translate-y-1"
+                        enterhref="opacity-100 translate-y-0"
+                        leave="transition ease-in duration-150"
+                        leaveFrom="opacity-100 translate-y-0"
+                        leavehref="opacity-0 translate-y-1"
+                      >
+                        <Popover.Panel
+                          static
+                          className="absolute z-10 w-[250px] lg:w-[20vw]  mt-3 transform shadow-md right-4 lg:translate-x-1/2 sm:px-0 lg:max-w-3xl"
+                        >
+                          <div className="overflow-hidden rounded-lg ">
+                            <div className="relative grid gap-y-2 bg-white p-1 grid-cols-1">
+                              <CopyToClipboard
+                                text={post.share_link}
+                                onCopy={() =>
+                                  console.log("notification copied")
+                                }
+                              >
+                                <div className="hover:bg-gray-100 hover:text-red-500  border-b h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                                  <p className="font-bold text-xs">
+                                    Copy link to post
+                                  </p>
+                                </div>
+                              </CopyToClipboard>
+                              {userId != post.user_id ? (
+                                <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                                  {/* onClick={() => setReportMode(true)} */}
+                                  <p className="font-bold text-xs">Report</p>
+                                </div>
+                              ) : null}
+                              {userId != post.user_id ? (
+                                <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                                  <p className="font-bold text-xs">
+                                    {/* onClick={(event) => handleBlockUser(event, post)} */}
+                                    Add to blocklists.
+                                  </p>
+                                </div>
+                              ) : null}
+                              {post.delete_btn_status == 1 ? (
+                                <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                                  <p className="font-bold text-xs">
+                                    {/* onClick={(event) => handleDeletePost(event, post)} */}
+                                    Delete Post.
+                                  </p>
+                                </div>
+                              ) : null}
+                            </div>
                           </div>
-                        </div>
-                      </Popover.Panel>
-                    </Transition>
+                        </Popover.Panel>
+                      </Transition>
                     )}
                   </>
                 )}

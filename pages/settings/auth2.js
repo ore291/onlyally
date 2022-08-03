@@ -1,10 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import ProfileNavItem from "../../components/ProfileNavBar";
+import { twoStepAuthUpdateStart } from "../../store/slices/userSlice";
 import Switch from "react-switch";
-
+import { AiFillEyeInvisible } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { AiFillEye } from "react-icons/ai";
 export default function Auth2() {
-  const [checked, setChecked] = useState(false);
+  const [password, setPassword] = useState("");
+  const [twoFactor, setTwoFactor] = useState(false);
+  const [seePassword, setSeePassword] = useState(true);
+  useEffect(() => {
+    setTwoFactor(
+      localStorage.getItem("is_two_step_auth_enabled") != undefined
+        ? localStorage.getItem("is_two_step_auth_enabled") == 1
+          ? true
+          : false
+        : false
+    );
+  }, []);
+  const dispatch = useDispatch();
+  const changeSeePassword = () => {
+    setSeePassword((prev) => !prev);
+  };
+  const handleSubmit = () => {
+    dispatch(twoStepAuthUpdateStart({ password: password }));
+    setPassword("");
+  };
+  const [checked, setChecked] = useState(twoFactor);
   const handleChange = (nextChecked) => {
     setChecked(nextChecked);
   };
@@ -34,16 +57,37 @@ export default function Auth2() {
                 <p className="font-medium">{checked ? "Enable" : "Disable"} </p>
               </div>
             </div>
-
-            <form>
-              <label className="font-medium">Password</label>
-              <input type="password" className="input-form bg-white" />
-            </form>
-            <div className="text-center">
-              <button className="btn bg-red-600 uppercase text-base rounded-lg">
-                Submit
-              </button>
-            </div>
+            {checked && (
+              <>
+                <form>
+                  <label className="font-medium ml-6 mb-4">Password</label>
+                  <div className="relative ">
+                    <input
+                      onChange={(e) => setPassword(e.target.value)}
+                      type={seePassword ? "text" : "password"}
+                      className="w-full bg-white-900 m-4 rounded-full placeholder-[white] border-[rgba(0,0,0,0.05)]"
+                      placeholder="enter your password"
+                      value={password}
+                    />
+                    <div className="cursor-pointer" onClick={changeSeePassword}>
+                      {seePassword ? (
+                        <AiFillEye className="right-[30px] absolute top-[30px] bg-white rounded-xl" />
+                      ) : (
+                        <AiFillEyeInvisible className="right-[30px] absolute top-[30px] bg-white rounded-xl" />
+                      )}
+                    </div>
+                  </div>
+                </form>
+                <div className="text-center">
+                  <button
+                    onClick={handleSubmit}
+                    className="btn bg-red-600 font-bold uppercase text-base rounded-xl"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </>
+            )}
           </section>
         </div>
       </div>

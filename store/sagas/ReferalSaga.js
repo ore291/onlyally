@@ -3,32 +3,33 @@ import api from "../../Environment";
 import { notify } from "reapop";
 
 import {
-    getReferralSuccess,
-    getReferralFailure,
-    getReferralStart,
+  getReferralSuccess,
+  getReferralFailure,
+  getReferralStart,
 } from "../slices/referalSlice";
 
 import { errorLogoutCheck } from "../slices/errorSlice";
 
-
 function* getReferralAPI(action) {
   try {
     const response = yield api.postMethod({
-      action: "referral_code", 
+      action: "referral_code",
+      // accessToken: localStorage.getItem("accessToken"),
     });
-    yield put(getReferralSuccess(response.data.data));
+
     if (response.data.success) {
+      yield put(getReferralSuccess(response.data.data));
     } else {
       yield put(getReferralFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({message:response.data.error,status:'error'}));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(getReferralFailure(error));
-    yield put(notify({message:error.message,status:'error'}));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 export default function* pageSaga() {
-  yield all([yield takeLatest('referal/getReferralStart', getReferralAPI)]);
+  yield all([yield takeLatest("referal/getReferralStart", getReferralAPI)]);
 }

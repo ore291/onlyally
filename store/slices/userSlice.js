@@ -145,6 +145,13 @@ const initialState = {
     buttonDisable: false,
     loadingButtonContent: null,
   },
+  upgradePackage: {
+    data: {},
+    loading: false,
+    error: false,
+    buttonDisable: false,
+    loadingButtonContent: null,
+  },
 };
 
 export const UserSlice = createSlice({
@@ -795,6 +802,22 @@ export const UserSlice = createSlice({
         loadingButtonContent: null,
       };
     },
+<<<<<<< HEAD
+    upgradePackageStart: (state, action) => {
+      state.upgradePackage = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    upgradePackageSuccess: (state, action) => {
+      state.upgradePackage = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+=======
     updateUserStart: (state, action) => {
       state.onlineStatus = {
         data: {},
@@ -811,16 +834,25 @@ export const UserSlice = createSlice({
         loading: false,
         error: false,
         inputData: {},
+>>>>>>> de08c73bea10c4b796762edfd1c84fe6a8c66940
         buttonDisable: false,
         loadingButtonContent: null,
       };
     },
+<<<<<<< HEAD
+    upgradePackageFailure: (state, action) => {
+      state.upgradePackage = {
+        data: {},
+        loading: false,
+        error: action.payload,
+=======
     updateUserFailure: (state, action) => {
       state.onlineStatus = {
         data: {},
         loading: false,
         error: action.payload,
         inputData: {},
+>>>>>>> de08c73bea10c4b796762edfd1c84fe6a8c66940
         buttonDisable: false,
         loadingButtonContent: null,
       };
@@ -909,6 +941,12 @@ export const {
   twoStepAuthenticationCodeResendStart,
   twoStepAuthenticationCodeResendSuccess,
   twoStepAuthenticationCodeResendFailure,
+<<<<<<< HEAD
+  upgradePackageStart,
+  upgradePackageSuccess,
+  upgradePackageFailure,
+=======
+>>>>>>> de08c73bea10c4b796762edfd1c84fe6a8c66940
 } = UserSlice.actions;
 
 export default UserSlice.reducer;

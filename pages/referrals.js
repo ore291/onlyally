@@ -1,9 +1,15 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import ProfileNavItem from "../components/ProfileNavBar";
 import { MdPeopleAlt } from "react-icons/md";
 import { BsShare } from "react-icons/bs";
-
+import { getReferralStart } from "../store/slices/referalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import Head from "next/head";
 export default function Referrals() {
+  const dispatch = useDispatch();
+
+  dispatch(getReferralStart());
+
   const logos = [
     {
       id: 1,
@@ -76,6 +82,7 @@ export default function Referrals() {
       desc: "You can share with as many friends and family as you like",
     },
   ];
+
   return (
     <>
       <div className="flex flex-col justify-center lg:flex-row">
@@ -107,7 +114,7 @@ export default function Referrals() {
                   {logos.map((logo) => (
                     <section
                       key={logo.id}
-                      className="shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit"
+                      className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit"
                     >
                       <img src={logo.image} alt="logo" width="50px" />
                       <p className="font-bold text-sm">{logo.logoName}</p>

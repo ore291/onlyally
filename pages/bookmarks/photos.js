@@ -9,6 +9,7 @@ import { BiChevronDown } from "react-icons/bi";
 import { fetchBookmarksPhotoStart } from "../../store/slices/bookmarkSlice";
 import { MdPhotoSizeSelectActual } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import NoDataFound from "../../components/NoDataFound/NoDataFound";
 
 export default function Bookmarks() {
   const dispatch = useDispatch();
@@ -16,9 +17,12 @@ export default function Bookmarks() {
     dispatch(fetchBookmarksPhotoStart());
   }, []);
   const Bookmarks = useSelector((state) => state.bookmark.bookmarkPhoto);
-
-  const data = Bookmarks.data.posts.slice(1);
+  const [number, setNumber] = useState(10);
+  const data = Bookmarks.data.posts.slice(1, number);
   console.log(data);
+  const incrementArray = () => {
+    setNumber((prev) => prev + 10);
+  };
   const images = [
     "person2",
     "person5",
@@ -52,7 +56,7 @@ export default function Bookmarks() {
                 <h1 className="animate-bounce">.</h1>
                 <h1 className="animate-bounce">.</h1>
               </div>
-            ) : data.length > 1 ? (
+            ) : data.length > 0 ? (
               data.map((post, i) => (
                 <NewsFeedCard
                   post={post}
@@ -61,17 +65,24 @@ export default function Bookmarks() {
                 />
               ))
             ) : (
-              <p>No data bookmarked photo</p>
+              <NoDataFound />
             )}
           </div>
         </div>
 
-        <div className="flex space-x-2.5 justify-center items-center mt-5">
+        <div className="flex space-x-2.5 justify-center items-center mt-5 mb-10 cursor-pointer">
           <div className="white-icon ">
-            <BiChevronDown className="text-[#CD0929] h-5 w-5" />
+            {Bookmarks.data.posts.length > number && (
+              <BiChevronDown
+                onClick={incrementArray}
+                className="text-[#CD0929] h-5 w-5"
+              />
+            )}
           </div>
-          {data.length > 1 && (
-            <p className="text-[#CD0929] text-[12px]">Load more photos</p>
+          {Bookmarks.data.posts.length > number && (
+            <p onClick={incrementArray} className="text-[#CD0929] text-[12px] ">
+              Load more photos
+            </p>
           )}
         </div>
       </div>

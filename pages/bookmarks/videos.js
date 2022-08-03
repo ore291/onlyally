@@ -9,16 +9,22 @@ import { fetchBookmarksVideoStart } from "../../store/slices/bookmarkSlice";
 import { fetchCommentsStart } from "../../store/slices/commentsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NewsFeedCard from "../../components/feeds/NewsFeedCard";
+import NoDataFound from "../../components/NoDataFound/NoDataFound";
 
 export default function Bookmarks() {
   const videos = ["Will Smith 1.mp4", "Will Smith 2.mp4"];
   const [menu, SetMenu] = useState(false);
+  const [number, setNumber] = useState(10);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchBookmarksVideoStart());
   }, []);
+
+  const incrementArray = () => {
+    setNumber((prev) => prev + 10);
+  };
   const Bookmarks = useSelector((state) => state.bookmark.bookmarkVideo);
-  const data = Bookmarks.data.posts.slice(1);
+  const data = Bookmarks.data.posts.slice(1, number);
   console.log(data);
   return (
     <div className="flex ">
@@ -36,7 +42,12 @@ export default function Bookmarks() {
           </div>
           <div className="w-11/12 ml-auto mr-auto rounded">
             {Bookmarks.loading ? (
-              <h1>Loading</h1>
+              <div className="flex">
+                <h1 className="italic font-bold">Loading</h1>
+                <h1 className="animate-bounce ">.</h1>
+                <h1 className="animate-bounce">.</h1>
+                <h1 className="animate-bounce">.</h1>
+              </div>
             ) : data.length > 1 ? (
               data.map((post, i) => (
                 <NewsFeedCard
@@ -46,17 +57,24 @@ export default function Bookmarks() {
                 />
               ))
             ) : (
-              <p>No data bookmarked video</p>
+              <NoDataFound />
             )}
           </div>
         </div>
 
-        <div className="flex space-x-2.5 justify-center items-center mt-5">
+        <div className="flex space-x-2.5 justify-center items-center mt-5 cursor-pointer">
           <div className="white-icon ">
-            <BiChevronDown className="text-[#CD0929] h-5 w-5" />
+            {Bookmarks.data.posts.length > number && (
+              <BiChevronDown
+                onClick={incrementArray}
+                className="text-[#CD0929] h-5 w-5"
+              />
+            )}
           </div>
-          {data.length > 1 && (
-            <p className="text-[#CD0929] text-[12px]">Load more videos</p>
+          {Bookmarks.data.posts.length > number && (
+            <p onClick={incrementArray} className="text-[#CD0929] text-[12px]">
+              Load more videos
+            </p>
           )}
         </div>
       </div>
