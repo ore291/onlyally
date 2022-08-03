@@ -24,6 +24,7 @@ function* addKycDocumentAPI() {
             action: "documents_save",
             object: inputData
         });
+        console.log(response.data);
       yield put(addKycDocumentSuccess(response.data.data));
       if (response.data.success) {
         yield put(notify({message: response.data.message,status:'success'}));

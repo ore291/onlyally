@@ -27,15 +27,15 @@ import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { MdMail } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 
-const HeaderMenu = () => {
+const HeaderMenu = (userSession) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const wallet = useSelector((state) => state.wallet.walletData);
   const user = useSelector(state => state.user.profile.data)
 
   useEffect(() => {
-     dispatch(fetchWalletDetailsStart());
-  }, []);
+    userSession && dispatch(fetchWalletDetailsStart());
+  }, [userSession]);
 
   const logout = async () => {
     removeCookies("userId");

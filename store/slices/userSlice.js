@@ -8,6 +8,14 @@ const initialState = {
     loading: true,
     error: false,
   },
+  onlineStatus: {
+    data: {},
+    loading: false,
+    error: false,
+    inputData: {},
+    buttonDisable: false,
+    loadingButtonContent: null,
+  },
   profileInputData: {
     data: {},
     loading: true,
@@ -787,6 +795,36 @@ export const UserSlice = createSlice({
         loadingButtonContent: null,
       };
     },
+    updateUserStart: (state, action) => {
+      state.onlineStatus = {
+        data: {},
+        loading: true,
+        error: false,
+        inputData: action.payload,
+        buttonDisable: true,
+        loadingButtonContent: "loading please wait",
+      };
+    },
+    updateUserSuccess: (state, action) => {
+      state.onlineStatus = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    updateUserFailure: (state, action) => {
+      state.onlineStatus = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        inputData: {},
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
   },
 
   extraReducers: {
@@ -802,6 +840,9 @@ export const UserSlice = createSlice({
 });
 
 export const {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
   loginStart,
   loginSuccess,
   loginFailure,
@@ -867,7 +908,7 @@ export const {
   twoStepAuthenticationLoginFailure,
   twoStepAuthenticationCodeResendStart,
   twoStepAuthenticationCodeResendSuccess,
-  twoStepAuthenticationCodeResendFailure
+  twoStepAuthenticationCodeResendFailure,
 } = UserSlice.actions;
 
 export default UserSlice.reducer;
