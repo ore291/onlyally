@@ -843,14 +843,6 @@ export const UserSlice = createSlice({
         data: {},
         loading: false,
         error: action.payload,
-      };
-    },
-    updateUserFailure: (state, action) => {
-      state.onlineStatus = {
-        data: {},
-        loading: false,
-        error: action.payload,
-        inputData: {},
         buttonDisable: false,
         loadingButtonContent: null,
       };
@@ -938,6 +930,9 @@ export const {
   twoStepAuthenticationCodeResendStart,
   twoStepAuthenticationCodeResendSuccess,
   twoStepAuthenticationCodeResendFailure,
+  upgradePackageStart,
+  upgradePackageSuccess,
+  upgradePackageFailure,
 } = UserSlice.actions;
 
 export default UserSlice.reducer;

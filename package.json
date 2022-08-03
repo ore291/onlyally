@@ -34,6 +34,7 @@
     "next": "12.1.0",
     "next-auth": "^4.3.1",
     "next-redux-wrapper": "^7.0.5",
+    "next-share": "^0.18.0",
     "nextjs-progressbar": "^0.0.14",
     "node-localstorage": "^2.2.1",
     "react": "17.0.2",
