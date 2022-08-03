@@ -1,8 +1,18 @@
 import ProfileNavBar from "../../components/ProfileNavBar";
 import MarketButtons from "../../components/MarketButtons.jsx";
 import { FaSearch } from "react-icons/fa";
+import { fetchUserProductsStart } from "../../store/slices/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+
 
 const Product = () => {
+  const products = useSelector(state => state.products.products)
+  const dispatch = useDispatch()
+  useEffect(()=> {
+    dispatch( fetchUserProductsStart())
+  }, [])
+ console.log(products)
   return (
     <div className="shadow-md my-12 mx-4 rounded-md p-4 w-full lg:w-[20%]">
       <div className="relative">

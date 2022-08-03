@@ -24,13 +24,14 @@ const UserCard = ({ creator }) => {
   const dispatch = useDispatch();
   const unfollowModal = useSelector((state) => state.navbar.unfollowUserModal);
 
+
   const [subscriptionData, setSubscriptionData] = useState({
     is_free: 0,
     plan_type: "months",
     amount: 0,
     amount_formatted: 0,
   });
-
+console.log(creator)
   const [anchorEl, setAnchorEl] = useState(null);
 
   const subscriptionPayment = (
@@ -164,7 +165,7 @@ const UserCard = ({ creator }) => {
           } */}
 
 
-           <div className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
+           <div      className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
               <span className="text-sm font-medium">Follow</span>
             </div>
       

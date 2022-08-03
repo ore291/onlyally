@@ -66,7 +66,7 @@ const FansCard = ({user, i}) => {
      user_id={userDetails.data.user.user_id}
     />
      }
-                    <div className=" h-32 flex justify-end items-end"  style={{backgroundImage: `url(${user?.cover})`, backgroundSize: "cover"}}>
+                    <div className=" h-32  flex justify-end items-end"  style={{backgroundImage: `url(${user?.cover})`, backgroundSize: "cover"}}>
                       {/* <p className="text-white text-3xl">...</p> */}
                       <BsThreeDots onClick={() => setOpenFansCardOption(!openFansCardOption)} size="23" className="text-white  mr-3 m-1 cursor-pointer  hover:border-2 p-1 hover:rounded-full"/>
                     </div>

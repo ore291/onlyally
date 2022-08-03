@@ -144,11 +144,11 @@ function ProfileNavItem({
                   </MenuItem>
 
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
-                    <Link href="/bookmarks/referrals">Following</Link>
+                    <Link href="/bookmarks/following">Following</Link>
                   </MenuItem>
 
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
-                    <Link href="/bookmarks/referrals">Favorites</Link>
+                    <Link href="/bookmarks/favourites">Favorites</Link>
                   </MenuItem>
 
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
@@ -325,11 +325,11 @@ function ProfileNavItem({
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/referrals">Following</Link>
+                  <Link href="/bookmarks/following">Following</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/referrals">Favorites</Link>
+                  <Link href="/bookmarks/favourites">Favorites</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
