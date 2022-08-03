@@ -7,19 +7,24 @@ import { useState } from "react";
 import NewsFeedCard from "../../components/feeds/NewsFeedCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-
+import NoDataFound from "../../components/NoDataFound/NoDataFound";
 export default function Bookmarks() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchBookmarksAudioStart());
   }, []);
+  const [number, setNumber] = useState(10);
   const Audios = useSelector((state) => state.bookmark.bookmarkAudio);
-  const data = Audios.data.posts.slice(1);
+  const data = Audios.data.posts.slice(1, number);
+
   // const audios = [
   //   "https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3",
   //   "https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3",
   //   "https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3",
   // ];
+  const incrementArray = () => {
+    setNumber((prev) => prev + 10);
+  };
   const [menu, SetMenu] = useState(false);
   return (
     <div className="flex ">
@@ -37,7 +42,12 @@ export default function Bookmarks() {
           </div>
           <div className="w-11/12 ml-auto mr-auto rounded">
             {Audios.loading ? (
-              <h1>Loading</h1>
+              <div className="flex">
+                <h1 className="italic font-bold">Loading</h1>
+                <h1 className="animate-bounce ">.</h1>
+                <h1 className="animate-bounce">.</h1>
+                <h1 className="animate-bounce">.</h1>
+              </div>
             ) : data.length > 1 ? (
               data.map((post, i) => (
                 <NewsFeedCard
@@ -47,17 +57,21 @@ export default function Bookmarks() {
                 />
               ))
             ) : (
-              <p>No bookmarked audio </p>
+              <NoDataFound />
             )}
           </div>
         </div>
 
         <div className="flex space-x-2.5 justify-center items-center mt-5">
           <div className="white-icon ">
-            <BiChevronDown className="text-[#CD0929] h-5 w-5" />
+            {Audios.data.posts.lenght > number && (
+              <BiChevronDown className="text-[#CD0929] h-5 w-5" />
+            )}
           </div>
-          {data.length > 1 && (
-            <p className="text-[#CD0929] text-[12px]">Load more audios</p>
+          {Audios.data.posts.length > number && (
+            <p onClick={incrementArray} className="text-[#CD0929] text-[12px]">
+              Load more audios
+            </p>
           )}
         </div>
       </div>

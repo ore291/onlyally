@@ -34,6 +34,9 @@ import {
   fetchBlockUsersFailure,
   saveBlockUserSuccess,
   saveBlockUserFailure,
+  upgradePackageStart,
+  upgradePackageSuccess,
+  upgradePackageFailure,
 } from "../slices/userSlice";
 
 import { notify } from "reapop";
@@ -828,6 +831,29 @@ function* twoStepAuthenticationCodeResendAPI(action) {
   }
 }
 
+function* upgradePackageAPI(action) {
+  try {
+    const response = yield api.postMethod({
+      action: "upgrade-package",
+      object: action.data,
+    });
+
+    if (response.data.success) {
+      yield put(upgradePackageSuccess(response.data));
+      localStorage.setItem("upgrade_Package", response.data.data);
+
+      yield put(notify({ message: response.data.message, status: "success" }));
+    } else {
+      yield put(upgradePackageFailure(response.data.error));
+
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(upgradePackageFailure(error));
+    yield put(notify({ message: error.response.data.error, status: "error" }));
+  }
+}
+
 function* twoStepAuthenticationUpdateAPI(action) {
   try {
     const response = yield api.postMethod({
@@ -895,5 +921,6 @@ export default function* pageSaga() {
       "user/twoStepAuthenticactionCodeResendStart",
       twoStepAuthenticationCodeResendAPI
     ),
+    yield takeLatest("user/upgradePackageStart", upgradePackageAPI),
   ]);
 }

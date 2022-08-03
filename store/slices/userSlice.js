@@ -137,6 +137,13 @@ const initialState = {
     buttonDisable: false,
     loadingButtonContent: null,
   },
+  upgradePackage: {
+    data: {},
+    loading: false,
+    error: false,
+    buttonDisable: false,
+    loadingButtonContent: null,
+  },
 };
 
 export const UserSlice = createSlice({
@@ -787,6 +794,33 @@ export const UserSlice = createSlice({
         loadingButtonContent: null,
       };
     },
+    upgradePackageStart: (state, action) => {
+      state.upgradePackage = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    upgradePackageSuccess: (state, action) => {
+      state.upgradePackage = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    upgradePackageFailure: (state, action) => {
+      state.upgradePackage = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
   },
 
   extraReducers: {
@@ -867,7 +901,10 @@ export const {
   twoStepAuthenticationLoginFailure,
   twoStepAuthenticationCodeResendStart,
   twoStepAuthenticationCodeResendSuccess,
-  twoStepAuthenticationCodeResendFailure
+  twoStepAuthenticationCodeResendFailure,
+  upgradePackageStart,
+  upgradePackageSuccess,
+  upgradePackageFailure,
 } = UserSlice.actions;
 
 export default UserSlice.reducer;

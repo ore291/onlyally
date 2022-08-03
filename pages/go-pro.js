@@ -90,15 +90,15 @@ export default function Auth2() {
               <h1>Premium Members</h1>
             </div>
 
-            <div className="flex gap-2 bg-white">
+            <div className="mt-10 grid xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-2  bg-white">
               {user.map((eachUser) => (
                 <div key={eachUser.pic}>
                   <img
                     src={eachUser.pic}
                     alt="image"
-                    className="rounded-2xl w-32"
+                    className="rounded-full w-[100px] h-[100px]"
                   />
-                  <p className="text-center">Lekan Dar</p>
+                  <p className="ml-4">Lekan Dar</p>
                 </div>
               ))}
             </div>
