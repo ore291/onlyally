@@ -2,6 +2,9 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 import api from "../../Environment";
 import { signOut } from "next-auth/react"
 const errorCode = [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007];
+import { deleteCookie } from 'cookies-next';
+
+
 
 import {notify} from 'reapop';
 
@@ -36,10 +39,15 @@ function* logoutStatusCheck() {
         localStorage.removeItem("is_subscription_enabled");
 
         }
+        deleteCookie("username");
+        deleteCookie("accessToken");
+        deleteCookie("user_email");
+        deleteCookie("picture");
+        deleteCookie("userId");
         yield put(notify({message: inputData.error, status:"error"}));
         setTimeout(() => {
             signOut();
-          }, 300);
+          }, 100);
 
        
       } else {

@@ -73,4 +73,4 @@ export const {
 
   } = ChangePasswordSlice.actions;
 
-  export default ChangePasswordSlice.reducer;
+export default ChangePasswordSlice.reducer;
