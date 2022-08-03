@@ -50,6 +50,7 @@ const LivePaymentModal = (props) => {
         liveVideosPaymentByPaystackStart({
           payment_id: reference.reference,
           live_video_id: props.liveVideo.live_video_id,
+          pro_balance : true
         })
       );
     }, 1000);
@@ -92,6 +93,7 @@ const LivePaymentModal = (props) => {
     dispatch(
       liveVideosPaymentByWalletStart({
         live_video_id: props.liveVideo.live_video_id,
+        pro_balance : true
       })
     );
     props.closePaymentModal();

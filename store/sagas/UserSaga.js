@@ -4,6 +4,8 @@ import { getProviders, signIn, useSession } from "next-auth/react";
 import api from "../../Environment";
 
 import {
+  updateUserSuccess,
+  updateUserFailure,
   fetchUserDetailsSuccess,
   fetchUserDetailsFailure,
   updateUserDetailsSuccess,
@@ -156,6 +158,52 @@ function* updateUserDetailsAPI() {
       );
       yield put(notify({ message: response.data.message, status: "success" }));
       window.location.assign("/profile");
+    } else {
+      yield put(notify({ message: response.data.error, status: "error" }));
+      yield put(updateUserDetailsFailure(response.data.error));
+    }
+  } catch (error) {
+    yield put(updateUserDetailsFailure(error.message));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* updateUserAPI() {
+  try {
+    const userData = yield select((state) => state.user.onlineStatus.inputData);
+    const response = yield api.postMethod({
+      action: "update_profile",
+      object: userData,
+    });
+    if (response.data.success) {
+      yield put(updateUserDetailsSuccess(response.data));
+      yield put(updateUserSuccess(response.data));
+      localStorage.setItem("user_picture", response.data.data.picture);
+      localStorage.setItem("user_unique_id", response.data.data.user_unique_id);
+      localStorage.setItem("user_cover", response.data.data.cover);
+      localStorage.setItem("name", response.data.data.name);
+      localStorage.setItem("username", response.data.data.username);
+      localStorage.setItem("user_unique_id", response.data.data.user_unique_id);
+      localStorage.setItem(
+        "is_document_verified",
+        response.data.data.is_document_verified
+      );
+      localStorage.setItem(
+        "is_verified_badge",
+        response.data.data.is_verified_badge
+          ? response.data.data.is_verified_badge
+          : 0
+      );
+      localStorage.setItem(
+        "is_content_creator",
+        response.data.data.is_content_creator
+      );
+      localStorage.setItem(
+        "default_payment_method",
+        response.data.data.default_payment_method
+      );
+      yield put(notify({ message: response.data.message, status: "success" }));
+     
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
       yield put(updateUserDetailsFailure(response.data.error));
@@ -884,6 +932,7 @@ export default function* pageSaga() {
   yield all([
     yield takeLatest("user/fetchUserDetailsStart", getUserDetailsAPI),
     yield takeLatest("user/updateUserDetailsStart", updateUserDetailsAPI),
+    yield takeLatest("user/updateUserStart", updateUserAPI),
     //   yield takeLatest(UPDATE_USER_SUBSCRIPTION_DETAILS_START, updateUserSubscriptionDetailsAPI),
     yield takeLatest("user/loginStart", userLoginAPI),
     yield takeLatest("user/registerStart", userRegisterAPI),

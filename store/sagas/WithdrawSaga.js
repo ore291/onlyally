@@ -26,8 +26,11 @@ import {fetchWalletDetailsStart} from "../slices/walletSlice";
 import { errorLogoutCheck } from "../slices/errorSlice";
 
 function* fetchWithDrawAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
   try {
-    const response = yield api.postMethod({ action: "withdrawals_index" });
+    const response = yield api.postMethod({ action: "withdrawals_index", accessToken : accessToken});
 
     if (response.data.success) {
       yield put(fetchWithDrawalsSuccess(response.data.data));
@@ -80,7 +83,7 @@ function* cancelWithDrawRequestAPI() {
     if (response.data.success) {
       yield put(cancelWithDrawRequestSuccess(response.data));
       yield put(notify({ message: response.data.message, status: "success" }));
-      yield put(fetchWithDrawalsStart());
+      window.location.reload();
     } else {
       yield put(cancelWithDrawRequestFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));

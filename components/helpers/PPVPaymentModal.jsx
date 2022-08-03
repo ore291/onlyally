@@ -63,6 +63,7 @@ const PPVPaymentModal = (props) => {
               : "",
           amount: props.amount,
           user_id: props.user_id,
+          pro_balance : true
         })
       );
     }, 1000);
@@ -96,6 +97,7 @@ const PPVPaymentModal = (props) => {
         ppvPaymentWalletStart({
           post_id: props.post_id != undefined || props.post_id != null ? props.post_id : "", 
           user_id: props.user_id,
+          pro_balance : true
         })
       );
 

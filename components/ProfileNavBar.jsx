@@ -193,9 +193,9 @@ function ProfileNavItem({
                   title="Payments"
                   icon={<MdOutlinePayment size="20px" />}
                 >
-                  <MenuItem icon={<BsCreditCard2Back size="18px" />}>
+                  {/* <MenuItem icon={<BsCreditCard2Back size="18px" />}>
                     <Link href="/payment/your-cards">Your Cards</Link>
-                  </MenuItem>
+                  </MenuItem> */}
                   <MenuItem icon={<BsBank size="18px" />}>
                     <Link href="/payment/add-bank">Add Bank</Link>
                   </MenuItem>
@@ -205,18 +205,18 @@ function ProfileNavItem({
                   <MenuItem icon={<MdOutlinePayments size="18px" />}>
                     <Link href="/payment/my-payment">My Payments</Link>
                   </MenuItem>
-                  <MenuItem icon={<GiPlayerNext size="18px" />}>
+                  {/* <MenuItem icon={<GiPlayerNext size="18px" />}>
                     <Link href="/payment/subscription">My Subscriptions</Link>
                   </MenuItem>
                   <MenuItem icon={<MdSubscriptions size="18px" />}>
                     <Link href="/payment/transaction-history">
                       My Subscribers
                     </Link>
-                  </MenuItem>
+                  </MenuItem> */}
                 </SubMenu>
 
                 <SubMenu
-                  open
+                  
                   title="Security"
                   className="text-xs"
                   icon={<GrShieldSecurity size="20px" />}
@@ -229,7 +229,7 @@ function ProfileNavItem({
                     <Link href="/settings/auth2">Two Step Authentication</Link>
                   </MenuItem>
                   <MenuItem icon={<AiFillSetting size="18px" />}>
-                    <Link href="/settings/security">Availability Status</Link>
+                    <Link href="/settings/availability-status">Availability Status</Link>
                   </MenuItem>
                   <MenuItem icon={<IoDocuments size="18px" />}>
                     <Link href="/settings/documents">Document</Link>
@@ -371,9 +371,9 @@ function ProfileNavItem({
               </SubMenu>
 
               <SubMenu title="Payments" icon={<MdOutlinePayment size="20px" />}>
-                <MenuItem icon={<BsCreditCard2Back size="18px" />}>
+                {/* <MenuItem icon={<BsCreditCard2Back size="18px" />}>
                   <Link href="/payment/your-cards">Your Cards</Link>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem icon={<BsBank size="18px" />}>
                   <Link href="/payment/add-bank">Add Bank</Link>
                 </MenuItem>
@@ -383,18 +383,18 @@ function ProfileNavItem({
                 <MenuItem icon={<MdOutlinePayments size="18px" />}>
                   <Link href="/payment/my-payment">My Payments</Link>
                 </MenuItem>
-                <MenuItem icon={<GiPlayerNext size="18px" />}>
+                {/* <MenuItem icon={<GiPlayerNext size="18px" />}>
                   <Link href="/payment/subscription">My Subscriptions</Link>
                 </MenuItem>
                 <MenuItem icon={<MdSubscriptions size="18px" />}>
                   <Link href="/payment/transaction-history">
                     My Subscribers
                   </Link>
-                </MenuItem>
+                </MenuItem> */}
               </SubMenu>
 
               <SubMenu
-                open
+                
                 title="Security"
                 className="text-xs"
                 icon={<GrShieldSecurity size="20px" />}
@@ -407,7 +407,7 @@ function ProfileNavItem({
                   <Link href="/settings/auth2">Two Step Authentication</Link>
                 </MenuItem>
                 <MenuItem icon={<AiFillSetting size="18px" />}>
-                  <Link href="/settings/security">Availability Status</Link>
+                  <Link href="/settings/availability-status">Availability Status</Link>
                 </MenuItem>
                 <MenuItem icon={<IoDocuments size="18px" />}>
                   <Link href="/settings/documents">Document</Link>
