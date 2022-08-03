@@ -802,7 +802,6 @@ export const UserSlice = createSlice({
         loadingButtonContent: null,
       };
     },
-
     upgradePackageStart: (state, action) => {
       state.upgradePackage = {
         data: {},
@@ -849,7 +848,6 @@ export const UserSlice = createSlice({
       };
     },
   },
-
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
