@@ -10,12 +10,14 @@ function MarketForm() {
      const   dispatch = useDispatch()
      const productSave = useSelector(state => state.products.productSave)
      const    productCategories = useSelector(state => state.products.productCategories)
+     const     productSubCategories = useSelector(state => state.products. productSubCategories)
       const  [productData, setProductData] = useState({
         name: '',  category_id : '', sub_category_id : "",
         quantity: '', image : '',  description :'',
         price : '', 
       })
- 
+      const {name, category_id, sub_category_id, quantity, image, description,price} = productData
+     
       const fileInput = useRef()
       const  uploadFile = () => {
         fileInput.current.click()
@@ -48,11 +50,11 @@ function MarketForm() {
           });
         }
       };
-      console.log(productCategories)
+      console.log(productSubCategories.data.product_sub_categories)
       console.log(productSave)
+    
   return (
     <div className="block lg:flex w-full space-x-5">
-
       <div className="mt-6 p-2 rounded-md w-full lg:w-[48%] ml-3">
         <div className="pb-5">
           <form
@@ -102,27 +104,52 @@ function MarketForm() {
               <label htmlFor="" className="text-[12px] font-semibold mb-1">
                 Category*
               </label>
-              <input
+              <select  type="text"
+                name="category_id"
+                onChange = {e =>{handleChange(e)}}
+                className="w-[90%] border-white shadow-gray-300 shadow-sm rounded-md text-[10px]"
+                 >
+                   <option >Select a Category </option>
+                   {productCategories.loading  == false  &&  productCategories.data.product_categories.map((category, i) => {
+                     return(
+                       <option value={category.category_id} >{category.name}</option>
+                     )
+                   })}
+                 </select>
+
+              {/* <input
                 type="text"
                 name="category_id"
                 className="w-[90%] border-white shadow-gray-300 shadow-sm rounded-md text-[10px]"
                 placeholder="category_id"
             
                 onChange = {e =>{handleChange(e)}}
-              />
+              /> */}
             </div>
 
             <div className="flex flex-col w-full justify-center ">
               <label htmlFor="" className="text-[12px] font-semibold mb-1">
                 Sub Category*
               </label>
-              <input
+              <select  type="text"
+                name="sub_category_id"
+                onChange = {e =>{handleChange(e)}}
+                className="w-[90%] border-white shadow-gray-300 shadow-sm rounded-md text-[10px]"
+                 >
+                   <option >Select a Sub Category </option>
+                   {productSubCategories.loading  == false  && productSubCategories.data.product_sub_categories.map((subCategory, i) => {
+                     return(
+                       <option value={subCategory.name} >{subCategory.name}</option>
+                     )
+                   })}
+                 </select>
+              {/* <input
                 type="text"
                 name="sub_category_id"
                 className="w-[90%] border-white shadow-gray-300 shadow-sm rounded-md text-[10px]"
                 placeholder="sub_category_id"
                 onChange = {e =>{handleChange(e)}}
-              />
+              /> */}
             </div>
           </form>
         </div>
