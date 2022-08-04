@@ -19,9 +19,13 @@ import {
 import { fetchGroupsCategoriesSuccess } from "../slices/groupsSlice";
 
 function* fetchChannelsAPI(action) {
+  if(action.payload){
+    var accessToken =  action.payload.accessToken;
+  }
   try {
     const response = yield api.getMethod({
       action: "channels",
+      accessToken : accessToken
     });
     if (response.data.success) {
       yield put(fetchChannelsSuccess(response.data.data));

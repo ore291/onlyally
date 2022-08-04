@@ -152,6 +152,16 @@ export const ChannelsSlice = createSlice({
     }
 },
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.channels.channels) {
+        return state;
+      }
+      state.channels = action.payload.channels.channels;
+     
+    },
+  },
 
 
 });

@@ -51,7 +51,7 @@ const UserCard = ({ creator }) => {
 
   return (
     <>
-      <div className="bg-white border shadow-lg rounded-lg max-w-3xl p-3 px-5 flex items-center justify-between md:!hidden">
+      <div className=" bg-white border shadow-lg rounded-lg max-w-3xl p-3 px-5 flex items-center justify-between md:!hidden">
         <div className="row-container space-x-2">
           <div className="w-16 h-16 md:w-20 md:h-20 relative">
             <Image
@@ -74,7 +74,7 @@ const UserCard = ({ creator }) => {
           </Link>
         </div>
       </div>
-      <div className="hidden md:inline-block !p-0 !items-center side-container relative rounded-lg">
+      <div className="!hidden md:!flex !p-0 !items-center side-container relative rounded-lg">
         <div className="relative w-full h-[90px] rounded-t-lg mb-16">
           <Image
             src={creator?.cover}

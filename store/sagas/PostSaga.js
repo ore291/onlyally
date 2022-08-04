@@ -159,7 +159,10 @@ function* postFileRemoveAPI() {
   }
 }
 
-function* fetchExploreAPI() {
+function* fetchExploreAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
   try {
     const inputData = yield select(
       (state) => state.post.explorePosts.inputData
@@ -167,6 +170,7 @@ function* fetchExploreAPI() {
     const response = yield api.postMethod({
       action: "explore",
       object: inputData,
+      accessToken : accessToken
     });
     if (response.data.success) {
       yield put(fetchExploreSuccess(response.data.data));

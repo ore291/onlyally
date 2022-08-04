@@ -784,3 +784,12 @@ a {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #fff;
+}
+
+input:checked ~ .tick-bg {
+  background-color: #FE1638
+}
