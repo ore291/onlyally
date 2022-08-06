@@ -58,8 +58,11 @@
   }
 
   .post-video-size {
-    @apply !w-full !h-[20em] object-cover min-h-[20em];
+    @apply !w-[95%]  left-0 right-0 mx-auto object-cover;
   }
+  /* .post-video-size {
+    @apply !w-full !h-[20em] object-cover min-h-[20em];
+  } */
   .btn {
     @apply bg-red-400 py-1 rounded-sm shadow-md px-6 text-white hover:bg-red-800;
   }

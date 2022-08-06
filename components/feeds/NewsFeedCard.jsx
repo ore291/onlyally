@@ -1,33 +1,33 @@
-import React, { Fragment, useCallback, useEffect, useState } from "react";
-
 import { Popover, Transition } from "@headlessui/react";
+import { getCookies } from "cookies-next";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
-
-import TipModal from "../tips/TipModal.jsx";
-import PPVPaymentModal from "../helpers/PPVPaymentModal";
+import React, {
+  Fragment,
+  useCallback,
+  useEffect, useRef, useState
+} from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { BsHeart, BsHeartFill, BsThreeDots } from "react-icons/bs";
-import { FaCheckCircle, FaBookmark } from "react-icons/fa";
-import { HiOutlineEmojiHappy } from "react-icons/hi";
-import Lightbox from "react-image-lightbox";
+import { FaBookmark, FaCheckCircle, FaPlay, FaPause } from "react-icons/fa";
 import ReactPlayer from "react-player/lazy";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../Button";
-import scrollToTop from "../helpers/ScrollToTop";
-import EmblaSlide from "./EmblaSlide";
-import { fetchSinglePostStart } from "../../store/slices/postSlice";
-import { savePostLikedStart } from "../../store/slices/postLikeSlice";
-import { fetchCommentsStart } from "../../store/slices/commentsSlice";
 import { saveBookmarkStart } from "../../store/slices/bookmarkSlice";
-import { setPPVPaymentModal } from "../../store/slices/NavSlice";
+import { fetchCommentsStart } from "../../store/slices/commentsSlice";
+import { savePostLikedStart } from "../../store/slices/postLikeSlice";
+import { fetchSinglePostStart } from "../../store/slices/postSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
+import PPVPaymentModal from "../helpers/PPVPaymentModal";
+import ReadMoreMaster from "../helpers/ReadMoreMaster";
+import scrollToTop from "../helpers/ScrollToTop";
+import TipModal from "../tips/TipModal.jsx";
 import Comment from "./Comment";
 import Comments from "./Comments";
-import ReadMoreMaster from "../helpers/ReadMoreMaster";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import EmblaSlide from "./EmblaSlide";
+
+
 
 const NewsFeedCard = ({ post, index }) => {
   const dispatch = useDispatch();
@@ -48,6 +48,22 @@ const NewsFeedCard = ({ post, index }) => {
 
   const closeReportModeModal = () => {
     setReportMode(false);
+  };
+
+  const audio = useRef();
+  const [playing, setPlaying] = useState(false);
+  const togglePlaying = () => {
+    setPlaying(!playing);
+  }
+
+  const playAudio = () => {
+    if (playing === false) {
+      togglePlaying;
+      audio.current.audioEl.current.play();
+    } else {
+      audio.current.audioEl.current.pause();
+      togglePlaying;
+    }
   };
 
   const [bookmarkStatus, setBookmarkStatus] = useState("");
@@ -311,7 +327,7 @@ const NewsFeedCard = ({ post, index }) => {
           <div>
             <div
               className={`${
-                post.content == undefined
+                post.content == undefined || post.content == "<p></p>"
                   ? "hidden"
                   : "p-2 break-words text-[14px] font-normal leading-5 tracking-wide"
               }`}
@@ -439,17 +455,52 @@ const NewsFeedCard = ({ post, index }) => {
                                         <div className="gallery-play-icon"></div>
                                       </div>
                                     ) : (
-                                      <ReactAudioPlayer
-                                        // light={postFile.preview_file}
-                                        src={postFile.post_file}
-                                        // file="forceAudio"
-                                        controls={true}
-                                        width="100%"
-                                        height="100%"
-                                        autoPlay={false}
-                                        className="post-video-size"
-                                        controlsList={"nodownload"}
-                                      />
+                                      <div
+                                        className="p-2 w-full relative"
+                                        style={{
+                                          height: 500,
+                                          backgroundImage: `url(${post.user.cover})`,
+                                          backgroundRepeat: "no-repeat",
+                                          backgroundPosition: "center center",
+                                          backgroundSize: "cover",
+                                        }}
+                                      >
+                                        <button className="absolute w-20 h-20 inset-0 m-auto z-20" onClick={playAudio}>
+                                          {
+                                            playing ? (
+                                              <FaPause className="text-lightPlayRed  stroke-white h-20 w-20"/>
+                                            ) : (
+                                               <FaPlay className="text-lightPlayRed  stroke-white h-20 w-20"/>
+                                            )
+                                          }
+                                         
+                                        </button>
+                                        <div className="p-0.5 bg-white rounded-full absolute inset-0  m-auto w-[250px] h-[250px]">
+                                          <div className="relative w-full h-full">
+                                            <Image
+                                              src={post.user_picture}
+                                              alt="user"
+                                              layout="fill"
+                                              className="rounded-full object-cover"
+                                            />
+                                          </div>
+                                        </div>
+
+                                        <ReactAudioPlayer
+                                          // light={postFile.preview_file}
+                                          src={postFile.post_file}
+                                          // file="forceAudio"
+                                          controls={true}
+                                          width="80%"
+                                          height="100%"
+                                          autoPlay={false}
+                                          className="post-video-size absolute bottom-3"
+                                          controlsList={"nodownload"}
+                                          ref={audio}
+                                          onPause={togglePlaying}
+                                          onPlay={togglePlaying}
+                                        />
+                                      </div>
                                     )}
                                     {post.payment_info.is_user_needs_pay ===
                                       1 &&
