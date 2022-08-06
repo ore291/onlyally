@@ -112,7 +112,7 @@ function MarketForm() {
                    <option >Select a Category </option>
                    {productCategories.loading  == false  &&  productCategories.data.product_categories.map((category, i) => {
                      return(
-                       <option value={category.category_id} >{category.name}</option>
+                       <option key={i} value={category.category_id} >{category.name}</option>
                      )
                    })}
                  </select>
@@ -139,7 +139,7 @@ function MarketForm() {
                    <option >Select a Sub Category </option>
                    {productSubCategories.loading  == false  && productSubCategories.data.product_sub_categories.map((subCategory, i) => {
                      return(
-                       <option value={subCategory.name} >{subCategory.name}</option>
+                       <option key={i} value={subCategory.name} >{subCategory.name}</option>
                      )
                    })}
                  </select>
@@ -182,7 +182,7 @@ function MarketForm() {
         </div>
         <div onClick={HandleSubmit} className="py-2 my-3 px-2 rounded flex items-center text-white justify-center gap-2 hover:bg-red-700 bg-lightPlayRed cursor-pointer">
           
-          <p className="text-xs  font-bold ">Add Products</p>
+          <p className="text-xs  font-bold ">{productSave.loadingButtonContent  ? productSave.loadingButtonContent  :  "Add New Products"}</p>
         </div>
       </div>
 

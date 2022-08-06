@@ -7,12 +7,7 @@ import { useEffect } from "react";
 
 
 const Product = () => {
-  const products = useSelector(state => state.products.products)
-  const dispatch = useDispatch()
-  useEffect(()=> {
-    dispatch( fetchUserProductsStart())
-  }, [])
- console.log(products)
+ 
   return (
     <div className="shadow-md my-12 mx-4 rounded-md p-4 w-full lg:w-[20%]">
       <div className="relative">
@@ -37,6 +32,12 @@ const Product = () => {
   );
 };
 const Marketplace = () => {
+  const products = useSelector(state => state.products.products)
+  const dispatch = useDispatch()
+  useEffect(()=> {
+    dispatch( fetchUserProductsStart())
+  }, [])
+ console.log(products)
   return (
     <div>
       <div className="flex flex-col justify-center lg:flex-row">
@@ -72,6 +73,11 @@ const Marketplace = () => {
           </main>
 
           <section className="block lg:flex justify-between flex-wrap ">
+            {/* {products.loading == false &&  products.data.user_products.map((product, i) => {
+              return(
+                
+              )
+            })} */}
             <Product />
             <Product />
             <Product />
