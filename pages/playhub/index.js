@@ -34,7 +34,7 @@ const PlayHub = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-screen xx:h-[80vh] md:h-[50vh] relative bg-gradient-to-b from-[#016EB3] via-[#014A76] to-[#032B45]">
+      <div className="w-full h-screen xx:h-[80vh] md:!h-[50vh] relative bg-gradient-to-b from-[#016EB3] via-[#014A76] to-[#032B45]">
           <div className="grid grid-cols-1 md:grid-cols-2 w-full absolute gap-x-10 p-2 md:p-10 -top-40">
               <div className="flex flex-col space-y-3 items-center justify-between py-3 text-white">
                   <div className="w-full rounded-[30px] border-2 border-textPlayRed">
