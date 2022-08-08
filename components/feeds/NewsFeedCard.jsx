@@ -11,7 +11,8 @@ import React, {
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { BsHeart, BsHeartFill, BsThreeDots } from "react-icons/bs";
-import { FaBookmark, FaCheckCircle, FaPlay, FaPause } from "react-icons/fa";
+import { FaBookmark, FaCheckCircle, FaPlay, FaPause, FaRegPlayCircle } from "react-icons/fa";
+import {FiPlay} from "react-icons/fi";
 import ReactPlayer from "react-player/lazy";
 import { useDispatch, useSelector } from "react-redux";
 import { saveBookmarkStart } from "../../store/slices/bookmarkSlice";
@@ -468,9 +469,9 @@ const NewsFeedCard = ({ post, index }) => {
                                         <button className="absolute w-20 h-20 inset-0 m-auto z-20" onClick={playAudio}>
                                           {
                                             playing ? (
-                                              <FaPause className="text-lightPlayRed  stroke-white h-20 w-20"/>
+                                              <FaPause className="text-lightPlayRed  stroke-lightPlayRed  h-20 w-20"/>
                                             ) : (
-                                               <FaPlay className="text-lightPlayRed  stroke-white h-20 w-20"/>
+                                               <FiPlay className="text-lightPlayRed stroke-1 stroke-white fill-lightPlayRed h-20 w-20"/>
                                             )
                                           }
                                          
