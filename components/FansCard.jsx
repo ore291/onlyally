@@ -120,4 +120,4 @@ const FansCard = ({user}) => {
 }
 
 
-export default FansCard
+export default FansCard ;
