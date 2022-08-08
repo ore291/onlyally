@@ -83,7 +83,7 @@ const Marketplace = () => {
           <section className="block lg:flex justify-between flex-wrap ">
             {products.loading == false &&  products.data.user_products.map((product, i) => {
               return(
-                <Product productInfo={product}/>
+                <Product productInfo={product} key={i}/>
               )
             })}
            
