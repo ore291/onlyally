@@ -116,9 +116,9 @@ function* userProductsSaveAPI(action) {
       window.location.assign("/single-product/" + response.data.data.unique_id);
     } else {
       yield put(userProductsSaveFailure(response.data.error));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error
-      );
+      // const notificationMessage = getErrorNotificationMessage(
+      //   response.data.error
+      // );
       yield put(errorLogoutCheck(response.data));
       yield put(notify({ message: response.data.error, status: "error" }));
     }

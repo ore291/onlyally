@@ -1,32 +1,51 @@
 import ProfileNavBar from "../../components/ProfileNavBar";
 import MarketButtons from "../../components/MarketButtons.jsx";
 import { FaSearch } from "react-icons/fa";
+import { fetchUserProductsStart } from "../../store/slices/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import QuickProductView from "../../components/market/QuickProductView";
 
-const Product = () => {
+
+const Product = (productInfo) => {
+  const [showQuickView, setShowQuickView] = useState(false)
+    const toggleShowQuickView = () =>{
+      setShowQuickView(!showQuickView)
+    }
+    console.log(productInfo)
   return (
-    <div className="shadow-md my-12 mx-4 rounded-md p-4 w-full lg:w-[20%]">
-      <div className="relative">
+    <div className="shadow-md my-12  mx-4 rounded-md p-4 w-full lg:w-[25%]">
+          {showQuickView  && <QuickProductView  toggleShowQuickView={toggleShowQuickView} productInfo={productInfo} />}
+      <div className="relative  hover:opacity-80">
         <img
-          src="/images/settings/1.jpg"
+          src={productInfo.productInfo.picture}
           alt="product"
-          className=" rounded-md"
+          className="h-52 w-full rounded-md"
         />
-        <div className="absolute bottom-1  px-8 text-center shadow-sm py-1 bg-black text-white">
+
+        <div onClick={toggleShowQuickView}  className="absolute transition-opacity duration-500 ease-in-out bottom-1 cursor-pointer w-full px-8 text-center shadow-sm py-1 bg-black text-white">
           <p>QUICK VIEW</p>
+
         </div>
       </div>
-
+       
       <div className="flex flex-col space-y-1">
-        <span>Demo Product</span>
+        <span>{productInfo.productInfo.name}</span>
         <span className="text-gray-500 text-lg">
           &#9733; &#9733; &#9734; &#9734; &#9733;
         </span>
-        <span className="font-medium">₦ 4,700</span>
+        <span className="font-medium">{productInfo.productInfo.user_product_price_formatted}</span>
       </div>
     </div>
   );
 };
 const Marketplace = () => {
+  const products = useSelector(state => state.products.products)
+  const dispatch = useDispatch()
+  useEffect(()=> {
+    dispatch( fetchUserProductsStart())
+  }, [])
+
   return (
     <div>
       <div className="flex flex-col justify-center lg:flex-row">
@@ -39,7 +58,7 @@ const Marketplace = () => {
               alt="market"
               className="w-full my-4"
             />
-
+              
             <div className="text-center">
               <h1 className="text-center capitalize">featured products</h1>
               <p className="text-gray-400">
@@ -62,18 +81,12 @@ const Marketplace = () => {
           </main>
 
           <section className="block lg:flex justify-between flex-wrap ">
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
+            {products.loading == false &&  products.data.user_products.map((product, i) => {
+              return(
+                <Product productInfo={product} key={i}/>
+              )
+            })}
+           
           </section>
         </div>
       </div>
