@@ -50,7 +50,7 @@ function MarketForm() {
           });
         }
       };
-      console.log(productSubCategories.data.product_sub_categories)
+      console.log(productSubCategories)
       console.log(productSave)
     
   return (
@@ -139,7 +139,7 @@ function MarketForm() {
                    <option >Select a Sub Category </option>
                    {productSubCategories.loading  == false  && productSubCategories.data.product_sub_categories.map((subCategory, i) => {
                      return(
-                       <option key={i} value={subCategory.name} >{subCategory.name}</option>
+                       <option key={i} value={subCategory.sub_category_id} >{subCategory.name}</option>
                      )
                    })}
                  </select>
