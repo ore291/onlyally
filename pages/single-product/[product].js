@@ -31,7 +31,7 @@ const Product = () => {
   useEffect(()=> {
        dispatch(
         userProductViewForOthersStart({
-          user_products_unique_id:product,
+          user_products_unique_id:product ,
         })
        )
   }, [])

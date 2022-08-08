@@ -26,7 +26,7 @@ const QuickProductView = ({toggleShowQuickView,  productInfo}) => {
                     <h1 className="text-2xl font-bold  mb-2" >{productInfo.productInfo.name}</h1>
                     <hr className="m-2 bg-black w-16 mb-4" />
                  
-                    <Link href={`/product/${productInfo.productInfo.unique_id}`}>
+                    <Link href={`/single-product/${productInfo.productInfo.unique_id}`}>
 
                     <a className="text-sm text-red-400 hover:text-red-600">Show More</a>
                     </Link>
