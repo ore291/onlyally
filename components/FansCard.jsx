@@ -12,7 +12,7 @@ import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentModal from "./helpers/PaymentModal";
 import { unFollowUserStart } from "../store/slices/followerSlice";
-const FansCard = ({user, i}) => {
+const FansCard = ({user}) => {
   const userDetails = useSelector((state) => state.otherUser.userDetails);
   const deleteFav = useSelector((state) => state.fav.deleteFav);
 
@@ -38,7 +38,7 @@ const FansCard = ({user, i}) => {
     const closeSendTipModal = () => {
       setSendTip(false);
     };
-   console.log(user)
+
     const removeFav = ()=> {
       dispatch(deleteFavStart())
     }
@@ -51,7 +51,7 @@ const FansCard = ({user, i}) => {
     return(
         <div
                     className="w-full  lg:w-1/3 border-2 border-grey-500 "
-                    key={i}
+                  
                   >
         
      {userDetails.loading === false &&

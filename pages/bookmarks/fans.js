@@ -73,9 +73,9 @@ export default function Fan() {
                  
                   {!activeFollowers.loading ? activeFollowers.data.followers.map((user, i) => {
                    return (
-                    <>
-                    <FansCard  user={user} i={i}/>
-                    </>
+                
+                    <FansCard  user={user} key={i}/>
+             
                    )
                   })
                 :
@@ -93,9 +93,9 @@ export default function Fan() {
                  
                   {!expiredFollowers.loading ? expiredFollowers.data.followers.map((user, i) => {
                     return (
-                      <>
-                      <FansCard  user={user} i={i}/>
-                      </>
+                   
+                      <FansCard  user={user} key={i}/>
+                   
                      )
                     
                    })
@@ -117,9 +117,9 @@ export default function Fan() {
                   {!followers.loading ? followers.data.followers.map((user, i) => {
                      
                      return (
-                      <>
-                      <FansCard  user={user} i={i}/>
-                      </>
+               
+                      <FansCard  user={user}  key={i}/>
+                
                      )
                   })
                 :
