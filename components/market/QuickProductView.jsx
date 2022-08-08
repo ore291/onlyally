@@ -15,7 +15,7 @@ const QuickProductView = ({toggleShowQuickView,  productInfo}) => {
     }
     return(
         <div  className="fixed left-0   z-30 flex justify-center  items-center top-0 w-screen h-screen bg-[#00000076]">
-            <div className="relative     flex-col  md:flex-row flex  rounded-xl  w-3/5 h-2/3  bg-white" >
+            <div className="relative     flex-col  md:flex-row flex  rounded-xl  md:w-3/5 md:h-2/3 w-full h-3/4  bg-white" >
             <div onClick={toggleShowQuickView} className="absolute hover:scale-105 cursor-pointer top-4 right-4  border-2 p-2 rounded-full" >
                 <ImCross className="" size="13" />
             </div>
