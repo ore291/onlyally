@@ -114,7 +114,7 @@ const HeaderMenu = (userSession) => {
                         alt=""
                       />
                     </div>
-                    My Profile
+                   {user.name}
                   </button>
                 )}
               </Menu.Item>
@@ -139,7 +139,7 @@ const HeaderMenu = (userSession) => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                  onClick={() => router.push("/profile")}
+                  onClick={() => router.push("/settings/profile")}
                     className={`${
                       active
                         ? "bg-gray-100 text-[#252525] font-semibold"

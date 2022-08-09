@@ -57,6 +57,8 @@ export default function Tabs() {
                     return <ExplorePostCard post={post} key={post.post_id} />;
                   } else if (post.postFiles.file_type == "video"){
                     return <ExplorePostCard post={post} key={post.post_id} type="video" />;
+                  } else if (post.postFiles.file_type == "audio"){
+                    return <ExplorePostCard post={post} key={post.post_id} type="audio" />;
                   }
                 })}
               </div>
