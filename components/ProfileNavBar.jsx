@@ -326,20 +326,20 @@ function ProfileNavItem({
 
               <SubMenu title="List" icon={<BsListStars size="20px" />}>
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/list/fans">Fans</Link>
+                  <Link href="/bookmarks/fans">Fans</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/referrals">Following</Link>
+                  <Link href="/bookmarks/following">Following</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/referrals">Favorites</Link>
+                  <Link href="/bookmarks/favourites">Favorites</Link>
                 </MenuItem>
 
-                <MenuItem icon={<BsPeopleFill size="18px" />}>
+                {/* <MenuItem icon={<BsPeopleFill size="18px" />}>
                   <Link href="/bookmarks/referrals">Bookmarks</Link>
-                </MenuItem>
+                </MenuItem> */}
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
                   <Link href="/bookmarks/referrals">Blocked Users</Link>
@@ -369,6 +369,9 @@ function ProfileNavItem({
                 </MenuItem>
                 <MenuItem icon={<MdOutlineNotes size="18px" />}>
                   <Link href="/market/orderList">Orders</Link>
+                </MenuItem>
+                <MenuItem icon={<AiOutlineCheckSquare size="18px" />}>
+                  <Link href="/market/cart">Cart</Link>
                 </MenuItem>
                 <MenuItem icon={<AiOutlineCheckSquare size="18px" />}>
                   <Link href="/market/payment">Checkout</Link>

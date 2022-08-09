@@ -137,7 +137,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div className="px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white mb-10">
+          <div className="px-1 md:px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white mb-10">
             <div className="space-y-3 mt-16 flex flex-col ">
               <div className="col-container ">
                 <div className="flex items-center justify-center space-x-2 ">
@@ -165,12 +165,12 @@ const Profile = () => {
                     }
                   />
                 </div>
-                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                {/* <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <FaVideo className="w-5 h-5" />
                 </div>
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <GiPhone className="w-5 h-5" />
-                </div>
+                </div> */}
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <RiUpload2Line className="w-5 h-5" />
                 </div>
@@ -201,10 +201,18 @@ const Profile = () => {
                 <Button
                   text="Edit profile"
                   active={true}
+<<<<<<< HEAD
                   extraclassNamees="w-32 h-9"
+=======
+                  onClick={() => router.push("/settings/profile")}
+                  extraClasses="w-32 h-9"
+>>>>>>> 34ef5ee98bb80b35bdff506c5407f594fca1b4d6
                 />
 
-                <div className="row-container w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer">
+                <div
+                  className="row-container w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer"
+                  onClick={() => router.push("/dashboard")}
+                >
                   <p className="text-xs font-medium text-white">Dashboard</p>
                 </div>
               </div>

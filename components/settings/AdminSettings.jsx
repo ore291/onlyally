@@ -5,15 +5,16 @@ import PrivacySettings from "./PrivacySettings";
 import DesignSettings from "./DesignSettings";
 import MembersSettings from "./MembersSettings";
 import DeleteSettings from "./DeleteSettings";
+import AnalyticsSettings from "./AnalyticsSettings";
 
-function classNames(...classNamees) {
-  return classNamees.filter(Boolean).join(" ");
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
 }
 
 const AdminSettings = ({ data }) => {
   let [categories] = useState([
     "General",
-    "Privacy",
+    // "Privacy",
     "Design",
     "Members",
     "Analytics",
@@ -53,9 +54,11 @@ const AdminSettings = ({ data }) => {
               <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <GeneralSettings />
               </Tab.Panel>
-              <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-                <PrivacySettings />
-              </Tab.Panel>
+              {/* <Tab.Panel
+                className={classNames("bg-white rounded-xl p-1")}
+              >
+                <PrivacySettings/>
+              </Tab.Panel> */}
               <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <DesignSettings />
               </Tab.Panel>
@@ -63,7 +66,7 @@ const AdminSettings = ({ data }) => {
                 <MembersSettings group={data} />
               </Tab.Panel>
               <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-                <MembersSettings group={data} />
+                <AnalyticsSettings group={data} />
               </Tab.Panel>
               <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <MembersSettings group={data} />

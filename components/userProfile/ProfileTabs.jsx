@@ -102,7 +102,7 @@ const ProfileTabs = () => {
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="p-2 grid grid-cols-1 gap-y-3">
+              <div className="py-2 md:p-2 grid grid-cols-1 gap-y-5">
                 {posts.data.posts.map((post) => (
                   <NewsFeedCard post={post} key={post.post_id} />
                 ))}

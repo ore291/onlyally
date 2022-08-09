@@ -23,13 +23,14 @@ const UserCard = ({ creator }) => {
   const dispatch = useDispatch();
   const unfollowModal = useSelector((state) => state.navbar.unfollowUserModal);
 
+
   const [subscriptionData, setSubscriptionData] = useState({
     is_free: 0,
     plan_type: "months",
     amount: 0,
     amount_formatted: 0,
   });
-
+console.log(creator)
   const [anchorEl, setAnchorEl] = useState(null);
 
   const subscriptionPayment = (
@@ -50,7 +51,7 @@ const UserCard = ({ creator }) => {
 
   return (
     <>
-      <div className="bg-white border shadow-lg rounded-lg max-w-3xl p-3 px-5 flex items-center justify-between md:!hidden">
+      <div className=" bg-white border shadow-lg rounded-lg max-w-3xl p-3 px-5 flex items-center justify-between md:!hidden">
         <div className="row-container space-x-2">
           <div className="w-16 h-16 md:w-20 md:h-20 relative">
             <Image
@@ -73,7 +74,7 @@ const UserCard = ({ creator }) => {
           </Link>
         </div>
       </div>
-      <div className="hidden md:inline-block !p-0 !items-center side-container relative rounded-lg">
+      <div className="!hidden md:!flex !p-0 !items-center side-container relative rounded-lg">
         <div className="relative w-full h-[90px] rounded-t-lg mb-16">
           <Image
             src={creator?.cover}
@@ -162,9 +163,17 @@ const UserCard = ({ creator }) => {
           
           } */}
 
+<<<<<<< HEAD
           <div className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
             <span className="text-sm font-medium">Follow</span>
           </div>
+=======
+
+           <div      className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
+              <span className="text-sm font-medium">Follow</span>
+            </div>
+      
+>>>>>>> 34ef5ee98bb80b35bdff506c5407f594fca1b4d6
         </div>
       </div>
       {/* {userDetails.loading ? (

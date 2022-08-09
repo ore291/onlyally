@@ -358,6 +358,16 @@ export const PostSlice = createSlice({
     },
 
   },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.post.explorePosts) {
+        return state;
+      }
+      state.explorePosts = action.payload.post.explorePosts;
+      
+    },
+  },
 });
 
 export const {

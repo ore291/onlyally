@@ -3,13 +3,30 @@ import Image from "next/image";
 import Link from "next/link";
 import scrollToTop from "../helpers/ScrollToTop";
 const PLACEHOLDER_SRC = `data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D`;
+import { useRouter } from "next/router";
+import PostSubscribeModal from "../helpers/PostSubscribeModal";
 
 const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [subscribeModal, setSubscribeModal] = useState(false);
 
+  const router = useRouter();
   const setLoaded = useCallback(() => {
     if (inView) setHasLoaded(true);
   }, [inView, setHasLoaded]);
+
+  const handleImagePreview = (event, status, paymentStatus) => {
+    event.preventDefault();
+    router.push("/profile/" + post.user.unique_id);
+    if (paymentStatus == 0) {
+      // setModalStatus(status);
+      router.push("/profile/" + post.user.unique_id);
+    }
+  };
+
+  const toggleModal = () => {
+    setSubscribeModal(!subscribeModal);
+  };
 
   return (
     <div className={`embla__slide }`}>
@@ -118,6 +135,11 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
           </div>
         </a>
       </div>
+      {/* <PostSubscribeModal
+        subscribeModal={subscribeModal}
+        setSubscribeModal={toggleModal}
+        post={post}
+      /> */}
     </div>
   );
 };

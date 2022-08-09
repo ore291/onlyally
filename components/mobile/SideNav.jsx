@@ -27,6 +27,7 @@ import { IoLogOut } from "react-icons/io5";
 
 const SideNav = () => {
   const router = useRouter();
+  const wallet = useSelector((state) => state.wallet.walletData);
   const toggleSideBar = () => {
     dispatch(setNavState(!navOpen));
   };
@@ -60,7 +61,7 @@ const SideNav = () => {
 
   const dispatch = useDispatch();
   const navOpen = useSelector((state) => state.navbar.open);
-  const user = useSelector((state) => state.user.loginData);
+  const user = useSelector((state) => state.user.profile.data);
 
   // console.log(user);
   if (navOpen) {
@@ -93,7 +94,7 @@ const SideNav = () => {
                 <p className="font-semibold text-xs xs:text-sm whitespace-nowrap">
                   {user.total_followers} Fans
                 </p>
-                <BsDot className="h-5 w-4" />
+                {/* <BsDot className="h-5 w-4" /> */}
                 <p className="font-semibold text-xs xs:text-sm whitespace-nowrap">
                   {user.total_followings} Following
                 </p>
@@ -103,7 +104,8 @@ const SideNav = () => {
                 >
                   <FaWallet className="h-4 w-4 mr-1" />
                   <p className="text-xs xs:text-sm font-semibold whitespace-nowrap">
-                    {user.wallet_balance_formatted}
+                    {wallet?.data?.user_wallet?.remaining_formatted ||
+                      "loading.."}
                   </p>
                   {/* <span>&#8358;</span>{ */}
                 </button>
