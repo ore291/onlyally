@@ -4,16 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer utilities {
-
   .live-stream-button {
-    @apply w-[50px] h-[50px]  row-container rounded-full  bg-[#ecece6] cursor-pointer shadow-md
+    @apply w-[50px] h-[50px]  row-container rounded-full  bg-[#ecece6] cursor-pointer shadow-md;
   }
 
   .live-stream-button > img {
-    @apply w-[1.5em] align-middle border-none border-0
+    @apply w-[1.5em] align-middle border-none border-0;
   }
 
   input:focus-within ~ label {
@@ -21,7 +18,7 @@
   }
 
   #attach_file_photo {
-    @apply !translate-y-0 !text-black !scale-100
+    @apply !translate-y-0 !text-black !scale-100;
   }
 
   input:focus-within ~ label,
@@ -86,7 +83,7 @@
     @apply block px-5  py-4 text-sm font-semibold text-slate-400 hover:text-lightPlayRed cursor-pointer;
   }
   .gallery-pay-button-div {
-    @apply bottom-[6em] p-[1em] rounded-md absolute md:bottom-[14em] top-[48%] w-full z-[2] text-center cursor-pointer;
+    @apply bottom-[6em] p-[1em] rounded-md absolute md:bottom-[14em] top-[0%] w-full z-[2] text-center cursor-pointer;
   }
   .gallery-pay-button {
     @apply bg-lightPlayRed rounded-full text-white font-semibold !py-2 !px-8 text-base !border-none inline-block align-middle text-center select-none;
@@ -271,7 +268,6 @@
     @apply w-4 h-4 text-lightPlayRed;
   }
 }
-
 
 @layer utilities {
   .animation-delay-200 {
@@ -760,7 +756,7 @@ a {
 
 .register {
   background: no-repeat
-    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='1080' preserveAspectRatio='none' viewBox='0 0 1440 1080'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1039%26quot%3b)' fill='none'%3e%3cpath d='M15.75 853.25 a263.69 263.69 0 1 0 527.38 0 a263.69 263.69 0 1 0 -527.38 0z' fill='rgba(255%2c 22%2c 54%2c 0.13)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M296.395%2c1254.473C390.702%2c1254.088%2c491.878%2c1228.591%2c536.935%2c1145.743C580.641%2c1065.378%2c544.24%2c969.11%2c492.689%2c893.537C448.299%2c828.461%2c375.036%2c797.689%2c296.395%2c793.113C206.61%2c787.888%2c107.072%2c794.035%2c56.096%2c868.13C-0.525%2c950.43%2c-0.33%2c1062.894%2c52.431%2c1147.72C102.679%2c1228.507%2c201.257%2c1254.861%2c296.395%2c1254.473' fill='rgba(255%2c 22%2c 54%2c 0.13)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M98.58 556.98 a266.79 266.79 0 1 0 533.58 0 a266.79 266.79 0 1 0 -533.58 0z' fill='rgba(255%2c 22%2c 54%2c 0.13)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M264.88 890.61 a338.12 338.12 0 1 0 676.24 0 a338.12 338.12 0 1 0 -676.24 0z' fill='rgba(255%2c 22%2c 54%2c 0.13)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M889.84 552.58 a318.06 318.06 0 1 0 636.12 0 a318.06 318.06 0 1 0 -636.12 0z' fill='rgba(255%2c 22%2c 54%2c 0.13)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M1416.254%2c362.502C1485.299%2c364.112%2c1547.49%2c322.212%2c1581.426%2c262.061C1614.773%2c202.954%2c1614.532%2c130.584%2c1580.086%2c72.11C1546.151%2c14.504%2c1483.037%2c-15.162%2c1416.254%2c-18.329C1342.501%2c-21.827%2c1259.079%2c-9.296%2c1223.097%2c55.179C1187.647%2c118.699%2c1225.195%2c193.069%2c1263.904%2c254.657C1299.39%2c311.117%2c1349.586%2c360.948%2c1416.254%2c362.502' fill='rgba(255%2c 22%2c 54%2c 0.13)' class='triangle-float2'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1039'%3e%3crect width='1440' height='1080' fill='white'%3e%3c/rect%3e%3c/mask%3e%3cstyle%3e %40keyframes float1 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-10px%2c 0)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float1 %7b animation: float1 5s infinite%3b %7d %40keyframes float2 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-5px%2c -5px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float2 %7b animation: float2 4s infinite%3b %7d %40keyframes float3 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(0%2c -10px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float3 %7b animation: float3 6s infinite%3b %7d %3c/style%3e%3c/defs%3e%3c/svg%3e");
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='1080' preserveAspectRatio='none' viewBox='0 0 1440 1080'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1039%26quot%3b)' fill='none'%3e%3cpath d='M15.75 853.25 a263.69 263.69 0 1 0 527.38 0 a263.69 263.69 0 1 0 -527.38 0z' fill='rgba(255%2c 22%2c 54%2c 0.13)' className='triangle-float3'%3e%3c/path%3e%3cpath d='M296.395%2c1254.473C390.702%2c1254.088%2c491.878%2c1228.591%2c536.935%2c1145.743C580.641%2c1065.378%2c544.24%2c969.11%2c492.689%2c893.537C448.299%2c828.461%2c375.036%2c797.689%2c296.395%2c793.113C206.61%2c787.888%2c107.072%2c794.035%2c56.096%2c868.13C-0.525%2c950.43%2c-0.33%2c1062.894%2c52.431%2c1147.72C102.679%2c1228.507%2c201.257%2c1254.861%2c296.395%2c1254.473' fill='rgba(255%2c 22%2c 54%2c 0.13)' className='triangle-float1'%3e%3c/path%3e%3cpath d='M98.58 556.98 a266.79 266.79 0 1 0 533.58 0 a266.79 266.79 0 1 0 -533.58 0z' fill='rgba(255%2c 22%2c 54%2c 0.13)' className='triangle-float3'%3e%3c/path%3e%3cpath d='M264.88 890.61 a338.12 338.12 0 1 0 676.24 0 a338.12 338.12 0 1 0 -676.24 0z' fill='rgba(255%2c 22%2c 54%2c 0.13)' className='triangle-float3'%3e%3c/path%3e%3cpath d='M889.84 552.58 a318.06 318.06 0 1 0 636.12 0 a318.06 318.06 0 1 0 -636.12 0z' fill='rgba(255%2c 22%2c 54%2c 0.13)' className='triangle-float1'%3e%3c/path%3e%3cpath d='M1416.254%2c362.502C1485.299%2c364.112%2c1547.49%2c322.212%2c1581.426%2c262.061C1614.773%2c202.954%2c1614.532%2c130.584%2c1580.086%2c72.11C1546.151%2c14.504%2c1483.037%2c-15.162%2c1416.254%2c-18.329C1342.501%2c-21.827%2c1259.079%2c-9.296%2c1223.097%2c55.179C1187.647%2c118.699%2c1225.195%2c193.069%2c1263.904%2c254.657C1299.39%2c311.117%2c1349.586%2c360.948%2c1416.254%2c362.502' fill='rgba(255%2c 22%2c 54%2c 0.13)' className='triangle-float2'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1039'%3e%3crect width='1440' height='1080' fill='white'%3e%3c/rect%3e%3c/mask%3e%3cstyle%3e %40keyframes float1 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-10px%2c 0)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float1 %7b animation: float1 5s infinite%3b %7d %40keyframes float2 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-5px%2c -5px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float2 %7b animation: float2 4s infinite%3b %7d %40keyframes float3 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(0%2c -10px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float3 %7b animation: float3 6s infinite%3b %7d %3c/style%3e%3c/defs%3e%3c/svg%3e");
 }
 
 .centered-axis-xy {

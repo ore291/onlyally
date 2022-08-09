@@ -10,8 +10,8 @@ import ExploreLoader from "./ExploreLoader";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import CategoryListingIndex from "./CategoryListingIndex";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 export default function Tabs() {
@@ -53,8 +53,14 @@ export default function Tabs() {
                 {explorePosts.data.posts.map((post) => {
                   if (post.postFiles.file_type == "image") {
                     return <ExplorePostCard post={post} key={post.post_id} />;
-                  } else if (post.postFiles.file_type == "video"){
-                    return <ExplorePostCard post={post} key={post.post_id} type="video" />;
+                  } else if (post.postFiles.file_type == "video") {
+                    return (
+                      <ExplorePostCard
+                        post={post}
+                        key={post.post_id}
+                        type="video"
+                      />
+                    );
                   }
                 })}
               </div>

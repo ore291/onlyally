@@ -7,8 +7,8 @@ import Link from "next/link";
 import GroupCardLoader from "./GroupCardLoader";
 import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const GroupTabs = ({ groupsData }) => {
@@ -34,7 +34,7 @@ const GroupTabs = ({ groupsData }) => {
   //   // if(groupsData.data.length > 0){
   //   //   setGroupValues(Object.values(groupsData.data));
   //   // }
-   
+
   // }, [groupsData]);
 
   let [categories] = useState([
@@ -76,9 +76,7 @@ const GroupTabs = ({ groupsData }) => {
             <div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
               {groupsData.data.length > 0
                 ? groupsData.data
-                    .filter((filterchannel) =>
-                      filterchannel.is_member == true
-                    )
+                    .filter((filterchannel) => filterchannel.is_member == true)
                     .map((group, index) => (
                       <GroupCard key={index} group={group} groupsPage={true} />
                     ))
@@ -91,9 +89,7 @@ const GroupTabs = ({ groupsData }) => {
             <div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
               {groupsData.data.length > 0
                 ? groupsData.data
-                    .filter(
-                      (filterchannel) => filterchannel.is_member == false
-                    )
+                    .filter((filterchannel) => filterchannel.is_member == false)
                     .map((group, index) => (
                       <GroupCard key={index} group={group} groupsPage={true} />
                     ))
@@ -118,7 +114,8 @@ const GroupTabs = ({ groupsData }) => {
               {groupsData.data.length > 0
                 ? groupsData.data
                     .filter(
-                      (filterchannel) => filterchannel.user_id === parseInt(cookies.userId)
+                      (filterchannel) =>
+                        filterchannel.user_id === parseInt(cookies.userId)
                     )
                     .map((group, index) => (
                       <GroupCard key={index} group={group} groupsPage={true} />

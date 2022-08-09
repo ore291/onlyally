@@ -80,9 +80,6 @@ const Profile = () => {
     }, 1000);
   };
 
-
-
-
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -161,12 +158,12 @@ const Profile = () => {
                   <FaBell className="w-5 h-5" />
                 </div>
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
-                  <MdMail className="w-5 h-5" onClick={(event) =>
-                                handleChatUser(
-                                  event,
-                                  userDetails.data.user.user_id
-                                )
-                              }/>
+                  <MdMail
+                    className="w-5 h-5"
+                    onClick={(event) =>
+                      handleChatUser(event, userDetails.data.user.user_id)
+                    }
+                  />
                 </div>
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <FaVideo className="w-5 h-5" />
@@ -204,7 +201,7 @@ const Profile = () => {
                 <Button
                   text="Edit profile"
                   active={true}
-                  extraClasses="w-32 h-9"
+                  extraclassNamees="w-32 h-9"
                 />
 
                 <div className="row-container w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer">

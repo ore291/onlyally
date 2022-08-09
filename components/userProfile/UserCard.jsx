@@ -2,9 +2,9 @@ import Image from "next/image";
 import Button from "../Button";
 import UserCardPopup from "./UserCardPopup";
 import { IoMdPersonAdd } from "react-icons/io";
-import {FaUnlock} from "react-icons/fa";
+import { FaUnlock } from "react-icons/fa";
 import Link from "next/link";
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   fetchSingleUserProfileStart,
   fetchSingleUserPostsStart,
@@ -18,7 +18,6 @@ import { Popover, Transition, Dialog } from "@headlessui/react";
 import PaymentModal from "../../components/helpers/PaymentModal";
 import UnfollowModal from "../../components/helpers/UnfollowModal";
 import { useEffect, useState, Fragment } from "react";
-
 
 const UserCard = ({ creator }) => {
   const dispatch = useDispatch();
@@ -97,11 +96,11 @@ const UserCard = ({ creator }) => {
         <div className="col-container pb-5 space-y-2">
           <div className="relative hover-trigger">
             <Link href={`/profile/${creator.user_unique_id}`} passHref>
-            <p className="text-center font-medium text-lg truncate text-[rgba(0,0,0,.9);] cursor-pointer">
-              {creator.name}
-            </p>
+              <p className="text-center font-medium text-lg truncate text-[rgba(0,0,0,.9);] cursor-pointer">
+                {creator.name}
+              </p>
             </Link>
-            
+
             <div className="absolute bg-white border border-grey-100 p-2 shadow-2xl rounded-lg hover-target z-10 transition-all duration-300 ease-in">
               <UserCardPopup creator={creator} name={creator.name} />
             </div>
@@ -163,11 +162,9 @@ const UserCard = ({ creator }) => {
           
           } */}
 
-
-           <div className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
-              <span className="text-sm font-medium">Follow</span>
-            </div>
-      
+          <div className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
+            <span className="text-sm font-medium">Follow</span>
+          </div>
         </div>
       </div>
       {/* {userDetails.loading ? (

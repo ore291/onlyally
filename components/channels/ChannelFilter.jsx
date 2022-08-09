@@ -23,7 +23,7 @@ const ChannelFilter = () => {
           </p>
           <div className="justify-start row-container space-x-1">
             <IoMdThumbsUp className="h-4 wa-4 text-black" />
-            
+
             <p className="text-sm text-gray-600">4 people like this</p>
           </div>
           <div className="justify-start row-container space-x-1">
@@ -32,8 +32,8 @@ const ChannelFilter = () => {
           </div>
         </div>
         <Button
-          extraClasses="h-[35px] w-28"
-          textClass="text-sm font-semibold"
+          extraclassNamees="h-[35px] w-28"
+          textclassName="text-sm font-semibold"
           active={true}
           text="Subscribe"
         />

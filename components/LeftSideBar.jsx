@@ -5,7 +5,6 @@ import { FiPlus } from "react-icons/fi";
 import Link from "next/link";
 import CreateButton from "./helpers/CreateButton";
 
-
 const LeftSideBar = () => {
   const router = useRouter();
   return (
@@ -56,7 +55,7 @@ const LeftSideBar = () => {
           </div>
         </Link>
 
-        <Link href="/live" passHref> 
+        <Link href="/live" passHref>
           <div className="side-nav-button">
             <div className="side-icon">
               <TiVideo className="text-white h-6 w-6" />

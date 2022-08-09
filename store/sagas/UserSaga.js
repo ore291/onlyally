@@ -39,8 +39,11 @@ import {
   upgradePackageStart,
   upgradePackageSuccess,
   upgradePackageFailure,
+  deleteAccountStart,
+  deleteAccountSuccess,
+  deleteAccountFailure,
 } from "../slices/userSlice";
-
+import { errorLogoutCheck } from "../slices/errorSlice";
 import { notify } from "reapop";
 
 function* getUserDetailsAPI(action) {
@@ -203,7 +206,6 @@ function* updateUserAPI() {
         response.data.data.default_payment_method
       );
       yield put(notify({ message: response.data.message, status: "success" }));
-     
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
       yield put(updateUserDetailsFailure(response.data.error));
@@ -392,28 +394,24 @@ function* forgotPasswordAPI() {
 function* deleteAccountAPI() {
   try {
     const userData = yield select(
-      (state) => state.users.deleteAccount.inputData
+      (state) => state.user.deleteAccount.inputData
     );
-    const response = yield api.postMethod("delete_account", userData);
-    yield put(deleteAccountSuccess(response.data));
+    const response = yield api.postMethod({
+      action: "delete_account",
+      object: userData,
+    });
+
     if (response.data.success) {
-      const notificationMessage = getSuccessNotificationMessage(
-        response.data.message
-      );
-      yield put(notify(notificationMessage));
+      yield put(deleteAccountSuccess(response.data));
+      yield put(notify({ message: response.data.message, status: "success" }));
       window.location.assign("/");
     } else {
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(notify(notificationMessage));
+      yield put(deleteAccountFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(deleteAccountFailure(error));
-    const notificationMessage = getErrorNotificationMessage(
-      error.response.data.error.error
-    );
-    yield put(notify(notificationMessage));
+    yield put(notify({ message: error.response.data.error, status: "error" }));
   }
 }
 
@@ -902,11 +900,14 @@ function* upgradePackageAPI(action) {
   }
 }
 
-function* twoStepAuthenticationUpdateAPI(action) {
+function* twoStepAuthenticationUpdateAPI() {
+  const userData = yield select(
+    (state) => state.user.twoStepAuthUpdate.inputData
+  );
   try {
     const response = yield api.postMethod({
       action: "two_step_auth_update",
-      object: action.data,
+      object: userData,
     });
 
     if (response.data.success) {
@@ -936,8 +937,10 @@ export default function* pageSaga() {
     //   yield takeLatest(UPDATE_USER_SUBSCRIPTION_DETAILS_START, updateUserSubscriptionDetailsAPI),
     yield takeLatest("user/loginStart", userLoginAPI),
     yield takeLatest("user/registerStart", userRegisterAPI),
+    yield takeLatest("user/deleteAccountStart", deleteAccountAPI),
     //   yield takeLatest(FORGOT_PASSWORD_START, forgotPasswordAPI),
-    //   yield takeLatest(DELETE_ACCOUNT_START, deleteAccountAPI),
+    //yield takeLatest("user/deleteAccountStart", deleteAccountAPI),
+
     //   yield takeLatest(REGISTER_VERIFY_START, registerVerify),
     //   yield takeLatest(REGISTER_VERIFY_RESEND_START, registerVerifyResend),
     //   yield takeLatest(

@@ -1,5 +1,5 @@
 import { RiPriceTag3Line } from "react-icons/ri";
-import GroupCard from "../groups/GroupCard"
+import GroupCard from "../groups/GroupCard";
 import CreatorCard from "../creators/CreatorCard";
 import Button from "../Button";
 import { CgNotes } from "react-icons/cg";
@@ -11,7 +11,6 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 
 const ChannelFeedSideBar = () => {
- 
   return (
     <div className="grid grid-cols-1 space-y-5 pr-1 mt-3  sticky -top-96 ">
       <div className="flex flex-col w-full space-y-2  bg-white rounded-md shadow-md p-2 pb-4 border">
@@ -108,29 +107,32 @@ const ChannelFeedSideBar = () => {
       <div className="p-2 rounded-md border shadow-lg bg-white">
         <div className="flex items-center justify-between w-full border-b pb-3">
           <h3 className="text-lg font-semibold">Top Pages</h3>
-          <p className="text-sm font-medium text-blue-400 cursor-pointer">See All</p>
+          <p className="text-sm font-medium text-blue-400 cursor-pointer">
+            See All
+          </p>
         </div>
         <div className="grid grid-cols-1 space-y-2 py-2">
-            {
-              [...Array(6)].map((_, i)=> (
-                <div className="flex justify-between items-center space-x-6" key={i}>
-                <div className=" w-12 h-12 relative">
-                  <Image
-                    src="/profile_avatar_full.jpg"
-                    alt="side-img"
-                    layout="fill"
-                    objectFit="cover"
-                    className="relative rounded-full w-12 h-12"
-                  />
-                </div>
-                <div className="flex flex-col space-y-.5">
-                  <p className="font-bold  text-gray-600">Graphic Design</p>
-                  <span className="text-sm font-semibold">345k Following</span>
-                </div>
-                <Button text="Subscribe" active={true} />
+          {[...Array(6)].map((_, i) => (
+            <div
+              className="flex justify-between items-center space-x-6"
+              key={i}
+            >
+              <div className=" w-12 h-12 relative">
+                <Image
+                  src="/profile_avatar_full.jpg"
+                  alt="side-img"
+                  layout="fill"
+                  objectFit="cover"
+                  className="relative rounded-full w-12 h-12"
+                />
               </div>
-              ))
-            }
+              <div className="flex flex-col space-y-.5">
+                <p className="font-bold  text-gray-600">Graphic Design</p>
+                <span className="text-sm font-semibold">345k Following</span>
+              </div>
+              <Button text="Subscribe" active={true} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

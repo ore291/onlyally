@@ -1,15 +1,13 @@
 import Image from "next/image";
 import { Tab } from "@headlessui/react";
-import { Fragment , useState} from "react";
+import { Fragment, useState } from "react";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import { useSelector, useDispatch } from "react-redux";
 import CancelWithdrawModal from "./CancelWithdrawModal";
 
 function MyPaymentBody() {
   const sentPayments = useSelector((state) => state.transaction.sentPayTrans);
-  const withDrawRequest = useSelector((state) => state.withdraw.withDrawals)
-
-  
+  const withDrawRequest = useSelector((state) => state.withdraw.withDrawals);
 
   const [data, setData] = useState("");
   const [cancelWithdrawModal, setCancelWithdrawModal] = useState(false);
@@ -143,7 +141,7 @@ function MyPaymentBody() {
             )}
           </Tab.Panel>
           <Tab.Panel>
-          {withDrawRequest.data.history.length > 0 ? (
+            {withDrawRequest.data.history.length > 0 ? (
               <div className="flex flex-col my-5">
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -155,7 +153,7 @@ function MyPaymentBody() {
                               scope="col"
                               className="px-2 py-3 text-center text-xs font-medium text-lightPlayRed uppercase tracking-wider whitespace-nowrap"
                             >
-                             Date
+                              Date
                             </th>
                             <th
                               scope="col"
@@ -167,7 +165,7 @@ function MyPaymentBody() {
                               scope="col"
                               className="px-2 py-3 text-center text-xs font-medium text-lightPlayRed uppercase tracking-wider whitespace-nowrap"
                             >
-                             Billing Account
+                              Billing Account
                             </th>
                             <th
                               scope="col"
@@ -196,29 +194,30 @@ function MyPaymentBody() {
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 ">
-                          {withDrawRequest.data.history.map((transaction, i) => (
-                            <tr key={i}>
-                              <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
-                                {transaction.created}
-                              </td>
-                              <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
-                                {transaction.user_withdrawal_unique_id}
-                              </td>
-                              <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
-                                {transaction.billing_account_name}
-                              </td>
-                              <td className="px-2 text-sm  font-medium capitalize py-2 whitespace-nowrap">
-                                {transaction.requested_amount_formatted}
-                              </td>
-                              <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
-                                {transaction.paid_amount_formatted}
-                              </td>
-                              <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
-                                {transaction.status_formatted}
-                              </td>
-                              <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
-                              {transaction.cancel_btn_status == 1 ? (
-                                    <button 
+                          {withDrawRequest.data.history.map(
+                            (transaction, i) => (
+                              <tr key={i}>
+                                <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
+                                  {transaction.created}
+                                </td>
+                                <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
+                                  {transaction.user_withdrawal_unique_id}
+                                </td>
+                                <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
+                                  {transaction.billing_account_name}
+                                </td>
+                                <td className="px-2 text-sm  font-medium capitalize py-2 whitespace-nowrap">
+                                  {transaction.requested_amount_formatted}
+                                </td>
+                                <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
+                                  {transaction.paid_amount_formatted}
+                                </td>
+                                <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
+                                  {transaction.status_formatted}
+                                </td>
+                                <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
+                                  {transaction.cancel_btn_status == 1 ? (
+                                    <button
                                       onClick={(event) =>
                                         showCancelWithdrawModel(
                                           event,
@@ -232,9 +231,10 @@ function MyPaymentBody() {
                                   ) : (
                                     ""
                                   )}
-                              </td>
-                            </tr>
-                          ))}
+                                </td>
+                              </tr>
+                            )
+                          )}
                         </tbody>
                       </table>
                     </div>
@@ -254,7 +254,6 @@ function MyPaymentBody() {
         loading={isLoading}
       />
     </div>
- 
   );
 }
 

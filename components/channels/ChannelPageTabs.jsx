@@ -9,8 +9,8 @@ import { CgNotes } from "react-icons/cg";
 import { MdOutlineBolt } from "react-icons/md";
 import Sticky from "react-stickynode";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const ChannelPageTabs = () => {

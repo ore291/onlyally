@@ -15,8 +15,8 @@ import Link from "next/link";
 import ReactPlayer from "react-player/lazy";
 import ReactAudioPlayer from "react-audio-player";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const ProfileTabs = () => {

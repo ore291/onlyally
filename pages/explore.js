@@ -2,7 +2,6 @@ import SideNavLayout from "../components/SideNavLayout";
 import FilterSearch from "../components/explore/FilterSearch";
 import Tabs from "../components/explore/Tabs";
 
-
 import { fetchExploreStart } from "../store/slices/postSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +12,6 @@ const Explore = () => {
 
   useEffect(() => {
     dispatch(fetchExploreStart());
-   
   }, []);
 
   return (

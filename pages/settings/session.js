@@ -1,7 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProfileNavItem from "../../components/ProfileNavBar";
-
+import {
+  fetchSessionManagementListStart,
+  deleteSingleLoginSessionStart,
+  deleteAllLoginSessionStart,
+} from "../../store/slices/sessionSlice";
+import { useDispatch, useSelector } from "react-redux";
+import NoDataFound from "../../components/NoDataFound/NoDataFound";
 export default function Session() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchSessionManagementListStart());
+  }, []);
+  const Session = useSelector((state) => state.session.sessionList);
+  const allSession = Session.data.session;
+  console.log(allSession);
   const sessions = [
     {
       deviceName: "Xiaomi M2003J15SC, android",
@@ -24,6 +37,12 @@ export default function Session() {
       date: "28 Mar 2022 02:37pm",
     },
   ];
+  const logoutSession = (id) => {
+    dispatch(deleteSingleLoginSessionStart({ user_login_session_id: id }));
+  };
+  const logoutAllSession = () => {
+    dispatch(deleteAllLoginSessionStart());
+  };
   return (
     <>
       <div className="flex flex-col justify-center lg:flex-row">
@@ -35,34 +54,53 @@ export default function Session() {
             </h1>
 
             <div className="text-right">
-              <button className="btn bg-red-200 text-red-700 rounded-md">
+              <button
+                onClick={logoutAllSession}
+                className="btn bg-red-200 text-red-700 rounded-md"
+              >
                 Close All Sessions
               </button>
             </div>
 
             <main className="w-full">
-              {sessions.map((EachSession) => (
+              {Session.loading === "true" && (
+                <div className="flex">
+                  <h1 className="italic font-bold">Loading</h1>
+                  <h1 className="animate-bounce ">.</h1>
+                  <h1 className="animate-bounce">.</h1>
+                  <h1 className="animate-bounce">.</h1>
+                </div>
+              )}
+              {allSession?.map((EachSession) => (
                 <section
-                  key={EachSession.ipAddress}
+                  key={EachSession.ip_address}
                   className="shadow-md rounded-md px-4 py-6 space-y-2"
                 >
-                  <h4 className="font-bold">{EachSession.deviceName}</h4>
+                  <h4 className="font-bold">{EachSession.device_model}</h4>
                   <div className="flex justify-between">
                     <span className="text-gray-600">
-                      {EachSession.ipAddress}
+                      {EachSession.ip_address}
                     </span>
-                    <span className="text-red-500">{EachSession.date}</span>
+                    <span className="text-red-500">
+                      {EachSession.last_session}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <button className="btn bg-green-600 rounded-lg">
                       Active
                     </button>
-                    <button className="btn bg-red-600 rounded-lg">
+                    <button
+                      onClick={() =>
+                        logoutSession(EachSession.user_login_session_id)
+                      }
+                      className="btn bg-red-600 rounded-lg"
+                    >
                       Logout
                     </button>
                   </div>
                 </section>
               ))}
+              {Session.total === 0 && <NoDataFound />}
             </main>
           </section>
         </div>

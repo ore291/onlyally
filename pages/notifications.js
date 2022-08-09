@@ -14,8 +14,8 @@ import { Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const Notifications = () => {
@@ -135,7 +135,13 @@ const Notifications = () => {
                 }
               >
                 {/* <AiOutlineDollarCircle className="w-6 h-6 " /> */}
-                <Image src='/tips.png' width='24' height="24" objectFit="cover" alt=""/>
+                <Image
+                  src="/tips.png"
+                  width="24"
+                  height="24"
+                  objectFit="cover"
+                  alt=""
+                />
                 <h2 className="text-sm font-medium ">TIPPED</h2>
               </Tab>
               <Tab
@@ -177,7 +183,10 @@ const Notifications = () => {
                 <div className="p-2 grid grid-cols-1">
                   {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
-                      <Notificationcard key={index} notification={notification} />
+                      <Notificationcard
+                        key={index}
+                        notification={notification}
+                      />
                     ))
                   ) : (
                     <NoDataFound />
@@ -186,9 +195,12 @@ const Notifications = () => {
               </Tab.Panel>
               <Tab.Panel className={classNames("bg-white p-1")}>
                 <div className="p-2 grid grid-cols-1">
-                {notifications.length > 0 ? (
+                  {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
-                      <Notificationcard key={index} notification={notification} />
+                      <Notificationcard
+                        key={index}
+                        notification={notification}
+                      />
                     ))
                   ) : (
                     <NoDataFound />
@@ -196,19 +208,22 @@ const Notifications = () => {
                 </div>
               </Tab.Panel>
               <Tab.Panel className={classNames("bg-white p-1")}>
-              {notifications.length > 0 ? (
-                    notifications.map((notification, index) => (
-                      <Notificationcard key={index} notification={notification} />
-                    ))
-                  ) : (
-                    <NoDataFound />
-                  )}
+                {notifications.length > 0 ? (
+                  notifications.map((notification, index) => (
+                    <Notificationcard key={index} notification={notification} />
+                  ))
+                ) : (
+                  <NoDataFound />
+                )}
               </Tab.Panel>
               <Tab.Panel className={classNames("bg-white p-1")}>
                 <div className="p-2 grid grid-cols-1">
-                {notifications.length > 0 ? (
+                  {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
-                      <Notificationcard key={index} notification={notification} />
+                      <Notificationcard
+                        key={index}
+                        notification={notification}
+                      />
                     ))
                   ) : (
                     <NoDataFound />
@@ -217,9 +232,12 @@ const Notifications = () => {
               </Tab.Panel>
               <Tab.Panel className={classNames("bg-white p-1")}>
                 <div className="p-2 grid grid-cols-1">
-                {notifications.length > 0 ? (
+                  {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
-                      <Notificationcard key={index} notification={notification} />
+                      <Notificationcard
+                        key={index}
+                        notification={notification}
+                      />
                     ))
                   ) : (
                     <NoDataFound />
@@ -228,9 +246,12 @@ const Notifications = () => {
               </Tab.Panel>
               <Tab.Panel className={classNames("bg-white p-0 md:p-1")}>
                 <div className="p-0 md:p-2 grid grid-cols-1">
-                {notifications.length > 0 ? (
+                  {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
-                      <Notificationcard key={index} notification={notification} />
+                      <Notificationcard
+                        key={index}
+                        notification={notification}
+                      />
                     ))
                   ) : (
                     <NoDataFound />
@@ -239,9 +260,12 @@ const Notifications = () => {
               </Tab.Panel>
               <Tab.Panel className={classNames("bg-white p-0 md:p-1")}>
                 <div className="p-0 md:p-2 grid grid-cols-1">
-                {notifications.length > 0 ? (
+                  {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
-                      <Notificationcard key={index} notification={notification} />
+                      <Notificationcard
+                        key={index}
+                        notification={notification}
+                      />
                     ))
                   ) : (
                     <NoDataFound />

@@ -127,6 +127,7 @@ const initialState = {
   twoStepAuthUpdate: {
     data: {},
     loading: true,
+    inputData: {},
     error: false,
     buttonDisable: false,
     loadingButtonContent: null,
@@ -725,6 +726,7 @@ export const UserSlice = createSlice({
       state.twoStepAuthUpdate = {
         data: {},
         loading: true,
+        inputData: action.payload,
         error: false,
         buttonDisable: true,
         loadingButtonContent: "Loading please wait",
@@ -734,6 +736,7 @@ export const UserSlice = createSlice({
       state.twoStepAuthUpdate = {
         data: action.payload.data,
         loading: false,
+        inputData: {},
         error: false,
         buttonDisable: false,
         loadingButtonContent: null,
@@ -743,6 +746,7 @@ export const UserSlice = createSlice({
       state.twoStepAuthUpdate = {
         data: {},
         loading: false,
+        inputData: {},
         error: action.payload,
         buttonDisable: false,
         loadingButtonContent: null,

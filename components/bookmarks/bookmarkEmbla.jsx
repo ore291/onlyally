@@ -4,7 +4,7 @@ import Link from "next/link";
 import scrollToTop from "../helpers/ScrollToTop";
 const PLACEHOLDER_SRC = `data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D`;
 
-const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
+const BookmarkEmbla = ({ post, postFile, inView, index, handlePPVPayment }) => {
   const [hasLoaded, setHasLoaded] = useState(false);
 
   const setLoaded = useCallback(() => {
@@ -33,6 +33,9 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
                   <div className="postViewImg relative">
                     <Image
                       layout="fill"
+                      objectFit="contain"
+                      objectPosition="0 top"
+                      style={{ zIndex: 0 }}
                       alt=""
                       src={
                         inView
@@ -52,6 +55,8 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
                     <Image
                       alt=""
                       layout="fill"
+                      objectFit="contain"
+                      objectPosition="0 top"
                       src={
                         inView
                           ? postFile.post_file
@@ -86,7 +91,7 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
               post.payment_info.post_payment_type === "subscription" ? (
                 scrollToTop ? (
                   <div
-                    className="gallery-pay-button-div"
+                    className="bottom-[6em] p-[1em] rounded-md absolute md:bottom-[14em] top-[10%] w-full text-center cursor-pointer"
                     // onClick={scrollToTop}
                   >
                     <button className="gallery-pay-button">
@@ -122,4 +127,4 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
   );
 };
 
-export default EmblaSlide;
+export default BookmarkEmbla;

@@ -2,11 +2,11 @@ import React from "react";
 import Button from "../Button";
 import Link from "next/link";
 import { deleteGroupStart } from "../../store/slices/groupsSlice";
-import { useDispatch , useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const DeleteSettings = ({ group }) => {
   const dispatch = useDispatch();
-  const deletedGroup = useSelector((state) => state.groups.deleteGroup)
+  const deletedGroup = useSelector((state) => state.groups.deleteGroup);
   const deleteGroup = () => {
     dispatch(deleteGroupStart(group.slug));
   };
@@ -269,16 +269,16 @@ const DeleteSettings = ({ group }) => {
       <div className="row-container space-x-2 my-3">
         <Button
           text={deletedGroup.loading ? "Loading..." : "Delete Group`"}
-          textClass="text-black text-sm font-medium"
-          extraClasses="w-[120px] h-8"
-          onClick={()=>deleteGroup()}
+          textclassName="text-black text-sm font-medium"
+          extraclassNamees="w-[120px] h-8"
+          onClick={() => deleteGroup()}
         />
         <Link href={`/groups/${group.slug}`} passHref>
           <Button
             text="No. I'll Think"
-            textClass="font-medium text-sm"
+            textclassName="font-medium text-sm"
             active={true}
-            extraClasses="w-[120px] h-8"
+            extraclassNamees="w-[120px] h-8"
           />
         </Link>
       </div>

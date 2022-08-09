@@ -1,5 +1,3 @@
-
-
 .post-list .post-image img.post-photo {
   border-radius: 5px;
 }
@@ -543,7 +541,7 @@ button.btn.btn-info.btn-lg {
   font-size: 14px;
   font-weight: 400;
 }
-.post-icons .g-avatar.online_status_class {
+.post-icons .g-avatar.online_status_className {
   width: 48px;
   height: 48px;
   font-size: 18px;
@@ -561,7 +559,7 @@ button.btn.btn-info.btn-lg {
   -o-object-fit: cover;
   object-fit: cover;
 }
-.post-icons .online_status_class:after {
+.post-icons .online_status_className:after {
   content: "";
   height: 12px;
   position: absolute;
@@ -984,7 +982,7 @@ button.chat-header-back {
   background: none;
   color: inherit;
 }
-.home-screen span.g-avatar.online_status_class {
+.home-screen span.g-avatar.online_status_className {
   position: absolute;
   left: 0;
   top: -90px;
@@ -996,7 +994,7 @@ button.chat-header-back {
   z-index: 9;
 }
 
-.home-screen span.g-avatar.online_status_class img {
+.home-screen span.g-avatar.online_status_className img {
   width: 3em;
   height: 3em;
   object-fit: cover;
@@ -2221,7 +2219,7 @@ span.friend-username {
   margin-right: 21px;
 }
 
-.chat-user-status span:not([class]) {
+.chat-user-status span:not([className]) {
   margin-left: 3px;
 }
 .chat-subheader svg.g-icon {
@@ -2673,7 +2671,7 @@ button.avail-user-item {
   text-align: left;
   display: block;
 }
-span.g-avatar.online_status_class {
+span.g-avatar.online_status_className {
   position: absolute;
   left: -60px;
   top: 0;
@@ -3706,12 +3704,12 @@ button.g-btn.m-transparent-bg.m-uppercase.b-users-lists__modal__add-list-btn
   top: 5px;
   font-size: 20px;
 }
-.checkbox-rounded [type="checkbox"][class*="filled-in"] + label:after {
+.checkbox-rounded [type="checkbox"][className*="filled-in"] + label:after {
   border-radius: 50%;
 }
 
 .checkbox-living-coral-filled
-  [type="checkbox"][class*="filled-in"]:checked
+  [type="checkbox"][className*="filled-in"]:checked
   + label:after {
   border-color: #ff6f61;
   background-color: #ff6f61;
@@ -6119,4 +6117,3 @@ input.authentication-input {
   object-fit: cover;
   object-position: center;
 }
-

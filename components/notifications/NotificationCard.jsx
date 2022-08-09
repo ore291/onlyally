@@ -40,9 +40,11 @@ const NotificationCard = ({ notification }) => {
             </Link>
           </div>
           <p className="text-sm md:text-lg font-normal text-ellipsis">
-          {notification.message}
+            {notification.message}
           </p>
-          <span className="text-gray-400 font-medium text-xs">{notification.updated_formatted}</span>
+          <span className="text-gray-400 font-medium text-xs">
+            {notification.updated_formatted}
+          </span>
         </div>
       </div>
     </Link>

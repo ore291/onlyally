@@ -10,7 +10,7 @@ import { fetchBookmarksPhotoStart } from "../../store/slices/bookmarkSlice";
 import { MdPhotoSizeSelectActual } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import NoDataFound from "../../components/NoDataFound/NoDataFound";
-
+import BookmarkComponent from "../../components/bookmarks/bookmarkComponent";
 export default function Bookmarks() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function Bookmarks() {
               <div className="side-icon ml-4">
                 <MdPhotoSizeSelectActual className="text-white h-5 w-5 " />
               </div>
-              <p className=" m-auto font-semibold-sm">Videos</p>
+              <p className=" m-auto font-semibold-sm">Photos</p>
             </div>
             <hr className="w-full py-3 " />
           </div>
@@ -57,13 +57,16 @@ export default function Bookmarks() {
                 <h1 className="animate-bounce">.</h1>
               </div>
             ) : data.length > 0 ? (
-              data.map((post, i) => (
-                <NewsFeedCard
-                  post={post}
-                  index={post.post_unique_id}
-                  key={post.post_unique_id}
-                />
-              ))
+              <div className="flex flex-wrap">
+                {data.map((post, i) => (
+                  <BookmarkComponent
+                    className="w-[200px]"
+                    post={post}
+                    index={post.post_unique_id}
+                    key={post.post_unique_id}
+                  />
+                ))}
+              </div>
             ) : (
               <NoDataFound />
             )}
