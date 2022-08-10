@@ -14,9 +14,16 @@ import { getCookies } from "cookies-next";
 const Stories = () => {
  
   const loginDetails = useSelector((state) => state.user.loginData);
+  const profile = useSelector((state) => state.user.profile.data);
   const dispatch = useDispatch();
   const userStories = useSelector((state) => state.stories.stories);
   const uploadModalState = useSelector((state) => state.navbar.uploadModal);
+
+  const [uploadStoryModal, setUploadStoryModal] = useState(false);
+
+  const closeUploadModal = ()=>{
+    setUploadStoryModal(false)
+  }
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -74,11 +81,12 @@ const Stories = () => {
               <div className="embla__container">
                 <div
                   className="embla__slide1"
-                  onClick={() => dispatch(setUploadModal(true))}
+                  // onClick={() => dispatch(setUploadModal(true))}
+                  onClick={()=>setUploadStoryModal(true)}
                 >
                   <Story
                     username={"Create new story"}
-                    img={loginDetails.picture}
+                    img={loginDetails.picture || profile.picture}
                     isYou={true}
                     className="embla__slide1"
                   />
@@ -124,9 +132,9 @@ const Stories = () => {
           renderSliderModal={renderSliderModal}
         />
       )}
-      {
-        uploadModalState ? (<StoriesUploadModal />) : null
-      }
+      
+       <StoriesUploadModal  uploadStoryModal={uploadStoryModal} closeUploadModal={closeUploadModal}/>
+      
       
     </div>
   );
