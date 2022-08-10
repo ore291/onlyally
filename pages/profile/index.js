@@ -201,12 +201,8 @@ const Profile = () => {
                 <Button
                   text="Edit profile"
                   active={true}
-<<<<<<< HEAD
-                  extraclassNamees="w-32 h-9"
-=======
                   onClick={() => router.push("/settings/profile")}
                   extraClasses="w-32 h-9"
->>>>>>> 34ef5ee98bb80b35bdff506c5407f594fca1b4d6
                 />
 
                 <div
