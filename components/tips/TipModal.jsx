@@ -38,9 +38,11 @@ const TipModal = (props) => {
 
   const [modalOpen, setModalOpen] = useState(true);
 
+  const email = getCookie("user_email")
+
   const [config, setConfig] = useState({
     reference: new Date().getTime().toString(),
-    email: user?.email,
+    email: email,
     amount: 100,
     publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
   });

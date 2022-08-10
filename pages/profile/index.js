@@ -157,7 +157,7 @@ const Profile = () => {
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <FaBell className="w-5 h-5" />
                 </div>
-                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                <div className="row-container  p-3 bg-gray-200 rounded-md cursor-pointer">
                   <MdMail
                     className="w-5 h-5"
                     onClick={(event) =>
@@ -175,26 +175,26 @@ const Profile = () => {
                   <RiUpload2Line className="w-5 h-5" />
                 </div>
               </div>
-              <div className="flex justify-between px-8">
+              <div className="flex justify-around px-8">
                 <div className="col-container space-y-0.5">
                   <p className="text-lg font-semibold">{posts.data.total}</p>
                   <span>Posts</span>
                 </div>
-                <div className="col-container space-y-0.5">
+                <div className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1" onClick={()=>router.push('/bookmarks/following')}>
                   <p className="text-lg font-semibold">
-                    {localStorage.getItem("total_followings")
-                      ? localStorage.getItem("total_followings")
-                      : 0}{" "}
+                    {profile.data.total_followings
+                      ? profile.data.total_followings
+                      :  localStorage.getItem("total_followings")}{" "}
                   </p>
                   <span>Following</span>
                 </div>
-                <div className="col-container space-y-0.5">
+                <div className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1 " onClick={()=>router.push('/bookmarks/fans')}>
                   <p className="text-lg font-semibold">
-                    {localStorage.getItem("total_followers")
-                      ? localStorage.getItem("total_followers")
-                      : 0}
+                  {profile.data.total_followers
+                      ? profile.data.total_followers
+                      :  localStorage.getItem("total_followers")}
                   </p>
-                  <span>Fans</span>
+                  <span className="mx-2">Fans</span>
                 </div>
               </div>
               <div className="flex justify-center items-center space-x-2 ">
@@ -202,7 +202,7 @@ const Profile = () => {
                   text="Edit profile"
                   active={true}
                   onClick={() => router.push("/settings/profile")}
-                  extraClasses="w-32 h-9"
+                  extraclassNamees="w-32 h-9"
                 />
 
                 <div

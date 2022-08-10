@@ -553,7 +553,7 @@ export default function Profile() {
                       }}
                     />
                   </div>
-                  <div className="flex flex-col">
+                  {/* <div className="flex flex-col">
                     <label htmlFor="" className="font-medium text-lg">
                       Monthly Amount
                     </label>
@@ -570,7 +570,7 @@ export default function Profile() {
                         );
                       }}
                     />
-                  </div>
+                  </div> */}
                 </article>
               </div>
 
@@ -688,7 +688,7 @@ export default function Profile() {
                       }}
                     />
                   </div>
-                  <div className="flex flex-col">
+                  {/* <div className="flex flex-col">
                     <label htmlFor="" className="font-medium text-lg">
                       Yearly Amount
                     </label>
@@ -705,7 +705,7 @@ export default function Profile() {
                         );
                       }}
                     />
-                  </div>
+                  </div> */}
                 </article>
               </div>
             </div>

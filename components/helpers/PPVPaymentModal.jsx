@@ -30,6 +30,8 @@ const PPVPaymentModal = (props) => {
     localStorage.getItem("default_payment_method")
   );
 
+  const email = getCookie("user_email")
+
   const wallet = useSelector((state) => state.wallet.walletData);
   const user = useSelector((state) => state.user.profile.data);
   const ppvPaystack = useSelector((state) => state.post.ppvPayPaystack);
@@ -37,7 +39,7 @@ const PPVPaymentModal = (props) => {
 
   const [config, setConfig] = useState({
     reference: new Date().getTime().toString(),
-    email: user?.email,
+    email: email,
     amount: props.amount * 100,
     publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
   });

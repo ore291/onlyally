@@ -42,7 +42,7 @@ const ChannelFilter = ({ channel }) => {
           />
         </div>
         <Button
-          extraClasses="h-[35px] w-20 px-2 py-1"
+          extraclassNamees="h-[35px] w-20 px-2 py-1"
           textClass="text-xs md:text-sm font-semibold"
           active={true}
           text="Subscribe"
