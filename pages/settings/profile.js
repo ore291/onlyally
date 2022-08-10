@@ -46,12 +46,16 @@ export default function Profile() {
 
   const userGender = useState([[profile.data.gender]]);
 
+  const [first, setFirst] = useState("") 
+
 
   // console.log(profile.data.pro_membership_logs[0].plan)
 
   useEffect(() => {
     // if (profile.loading || profile.data !== null) dispatch(fetchUserDetailsStart());
-  }, []);
+    profile.data.pro_membership_logs && setFirst(profile?.data?.pro_membership_logs?.find(e => typeof e !== 'undefined'))
+
+  }, [profile.data.pro_membership_logs]);
 
   const handleCategoryEdit = (data) => {
     dispatch(editUserDetails(data));
@@ -927,7 +931,7 @@ export default function Profile() {
                 }
                 alt="profile-pic"
               />
-              <h1>{ profile.data?.pro_membership_logs[0].plan ? profile.data.pro_membership_logs[0].plan : ""} Member</h1>
+              <h1>{ first.plan ? first.plan : ""} Member</h1>
               <h5 className="font-medium">Membership</h5>
               <Link href="/go-pro">
                 <button className="btn bg-red-600 uppercase text-base rounded-lg">
