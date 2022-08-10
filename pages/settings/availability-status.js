@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Availability() {
   const dispatch = useDispatch();
 
-  const [inputData, setInputData] = useState({})
+  const [inputData, setInputData] = useState({});
   const profile = useSelector((state) => state.user.profile);
   const status = useSelector((state) => state.user.onlineStatus);
   useEffect(() => {
@@ -18,8 +18,8 @@ export default function Availability() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(updateUserStart(inputData))
-  }
+    dispatch(updateUserStart(inputData));
+  };
 
   return (
     <>
@@ -34,31 +34,33 @@ export default function Availability() {
             {profile.loading ? (
               <p>Loading...</p>
             ) : (
-              <select className="w-full border-0 border-b-2 border-gray-300 focus:border-0 outline-none" onChange={(e)=>{setInputData({
-                is_online_status : e.currentTarget.value
-              })}}>
-                <option
-                  selected={profile.data.is_online_status == 1}
-                  value="1"
-                >
+              <select
+                className="w-full border-0 border-b-2 border-gray-300 focus:border-0 outline-none"
+                onChange={(e) => {
+                  setInputData({
+                    is_online_status: e.currentTarget.value,
+                  });
+                }}
+              >
+                <option selected={profile.data.is_online_status == 1} value="1">
                   Online
                 </option>
-                <option
-                  selected={profile.data.is_online_status == 0}
-                  value="0"
-                >
+                <option selected={profile.data.is_online_status == 0} value="0">
                   Offline
                 </option>
               </select>
             )}
 
             <div className="text-center">
-              <button 
-              disabled={inputData.is_online_status == null}
-              type="submit" className="btn bg-red-600 uppercase text-base rounded-lg" onClick={handleSubmit}>
-               {
-                 status.loadingButtonContent ? status.loadingButtonContent : "Submit"
-               }
+              <button
+                disabled={inputData.is_online_status == null}
+                type="submit"
+                className="btn bg-red-600 uppercase text-base rounded-lg"
+                onClick={handleSubmit}
+              >
+                {status.loadingButtonContent
+                  ? status.loadingButtonContent
+                  : "Submit"}
               </button>
             </div>
           </form>

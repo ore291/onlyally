@@ -175,7 +175,7 @@ const StoryUploadModal = (props) => {
         </Dialog>
       </Transition>
       {/* <div
-        class={`modal custom-modal fade`}
+        className={`modal custom-modal fade`}
         id="addStoryModal"
         tabindex="-1"
         role="dialog"

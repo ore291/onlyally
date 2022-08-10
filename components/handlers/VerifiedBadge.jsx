@@ -1,6 +1,6 @@
-import Image from "next/image"
+import Image from "next/image";
 import configuration from "react-global-configuration";
-import {FaCheckCircle} from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 
 const VerifiedBadge = (props) => {
   return (

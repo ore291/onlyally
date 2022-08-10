@@ -51,39 +51,27 @@ const AdminSettings = ({ data }) => {
             </Tab.List>
             <Tab.Panels className="mt-2 max-w-[730px] mx-auto">
               {/* users tab */}
-              <Tab.Panel
-                className={classNames("bg-white rounded-xl p-1")}
-              >
-                <GeneralSettings/>
+              <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+                <GeneralSettings />
               </Tab.Panel>
               {/* <Tab.Panel
                 className={classNames("bg-white rounded-xl p-1")}
               >
                 <PrivacySettings/>
               </Tab.Panel> */}
-              <Tab.Panel
-                className={classNames("bg-white rounded-xl p-1")}
-              >
-                <DesignSettings/>
+              <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+                <DesignSettings />
               </Tab.Panel>
-              <Tab.Panel
-                className={classNames("bg-white rounded-xl p-1")}
-              >
+              <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <MembersSettings group={data} />
               </Tab.Panel>
-              <Tab.Panel
-                className={classNames("bg-white rounded-xl p-1")}
-              >
+              <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <AnalyticsSettings group={data} />
               </Tab.Panel>
-              <Tab.Panel
-                className={classNames("bg-white rounded-xl p-1")}
-              >
+              <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <MembersSettings group={data} />
               </Tab.Panel>
-              <Tab.Panel
-                className={classNames("bg-white rounded-xl p-1")}
-              >
+              <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <DeleteSettings group={data} />
               </Tab.Panel>
             </Tab.Panels>

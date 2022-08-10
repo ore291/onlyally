@@ -13,8 +13,8 @@ import { FaTimes } from "react-icons/fa";
 
 import Link from "next/link";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const WithdrawModal = (props) => {
@@ -95,8 +95,7 @@ const WithdrawModal = (props) => {
                         Pro Balance :
                         <span className="text-muted">
                           {props.payments.data.user_wallet
-                            ? props.payments.data.user_wallet
-                                .pro_balance
+                            ? props.payments.data.user_wallet.pro_balance
                             : ""}
                         </span>
                       </h4>

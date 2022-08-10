@@ -71,7 +71,7 @@ const Channel = () => {
                   <div className="absolute -bottom-14 left-5 p-1 rounded-full bg-white">
                     <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full">
                       <Image
-                        src={channel?.avatar || "/profile_avatar_full" }
+                        src={channel?.avatar || "/profile_avatar_full"}
                         layout="fill"
                         objectFit="cover"
                         className="rounded-full"
@@ -98,12 +98,12 @@ const Channel = () => {
                     <Button
                       text="Unsubscribe"
                       active={true}
-                      extraClasses="w-20 md:w-28 h-9  rounded-md bg-red-500"
+                      extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-red-500"
                     />
                   ) : (
                     <Button
                       text="subscribe"
-                      extraClasses="w-20 md:w-28 h-9 bg-gray-200 rounded-md"
+                      extraclassNamees="w-20 md:w-28 h-9 bg-gray-200 rounded-md"
                     />
                   )}
                 </div>
@@ -134,7 +134,7 @@ const Channel = () => {
                     <div onClick={() => setSubscribed(true)}>
                       <Button
                         text="Subscribe"
-                        extraClasses="w-36 h-9"
+                        extraclassNamees="w-36 h-9"
                         active={true}
                       />
                     </div>
@@ -142,8 +142,8 @@ const Channel = () => {
                     {/* <button onClick={() => router.back()}> */}
                     <Button
                       text="Go Back"
-                      extraClasses="w-36 h-9 bg-[#FFD0D8] hover:bg-[#FF1534] hover:text-white text-lightPlayRed"
-                      textClass="group-hover:text-white hover:text-white  font-semibold"
+                      extraclassNamees="w-36 h-9 bg-[#FFD0D8] hover:bg-[#FF1534] hover:text-white text-lightPlayRed"
+                      textclassName="group-hover:text-white hover:text-white  font-semibold"
                     />
                     {/* </button> */}
                   </div>

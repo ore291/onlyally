@@ -1,8 +1,10 @@
 import { FaCrown, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { upgradePackageStart } from "../../store/slices/userSlice";
+import { useState } from "react";
 export const GoProStar = () => {
   const dispatch = useDispatch();
+  const [malware, setMalware] = useState("Loading please wait...");
 
   const upgrade = () => {
     dispatch(upgradePackageStart());
@@ -12,6 +14,22 @@ export const GoProStar = () => {
     (state) => state.user.upgradePackage.loadingButtonContent
   );
   //console.log(Audios);
+
+  const [testtwo, setTestTwo] = useState(false);
+  const run = () => {
+    upgrade();
+    setTestTwo(true);
+    setTimeout(() => {
+      if (!Loading) {
+        setTestTwo(false);
+      }
+    }, 3000);
+    setTimeout(() => {
+      if (!Loading) {
+        setTestTwo(false);
+      }
+    }, 3000);
+  };
 
   //const data = Audios.data.posts.slice(1);
   return (
@@ -30,10 +48,12 @@ export const GoProStar = () => {
           <span className="font-light text-lg text-gray-500">/ Followers</span>
         </h1>
         <button
-          onClick={upgrade}
+          onClick={() => {
+            run();
+          }}
           className="bg-red-400 my-8 text-lg font-medium hover:bg-red-500 text-white shadow-sm rounded-lg w-full px-4 py-2 transition duration-100 ease-linear"
         >
-          {Loading ? LoadingState : "Upgrade Now"}
+          {testtwo ? "Loading please wait..." : "Upgrade Now"}
         </button>
       </section>
 
@@ -97,7 +117,7 @@ export const GoProStar = () => {
 
 export const GoProFire = () => {
   const dispatch = useDispatch();
-
+  const [malware, setMalware] = useState("Loading please wait...");
   const upgrade = () => {
     dispatch(upgradePackageStart());
   };
@@ -105,6 +125,22 @@ export const GoProFire = () => {
   const LoadingState = useSelector(
     (state) => state.user.upgradePackage.loadingButtonContent
   );
+  const [testtwo, setTestTwo] = useState(false);
+  const run = () => {
+    upgrade();
+    setTestTwo(true);
+    setTimeout(() => {
+      if (!Loading) {
+        setTestTwo(false);
+      }
+    }, 3000);
+    setTimeout(() => {
+      if (!Loading) {
+        setTestTwo(false);
+      }
+    }, 3000);
+  };
+
   return (
     <div className="w-full lg:w-[27%]  mt-8 px-4 py-8 bg-white hover:bg-gray-50 transition duration-200 ease-out rounded-lg shadow-lg">
       <section className="space-y-2">
@@ -120,10 +156,10 @@ export const GoProFire = () => {
           <span className="font-light text-lg text-gray-500">/ Followers</span>
         </h1>
         <button
-          onClick={upgrade}
+          onClick={run}
           className="bg-red-400 my-8 text-lg font-medium hover:bg-red-500 text-white shadow-sm rounded-md w-full px-4 py-2 transition duration-100 ease-linear"
         >
-          {Loading ? LoadingState : "Upgrade Now"}
+          {testtwo ? "Loading please wait..." : "Upgrade Now"}
         </button>
       </section>
 
@@ -195,6 +231,21 @@ export const GoProFlash = () => {
   const LoadingState = useSelector(
     (state) => state.user.upgradePackage.loadingButtonContent
   );
+  const [testtwo, setTestTwo] = useState(false);
+  const run = () => {
+    upgrade();
+    setTestTwo(true);
+    setTimeout(() => {
+      if (!Loading) {
+        setTestTwo(false);
+      }
+    }, 3000);
+    setTimeout(() => {
+      if (!Loading) {
+        setTestTwo(false);
+      }
+    }, 3000);
+  };
   return (
     <div className="w-full lg:w-[27%]  mt-8 px-4 py-8 bg-white hover:bg-gray-50 transition duration-200 ease-out rounded-lg shadow-lg">
       <section className="space-y-2">
@@ -209,11 +260,12 @@ export const GoProFlash = () => {
           20000
           <span className="font-light text-lg text-gray-500">/ Followers</span>
         </h1>
+
         <button
-          onClick={upgrade}
+          onClick={run}
           className="bg-red-400 text-lg font-medium hover:bg-red-500 text-white shadow-sm rounded-md w-full px-4 py-2 transition duration-100 ease-linear"
         >
-          {Loading ? LoadingState : "Upgrade Now"}
+          {testtwo ? "Loading please wait..." : "Upgrade Now"}
         </button>
       </section>
 

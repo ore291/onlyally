@@ -53,7 +53,8 @@ function OrderList() {
       action: "view",
     },
     {
-      image: "https://images.pexels.com/photos/6752172/pexels-photo-6752172.jpeg?cs=srgb&dl=pexels-rachel-claire-6752172.jpg&fm=jpg",
+      image:
+        "https://images.pexels.com/photos/6752172/pexels-photo-6752172.jpeg?cs=srgb&dl=pexels-rachel-claire-6752172.jpg&fm=jpg",
       item_name: "Stretch Brand",
       quantity: "Quantity 24",
       id: "0-12-3e6376-784",
@@ -88,7 +89,7 @@ function OrderList() {
               <img
                 src={data.image}
                 alt="Order image"
-                className="w-32 h-[100px] " 
+                className="w-32 h-[100px] "
               />
 
               <div className="flex flex-col justify-center items-center">

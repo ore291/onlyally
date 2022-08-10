@@ -91,7 +91,7 @@ const RangeSlider = ({ initialMin, initialMax, min, max, step, priceCap }) => {
         <div className="bg-gray-100 rounded-full absolute -top-8 right-1 w-14 h-6 row-container ">
           <span className="text-center text-xs text-gray-500">
             {minValue / 100}-{maxValue / 100}
-            </span>
+          </span>
         </div>
       </div>
     </div>

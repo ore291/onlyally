@@ -1,7 +1,22 @@
 import React, { useState } from "react";
 import ProfileNavItem from "../../components/ProfileNavBar";
-
+import { useSelector, useDispatch } from "react-redux";
+import { AiFillEyeInvisible } from "react-icons/ai";
+import { AiFillEye } from "react-icons/ai";
+import { deleteAccountStart } from "../../store/slices/userSlice";
 export default function DeleteAccount() {
+  const dispatch = useDispatch();
+  const [password, setPassword] = useState("");
+  const [seePassword, setSeePassword] = useState(true);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(deleteAccountStart({ password: password }));
+    setPassword("");
+  };
+  const changeSeePassword = () => {
+    setSeePassword((prev) => !prev);
+  };
+  const DeleteDetails = useSelector((state) => state.user.deleteAccount);
   return (
     <>
       <div className="flex flex-col justify-center lg:flex-row">
@@ -22,24 +37,40 @@ export default function DeleteAccount() {
               </p>
             </div>
 
-            <form action="" className="text-gray-600 space-y-8 my">
-              <div>
+            <div className="text-gray-600 space-y-8 my">
+              <div className="relative">
                 <label htmlFor="" className="uppercase mb-6">
                   Password
                 </label>
                 <input
-                  className="w-full border-0 mt-4 border-b-2 border-gray-300 focus:border-0 outline-none"
-                  type="password"
+                  onChange={(event) => setPassword(event.currentTarget.value)}
+                  value={password}
+                  className="w-full bg-white-900 m-4 rounded-full placeholder-[white] border-[rgba(0,0,0,0.05)] outline-none"
+                  type={seePassword ? "text" : "password"}
                   placeholder="Enter Password"
                 />
+                <div className="cursor-pointer" onClick={changeSeePassword}>
+                  {seePassword ? (
+                    <AiFillEye className="right-[30px] absolute top-[55px] bg-white rounded-xl" />
+                  ) : (
+                    <AiFillEyeInvisible className="right-[30px] absolute top-[55px] bg-white rounded-xl" />
+                  )}
+                </div>
               </div>
 
               <div className="text-center">
-                <button className="btn bg-red-600 uppercase text-base rounded-lg px-8 py-4">
-                  Delete Password
+                <button
+                  onClick={(e) => handleSubmit(e)}
+                  style={{ borderRadius: "50px" }}
+                  disabled={DeleteDetails.buttonDisable}
+                  className="btn bg-red-600 uppercase text-base h-[40px]"
+                >
+                  {DeleteDetails.loadingButtonContent !== null
+                    ? DeleteDetails.loadingButtonContent
+                    : "delete account"}
                 </button>
               </div>
-            </form>
+            </div>
           </section>
         </div>
       </div>

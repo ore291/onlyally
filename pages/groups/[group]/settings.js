@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import ProfileLoader from "../../../components/Profile/ProfileLoader";
 import AdminSettings from "../../../components/settings/AdminSettings";
-import { getSelectorsByUserAgent ,isMobileOnly, isMobile} from "react-device-detect";
+import {
+  getSelectorsByUserAgent,
+  isMobileOnly,
+  isMobile,
+} from "react-device-detect";
 import { getCookies } from "cookies-next";
-
 
 import { END } from "redux-saga";
 import { wrapper } from "../../../store";
@@ -24,7 +27,6 @@ const Settings = () => {
   //   router.isReady &&
   //     dispatch(fetchSingleGroupStart({ group_slug: router.query.group }));
   // }, [router.isReady]);
-
 
   return (
     <SideNavLayout>
@@ -51,7 +53,6 @@ export default Settings;
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ req, res, params }) => {
-
       const { group } = params;
 
       const userAgent = req.headers["user-agent"];
@@ -84,11 +85,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
           accessToken: cookies.accessToken,
           userId: cookies.userId,
           device_model: device_model,
-          group_slug: group
+          group_slug: group,
         })
       );
-
-    
 
       store.dispatch(END);
       await store.sagaTask.toPromise();
@@ -98,4 +97,3 @@ export const getServerSideProps = wrapper.getServerSideProps(
       };
     }
 );
-

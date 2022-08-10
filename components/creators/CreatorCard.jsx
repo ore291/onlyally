@@ -6,7 +6,6 @@ const CreatorCard = ({ username, image, main, verified, creator }) => {
   if (main) {
     return (
       <Link href={`/profile/${creator.unique_id}`}>
-        
         <div className="col-container my-3 cursor-pointer">
           <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-0.5 rounded-2xl">
             <div className="bg-white p-0.5 rounded-2xl">

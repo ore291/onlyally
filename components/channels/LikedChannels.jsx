@@ -4,8 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { useEffect } from "react";
-import {useDispatch, useSelector} from "react-redux";
-import { fetchChannelsStart , channelSubscribeStart} from "../../store/slices/channelsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchChannelsStart,
+  channelSubscribeStart,
+} from "../../store/slices/channelsSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
 
 // .filter(filterchannel => !checkMember(filterchannel.members)) code for filtering
@@ -13,27 +16,24 @@ import CommonCenterLoader from "../helpers/CommonCenterLoader";
 const LikedChannels = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const channels = useSelector(state => state.channels.channels.data);
-  const user = useSelector(state => state.user.loginData)
+  const channels = useSelector((state) => state.channels.channels.data);
+  const user = useSelector((state) => state.user.loginData);
 
-  const joinChannel = (slug)=>{
-    dispatch(channelSubscribeStart(slug))
-  }
+  const joinChannel = (slug) => {
+    dispatch(channelSubscribeStart(slug));
+  };
 
+  const checkMember = (memberList) => {
+    var members = memberList.map((member) => {
+      return member.user_id;
+    });
 
-  const checkMember = (memberList) =>{
-      var members =  memberList.map((member)=>{
-        return member.user_id
-        
-      })
+    return members.includes(user.user_id);
+  };
 
-     return members.includes(user.user_id)
-  }
-  
   useEffect(() => {
-    dispatch(fetchChannelsStart())
-    
-  }, [])
+    dispatch(fetchChannelsStart());
+  }, []);
   return (
     <div className="side-container">
       <p className="text-start font-bold">Channels you may like</p>
@@ -43,52 +43,62 @@ const LikedChannels = () => {
           <Button text="NEWEST" active={false} />
           <Button text="SEE ALL" active={false} />
         </div>
-        {
-          channels.loading ? (
-            <div className="row-container">
-              <CommonCenterLoader/>
+        {channels.loading ? (
+          <div className="row-container">
+            <CommonCenterLoader />
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 gap-y-2">
+              {channels.length > 0
+                ? [...channels]
+                    .sort(() => Math.random() - Math.random())
+                    .slice(0, 5)
+                    .map((channel, i) => (
+                      <div
+                        className="grid grid-cols-4 place-content-center items-center justify-center  w-full"
+                        key={i}
+                      >
+                        <div className=" w-12 h-12 relative ">
+                          <Image
+                            src={channel.avatar}
+                            alt="side-img"
+                            layout="fill"
+                            objectFit="cover"
+                            className="rounded-full"
+                          />
+                        </div>
+                        <div className="flex flex-col space-y-.5 col-span-2 ">
+                          <p className="font-bold text-sm  text-gray-600 whitespace-nowrap">
+                            {channel.name}
+                          </p>
+                          <span className="text-xs font-semibold">
+                            {channel.members.length} Subscribers
+                          </span>
+                        </div>
+                        <div className=" row-container">
+                          {checkMember(channel.members) ? (
+                            <Button
+                              onClick={() =>
+                                router.push(`/channels/${channel.slug}`)
+                              }
+                              text="view"
+                              active={true}
+                            />
+                          ) : (
+                            <Button
+                              text="Subscribe"
+                              active={true}
+                              onClick={(e) => joinChannel(channel.slug)}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    ))
+                : null}
             </div>
-          ) : (
-            <>
-          
-             <div className="grid grid-cols-1 gap-y-2" >
-             {
-            channels.length > 0 ? ([...channels].sort(() => Math.random() - Math.random()).slice(0, 5).map((channel, i) => (
-         
-            <div className="grid grid-cols-4 place-content-center items-center justify-center  w-full" key={i}>
-              <div className=" w-12 h-12 relative ">
-                <Image
-                  src={channel.avatar}
-                  alt="side-img"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-full"
-                />
-              </div>
-              <div className="flex flex-col space-y-.5 col-span-2 " >
-                <p className="font-bold text-sm  text-gray-600 whitespace-nowrap">{channel.name}</p>
-                <span className="text-xs font-semibold">{channel.members.length} Subscribers</span>
-              </div>
-              <div className=" row-container" >
-                {
-                  checkMember(channel.members) ? (
-               
-                     <Button onClick={()=>router.push(`/channels/${channel.slug}`)} text="view" active={true}  />
-                  
-                   
-                  ) : <Button  text="Subscribe" active={true} onClick={e => joinChannel(channel.slug)} />
-                }
-                
-              </div>
-              
-            </div>
-         
-        ))) : null}
-         </div>
-            </>
-          )
-        }
-        
+          </>
+        )}
       </div>
     </div>
   );

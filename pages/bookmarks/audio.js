@@ -8,6 +8,7 @@ import NewsFeedCard from "../../components/feeds/NewsFeedCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import NoDataFound from "../../components/NoDataFound/NoDataFound";
+import BookmarkComponent from "../../components/bookmarks/bookmarkComponent";
 export default function Bookmarks() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -49,13 +50,15 @@ export default function Bookmarks() {
                 <h1 className="animate-bounce">.</h1>
               </div>
             ) : data.length > 1 ? (
-              data.map((post, i) => (
-                <NewsFeedCard
-                  post={post}
-                  index={post.post_unique_id}
-                  key={post.post_unique_id}
-                />
-              ))
+              <div className="flex  flex-wrap">
+                {data.map((post, i) => (
+                  <BookmarkComponent
+                    post={post}
+                    index={post.post_unique_id}
+                    key={post.post_unique_id}
+                  />
+                ))}
+              </div>
             ) : (
               <NoDataFound />
             )}

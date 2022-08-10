@@ -17,7 +17,7 @@ import "@draft-js-plugins/hashtag/lib/plugin.css";
 import createLinkifyPlugin from "@draft-js-plugins/linkify";
 import "@draft-js-plugins/linkify/lib/plugin.css";
 import draftToHtml from "draftjs-to-html";
-import { useDispatch , useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const hashtagPlugin = createHashtagPlugin();
 const linkifyPlugin = createLinkifyPlugin();
@@ -27,7 +27,7 @@ const plugins = [mentionPlugin, linkifyPlugin, hashtagPlugin];
 
 const PostEditor = (props) => {
   const dispatch = useDispatch();
-  const searchUser = useSelector(state => state.home.searchUser)
+  const searchUser = useSelector((state) => state.home.searchUser);
   const [suggestions, setSuggestions] = useState([]);
 
   const [mentions, setMentions] = useState([]);
@@ -40,14 +40,15 @@ const PostEditor = (props) => {
     EditorState.createEmpty()
   );
 
-  const onOpenChange = useCallback((_open) =>{
-    setOpen(_open)
-  },[])
+  const onOpenChange = useCallback((_open) => {
+    setOpen(_open);
+  }, []);
 
   useEffect(() => {
     if (props.editorState) {
-      const content = convertToRaw(props.editorState.getCurrentContent())
-        .blocks;
+      const content = convertToRaw(
+        props.editorState.getCurrentContent()
+      ).blocks;
       props.getEditorRawContent(
         content
           .map((block) => (!block.text.trim() && "\n") || block.text)

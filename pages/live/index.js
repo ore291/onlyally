@@ -68,14 +68,14 @@ const Live = () => {
             <Button
               text="Go Live"
               active={true}
-              textClass="text-xl font-semibold"
-              extraClasses="w-40 h-12"
+              textclassName="text-xl font-semibold"
+              extraclassNamees="w-40 h-12"
               onClick={() => setGoLive(true)}
             />
             <Button
               text="Live History"
-              extraClasses="w-40 h-12 !bg-[#FFC7C6]"
-              textClass="text-textPlayRed text-xl font-semibold"
+              extraclassNamees="w-40 h-12 !bg-[#FFC7C6]"
+              textclassName="text-textPlayRed text-xl font-semibold"
             />
           </div>
           <div className="max-w-5xl mx-auto">

@@ -54,7 +54,8 @@ const Billing = () => {
         </div>
       </div>
       <div className="bg-white h-full">
-        {bankAccount.data.billing_accounts &&  bankAccount.data.billing_accounts.length > 0 ? (
+        {bankAccount.data.billing_accounts &&
+        bankAccount.data.billing_accounts.length > 0 ? (
           <div className="max-w-6xl mx-auto my-5">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

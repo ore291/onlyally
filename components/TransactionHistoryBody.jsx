@@ -70,7 +70,7 @@ function SubscribeBody() {
       paid: "paid",
       amount: "$0.00",
       val: "+",
-      fee:"$0,00", 
+      fee: "$0,00",
       state: "Credit",
       from: "Person's name",
       code: "CR3678 CGVAVU7E8 74T8TVCVJVC",
@@ -100,30 +100,31 @@ function SubscribeBody() {
         {paymentDetails.map((payment, index) => (
           <div className="space-y-6" key={index}>
             <div className="flex ">
-            <div className="grid grid-cols-5 justify-items-center mt-6	text-[13px] w-[65%]">
-              {/* <div className="justify-items-center"> */}
+              <div className="grid grid-cols-5 justify-items-center mt-6	text-[13px] w-[65%]">
+                {/* <div className="justify-items-center"> */}
 
-              {/* <BiPaperPlane />  */}
-              <p className="m-">{payment.paid} </p>
+                {/* <BiPaperPlane />  */}
+                <p className="m-">{payment.paid} </p>
 
-              <div className="justify-items-center">
-                <p className="text-center">{payment.val}</p>
-                <p>{payment.amount}</p>
-              </div>
-              <div>
-                <p>Service fee :</p>
-                <p className="text-center">{payment.fee}</p>
-              </div>
+                <div className="justify-items-center">
+                  <p className="text-center">{payment.val}</p>
+                  <p>{payment.amount}</p>
+                </div>
+                <div>
+                  <p>Service fee :</p>
+                  <p className="text-center">{payment.fee}</p>
+                </div>
                 <p>{payment.state} </p>
-              <spam className="justify-items-center">
+                <spam className="justify-items-center">
                   <p className="text-center">From :- </p>
                   <p>{payment.from}</p>
                 </spam>
-              
-            </div>
-            {/* <div> */}
-              <p  className="w-[35%] items-center mt-6 text-[13px] text-center">{payment.code}</p>
-            {/* </div> */}
+              </div>
+              {/* <div> */}
+              <p className="w-[35%] items-center mt-6 text-[13px] text-center">
+                {payment.code}
+              </p>
+              {/* </div> */}
             </div>
             <hr />
           </div>

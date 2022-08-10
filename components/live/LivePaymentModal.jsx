@@ -17,8 +17,8 @@ import { notify } from "reapop";
 
 import Link from "next/link";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const LivePaymentModal = (props) => {
@@ -50,7 +50,7 @@ const LivePaymentModal = (props) => {
         liveVideosPaymentByPaystackStart({
           payment_id: reference.reference,
           live_video_id: props.liveVideo.live_video_id,
-          pro_balance : true
+          pro_balance: true,
         })
       );
     }, 1000);
@@ -84,22 +84,18 @@ const LivePaymentModal = (props) => {
     }
   }, [props.paymentModal]);
 
- 
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (paymentType === "WALLET") 
-    dispatch(
-      liveVideosPaymentByWalletStart({
-        live_video_id: props.liveVideo.live_video_id,
-        pro_balance : true
-      })
-    );
+    if (paymentType === "WALLET")
+      dispatch(
+        liveVideosPaymentByWalletStart({
+          live_video_id: props.liveVideo.live_video_id,
+          pro_balance: true,
+        })
+      );
     props.closePaymentModal();
   };
-
- 
 
   const initializePayment = usePaystackPayment(config);
 
@@ -136,7 +132,7 @@ const LivePaymentModal = (props) => {
               <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-1 text-left align-middle shadow-xl transition-all">
                 <div className="flex w-full items-center justify-between p-2 bg-lightPlayRed rounded-t-2xl">
                   <h3 className="text-lg font-medium leading-6 text-white">
-                  Live Video Payment
+                    Live Video Payment
                   </h3>
                   <div
                     className="rounded-full bg-white p-0.5 cursor-pointer"

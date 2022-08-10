@@ -19,8 +19,8 @@ export default function Tabs() {
   let [categories] = useState(["Post", "Users", "Channels", "Groups"]);
   const posts = useSelector((state) => state.home.homePost.data.posts);
   const explorePosts = useSelector((state) => state.post.explorePosts);
-  const channels = useSelector((state) => state.channels.channels)
-  const groups = useSelector((state) => state.groups.groups)
+  const channels = useSelector((state) => state.channels.channels);
+  const groups = useSelector((state) => state.groups.groups);
 
   return (
     <Tab.Group>
@@ -55,10 +55,22 @@ export default function Tabs() {
                 {explorePosts.data.posts.map((post) => {
                   if (post.postFiles.file_type == "image") {
                     return <ExplorePostCard post={post} key={post.post_id} />;
-                  } else if (post.postFiles.file_type == "video"){
-                    return <ExplorePostCard post={post} key={post.post_id} type="video" />;
-                  } else if (post.postFiles.file_type == "audio"){
-                    return <ExplorePostCard post={post} key={post.post_id} type="audio" />;
+                  } else if (post.postFiles.file_type == "video") {
+                    return (
+                      <ExplorePostCard
+                        post={post}
+                        key={post.post_id}
+                        type="video"
+                      />
+                    );
+                  } else if (post.postFiles.file_type == "audio") {
+                    return (
+                      <ExplorePostCard
+                        post={post}
+                        key={post.post_id}
+                        type="audio"
+                      />
+                    );
                   }
                 })}
               </div>

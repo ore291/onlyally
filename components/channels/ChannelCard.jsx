@@ -8,7 +8,6 @@ import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 import Link from "next/link";
 
 const ChannelCard = ({ main, channel, profile }) => {
-
   const cookies = getCookies();
 
   const handleChannelSubscribe = (slug) => {
@@ -16,7 +15,6 @@ const ChannelCard = ({ main, channel, profile }) => {
   };
 
   const checkMember = (memberList) => {
-
     var members = memberList.map((member) => {
       return member.user_id;
     });
@@ -109,8 +107,8 @@ const ChannelCard = ({ main, channel, profile }) => {
         <div className="row-container px-3">
           <Button
             text="Subscribe N2,000"
-            textClass="text-sm text-gray-100 font-semibold"
-            extraClasses="w-full h-8"
+            textclassName="text-sm text-gray-100 font-semibold"
+            extraclassNamees="w-full h-8"
             active={true}
           />
         </div>
@@ -166,27 +164,31 @@ const ChannelCard = ({ main, channel, profile }) => {
       <div className="row-container px-3">
         {/* <Button
           text="Subscribe N2,000"
-          textClass="text-sm text-gray-100 font-semibold"
-          extraClasses="w-full h-8"
+          textclassName="text-sm text-gray-100 font-semibold"
+          extraclassNamees="w-full h-8"
           active={true}
         /> */}
 
         {channel.user_id === parseInt(cookies.userId) ? (
-           <Button
-           text="Edit"
-           active={true}
-           extraClasses="w-full h-8" 
-           textClass="text-sm text-gray-100 font-semibold"
-           
-         />
+          <Button
+            text="Edit"
+            active={true}
+            extraclassNamees="w-full h-8"
+            textclassName="text-sm text-gray-100 font-semibold"
+          />
         ) : channel.is_member ? (
-          <Button text="view" active={true} extraClasses="w-full h-8" textClass="text-sm text-gray-100 font-semibold" />
+          <Button
+            text="view"
+            active={true}
+            extraclassNamees="w-full h-8"
+            textclassName="text-sm text-gray-100 font-semibold"
+          />
         ) : (
           <Button
             text="Subscribe"
             active={true}
-            extraClasses="w-full h-8" 
-            textClass="text-sm text-gray-100 font-semibold"
+            extraclassNamees="w-full h-8"
+            textclassName="text-sm text-gray-100 font-semibold"
             onClick={(e) => handleChannelSubscribe(channel.slug)}
           />
         )}

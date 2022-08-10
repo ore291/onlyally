@@ -12,7 +12,6 @@ import StoriesUploadModal from "./StoryUploadModal";
 import { getCookies } from "cookies-next";
 
 const Stories = () => {
- 
   const loginDetails = useSelector((state) => state.user.loginData);
   const profile = useSelector((state) => state.user.profile.data);
   const dispatch = useDispatch();
@@ -140,6 +139,4 @@ const Stories = () => {
   );
 };
 
-
 export default Stories;
-
