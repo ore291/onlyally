@@ -7,7 +7,7 @@ import { MdClose } from "react-icons/md";
 
 const StoryUploadModal = (props) => {
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true);
   const storyUpload = useSelector((state) => state.stories.storyUpload);
   const modalState = useSelector((state) => state.navbar.uploadModal);
 
@@ -176,7 +176,7 @@ const StoryUploadModal = (props) => {
         </Dialog>
       </Transition>
       {/* <div
-        class={`modal custom-modal fade`}
+        className={`modal custom-modal fade`}
         id="addStoryModal"
         tabindex="-1"
         role="dialog"

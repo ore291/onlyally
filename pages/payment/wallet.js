@@ -40,7 +40,7 @@ const Wallet = () => {
         <ProfileNavBar className="w-1/5 mb-8" />
         <div className="w-full lg:w-4/5 ml-5">
           <div className="bg-[#F3D9DC] grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 p-8">
-            {wallet.data.user_wallet != null ?  (
+            {wallet.data.user_wallet != null ? (
               <>
                 <BalanceCard
                   title="WALLET BALANCE"
@@ -164,10 +164,10 @@ const Wallet = () => {
         payments={wallet}
       />
       <AddWalletAmountModal
-				addWalletAmountModal={addWalletAmountModal}
-				closeAddWalletAmountModal={closeAddWalletAmountModal}
-				payments={wallet}
-			/>
+        addWalletAmountModal={addWalletAmountModal}
+        closeAddWalletAmountModal={closeAddWalletAmountModal}
+        payments={wallet}
+      />
     </div>
   );
 };

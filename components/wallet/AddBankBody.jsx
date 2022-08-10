@@ -12,7 +12,7 @@ function AddBankBody() {
     event.preventDefault();
     dispatch(addBankAccountStart(inputData));
   };
-  
+
   return (
     <div className="px-8  h-fit border shadow-lg rounded-md ">
       <form action="" className="w-full" onSubmit={handleSubmit}>
@@ -120,7 +120,10 @@ function AddBankBody() {
               I agree to terms and conditions
             </label>
           </span>
-          <button type="submit" className="bg-red-400 my-8 text-lg font-medium hover:bg-red-500 text-white shadow-sm rounded-md w-full lg:w-fit px-4 py-2 transition duration-100 ease-linear">
+          <button
+            type="submit"
+            className="bg-red-400 my-8 text-lg font-medium hover:bg-red-500 text-white shadow-sm rounded-md w-full lg:w-fit px-4 py-2 transition duration-100 ease-linear"
+          >
             Submit
           </button>
         </div>

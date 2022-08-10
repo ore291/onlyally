@@ -8,7 +8,7 @@ import { TiVideo } from "react-icons/ti";
 import { FaMusic, FaVideo, FaRegTimesCircle } from "react-icons/fa";
 import { Multiselect } from "multiselect-react-dropdown";
 import { useSelector, useDispatch } from "react-redux";
-import {notify} from 'reapop';
+import { notify } from "reapop";
 import {
   fetchPostCategoriesStart,
   savePostStart,
@@ -102,9 +102,7 @@ const CreatePost = () => {
         reader.readAsDataURL(file);
       }
       if (!file) {
-        dispatch(
-          notify("file field is required", "error" )
-        );
+        dispatch(notify("file field is required", "error"));
       } else {
         dispatch(
           postFileUploadStart({
@@ -384,7 +382,7 @@ const CreatePost = () => {
                     ? savePost.loadingButtonContent
                     : "POST"}
                 </button>
-                {/* <Button text="POST" active={true} extraClasses="w-24 h-8" /> */}
+                {/* <Button text="POST" active={true} extraclassNamees="w-24 h-8" /> */}
               </Dialog.Title>
               <div className="mt-2">
                 <div className="bg-white rounded-md shadow-sm pl-[1em] border">

@@ -17,7 +17,7 @@ import { EditorState, convertToRaw, Modifier } from "draft-js";
 
 const CommentReplies = (props) => {
   const dispatch = useDispatch();
-  const commentReplies = useSelector(state => state.comments.commentReplies)
+  const commentReplies = useSelector((state) => state.comments.commentReplies);
   const { comment, commentActiveIndex } = props;
 
   const [commentReplyInputData, setCommentReplyInputData] = useState({});
@@ -56,8 +56,6 @@ const CommentReplies = (props) => {
     event.preventDefault();
     SetEmojiPicker(!emojiPickerState);
   }
-
-
 
   const handleEmojiSelect = (emoji) => {
     SetEmojiPicker(false);

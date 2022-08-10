@@ -9,7 +9,11 @@ import { MdLockOutline } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
 import Image from "next/image";
 import Button from "../../../components/Button";
-import { getSelectorsByUserAgent ,isMobileOnly, isMobile} from "react-device-detect";
+import {
+  getSelectorsByUserAgent,
+  isMobileOnly,
+  isMobile,
+} from "react-device-detect";
 import {
   fetchSingleGroupStart,
   joinGroupStart,
@@ -28,8 +32,6 @@ const Group = () => {
   );
 
   const router = useRouter();
-
-
 
   const [subscribed, setSubscribed] = useState(false);
 
@@ -92,7 +94,7 @@ const Group = () => {
                     <div onClick={() => setSubscribed(true)}>
                       <Button
                         text="Join"
-                        extraClasses="w-36 h-9"
+                        extraclassNamees="w-36 h-9"
                         active={true}
                       />
                     </div>
@@ -101,8 +103,8 @@ const Group = () => {
                     <Button
                       onClick={() => router.back()}
                       text="Go Back"
-                      extraClasses="w-36 h-9 bg-[#FFD0D8] hover:bg-[#FF1534] hover:text-white text-lightPlayRed"
-                      textClass="group-hover:text-white hover:text-white  font-semibold"
+                      extraclassNamees="w-36 h-9 bg-[#FFD0D8] hover:bg-[#FF1534] hover:text-white text-lightPlayRed"
+                      textclassName="group-hover:text-white hover:text-white  font-semibold"
                     />
                     {/* </button> */}
                   </div>
@@ -121,7 +123,6 @@ export default Group;
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ req, res, params }) => {
-
       const { group } = params;
 
       const userAgent = req.headers["user-agent"];
@@ -154,11 +155,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
           accessToken: cookies.accessToken,
           userId: cookies.userId,
           device_model: device_model,
-          group_slug: group
+          group_slug: group,
         })
       );
-
-    
 
       store.dispatch(END);
       await store.sagaTask.toPromise();

@@ -12,7 +12,6 @@ import StoriesUploadModal from "./StoryUploadModal";
 import { getCookies } from "cookies-next";
 
 const Stories = () => {
- 
   const loginDetails = useSelector((state) => state.user.loginData);
   const dispatch = useDispatch();
   const userStories = useSelector((state) => state.stories.stories);
@@ -124,14 +123,9 @@ const Stories = () => {
           renderSliderModal={renderSliderModal}
         />
       )}
-      {
-        uploadModalState ? (<StoriesUploadModal />) : null
-      }
-      
+      {uploadModalState ? <StoriesUploadModal /> : null}
     </div>
   );
 };
 
-
 export default Stories;
-

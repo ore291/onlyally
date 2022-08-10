@@ -9,20 +9,20 @@ import { FaVideo } from "react-icons/fa";
 import { GiSpeaker } from "react-icons/gi";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchSingleUserPostsStart} from "../../store/slices/OtherUsersSlice";
+import { fetchSingleUserPostsStart } from "../../store/slices/OtherUsersSlice";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import Link from "next/link";
 import ReactPlayer from "react-player/lazy";
 import ReactAudioPlayer from "react-audio-player";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
-const OtherUserProfileTabs = ({other_user_username : username}) => {
+const OtherUserProfileTabs = ({ other_user_username: username }) => {
   const posts = useSelector((state) => state.otherUser.userPosts);
   const dispatch = useDispatch();
-    
+
   const setActiveSection = (key) => {
     if (key === 0)
       dispatch(
@@ -238,10 +238,7 @@ const OtherUserProfileTabs = ({other_user_username : username}) => {
                 {posts.data.posts.map((post) =>
                   post.postFiles.length > 0
                     ? post.postFiles.map((p_file, i) => (
-                        <ul
-                          className="list-unstyled list-none"
-                          key={i}
-                        >
+                        <ul className="list-unstyled list-none" key={i}>
                           <li className="box">
                             <div className="p-[1px] w-full h-auto object-cover relative">
                               <ReactPlayer

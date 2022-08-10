@@ -2,11 +2,11 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import Image from "next/image";
 import Link from "next/link";
 import CommentReplies from "./CommentReplies";
-import {useState} from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCommentRepliesStart } from "../../store/slices/commentsSlice";
 
-const Comment = ({ comment, index , post}) => {
+const Comment = ({ comment, index, post }) => {
   const dispatch = useDispatch();
 
   const handleCommentActiveIndex = (index) => {
@@ -29,15 +29,17 @@ const Comment = ({ comment, index , post}) => {
       <div className=" flex justify-start  items-center  basis-[10%]">
         <Link href={`/profile/${comment.user_unique_id}`} passHref>
           <div className="relative w-12 h-12 rounded-full  mr-1">
-           
-                <Image
-              src={comment.user_picture !== "" ? comment.user_picture : "https://cms.onlyally.com/placeholder.jpeg"}
+            <Image
+              src={
+                comment.user_picture !== ""
+                  ? comment.user_picture
+                  : "https://cms.onlyally.com/placeholder.jpeg"
+              }
               alt="side-img"
               objectFit="cover"
               layout="fill"
               className="rounded-full"
             />
-           
           </div>
         </Link>
       </div>

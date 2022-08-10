@@ -15,7 +15,6 @@ import Link from "next/link";
 import HeadBodyLoader from "../../components/helpers/HeadBodyLoader";
 import NoDataFound from "../../components/NoDataFound/NoDataFound";
 
-
 const Groups = () => {
   const dispatch = useDispatch();
 
@@ -69,7 +68,10 @@ const Groups = () => {
                       <div className="flex-shrink-0 relative group rounded-md">
                         <Image
                           className="rounded-lg group-hover:cursor-pointer inset-0 bg-blend-darken brightness-50 "
-                          src={category.picture || "https://playjor.ams3.digitaloceanspaces.com/public/uploads/categories/79532c239073e262897421194f3d8511e4dab589.png"}
+                          src={
+                            category.picture ||
+                            "https://playjor.ams3.digitaloceanspaces.com/public/uploads/categories/79532c239073e262897421194f3d8511e4dab589.png"
+                          }
                           alt={category.name}
                           height={150}
                           width={170}
@@ -85,7 +87,7 @@ const Groups = () => {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 md:gap-3 my-5">
             <div className="col-span-2">
-              {groups.loading  || categories.loading ? (
+              {groups.loading || categories.loading ? (
                 <div className="row-container">
                   <HeadBodyLoader />
                 </div>
@@ -142,8 +144,5 @@ const Groups = () => {
     </SideNavLayout>
   );
 };
-
-
-
 
 export default Groups;

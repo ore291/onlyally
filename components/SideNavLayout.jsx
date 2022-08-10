@@ -12,7 +12,7 @@ const SideNavLayout = ({ children }) => {
       <MobileNav />
       <SideNav />
       <RightSideBar />
-      <MainMobileNav/>
+      <MainMobileNav />
     </div>
   );
 };

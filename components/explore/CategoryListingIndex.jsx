@@ -10,8 +10,8 @@ import {
   fetchContentCreatorListStart,
 } from "../../store/slices/userCategory";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const CategoryListingIndex = () => {

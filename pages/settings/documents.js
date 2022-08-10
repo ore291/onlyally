@@ -39,8 +39,6 @@ export default function Documents() {
   const handleChangeImage = (event) => {
     coverChange(event);
     if (event.currentTarget.type === "file") {
-     
-
       setInputData({
         ...inputData,
         document_file: event.currentTarget.files[0],
@@ -126,32 +124,30 @@ export default function Documents() {
                       accept="image/*"
                     />
                   </label>
-                 
                 </div>
-                {
-                  kycDocDetails.loading ? (
-                    <p className="text-xs">Loading...</p>
-                  ) : kycDocDetails.data.documents.length > 0 ? (
-                    kycDocDetails.data.documents.map((doc, i) => (
-                       <label className="inline-flex items-center ml-6" key={i}>
-                              <input
-                                type="radio"
-                                className="form-radio"
-                                name="streaming-mode"
-                                value="private"
-                                onChange={(event) =>
-                                  setInputData({
-                                    ...inputData,
-                                    document_id: doc.document_id,
-                                  })
-                                }
-                              />
-                              <span className="ml-2">{doc.name}</span>
-                            </label>
-                    ))
-                  ) : (<NoDataFound/>)
-                }
-               
+                {kycDocDetails.loading ? (
+                  <p className="text-xs">Loading...</p>
+                ) : kycDocDetails.data.documents.length > 0 ? (
+                  kycDocDetails.data.documents.map((doc, i) => (
+                    <label className="inline-flex items-center ml-6" key={i}>
+                      <input
+                        type="radio"
+                        className="form-radio"
+                        name="streaming-mode"
+                        value="private"
+                        onChange={(event) =>
+                          setInputData({
+                            ...inputData,
+                            document_id: doc.document_id,
+                          })
+                        }
+                      />
+                      <span className="ml-2">{doc.name}</span>
+                    </label>
+                  ))
+                ) : (
+                  <NoDataFound />
+                )}
               </div>
               <div className="flex p-2 space-x-4">
                 <button

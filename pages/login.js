@@ -36,24 +36,22 @@ const Login = () => {
   const { data: session, status } = useSession();
 
   const userLogin = async () => {
-    setLoginState(true)
+    setLoginState(true);
     var email = emailRef.current.value;
     var password = passwordRef.current.value;
     try {
       const res = await signIn("credentials", {
-      callbackUrl: "/",
-      // redirect: false,
-      email: email,
-      password: password,
-    })
-    if(res.ok == false){
-      setLoginState(false);
-    }
-    ;
+        callbackUrl: "/",
+        // redirect: false,
+        email: email,
+        password: password,
+      });
+      if (res.ok == false) {
+        setLoginState(false);
+      }
     } catch (error) {
       console.log(error.message);
     }
-    
   };
 
   useEffect(() => {
@@ -218,7 +216,12 @@ const Login = () => {
             create
           </h1>
           <div className="relative w-44 h-36 my-5">
-            <Image src={"/icon-6.png"} layout="fill" objectFit="contain" alt=""/>
+            <Image
+              src={"/icon-6.png"}
+              layout="fill"
+              objectFit="contain"
+              alt=""
+            />
           </div>
           <div className="text-center flex flex-col items-center justify-center space-y-4">
             <p className="text-xl font-semibold text-slate-700 leading-tight">

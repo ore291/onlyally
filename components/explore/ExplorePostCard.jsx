@@ -6,6 +6,9 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { notify } from "reapop";
 import Image from "next/image";
 import { BsHeartFill, BsHeart, BsThreeDots } from "react-icons/bs";
+
+import { FaPlay } from "react-icons/fa";
+import { MdLockOutline } from "react-icons/md";
 import { FiPlay } from "react-icons/fi";
 import { MdLockOutline } from "react-icons/md";
 import ReactAudioPlayer from "react-audio-player";
@@ -70,6 +73,71 @@ const ExplorePostCard = ({ post, type }) => {
     props.dispatch(saveReportPostStart({ post_id: post.post_id }));
   };
 
+  if (type === "video") {
+    return (
+      <div className="exploreCard">
+        <Link href={`/post/${post.post_unique_id}`} passHref>
+          {post.is_paid_post == 1 ? (
+            <div className="relative w-full h-[20em] cursor-pointer rounded-md border shadow-md">
+              <Image
+                layout="fill"
+                objectFit="cover"
+                alt=""
+                src={
+                  post.postFiles.blur_file
+                    ? post.postFiles.blur_file
+                    : "/images/no-image-found.png"
+                }
+                className={`postViewImg blur-[20px] rounded-sm`}
+              />
+              <MdLockOutline className="h-8 w-8 text-white centered-axis-xy " />
+            </div>
+          ) : (
+            <div className="relative w-full h-[20em] cursor-pointer rounded-sm">
+              <Image
+                layout="fill"
+                objectFit="cover"
+                src={
+                  post.postFiles.preview_file ??
+                  "/images/live/live-stream-post-1.jpg"
+                }
+                alt=""
+                className="rounded-sm"
+              />
+              <FaPlay className="h-8 w-8 text-lightPlayRed centered-axis-xy" />
+            </div>
+          )}
+        </Link>
+        <div className="flex items-center justify-between p-[1em]">
+          <div className="flex items-center">
+            <Link href={`/profile/${post.user_unique_id}`} passHref>
+              <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-[2px] rounded-full">
+                <div className="bg-white p-[2px] rounded-full ">
+                  <div className="h-[40px] w-[40px]  relative rounded-full">
+                    <Image
+                      className="rounded-full cursor-pointer"
+                      layout="fill"
+                      objectFit="fill"
+                      src={post.user_picture}
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </Link>
+            <div className="pl-3 cursor-pointer">
+              <Link href={`/profile/${post.user_unique_id}`} passHref>
+                <h4 className="font-semibold text-[#6f6f6f] text-sm whitespace-nowrap text-ellipsis my-0 overflow-hidden w-[7em]">
+                  {post.user_displayname}
+                </h4>
+              </Link>
+              <p className="text-xs">{post.created}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (type === "audio") {
     return (
       <div className="exploreCard">
@@ -240,8 +308,9 @@ const ExplorePostCard = ({ post, type }) => {
                 layout="fill"
                 objectFit="cover"
                 src={
-                  post.postFiles.preview_file ?  post.postFiles.preview_file :
-                  "/images/live/live-stream-post-1.jpg"
+                  post.postFiles.preview_file
+                    ? post.postFiles.preview_file
+                    : "/images/live/live-stream-post-1.jpg"
                 }
                 alt=""
                 className="rounded-sm"

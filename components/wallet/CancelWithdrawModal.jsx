@@ -4,25 +4,22 @@ import { Popover, Transition, Dialog, Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { usePaystackPayment } from "react-paystack";
 import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
-import {cancelWithDrawRequestStart} from "../../store/slices/withdrawSlice";
-
+import { cancelWithDrawRequestStart } from "../../store/slices/withdrawSlice";
 
 import { FaTimes } from "react-icons/fa";
 
 import Link from "next/link";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const CancelWithdrawModal = (props) => {
-
   const [cancelWithdrawInputData, setCancelWithdrawInputData] = useState({});
 
-  const cancelWithDraw = useSelector(state => state.withdraw.cancelWithDraw)
+  const cancelWithDraw = useSelector((state) => state.withdraw.cancelWithDraw);
 
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     console.log("Testin...");
@@ -82,23 +79,24 @@ const CancelWithdrawModal = (props) => {
                     </div>
                   </div>
                   <div className="w-full">
-                   
                     <form
                       action=""
                       className="max-w-lg mx-auto"
                       onSubmit={handleSubmit}
                     >
-                     <input  
-                     value={cancelWithdrawInputData.cancel_reason}
-                     name="cancel_reason"
-                     onChange={(event) =>
-                       setCancelWithdrawInputData({
-                         ...cancelWithdrawInputData,
-                         cancel_reason: event.currentTarget.value,
-                       })
-                     }
-                     type="text" placeholder="Cancel Reason" className="w-full py-2 ring-0 mt-2 focus:ring-0 outline-none focus:outline-none" />
-
+                      <input
+                        value={cancelWithdrawInputData.cancel_reason}
+                        name="cancel_reason"
+                        onChange={(event) =>
+                          setCancelWithdrawInputData({
+                            ...cancelWithdrawInputData,
+                            cancel_reason: event.currentTarget.value,
+                          })
+                        }
+                        type="text"
+                        placeholder="Cancel Reason"
+                        className="w-full py-2 ring-0 mt-2 focus:ring-0 outline-none focus:outline-none"
+                      />
                     </form>
                   </div>
 
@@ -114,14 +112,11 @@ const CancelWithdrawModal = (props) => {
                       type="button"
                       className="bg-green-600 text-white rounded-md px-3 py-1"
                       onClick={handleSubmit}
-                      disabled={
-                        cancelWithDraw.buttonDisable
-                        
-                      }
+                      disabled={cancelWithDraw.buttonDisable}
                     >
                       {cancelWithDraw.loadingButtonContent !== null
-                ? cancelWithDraw.loadingButtonContent
-                : "Cancel Withdraw"}
+                        ? cancelWithDraw.loadingButtonContent
+                        : "Cancel Withdraw"}
                     </button>
                   </div>
                 </Dialog.Panel>

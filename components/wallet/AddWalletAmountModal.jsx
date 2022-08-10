@@ -12,8 +12,8 @@ import { FaTimes } from "react-icons/fa";
 
 import Link from "next/link";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const AddWalletAmountModal = (props) => {
@@ -55,7 +55,7 @@ const AddWalletAmountModal = (props) => {
     setTimeout(() => {
       dispatch(fetchWalletDetailsStart());
       props.closeAddWalletAmountModal();
-       window.location.assign("/payment/wallet");
+      window.location.assign("/payment/wallet");
     }, 3000);
   };
 
@@ -101,7 +101,10 @@ const AddWalletAmountModal = (props) => {
 
   useEffect(() => {
     setConfig({ ...config, reference: test.user_wallet_payment_unique_id });
-    test.user_wallet_payment_unique_id  && config.reference != "" && fund && initializePayment(onSuccess, onClose);
+    test.user_wallet_payment_unique_id &&
+      config.reference != "" &&
+      fund &&
+      initializePayment(onSuccess, onClose);
   }, [fund, test]);
 
   const initializePayment = usePaystackPayment(config);

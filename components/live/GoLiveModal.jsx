@@ -236,17 +236,18 @@ const GoLiveModal = (props) => {
                             type="text"
                             name="description"
                             placeholder=" "
-                            
                             className="form-textarea resize-none min-h-[56px] overflow-auto relative my-2 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
-                            value={inputData.description ? inputData.description : null}
+                            value={
+                              inputData.description
+                                ? inputData.description
+                                : null
+                            }
                             onChange={(event) =>
                               setInputData({
                                 ...inputData,
                                 description: event.currentTarget.value,
                               })
                             }
-                       
-                            
                           />
                           <label
                             htmlFor="description"

@@ -236,11 +236,13 @@ export default function Profile() {
                         options={profile.data.categories}
                         displayValue="name"
                         placeholder=""
-                        selectedValues={[profile.data.selected_category,]}
+                        selectedValues={[profile.data.selected_category]}
                         onSelect={(values) =>
                           handleCategoryEdit({
                             name: "u_category_id",
-                            value: values[0].u_category_id ? values[0].u_category_id : 3,
+                            value: values[0].u_category_id
+                              ? values[0].u_category_id
+                              : 3,
                           })
                         }
                         singleSelect={true}
@@ -302,7 +304,6 @@ export default function Profile() {
                   placeholder=""
                   name="monthly_amount"
                   defaultValue={profile.data.monthly_amount}
-                 
                   onChange={(event) => {
                     dispatch(
                       editUserDetails({
@@ -326,7 +327,6 @@ export default function Profile() {
                   placeholder=""
                   name="yearly_amount"
                   defaultValue={profile.data.yearly_amount}
-                 
                   onChange={(event) => {
                     dispatch(
                       editUserDetails({
@@ -353,7 +353,6 @@ export default function Profile() {
                 placeholder=""
                 name="video_call_amount"
                 className="input-form bg-white"
-                
                 defaultValue={profile.data.video_call_amount}
                 onChange={(event) => {
                   dispatch(
@@ -382,7 +381,6 @@ export default function Profile() {
                 placeholder=""
                 name="audio_call_amount"
                 className="input-form bg-white"
-                
                 defaultValue={profile.data.audio_call_amount}
                 onChange={(event) => {}}
               />
@@ -448,10 +446,10 @@ export default function Profile() {
                       Website
                     </label>
                     <input
-                       id="edit-website"
-                       type="text"
-                       autoComplete="off"
-                       defaultValue={profile.data.website}
+                      id="edit-website"
+                      type="text"
+                      autoComplete="off"
+                      defaultValue={profile.data.website}
                       placeholder="Website"
                       className="border-gray-500 rounded-md"
                       name="website"
@@ -471,12 +469,12 @@ export default function Profile() {
                       Instagram
                     </label>
                     <input
-                        id="edit_instagram_link"
-                        type="text"
-                        autoComplete="off"
-                        value={profile.data.instagram_link}
-                        placeholder={'instagaram link'}
-                        name="instagram_link"
+                      id="edit_instagram_link"
+                      type="text"
+                      autoComplete="off"
+                      value={profile.data.instagram_link}
+                      placeholder={"instagaram link"}
+                      name="instagram_link"
                       className="border-gray-500 rounded-md"
                       onChange={(event) => {
                         dispatch(
@@ -498,7 +496,6 @@ export default function Profile() {
                       type="text"
                       autoComplete="off"
                       value={profile.data.twitter_link}
-                      
                       name="twitter_link"
                       placeholder="Twitter Link"
                       className="border-gray-500 rounded-md"
@@ -521,7 +518,6 @@ export default function Profile() {
                       type="text"
                       autoComplete="off"
                       defaultValue={profile.data.pinterest_link}
-                      
                       name="pinterest_link"
                       placeholder="Pinterest Link"
                       className="border-gray-500 rounded-md"
@@ -540,12 +536,11 @@ export default function Profile() {
                       Twitch
                     </label>
                     <input
-                       id="edit_twitch_link"
-                       type="text"
-                       autoComplete="off"
-                       defaultValue={profile.data.twitch_link}
-                      
-                       name="twitch_link"
+                      id="edit_twitch_link"
+                      type="text"
+                      autoComplete="off"
+                      defaultValue={profile.data.twitch_link}
+                      name="twitch_link"
                       placeholder="Twitch Link"
                       className="border-gray-500 rounded-md"
                       onChange={(event) => {
@@ -590,7 +585,6 @@ export default function Profile() {
                       type="text"
                       autoComplete="off"
                       defaultValue={profile.data.amazon_wishlist}
-              
                       name="amazon_wishlist"
                       placeholder="Amazon Wishlist"
                       className="border-gray-500 rounded-md"
@@ -614,7 +608,6 @@ export default function Profile() {
                       type="text"
                       autoComplete="off"
                       defaultValue={profile.data.facebook_link}
-                  
                       name="facebook_link"
                       placeholder={"Facebook Link"}
                       className="border-gray-500 rounded-md"
@@ -638,7 +631,6 @@ export default function Profile() {
                       type="text"
                       autoComplete="off"
                       defaultValue={profile.data.linkedin_link}
-                     
                       name="linkedin_link"
                       placeholder="LinkedIn Link"
                       className="border-gray-500 rounded-md"
@@ -661,7 +653,6 @@ export default function Profile() {
                       type="text"
                       autoComplete="off"
                       defaultValue={profile.data.youtube_link}
-                     
                       name="youtube_link"
                       placeholder="Youtube Link"
                       className="border-gray-500 rounded-md"
@@ -684,7 +675,6 @@ export default function Profile() {
                       type="text"
                       autoComplete="off"
                       defaultValue={profile.data.snapchat_link}
-                  
                       name="snapchat_link"
                       placeholder="Snapchat Link"
                       className="border-gray-500 rounded-md"
@@ -738,8 +728,12 @@ export default function Profile() {
           </section>
 
           <div className="text-center">
-            <button  onClick={handleSubmit} disabled={profileInputData.buttonDisable} className="btn bg-red-600 uppercase text-base rounded-lg px-8 py-2">
-            {profileInputData.loadingButtonContent !== null
+            <button
+              onClick={handleSubmit}
+              disabled={profileInputData.buttonDisable}
+              className="btn bg-red-600 uppercase text-base rounded-lg px-8 py-2"
+            >
+              {profileInputData.loadingButtonContent !== null
                 ? profileInputData.loadingButtonContent
                 : "save"}
             </button>

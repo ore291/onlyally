@@ -65,7 +65,7 @@ function ProfileNavItem({
   };
   return (
     <>
-      <div className=" flex justify-end  p-2  lg:hidden">
+      <div className=" flex justify-end  p-2  lg:hidden ">
         {icon ? (
           <FaTimes size="25px" color="#B30D28" onClick={handleNav} />
         ) : (
@@ -90,7 +90,9 @@ function ProfileNavItem({
                       <Link href="/settings/profile">My Profile</Link>
                     </MenuItem>
                     <MenuItem icon={<RiLockPasswordLine size="18px" />}>
-                      <Link href="/settings/change-password">Change Password</Link>
+                      <Link href="/settings/change-password">
+                        Change Password
+                      </Link>
                     </MenuItem>
                     <MenuItem icon={<IoIosPeople size="18px" />}>
                       <Link href="/settings/session">Session Management</Link>
@@ -216,7 +218,6 @@ function ProfileNavItem({
                 </SubMenu>
 
                 <SubMenu
-                  
                   title="Security"
                   className="text-xs"
                   icon={<GrShieldSecurity size="20px" />}
@@ -229,7 +230,9 @@ function ProfileNavItem({
                     <Link href="/settings/auth2">Two Step Authentication</Link>
                   </MenuItem>
                   <MenuItem icon={<AiFillSetting size="18px" />}>
-                    <Link href="/settings/availability-status">Availability Status</Link>
+                    <Link href="/settings/availability-status">
+                      Availability Status
+                    </Link>
                   </MenuItem>
                   <MenuItem icon={<IoDocuments size="18px" />}>
                     <Link href="/settings/documents">Document</Link>
@@ -273,7 +276,9 @@ function ProfileNavItem({
                     <Link href="/settings/profile">My Profile</Link>
                   </MenuItem>
                   <MenuItem icon={<RiLockPasswordLine size="18px" />}>
-                    <Link href="/settings/change-password">Change Password</Link>
+                    <Link href="/settings/change-password">
+                      Change Password
+                    </Link>
                   </MenuItem>
                   <MenuItem icon={<IoIosPeople size="18px" />}>
                     <Link href="/settings/session">Session Management</Link>
@@ -397,7 +402,6 @@ function ProfileNavItem({
               </SubMenu>
 
               <SubMenu
-                
                 title="Security"
                 className="text-xs"
                 icon={<GrShieldSecurity size="20px" />}
@@ -410,7 +414,9 @@ function ProfileNavItem({
                   <Link href="/settings/auth2">Two Step Authentication</Link>
                 </MenuItem>
                 <MenuItem icon={<AiFillSetting size="18px" />}>
-                  <Link href="/settings/availability-status">Availability Status</Link>
+                  <Link href="/settings/availability-status">
+                    Availability Status
+                  </Link>
                 </MenuItem>
                 <MenuItem icon={<IoDocuments size="18px" />}>
                   <Link href="/settings/documents">Document</Link>
