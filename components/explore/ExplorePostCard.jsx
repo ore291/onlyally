@@ -6,9 +6,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { notify } from "reapop";
 import Image from "next/image";
 import { BsHeartFill, BsHeart, BsThreeDots } from "react-icons/bs";
-
-import { FaPlay } from "react-icons/fa";
-import { MdLockOutline } from "react-icons/md";
 import { FiPlay } from "react-icons/fi";
 import { MdLockOutline } from "react-icons/md";
 import ReactAudioPlayer from "react-audio-player";

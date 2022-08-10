@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import SideNavLayout from "../components/SideNavLayout";
-import FilterSearch from "../components/explore/FilterSearch";
-import Tabs from "../components/explore/Tabs";
-
-import { fetchExploreStart } from "../store/slices/postSlice";
-=======
->>>>>>> 34ef5ee98bb80b35bdff506c5407f594fca1b4d6
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import FilterSearch from "../components/explore/FilterSearch";
@@ -33,16 +25,12 @@ const Explore = () => {
   const dispatch = useDispatch();
   const explorePosts = useSelector((state) => state.post.explorePosts);
 
-<<<<<<< HEAD
-  useEffect(() => {
-    dispatch(fetchExploreStart());
-  }, []);
-=======
+
   // useEffect(() => {
   //   dispatch(fetchExploreStart());
    
   // }, []);
->>>>>>> 34ef5ee98bb80b35bdff506c5407f594fca1b4d6
+
 
   return (
     <SideNavLayout>

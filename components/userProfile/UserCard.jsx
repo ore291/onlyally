@@ -163,17 +163,9 @@ console.log(creator)
           
           } */}
 
-<<<<<<< HEAD
           <div className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
             <span className="text-sm font-medium">Follow</span>
           </div>
-=======
-
-           <div      className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
-              <span className="text-sm font-medium">Follow</span>
-            </div>
-      
->>>>>>> 34ef5ee98bb80b35bdff506c5407f594fca1b4d6
         </div>
       </div>
       {/* {userDetails.loading ? (
