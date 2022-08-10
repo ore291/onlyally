@@ -110,10 +110,10 @@ const Profile = () => {
                 src={profile.data.cover}
                 alt={profile.data.name}
                 layout="fill"
-                objectFit="cover"
-                objectPosition="center"
+              
+                
                 srcSet=""
-                className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
+                className="w-full   "
               />
             </div>
             <div

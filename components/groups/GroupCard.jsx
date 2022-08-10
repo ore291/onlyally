@@ -212,7 +212,7 @@ const GroupCard = ({
                   : null}
               </div>
               {group.members[0] && (
-                <div className="ml-2 pl-6 tracking-tight">
+                <div className="ml-4 pl-6 tracking-tight">
                   <p className="text-xs font-medium text-gray-500">
                     <span className="font-semibold">
                       {group?.members[0]?.name}{" "}

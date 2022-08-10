@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProfileNavItem from "../../components/ProfileNavBar";
 import Multiselect from "multiselect-react-dropdown";
 import {
@@ -7,6 +7,11 @@ import {
   updateUserDetailsStart,
 } from "../../store/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import imageCompression from "browser-image-compression";
+import Image from "next/image";
+import { fetchUserDetailsStart } from "../../store/slices/userSlice";
+import CropImageModal from "../../components/Profile/CropImageModal";
+import Link from "next/link";
 
 const options = [
   {
@@ -37,7 +42,16 @@ export default function Profile() {
   const validation = useSelector((state) => state.user.validationInputData);
   const profileInputData = useSelector((state) => state.user.profileInputData);
 
+  const [profileInputData1, setProfileInputData1] = useState({});
+
   const userGender = useState([[profile.data.gender]]);
+
+
+  // console.log(profile.data.pro_membership_logs[0].plan)
+
+  useEffect(() => {
+    // if (profile.loading || profile.data !== null) dispatch(fetchUserDetailsStart());
+  }, []);
 
   const handleCategoryEdit = (data) => {
     dispatch(editUserDetails(data));
@@ -50,16 +64,156 @@ export default function Profile() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (Object.keys(profileInputData).length > 0)
-      dispatch(updateUserDetailsStart(profileInputData));
+    if (Object.keys(profileInputData1).length > 0)
+      dispatch(updateUserDetailsStart(profileInputData1));
     else dispatch(updateUserDetailsStart());
+  };
+
+  const [image, setImage] = useState({
+    picture: "",
+    cover: "",
+  });
+
+  const [cropModalFlag, setCropModalFlag] = useState({
+    flag: false,
+    image: "",
+    width: "",
+    height: "",
+    shape: "",
+    type: "",
+    fileType: "",
+    fileName: "",
+  });
+
+  const handleCoverChangeImage = (event) => {
+    if (event.currentTarget.type === "file") {
+      const currentfileType = event.currentTarget.files[0].type;
+      const currentfileName = event.currentTarget.files[0].name;
+      let coverReader = new FileReader();
+      let coverFile = event.currentTarget.files[0];
+      let imageFile = event.currentTarget.files[0];
+      let currentInputName = event.currentTarget.name;
+      var options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+
+      imageCompression(imageFile, options)
+        .then(function (compressedFile) {
+          var covercroppedReader = new FileReader();
+          covercroppedReader.readAsDataURL(compressedFile);
+          covercroppedReader.onloadend = function () {
+            var coverbase64 = covercroppedReader.result;
+
+            setCropModalFlag({
+              ...cropModalFlag,
+              image: coverbase64,
+              width: 95,
+              height: 25,
+              shape: "rect",
+              flag: true,
+              type: "cover",
+              fileType: currentfileType,
+              fileName: currentfileName,
+            });
+          };
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+
+      if (coverFile) {
+        coverReader.readAsDataURL(coverFile);
+      }
+    }
+  };
+
+  const handleChangeImage = (event) => {
+    if (event.currentTarget.type === "file") {
+      const currentfileType = event.currentTarget.files[0].type;
+      const currentfileName = event.currentTarget.files[0].name;
+      let reader = new FileReader();
+      let file = event.currentTarget.files[0];
+      let imageFile = event.currentTarget.files[0];
+      let currentInputName = event.currentTarget.name;
+
+      console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
+      console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
+
+      var options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+
+      imageCompression(imageFile, options)
+        .then(function (compressedFile) {
+          console.log(
+            "compressedFile instanceof Blob",
+            compressedFile instanceof Blob
+          ); // true
+          console.log(
+            `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+          ); // smaller than maxSizeMB
+          console.log("compressedFile" + compressedFile);
+
+          var croppedReader = new FileReader();
+          croppedReader.readAsDataURL(compressedFile);
+          croppedReader.onloadend = function () {
+            var base64data = croppedReader.result;
+            // console.log(base64data);
+
+            if (currentInputName === "picture") {
+              setCropModalFlag({
+                ...cropModalFlag,
+                image: base64data,
+                width: 1,
+                height: 1,
+                shape: "round",
+                flag: true,
+                type: "picture",
+                fileType: currentfileType,
+                fileName: currentfileName,
+              });
+            }
+
+            // if (currentInputName === "cover") {
+
+            //   setCropModalFlag({...cropModalFlag , image : reader.result ,  width : 95 , height : 25  ,shape : "rect" , flag : true , type: "cover",fileType : currentfileType , fileName : currentfileName })
+            // }
+          };
+        })
+        .catch(function (error) {
+          console.log(error.message);
+        });
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
+  const closeCropModal = () => {
+    setCropModalFlag({
+      flag: false,
+      image: "",
+      width: "",
+      height: "",
+      shape: "",
+      cropedProfileImage: "",
+      cropedCoverImage: "",
+      type: "",
+      fileType: "",
+      fileName: "",
+    });
   };
 
   return (
     <>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem />
-        <div className="w-full lg:w-4/5 bg-white px-4 mx-auto mt-20 lg:mr-16 lg:ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-12">
+        <div className="w-full lg:w-4/5 bg-white px-4 mx-auto mt-5 lg:mr-16 lg:ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-6">
           <section className="space-y-2 ">
             <h1 className="font-semibold text-gray-400 uppercase">
               Edit Profile
@@ -69,29 +223,80 @@ export default function Profile() {
             </p>
 
             <div className="shadow-md">
-              <section className="bg-[url('/images/settings/covergirl.jpg')] h-48 rounded-md flex justify-end items-end pb-8 bg-cover bg-center px-4">
-                <button className="btn px-4 py-2 bg-red-600 rounded-md">
-                  Upload Cover
-                </button>
+              <section className="relative w-full  h-64 rounded-md pb-8 bg-cover bg-center px-4 ">
+                <img
+                  src={image.cover === "" ? profile.data.cover : image.cover}
+                  className="w-full h-full object-cover"
+                  alt=""
+                />
+                <form id="coverForm" action="#">
+                  <input
+                    className="hidden-input hidden"
+                    id="changeCover"
+                    type="file"
+                    name="cover"
+                    accept="image/*"
+                    onChange={handleCoverChangeImage}
+                  />
+                  <label
+                    className="absolute  right-5 bottom-2 btn p-4 text-sm font-medium bg-red-600 rounded-md mb-0 w-[200px] h-10 row-container cursor-pointer"
+                    htmlFor="changeCover"
+                    title="Change cover"
+                  >
+                    Upload Cover
+                  </label>
+                </form>
+                <form id="pictureForm" action="#">
+                  <input
+                    className="hidden-input hidden"
+                    id="changeImage"
+                    type="file"
+                    name="picture"
+                    accept="image/*"
+                    onChange={handleChangeImage}
+                  />
+                  <label
+                    htmlFor="changeImage"
+                    className=" absolute -botton-20 left-10 mt-[-50px] z-10 p-0.5 bg-white rounded-full cursor-pointer"
+                  >
+                    <img
+                      width="150"
+                      height="150"
+                      className="rounded-full "
+                      src={
+                        image.picture === ""
+                          ? profile.data.picture
+                          : image.picture
+                      }
+                      alt="profile-pic"
+                    />
+                  </label>
+                </form>
               </section>
 
-              <div className="pl-8 pr-2 pb-2">
-                <img
-                  width="100px"
-                  className="rounded-full mt-[-50px]"
-                  src="/images/settings/pic.jpg"
-                  alt="profile-pic"
-                />
-
-                <section className="flex mt-6 lg:mt-0 justify-end gap-4">
-                  <button className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold  hover:bg-red-500 hover:text-white transition duration-150 ">
-                    Upload Feature Profile
-                  </button>
-                  <button className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold hover:bg-red-500 hover:text-white transition duration-150 ">
-                    Upload profile photo
-                  </button>
-                </section>
-              </div>
+              <section className="pl-8 pr-2 pb-4 flex mt-6 md:mt-0 justify-end ">
+                {" "}
+                <form id="pictureForm" className="flex items-center" action="#">
+                  <input
+                    className="hidden-input hidden"
+                    id="changeImage"
+                    type="file"
+                    name="picture"
+                    accept="image/*"
+                    onChange={handleChangeImage}
+                  />
+                  <label htmlFor="changeImage">
+                    <div className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold hover:bg-red-500 hover:text-white transition duration-150 ">
+                      Upload profile photo
+                    </div>
+                  </label>
+                  <label htmlFor="">
+                    <button className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold  hover:bg-red-500 hover:text-white transition duration-150 ">
+                      Upload Feature Story
+                    </button>
+                  </label>
+                </form>
+              </section>
             </div>
             <p className="font-semibold text-gray-400 text-sm ">
               Use 144px * 144px for profile and 1960 * 960px for cover picture.
@@ -714,16 +919,22 @@ export default function Profile() {
           <section className="bg-red-200 w-4/5 mx-auto shadow-md flex flex-col justify-center items-center rounded-md">
             <div className="text-center flex flex-col justify-center items-center space-y-2 py-4 px-2">
               <img
-                width="100px"
+                width="150"
+                height="150"
                 className="rounded-full "
-                src="/images/settings/pic.jpg"
+                src={
+                 profile.data.picture 
+                }
                 alt="profile-pic"
               />
-              <h1>Hot Member</h1>
+              <h1>{ profile.data?.pro_membership_logs[0].plan} Member</h1>
               <h5 className="font-medium">Membership</h5>
-              <button className="btn bg-red-600 uppercase text-base rounded-lg">
+              <Link href="/go-pro">
+                <button className="btn bg-red-600 uppercase text-base rounded-lg">
                 Upgrade
               </button>
+              </Link>
+            
             </div>
           </section>
 
@@ -740,6 +951,17 @@ export default function Profile() {
           </div>
         </div>
       </div>
+
+      <CropImageModal
+        image={cropModalFlag.image}
+        modalFlag={cropModalFlag.flag}
+        cropModalFlag={cropModalFlag}
+        closeModal={closeCropModal}
+        setImage={setImage}
+        imageState={image}
+        setProfileInputData={setProfileInputData1}
+        profileInputData={profileInputData1}
+      />
     </>
   );
 }
