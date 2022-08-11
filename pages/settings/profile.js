@@ -46,15 +46,22 @@ export default function Profile() {
 
   const userGender = useState([[profile.data.gender]]);
 
-  const [first, setFirst] = useState("") 
-
+  const [first, setFirst] = useState({
+    plan: "",
+  });
 
   // console.log(profile.data.pro_membership_logs[0].plan)
 
   useEffect(() => {
+    const name = profile?.data?.pro_membership_logs?.find(
+      (e) => typeof e !== "undefined"
+    );
     // if (profile.loading || profile.data !== null) dispatch(fetchUserDetailsStart());
-    profile.data.pro_membership_logs !== null && setFirst(profile?.data?.pro_membership_logs?.find(e => typeof e !== 'undefined'))
-
+    profile.data.pro_membership_logs[0] !== null &&
+      setFirst({
+        ...first,
+        plan: name.plan,
+      });
   }, [profile.data]);
 
   const handleCategoryEdit = (data) => {
@@ -926,19 +933,23 @@ export default function Profile() {
                 width="150"
                 height="150"
                 className="rounded-full "
-                src={
-                 profile.data.picture 
-                }
+                src={profile.data.picture}
                 alt="profile-pic"
               />
-              <h1>{ first.plan !== null ? first.plan : ""} Member</h1>
+              {first.plan ? (
+                <h1> {first.plan} Member</h1>
+              ) : profile.data.pro_membership_logs[0] ? (
+                <h1> {profile.data.pro_membership_logs[0].plan} Member</h1>
+              ) : (
+                ""
+              )}
+
               <h5 className="font-medium">Membership</h5>
               <Link href="/go-pro">
                 <button className="btn bg-red-600 uppercase text-base rounded-lg">
-                Upgrade
-              </button>
+                  Upgrade
+                </button>
               </Link>
-            
             </div>
           </section>
 
