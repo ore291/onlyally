@@ -268,12 +268,12 @@ export default function Profile() {
                   />
                   <label
                     htmlFor="changeImage"
-                    className=" absolute -botton-20 left-10 mt-[-50px] z-10 p-0.5 bg-white rounded-full cursor-pointer"
+                    className=" absolute -bottom-5 left-10  z-10 p-0.5 bg-white rounded-full cursor-pointer"
                   >
                     <img
                       width="150"
                       height="150"
-                      className="rounded-full "
+                      className="rounded-full w-[150px] h-[150px]"
                       src={
                         image.picture === ""
                           ? profile.data.picture
