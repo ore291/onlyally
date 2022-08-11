@@ -53,9 +53,9 @@ export default function Profile() {
 
   useEffect(() => {
     // if (profile.loading || profile.data !== null) dispatch(fetchUserDetailsStart());
-    profile.data.pro_membership_logs && setFirst(profile?.data?.pro_membership_logs?.find(e => typeof e !== 'undefined'))
+    profile.data.pro_membership_logs !== null && setFirst(profile?.data?.pro_membership_logs?.find(e => typeof e !== 'undefined'))
 
-  }, [profile.data.pro_membership_logs]);
+  }, []);
 
   const handleCategoryEdit = (data) => {
     dispatch(editUserDetails(data));
