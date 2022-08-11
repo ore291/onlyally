@@ -7,6 +7,7 @@ import {
 } from "../../store/slices/sessionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NoDataFound from "../../components/NoDataFound/NoDataFound";
+import Loading from "../../components/Loading";
 export default function Session() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,11 +39,16 @@ export default function Session() {
     },
   ];
   const logoutSession = (id) => {
+    console.log(id);
     dispatch(deleteSingleLoginSessionStart({ user_login_session_id: id }));
+    setTimeout(() => {
+      dispatch(fetchSessionManagementListStart());
+    }, 1000);
   };
   const logoutAllSession = () => {
     dispatch(deleteAllLoginSessionStart());
   };
+
   return (
     <>
       <div className="flex flex-col justify-center lg:flex-row">
@@ -63,14 +69,7 @@ export default function Session() {
             </div>
 
             <main className="w-full">
-              {Session.loading === "true" && (
-                <div className="flex">
-                  <h1 className="italic font-bold">Loading</h1>
-                  <h1 className="animate-bounce ">.</h1>
-                  <h1 className="animate-bounce">.</h1>
-                  <h1 className="animate-bounce">.</h1>
-                </div>
-              )}
+              {Session.loading === "true" && <Loading />}
               {allSession?.map((EachSession) => (
                 <section
                   key={EachSession.ip_address}
@@ -87,7 +86,9 @@ export default function Session() {
                   </div>
                   <div className="flex justify-between">
                     <button className="btn bg-green-600 rounded-lg">
-                      Active
+                      {EachSession.is_current_session == 1
+                        ? "Active"
+                        : "Inactive"}
                     </button>
                     <button
                       onClick={() =>
