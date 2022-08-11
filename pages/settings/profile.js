@@ -46,23 +46,23 @@ export default function Profile() {
 
   const userGender = useState([[profile.data.gender]]);
 
-  const [first, setFirst] = useState({
-    plan: "",
-  });
+  // const [first, setFirst] = useState({
+  //   plan: "",
+  // });
 
   // console.log(profile.data.pro_membership_logs[0].plan)
 
-  useEffect(() => {
-    const name = profile?.data?.pro_membership_logs?.find(
-      (e) => typeof e !== "undefined"
-    );
-    // if (profile.loading || profile.data !== null) dispatch(fetchUserDetailsStart());
-    profile.data.pro_membership_logs[0] !== null &&
-      setFirst({
-        ...first,
-        plan: name.plan,
-      });
-  }, [profile.data]);
+  // useEffect(() => {
+  //   const name = profile?.data?.pro_membership_logs?.find(
+  //     (e) => typeof e !== "undefined"
+  //   );
+  //   // if (profile.loading || profile.data !== null) dispatch(fetchUserDetailsStart());
+  //   profile.data.pro_membership_logs[0] !== null &&
+  //     setFirst({
+  //       ...first,
+  //       plan: name.plan,
+  //     });
+  // }, [profile.data]);
 
   const handleCategoryEdit = (data) => {
     dispatch(editUserDetails(data));
@@ -936,13 +936,13 @@ export default function Profile() {
                 src={profile.data.picture}
                 alt="profile-pic"
               />
-              {first.plan ? (
+              {/* {first.plan ? (
                 <h1> {first.plan} Member</h1>
               ) : profile.data.pro_membership_logs[0] ? (
                 <h1> {profile.data.pro_membership_logs[0].plan} Member</h1>
               ) : (
                 ""
-              )}
+              )} */}
 
               <h5 className="font-medium">Membership</h5>
               <Link href="/go-pro">
