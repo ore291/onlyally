@@ -11,6 +11,7 @@ import { MdPhotoSizeSelectActual } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import NoDataFound from "../../components/NoDataFound/NoDataFound";
 import BookmarkComponent from "../../components/bookmarks/bookmarkComponent";
+import Loading from "../../components/Loading";
 export default function Bookmarks() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -48,23 +49,13 @@ export default function Bookmarks() {
             </div>
             <hr className="w-full py-3 " />
           </div>
-          <div className="w-11/12 ml-auto mr-auto rounded">
+          <div className="w-[95%] ml-auto mr-auto rounded">
             {Bookmarks.loading ? (
-              <div className="flex">
-                <h1 className="italic font-bold">Loading</h1>
-                <h1 className="animate-bounce ">.</h1>
-                <h1 className="animate-bounce">.</h1>
-                <h1 className="animate-bounce">.</h1>
-              </div>
+              <Loading />
             ) : data.length > 0 ? (
-              <div className="flex flex-wrap">
+              <div className="py-2 grid grid-cols-1 md:grid-cols-3  gap-1">
                 {data.map((post, i) => (
-                  <BookmarkComponent
-                    className="w-[200px]"
-                    post={post}
-                    index={post.post_unique_id}
-                    key={post.post_unique_id}
-                  />
+                  <BookmarkComponent post={post} key={i} />
                 ))}
               </div>
             ) : (

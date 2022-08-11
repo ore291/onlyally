@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import NewsFeedCard from "../../components/feeds/NewsFeedCard";
 import NoDataFound from "../../components/NoDataFound/NoDataFound";
 import BookmarkComponent from "../../components/bookmarks/bookmarkComponent";
+import { motion } from "framer-motion";
+import Loading from "../../components/Loading";
 export default function Bookmarks() {
   const videos = ["Will Smith 1.mp4", "Will Smith 2.mp4"];
   const [menu, SetMenu] = useState(false);
@@ -36,26 +38,17 @@ export default function Bookmarks() {
               <div className="side-icon ml-4">
                 <IoMdVideocam className="text-white h-5 w-5 " />
               </div>
-              <p className=" m-auto font-semibold-sm">Videos</p>
+              <motion.p className=" m-auto font-semibold-sm">Videos</motion.p>
             </div>
             <hr className="w-full py-3 " />
           </div>
           <div className="w-11/12 ml-auto mr-auto rounded">
             {Bookmarks.loading ? (
-              <div className="flex">
-                <h1 className="italic font-bold">Loading</h1>
-                <h1 className="animate-bounce ">.</h1>
-                <h1 className="animate-bounce">.</h1>
-                <h1 className="animate-bounce">.</h1>
-              </div>
+              <Loading />
             ) : data.length > 1 ? (
-              <div className="flex  flex-wrap">
+              <div className="py-2 grid grid-cols-1 md:grid-cols-3  gap-1">
                 {data.map((post, i) => (
-                  <BookmarkComponent
-                    post={post}
-                    index={post.post_unique_id}
-                    key={post.post_unique_id}
-                  />
+                  <BookmarkComponent post={post} key={i} type="video" />
                 ))}
               </div>
             ) : (
