@@ -931,7 +931,7 @@ export default function Profile() {
                 }
                 alt="profile-pic"
               />
-              <h1>{ first.plan ? first.plan : ""} Member</h1>
+              <h1>{ first.plan !== null ? first.plan : ""} Member</h1>
               <h5 className="font-medium">Membership</h5>
               <Link href="/go-pro">
                 <button className="btn bg-red-600 uppercase text-base rounded-lg">
