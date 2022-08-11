@@ -55,7 +55,7 @@ export default function Profile() {
     // if (profile.loading || profile.data !== null) dispatch(fetchUserDetailsStart());
     profile.data.pro_membership_logs !== null && setFirst(profile?.data?.pro_membership_logs?.find(e => typeof e !== 'undefined'))
 
-  }, []);
+  }, [profile.data]);
 
   const handleCategoryEdit = (data) => {
     dispatch(editUserDetails(data));
