@@ -206,7 +206,7 @@ const Profile = () => {
             <div className="profile-bg  relative  -mt-20">
               <div className="relative w-full !h-[50vh] md:!h-[70vh]">
                 {
-                  userDetails.data.user.cover ? (
+                  userDetails.data.user.cover !== undefined ? (
                       <Image
                   src={userDetails.data.user.cover}
                   alt={userDetails.data.user.name}
