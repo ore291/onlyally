@@ -321,15 +321,15 @@ function ProfileNavItem({
 
               <SubMenu title="List" icon={<BsListStars size="20px" />}>
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/list/fans">Fans</Link>
+                  <Link href="/bookmarks/fans">Fans</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/referrals">Following</Link>
+                  <Link href="/bookmarks/following">Following</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/referrals">Favorites</Link>
+                  <Link href="/bookmarks/favorites">Favorites</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>

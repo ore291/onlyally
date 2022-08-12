@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import {ImCross} from "react-icons/im"
+import { useDispatch } from "react-redux";
 
 
 const QuickProductView = ({toggleShowQuickView,  productInfo}) => {
     const [ATDvalue, setATDvalue] = useState(1)
+    const dispatch = useDispatch()
+
     const  changeATDvalue = (x) => {
         if(x == 1 ){
           setATDvalue(ATDvalue + 1)  
@@ -13,6 +16,10 @@ const QuickProductView = ({toggleShowQuickView,  productInfo}) => {
             setATDvalue(ATDvalue - 1)  
           }
     }
+
+    const addToCart =()=>{
+      dispatch(saveCartDetailsStart({user_product_id:productInfo.productInfo.unique_id, quantity: ATDvalue}));
+    } 
     return(
         <div  className="fixed left-0   z-30 flex justify-center  items-center top-0 w-screen h-screen bg-[#00000076]">
             <div className="relative     flex-col  md:flex-row flex  rounded-xl  md:w-3/5 md:h-2/3 w-full h-3/4  bg-white" >
@@ -48,7 +55,7 @@ const QuickProductView = ({toggleShowQuickView,  productInfo}) => {
                          />
                         <button  onClick={() =>changeATDvalue(1)} className="w-2/5 border-1 border-stone-650 h-full bg-stone-400">+</button>
                     </div>
-                    <button className="btn ml-2 my-2">See Cart</button>
+                    <button className="btn ml-2 my-2">Add to Cart</button>
                     </div>
 
                     <hr className="m-2   mb-4" />

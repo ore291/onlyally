@@ -51,7 +51,7 @@ function MarketButtons() {
           <p className="text-xs">Add Products</p>
         </div>
        </Link>
-       <Link href="/market/" >
+       <Link href="/market/cart" >
         <div className=" py-1 px-2 rounded flex items-center text-white justify-between gap-2 hover:bg-red-700 bg-lightPlayRed cursor-pointer">
           <div className="font-semibold">
             <BsFillCartCheckFill className="mt-1" size="16px" />
