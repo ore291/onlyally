@@ -205,7 +205,9 @@ const Profile = () => {
           <>
             <div className="profile-bg  relative  -mt-20">
               <div className="relative w-full !h-[50vh] md:!h-[70vh]">
-                <Image
+                {
+                  userDetails.data.user.cover ? (
+                      <Image
                   src={userDetails.data.user.cover}
                   alt={userDetails.data.user.name}
                   layout="fill"
@@ -214,6 +216,19 @@ const Profile = () => {
                   srcSet=""
                   className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
                 />
+                  ) : (
+                    <Image
+                    src={"https://playjor.ams3.digitaloceanspaces.com/upload/photos/2022/01/kNogtdMLlZ6rWxL8GGCy_05_1321914ca6fc245f7bfa01dbc5760943_cover.jpg?cache=1631343744"}
+                    alt={`cover-image`}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    srcSet=""
+                    className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
+                  />
+                  )
+                }
+              
               </div>
               <div
                 className="w-8 h-8 rounded-full absolute z-10 top-28 left-8 bg-white cursor-pointer"
