@@ -28,6 +28,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     },
   });
 
+  const user = useSelector((state) => state.user.profile.data)
+
   const dispatch = useDispatch();
   const fetchConfig = async () => {
     try {
@@ -42,8 +44,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
   useEffect(() => {
     fetchConfig();
-    dispatch(fetchUserDetailsStart());
-    
+
+    if(user === {}){
+       dispatch(fetchUserDetailsStart());
+    }
+   
     dispatch(fetchConfigurationStart()); 
   }, []);
 

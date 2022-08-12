@@ -225,7 +225,7 @@ const NewsFeedCard = ({ post, index }) => {
       {postDisplayStatus == true ? (
         <div className="sm:rounded-2xl bg-white sm:border shadow-md w-full cursor-pointer">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b">
-            <Link passHref href={`/profile/${post.user_unique_id}`}>
+            <Link passHref href={`/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
                 <div className="relative w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700">
                   <Image

@@ -38,12 +38,14 @@ const ExplorePostCard = ({ post, type }) => {
   };
 
   const playAudio = () => {
-    if (playing === false) {
-      togglePlaying;
-      audio.current.audioEl.current.play();
-    } else {
-      audio.current.audioEl.current.pause();
-      togglePlaying;
+    if (typeof window !== "undefined") {
+      if (playing === false) {
+        togglePlaying;
+        audio.current.audioEl.current.play();
+      } else {
+        audio.current.audioEl.current.pause();
+        togglePlaying;
+      }
     }
   };
 
@@ -107,7 +109,7 @@ const ExplorePostCard = ({ post, type }) => {
         </Link>
         <div className="flex items-center justify-between p-[1em]">
           <div className="flex items-center">
-            <Link href={`/profile/${post.user_unique_id}`} passHref>
+            <Link href={`/${post.user_unique_id}`} passHref>
               <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-[2px] rounded-full">
                 <div className="bg-white p-[2px] rounded-full ">
                   <div className="h-[40px] w-[40px]  relative rounded-full">
@@ -123,7 +125,7 @@ const ExplorePostCard = ({ post, type }) => {
               </div>
             </Link>
             <div className="pl-3 cursor-pointer">
-              <Link href={`/profile/${post.user_unique_id}`} passHref>
+              <Link href={`/${post.user_unique_id}`} passHref>
                 <h4 className="font-semibold text-[#6f6f6f] text-sm whitespace-nowrap text-ellipsis my-0 overflow-hidden w-[7em]">
                   {post.user_displayname}
                 </h4>
@@ -135,7 +137,8 @@ const ExplorePostCard = ({ post, type }) => {
       </div>
     );
   }
-  if (type === "audio") {
+
+  if (type === "audio" &&  typeof window !== "undefined") {
     return (
       <div className="exploreCard">
         {post.is_paid_post == 1 ? (
@@ -186,7 +189,7 @@ const ExplorePostCard = ({ post, type }) => {
 
             <ReactAudioPlayer
               // light={postFile.preview_file}
-              src={post.postFiles.post_file}
+              src={post.postFiles.post_file || post.postFiles[0].post_file}
               // file="forceAudio"
               controls={true}
               width="80%"
@@ -203,7 +206,7 @@ const ExplorePostCard = ({ post, type }) => {
 
         <div className="flex items-center justify-between p-[1em]">
           <div className="flex items-center">
-            <Link href={`/profile/${post.user_unique_id}`} passHref>
+            <Link href={`/${post.user_unique_id}`} passHref>
               <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-[2px] rounded-full">
                 <div className="bg-white p-[2px] rounded-full ">
                   <div className="h-[40px] w-[40px]  relative rounded-full">
@@ -219,7 +222,7 @@ const ExplorePostCard = ({ post, type }) => {
               </div>
             </Link>
             <div className="pl-3 cursor-pointer">
-              <Link href={`/profile/${post.user_unique_id}`} passHref>
+              <Link href={`/${post.user_unique_id}`} passHref>
                 <h4 className="font-semibold text-[#6f6f6f] text-sm whitespace-nowrap text-ellipsis my-0 overflow-hidden w-[7em]">
                   {post.user_displayname}
                 </h4>
@@ -318,7 +321,7 @@ const ExplorePostCard = ({ post, type }) => {
         </Link>
         <div className="flex items-center justify-between p-[1em]">
           <div className="flex items-center">
-            <Link href={`/profile/${post.user_unique_id}`} passHref>
+            <Link href={`/${post.user_unique_id}`} passHref>
               <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-[2px] rounded-full">
                 <div className="bg-white p-[2px] rounded-full ">
                   <div className="h-[40px] w-[40px]  relative rounded-full">
@@ -334,7 +337,7 @@ const ExplorePostCard = ({ post, type }) => {
               </div>
             </Link>
             <div className="pl-3 cursor-pointer">
-              <Link href={`/profile/${post.user_unique_id}`} passHref>
+              <Link href={`/${post.user_unique_id}`} passHref>
                 <h4 className="font-semibold text-[#6f6f6f] text-sm whitespace-nowrap text-ellipsis my-0 overflow-hidden w-[7em]">
                   {post.user_displayname}
                 </h4>
@@ -430,7 +433,7 @@ const ExplorePostCard = ({ post, type }) => {
       </Link>
       <div className="flex items-center justify-between p-[1em]">
         <div className="flex items-center">
-          <Link href={`/profile/${post.user_unique_id}`} passHref>
+          <Link href={`/${post.user_unique_id}`} passHref>
             <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-[2px] rounded-full">
               <div className="bg-white p-[2px] rounded-full ">
                 <div className="h-[40px] w-[40px]  relative rounded-full">
@@ -446,7 +449,7 @@ const ExplorePostCard = ({ post, type }) => {
             </div>
           </Link>
           <div className="pl-3 cursor-pointer">
-            <Link href={`/profile/${post.user_unique_id}`} passHref>
+            <Link href={`/${post.user_unique_id}`} passHref>
               <h4 className="font-semibold text-[#6f6f6f] text-sm whitespace-nowrap text-ellipsis my-0 overflow-hidden w-[7em]">
                 {post.user_displayname}
               </h4>

@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {HYDRATE} from "next-redux-wrapper";
 
 const initialState = {
   userDetails: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
     inputData: {},
     loadingButtonContent: null,
@@ -13,7 +14,7 @@ const initialState = {
     data: {
       posts: [],
     },
-    loading: true,
+    loading: false,
     error: false,
     inputData: {},
     loadingButtonContent: null,
@@ -60,7 +61,7 @@ export const OtherUserSlice = createSlice({
     fetchSingleUserProfileFailure: (state, action) => {
       state.userDetails = {
         data: {},
-        loading: true,
+        loading: false,
         error: action.payload,
         inputData: {},
         loadingButtonContent: null,
@@ -148,7 +149,21 @@ export const OtherUserSlice = createSlice({
             buttonDisable: false,
         }
     },
+
     
+    
+  },
+
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.otherUser.userDetails || !action.payload.otherUser.userPosts) {
+        return state;
+      }
+      state.userDetails = action.payload.otherUser.userDetails ;
+      state.userPosts = action.payload.otherUser.userPosts;
+      
+    },
   },
 });
 

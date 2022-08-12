@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { BsPlusCircleFill } from "react-icons/bs";
 import Link from "next/link";
 import GroupCardLoader from "./GroupCardLoader";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");

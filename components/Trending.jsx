@@ -26,7 +26,7 @@ const Trending = () => {
           trendingUsers.data.trending_users.map((user) => (
             <Link
               passHref
-              href={`/profile/${user.username}`}
+              href={`/${user.username}`}
               key={user.user_id}
             >
               <span className="hover:underline text-blue-600 font-semibold cursor-pointer">{`#${user.username}`}</span>

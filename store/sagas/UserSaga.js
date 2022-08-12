@@ -1,5 +1,5 @@
 import { call, select, put, takeLatest, all } from "redux-saga/effects";
-import { setCookies } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import api from "../../Environment";
 
@@ -274,9 +274,9 @@ function* userLoginAPI() {
           );
           localStorage.setItem("userId", response.data.data.user_id);
           localStorage.setItem("accessToken", response.data.data.token);
-          setCookies("userId", response.data.data.user_id);
-          setCookies("accessToken", response.data.data.token);
-          setCookies("user_picture", response.data.data.picture);
+          setCookie("userId", response.data.data.user_id);
+          setCookie("accessToken", response.data.data.token);
+          setCookie("user_picture", response.data.data.picture);
 
           window.location.assign("/");
         }

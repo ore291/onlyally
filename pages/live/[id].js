@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSingleLiveVideosStart } from "../../store/slices/liveVideoSlice";
-import { getCookies, setCookies, removeCookies } from "cookies-next";
+import { getCookies, setCookie, removeCookies } from "cookies-next";
 import LivePaymentModal from "../../components/live/LivePaymentModal";
 import Link from "next/link";
 import { useRouter } from "next/router";

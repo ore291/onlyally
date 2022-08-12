@@ -4,7 +4,7 @@ import {
   useDeviceSelectors,
   getSelectorsByUserAgent,
 } from "react-device-detect";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import {
   isAndroid,
   isIOS,

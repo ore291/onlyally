@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import { Popover, Transition, Dialog, Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { setLivePaymentModal } from "../../store/slices/NavSlice";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import {
   liveVideosPaymentByPaystackStart,
   liveVideosPaymentByWalletStart,

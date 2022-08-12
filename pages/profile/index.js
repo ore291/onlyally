@@ -46,6 +46,11 @@ import configuration from "react-global-configuration";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
+import { getCookies } from "cookies-next";
+
+import { END } from "redux-saga";
+import { wrapper } from "../../store";
+
 const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -59,13 +64,13 @@ const Profile = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  useEffect(() => {
-    if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
-    if (profile.loading) {
-      dispatch(fetchUserDetailsStart());
-      setBadgeStatus(localStorage.getItem("is_verified_badge"));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
+  //   if (profile.loading) {
+  //     dispatch(fetchUserDetailsStart());
+  //     setBadgeStatus(localStorage.getItem("is_verified_badge"));
+  //   }
+  // }, []);
 
   const onCopy = (event) => {
     const notificationMessage = getSuccessNotificationMessage(
@@ -110,8 +115,6 @@ const Profile = () => {
                 src={profile.data.cover}
                 alt={profile.data.name}
                 layout="fill"
-              
-                
                 srcSet=""
                 className="w-full   "
               />
@@ -177,22 +180,28 @@ const Profile = () => {
               </div>
               <div className="flex justify-around px-8">
                 <div className="col-container space-y-0.5">
-                  <p className="text-lg font-semibold">{posts.data.total}</p>
+                  <p className="text-lg font-semibold">{profile.data.total_posts}</p>
                   <span>Posts</span>
                 </div>
-                <div className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1" onClick={()=>router.push('/bookmarks/following')}>
+                <div
+                  className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1"
+                  onClick={() => router.push("/bookmarks/following")}
+                >
                   <p className="text-lg font-semibold">
                     {profile.data.total_followings
                       ? profile.data.total_followings
-                      :  localStorage.getItem("total_followings")}{" "}
+                      : localStorage.getItem("total_followings")}{" "}
                   </p>
                   <span>Following</span>
                 </div>
-                <div className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1 " onClick={()=>router.push('/bookmarks/fans')}>
+                <div
+                  className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1 "
+                  onClick={() => router.push("/bookmarks/fans")}
+                >
                   <p className="text-lg font-semibold">
-                  {profile.data.total_followers
+                    {profile.data.total_followers
                       ? profile.data.total_followers
-                      :  localStorage.getItem("total_followers")}
+                      : localStorage.getItem("total_followers")}
                   </p>
                   <span className="mx-2">Fans</span>
                 </div>
@@ -311,3 +320,30 @@ const Profile = () => {
 };
 
 export default Profile;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req, res, params }) => {
+      const cookies = getCookies({ req, res });
+
+      store.dispatch(
+        fetchUserDetailsStart({
+          accessToken: cookies.accessToken,
+        })
+      );
+
+      store.dispatch(
+        fetchPostsStart({
+          accessToken: cookies.accessToken,
+          type : "all"
+        })
+      );
+
+      store.dispatch(END);
+      await store.sagaTask.toPromise();
+
+      return {
+        props: {},
+      };
+    }
+);

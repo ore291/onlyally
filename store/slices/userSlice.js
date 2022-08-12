@@ -5,7 +5,7 @@ const initialState = {
   loginData: {},
   profile: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
   onlineStatus: {
@@ -855,7 +855,7 @@ export const UserSlice = createSlice({
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.user.loginData) {
+      if (!action.payload.user.loginData || !action.payload.user.profile) {
         return state;
       }
       state.loginData = action.payload.user.loginData;

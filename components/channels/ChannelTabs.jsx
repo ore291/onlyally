@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Tab } from "@headlessui/react";
 import ChannelCard from "./ChannelCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import Link from "next/link";
 import { BsPlusCircleFill } from "react-icons/bs";
 

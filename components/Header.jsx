@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { setMainMobileNavState } from "../store/slices/NavSlice";
 import {
   getCookies,
-  setCookies,
+  setCookie,
   removeCookies,
   checkCookies,
 } from "cookies-next";

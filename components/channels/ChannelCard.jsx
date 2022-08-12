@@ -3,7 +3,7 @@ import Button from "../Button";
 import { BsHeartFill, BsEyeFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { channelSubscribeStart } from "../../store/slices/channelsSlice";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 
 import Link from "next/link";
 

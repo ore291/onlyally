@@ -5,7 +5,7 @@ import TwitterProvider from "next-auth/providers/twitter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import axios from "axios";
 var FormData = require("form-data");
-import { getCookies, setCookies, removeCookies } from "cookies-next";
+import { getCookies, setCookie, removeCookies } from "cookies-next";
 import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect';
 
 
@@ -104,11 +104,11 @@ const nextAuthOptions = (req, res) => {
 
          
 
-            setCookies("userId", user.user_id, { req, res });
-            setCookies("accessToken", user.token, { req, res });
-            setCookies("user_email", user.email, { req, res });
-            setCookies("username", user.username, {req, res} )
-            setCookies("picture", user.picture, {req, res});
+            setCookie("userId", user.user_id, { req, res });
+            setCookie("accessToken", user.token, { req, res });
+            setCookie("user_email", user.email, { req, res });
+            setCookie("username", user.username, {req, res} )
+            setCookie("picture", user.picture, {req, res});
   
       
   

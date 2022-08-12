@@ -14,7 +14,7 @@ import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
 import {
   getCookies,
-  setCookies,
+  setCookie,
   removeCookies,
   checkCookies,
 } from "cookies-next";
@@ -177,10 +177,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
       }
 
       var user = session.user.userDetails;
-      // setCookies("userId", user.user_id, { req, res });
-      // setCookies("accessToken", user.token, { req, res });
-      // setCookies("user_email", user.email, { req, res });
-      // setCookies("username", user.username, {req, res} )
+      // setCookie("userId", user.user_id, { req, res });
+      // setCookie("accessToken", user.token, { req, res });
+      // setCookie("user_email", user.email, { req, res });
+      // setCookie("username", user.username, {req, res} )
       const cookies = getCookies({ req, res });
       store.dispatch(
         fetchHomePostsStart({

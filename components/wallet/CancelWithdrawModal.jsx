@@ -3,7 +3,7 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Popover, Transition, Dialog, Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { usePaystackPayment } from "react-paystack";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import { cancelWithDrawRequestStart } from "../../store/slices/withdrawSlice";
 
 import { FaTimes } from "react-icons/fa";
