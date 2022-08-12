@@ -27,7 +27,7 @@ const Comment = ({ comment, index, post }) => {
   return (
     <div className="flex items-center justify-between text-sm mx-2">
       <div className=" flex justify-start  items-center  basis-[10%]">
-        <Link href={`/profile/${comment.user_unique_id}`} passHref>
+        <Link href={`/${comment.user_unique_id}`} passHref>
           <div className="relative w-12 h-12 rounded-full  mr-1">
             <Image
               src={

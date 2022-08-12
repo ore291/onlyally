@@ -409,7 +409,7 @@ const ChatUi = () => {
           <div className="hidden lg:col-span-2 lg:block">
             <div className="w-full ">
               <Link
-                href={`/profile/${chatMessages.data.user.user_unique_id}`}
+                href={`/${chatMessages.data.user.user_unique_id}`}
                 passHref
               >
                 <div className="relative flex items-center p-3 border-b border-gray-300">

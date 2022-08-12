@@ -32,7 +32,7 @@ const UserCardPopup = ({ creator }) => {
       </div>
 
       <div className="flex flex-col items-start col-container space-y-0.5  pl-28 ">
-        <Link href={`/profile/${creator.user_unique_id}`} passHref>
+        <Link href={`/${creator.user_unique_id}`} passHref>
           <p className="text-2xl font-medium">{creator.name}</p>
         </Link>
 
@@ -55,7 +55,7 @@ const UserCardPopup = ({ creator }) => {
           <p className="text-xs font-semibold">Living in {creator.timezone}</p>
         </div>
         <div className="row-container space-x-2">
-          <Link href={`/profile/${creator.user_unique_id}`} passHref>
+          <Link href={`/${creator.user_unique_id}`} passHref>
             <div className="w-24 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
               <span className="text-sm font-medium">Follow</span>
             </div>

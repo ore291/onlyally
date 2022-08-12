@@ -92,7 +92,7 @@ function* subscriptionPaymentPayStackAPI() {
           "total_followings",
           JSON.stringify(response.data.data.total_followings)
         );
-        window.location.assign(`/profile/${subscriptionDetails.user_unique_id}`);
+        window.location.assign(`/${subscriptionDetails.user_unique_id}`);
       } else {
         yield put(subscriptionPaymentPaystackFailure(response.data.error));
         yield put(notify({ message: response.data.error, status: "error" }));;

@@ -32,7 +32,7 @@ const NotificationCard = ({ notification }) => {
             <Link
               target="_blank"
               passHref
-              href={`/profile/${notification.from_username}`}
+              href={`/${notification.from_username}`}
             >
               <span className="text-sm font-medium text-[#1DA1F2]">
                 @{notification.from_username}

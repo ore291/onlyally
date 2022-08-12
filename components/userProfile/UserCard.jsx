@@ -67,7 +67,7 @@ console.log(creator)
           </p>
         </div>
         <div className="bg-lightPlayRed w-10 h-10 rounded-md row-container cursor-pointer">
-          <Link href={`/profile/${creator.user_unique_id}`} passHref>
+          <Link href={`/${creator.user_unique_id}`} passHref>
             <a href="#">
               <IoMdPersonAdd className="text-white h-6 w-6" />
             </a>
@@ -96,7 +96,7 @@ console.log(creator)
         </div>
         <div className="col-container pb-5 space-y-2">
           <div className="relative hover-trigger">
-            <Link href={`/profile/${creator.user_unique_id}`} passHref>
+            <Link href={`/${creator.user_unique_id}`} passHref>
               <p className="text-center font-medium text-lg truncate text-[rgba(0,0,0,.9);] cursor-pointer">
                 {creator.name}
               </p>
