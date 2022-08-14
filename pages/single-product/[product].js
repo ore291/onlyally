@@ -46,7 +46,7 @@ const Product = () => {
     dispatch(saveCartDetailsStart({user_product_id : singleProduct.data.user_product.id , quantity: ATDvalue}));
   } 
 
-  console.log(singleProductDetails)
+  
   console.log(cartSave)
   return (
     <div>

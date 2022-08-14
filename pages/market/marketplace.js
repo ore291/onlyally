@@ -1,7 +1,7 @@
 import ProfileNavBar from "../../components/ProfileNavBar";
 import MarketButtons from "../../components/MarketButtons.jsx";
 import { FaSearch } from "react-icons/fa";
-import { fetchUserProductsStart } from "../../store/slices/productsSlice";
+import { fetchOtherUserProductsStart, fetchUserProductsStart } from "../../store/slices/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import QuickProductView from "../../components/market/QuickProductView";
@@ -12,7 +12,7 @@ const Product = (productInfo) => {
     const toggleShowQuickView = () =>{
       setShowQuickView(!showQuickView)
     }
-    console.log(productInfo)
+  
   return (
     <div className="shadow-md my-12  mx-4 rounded-md p-4 w-full lg:w-[25%]">
           {showQuickView  && <QuickProductView  toggleShowQuickView={toggleShowQuickView} productInfo={productInfo} />}
@@ -41,11 +41,20 @@ const Product = (productInfo) => {
 };
 const Marketplace = () => {
   const products = useSelector(state => state.products.products)
+  const othersProducts = useSelector(state => state.products.otherUserProducts)
+
   const dispatch = useDispatch()
   useEffect(()=> {
     dispatch( fetchUserProductsStart())
+    dispatch( fetchOtherUserProductsStart())
   }, [])
 
+
+console.log(othersProducts)
+
+if(othersProducts.loading == 'false'){
+  console.log(othersProducts)
+}
   return (
     <div>
       <div className="flex flex-col justify-center lg:flex-row">
@@ -80,8 +89,16 @@ const Marketplace = () => {
             </div>
           </main>
 
-          <section className="block lg:flex justify-between flex-wrap ">
+          <section className="block lg:flex justify-start flex-wrap ">
             {products.loading == false &&  products.data.user_products.map((product, i) => {
+              return(
+                <Product productInfo={product} key={i}/>
+              )
+            })}
+           
+          </section>
+          <section className="block lg:flex justify-start flex-wrap ">
+            {othersProducts.loading == false &&  othersProducts.data.user_products.map((product, i) => {
               return(
                 <Product productInfo={product} key={i}/>
               )
