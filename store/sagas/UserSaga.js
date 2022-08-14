@@ -881,7 +881,7 @@ function* upgradePackageAPI(action) {
   try {
     const response = yield api.postMethod({
       action: "upgrade-package",
-      object: action.data,
+      object: action.payload,
     });
 
     if (response.data.success) {

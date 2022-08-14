@@ -817,7 +817,7 @@ export const UserSlice = createSlice({
     },
     upgradePackageSuccess: (state, action) => {
       state.upgradePackage = {
-        data: action.payload.data,
+        data: action.payload,
         loading: false,
         error: false,
       };

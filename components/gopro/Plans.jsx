@@ -7,7 +7,10 @@ export const GoProStar = () => {
   const [malware, setMalware] = useState("Loading please wait...");
 
   const upgrade = () => {
-    dispatch(upgradePackageStart());
+    dispatch(upgradePackageStart({
+      plan_identifier : "STAR",
+      pro_identifier : "STAR"
+    }));
   };
   const Loading = useSelector((state) => state.user.upgradePackage.loading);
   const LoadingState = useSelector(
@@ -119,7 +122,10 @@ export const GoProFire = () => {
   const dispatch = useDispatch();
   const [malware, setMalware] = useState("Loading please wait...");
   const upgrade = () => {
-    dispatch(upgradePackageStart());
+    dispatch(upgradePackageStart({
+      plan_identifier : "HOT",
+      pro_identifier : "HOT"
+    }));
   };
   const Loading = useSelector((state) => state.user.upgradePackage.loading);
   const LoadingState = useSelector(
@@ -225,7 +231,10 @@ export const GoProFlash = () => {
   const dispatch = useDispatch();
 
   const upgrade = () => {
-    dispatch(upgradePackageStart());
+    dispatch(upgradePackageStart({
+      plan_identifier : "BOSS",
+      pro_identifier : "BOSS"
+    }));
   };
   const Loading = useSelector((state) => state.user.upgradePackage.loading);
   const LoadingState = useSelector(
