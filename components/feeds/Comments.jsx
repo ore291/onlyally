@@ -33,11 +33,11 @@ const Comments = ({ post, currentIndex }) => {
 
   const [commentActiveIndex, setCommentActiveIndex] = useState(null);
 
-  const [userPicture, setUserPicture] = useState('');
+  const [userPicture, setUserPicture] = useState("");
 
-    useEffect(() => {
-      setUserPicture(localStorage.getItem("user_picture"))
-    },[])
+  useEffect(() => {
+    setUserPicture(localStorage.getItem("user_picture"));
+  }, []);
 
   const handleCommentSubmit = (event) => {
     event.preventDefault();
@@ -108,7 +108,9 @@ const Comments = ({ post, currentIndex }) => {
                 <Image
                   alt=""
                   src={
-                    userPicture || user.picture || 'https://cms.onlyally.com/placeholder.jpeg'
+                    userPicture ||
+                    user.picture ||
+                    "https://cms.onlyally.com/placeholder.jpeg"
                   }
                   objectFit="cover"
                   layout="fill"

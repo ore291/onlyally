@@ -255,10 +255,11 @@ export const GroupsSlice = createSlice({
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.groups.groupData) {
+      if (!action.payload.groups.groupData || !action.payload.groups.groups || !action.payload.groups.groupMembersData) {
         return state;
       }
       state.groupData = action.payload.groups.groupData;
+      state.groups = action.payload.groups.groups;
       state.groupMembersData = action.payload.groups.groupMembersData;
     },
   },

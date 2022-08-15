@@ -29,12 +29,11 @@ export default function Dashboard() {
     dispatch(fetchContentCreatorDashboardStart());
   }, []);
 
- 
   return (
     <>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem dashboardColor={"#B30D28"} />
-        <div className=" bg-white  mx-auto mt-20 mr-0 md:mr-16 ml-0 md:ml-6 shadow py-4 px-8 block lg:flex  gap-12 justify-between">
+        <div className=" bg-white  mx-auto mt-10 mr-0 md:mr-16 ml-0 md:ml-6 shadow py-4 px-8 block lg:flex  gap-12 justify-between">
           <div className="block lg:flex gap-4 w-full lg:w-[66%] space-y-4">
             <section className="space-y-4">
               <Card

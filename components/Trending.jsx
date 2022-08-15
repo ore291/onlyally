@@ -7,7 +7,7 @@ import CommonCenterLoader from "./helpers/CommonCenterLoader";
 
 const Trending = () => {
   const dispatch = useDispatch();
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   useEffect(() => {
     dispatch(fetchTrendingUsersStart());
@@ -25,10 +25,12 @@ const Trending = () => {
         ) : trendingUsers.data.trending_users.length > 0 ? (
           trendingUsers.data.trending_users.map((user) => (
             <Link
-             passHref
-              href={`/profile/${user.username}`}
+              passHref
+              href={`/${user.username}`}
               key={user.user_id}
-            ><span className="hover:underline text-blue-600 font-semibold cursor-pointer">{`#${user.username}`}</span></Link>
+            >
+              <span className="hover:underline text-blue-600 font-semibold cursor-pointer">{`#${user.username}`}</span>
+            </Link>
           ))
         ) : (
           <p>No Trending Users</p>

@@ -199,6 +199,16 @@ const initialState = {
         };
       },
     },
+    extraReducers: {
+      [HYDRATE]: (state, action) => {
+        // handle client
+        if (!action.payload.bankAccount.bankAccount) {
+          return state;
+        }
+        state.bankAccount = action.payload.bankAccount.bankAccount;
+      
+      },
+    },
   });
 
 export const {

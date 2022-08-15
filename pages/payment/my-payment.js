@@ -1,6 +1,16 @@
 import { BsFillCreditCard2BackFill } from "react-icons/bs";
 import ProfileNavBar from "../../components/ProfileNavBar.jsx";
-import MyPaymentBody from "../../components/MyPaymentBody.jsx";
+import MyPaymentBody from "../../components/wallet/MyPaymentBody.jsx";
+import { getCookies } from "cookies-next";
+import {
+  fetchAllTransactionStart,
+  fetchSentPaymentTransactionStart,
+} from "../../store/slices/transactionSlice.js";
+import { fetchWithDrawalsStart } from "../../store/slices/withdrawSlice";
+import { fetchPaymentsStart } from "../../store/slices/userSlice";
+
+import { END } from "redux-saga";
+import { wrapper } from "../../store";
 
 function MyPayment() {
   return (
@@ -23,3 +33,33 @@ function MyPayment() {
 }
 
 export default MyPayment;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req, res, params }) => {
+      const cookies = getCookies({ req, res });
+
+      store.dispatch(
+        fetchAllTransactionStart({
+          accessToken: cookies.accessToken,
+        })
+      );
+      store.dispatch(
+        fetchSentPaymentTransactionStart({
+          accessToken: cookies.accessToken,
+        })
+      );
+      store.dispatch(
+        fetchWithDrawalsStart({
+          accessToken: cookies.accessToken,
+        })
+      );
+
+      store.dispatch(END);
+      await store.sagaTask.toPromise();
+
+      return {
+        props: {},
+      };
+    }
+);

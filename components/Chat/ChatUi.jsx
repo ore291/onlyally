@@ -23,10 +23,7 @@ import io from "socket.io-client";
 
 import { useDispatch, useSelector } from "react-redux";
 
-
-
 const ChatUi = () => {
-
   let chatSocket;
 
   const dispatch = useDispatch();
@@ -121,7 +118,7 @@ const ChatUi = () => {
 
   const chatSocketConnect = (to_user_id) => {
     // check the socket url is configured
-   
+
     let chatSocketUrl = socketUrl;
     console.log("chatSocket", chatSocketUrl);
     console.log("Input ID", to_user_id);
@@ -412,7 +409,7 @@ const ChatUi = () => {
           <div className="hidden lg:col-span-2 lg:block">
             <div className="w-full ">
               <Link
-                href={`/profile/${chatMessages.data.user.user_unique_id}`}
+                href={`/${chatMessages.data.user.user_unique_id}`}
                 passHref
               >
                 <div className="relative flex items-center p-3 border-b border-gray-300">

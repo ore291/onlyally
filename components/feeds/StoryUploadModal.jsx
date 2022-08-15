@@ -7,13 +7,12 @@ import { MdClose } from "react-icons/md";
 
 const StoryUploadModal = (props) => {
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true);
   const storyUpload = useSelector((state) => state.stories.storyUpload);
   const modalState = useSelector((state) => state.navbar.uploadModal);
 
   function closeModal() {
-    setIsOpen(false);
-    dispatch(setUploadModal(false));
+    props.closeUploadModal();
   }
 
   const [fileData, setFileData] = useState({
@@ -62,12 +61,8 @@ const StoryUploadModal = (props) => {
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
-        >
+      <Transition appear show={props.uploadStoryModal} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <div className="min-h-screen px-0.5 text-center">
             <Transition.Child
               as={Fragment}
@@ -78,105 +73,109 @@ const StoryUploadModal = (props) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-black opacity-70" />
+              <div className="fixed inset-0 bg-black bg-opacity-70" />
             </Transition.Child>
 
             {/* This element is to trick the browser into centering the modal contents. */}
-            <span
+            {/* <span
               className="inline-block h-screen align-middle"
               aria-hidden="true"
             >
               &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="inline-block w-full max-w-lg p-2 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title
-                  as="div"
-                  className="text-lg font-medium leading-6 text-gray-900 flex justify-between items-center w-full"
+            </span> */}
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
                 >
-                  <h3>Add Story</h3>{" "}
-                  <button
-                    onClick={() => closeModal()}
-                    className="p-1  bg-white rounded-full shadow-md border mr-2"
-                  >
-                    <MdClose className="text-black h-6 w-6 cursor-pointer" />
-                  </button>
-                </Dialog.Title>
-                <div className="upload-body py-2">
-                  <div className="grid place-items-center mb-[2em]">
-                    {fileData.previewImage != "" ? (
-                      fileData.file_type == "image" ? (
-                        <img
-                          src={fileData.previewImage}
-                          alt=""
-                          className="rounded-md"
-                        />
+                  <div className="inline-block w-full max-w-lg p-2 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                    <Dialog.Title
+                      as="div"
+                      className="text-lg font-medium leading-6 text-gray-900 flex justify-between items-center w-full"
+                    >
+                      <h3>Add Story</h3>{" "}
+                      <button
+                        onClick={closeModal}
+                        className="p-1  bg-white rounded-full shadow-md border mr-2"
+                      >
+                        <MdClose className="text-black h-6 w-6 cursor-pointer" />
+                      </button>
+                    </Dialog.Title>
+                    <div className="upload-body py-2">
+                      <div className="grid place-items-center mb-[2em]">
+                        {fileData.previewImage != "" ? (
+                          fileData.file_type == "image" ? (
+                            <img
+                              src={fileData.previewImage}
+                              alt=""
+                              className="rounded-md"
+                            />
+                          ) : (
+                            <video
+                              autoPlay={false}
+                              controls
+                              id="myVideo"
+                              className="user-profile1 w-full inline-block align-baseline object-contain"
+                            >
+                              <source
+                                src={fileData.previewImage}
+                                type="video/mp4"
+                              />
+                            </video>
+                          )
+                        ) : null}
+                      </div>
+                      {fileData.previewImage != "" ? (
+                        <div className="flex justify-evenly whitespace-nowrap">
+                          <button
+                            className="modalButton"
+                            disabled={
+                              !storyUpload.loading && storyUpload.buttonDisable
+                            }
+                          >
+                            <input
+                              type="file"
+                              accept="image/*,video/*"
+                              onChange={(event) => handleChangeImage(event)}
+                            />
+                            Select Image/Video
+                          </button>
+                          <button
+                            className="modalButton"
+                            disabled={storyUpload.buttonDisable}
+                            onClick={handleFileUpload}
+                          >
+                            {storyUpload.loadingButtonContent != ""
+                              ? storyUpload.loadingButtonContent
+                              : "Upload Image/video"}
+                          </button>
+                        </div>
                       ) : (
-                        <video
-                          autoPlay={false}
-                          controls
-                          id="myVideo"
-                          className="user-profile1 w-full inline-block align-baseline object-contain"
-                        >
-                          <source
-                            src={fileData.previewImage}
-                            type="video/mp4"
+                        <button className="modalButton">
+                          <input
+                            type="file"
+                            accept="image/*,video/*"
+                            onChange={(event) => handleChangeImage(event)}
                           />
-                        </video>
-                      )
-                    ) : null}
-                  </div>
-                  {fileData.previewImage != "" ? (
-                    <div className="flex justify-evenly whitespace-nowrap">
-                      <button
-                        className="modalButton"
-                        disabled={
-                          !storyUpload.loading && storyUpload.buttonDisable
-                        }
-                      >
-                        <input
-                          type="file"
-                          accept="image/*,video/*"
-                          onChange={(event) => handleChangeImage(event)}
-                        />
-                        Select Image/Video
-                      </button>
-                      <button
-                        className="modalButton"
-                        disabled={storyUpload.buttonDisable}
-                        onClick={handleFileUpload}
-                      >
-                        {storyUpload.loadingButtonContent != ""
-                          ? storyUpload.loadingButtonContent
-                          : "Upload Image/video"}
-                      </button>
+                          Select Image/Video
+                        </button>
+                      )}
                     </div>
-                  ) : (
-                    <button className="modalButton">
-                      <input
-                        type="file"
-                        accept="image/*,video/*"
-                        onChange={(event) => handleChangeImage(event)}
-                      />
-                      Select Image/Video
-                    </button>
-                  )}
-                </div>
+                  </div>
+                </Transition.Child>
               </div>
-            </Transition.Child>
+            </div>
           </div>
         </Dialog>
       </Transition>
       {/* <div
-        class={`modal custom-modal fade`}
+        className={`modal custom-modal fade`}
         id="addStoryModal"
         tabindex="-1"
         role="dialog"

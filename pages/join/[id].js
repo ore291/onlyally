@@ -4,7 +4,7 @@ import { fetchSingleLiveVideosStart } from "../../store/slices/liveVideoSlice";
 import dynamic from "next/dynamic";
 // import AgoraLive from "../../components/live/AgoraLive";
 import { useDispatch, useSelector } from "react-redux";
-import { getCookies, setCookies, removeCookies } from "cookies-next";
+import { getCookies, setCookie, removeCookies } from "cookies-next";
 import { useRouter } from "next/router";
 
 const LiveVideoFree = () => {

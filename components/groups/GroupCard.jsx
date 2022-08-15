@@ -52,7 +52,6 @@ const GroupCard = ({
             {group.members.length} members &middot; 12 posts a week
           </p>
           <div className="flex items-center space-x-2 ">
-           
             <div className="flex -space-x-4">
               {group.members.slice(0, 3).map((member, i) => (
                 <img
@@ -65,18 +64,24 @@ const GroupCard = ({
             </div>
 
             <p className="text-sm font-medium text-gray-400">
-              <span className="font-semibold whitespace-nowrap">2 friends are members</span>
+              <span className="font-semibold whitespace-nowrap">
+                2 friends are members
+              </span>
             </p>
           </div>
         </div>
         <div className="basis-1/5">
           {group.is_member ? (
             group.user_id == getCookie("userId") ? (
-              <Button text="Edit" extraClasses="w-[100px] h-8" active={true} />
+              <Button
+                text="Edit"
+                extraclassNamees="w-[100px] h-8"
+                active={true}
+              />
             ) : (
               <Button
                 text="Joined"
-                extraClasses="w-[100px] h-8"
+                extraclassNamees="w-[100px] h-8"
                 active={true}
               />
             )
@@ -128,14 +133,14 @@ const GroupCard = ({
         <div className="basis-1/5">
           {group.is_member ? (
             group.user_id == getCookie("userId") ? (
-              <Button text="Edit" extraClasses="w-16 h-8" active={true} />
+              <Button text="Edit" extraclassNamees="w-16 h-8" active={true} />
             ) : (
-              <Button text="Joined" extraClasses="w-16 h-8" active={true} />
+              <Button text="Joined" extraclassNamees="w-16 h-8" active={true} />
             )
           ) : (
             <Button
               text="Join"
-              extraClasses="hover:bg-lightPlayRed hover:text-white w-16 h-8"
+              extraclassNamees="hover:bg-lightPlayRed hover:text-white w-16 h-8"
               onClick={(e) => handleJoinGroup(group.slug)}
             />
           )}
@@ -148,7 +153,10 @@ const GroupCard = ({
       <div className="flex flex-col w-[230px] flex-shrink-0 flex-grow-0   rounded-t-lg border shadow-md ">
         <div className="relative h-24 w-full rounded-t-lg">
           <Image
-            src={group.cover || "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"}
+            src={
+              group.cover ||
+              "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+            }
             alt="fh"
             layout="fill"
             objectFit="cover"
@@ -204,7 +212,7 @@ const GroupCard = ({
                   : null}
               </div>
               {group.members[0] && (
-                <div className="ml-2 pl-6 tracking-tight">
+                <div className="ml-4 pl-6 tracking-tight">
                   <p className="text-xs font-medium text-gray-500">
                     <span className="font-semibold">
                       {group?.members[0]?.name}{" "}
@@ -219,19 +227,19 @@ const GroupCard = ({
           </div>
 
           <div className="w-full flex items-center justify-between ">
-            {/* <Button text="Joined" extraClasses="w-[100px] h-8" active={true} />
-            <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" /> */}
+            {/* <Button text="Joined" extraclassNamees="w-[100px] h-8" active={true} />
+            <Button text="View" extraclassNamees="w-[100px] h-8 bg-gray-100" /> */}
             {group.is_member ? (
               group.user_id == getCookie("userId") ? (
                 <Button
                   text="Edit"
-                  extraClasses="w-[100px] h-8"
+                  extraclassNamees="w-[100px] h-8"
                   active={true}
                 />
               ) : (
                 <Button
                   text="Joined"
-                  extraClasses="w-[100px] h-8"
+                  extraclassNamees="w-[100px] h-8"
                   active={true}
                 />
               )
@@ -243,7 +251,10 @@ const GroupCard = ({
               />
             )}
             <Link href={`/groups/${group.slug}`} passHref>
-              <Button text="View" extraClasses="w-[100px] h-8 bg-gray-100" />
+              <Button
+                text="View"
+                extraclassNamees="w-[100px] h-8 bg-gray-100"
+              />
             </Link>
           </div>
         </div>
@@ -253,7 +264,14 @@ const GroupCard = ({
   if (filter) {
     return (
       <div className="flex flex-col w-full rounded-2xl border shadow-lg ">
-        <img src={group.cover || "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"} alt="" className="w-full h-24 rounded-t-lg object-cover" />
+        <img
+          src={
+            group.cover ||
+            "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+          }
+          alt=""
+          className="w-full h-24 rounded-t-lg object-cover"
+        />
         <div className="p-2 py-3">
           <div className="flex flex-col items-start pb-2">
             <p className="font-medium text-sm md:text-xl">{group.name}</p>
@@ -265,7 +283,7 @@ const GroupCard = ({
           <div className="w-full row-container">
             <Button
               text="Join"
-              extraClasses="w-full h-8"
+              extraclassNamees="w-full h-8"
               active={true}
               onClick={(e) => handleJoinGroup(group.slug)}
             />
@@ -295,8 +313,12 @@ const GroupCard = ({
           </div>
 
           <div className="w-full flex items-center justify-between ">
-            <Button text="Joined" extraClasses="w-[120px] h-8" active={true} />
-            <Button text="View" extraClasses="w-[120px] h-8 bg-gray-100" />
+            <Button
+              text="Joined"
+              extraclassNamees="w-[120px] h-8"
+              active={true}
+            />
+            <Button text="View" extraclassNamees="w-[120px] h-8 bg-gray-100" />
           </div>
         </div>
       </div>
@@ -307,7 +329,10 @@ const GroupCard = ({
     <div className="flex flex-col w-full relative space-y-1 rounded-t-lg ">
       <div className="w-full h-24 rounded-lg relative">
         <Image
-          src={group.cover || "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"}
+          src={
+            group.cover ||
+            "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+          }
           layout="fill"
           objectFit="cover"
           className="rounded-lg"

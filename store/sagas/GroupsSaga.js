@@ -63,9 +63,13 @@ function* saveGroupPostAPI() {
 }
 
 function* fetchGroupsAPI(action) {
+  if(action.payload){
+    var accessToken = action.payload.accessToken
+  }
   try {
     const response = yield api.getMethod({
       action: "groups",
+      accessToken : accessToken
     });
     if (response.data.success) {
       yield put(fetchGroupsSuccess(response.data.data));
@@ -103,13 +107,14 @@ function* groupJoinAPI(action) {
     const response = yield api.putMethod({
       action: `groups/${inputData}/member`,
     });
-    if (response.data.success) {
+ 
+    if (response.data != null && response.data.success != null) {
       yield put(joinGroupSuccess(response.data.data));
       yield put(fetchGroupsStart());
       yield put(notify({ message: "Group joined", status: "success" }));
     } else {
-      yield put(joinGroupFailure(response.data.error));
-      yield put(notify({ message: response.data.error, status: "error" }));
+      yield put(joinGroupFailure(response));
+      yield put(notify({ message: response.error.message, status: "error" }));
     }
   } catch (error) {
     yield put(joinGroupFailure(error.message));

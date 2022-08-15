@@ -62,22 +62,22 @@ const GroupPageHeader = ({ group }) => {
               <Link href={`/groups/${group.slug}/settings`} passHref>
                 <Button
                   text="Edit"
-                  textClass="text-sm font-medium"
-                  extraClasses="w-20 md:w-28 h-9  rounded-md bg-gray-500 text-black"
+                  textclassName="text-sm font-medium"
+                  extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-gray-500 text-black"
                 />
               </Link>
             ) : group.is_member ? (
               <Button
                 text="Joined"
                 active={true}
-                extraClasses="w-20 md:w-28 h-9  rounded-md bg-red-500"
+                extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-red-500"
               />
             ) : (
               <Button
                 onClick={() => handleJoinGroup(group.slug)}
                 text="Join"
-                textClass="text-lg font-semibold"
-                extraClasses="w-20 md:w-28 h-8  text-red-400 hover:bg-lightPlayRed hover:text-white rounded-md"
+                textclassName="text-lg font-semibold"
+                extraclassNamees="w-20 md:w-28 h-8  text-red-400 hover:bg-lightPlayRed hover:text-white rounded-md"
               />
             )}
           </div>

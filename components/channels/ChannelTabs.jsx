@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Tab } from "@headlessui/react";
 import ChannelCard from "./ChannelCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import Link from "next/link";
 import { BsPlusCircleFill } from "react-icons/bs";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const ChannelTabs = ({ channels }) => {
@@ -64,9 +64,7 @@ const ChannelTabs = ({ channels }) => {
               } */}
               {channels.data.length > 0
                 ? channels.data
-                    .filter((filterchannel) =>
-                      filterchannel.is_member == true
-                    )
+                    .filter((filterchannel) => filterchannel.is_member == true)
                     .map((channel, index) => (
                       <ChannelCard key={index} channel={channel} />
                     ))
@@ -82,9 +80,7 @@ const ChannelTabs = ({ channels }) => {
 
               {channels.data.length > 0
                 ? channels.data
-                    .filter(
-                      (filterchannel) => filterchannel.is_member == false
-                    )
+                    .filter((filterchannel) => filterchannel.is_member == false)
                     .map((channel, index) => (
                       <ChannelCard key={index} channel={channel} />
                     ))
@@ -93,7 +89,7 @@ const ChannelTabs = ({ channels }) => {
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="p-2 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
-            <Link href="/create-channel" passHref>
+              <Link href="/create-channel" passHref>
                 <div className="h-[250px] min-w-[230px] border-2 shadow-md border-dashed row-container group cursor-pointer">
                   <div className="col-container">
                     <BsPlusCircleFill className="w-10 h-10 text-gray-400 group-hover:text-lightPlayRed transition ease-out duration-200" />
@@ -107,16 +103,14 @@ const ChannelTabs = ({ channels }) => {
               {channels.data.length > 0
                 ? channels.data
                     .filter(
-                      (filterchannel) => filterchannel.user_id === parseInt(cookies.userId)
+                      (filterchannel) =>
+                        filterchannel.user_id === parseInt(cookies.userId)
                     )
                     .map((channel, index) => (
                       <ChannelCard key={index} channel={channel} />
                     ))
                 : null}
-             
-             
-             
-             
+
               {/* {[...Array(10)].map((_, index) => (
                 <ChannelCard key={index} channel={index} />
               ))} */}

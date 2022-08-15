@@ -20,32 +20,32 @@ const initialState = {
   },
   followers: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
   activeFollowers: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
   expiredFollowers: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
   following: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
   activeFollowing: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
   expiredFollowing: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
   },
 };

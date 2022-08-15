@@ -8,12 +8,12 @@ import { fetchGroupsStart } from "../../store/slices/groupsSlice";
 
 const LikedGroups = () => {
   const dispatch = useDispatch();
-  const groups = useSelector(state => state.groups.groups)
+  const groups = useSelector((state) => state.groups.groups);
 
   useEffect(() => {
-    dispatch(fetchGroupsStart())
-  }, [])
-  
+    dispatch(fetchGroupsStart());
+  }, []);
+
   return (
     <div className="side-container">
       <div className="flex items-center justify-between px-2">
@@ -22,9 +22,12 @@ const LikedGroups = () => {
       </div>
 
       <div className="flex flex-col items-center space-y-2 px-2 pb-4">
-        { groups.data.length > 0 ? [...groups.data].sort(() => Math.random() - Math.random()).slice(0, 4).map((group, index) => (
-          <GroupCard key={index} group={group}/>
-        )) : ""}
+        {groups.data.length > 0
+          ? [...groups.data]
+              .sort(() => Math.random() - Math.random())
+              .slice(0, 4)
+              .map((group, index) => <GroupCard key={index} group={group} />)
+          : ""}
       </div>
     </div>
   );

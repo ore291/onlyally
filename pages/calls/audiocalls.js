@@ -1,5 +1,5 @@
 import ProfileNavBar from "../../components/ProfileNavBar.jsx";
-import { AiOutlineArrowLeft } from 'react-icons/ai'
+import { AiOutlineArrowLeft } from "react-icons/ai";
 import AudioCallBody from "../../components/AudioCallBody.jsx";
 
 function Payment() {
@@ -13,14 +13,16 @@ function Payment() {
               <AiOutlineArrowLeft className="mt-1" />
               <h2 className="font-bold">AUDIO CALLS HISTORY</h2>
             </div>
-            <p>The list contais hte request which was made by you, it also contains requests which you receved from other.</p>
+            <p>
+              The list contais hte request which was made by you, it also
+              contains requests which you receved from other.
+            </p>
           </div>
-          <AudioCallBody className="w-[90%]"/>
-
+          <AudioCallBody className="w-[90%]" />
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Payment;

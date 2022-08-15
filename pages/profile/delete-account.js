@@ -10,11 +10,11 @@ function TrasctionHistory() {
         <ProfileNavBar className="w-24 mb-8" />
         <div className=" w-[90%] px-1 mx-auto pt-3 mr-24  mt-12 bg-white rounded">
           <p className="font-bold text-center">Delete Account</p>
-          <DeleteAccountBody className="w-[90%]"/>
+          <DeleteAccountBody className="w-[90%]" />
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default TrasctionHistory;

@@ -8,14 +8,14 @@ import { TiVideo } from "react-icons/ti";
 import { FaMusic, FaVideo, FaRegTimesCircle } from "react-icons/fa";
 import { Multiselect } from "multiselect-react-dropdown";
 import { useSelector, useDispatch } from "react-redux";
-import {notify} from 'reapop';
+import { notify } from "reapop";
 import {
   fetchPostCategoriesStart,
   postFileUploadStart,
   postFileRemoveStart,
 } from "../../store/slices/postSlice";
 
-import {saveGroupPostStart} from "../../store/slices/groupsSlice"
+import { saveGroupPostStart } from "../../store/slices/groupsSlice";
 
 import PostEditor from "../feeds/PostEditor";
 
@@ -25,8 +25,6 @@ const GroupPostModal = (props) => {
   const fileUpload = useSelector((state) => state.post.fileUpload);
   const searchUser = useSelector((state) => state.home.searchUser);
   const postCategories = useSelector((state) => state.post.postCategories);
-
-  
 
   // new addditions
 
@@ -100,9 +98,7 @@ const GroupPostModal = (props) => {
         reader.readAsDataURL(file);
       }
       if (!file) {
-        dispatch(
-          notify("file field is required", "error" )
-        );
+        dispatch(notify("file field is required", "error"));
       } else {
         dispatch(
           postFileUploadStart({
@@ -273,7 +269,7 @@ const GroupPostModal = (props) => {
     if (fileUploadStatus) {
       dispatch(
         saveGroupPostStart({
-            group_slug: props.group_slug,
+          group_slug: props.group_slug,
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
           post_file_id: fileUpload.data.post_file.post_file_id,
@@ -286,7 +282,7 @@ const GroupPostModal = (props) => {
     } else {
       dispatch(
         saveGroupPostStart({
-            group_slug: props.group_slug,
+          group_slug: props.group_slug,
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
           post_category_ids: inputData.post_category_ids
@@ -333,7 +329,7 @@ const GroupPostModal = (props) => {
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto md:mt-8"
-        onClose={()=>props.closeModal()}
+        onClose={() => props.closeModal()}
       >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
@@ -369,14 +365,16 @@ const GroupPostModal = (props) => {
                 as="div"
                 className="flex justify-between text-lg font-medium leading-6 text-gray-900"
               >
-                <div onClick={()=>props.closeModal()}>
+                <div onClick={() => props.closeModal()}>
                   <MdClose className="h-7 w-7 cursor-pointer" />
                 </div>
                 <button
                   type="submit"
                   className="px-3 py-1 text-white rounded-lg bg-gradient-to-r  from-lightPlayRed to-playRed hover:from-pink-500 hover:to-yellow-500"
                   onClick={handleSubmit}
-                  disabled={fileUpload.buttonDisable || saveGroupPost.buttonDisable}
+                  disabled={
+                    fileUpload.buttonDisable || saveGroupPost.buttonDisable
+                  }
                 >
                   {fileUpload.loadingButtonContent !== null
                     ? fileUpload.loadingButtonContent
@@ -384,7 +382,7 @@ const GroupPostModal = (props) => {
                     ? saveGroupPost.loadingButtonContent
                     : "POST"}
                 </button>
-                {/* <Button text="POST" active={true} extraClasses="w-24 h-8" /> */}
+                {/* <Button text="POST" active={true} extraclassNamees="w-24 h-8" /> */}
               </Dialog.Title>
               <div className="mt-2">
                 <div className="bg-white rounded-md shadow-sm pl-[1em] border">

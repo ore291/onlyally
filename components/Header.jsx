@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { setMainMobileNavState } from "../store/slices/NavSlice";
 import {
   getCookies,
-  setCookies,
+  setCookie,
   removeCookies,
   checkCookies,
 } from "cookies-next";
@@ -27,7 +27,7 @@ const Header = () => {
 
   return (
     <nav className="bg-[#B30D28] sticky top-0 z-50">
-      <div className="lg:max-w-6xl xl:max-w-7xl mx-auto x-4 sm:px-6 lg:px-8 ">
+      <div className="lg:max-w-6xl xl:max-w-7xl mx-auto  sm:px-6 lg:px-8 ">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             {" "}
@@ -78,11 +78,10 @@ const Header = () => {
               <HeaderMenu user={session?.user?.userDetails} />
             </div>
           </div>
-          
-            <div className=" md:hidden rounded-full bg-[#C51834] flex items-center justify-center p-1 ">
-              <MdOutlineSearch className="h-8 w-8 text-white" />
-            </div>
-       
+
+          <div className=" md:hidden rounded-full bg-[#C51834] flex items-center justify-center p-1 ">
+            <MdOutlineSearch className="h-8 w-8 text-white" />
+          </div>
         </div>
         {/* end search */}
       </div>

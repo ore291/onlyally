@@ -24,7 +24,7 @@ const HeaderMenuDropdown = () => {
   const createPostModalState = useSelector(
     (state) => state.navbar.createPostModal
   );
-  const user = useSelector(state => state.user.profile.data)
+  const user = useSelector((state) => state.user.profile.data);
   // my own code
   let [isOpen, setIsOpen] = useState(false);
 

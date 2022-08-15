@@ -19,6 +19,8 @@ export default function Tabs() {
   let [categories] = useState(["Post", "Users", "Channels", "Groups"]);
   const posts = useSelector((state) => state.home.homePost.data.posts);
   const explorePosts = useSelector((state) => state.post.explorePosts);
+  const channels = useSelector((state) => state.channels.channels);
+  const groups = useSelector((state) => state.groups.groups);
 
   return (
     <Tab.Group>
@@ -53,8 +55,22 @@ export default function Tabs() {
                 {explorePosts.data.posts.map((post) => {
                   if (post.postFiles.file_type == "image") {
                     return <ExplorePostCard post={post} key={post.post_id} />;
-                  } else if (post.postFiles.file_type == "video"){
-                    return <ExplorePostCard post={post} key={post.post_id} type="video" />;
+                  } else if (post.postFiles.file_type == "video") {
+                    return (
+                      <ExplorePostCard
+                        post={post}
+                        key={post.post_id}
+                        type="video"
+                      />
+                    );
+                  } else if (post.postFiles.file_type == "audio") {
+                    return (
+                      <ExplorePostCard
+                        post={post}
+                        key={post.post_id}
+                        type="audio"
+                      />
+                    );
                   }
                 })}
               </div>
@@ -77,9 +93,9 @@ export default function Tabs() {
           </Tab.Panel>
           {/* channels tab */}
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-x-20 gap-y-4">
-              {[...Array(10)].map((_, index) => (
-                <ChannelFilter key={index} />
+            <div className="grid grid-cols-1 md:grid-cols-2 w-full md:gap-x-20 gap-y-4">
+              {channels.data.map((channel, index) => (
+                <ChannelFilter key={index} channel={channel} />
               ))}
             </div>
             <div className="w-full row-container space-x-1 py-5">
@@ -92,11 +108,11 @@ export default function Tabs() {
             </div>
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-3")}>
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5">
-              {[...Array(9)].map((_, index) => (
-                <GroupCard key={index} filter={true} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5">
+              {groups.data.map((group, index) => (
+                <GroupCard key={index} filter={true} group={group} />
               ))}
-            </div> */}
+            </div>
             <div className="w-full row-container space-x-1 py-5">
               <div className="!bg-white border !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
                 <FaChevronDown className="h-3 w-3 text-lightPlayRed" />

@@ -9,9 +9,15 @@ const UserCardPopup = ({ creator }) => {
     <div className="flex flex-col w-[320px] space-y-1 rounded-t-lg ">
       <div className="relative w-full">
         <div className="w-full h-24 relative">
-          <Image src={creator.cover} objectFit="cover" layout="fill" alt="" className="w-full h-24 rounded-lg" />
+          <Image
+            src={creator.cover}
+            objectFit="cover"
+            layout="fill"
+            alt=""
+            className="w-full h-24 rounded-lg"
+          />
         </div>
-        
+
         <div className="absolute -bottom-20 left-2 p-1 bg-white  rounded-full">
           <div className="relative h-24 w-24 rounded-full">
             <Image
@@ -26,10 +32,10 @@ const UserCardPopup = ({ creator }) => {
       </div>
 
       <div className="flex flex-col items-start col-container space-y-0.5  pl-28 ">
-        <Link href={`/profile/${creator.user_unique_id}`} passHref>
-        <p className="text-2xl font-medium">{creator.name}</p>
+        <Link href={`/${creator.user_unique_id}`} passHref>
+          <p className="text-2xl font-medium">{creator.name}</p>
         </Link>
-        
+
         <div className=" row-container space-x-1 ">
           <AiOutlineEye />
           <p
@@ -49,21 +55,16 @@ const UserCardPopup = ({ creator }) => {
           <p className="text-xs font-semibold">Living in {creator.timezone}</p>
         </div>
         <div className="row-container space-x-2">
-          <Link href={`/profile/${creator.user_unique_id}`} passHref>
+          <Link href={`/${creator.user_unique_id}`} passHref>
             <div className="w-24 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
-              <span className="text-sm font-medium">
-                Follow
-              </span>
-
+              <span className="text-sm font-medium">Follow</span>
             </div>
-
-           
           </Link>
 
           <Button
             text="Message"
-            extraClasses="h-[35px] w-24"
-            textClass="text-sm font-medium"
+            extraclassNamees="h-[35px] w-24"
+            textclassName="text-sm font-medium"
           />
         </div>
       </div>

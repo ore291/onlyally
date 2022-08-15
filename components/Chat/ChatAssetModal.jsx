@@ -3,11 +3,13 @@ import {
   chatAssetFileUploadStart,
   uploadAssetDetails,
 } from "../../store/slices/chatAssetSlice";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ChatAssetModal = (props) => {
-    const dispatch = useDispatch();
-const chatAssetInputDataState = useSelector(state => state.chatAsset.chatAssetInputData)
+  const dispatch = useDispatch();
+  const chatAssetInputDataState = useSelector(
+    (state) => state.chatAsset.chatAssetInputData
+  );
   const [chatAssetInputData, setChatAssetInputData] = useState({});
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -16,7 +18,7 @@ const chatAssetInputDataState = useSelector(state => state.chatAsset.chatAssetIn
         chatAssetFileUploadStart({
           from_user_id: localStorage.getItem("userId"),
           to_user_id: props.toUserId,
-          file_type:props.fileType,
+          file_type: props.fileType,
           message: chatAssetInputData.message ? chatAssetInputData.message : "",
           amount: chatAssetInputData.amount ? chatAssetInputData.amount : "",
           file: chatAssetInputData.file ? chatAssetInputData.file : "",
@@ -27,11 +29,11 @@ const chatAssetInputDataState = useSelector(state => state.chatAsset.chatAssetIn
     }
     setChatAssetInputData({
       ...chatAssetInputData,
-      file: '',
-      message: '',
-      amount: '',
+      file: "",
+      message: "",
+      amount: "",
     });
-    setImage({ ...image, title: '',picture:''});
+    setImage({ ...image, title: "", picture: "" });
     props.closeChatAssetUploadModal();
   };
 
@@ -48,9 +50,9 @@ const chatAssetInputDataState = useSelector(state => state.chatAsset.chatAssetIn
       let reader = new FileReader();
       let file = event.currentTarget.files[0];
 
-      setImage({ ...image, title: event.currentTarget.files[0].name});
+      setImage({ ...image, title: event.currentTarget.files[0].name });
       reader.onloadend = () => {
-        if(props.fileType == 'image') {
+        if (props.fileType == "image") {
           setImage({ ...image, picture: reader.result });
         }
       };
@@ -172,8 +174,5 @@ const chatAssetInputDataState = useSelector(state => state.chatAsset.chatAssetIn
     </>
   );
 };
-
-
-
 
 export default ChatAssetModal;

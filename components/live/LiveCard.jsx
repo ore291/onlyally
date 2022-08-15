@@ -89,7 +89,7 @@ const LiveCard = ({ video }) => {
               type="submit"
               text="Pay &amp; Join now"
               active={true}
-              extraClasses="w-auto px-3 h-8"
+              extraclassNamees="w-auto px-3 h-8"
               disabled={video.buttonDisable}
               onClick={(event) => openPaymentModal(event)}
             />

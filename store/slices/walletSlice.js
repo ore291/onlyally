@@ -1,6 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
+  readyFund : {
+    payment_id: "",
+    start_fund: false,
+  },
+  fundWallet: {
+    data: {},
+    loading: false,
+    error: false,
+    
+  },
   walletData: {
     data: {},
     loading: true,
@@ -40,54 +51,93 @@ export const WalletSlice = createSlice({
     fetchWalletDetailsFailure: (state, action) => {
       state.walletData = {
         data: {},
-          loading: true,
-          error: action.payload,
+        loading: true,
+        error: action.payload,
       };
     },
-    addMoneyViaCardStart: (state, action)=> {
-        state.addMoneyInput = {
-            data: action.payload,
-          loading: true,
-          error: false,
-          buttonDisable: true,
-          loadingButtonContent: "Processing...",
-          successData: {},
-        }
+    addMoneyViaPaystackStart: (state, action) => {
+      state.addMoneyInput = {
+        data: action.payload,
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Processing...",
+        successData: {},
+      };
     },
-    addMoneyViaCardSuccess: (state, action)=> {
-        state.addMoneyInput = {
-            data: {},
-            loading: false,
-            error: false,
-            buttonDisable: false,
-            loadingButtonContent: null,
-            successData: action.payload,
-        }
+    addMoneyViaPaystackSuccess: (state, action) => {
+      state.addMoneyInput = {
+        data: {},
+        loading: false,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+        successData: action.payload,
+      };
     },
-    addMoneyViaCardFailure: (state, action)=> {
-        state.addMoneyInput = {
-            data: {},
-            loading: true,
-            error: action.payload,
-            buttonDisable: false,
-            loadingButtonContent: null,
-            successData: {},
-        }
+    addMoneyViaPaystackFailure: (state, action) => {
+      state.addMoneyInput = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+        successData: {},
+      };
+    },
+    initializePaystackStart: (state, action) => {
+      state.fundWallet = {
+        data: {},
+        loading: true,
+        error: false,
+        start_fund: true,
+      };
+    },
+    initializePaystackSuccess: (state, action) => {
+      state.fundWallet = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        start_fund: true,
+      };
+    },
+    initializePaystackFailure: (state, action) => {
+      state.fundWallet = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        start_fund: true,
+      };
+    },
+    setPaystackInfo: (state, action) => {
+      state.readyFund = {
+        start_fund: true,
+        payment_id: action.payload,
+      };
+    },
+  },
+  extraReducers: {
+    [HYDRATE]: (state, action) => {
+      // handle client
+      if (!action.payload.wallet.walletData) {
+        return state;
+      }
+      state.walletData = action.payload.wallet.walletData;
     },
   },
 });
 
 export const {
-    addMoneyViaCardFailure, 
-    addMoneyViaCardSuccess,
-    addMoneyViaCardStart,
-    fetchWalletDetailsStart,
-    fetchWalletDetailsSuccess,
-    fetchWalletDetailsFailure
-
-
-
+  addMoneyViaPaystackFailure,
+  addMoneyViaPaystackSuccess,
+  addMoneyViaPaystackStart,
+  fetchWalletDetailsStart,
+  fetchWalletDetailsSuccess,
+  fetchWalletDetailsFailure,
+  initializePaystackStart,
+  initializePaystackSuccess,
+  initializePaystackFailure,
+  setPaystackInfo,
 } = WalletSlice.actions;
 
 export default WalletSlice.reducer;
-

@@ -5,8 +5,7 @@ import Link from "next/link";
 const CreatorCard = ({ username, image, main, verified, creator }) => {
   if (main) {
     return (
-      <Link href={`/profile/${creator.unique_id}`}>
-        
+      <Link href={`/${creator.unique_id}`}>
         <div className="col-container my-3 cursor-pointer">
           <div className="bg-gradient-to-tr from-yellow-400 to-playRed p-0.5 rounded-2xl">
             <div className="bg-white p-0.5 rounded-2xl">
@@ -29,7 +28,7 @@ const CreatorCard = ({ username, image, main, verified, creator }) => {
     );
   }
   return (
-    <Link href={`/profile/${username}`} passHref>
+    <Link href={`/${username}`} passHref>
       <div className="bg-white rounded-lg shadow-sm border flex flex-col items-center justify-center cursor-pointer">
         <div className="px-1 pt-1 w-20 h-20 relative rounded-lg">
           <Image

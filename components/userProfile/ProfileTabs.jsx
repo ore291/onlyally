@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Tab } from "@headlessui/react";
 import ChannelCard from "../channels/ChannelCard";
 import NewsFeedCard from "../feeds/NewsFeedCard";
 import ShopList from "../shop/ShopList";
 import GroupCard from "../groups/GroupCard";
-import { MdSmartDisplay, MdPhotoSizeSelectActual } from "react-icons/md";
-import { FaVideo } from "react-icons/fa";
+import ExplorePostCard from "../../components/explore/ExplorePostCard";
+import {
+  MdSmartDisplay,
+  MdPhotoSizeSelectActual,
+  MdLockOutline,
+} from "react-icons/md";
+import { FaVideo, FaPause } from "react-icons/fa";
+import { BsHeartFill, BsHeart, BsThreeDots } from "react-icons/bs";
+import { FiPlay } from "react-icons/fi";
 import { GiSpeaker } from "react-icons/gi";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,13 +22,29 @@ import Link from "next/link";
 import ReactPlayer from "react-player/lazy";
 import ReactAudioPlayer from "react-audio-player";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const ProfileTabs = () => {
   const posts = useSelector((state) => state.post.posts);
   const dispatch = useDispatch();
+
+  const audio = useRef();
+  const [playing, setPlaying] = useState(false);
+  const togglePlaying = () => {
+    setPlaying(!playing);
+  };
+
+  const playAudio = () => {
+    if (playing === false) {
+      togglePlaying;
+      audio.current.audioEl.current.play();
+    } else {
+      audio.current.audioEl.current.pause();
+      togglePlaying;
+    }
+  };
 
   const setActiveSection = (key) => {
     if (key === 0)
@@ -102,7 +125,7 @@ const ProfileTabs = () => {
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="p-2 grid grid-cols-1 gap-y-3">
+              <div className="py-2 md:p-2 grid grid-cols-1 gap-y-5">
                 {posts.data.posts.map((post) => (
                   <NewsFeedCard post={post} key={post.post_id} />
                 ))}
@@ -224,7 +247,7 @@ const ProfileTabs = () => {
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-3  gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2  gap-2">
                 {posts.data.posts.map((post) =>
                   post.postFiles.length > 0
                     ? post.postFiles.map((p_file) => (
@@ -264,28 +287,14 @@ const ProfileTabs = () => {
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="grid grid-cols-4 gap-2">
-                {posts.data.posts.map((post) =>
-                  post.postFiles.length > 0
-                    ? post.postFiles.map((p_file) => (
-                        <ul className="list-none" key={post.post_id}>
-                          <li className="w-full list-none">
-                            <div className="p-[1px] w-full h-auto object-cover relative">
-                              <ReactAudioPlayer
-                                src={p_file.post_file}
-                                controls={true}
-                                width="100%"
-                                height="100%"
-                                autoPlay={false}
-                                className="post-video-size !w-full min-h-[30em] !h-[30em] object-cover"
-                                controlsList={"nodownload"}
-                              />
-                            </div>
-                          </li>
-                        </ul>
-                      ))
-                    : ""
-                )}{" "}
+              <div className="grid grid-cols-2 gap-2">
+                {posts.data.posts.map((post) => (
+                  <ExplorePostCard
+                    post={post}
+                    key={post.post_id}
+                    type="audio"
+                  />
+                ))}
               </div>
             ) : (
               <NoDataFound />

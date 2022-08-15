@@ -4,8 +4,8 @@ import GroupCard from "./GroupCard";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const GroupTabs = ({ groupsAll, groupsData, categoriesData }) => {

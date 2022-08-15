@@ -46,6 +46,11 @@ import configuration from "react-global-configuration";
 import { Popover, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
+import { getCookies } from "cookies-next";
+
+import { END } from "redux-saga";
+import { wrapper } from "../../store";
+
 const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -59,13 +64,13 @@ const Profile = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  useEffect(() => {
-    if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
-    if (profile.loading) {
-      dispatch(fetchUserDetailsStart());
-      setBadgeStatus(localStorage.getItem("is_verified_badge"));
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
+  //   if (profile.loading) {
+  //     dispatch(fetchUserDetailsStart());
+  //     setBadgeStatus(localStorage.getItem("is_verified_badge"));
+  //   }
+  // }, []);
 
   const onCopy = (event) => {
     const notificationMessage = getSuccessNotificationMessage(
@@ -79,9 +84,6 @@ const Profile = () => {
       setBadgeStatus(localStorage.getItem("is_verified_badge"));
     }, 1000);
   };
-
-
-
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -113,10 +115,8 @@ const Profile = () => {
                 src={profile.data.cover}
                 alt={profile.data.name}
                 layout="fill"
-                objectFit="cover"
-                objectPosition="center"
                 srcSet=""
-                className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
+                className="w-full   "
               />
             </div>
             <div
@@ -140,7 +140,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
-          <div className="px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white mb-10">
+          <div className="px-1 md:px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white mb-10">
             <div className="space-y-3 mt-16 flex flex-col ">
               <div className="col-container ">
                 <div className="flex items-center justify-center space-x-2 ">
@@ -160,54 +160,64 @@ const Profile = () => {
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <FaBell className="w-5 h-5" />
                 </div>
-                <div className="row-container  p-3 bg-gray-200 rounded-md">
-                  <MdMail className="w-5 h-5" onClick={(event) =>
-                                handleChatUser(
-                                  event,
-                                  userDetails.data.user.user_id
-                                )
-                              }/>
+                <div className="row-container  p-3 bg-gray-200 rounded-md cursor-pointer">
+                  <MdMail
+                    className="w-5 h-5"
+                    onClick={(event) =>
+                      handleChatUser(event, userDetails.data.user.user_id)
+                    }
+                  />
                 </div>
-                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                {/* <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <FaVideo className="w-5 h-5" />
                 </div>
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <GiPhone className="w-5 h-5" />
-                </div>
+                </div> */}
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <RiUpload2Line className="w-5 h-5" />
                 </div>
               </div>
-              <div className="flex justify-between px-8">
+              <div className="flex justify-around px-8">
                 <div className="col-container space-y-0.5">
-                  <p className="text-lg font-semibold">{posts.data.total}</p>
+                  <p className="text-lg font-semibold">{profile.data.total_posts}</p>
                   <span>Posts</span>
                 </div>
-                <div className="col-container space-y-0.5">
+                <div
+                  className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1"
+                  onClick={() => router.push("/bookmarks/following")}
+                >
                   <p className="text-lg font-semibold">
-                    {localStorage.getItem("total_followings")
-                      ? localStorage.getItem("total_followings")
-                      : 0}{" "}
+                    {profile.data.total_followings
+                      ? profile.data.total_followings
+                      : localStorage.getItem("total_followings")}{" "}
                   </p>
                   <span>Following</span>
                 </div>
-                <div className="col-container space-y-0.5">
+                <div
+                  className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1 "
+                  onClick={() => router.push("/bookmarks/fans")}
+                >
                   <p className="text-lg font-semibold">
-                    {localStorage.getItem("total_followers")
-                      ? localStorage.getItem("total_followers")
-                      : 0}
+                    {profile.data.total_followers
+                      ? profile.data.total_followers
+                      : localStorage.getItem("total_followers")}
                   </p>
-                  <span>Fans</span>
+                  <span className="mx-2">Fans</span>
                 </div>
               </div>
               <div className="flex justify-center items-center space-x-2 ">
                 <Button
                   text="Edit profile"
                   active={true}
-                  extraClasses="w-32 h-9"
+                  onClick={() => router.push("/settings/profile")}
+                  extraclassNamees="w-32 h-9"
                 />
 
-                <div className="row-container w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer">
+                <div
+                  className="row-container w-28 h-9 rounded-md bg-[#FF1534] cursor-pointer"
+                  onClick={() => router.push("/dashboard")}
+                >
                   <p className="text-xs font-medium text-white">Dashboard</p>
                 </div>
               </div>
@@ -310,3 +320,30 @@ const Profile = () => {
 };
 
 export default Profile;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req, res, params }) => {
+      const cookies = getCookies({ req, res });
+
+      store.dispatch(
+        fetchUserDetailsStart({
+          accessToken: cookies.accessToken,
+        })
+      );
+
+      store.dispatch(
+        fetchPostsStart({
+          accessToken: cookies.accessToken,
+          type : "all"
+        })
+      );
+
+      store.dispatch(END);
+      await store.sagaTask.toPromise();
+
+      return {
+        props: {},
+      };
+    }
+);

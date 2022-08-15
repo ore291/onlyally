@@ -3,26 +3,23 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Popover, Transition, Dialog, Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { usePaystackPayment } from "react-paystack";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 
 import {
   sendTipByPaystackStart,
   sendTipByWalletStart,
 } from "../../store/slices/sendTipSlice";
 
-import {notify} from "reapop"
-
-
+import { notify } from "reapop";
 
 import { fetchCardDetailsStart } from "../../store/slices/cardsSlice";
 import { fetchWalletDetailsStart } from "../../store/slices/walletSlice";
 import { FaTimes } from "react-icons/fa";
 
-
 import Link from "next/link";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const TipModal = (props) => {
@@ -41,11 +38,13 @@ const TipModal = (props) => {
 
   const [modalOpen, setModalOpen] = useState(true);
 
+  const email = getCookie("user_email")
+
   const [config, setConfig] = useState({
-    reference: (new Date()).getTime().toString(),
-    email:  user?.email,
+    reference: new Date().getTime().toString(),
+    email: email,
     amount: 100,
-    publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
+    publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
   });
 
   // you can call this function anything
@@ -61,6 +60,7 @@ const TipModal = (props) => {
               : "",
           amount: amount,
           user_id: props.user_id,
+          pro_balance: true,
         })
       );
     }, 1000);
@@ -70,7 +70,12 @@ const TipModal = (props) => {
   // you can call this function anything
   const onClose = () => {
     // implementation for  whatever you want to do when the Paystack dialog closed.
-   dispatch(notify({ message : "Payment cancelled please try again..", status : "error"}))
+    dispatch(
+      notify({
+        message: "Payment cancelled please try again..",
+        status: "error",
+      })
+    );
   };
 
   useEffect(() => {
@@ -78,34 +83,33 @@ const TipModal = (props) => {
       setPaymentType(localStorage.getItem("default_payment_method"));
       setConfig({
         ...config,
-        email : user.email
-      })
+        email: user.email,
+      });
       dispatch(fetchCardDetailsStart());
       dispatch(fetchWalletDetailsStart());
     }
   }, [props.sendTip]);
-
- 
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (paymentType === "WALLET")
       dispatch(
         sendTipByWalletStart({
-          post_id: props.post_id != undefined || props.post_id != null ? props.post_id : "",
+          post_id:
+            props.post_id != undefined || props.post_id != null
+              ? props.post_id
+              : "",
           amount: amount,
           message: message,
           user_id: props.user_id,
+          pro_balance: true,
         })
       );
 
     props.closeSendTipModal();
   };
 
-
   const initializePayment = usePaystackPayment(config);
-
-  
 
   return (
     <>

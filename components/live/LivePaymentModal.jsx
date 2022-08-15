@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from "react";
 import { Popover, Transition, Dialog, Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { setLivePaymentModal } from "../../store/slices/NavSlice";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import {
   liveVideosPaymentByPaystackStart,
   liveVideosPaymentByWalletStart,
@@ -17,8 +17,8 @@ import { notify } from "reapop";
 
 import Link from "next/link";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const LivePaymentModal = (props) => {
@@ -39,7 +39,7 @@ const LivePaymentModal = (props) => {
     reference: new Date().getTime().toString(),
     email: cookies.email,
     amount: props.liveVideo.amount * 100,
-    publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
+    publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
   });
 
   // you can call this function anything
@@ -50,6 +50,7 @@ const LivePaymentModal = (props) => {
         liveVideosPaymentByPaystackStart({
           payment_id: reference.reference,
           live_video_id: props.liveVideo.live_video_id,
+          pro_balance: true,
         })
       );
     }, 1000);
@@ -83,21 +84,18 @@ const LivePaymentModal = (props) => {
     }
   }, [props.paymentModal]);
 
- 
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (paymentType === "WALLET") 
-    dispatch(
-      liveVideosPaymentByWalletStart({
-        live_video_id: props.liveVideo.live_video_id,
-      })
-    );
+    if (paymentType === "WALLET")
+      dispatch(
+        liveVideosPaymentByWalletStart({
+          live_video_id: props.liveVideo.live_video_id,
+          pro_balance: true,
+        })
+      );
     props.closePaymentModal();
   };
-
- 
 
   const initializePayment = usePaystackPayment(config);
 
@@ -134,7 +132,7 @@ const LivePaymentModal = (props) => {
               <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-1 text-left align-middle shadow-xl transition-all">
                 <div className="flex w-full items-center justify-between p-2 bg-lightPlayRed rounded-t-2xl">
                   <h3 className="text-lg font-medium leading-6 text-white">
-                  Live Video Payment
+                    Live Video Payment
                   </h3>
                   <div
                     className="rounded-full bg-white p-0.5 cursor-pointer"

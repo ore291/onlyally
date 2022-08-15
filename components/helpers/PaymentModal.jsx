@@ -12,12 +12,12 @@ import { usePaystackPayment } from "react-paystack";
 import { fetchCardDetailsStart } from "../../store/slices/cardsSlice";
 import { fetchWalletDetailsStart } from "../../store/slices/walletSlice";
 import { FaTimes } from "react-icons/fa";
-import {notify } from "reapop";
+import { notify } from "reapop";
 
 import Link from "next/link";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const PaymentModal = ({
@@ -26,7 +26,7 @@ const PaymentModal = ({
   user_unique_id,
   subscriptionData,
   username,
-  email
+  email,
 }) => {
   const dispatch = useDispatch();
   const [paymentType, setPaymentType] = useState("WALLET");
@@ -44,14 +44,14 @@ const PaymentModal = ({
   const closeModal = () => dispatch(setPaymentModal(false));
 
   const [config, setConfig] = useState({
-    reference: (new Date()).getTime().toString(),
-    email:  email,
+    reference: new Date().getTime().toString(),
+    email: email,
     amount: subscriptionData.amount * 100,
-    publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
+    publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
   });
 
-   // you can call this function anything
-   const onSuccess = (reference) => {
+  // you can call this function anything
+  const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
     setTimeout(() => {
       dispatch(
@@ -60,6 +60,7 @@ const PaymentModal = ({
           user_unique_id: user_unique_id,
           plan_type: subscriptionData.plan_type,
           is_free: subscriptionData.is_free,
+          pro_balance: true,
         })
       );
     }, 1000);
@@ -69,17 +70,21 @@ const PaymentModal = ({
   // you can call this function anything
   const onClose = () => {
     // implementation for  whatever you want to do when the Paystack dialog closed.
-   dispatch(notify({ message : "Payment cancelled please try again..", status : "error"}))
+    dispatch(
+      notify({
+        message: "Payment cancelled please try again..",
+        status: "error",
+      })
+    );
   };
 
   useEffect(() => {
     setConfig({
       ...config,
-      amount : subscriptionData.amount * 100,
-      reference: (new Date()).getTime().toString(),
-
-    })
-  }, [subscriptionData])
+      amount: subscriptionData.amount * 100,
+      reference: new Date().getTime().toString(),
+    });
+  }, [subscriptionData]);
 
   useEffect(() => {
     setPaymentType(localStorage.getItem("default_payment_method"));
@@ -101,7 +106,6 @@ const PaymentModal = ({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-   
 
     if (paymentType === "WALLET")
       dispatch(
@@ -109,6 +113,7 @@ const PaymentModal = ({
           user_unique_id: user_unique_id,
           plan_type: subscriptionData.plan_type,
           is_free: subscriptionData.is_free,
+          pro_balance: true,
         })
       );
   };
@@ -179,89 +184,85 @@ const PaymentModal = ({
                     <FaTimes className="w-6 h-6 hover:text-red-600" />
                   </div>
                 </div>
-                  <div className="p-5">
-
-                     <form onSubmit={handleSubmit} className="block mt-0">
-                        <div className="mb-[1em]">
-                          <input
-                            type="text"
-                            placeholder="amount"
-                            value={subscriptionData.amount_formatted}
-                            disabled
-                            className="bg-white font-semibold cursor-not-allowed focus:ring-0 !outline-none border-0.5 ring-0  rounded-lg pl-[1em] w-full shadow-md"
-                          />
+                <div className="p-5">
+                  <form onSubmit={handleSubmit} className="block mt-0">
+                    <div className="mb-[1em]">
+                      <input
+                        type="text"
+                        placeholder="amount"
+                        value={subscriptionData.amount_formatted}
+                        disabled
+                        className="bg-white font-semibold cursor-not-allowed focus:ring-0 !outline-none border-0.5 ring-0  rounded-lg pl-[1em] w-full shadow-md"
+                      />
+                    </div>
+                    {wallet.loading ? (
+                      ""
+                    ) : (
+                      <div className="block ">
+                        <div className="bg-white p-[1em] ring-0 border !outline-none shadow-lg font-semibold flex justify-between rounded-lg items-center">
+                          <h4>Available</h4>
+                          <p>{wallet.data.user_wallet.remaining_formatted}</p>
                         </div>
-                        {wallet.loading ? (
-                          ""
-                        ) : (
-                          <div className="block ">
-                            <div className="bg-white p-[1em] ring-0 border !outline-none shadow-lg font-semibold flex justify-between rounded-lg items-center">
-                              <h4>Available</h4>
-                              <p>
-                                {wallet.data.user_wallet.remaining_formatted}
-                              </p>
-                            </div>
-                            {subscriptionData.amount >
-                            wallet.data.user_wallet.remaining ? (
-                              <div className="py-2">
-                                <p className="font-light text-xs text-gray-400">
-                                  * The wallet balance is low, so please and the
-                                  money to wallet
-                                </p>
-                                <div className="flex justify-start w-36 my-0.5  bg-green-400 rounded-md cursor-pointer p-2">
-                                  <Link
-                                    href="/wallet"
-                                    className="withdraw-money-btn"
-                                    passHref
-                                  >
-                                    <div className="font-medium text-sm text-white">
-                                      Add Wallet Amount
-                                    </div>
-                                  </Link>
+                        {subscriptionData.amount >
+                        wallet.data.user_wallet.remaining ? (
+                          <div className="py-2">
+                            <p className="font-light text-xs text-gray-400">
+                              * The wallet balance is low, so please and the
+                              money to wallet
+                            </p>
+                            <div className="flex justify-start w-36 my-0.5  bg-green-400 rounded-md cursor-pointer p-2">
+                              <Link
+                                href="/wallet"
+                                className="withdraw-money-btn"
+                                passHref
+                              >
+                                <div className="font-medium text-sm text-white">
+                                  Add Wallet Amount
                                 </div>
-                              </div>
-                            ) : null}
+                              </Link>
+                            </div>
                           </div>
-                        )}
-                      </form>
-                  </div>   
+                        ) : null}
+                      </div>
+                    )}
+                  </form>
+                </div>
 
-                  <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
+                <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
                   {subscriptionData.amount != 0 ? (
-                      <button
-                        className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-white focus:outline-none ring-0"
-                        onClick={() => {
-                          initializePayment(onSuccess, onClose);
-                        }}
-                      >
-                        <span className="font-semibold text-sm">Pay with</span>
+                    <button
+                      className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-white focus:outline-none ring-0"
+                      onClick={() => {
+                        initializePayment(onSuccess, onClose);
+                      }}
+                    >
+                      <span className="font-semibold text-sm">Pay with</span>
 
-                        <img
-                          className="h-24"
-                          src="/materials/paystack-logo-vector.svg"
-                          alt="Paystack"
-                        />
-                      </button>
-                    ) : null}
-                    <button
-                      type="button"
-                      className="bg-red-600 text-white rounded-md px-3 py-1"
-                      onClick={() => closeModal()}
-                    >
-                      Cancel
+                      <img
+                        className="h-24"
+                        src="/materials/paystack-logo-vector.svg"
+                        alt="Paystack"
+                      />
                     </button>
-                    <button
-                      type="button"
-                      className="bg-green-600 text-white rounded-md px-3 py-1"
-                      onClick={handleSubmit}
-                      disabled={subPayPaystack.buttonDisable}
-                    >
-                      {subPayPaystack.loadingButtonContent !== null
-                        ? subPayPaystack.loadingButtonContent
-                        : "Pay Now"}
-                    </button>
-                  </div>
-             
+                  ) : null}
+                  <button
+                    type="button"
+                    className="bg-red-600 text-white rounded-md px-3 py-1"
+                    onClick={() => closeModal()}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-green-600 text-white rounded-md px-3 py-1"
+                    onClick={handleSubmit}
+                    disabled={subPayPaystack.buttonDisable}
+                  >
+                    {subPayPaystack.loadingButtonContent !== null
+                      ? subPayPaystack.loadingButtonContent
+                      : "Pay Now"}
+                  </button>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

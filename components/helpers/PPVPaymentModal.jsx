@@ -3,26 +3,23 @@ import React, { useState, useEffect, Fragment } from "react";
 import { Popover, Transition, Dialog, Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { usePaystackPayment } from "react-paystack";
-import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 
 import {
   ppvPaymentPaystackStart,
   ppvPaymentWalletStart,
 } from "../../store/slices/postSlice";
 
-import {notify} from "reapop"
-
-
+import { notify } from "reapop";
 
 import { fetchCardDetailsStart } from "../../store/slices/cardsSlice";
 import { fetchWalletDetailsStart } from "../../store/slices/walletSlice";
 import { FaTimes } from "react-icons/fa";
 
-
 import Link from "next/link";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
 const PPVPaymentModal = (props) => {
@@ -33,21 +30,18 @@ const PPVPaymentModal = (props) => {
     localStorage.getItem("default_payment_method")
   );
 
- 
+  const email = getCookie("user_email")
 
   const wallet = useSelector((state) => state.wallet.walletData);
   const user = useSelector((state) => state.user.profile.data);
   const ppvPaystack = useSelector((state) => state.post.ppvPayPaystack);
   const PPVPaymentModal = useSelector((state) => state.navbar.ppvPaymentModal);
- 
-
-
 
   const [config, setConfig] = useState({
-    reference: (new Date()).getTime().toString(),
-    email:  user?.email,
+    reference: new Date().getTime().toString(),
+    email: email,
     amount: props.amount * 100,
-    publicKey: "pk_test_2c18b11cc02303cf5ae0cdf359ae6408208dfedd",
+    publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
   });
 
   // you can call this function anything
@@ -63,6 +57,7 @@ const PPVPaymentModal = (props) => {
               : "",
           amount: props.amount,
           user_id: props.user_id,
+          pro_balance: true,
         })
       );
     }, 1000);
@@ -72,7 +67,12 @@ const PPVPaymentModal = (props) => {
   // you can call this function anything
   const onClose = () => {
     // implementation for  whatever you want to do when the Paystack dialog closed.
-   dispatch(notify({ message : "Payment cancelled please try again..", status : "error"}))
+    dispatch(
+      notify({
+        message: "Payment cancelled please try again..",
+        status: "error",
+      })
+    );
   };
 
   useEffect(() => {
@@ -80,32 +80,31 @@ const PPVPaymentModal = (props) => {
       setPaymentType(localStorage.getItem("default_payment_method"));
       setConfig({
         ...config,
-        email : user.email
-      })
+        email: user.email,
+      });
       dispatch(fetchCardDetailsStart());
       dispatch(fetchWalletDetailsStart());
     }
   }, [props.PPVPayment]);
-
- 
 
   const handleSubmit = (event) => {
     event.preventDefault();
     if (paymentType === "WALLET")
       dispatch(
         ppvPaymentWalletStart({
-          post_id: props.post_id != undefined || props.post_id != null ? props.post_id : "", 
+          post_id:
+            props.post_id != undefined || props.post_id != null
+              ? props.post_id
+              : "",
           user_id: props.user_id,
+          pro_balance: true,
         })
       );
 
     props.closePPVPaymentModal();
   };
 
-
   const initializePayment = usePaystackPayment(config);
-
-  
 
   return (
     <>
@@ -166,7 +165,6 @@ const PPVPaymentModal = (props) => {
                             type="text"
                             placeholder="pay amount"
                             value={props.post.amount_formatted}
-
                             disabled
                             className="bg-white font-semibold border-none focus:ring-0 !outline-none  ring-0  rounded-lg pl-[1em] w-full shadow-xl cursor-not-allowed"
                           />
@@ -202,8 +200,6 @@ const PPVPaymentModal = (props) => {
                             ) : null}
                           </div>
                         )}
-
-                        
                       </form>
                     </div>
                   </div>
@@ -253,4 +249,3 @@ const PPVPaymentModal = (props) => {
 };
 
 export default PPVPaymentModal;
-

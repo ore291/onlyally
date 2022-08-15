@@ -23,6 +23,8 @@ import {
   ppvPaymentPaystackFailure,
 } from "../slices/postSlice";
 
+import {errorLogoutCheck} from '../slices/errorSlice';
+
 import { notify } from "reapop";
 
 function* savePostAPI() {
@@ -58,18 +60,22 @@ function* savePostAPI() {
   }
 }
 
-function* fetchPostsAPI() {
+function* fetchPostsAPI(action) {
+  if(action.payload){
+    var accessToken = action.payload.accessToken
+  }
   try {
     const inputData = yield select((state) => state.post.posts.inputData);
     const response = yield api.postMethod({
       action: "posts_for_owner",
       object: inputData,
+      accessToken : accessToken
     });
     if (response.data.success) {
       yield put(fetchPostsSuccess(response.data.data));
     } else {
       yield put(fetchPostsFailure(response.data.error));
-      // yield put(checkLogoutStatus(response.data));
+      yield put(errorLogoutCheck(response.data));
       yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
@@ -89,7 +95,7 @@ function* postFileUploadAPI() {
       yield put(postFileUploadSuccess(response.data.data));
     } else {
       yield put(postFileUploadFailure(response.data.error));
-      // yield put(checkLogoutStatus(response.data));
+      yield put(errorLogoutCheck(response.data));
       yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
@@ -110,7 +116,7 @@ function* fetchSinglePostAPI() {
     } else {
       yield put(fetchSinglePostFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
-      //   yield put(checkLogoutStatus(response.data));
+        yield put(errorLogoutCheck(response.data));
     }
   } catch (error) {
     yield put(fetchSinglePostFailure(error));
@@ -151,7 +157,7 @@ function* postFileRemoveAPI() {
     } else {
       yield put(postFileRemoveFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
-      // yield put(checkLogoutStatus(response.data));
+      yield put(errorLogoutCheck(response.data));
     }
   } catch (error) {
     yield put(postFileRemoveFailure(error));
@@ -159,7 +165,10 @@ function* postFileRemoveAPI() {
   }
 }
 
-function* fetchExploreAPI() {
+function* fetchExploreAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
   try {
     const inputData = yield select(
       (state) => state.post.explorePosts.inputData
@@ -167,6 +176,7 @@ function* fetchExploreAPI() {
     const response = yield api.postMethod({
       action: "explore",
       object: inputData,
+      accessToken : accessToken
     });
     if (response.data.success) {
       yield put(fetchExploreSuccess(response.data.data));

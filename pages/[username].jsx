@@ -24,25 +24,27 @@ import { GiPhone } from "react-icons/gi";
 import { MdMail, MdOutlineLocationOn } from "react-icons/md";
 import { RiInstagramFill, RiUpload2Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import VerifiedBadge from "../../components/handlers/VerifiedBadge";
-import PaymentModal from "../../components/helpers/PaymentModal";
-import UnfollowModal from "../../components/helpers/UnfollowModal";
-import ProfileLoader from "../../components/Profile/ProfileLoader";
-import PrivateCallModal from "../../components/Profile/PrivateCallModal";
-import PrivateAudioCallModal from "../../components/Profile/PrivateAudioCallModal";
-import SideNavLayout from "../../components/SideNavLayout";
-import TipModal from "../../components/tips/TipModal";
-import OtherUserProfileTabs from "../../components/userProfile/OtherUserProfileTabs";
-import { saveChatUsersStart } from "../../store/slices/chatSlice";
-import {
-  setPaymentModal,
-  setUnfollowerModal,
-} from "../../store/slices/NavSlice";
+import VerifiedBadge from "../components/handlers/VerifiedBadge";
+import PaymentModal from "../components/helpers/PaymentModal";
+import UnfollowModal from "../components/helpers/UnfollowModal";
+import ProfileLoader from "../components/Profile/ProfileLoader";
+import PrivateCallModal from "../components/Profile/PrivateCallModal";
+import PrivateAudioCallModal from "../components/Profile/PrivateAudioCallModal";
+import SideNavLayout from "../components/SideNavLayout";
+import TipModal from "../components/tips/TipModal";
+import OtherUserProfileTabs from "../components/userProfile/OtherUserProfileTabs";
+import { saveChatUsersStart } from "../store/slices/chatSlice";
+import { setPaymentModal, setUnfollowerModal } from "../store/slices/NavSlice";
 import {
   fetchSingleUserPostsStart,
   fetchSingleUserProfileStart,
-} from "../../store/slices/OtherUsersSlice";
-import { subscriptionPaymentPaystackStart } from "../../store/slices/subscriptionSlice";
+} from "../store/slices/OtherUsersSlice";
+import { subscriptionPaymentPaystackStart } from "../store/slices/subscriptionSlice";
+
+import { getCookies, getCookie } from "cookies-next";
+
+import { END } from "redux-saga";
+import { wrapper } from "../store";
 
 const Profile = () => {
   const router = useRouter();
@@ -60,17 +62,17 @@ const Profile = () => {
   // );
 
   useEffect(() => {
-    dispatch(
-      fetchSingleUserProfileStart({
-        user_unique_id: username,
-      })
-    );
-    dispatch(
-      fetchSingleUserPostsStart({
-        user_unique_id: username,
-        type: "all",
-      })
-    );
+    // dispatch(
+    //   fetchSingleUserProfileStart({
+    //     user_unique_id: username,
+    //   })
+    // );
+    // dispatch(
+    //   fetchSingleUserPostsStart({
+    //     user_unique_id: username,
+    //     type: "all",
+    //   })
+    // );
     // props.dispatch(
     //   fetchOtherModelProductListStart({
     //     user_unique_id: props.match.params.username,
@@ -117,7 +119,7 @@ const Profile = () => {
   const handleBlockUser = (event, status, user_id) => {
     event.preventDefault();
     setBlockUserStatus(status);
-    props.dispatch(
+    dispatch(
       saveBlockUserStart({
         user_id: user_id,
         is_other_profile: 1,
@@ -139,7 +141,7 @@ const Profile = () => {
     event.preventDefault();
     dispatch(
       saveChatUsersStart({
-        from_user_id: localStorage.getItem("userId"),
+        from_user_id: getCookie("userId"),
         to_user_id: user_id,
       })
     );
@@ -199,11 +201,13 @@ const Profile = () => {
       <div className="w-full">
         {userDetails.loading ? (
           <ProfileLoader></ProfileLoader>
-        ) : (
+        ) : userDetails.data.user ? (
           <>
             <div className="profile-bg  relative  -mt-20">
               <div className="relative w-full !h-[50vh] md:!h-[70vh]">
-                <Image
+                {
+                  userDetails.data.user.cover !== undefined ? (
+                      <Image
                   src={userDetails.data.user.cover}
                   alt={userDetails.data.user.name}
                   layout="fill"
@@ -212,6 +216,19 @@ const Profile = () => {
                   srcSet=""
                   className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
                 />
+                  ) : (
+                    <Image
+                    src={"https://playjor.ams3.digitaloceanspaces.com/upload/photos/2022/01/kNogtdMLlZ6rWxL8GGCy_05_1321914ca6fc245f7bfa01dbc5760943_cover.jpg?cache=1631343744"}
+                    alt={`cover-image`}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    srcSet=""
+                    className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
+                  />
+                  )
+                }
+              
               </div>
               <div
                 className="w-8 h-8 rounded-full absolute z-10 top-28 left-8 bg-white cursor-pointer"
@@ -292,7 +309,7 @@ const Profile = () => {
                   <p className="text-lg font-semibold mb-1">{`@${userDetails.data.user.username}`}</p>
                 </div>
 
-                <div className="row-container space-x-3 ">
+                <div className="flex justify-center space-x-3 ">
                   <div className="profile-buttons">
                     <FaBell className="w-5 h-5" />
                   </div>
@@ -304,12 +321,15 @@ const Profile = () => {
                   >
                     <MdMail className="w-5 h-5" />
                   </div>
-                  <div className="profile-buttons">
+                  {/* <div className="profile-buttons">
                     <FaVideo className="w-5 h-5" />
                   </div>
-                  <div className="profile-buttons "  onClick={() => setRequestVideoCall(true)}>
+                  <div
+                    className="profile-buttons "
+                    onClick={() => setRequestVideoCall(true)}
+                  >
                     <GiPhone className="w-5 h-5" />
-                  </div>
+                  </div> */}
                   <div className="profile-buttons">
                     <RiUpload2Line className="w-5 h-5" />
                   </div>
@@ -396,7 +416,8 @@ const Profile = () => {
                                 user_unique_id:
                                   userDetails.data.user.user_unique_id,
                                 plan_type: "months",
-                                is_free: 0,
+                                is_free: 1,
+                                payment_id: "free",
                               })
                             )
                           }
@@ -549,69 +570,112 @@ const Profile = () => {
               </div>
             </div>
           </>
-        )}
+        ) : null}
         {userDetails.loading ? (
           "loading...."
-        ) : localStorage.getItem("userId") !== "" &&
-          localStorage.getItem("userId") !== null &&
-          localStorage.getItem("userId") !== undefined ? (
+        ) : getCookie("userId") !== "" &&
+          getCookie("userId") !== null &&
+          getCookie("userId") !== undefined ? (
           <>
-            <PaymentModal
-              userPicture={userDetails.data.user.picture}
-              name={userDetails.data.user.name}
-              user_unique_id={userDetails.data.user.user_unique_id}
-              subscriptionData={subscriptionData}
-              username={userDetails.data.user.username}
-              email={userDetails.data.user.email}
-            />
+            {userDetails.data.user && (
+              <>
+                <PaymentModal
+                  userPicture={userDetails.data.user.picture}
+                  name={userDetails.data.user.name}
+                  user_unique_id={userDetails.data.user.user_unique_id}
+                  subscriptionData={subscriptionData}
+                  username={userDetails.data.user.username}
+                  email={userDetails.data.user.email}
+                />
 
-            <TipModal
-              sendTip={sendTip}
-              closeSendTipModal={closeSendTipModal}
+                <TipModal
+                  sendTip={sendTip}
+                  closeSendTipModal={closeSendTipModal}
+                  username={userDetails.data.user.username}
+                  userPicture={userDetails.data.user.picture}
+                  name={userDetails.data.user.name}
+                  post_id={null}
+                  user_id={userDetails.data.user.user_id}
+                />
+              </>
+            )}
+          </>
+        ) : null}
+
+        {/* {userDetails.loading ? (
+          "Loading..."
+        ) : getCookie("userId") !== "" &&
+          getCookie("userId") !== null &&
+          getCookie("userId") !== undefined ? (
+          <>
+            <PrivateCallModal
+              requestVideoCall={requestVideoCall}
+              closePrivateCallModal={closePrivateCallModal}
               username={userDetails.data.user.username}
               userPicture={userDetails.data.user.picture}
+              videoAmount={userDetails.data.user.video_call_amount_formatted}
+              name={userDetails.data.user.name}
+              post_id={null}
+              user_id={userDetails.data.user.user_id}
+            />
+            <PrivateAudioCallModal
+              requestAudioCall={requestAudioCall}
+              closePrivateCallModal={closePrivateCallModal}
+              username={userDetails.data.user.username}
+              userPicture={userDetails.data.user.picture}
+              AudioAmount={userDetails.data.user.audio_call_amount_formatted}
               name={userDetails.data.user.name}
               post_id={null}
               user_id={userDetails.data.user.user_id}
             />
           </>
-        ) : null}
-
-        {userDetails.loading ? (
-          "Loading..."
-        ) : localStorage.getItem("userId") !== "" &&
-          localStorage.getItem("userId") !== null &&
-          localStorage.getItem("userId") !== undefined ? (
-          <>
-             <PrivateCallModal
-            requestVideoCall={requestVideoCall}
-            closePrivateCallModal={closePrivateCallModal}
-            username={userDetails.data.user.username}
-            userPicture={userDetails.data.user.picture}
-            videoAmount={
-              userDetails.data.user.video_call_amount_formatted
-            }
-            name={userDetails.data.user.name}
-            post_id={null}
-            user_id={userDetails.data.user.user_id}
-          />
-          <PrivateAudioCallModal
-            requestAudioCall={requestAudioCall}
-            closePrivateCallModal={closePrivateCallModal}
-            username={userDetails.data.user.username}
-            userPicture={userDetails.data.user.picture}
-            AudioAmount={
-              userDetails.data.user.audio_call_amount_formatted
-            }
-            name={userDetails.data.user.name}
-            post_id={null}
-            user_id={userDetails.data.user.user_id}
-          />
-          </>
-        ) : null}
+        ) : null} */}
       </div>
     </SideNavLayout>
   );
 };
 
 export default Profile;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req, res, params }) => {
+      const cookies = getCookies({ req, res });
+
+      const { username } = params;
+
+     if(username == cookies.username){
+        return {
+            redirect: {
+              destination: "/profile"
+            }
+          }
+     }else{
+         
+     }
+
+      store.dispatch(
+        fetchSingleUserProfileStart({
+          accessToken: cookies.accessToken,
+          user_unique_id: username,
+          user_id: cookies.username,
+        })
+      );
+
+      store.dispatch(
+        fetchSingleUserPostsStart({
+          accessToken: cookies.accessToken,
+          user_unique_id: username,
+          user_id: cookies.username,
+          type: "all",
+        })
+      );
+
+      store.dispatch(END);
+      await store.sagaTask.toPromise();
+
+      return {
+        props: {},
+      };
+    }
+);

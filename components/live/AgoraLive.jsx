@@ -9,7 +9,6 @@ import "../../Loader";
 
 const client = AgoraRTC.createClient({ mode: "live", codec: "vp8" });
 
-
 const AgoraLive = (props) => {
   const dispatch = useDispatch();
 
@@ -115,10 +114,9 @@ const AgoraLive = (props) => {
   async function leaveCall() {
     if (options.role === "host") {
       // Destroy the local audio and video tracks.
-        
-      rtc.localAudioTrack && await rtc.localAudioTrack.close();
-      rtc.localVideoTrack &&  await rtc.localVideoTrack.close();
-      
+
+      rtc.localAudioTrack && (await rtc.localAudioTrack.close());
+      rtc.localVideoTrack && (await rtc.localVideoTrack.close());
 
       // Traverse all remote users.
       rtc.client.remoteUsers.forEach((user) => {
@@ -140,7 +138,7 @@ const AgoraLive = (props) => {
 
   async function muteAudio() {
     if (!rtc.localAudioTrack) return;
-    if(localTrackState.audioTrackEnabled == true) {
+    if (localTrackState.audioTrackEnabled == true) {
       await rtc.localAudioTrack.setEnabled(false);
       localTrackState.audioTrackEnabled = false;
       $("#mute-audio").hide();
@@ -155,7 +153,7 @@ const AgoraLive = (props) => {
 
   async function muteVideo() {
     if (!rtc.localVideoTrack) return;
-    if(localTrackState.videoTrackEnabled == true) {
+    if (localTrackState.videoTrackEnabled == true) {
       await rtc.localVideoTrack.setEnabled(false);
       localTrackState.videoTrackEnabled = false;
       $("#mute-video").hide();

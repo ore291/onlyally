@@ -5,8 +5,16 @@ const initialState = {
   loginData: {},
   profile: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
+  },
+  onlineStatus: {
+    data: {},
+    loading: false,
+    error: false,
+    inputData: {},
+    buttonDisable: false,
+    loadingButtonContent: null,
   },
   profileInputData: {
     data: {},
@@ -119,6 +127,7 @@ const initialState = {
   twoStepAuthUpdate: {
     data: {},
     loading: true,
+    inputData: {},
     error: false,
     buttonDisable: false,
     loadingButtonContent: null,
@@ -133,6 +142,13 @@ const initialState = {
   twoStepAuthCodeResend: {
     data: {},
     loading: true,
+    error: false,
+    buttonDisable: false,
+    loadingButtonContent: null,
+  },
+  upgradePackage: {
+    data: {},
+    loading: false,
     error: false,
     buttonDisable: false,
     loadingButtonContent: null,
@@ -706,12 +722,140 @@ export const UserSlice = createSlice({
         error: action.payload,
       };
     },
+    twoStepAuthUpdateStart: (state, action) => {
+      state.twoStepAuthUpdate = {
+        data: {},
+        loading: true,
+        inputData: action.payload,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    twoStepAuthUpdateSuccess: (state, action) => {
+      state.twoStepAuthUpdate = {
+        data: action.payload.data,
+        loading: false,
+        inputData: {},
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthUpdateFailure: (state, action) => {
+      state.twoStepAuthUpdate = {
+        data: {},
+        loading: false,
+        inputData: {},
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthenticationLoginStart: (state, action) => {
+      state.twoStepAuthLogin = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    twoStepAuthenticationLoginSuccess: (state, action) => {
+      state.twoStepAuthLogin = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthenticationLoginFailure: (state, action) => {
+      state.twoStepAuthLogin = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthenticationCodeResendStart: (state, action) => {
+      state.twoStepAuthCodeResend = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    twoStepAuthenticationCodeResendSuccess: (state, action) => {
+      state.twoStepAuthCodeResend = {
+        data: action.payload.data,
+        loading: false,
+        error: false,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    twoStepAuthenticationCodeResendFailure: (state, action) => {
+      state.twoStepAuthCodeResend = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    upgradePackageStart: (state, action) => {
+      state.upgradePackage = {
+        data: {},
+        loading: true,
+        error: false,
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
+      };
+    },
+    upgradePackageSuccess: (state, action) => {
+      state.upgradePackage = {
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    updateUserStart: (state, action) => {
+      state.onlineStatus = {
+        data: {},
+        loading: true,
+        error: false,
+        inputData: action.payload,
+        buttonDisable: true,
+        loadingButtonContent: "loading please wait",
+      };
+    },
+    updateUserSuccess: (state, action) => {
+      state.onlineStatus = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    upgradePackageFailure: (state, action) => {
+      state.upgradePackage = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
   },
-
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.user.loginData) {
+      if (!action.payload.user.loginData || !action.payload.user.profile) {
         return state;
       }
       state.loginData = action.payload.user.loginData;
@@ -721,6 +865,9 @@ export const UserSlice = createSlice({
 });
 
 export const {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
   loginStart,
   loginSuccess,
   loginFailure,
@@ -777,7 +924,19 @@ export const {
   referralValidationFailure,
   fetchContentCreatorDashboardStart,
   fetchContentCreatorDashboardFailure,
-  fetchContentCreatorDashboardSuccess
+  fetchContentCreatorDashboardSuccess,
+  twoStepAuthUpdateStart,
+  twoStepAuthUpdateSuccess,
+  twoStepAuthUpdateFailure,
+  twoStepAuthenticationLoginStart,
+  twoStepAuthenticationLoginSuccess,
+  twoStepAuthenticationLoginFailure,
+  twoStepAuthenticationCodeResendStart,
+  twoStepAuthenticationCodeResendSuccess,
+  twoStepAuthenticationCodeResendFailure,
+  upgradePackageStart,
+  upgradePackageSuccess,
+  upgradePackageFailure,
 } = UserSlice.actions;
 
 export default UserSlice.reducer;

@@ -50,9 +50,14 @@ function* addBankAccountAPI() {
   }
 }
 
-function* getBankAccountAPI() {
+function* getBankAccountAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+   
+  }
+
   try {
-      const response = yield api.postMethod({ action: "billing_accounts_list" });
+      const response = yield api.postMethod({ action: "billing_accounts_list" , accessToken : accessToken});
 
     if (response.data.success) {
       yield put(getBankAccountSuccess(response.data.data));

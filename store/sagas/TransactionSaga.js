@@ -21,8 +21,11 @@ import { errorLogoutCheck } from "../slices/errorSlice";
 
 
 function* fetchAllTransactionAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
   try {
-      const response = yield api.postMethod({ action: "wallets_history"});
+      const response = yield api.postMethod({ action: "wallets_history", accessToken : accessToken});
     if (response.data.success) {
       yield put(fetchAllTransactionSuccess(response.data.data));
       // Do nothing
@@ -38,9 +41,14 @@ function* fetchAllTransactionAPI(action) {
 }
 
 function* fetchSentPaymentTransAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
+
   try {
       const response = yield api.postMethod({
           action: "wallets_history_for_sent",
+          accessToken : accessToken
           
       });
     if (response.data.success) {

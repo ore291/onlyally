@@ -9,20 +9,21 @@ import { FaVideo } from "react-icons/fa";
 import { GiSpeaker } from "react-icons/gi";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
-import {fetchSingleUserPostsStart} from "../../store/slices/OtherUsersSlice";
+import { fetchSingleUserPostsStart } from "../../store/slices/OtherUsersSlice";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import Link from "next/link";
 import ReactPlayer from "react-player/lazy";
 import ReactAudioPlayer from "react-audio-player";
+import ExplorePostCard from "../explore/ExplorePostCard";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+function classNames(...classNamees) {
+  return classNamees.filter(Boolean).join(" ");
 }
 
-const OtherUserProfileTabs = ({other_user_username : username}) => {
+const OtherUserProfileTabs = ({ other_user_username: username }) => {
   const posts = useSelector((state) => state.otherUser.userPosts);
   const dispatch = useDispatch();
-    
+
   const setActiveSection = (key) => {
     if (key === 0)
       dispatch(
@@ -234,14 +235,26 @@ const OtherUserProfileTabs = ({other_user_username : username}) => {
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-3  gap-2">
+              <div className="grid grid-cols-1 md:grid-cols-2  gap-1">
+                {posts.data.posts.map((post) => (
+                  <ExplorePostCard
+                    post={post}
+                    key={post.post_id}
+                    type="video"
+                  />
+                ))}
+              </div>
+            ) : (
+              <NoDataFound />
+            )}
+            {/* {posts.loading ? (
+              "Loading..."
+            ) : posts.data.posts.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2  gap-1">
                 {posts.data.posts.map((post) =>
                   post.postFiles.length > 0
                     ? post.postFiles.map((p_file, i) => (
-                        <ul
-                          className="list-unstyled list-none"
-                          key={i}
-                        >
+                        <ul className="list-unstyled list-none" key={i}>
                           <li className="box">
                             <div className="p-[1px] w-full h-auto object-cover relative">
                               <ReactPlayer
@@ -261,7 +274,7 @@ const OtherUserProfileTabs = ({other_user_username : username}) => {
               </div>
             ) : (
               <NoDataFound />
-            )}
+            )} */}
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="flex items-center space-x-2 my-5">
@@ -274,28 +287,14 @@ const OtherUserProfileTabs = ({other_user_username : username}) => {
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="grid grid-cols-4 gap-2">
-                {posts.data.posts.map((post) =>
-                  post.postFiles.length > 0
-                    ? post.postFiles.map((p_file, i) => (
-                        <ul className="list-none" key={i}>
-                          <li className="w-full list-none">
-                            <div className="p-[1px] w-full h-auto object-cover relative">
-                              <ReactAudioPlayer
-                                src={p_file.post_file}
-                                controls={true}
-                                width="100%"
-                                height="100%"
-                                autoPlay={false}
-                                className="post-video-size !w-full min-h-[30em] !h-[30em] object-cover"
-                                controlsList={"nodownload"}
-                              />
-                            </div>
-                          </li>
-                        </ul>
-                      ))
-                    : ""
-                )}{" "}
+              <div className="grid grid-cols-2 gap-2">
+                {posts.data.posts.map((post) => (
+                  <ExplorePostCard
+                    post={post}
+                    key={post.post_id}
+                    type="audio"
+                  />
+                ))}
               </div>
             ) : (
               <NoDataFound />
