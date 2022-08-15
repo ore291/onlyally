@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MarketButtons from "../../components/MarketButtons";
 import ProfileNavBar from "../../components/ProfileNavBar";
-import { userProductViewForOthersStart, fetchUserSingleProductStart } from "../../store/slices/productsSlice";
+import { userProductViewForOthersStart, fetchUserSingleProductStart, saveCartDetailsStart } from "../../store/slices/productsSlice";
 
 
 
@@ -18,8 +18,10 @@ const Product = () => {
   const dispatch =useDispatch()
   
   const [ATDvalue, setATDvalue] = useState(1)
-  const singleProduct = useSelector(state => state.products.productViewForOthers)
-    const  changeATDvalue = (x) => {
+  const singleProduct = useSelector(state => state.products.productViewForOthers);
+  const cartSave = useSelector(state => state.products.cartSave)  ;
+  
+  const  changeATDvalue = (x) => {
         if(x == 1 ){
           setATDvalue(ATDvalue + 1)  
         }
@@ -36,14 +38,20 @@ const Product = () => {
        )
   }, [])
 
- 
   if(singleProduct.loading == false){
 
     const singleProductDetails = singleProduct.data.user_product
   }
+  const addToCart =()=>{
+    dispatch(saveCartDetailsStart({user_product_id : singleProduct.data.user_product.id , quantity: ATDvalue}));
+  } 
+
+  
+  console.log(cartSave)
   return (
     <div>
-      {singleProduct.loading == false  && 
+      {singleProduct.loading == true ? <h2>Loading ...</h2>
+      :
       
     <div className="flex flex-col justify-center lg:flex-row">
       <ProfileNavBar />
@@ -77,6 +85,8 @@ const Product = () => {
                         &#9733; &#9733; &#9734; &#9734; &#9733;</span></p>
 
                     <hr className="m-2 bg-black  mb-4" />
+                  {singleProductDetails.add_to_cart == 1 ?
+                  
                     <div className="flex items-center  ">
 
                     <div className="w-20 flex h-8">
@@ -89,8 +99,12 @@ const Product = () => {
                          />
                         <button  onClick={() =>changeATDvalue(1)} className="w-2/5 border-1 border-stone-650 h-full bg-stone-400">+</button>
                     </div>
-                    <button className="btn ml-2 my-2">See Cart</button>
+                    <button onClick={addToCart} className="btn ml-2 my-2">Add to Cart</button>
                     </div>
+                    :
+                    <button className="btn ml-2 my-2">See Cart</button>
+
+                }
 
                     <hr className="m-2   mt-4" />
                 </div>

@@ -6,6 +6,9 @@ import {
   fetchUserProductsSuccess,
   fetchUserProductsFailure,
   fetchUserProductsStart,
+  fetchOtherUserProductsSuccess,
+  fetchOtherUserProductsFailure,
+  fetchOtherUserProductsStart,
   userProductsSaveSuccess,
   userProductsSaveFailure,
   userProductsSaveStart,
@@ -103,6 +106,30 @@ function* fetchUserProductsAPI(action) {
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
+
+
+function* fetchOtherUserProductsAPI(action) {
+  try {
+    const response = yield api.postMethod({
+      action: "other_user_products",
+    });
+
+    if (response.data.success) {
+      yield put(fetchOtherUserProductsSuccess(response.data.data));
+    } else {
+      yield put(fetchOtherUserProductsFailure(response.data.error));
+      yield put(errorLogoutCheck(response.data));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchOtherUserProductsFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+
+
+
 
 function* userProductsSaveAPI(action) {
   try {
@@ -644,6 +671,9 @@ function* fetchOtherModelProductListAPI(action) {
 export default function* pageSaga() {
   yield all([
     yield takeLatest("products/fetchUserProductsStart", fetchUserProductsAPI),
+  ]);
+  yield all([
+    yield takeLatest("products/fetchOtherUserProductsStart", fetchOtherUserProductsAPI),
   ]);
   yield all([yield takeLatest("products/userProductsSaveStart", userProductsSaveAPI)]);
   yield all([

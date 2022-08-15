@@ -7,6 +7,11 @@ import { HYDRATE } from "next-redux-wrapper";
      loading: true,
      error: false,
    },
+   otherUserProducts: {
+    data: {},
+    loading: true,
+    error: false,
+   },
    productSave: {
      data: {},
      loading: true,
@@ -180,6 +185,29 @@ import { HYDRATE } from "next-redux-wrapper";
           error: action.payload,
         };
       },
+
+      fetchOtherUserProductsStart: (state, action) => {
+        state.otherUserProducts = {
+          data: {},
+          loading: true,
+          error: false,
+        };
+      },
+      fetchOtherUserProductsSuccess: (state, action) => {
+        state.otherUserProducts = {
+          data: action.payload,
+          loading: false,
+          error: false,
+        };
+      },
+      fetchOtherUserProductsFailure: (state, action) => {
+        state.otherUserProducts = {
+          data: {},
+          loading: true,
+          error: action.payload,
+        };
+      },
+
       userProductsSaveStart: (state, action) => {
         state.productSave = {
           data: {},
@@ -814,6 +842,9 @@ export const {
   fetchUserProductsSuccess,
   fetchUserProductsFailure,
   fetchUserProductsStart,
+  fetchOtherUserProductsSuccess,
+  fetchOtherUserProductsFailure,
+  fetchOtherUserProductsStart,
   userProductsSaveSuccess,
   userProductsSaveFailure,
   userProductsSaveStart,
