@@ -42,10 +42,10 @@ function CartList({cart}) {
          
           <tr>
             <td>
-              <div className="flex justify-center">
+              <div className="flex w-[7rem]  justify-center">
                 <img
                   src={cart.user_product.picture}
-                  className="object-cover h-28 w-28 rounded-2xl"
+                  className="object-cover h-28 w-[6rem] rounded-2xl"
                   alt="image"
                 />
               </div>
