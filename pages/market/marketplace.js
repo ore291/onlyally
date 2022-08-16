@@ -14,7 +14,7 @@ const Product = (productInfo) => {
     }
   
   return (
-    <div className="shadow-md my-12  mx-4 rounded-md p-4 w-full lg:w-[25%]">
+    <div className="shadow-md  rounded-md p-4 w-full ">
           {showQuickView  && <QuickProductView  toggleShowQuickView={toggleShowQuickView} productInfo={productInfo} />}
       <div className="relative  hover:opacity-80">
         <img
@@ -59,7 +59,7 @@ if(othersProducts.loading == 'false'){
     <div>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavBar />
-        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 px-2 bg-white mx-auto mt-20 shadow py-4 space-y-4">
+        <div className="w-full lg:w-4/5  lg:ml-6 px-2 bg-white mx-auto mt-20 shadow py-4 space-y-4">
           <section>
             <MarketButtons />
             <img
@@ -89,7 +89,7 @@ if(othersProducts.loading == 'false'){
             </div>
           </main>
 
-          <section className="block lg:flex justify-start flex-wrap ">
+          <section className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {products.loading == false &&  products.data.user_products.map((product, i) => {
               return(
                 <Product productInfo={product} key={i}/>
@@ -97,7 +97,7 @@ if(othersProducts.loading == 'false'){
             })}
            
           </section>
-          <section className="block lg:flex justify-start flex-wrap ">
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {othersProducts.loading == false &&  othersProducts.data.user_products.map((product, i) => {
               return(
                 <Product productInfo={product} key={i}/>

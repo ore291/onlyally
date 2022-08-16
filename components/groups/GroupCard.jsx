@@ -298,7 +298,11 @@ const GroupCard = ({
       <div className="flex flex-col w-full  rounded-t-lg border shadow-md ">
         <div className="relative h-24 w-full rounded-t-lg">
           <Image
-            src={"https://stackdiary.com/140x100.png"}
+            src={
+              group.cover !== undefined
+                ? group?.cover
+                : "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+            }
             alt="fh"
             layout="fill"
             objectFit="cover"
@@ -308,17 +312,18 @@ const GroupCard = ({
 
         <div className="p-2">
           <div className="flex flex-col items-start pb-1 ">
-            <p className="font-bold text-lg">fans of Davido</p>
-            <p className="font-medium text-sm text-gray-400">4 Members</p>
+            <p className="font-bold text-lg">{group.name}</p>
+            <p className="font-medium text-sm text-gray-400">
+              {group.members.length} Members
+            </p>
           </div>
 
           <div className="w-full flex items-center justify-between ">
-            <Button
-              text="Joined"
-              extraclassNamees="w-[120px] h-8"
-              active={true}
-            />
-            <Button text="View" extraclassNamees="w-[120px] h-8 bg-gray-100" />
+           
+          <Link href={`/groups/${group.slug}`} passHref>
+              <Button text="View" extraclassNamees="w-full hover:bg-lightPlayRed hover:text-white h-8 bg-gray-100" />
+          </Link>
+          
           </div>
         </div>
       </div>

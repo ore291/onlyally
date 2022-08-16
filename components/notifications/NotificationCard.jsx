@@ -4,8 +4,21 @@ import { useEffect } from "react";
 import VerifiedBadge from "../../components/handlers/VerifiedBadge";
 
 const NotificationCard = ({ notification }) => {
+
+  const url = (urlLink)=>{
+    if( urlLink === "fans"){
+      return `bookmarks/${urlLink}`;
+    }else if( urlLink === "payments"){
+      return `payment/my-payment`;
+    }else{
+      return urlLink;
+    }
+  }
   return (
-    <Link href={`/${notification.action_url}`} passHref>
+    <Link
+      href={url(notification.action_url)}
+      passHref
+    >
       <div className="flex items-center   border-y first:border-y-0 last:border-y-0 py-3 w-full cursor-pointer">
         <div className="basis-1/12 ">
           <div className=" w-14 h-14 relative mr-3 md:mr-0">

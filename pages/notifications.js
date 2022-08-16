@@ -46,12 +46,12 @@ const Notifications = () => {
       case 4:
         dispatch(fetchNotificationsStart({ notification_type: "tips" }));
         break;
-      case 5:
-        dispatch(fetchNotificationsStart({ notification_type: "video-call" }));
-        break;
-      case 6:
-        dispatch(fetchNotificationsStart({ notification_type: "audio-call" }));
-        break;
+      // case 5:
+      //   dispatch(fetchNotificationsStart({ notification_type: "video-call" }));
+      //   break;
+      // case 6:
+      //   dispatch(fetchNotificationsStart({ notification_type: "audio-call" }));
+      //   break;
       default:
         dispatch(fetchNotificationsStart());
     }
@@ -144,7 +144,7 @@ const Notifications = () => {
                 />
                 <h2 className="text-sm font-medium ">TIPPED</h2>
               </Tab>
-              <Tab
+              {/* <Tab
                 className={({ selected }) =>
                   classNames(
                     " notification-nav ",
@@ -171,7 +171,7 @@ const Notifications = () => {
               >
                 <BiMicrophone className="w-6 h-6 -mr-1 md:-mr-0" />
                 <h2 className="text-sm font-medium ">AUDIO CALLS</h2>
-              </Tab>
+              </Tab> */}
             </div>
           </Tab.List>
 
@@ -244,7 +244,7 @@ const Notifications = () => {
                   )}
                 </div>
               </Tab.Panel>
-              <Tab.Panel className={classNames("bg-white p-0 md:p-1")}>
+              {/* <Tab.Panel className={classNames("bg-white p-0 md:p-1")}>
                 <div className="p-0 md:p-2 grid grid-cols-1">
                   {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
@@ -271,7 +271,7 @@ const Notifications = () => {
                     <NoDataFound />
                   )}
                 </div>
-              </Tab.Panel>
+              </Tab.Panel> */}
             </Tab.Panels>
           )}
         </Tab.Group>

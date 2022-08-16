@@ -21,7 +21,9 @@ import {
   fetchSingleGroupFailure,
   fetchSingleGroupStart,
   deleteGroupSuccess,
-  deleteGroupFailure
+  deleteGroupFailure,
+  fetchUserGroupsSuccess,
+  fetchUserGroupsFailure,
 } from "../slices/groupsSlice";
 
 function* saveGroupPostAPI() {
@@ -79,6 +81,27 @@ function* fetchGroupsAPI(action) {
     }
   } catch (error) {
     yield put(fetchGroupsFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
+function* fetchUserGroupsAPI(action) {
+  if(action.payload){
+    var accessToken = action.payload.accessToken
+  }
+  try {
+    const response = yield api.getMethod({
+      action: "groups/if_member",
+      accessToken : accessToken
+    });
+    if (response.data.success) {
+      yield put(fetchUserGroupsSuccess(response.data.data));
+    } else {
+      yield put(fetchUserGroupsFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchUserGroupsFailure(error.message));
     yield put(notify(error.message, "error"));
   }
 }
@@ -224,6 +247,7 @@ export default function* pageSaga() {
   yield all([yield takeLatest("groups/saveGroupPostStart", saveGroupPostAPI)]);
   yield all([yield takeLatest("groups/deleteGroupStart", deleteGroupAPI)]);
   yield all([yield takeLatest("groups/fetchGroupsStart", fetchGroupsAPI)]);
+  yield all([yield takeLatest("groups/fetchUserGroupsStart", fetchUserGroupsAPI)]);
   yield all([
     yield takeLatest(
       "groups/fetchGroupsCategoriesStart",

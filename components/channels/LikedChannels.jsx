@@ -34,6 +34,7 @@ const LikedChannels = () => {
   useEffect(() => {
     dispatch(fetchChannelsStart());
   }, []);
+
   return (
     <div className="side-container">
       <p className="text-start font-bold">Channels you may like</p>
