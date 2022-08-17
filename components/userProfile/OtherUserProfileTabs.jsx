@@ -125,7 +125,7 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
                 <NewsFeedCard post={post} key={index} />
               ))} */}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          {/* <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="p-2 bg-white rounded-lg shadow-lg border">
               <div className="flex items-center space-x-2 my-5">
                 <div className="side-icon">
@@ -182,7 +182,7 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
                 ))}
               </div>
             </div>
-          </Tab.Panel>
+          </Tab.Panel> */}
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
             <div className="flex items-center space-x-2 my-5">
               <div className="side-icon">
