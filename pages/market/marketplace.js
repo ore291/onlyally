@@ -20,7 +20,7 @@ const Product = (productInfo) => {
         <img
           src={productInfo.productInfo.picture}
           alt="product"
-          className="h-52 w-full rounded-md"
+          className="h-52 w-full object-cover rounded-md"
         />
 
         <div onClick={toggleShowQuickView}  className="absolute transition-opacity duration-500 ease-in-out bottom-1 cursor-pointer w-full px-8 text-center shadow-sm py-1 bg-black text-white">
@@ -39,6 +39,7 @@ const Product = (productInfo) => {
     </div>
   );
 };
+
 const Marketplace = () => {
   const products = useSelector(state => state.products.products)
   const othersProducts = useSelector(state => state.products.otherUserProducts)

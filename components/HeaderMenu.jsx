@@ -5,7 +5,7 @@ import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { fetchWalletDetailsStart } from "../store/slices/walletSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { getCookie, removeCookies } from "cookies-next";
+import { getCookie,  deleteCookie } from "cookies-next";
 import Link from "next/link";
 
 import {
@@ -39,11 +39,12 @@ const HeaderMenu = (userSession) => {
   }, [userSession]);
 
   const logout = async () => {
-    removeCookies("userId");
-    removeCookies("accessToken");
-    removeCookies("user_email");
-    removeCookies("username");
-    removeCookies("picture");
+    deleteCookie("userId");
+    deleteCookie("accessToken");
+    deleteCookie("user_email");
+    deleteCookie("username");
+    deleteCookie("picture");
+    deleteCookie("user");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userId");
     localStorage.removeItem("userLoginStatus");
