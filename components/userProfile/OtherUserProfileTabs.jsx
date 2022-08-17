@@ -32,21 +32,21 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
           type: "all",
         })
       );
-    else if (key === 3)
+    else if (key === 1)
       dispatch(
         fetchSingleUserPostsStart({
           user_unique_id: username,
           type: "image",
         })
       );
-    else if (key === 4)
+    else if (key === 2)
       dispatch(
         fetchSingleUserPostsStart({
           user_unique_id: username,
           type: "video",
         })
       );
-    else if (key === 5)
+    else if (key === 3)
       dispatch(
         fetchSingleUserPostsStart({
           user_unique_id: username,
@@ -63,8 +63,8 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
 
   let [categories] = useState([
     "Timeline",
-    "Channel",
-    "Groups",
+    // "Channel",
+    // "Groups",
     "Photos",
     "Videos",
     "Audios",
