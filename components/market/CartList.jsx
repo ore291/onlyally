@@ -65,7 +65,7 @@ function CartList({cart}) {
             </td>
             <td className="p-4 md:px-4 text-center whitespace-nowrap">{cart.sub_total_formatted}</td>
             <td className="p-4 md:px-4 text-center whitespace-nowrap">
-             <button onClick={removeCart} className="btn"> Remove</button>
+             <button onClick={removeCart} className="px-4 py-2 hover:bg-gray-300 font-semibold bg-gray-200"> Remove</button>
             </td>
           </tr>
          

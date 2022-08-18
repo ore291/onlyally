@@ -14,7 +14,7 @@ const Product = (productInfo) => {
     }
   
   return (
-    <div className="shadow-md my-12  mx-4 rounded-md p-4 w-full lg:w-[25%]">
+    <div className="shadow-md my-12  mx-4 rounded-md p-4 w-full lg:w-[90%]">
           {showQuickView  && <QuickProductView  toggleShowQuickView={toggleShowQuickView} productInfo={productInfo} />}
       <div className="relative  hover:opacity-80">
         <img
@@ -89,7 +89,7 @@ if(othersProducts.loading == 'false'){
             </div>
           </main>
 
-          <section className="block lg:flex justify-start flex-wrap ">
+          <section className="block  lg:grid  grid-cols-3">
             {products.loading == false &&  products.data.user_products.map((product, i) => {
               return(
                 <Product productInfo={product} key={i}/>
@@ -97,7 +97,7 @@ if(othersProducts.loading == 'false'){
             })}
            
           </section>
-          <section className="block lg:flex justify-start flex-wrap ">
+          <section className="block lg:grid  grid-cols-3 ">
             {othersProducts.loading == false &&  othersProducts.data.user_products.map((product, i) => {
               return(
                 <Product productInfo={product} key={i}/>

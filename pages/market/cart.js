@@ -83,8 +83,10 @@ const deleteAllCart = () => {
                          <p className="" >Total</p>
                          <p className="">{cartList.data.total_formatted}</p>
                     </div>
+                      <Link href="/market/payment" >
 
                     <button className="btn mt-4">Proceed to Checkout</button>
+                      </Link>
                   </div>
                 </div>
                 </div>
