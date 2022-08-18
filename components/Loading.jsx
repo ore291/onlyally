@@ -6,15 +6,15 @@ const Loading = () => {
     <div className="flex ">
       <div className="flex">
         <h1 className="italic font-bold text-red-500">L</h1>
-        <h1 className="italic font-bold text-yellow-500">o</h1>
-        <h1 className="italic font-bold text-purple-500">a</h1>
-        <h1 className="italic font-bold text-purple-500">d</h1>
+        <h1 className="italic font-bold text-red-500">o</h1>
+        <h1 className="italic font-bold text-red-500">a</h1>
+        <h1 className="italic font-bold text-red-500">d</h1>
         <h1 className="italic font-bold text-red-500">i</h1>
-        <h1 className="italic font-bold text-yellow-500">n</h1>
+        <h1 className="italic font-bold text-red-500">n</h1>
         <h1 className="italic font-bold text-red-500">g</h1>
       </div>
       <motion.div
-        className="w-[10px] h-[10px] rounded-[50px] bg-yellow-500 m-2.5"
+        className="w-[10px] h-[10px] rounded-[50px] bg-red-500 m-2.5"
         animate={{ y: "20px" }}
         transition={{
           delay: 0,
@@ -25,7 +25,7 @@ const Loading = () => {
         }}
       />
       <motion.div
-        className="w-[10px] h-[10px] rounded-[50px] bg-purple-500 m-2.5"
+        className="w-[10px] h-[10px] rounded-[50px] bg-red-500 m-2.5"
         animate={{ y: "20px" }}
         transition={{
           delay: 1,

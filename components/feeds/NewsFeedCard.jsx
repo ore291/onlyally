@@ -6,13 +6,21 @@ import Link from "next/link";
 import React, {
   Fragment,
   useCallback,
-  useEffect, useRef, useState
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { BsHeart, BsHeartFill, BsThreeDots } from "react-icons/bs";
-import { FaBookmark, FaCheckCircle, FaPlay, FaPause, FaRegPlayCircle } from "react-icons/fa";
-import {FiPlay} from "react-icons/fi";
+import {
+  FaBookmark,
+  FaCheckCircle,
+  FaPlay,
+  FaPause,
+  FaRegPlayCircle,
+} from "react-icons/fa";
+import { FiPlay } from "react-icons/fi";
 import ReactPlayer from "react-player/lazy";
 import { useDispatch, useSelector } from "react-redux";
 import { saveBookmarkStart } from "../../store/slices/bookmarkSlice";
@@ -27,8 +35,9 @@ import TipModal from "../tips/TipModal.jsx";
 import Comment from "./Comment";
 import Comments from "./Comments";
 import EmblaSlide from "./EmblaSlide";
-
-
+import { saveBlockUserStart } from "../../store/slices/userSlice";
+import { deletePostStart } from "../../store/slices/postSlice";
+import ReportModeModal from "./ReportModeModal";
 
 const NewsFeedCard = ({ post, index }) => {
   const dispatch = useDispatch();
@@ -55,7 +64,7 @@ const NewsFeedCard = ({ post, index }) => {
   const [playing, setPlaying] = useState(false);
   const togglePlaying = () => {
     setPlaying(!playing);
-  }
+  };
 
   const playAudio = () => {
     if (playing === false) {
@@ -66,7 +75,7 @@ const NewsFeedCard = ({ post, index }) => {
       togglePlaying;
     }
   };
-
+  const [copied, setCopied] = useState("");
   const [bookmarkStatus, setBookmarkStatus] = useState("");
   const [postDisplayStatus, setPostDisplayStatus] = useState(true);
   const [likeStatus, setLikeStatus] = useState("");
@@ -156,13 +165,13 @@ const NewsFeedCard = ({ post, index }) => {
   const handleBlockUser = (event, post) => {
     event.preventDefault();
     setPostDisplayStatus(false);
-    props.dispatch(saveBlockUserStart({ user_id: post.user_id }));
+    dispatch(saveBlockUserStart({ user_id: post.user_id }));
   };
 
   const handleDeletePost = (event, post) => {
     event.preventDefault();
     setPostDisplayStatus(false);
-    props.dispatch(deletePostStart({ post_id: post.post_id }));
+    dispatch(deletePostStart({ post_id: post.post_id }));
   };
 
   const closeCommentSection = (event) => {
@@ -283,36 +292,64 @@ const NewsFeedCard = ({ post, index }) => {
                             <div className="relative grid gap-y-2 bg-white p-1 grid-cols-1">
                               <CopyToClipboard
                                 text={post.share_link}
-                                onCopy={() =>
-                                  console.log("notification copied")
-                                }
+                                onCopy={() => {
+                                  setCopied("copied");
+                                  setTimeout(() => {
+                                    setCopied("");
+                                  }, 2000);
+                                  console.log("notification copied");
+                                }}
                               >
                                 <div className="hover:bg-gray-100 hover:text-red-500  border-b h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
                                   <p className="font-bold text-xs">
-                                    Copy link to post
+                                    {copied === ""
+                                      ? "copy link to text"
+                                      : "copied"}
                                   </p>
                                 </div>
                               </CopyToClipboard>
                               {userId != post.user_id ? (
                                 <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                  {/* onClick={() => setReportMode(true)} */}
-                                  <p className="font-bold text-xs">Report</p>
+                                  <p
+                                    onClick={() => setReportMode(true)}
+                                    className="font-bold text-xs"
+                                  >
+                                    Report
+                                  </p>
                                 </div>
                               ) : null}
                               {userId != post.user_id ? (
                                 <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                  <p className="font-bold text-xs">
-                                    {/* onClick={(event) => handleBlockUser(event, post)} */}
+                                  <p
+                                    onClick={(event) =>
+                                      handleBlockUser(event, post)
+                                    }
+                                    className="font-bold text-xs"
+                                  >
                                     Add to blocklists.
                                   </p>
                                 </div>
                               ) : null}
                               {post.delete_btn_status == 1 ? (
-                                <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                                <div
+                                  onClick={(event) =>
+                                    handleDeletePost(event, post)
+                                  }
+                                  className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start"
+                                >
                                   <p className="font-bold text-xs">
-                                    {/* onClick={(event) => handleDeletePost(event, post)} */}
                                     Delete Post.
                                   </p>
+                                </div>
+                              ) : null}
+                              {post.delete_btn_status == 1 ? (
+                                <div
+                                  onClick={(event) =>
+                                    handleDeletePost(event, post)
+                                  }
+                                  className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start"
+                                >
+                                  <p className="font-bold text-xs">Edit post</p>
                                 </div>
                               ) : null}
                             </div>
@@ -466,15 +503,15 @@ const NewsFeedCard = ({ post, index }) => {
                                           backgroundSize: "cover",
                                         }}
                                       >
-                                        <button className="absolute w-20 h-20 inset-0 m-auto z-20" onClick={playAudio}>
-                                          {
-                                            playing ? (
-                                              <FaPause className="text-lightPlayRed  stroke-lightPlayRed  h-20 w-20"/>
-                                            ) : (
-                                               <FiPlay className="text-lightPlayRed stroke-1 stroke-white fill-lightPlayRed h-20 w-20"/>
-                                            )
-                                          }
-                                         
+                                        <button
+                                          className="absolute w-20 h-20 inset-0 m-auto z-20"
+                                          onClick={playAudio}
+                                        >
+                                          {playing ? (
+                                            <FaPause className="text-lightPlayRed  stroke-lightPlayRed  h-20 w-20" />
+                                          ) : (
+                                            <FiPlay className="text-lightPlayRed stroke-1 stroke-white fill-lightPlayRed h-20 w-20" />
+                                          )}
                                         </button>
                                         <div className="p-0.5 bg-white rounded-full absolute inset-0  m-auto w-[250px] h-[250px]">
                                           <div className="relative w-full h-full">
@@ -814,11 +851,11 @@ const NewsFeedCard = ({ post, index }) => {
                   user_id={post.user_id}
                   amount={post.amount}
                 />
-                {/* <ReportModeModal
-                reportMode={reportMode}
-                closeReportModeModal={closeReportModeModal}
-                post={post}
-              />  */}
+                <ReportModeModal
+                  reportMode={reportMode}
+                  closeReportModeModal={closeReportModeModal}
+                  post={post}
+                />
               </>
             ) : null}
           </div>

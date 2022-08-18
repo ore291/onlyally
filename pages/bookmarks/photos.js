@@ -36,7 +36,7 @@ export default function Bookmarks() {
   ];
   <MdPhotoSizeSelectActual className="text-white h-5 w-5" />;
   return (
-    <div className="flex ">
+    <div className="lg:flex ">
       <ProfileNavBar className="w-20" />
       <div className="w-full px-1 mx-auto pt-20 mr-16  shadow ">
         <div className=" bg-white p-2 shadow-md">
@@ -53,7 +53,7 @@ export default function Bookmarks() {
             {Bookmarks.loading ? (
               <Loading />
             ) : data.length > 0 ? (
-              <div className="py-2 grid grid-cols-1 md:grid-cols-3  gap-1">
+              <div className="py-2 grid grid-cols-1 md:grid-cols-2 lg-grid-cols-3  gap-1">
                 {data.map((post, i) => (
                   <BookmarkComponent post={post} key={i} />
                 ))}

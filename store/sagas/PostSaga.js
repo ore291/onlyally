@@ -21,9 +21,19 @@ import {
   ppvPaymentWalletFailure,
   ppvPaymentPaystackSuccess,
   ppvPaymentPaystackFailure,
+  fetchReportPostsStart,
+  fetchReportReasonStart,
+  fetchReportReasonFailure,
+  fetchReportReasonSuccess,
+  saveReportPostStart,
+  saveReportPostFailure,
+  saveReportPostSuccess,
+  deletePostStart,
+  deletePostSuccess,
+  deletePostFailure,
 } from "../slices/postSlice";
 
-import {errorLogoutCheck} from '../slices/errorSlice';
+import { errorLogoutCheck } from "../slices/errorSlice";
 
 import { notify } from "reapop";
 
@@ -61,15 +71,15 @@ function* savePostAPI() {
 }
 
 function* fetchPostsAPI(action) {
-  if(action.payload){
-    var accessToken = action.payload.accessToken
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
   }
   try {
     const inputData = yield select((state) => state.post.posts.inputData);
     const response = yield api.postMethod({
       action: "posts_for_owner",
       object: inputData,
-      accessToken : accessToken
+      accessToken: accessToken,
     });
     if (response.data.success) {
       yield put(fetchPostsSuccess(response.data.data));
@@ -116,7 +126,7 @@ function* fetchSinglePostAPI() {
     } else {
       yield put(fetchSinglePostFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
-        yield put(errorLogoutCheck(response.data));
+      yield put(errorLogoutCheck(response.data));
     }
   } catch (error) {
     yield put(fetchSinglePostFailure(error));
@@ -176,7 +186,7 @@ function* fetchExploreAPI(action) {
     const response = yield api.postMethod({
       action: "explore",
       object: inputData,
-      accessToken : accessToken
+      accessToken: accessToken,
     });
     if (response.data.success) {
       yield put(fetchExploreSuccess(response.data.data));
@@ -227,15 +237,72 @@ function* PPVPaymentWalletAPI() {
 
     if (response.data.success) {
       yield put(ppvPaymentWalletSuccess(response.data.data));
-      yield put(notify({ message: response.data.message, status: "success"}));
+      yield put(notify({ message: response.data.message, status: "success" }));
       window.location.assign("/post/" + response.data.data.post.post_unique_id);
     } else {
       yield put(ppvPaymentWalletFailure(response.data.error));
-      yield put(notify({ message: response.data.error, status: "error"}));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(ppvPaymentWalletFailure(error));
-    yield put(notify({ message: error.message, status: "error"}));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* deletePostAPI() {
+  try {
+    const inputData = yield select((state) => state.post.delPost.inputData);
+    const response = yield api.postMethod({
+      action: "posts_delete_for_owner",
+      object: inputData,
+    });
+    if (response.data.success) {
+      yield put(deletePostSuccess(response.data.data));
+      yield put(notify({ message: response.data.message, status: "success" }));
+      window.location.assign("/profile");
+    } else {
+      yield put(deletePostFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(deletePostFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* fetchReportReason() {
+  try {
+    const response = yield api.postMethod({ action: "report_reasons_index" });
+    if (response.data.success) {
+      yield put(fetchReportReasonSuccess(response.data));
+    } else {
+      yield put(fetchReportReasonFailure(response.data));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchReportReasonFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+function* saveReportPostAPI() {
+  try {
+    const inputData = yield select(
+      (state) => state.post.saveReportPost.inputData
+    );
+    const response = yield api.postMethod({
+      action: "report_posts_save",
+      object: inputData,
+    });
+    if (response.data.success) {
+      yield put(saveReportPostSuccess(response.data.data));
+      yield put(notify({ message: response.data.message, status: "success" }));
+    } else {
+      yield put(saveReportPostFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(saveReportPostFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -246,7 +313,7 @@ export default function* pageSaga() {
   yield all([
     yield takeLatest("post/fetchSinglePostStart", fetchSinglePostAPI),
   ]);
-  // yield all([yield takeLatest(DELETE_POST_START, deletePostAPI)]);
+  yield all([yield takeLatest("post/deletePostStart", deletePostAPI)]);
   // yield all([yield takeLatest(CHANGE_POST_STATUS_START, changePostStatusAPI)]);
   yield all([yield takeLatest("post/postFileUploadStart", postFileUploadAPI)]);
   yield all([yield takeLatest("post/postFileRemoveStart", postFileRemoveAPI)]);
@@ -254,8 +321,8 @@ export default function* pageSaga() {
   yield all([
     yield takeLatest("post/ppvPaymentWalletStart", PPVPaymentWalletAPI),
   ]);
-  // yield all([yield takeLatest(SAVE_REPORT_POST_START, saveReportPostAPI)]);
-  // yield all([yield takeLatest(FETCH_REPORT_POSTS_START, fetchPostsAPI)]);
+  yield all([yield takeLatest("post/saveReportPostStart", saveReportPostAPI)]);
+  yield all([yield takeLatest("post/fetchReportPostsStart", fetchPostsAPI)]);
   yield all([
     yield takeLatest("post/ppvPaymentPaystackStart", PPVPaymentPaystackAPI),
   ]);
@@ -263,5 +330,7 @@ export default function* pageSaga() {
   yield all([
     yield takeLatest("post/fetchPostCategoriesStart", fetchPostCategories),
   ]);
-  // yield all([yield takeLatest(FETCH_REPORT_REASON_START, fetchReportReason)]);
+  yield all([
+    yield takeLatest("post/fetchReportReasonStart", fetchReportReason),
+  ]);
 }
