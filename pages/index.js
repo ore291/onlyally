@@ -79,8 +79,6 @@ export default function Home() {
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
 
- 
-
   const [sendTip, setSendTip] = useState(false);
 
   const closeSendTipModal = () => {
