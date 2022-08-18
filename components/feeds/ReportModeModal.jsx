@@ -56,8 +56,8 @@ const ReportModeModal = (props) => {
                     ? "loading"
                     : reportReasons.inputData.data.report_reason.length > 0
                     ? reportReasons.inputData.data.report_reason.map(
-                        (report_content) => (
-                          <Form.Group className="ml-4 p-[3px] text-bold">
+                        (report_content, i) => (
+                          <Form.Group className="ml-4 p-[3px] text-bold" key={i}>
                             <Form.Check
                               className=""
                               type="radio"
