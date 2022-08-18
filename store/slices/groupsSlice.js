@@ -281,13 +281,14 @@ export const GroupsSlice = createSlice({
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.groups.groupData || !action.payload.groups.groups || !action.payload.groups.groupMembersData) {
+      if (!action.payload.groups.groupData || !action.payload.groups.groups || !action.payload.groups.groupMembersData || !action.payload.groups.categories) {
         return state;
       }
       state.groupData = action.payload.groups.groupData;
       state.groups = action.payload.groups.groups;
       state.groupMembersData = action.payload.groups.groupMembersData;
       state.userGroups = action.payload.groups.userGroups;
+      state.categories = action.payload.groups.categories;
     },
   },
 });

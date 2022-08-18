@@ -301,7 +301,7 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
             )}
           </Tab.Panel>
           <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <ShopList />
+            <ShopList  otherUser={true}/>
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

@@ -195,9 +195,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
         })
       );
 
-      store.dispatch(
-        fetchUserDetailsStart({ accessToken: cookies.accessToken })
-      );
+      // store.dispatch(
+      //   fetchUserDetailsStart({ accessToken: cookies.accessToken })
+      // );
 
       // store.dispatch(fetchConfigurationStart());
 

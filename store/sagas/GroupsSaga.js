@@ -107,9 +107,13 @@ function* fetchUserGroupsAPI(action) {
 }
 
 function* fetchGroupsCategoriesAPI(action) {
+  if(action.payload){
+    var accessToken = action.payload.accessToken
+  }
   try {
     const response = yield api.getMethod({
       action: "groups/categories",
+      accessToken : accessToken
     });
 
     if (response.status === 200) {
