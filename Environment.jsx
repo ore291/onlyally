@@ -290,25 +290,26 @@ const Environment = {
 
     // By Default added device type and login type in future use
 
-    formData.append("login_by", apiConstants.LOGIN_BY);
-    formData.append("device_type", apiConstants.DEVICE_TYPE);
-    formData.append("device_token", apiConstants.DEVICE_TOKEN);
+    // formData.append("login_by", apiConstants.LOGIN_BY);
+    // formData.append("device_type", apiConstants.DEVICE_TYPE);
+    // formData.append("device_token", apiConstants.DEVICE_TOKEN);
 
-    var device_model = "";
-    if (isAndroid == true) {
-      device_model = mobileModel;
-    } else if (isIOS == true) {
-      device_model = mobileModel;
-    } else {
-      device_model = browserName + " " + browserVersion;
-    }
+    // var device_model = "";
+    // if (isAndroid == true) {
+    //   device_model = mobileModel;
+    // } else if (isIOS == true) {
+    //   device_model = mobileModel;
+    // } else {
+    //   device_model = browserName + " " + browserVersion;
+    // }
 
-    formData.append("device_model", device_model);
+    // formData.append("device_model", device_model);
 
     var data = JSON.stringify({
+      ...object,
       id: cookies.userId,
       token: cookies.accessToken,
-      device_model: device_model,
+      // device_model: device_model,
     });
 
     var config = {

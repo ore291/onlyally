@@ -56,6 +56,16 @@ const initialState = {
     data: [],
     loading: false,
     error: false,
+  },
+  updateGroup:{
+    data: {},
+    loading: false,
+    error: false,
+  },
+  updateGroupPhotos:{
+    data: {},
+    loading: false,
+    error: false,
   }
 };
 
@@ -63,6 +73,48 @@ export const GroupsSlice = createSlice({
   name: "groups",
   initialState,
   reducers: {
+    updateGroupInfoStart: (state, action)=>{
+        state.updateGroup = {
+          data : {},
+          loading : true,
+          error :  false
+        }
+    },
+    updateGroupInfoSuccess: (state, action)=>{
+        state.updateGroup = {
+          data : action.payload,
+          loading : false,
+          error :  false
+        }
+    },
+    updateGroupInfoFailure: (state, action)=>{
+        state.updateGroup = {
+          data : {},
+          loading : false,
+          error :  action.payload
+        }
+    },
+    updateGroupPhotosStart: (state, action)=>{
+        state.updateGroupPhotos = {
+          data : {},
+          loading : true,
+          error :  false
+        }
+    },
+    updateGroupPhotosSuccess: (state, action)=>{
+        state.updateGroupPhotos = {
+          data : action.payload,
+          loading : false,
+          error :  false
+        }
+    },
+    updateGroupPhotosFailure: (state, action)=>{
+        state.updateGroupPhotos = {
+          data : {},
+          loading : false,
+          error :  action.payload
+        }
+    },
     saveGroupPostStart: (state, action) => {
       state.saveGroupPost = {
         inputData: action.payload,
@@ -321,6 +373,12 @@ export const {
   fetchUserGroupsStart,
   fetchUserGroupsSuccess,
   fetchUserGroupsFailure,
+  updateGroupInfoStart,
+  updateGroupInfoFailure,
+  updateGroupInfoSuccess,
+  updateGroupPhotosStart,
+  updateGroupPhotosFailure,
+  updateGroupPhotosSuccess
 } = GroupsSlice.actions;
 
 export default GroupsSlice.reducer;

@@ -1,24 +1,72 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { updateGroupPhotosStart } from "../../store/slices/groupsSlice";
+import {useDispatch, useSelector} from "react-redux";
+import { useForm } from "react-hook-form";
 
 const DesignSettings = () => {
+  const dispatch = useDispatch();
+
+  const { data: group } = useSelector(
+    (state) => state.groups.groupData
+  );
+  
   const [selectedImage, setSelectedImage] = useState();
   const [selectedCover, setSelectedCover] = useState();
 
+  const [data, setData ] = useState(
+    {
+     
+    }
+  );
+
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    const body = {
+      ...data,
+      slug : group.slug,
+    }
+    dispatch(updateGroupPhotosStart(body))
+  };
+
+  const { loading } = useSelector(
+    (state) => state.groups.updateGroupPhotos
+  );
+  
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
+      setData(
+        {
+          ...data,
+          avatar : e.target.files[0]
+        }
+      )
     }
   };
   const coverChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedCover(e.target.files[0]);
+      setData(
+        {
+          ...data,
+          cover : e.target.files[0]
+        }
+      )
     }
   };
 
   return (
     <>
-      <form className="w-full ">
+      <form className="w-full "  onSubmit={onSubmit}>
         <div className="w-full relative mb-10">
           <div className="flex flex-wrap gap-2">
             <label
@@ -54,8 +102,11 @@ const DesignSettings = () => {
             <input
               onChange={coverChange}
               type="file"
+              name="cover"
               id="add-cover-img"
+              accept="image/png, image/gif, image/jpeg"
               className="opacity-0 h-0"
+            
             />
           </div>
           <div className="flex flex-wrap gap-2 centered-axis-xyz p-1 bg-white w-[150px] h-[150px] rounded-full">
@@ -94,6 +145,9 @@ const DesignSettings = () => {
               type="file"
               id="add-single-img"
               className="opacity-0 h-0"
+              name="avatar"
+              accept="image/png, image/gif, image/jpeg"
+              
             />
           </div>
         </div>
@@ -103,7 +157,7 @@ const DesignSettings = () => {
             type="submit"
             className="w-32 h-9 rounded-md  bg-lightPlayRed text-white font-medium text-sm row-container"
           >
-            Save
+            {loading ? "Loading..." : "Save" }
           </button>
         </div>
       </form>

@@ -24,6 +24,10 @@ import {
   deleteGroupFailure,
   fetchUserGroupsSuccess,
   fetchUserGroupsFailure,
+  updateGroupInfoFailure,
+  updateGroupInfoSuccess,
+  updateGroupPhotosFailure,
+  updateGroupPhotosSuccess
 } from "../slices/groupsSlice";
 
 function* saveGroupPostAPI() {
@@ -65,13 +69,13 @@ function* saveGroupPostAPI() {
 }
 
 function* fetchGroupsAPI(action) {
-  if(action.payload){
-    var accessToken = action.payload.accessToken
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
   }
   try {
     const response = yield api.getMethod({
       action: "groups",
-      accessToken : accessToken
+      accessToken: accessToken,
     });
     if (response.data.success) {
       yield put(fetchGroupsSuccess(response.data.data));
@@ -86,13 +90,13 @@ function* fetchGroupsAPI(action) {
 }
 
 function* fetchUserGroupsAPI(action) {
-  if(action.payload){
-    var accessToken = action.payload.accessToken
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
   }
   try {
     const response = yield api.getMethod({
       action: "groups/if_member",
-      accessToken : accessToken
+      accessToken: accessToken,
     });
     if (response.data.success) {
       yield put(fetchUserGroupsSuccess(response.data.data));
@@ -106,14 +110,60 @@ function* fetchUserGroupsAPI(action) {
   }
 }
 
+function* updateUserGroupInfoAPI(action) {
+  try {
+    const response = yield api.putMethod({
+      action: `groups/${action.payload.slug}/info`,
+      object: action.payload,
+    });
+    if (response.data.success) {
+      yield put(updateGroupInfoSuccess(response.data.data));
+      yield put(fetchSingleGroupStart({
+        group_slug : action.payload.slug
+      }));
+      yield put(notify({ message: "Group Updated Successfully", status: "success" }));
+
+    } else {
+      yield put(updateGroupInfoFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(updateGroupInfoFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
+function* updateUserGroupPhotosAPI(action) {
+  try {
+    const response = yield api.postMethod({
+      action: `groups/${action.payload.slug}/photos`,
+      object: action.payload,
+    });
+    if (response.data.success) {
+      yield put(updateGroupPhotosSuccess(response.data.data));
+      yield put(fetchSingleGroupStart({
+        group_slug : action.payload.slug
+      }));
+      yield put(notify({ message: "Group Updated Successfully", status: "success" }));
+
+    } else {
+      yield put(updateGroupPhotosFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(updateGroupPhotosFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
 function* fetchGroupsCategoriesAPI(action) {
-  if(action.payload){
-    var accessToken = action.payload.accessToken
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
   }
   try {
     const response = yield api.getMethod({
       action: "groups/categories",
-      accessToken : accessToken
+      accessToken: accessToken,
     });
 
     if (response.status === 200) {
@@ -134,7 +184,7 @@ function* groupJoinAPI(action) {
     const response = yield api.putMethod({
       action: `groups/${inputData}/member`,
     });
- 
+
     if (response.data != null && response.data.success != null) {
       yield put(joinGroupSuccess(response.data.data));
       yield put(fetchGroupsStart());
@@ -174,22 +224,21 @@ function* fetchSingleGroupAPI(action) {
   }
 }
 
-
 function* fetchSingleGroupMembersAPI(action) {
   if (action.payload) {
     var accessToken = action.payload.accessToken;
     var slug = action.payload.group_slug;
   }
 
- 
   try {
     const response = yield api.getMethod({
       action: `groups/${slug}/members`,
       accessToken: accessToken,
     });
     if (response.data.success) {
-
-      yield put(fetchSingleGroupMemberSuccess(Object.values(response.data.data)));
+      yield put(
+        fetchSingleGroupMemberSuccess(Object.values(response.data.data))
+      );
     } else {
       yield put(fetchSingleGroupMemberFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -251,7 +300,9 @@ export default function* pageSaga() {
   yield all([yield takeLatest("groups/saveGroupPostStart", saveGroupPostAPI)]);
   yield all([yield takeLatest("groups/deleteGroupStart", deleteGroupAPI)]);
   yield all([yield takeLatest("groups/fetchGroupsStart", fetchGroupsAPI)]);
-  yield all([yield takeLatest("groups/fetchUserGroupsStart", fetchUserGroupsAPI)]);
+  yield all([
+    yield takeLatest("groups/fetchUserGroupsStart", fetchUserGroupsAPI),
+  ]);
   yield all([
     yield takeLatest(
       "groups/fetchGroupsCategoriesStart",
@@ -267,6 +318,18 @@ export default function* pageSaga() {
     yield takeLatest(
       "groups/fetchSingleGroupMemberStart",
       fetchSingleGroupMembersAPI
+    ),
+  ]);
+  yield all([
+    yield takeLatest(
+      "groups/updateGroupInfoStart",
+      updateUserGroupInfoAPI
+    ),
+  ]);
+  yield all([
+    yield takeLatest(
+      "groups/updateGroupPhotosStart",
+      updateUserGroupPhotosAPI
     ),
   ]);
 }
