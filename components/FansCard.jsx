@@ -6,12 +6,14 @@ import {
 import {
   fetchSingleUserProfileStart,
 } from "../store/slices/OtherUsersSlice";
+import Link from "next/link";
 import { deleteFavStart } from "../store/slices/favSlice";
 import TipModal from "./tips/TipModal";
 import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentModal from "./helpers/PaymentModal";
 import { unFollowUserStart } from "../store/slices/followerSlice";
+import { saveBlockUserStart } from "../store/slices/userSlice";
 const FansCard = ({user}) => {
   const userDetails = useSelector((state) => state.otherUser.userDetails);
   const deleteFav = useSelector((state) => state.fav.deleteFav);
@@ -24,6 +26,9 @@ const FansCard = ({user}) => {
       amount: 0,
       amount_formatted: 0,
     });
+    const [subscribedStatus, setSubscribeStatus] = useState(" ") ;
+    const  [unblockStatus,  setUnblockStatus]  = useState("");
+    const [favStatus,  setFavStatus]  =useState('');
     const dispatch = useDispatch()
     useEffect(() => {
       dispatch(
@@ -39,23 +44,34 @@ const FansCard = ({user}) => {
       setSendTip(false);
     };
 
-    const removeFav = ()=> {
+    const removeFav = (status)=> {
+
+      setFavStatus(status)
       dispatch(deleteFavStart())
     }
-    const unFollowUser = () => {
+    const unFollowUser = (status) => {
+      setSubscribeStatus(status) ;
       dispatch(unFollowUserStart({
         user_id : userDetails.data.user.user_id
       }))
     }
+    const blockUser = (status) => {
 
+      setUnblockStatus(status)
+      dispatch(saveBlockUserStart({
+
+        user_id : userDetails.data.user.user_id
+      }
+      ))
+    }
+console.log(userDetails)
     return(
         <div
-                    className="w-full  lg:w-1/3 border-2 border-grey-500 "
+                    className="w-full  lg:w-[90%] border-2 border-grey-500 "
                   
                   >
         
-     {userDetails.loading === false &&
-     
+     {userDetails.loading == false &&
      <TipModal
      sendTip={sendTip}
      closeSendTipModal={closeSendTipModal}
@@ -65,6 +81,10 @@ const FansCard = ({user}) => {
      post_id={null}
      user_id={userDetails.data.user.user_id}
     />
+ 
+    
+ 
+   
      }
                     <div className=" h-32  flex justify-end items-end"  style={{backgroundImage: `url(${user?.cover})`, backgroundSize: "cover"}}>
                       {/* <p className="text-white text-3xl">...</p> */}
@@ -77,8 +97,49 @@ const FansCard = ({user}) => {
                     <section className="w-4/5 absolute  bg-white ml-2 pl-1 rounded-b-lg"   >
                         <ul className="list-none">
                           <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Copy link to profile </li>
-                          <li className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
-                          <li onClick={unFollowUser} className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>
+                          {
+                            unblockStatus != "" ? (
+                              unblockStatus == "unblocked" ? (
+                                <li onClick={() => blockUser("blocked")} className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
+
+                              ):
+                              (
+                                <li onClick={() => blockUser("unBlocked")} className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Unblock the user </li>
+
+                              )
+                            ):
+                            userDetails.data.is_block_user == 1 ?(
+                              <li onClick={() => blockUser("unBlocked")} className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Unblock the user </li>
+                            ):
+                            (
+                              <li onClick={() => blockUser("blocked")} className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer">Block the user </li>
+                            )
+                          }
+                        
+                        
+                         
+                          
+                          
+                           {subscribedStatus != ""  ? (
+                             subscribedStatus == "subscribe" ? (
+                              <li onClick={() => unFollowUser("unSubscribe")} className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>
+                             ):(
+                              <Link  href={`/` + userDetails.data.user.user_id}>
+                              <li onClick={()=> unFollowUser("subscribed")} className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Subscribe</li>
+                              </Link>
+                             )
+                           ):
+                           userDetails.data.user.show_follow?
+                           (
+                            <Link href={`/` + userDetails.data.user.user_id}>
+                            <li onClick={()=> unFollowUser("subscribed")} className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Subscribe</li>
+                            </Link>
+                           ):
+                           (
+                            <li onClick={() => unFollowUser("unSubscribe")} className="p-2  hover:bg-grey-500  font-medium hover:text-red-600 cursor-pointer">Unsubscribe</li>  
+                           )
+                           }
+                        
                         </ul>
                       </section>
                    }
@@ -101,12 +162,53 @@ const FansCard = ({user}) => {
                     </section>
   
                     <div className="pb-4  mx-2">
-          
                   
-                      <section  onClick={removeFav}   className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
-                        <AiOutlineStar />
-                         Remove from Favorites
-                      </section>
+                 {favStatus != ""  ? (
+
+
+
+                       favStatus == "added" ?
+
+                             <section  onClick={() => removeFav("removed") }   className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
+                                <AiOutlineStar />
+                               Remove from Favorites
+                            </section>
+                
+                     :
+                              <section  onClick={() => removeFav("added") }   className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
+                              <AiOutlineStar />
+                              Add to Favorites
+                              </section>
+                 
+                         
+
+                 
+
+                 ):(
+
+               
+
+                 userDetails.data.is_favuser == 1 ?
+                   
+                         <section  onClick={() => removeFav("removed") }   className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
+                         <AiOutlineStar />
+                          Remove from Favorites
+                       </section>
+               
+                    :
+             
+                 
+                          <section  onClick={() => removeFav("added") }   className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center">
+                          <AiOutlineStar />
+                              Add to Favorites
+                         </section>
+                
+                
+                 )
+              }
+
+                  
+                      
               
                       <div className="text-center">
                         <button onClick={() => setSendTip(!sendTip)} className="flex justify-center items-center h-10 bg-red-600 uppercase text-base rounded-full w-full ">

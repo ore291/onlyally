@@ -16,6 +16,7 @@ import  {
 }   from "../../store/slices/followerSlice"
 import { useDispatch, useSelector } from "react-redux";
 import FansCard from "../../components/FansCard";
+import { fetchFavStart } from "../../store/slices/favSlice";
 
 export default function Fan() {
   const [fansTab, setFansTab] = useState("all")
@@ -27,15 +28,14 @@ export default function Fan() {
   const followers = useSelector(state => state.follow.followers)
   const activeFollowers = useSelector(state => state.follow.activeFollowers)
   const expiredFollowers = useSelector(state => state.follow.expiredFollowers)
-
+  const  Favourites = useSelector(state => state.fav.fav)
 
   useEffect(()=> {
-    dispatch(fetchActiveFollowersStart())
-    dispatch(fetchExpiredFollowersStart())
-    dispatch(fetchFollowersStart())
+    dispatch(fetchFavStart())
+
   }, [])
   
-
+console.log(Favourites)
  
 
   return (
@@ -56,7 +56,7 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-3">
                  
                   {!activeFollowers.loading ? activeFollowers.data.followers.map((user, i) => {
                    return (
@@ -76,7 +76,7 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-3">
                  
                   {!expiredFollowers.loading ? expiredFollowers.data.followers.map((user, i) => {
                     return (
@@ -99,7 +99,7 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-3">
                  
                   {!followers.loading ? followers.data.followers.map((user, i) => {
                      

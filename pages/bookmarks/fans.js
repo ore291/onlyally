@@ -69,7 +69,7 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-">
                  
                   {!activeFollowers.loading ? activeFollowers.data.followers.map((user, i) => {
                    return (
@@ -89,7 +89,7 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-">
                  
                   {!expiredFollowers.loading ? expiredFollowers.data.followers.map((user, i) => {
                     return (
@@ -112,7 +112,7 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-3">
                  
                   {!followers.loading ? followers.data.followers.map((user, i) => {
                      
