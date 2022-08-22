@@ -267,8 +267,8 @@ const DeleteSettings = ({ channel }) => {
         Are you sure you want to delete this channel?
       </h3>
       <div className="row-container space-x-2 my-3">
-        {/* <Button
-          text={deletedChannel?.loading ? "Loading..." : "Delete Group`"}
+        <Button
+          text={deletedChannel.loading ? "Loading..." : "Delete Channel`"}
           textclassName="text-black text-sm font-medium"
           extraclassNamees="w-[120px] h-8"
           onClick={() => deleteChannel()}
@@ -280,7 +280,7 @@ const DeleteSettings = ({ channel }) => {
             active={true}
             extraclassNamees="w-[120px] h-8"
           />
-        </Link> */}
+        </Link>
       </div>
     </div>
   );

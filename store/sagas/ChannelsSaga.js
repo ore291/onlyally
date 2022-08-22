@@ -26,6 +26,10 @@ import {
   updateChannelPrivacySuccess,
   saveChannelPostSuccess,
   saveChannelPostFailure,
+  deleteChannelMemberFailure,
+  deleteChannelMemberSuccess,
+  deleteChannelSuccess,
+  deleteChannelFailure
 } from "../slices/channelsSlice";
 // import { fetchChannelsCategoriesSuccess } from "../slices/channelsSlice";
 
@@ -278,7 +282,62 @@ function* fetchChannelsCategoriesAPI(action) {
   }
 }
 
+function* deleteChannelAPI(action) {
+  try {
+    const response = yield api.deleteMethod({
+      action: `channels/${action.payload}`,
+    });
+    console.log(response);
+    if (response.status && response.status === 204) {
+      yield put(deleteChannelSuccess(response.data));
+      yield put(
+        notify({ message: "Channel deleted successfully", status: "success" })
+      );
+      window.location.assign("/channels");
+    } else {
+      yield put(deleteChannelFailure(response.data.message));
+      yield put(notify({ message: response.data.message, status: "error" }));
+    }
+  } catch (error) {
+    yield put(deleteChannelFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* deleteChannelMemberAPI(action) {
+  try {
+    const response = yield api.deleteMethod({
+      action: `channels/${action.payload.slug}/member`,
+      object: {
+        user_id: action.payload.user_id,
+      },
+    });
+
+    if (response.status && response.status === 204) {
+      yield put(deleteChannelMemberSuccess(response.data));
+      yield put(
+        notify({
+          message: "Subscription cancelled successfully",
+          status: "success",
+        })
+      );
+      yield put(fetchSingleChannelStart({ channel_slug: action.payload.slug }));
+    } else {
+      yield put(deleteChannelMemberFailure(response.data.message));
+      yield put(notify({ message: response.data.message, status: "error" }));
+    }
+  } catch (error) {
+    yield put(deleteChannelMemberFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+
 export default function* pageSaga() {
+  yield all([yield takeLatest("channels/deleteChannelStart", deleteChannelAPI)]);
+  yield all([
+    yield takeLatest("channels/deleteChannelMemberStart", deleteChannelMemberAPI),
+  ]);
   yield all([yield takeLatest("channels/saveChannelPostStart", saveChannelPostAPI)]);
   yield all([
     yield takeLatest("channels/fetchChannelsStart", fetchChannelsAPI),

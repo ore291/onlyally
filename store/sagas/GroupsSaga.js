@@ -30,6 +30,8 @@ import {
   updateGroupPhotosSuccess,
   updateGroupPrivacyFailure,
   updateGroupPrivacySuccess,
+  deleteGroupMemberFailure,
+  deleteGroupMemberSuccess,
 } from "../slices/groupsSlice";
 
 function* saveGroupPostAPI(action) {
@@ -55,7 +57,7 @@ function* saveGroupPostAPI(action) {
           notify({ message: response.data.message, status: "success" })
         );
 
-        yield put(fetchSingleGroupStart({group_slug : inputData.group_slug}));
+        yield put(fetchSingleGroupStart({ group_slug: inputData.group_slug }));
 
         // window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
@@ -120,11 +122,14 @@ function* updateUserGroupInfoAPI(action) {
     });
     if (response.data.success) {
       yield put(updateGroupInfoSuccess(response.data.data));
-      yield put(fetchSingleGroupStart({
-        group_slug : action.payload.slug
-      }));
-      yield put(notify({ message: "Group Updated Successfully", status: "success" }));
-
+      yield put(
+        fetchSingleGroupStart({
+          group_slug: action.payload.slug,
+        })
+      );
+      yield put(
+        notify({ message: "Group Updated Successfully", status: "success" })
+      );
     } else {
       yield put(updateGroupInfoFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -143,11 +148,14 @@ function* updateUserGroupPhotosAPI(action) {
     });
     if (response.data.success) {
       yield put(updateGroupPhotosSuccess(response.data.data));
-      yield put(fetchSingleGroupStart({
-        group_slug : action.payload.slug
-      }));
-      yield put(notify({ message: "Group Updated Successfully", status: "success" }));
-
+      yield put(
+        fetchSingleGroupStart({
+          group_slug: action.payload.slug,
+        })
+      );
+      yield put(
+        notify({ message: "Group Updated Successfully", status: "success" })
+      );
     } else {
       yield put(updateGroupPhotosFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -166,11 +174,14 @@ function* updateUserGroupPrivacyAPI(action) {
     });
     if (response.data.success) {
       yield put(updateGroupPrivacySuccess(response.data.data));
-      yield put(fetchSingleGroupStart({
-        group_slug : action.payload.slug
-      }));
-      yield put(notify({ message: "Group Updated Successfully", status: "success" }));
-
+      yield put(
+        fetchSingleGroupStart({
+          group_slug: action.payload.slug,
+        })
+      );
+      yield put(
+        notify({ message: "Group Updated Successfully", status: "success" })
+      );
     } else {
       yield put(updateGroupPrivacyFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -304,7 +315,7 @@ function* deleteGroupAPI(action) {
     const response = yield api.deleteMethod({
       action: `groups/${action.payload}`,
     });
-    console.log(response)
+    console.log(response);
     if (response.status && response.status === 204) {
       yield put(deleteGroupSuccess(response.data));
       yield put(
@@ -321,9 +332,40 @@ function* deleteGroupAPI(action) {
   }
 }
 
+function* deleteGroupMemberAPI(action) {
+  try {
+    const response = yield api.deleteMethod({
+      action: `groups/${action.payload.slug}/member`,
+      object: {
+        user_id: action.payload.user_id,
+      },
+    });
+
+    if (response.status && response.status === 204) {
+      yield put(deleteGroupMemberSuccess(response.data));
+      yield put(
+        notify({
+          message: "Membership cancelled successfully",
+          status: "success",
+        })
+      );
+      yield put(fetchSingleGroupStart({ group_slug: action.payload.slug }));
+    } else {
+      yield put(deleteGroupMemberFailure(response.data.message));
+      yield put(notify({ message: response.data.message, status: "error" }));
+    }
+  } catch (error) {
+    yield put(deleteGroupMemberFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
 export default function* pageSaga() {
   yield all([yield takeLatest("groups/saveGroupPostStart", saveGroupPostAPI)]);
   yield all([yield takeLatest("groups/deleteGroupStart", deleteGroupAPI)]);
+  yield all([
+    yield takeLatest("groups/deleteGroupMemberStart", deleteGroupMemberAPI),
+  ]);
   yield all([yield takeLatest("groups/fetchGroupsStart", fetchGroupsAPI)]);
   yield all([
     yield takeLatest("groups/fetchUserGroupsStart", fetchUserGroupsAPI),
@@ -346,16 +388,10 @@ export default function* pageSaga() {
     ),
   ]);
   yield all([
-    yield takeLatest(
-      "groups/updateGroupInfoStart",
-      updateUserGroupInfoAPI
-    ),
+    yield takeLatest("groups/updateGroupInfoStart", updateUserGroupInfoAPI),
   ]);
   yield all([
-    yield takeLatest(
-      "groups/updateGroupPhotosStart",
-      updateUserGroupPhotosAPI
-    ),
+    yield takeLatest("groups/updateGroupPhotosStart", updateUserGroupPhotosAPI),
   ]);
   yield all([
     yield takeLatest(

@@ -60,12 +60,74 @@ const initialState = {
     loading: false,
     error: false,
   },
+  deleteChannel: {
+    data : [],
+    loading: false,
+    buttonDisable: false,
+    error: false
+
+  },
+  deleteChannelMember: {
+    data : [],
+    loading: false,
+    buttonDisable: false,
+    error: false
+
+  },
 };
 
 export const ChannelsSlice = createSlice({
   name: "channels",
   initialState,
   reducers: {
+    deleteChannelStart: (state, action) => {
+      state.deleteChannel = {
+        data : [],
+        loading: true,
+        buttonDisable: true,
+        error: false
+      }
+    },
+    deleteChannelSuccess: (state, action) => {
+      state.deleteChannel = {
+        data : action.payload,
+        loading: false,
+        buttonDisable: false,
+        error: false
+      }
+    },
+    deleteChannelFailure: (state, action) => {
+      state.deleteChannel = {
+        data : [],
+        loading: false,
+        buttonDisable: false,
+        error: action.payload
+      }
+    },
+    deleteChannelMemberStart: (state, action) => {
+      state.deleteChannelMember = {
+        data : [],
+        loading: true,
+        buttonDisable: true,
+        error: false
+      }
+    },
+    deleteChannelMemberSuccess: (state, action) => {
+      state.deleteChannelMember = {
+        data : action.payload,
+        loading: false,
+        buttonDisable: false,
+        error: false
+      }
+    },
+    deleteChannelMemberFailure: (state, action) => {
+      state.deleteChannelMember = {
+        data : [],
+        loading: false,
+        buttonDisable: false,
+        error: action.payload
+      }
+    },
     updateChannelInfoStart: (state, action)=>{
       state.updateChannel = {
         data : {},
@@ -315,6 +377,12 @@ export const ChannelsSlice = createSlice({
 });
 
 export const {
+  deleteChannelMemberStart,
+  deleteChannelMemberFailure,
+  deleteChannelMemberSuccess,
+  deleteChannelStart,
+  deleteChannelSuccess,
+  deleteChannelFailure,
   fetchChannelsStart,
   fetchChannelsSuccess,
   fetchChannelsFailure,

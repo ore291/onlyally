@@ -11,6 +11,7 @@ const MembersSettings = ({ group }) => {
             key={i}
             settings={true}
             owner={group.user_id}
+            slug = {group.slug}
           />
         ))}
       </div>

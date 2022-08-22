@@ -11,6 +11,8 @@ const MembersSettings = ({ channel }) => {
             key={i}
             settings={true}
             owner={channel.user_id}
+            slug={channel.slug}
+            type="channel"
           />
         ))}
       </div>

@@ -18,6 +18,13 @@ const initialState = {
     error: false
 
   },
+  deleteGroupMember: {
+    data : [],
+    loading: false,
+    buttonDisable: false,
+    error: false
+
+  },
   groups: {
     data: [],
     loading: false,
@@ -355,6 +362,30 @@ export const GroupsSlice = createSlice({
         error: action.payload
       }
     },
+    deleteGroupMemberStart: (state, action) => {
+      state.deleteGroupMember = {
+        data : [],
+        loading: true,
+        buttonDisable: true,
+        error: false
+      }
+    },
+    deleteGroupMemberSuccess: (state, action) => {
+      state.deleteGroupMember = {
+        data : action.payload,
+        loading: false,
+        buttonDisable: false,
+        error: false
+      }
+    },
+    deleteGroupMemberFailure: (state, action) => {
+      state.deleteGroupMember = {
+        data : [],
+        loading: false,
+        buttonDisable: false,
+        error: action.payload
+      }
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -372,6 +403,9 @@ export const GroupsSlice = createSlice({
 });
 
 export const {
+  deleteGroupMemberStart,
+  deleteGroupMemberFailure,
+  deleteGroupMemberSuccess,
   updateGroupPrivacyStart,
   updateGroupPrivacyFailure,
   updateGroupPrivacySuccess,
