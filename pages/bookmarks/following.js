@@ -9,11 +9,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import { MdOutlineLibraryAddCheck } from "react-icons/md";
 import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import ProfileNavItem from "../../components/ProfileNavBar";
-import  {
-  fetchActiveFollowersStart,
-  fetchExpiredFollowersStart,
-  fetchFollowersStart,
-}   from "../../store/slices/followerSlice"
+
 import {
   fetchActiveFollowingStart,
   fetchExpiredFollowingStart,
@@ -40,7 +36,12 @@ export default function Fan() {
     dispatch(fetchFollowingStart())
   }, [])
   
-  console.log(following)
+  const followingUser = following.data.followers
+  const activeFollowingUser = activeFollowing.data.followers
+  const expiredFollowingUser = expiredFollowing.data.followers
+  if(following.loading == false){
+    console.log(followingUser)
+  }
 
 
   return (
@@ -70,16 +71,16 @@ export default function Fan() {
               <p>ALL</p>
             </article>
           </div>
-          {/* {(fansTab === "active" )  && 
+          {(fansTab === "active" )  && 
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-3">
                  
-                  {!activeFollowing.loading ? activeFollowing.data.followers.map((user, i) => {
+                  {activeFollowing.loading == false ? activeFollowingUser.map((user, i) => {
                    return (
                     <>
-                    <FansCard  user={user} i={i}/>
+                    <FansCard  user={user.otherUser} i={i}/>
                     </>
                    )
                   })
@@ -94,12 +95,12 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-3">
                  
-                  {!expiredFollowers.loading ? expiredFollowers.data.followers.map((user, i) => {
+                  {expiredFollowing.loading == false ? expiredFollowingUser.map((user, i) => {
                     return (
                       <>
-                      <FansCard  user={user} i={i}/>
+                      <FansCard  user={user.otherUser} i={i}/>
                       </>
                      )
                     
@@ -117,13 +118,13 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
     
-                <div className="block lg:flex justify-between flex-wrap">
+                <div className="block lg:grid grid-cols-3">
                  
-                  {!followers.loading ? followers.data.followers.map((user, i) => {
+                  {following.loading == false ? followingUser.map((user, i) => {
                      
                      return (
                       <>
-                      <FansCard  user={user} i={i}/>
+                      <FansCard  user={user.otherUser} i={i}/>
                       </>
                      )
                   })
@@ -133,7 +134,7 @@ export default function Fan() {
                 </div>
               </section>
         
-         } */}
+         }
           
         </div>
       </div>

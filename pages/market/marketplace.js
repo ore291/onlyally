@@ -14,7 +14,9 @@ const Product = (productInfo) => {
     }
   
   return (
+
     <div className="shadow-md  rounded-md p-4 w-full ">
+
           {showQuickView  && <QuickProductView  toggleShowQuickView={toggleShowQuickView} productInfo={productInfo} />}
       <div className="relative  hover:opacity-80">
         <img
@@ -90,7 +92,11 @@ if(othersProducts.loading == 'false'){
             </div>
           </main>
 
+
+
+
           <section className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
             {products.loading == false &&  products.data.user_products.map((product, i) => {
               return(
                 <Product productInfo={product} key={i}/>
@@ -98,7 +104,10 @@ if(othersProducts.loading == 'false'){
             })}
            
           </section>
+
+
           <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
             {othersProducts.loading == false &&  othersProducts.data.user_products.map((product, i) => {
               return(
                 <Product productInfo={product} key={i}/>

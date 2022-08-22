@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { ordersListForOthersStart } from "../store/slices/productsSlice";
+
 
 function OrderList() {
+  const ordersListForOthers  = useSelector(state => state.products.ordersListForOthers)
+   const dispatch = useDispatch()
   const dataArray = [
     {
       image: "https://i.ibb.co/vJWQbZy/1.jpg",
@@ -65,9 +70,17 @@ function OrderList() {
     },
   ];
 
+
+  useEffect(() => {
+    dispatch(ordersListForOthersStart());
+  }, []);
+ if(ordersListForOthers.loading == false ){
+
+   console.log(ordersListForOthers)
+ }
   return (
     <div className="">
-      <div className="p-2.5 bg-lightPlayRed  text-white flex justify-between text-[12px]">
+      <div className="p-2.5 bg-gray-200  text-black font-semibold flex justify-between text-[12px]">
         <p>Product</p>
         <div className="flex justify-between space-x-[4.5rem] mr-20">
           <p className="mr-7">Order id</p>
