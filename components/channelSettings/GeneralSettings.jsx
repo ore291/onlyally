@@ -4,10 +4,10 @@ import { MdOutlineArrowBack } from "react-icons/md";
 import CommonCenterLoader from "../../components/helpers/CommonCenterLoader";
 import { useForm } from "react-hook-form";
 import {
-  fetchGroupsCategoriesStart,
-  updateGroupInfoStart,
-  updateGroupPrivacyStart,
-} from "../../store/slices/groupsSlice";
+  fetchChannelsCategoriesStart,
+  updateChannelInfoStart,
+  updateChannelPrivacyStart,
+} from "../../store/slices/channelsSlice";
 import { useRouter } from "next/router";
 
 const GeneralSettings = () => {
@@ -31,10 +31,9 @@ const GeneralSettings = () => {
   const onSubmit = (data) => {
     const body = {
       ...data,
-
-      slug: group.slug,
+      slug: channel.slug,
     };
-    dispatch(updateGroupInfoStart(body));
+    dispatch(updateChannelInfoStart(body));
   };
 
   const onPrivacySubmit = (data) => {
@@ -42,25 +41,25 @@ const GeneralSettings = () => {
     const body = {
       ...data,
       private: JSON.parse(data.private),
-      slug: group.slug,
+      slug: channel.slug,
       amount : parseInt(data.amount)
     };
   
-    dispatch(updateGroupPrivacyStart(body));
+    dispatch(updateChannelPrivacyStart(body));
   };
 
-  const categories = useSelector((state) => state.groups.categories);
+  const categories = useSelector((state) => state.channels.categories);
 
-  const { data: group, loading } = useSelector(
-    (state) => state.groups.groupData
+  const { data: channel, loading } = useSelector(
+    (state) => state.channels.channelData
   );
 
   const { data: update, loading: updating } = useSelector(
-    (state) => state.groups.updateGroup
+    (state) => state.channels.updateChannel
   );
 
   const { data: privacy, loading: privating } = useSelector(
-    (state) => state.groups.updateGroupPrivacy
+    (state) => state.channels.updateChannelPrivacy
   );
 
   const [billing, enableBilling] = useState(false);
@@ -87,7 +86,7 @@ const GeneralSettings = () => {
             placeholder=""
             required
             disabled
-            value={group.name}
+            value={channel.name}
             className="relative my-2 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
           />
           <label
@@ -105,7 +104,7 @@ const GeneralSettings = () => {
             placeholder=" "
             className="resize-none min-h-[56px] overflow-auto relative my-2 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
             required
-            defaultValue={group.bio.description}
+            defaultValue={channel.bio.description}
             {...register("description")}
           />
           <label
@@ -119,7 +118,7 @@ const GeneralSettings = () => {
           <select
             name="category"
             disabled
-            defaultValue={group.category_id}
+            defaultValue={channel.category_id}
             className="form-select relative mt-2  mb-1 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
             required
           >
@@ -164,7 +163,7 @@ const GeneralSettings = () => {
         <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
           <select
             name="privacy"
-            defaultValue={group.is_private}
+            defaultValue={channel.is_private}
             className="form-select relative mt-2  mb-1 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
             // onChange={(event) =>
             //   setGroupData({
@@ -184,7 +183,7 @@ const GeneralSettings = () => {
             Page Privacy
           </label>
         </div>
-        {group.is_private === true ? (
+        {channel.is_private === true ? (
           <div>
             <div className="flex items-center space-x-2 mt-2">
               <h3 className="font-semibold text-2xl">Enable Billing</h3>
@@ -213,7 +212,7 @@ const GeneralSettings = () => {
               </label>
             </div>
             <p className="text-xs font-medium my-0">
-              Get users to pay when subscribing to this group
+              Get users to pay when subscribing to this channel
             </p>
             {billing ? (
               <>
@@ -230,7 +229,7 @@ const GeneralSettings = () => {
                       id="duration"
                       required
                       {...register2("duration")}
-                      defaultValue={group.configuration.billing.duration}
+                      defaultValue={channel.configuration.billing.duration}
                       className="focus:ring-textPlayRed focus:border-textPlayRed block w-full  sm:text-sm border-gray-300 rounded-md"
                     >
                       <option value="weekly">Weekly</option>
@@ -259,7 +258,7 @@ const GeneralSettings = () => {
                       name="month-price"
                       id="month-price"
                       {...register2("amount")}
-                      defaultValue={group.configuration.billing.amount}
+                      defaultValue={channel.configuration.billing.amount}
                       required
                       className="focus:ring-textPlayRed focus:border-textPlayRed block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
                       placeholder={0.0}

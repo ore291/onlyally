@@ -1,0 +1,99 @@
+import React from "react";
+import Button from "../Button";
+import { FaCamera } from "react-icons/fa";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import Image from "next/image";
+import { getCookie } from "cookies-next";
+import Link from "next/link";
+import { channelSubscribeStart } from "../../store/slices/channelsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+
+const ChannelPageHeader = ({ channel }) => {
+  const router = useRouter();
+  const { loading } = useSelector((state) => state.channels.channelSubscribe);
+  const dispatch = useDispatch();
+  const handleChannelSubscribe = (slug) => {
+    dispatch(channelSubscribeStart(slug));
+  };
+  return (
+    <div className="w-full mx-auto relative pb-10">
+      <img
+        src={channel?.cover}
+        alt=""
+        srcSet=""
+        className="object-cover max-h-[300px] md:max-h-[450px] w-full blur-[20px]  -mt-16 md:-mt-36"
+      />
+      <div className="w-full h-[107%] absolute inset-x-0 top-1 bg-gradient-to-b from-transparent to-[#f9f9f9] z-5"></div>
+
+      <div className=" max-w-[900px] mx-auto absolute inset-0 -bottom-8">
+        <div className="w-full  rounded-2xl  relative z-10">
+          <img
+            src={channel?.cover}
+            alt=""
+            srcSet=""
+            className="object-cover w-full max-h-[300px] md:max-h-[450px] "
+          />
+          <div className="absolute -bottom-14 left-5 p-1 rounded-full bg-white">
+            <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full">
+              <Image
+                src={channel?.avatar || "/profile_avatar_full"}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              />
+              {/* <div className="absolute bottom-0 -right-2 bg-blend-lighten bg-gray-500 p-2 rounded-full cursor-pointer">
+                <FaCamera className="h-3 w-3 text-gray-200" />
+              </div> */}
+            </div>
+          </div>
+          <div />
+        </div>
+        <div className="flex justify-between p-2 px-4 items-center w-full bg-white rounded-b-lg shadow-lg ">
+          <div className=" ml-24 md:ml-32">
+            <Link href={`/channels/${channel.slug}`} passHref>
+              <div className="flex flex-col justify-center space-y-.5 md:space-y-2">
+                <div className="row-container space-x-1">
+                  <h2 className="text-xl md:text-3xl font-semibold leading-7">
+                    {channel.name}
+                  </h2>
+                </div>
+                <p className="text-xs font-semibold">@{channel.name}</p>
+              </div>
+            </Link>
+          </div>
+          {channel && channel.user_id === parseInt(getCookie("userId")) ? (
+            <Link href={`/channels/${channel.slug}/settings`} passHref>
+              <Button
+                text="Edit"
+                textclassName="text-sm font-medium"
+                extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-gray-500 text-black"
+              />
+            </Link>
+          ) : channel.is_member ? (
+            <Button
+              text="Unsubscribe"
+              active={true}
+              extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-red-500"
+            />
+          ) : (
+            <Button
+              onClick={handleChannelSubscribe(channel.slug)}
+              text={loading ? "subscribing" : "subscribe"}
+              extraclassNamees="w-20 md:w-28 h-9 bg-gray-200 rounded-md"
+            />
+          )}
+        </div>
+      </div>
+
+      <div
+        className="w-8 h-8 rounded-full absolute z-10 top-20  left-2 md:top-40 md:left-10 bg-white cursor-pointer"
+        onClick={() => router.back()}
+      >
+        <BsFillArrowLeftCircleFill className="h-8 w-8  " />
+      </div>
+    </div>
+  );
+};
+
+export default ChannelPageHeader;

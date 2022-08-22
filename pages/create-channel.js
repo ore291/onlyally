@@ -19,7 +19,6 @@ const CreateChannel = () => {
   const [channelData, setChannelData] = useState({
     name: "",
     description: "",
-    category_id: 1,
     privacy: "public",
   });
 
@@ -137,7 +136,7 @@ const CreateChannel = () => {
                 <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
                   <select
                     name="category"
-                    value={channelData.category_id}
+                    // defaultValue={channelData.category_id}
                     onChange={(event) =>
                       setChannelData({
                         ...channelData,

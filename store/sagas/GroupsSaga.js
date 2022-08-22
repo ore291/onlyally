@@ -27,10 +27,12 @@ import {
   updateGroupInfoFailure,
   updateGroupInfoSuccess,
   updateGroupPhotosFailure,
-  updateGroupPhotosSuccess
+  updateGroupPhotosSuccess,
+  updateGroupPrivacyFailure,
+  updateGroupPrivacySuccess,
 } from "../slices/groupsSlice";
 
-function* saveGroupPostAPI() {
+function* saveGroupPostAPI(action) {
   try {
     const inputData = yield select(
       (state) => state.groups.saveGroupPost.inputData
@@ -53,7 +55,7 @@ function* saveGroupPostAPI() {
           notify({ message: response.data.message, status: "success" })
         );
 
-        yield put(fetchSingleGroupStart(inputData.group_slug));
+        yield put(fetchSingleGroupStart({group_slug : inputData.group_slug}));
 
         // window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
@@ -152,6 +154,29 @@ function* updateUserGroupPhotosAPI(action) {
     }
   } catch (error) {
     yield put(updateGroupPhotosFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
+function* updateUserGroupPrivacyAPI(action) {
+  try {
+    const response = yield api.putMethod({
+      action: `groups/${action.payload.slug}/privacy`,
+      object: action.payload,
+    });
+    if (response.data.success) {
+      yield put(updateGroupPrivacySuccess(response.data.data));
+      yield put(fetchSingleGroupStart({
+        group_slug : action.payload.slug
+      }));
+      yield put(notify({ message: "Group Updated Successfully", status: "success" }));
+
+    } else {
+      yield put(updateGroupPrivacyFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(updateGroupPrivacyFailure(error.message));
     yield put(notify(error.message, "error"));
   }
 }
@@ -279,8 +304,8 @@ function* deleteGroupAPI(action) {
     const response = yield api.deleteMethod({
       action: `groups/${action.payload}`,
     });
-
-    if (response.status && response.status === 201) {
+    console.log(response)
+    if (response.status && response.status === 204) {
       yield put(deleteGroupSuccess(response.data));
       yield put(
         notify({ message: "Group deleted successfully", status: "success" })
@@ -330,6 +355,12 @@ export default function* pageSaga() {
     yield takeLatest(
       "groups/updateGroupPhotosStart",
       updateUserGroupPhotosAPI
+    ),
+  ]);
+  yield all([
+    yield takeLatest(
+      "groups/updateGroupPrivacyStart",
+      updateUserGroupPrivacyAPI
     ),
   ]);
 }

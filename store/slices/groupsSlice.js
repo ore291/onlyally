@@ -66,7 +66,12 @@ const initialState = {
     data: {},
     loading: false,
     error: false,
-  }
+  },
+  updateGroupPrivacy:{
+    data: {},
+    loading: false,
+    error: false,
+  },
 };
 
 export const GroupsSlice = createSlice({
@@ -89,6 +94,27 @@ export const GroupsSlice = createSlice({
     },
     updateGroupInfoFailure: (state, action)=>{
         state.updateGroup = {
+          data : {},
+          loading : false,
+          error :  action.payload
+        }
+    },
+    updateGroupPrivacyStart: (state, action)=>{
+        state.updateGroupPrivacy = {
+          data : {},
+          loading : true,
+          error :  false
+        }
+    },
+    updateGroupPrivacySuccess: (state, action)=>{
+        state.updateGroupPrivacy = {
+          data : action.payload,
+          loading : false,
+          error :  false
+        }
+    },
+    updateGroupPrivacyFailure: (state, action)=>{
+        state.updateGroupPrivacy = {
           data : {},
           loading : false,
           error :  action.payload
@@ -346,6 +372,9 @@ export const GroupsSlice = createSlice({
 });
 
 export const {
+  updateGroupPrivacyStart,
+  updateGroupPrivacyFailure,
+  updateGroupPrivacySuccess,
   deleteGroupStart,
   deleteGroupSuccess,
   deleteGroupFailure,
