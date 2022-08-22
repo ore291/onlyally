@@ -45,6 +45,8 @@ const HeaderMenu = (userSession) => {
     deleteCookie("username");
     deleteCookie("picture");
     deleteCookie("user");
+    deleteCookie("total_followers");
+    deleteCookie("total_followings");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userId");
     localStorage.removeItem("userLoginStatus");
@@ -122,11 +124,11 @@ const HeaderMenu = (userSession) => {
                   <Menu.Item>
                     <div className="flex items-center justify-start px-1 pb-2  border-b">
                       <p className="font-bold text-sm whitespace-nowrap">
-                        {user?.total_followers || cookieUser.total_followers} Fans
+                        {user?.total_followers || getCookie("total_followers")} Fans
                       </p>
                       <BsDot className="h-5 w-5" />
                       <p className="font-bold text-sm whitespace-nowrap">
-                        {user?.total_followings || cookieUser.total_followings} Following
+                        {user?.total_followings || getCookie("total_followings")} Following
                       </p>
                       <button
                         className="row-container bg-gray-100 rounded-full px-2 py-1 ml-2"
