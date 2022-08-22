@@ -3,6 +3,7 @@ import ProfileNavBar from "../../components/ProfileNavBar.jsx";
 import BalanceCard from "../../components/wallet/BalanceCard";
 import WithdrawModal from "../../components/wallet/WithdrawModal";
 import AddWalletAmountModal from "../../components/wallet/AddWalletAmountModal";
+import {TbCurrencyNaira} from "react-icons/tb"
 import { ImBook } from "react-icons/im";
 import { BiDollarCircle } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,12 +50,12 @@ const Wallet = () => {
                 />
                 <BalanceCard
                   title="PRO BALANCE"
-                  Icon={BiDollarCircle}
+                  Icon={TbCurrencyNaira}
                   balance={"₦" + wallet.data?.user_wallet.pro_balance}
                 />
                 <BalanceCard
                   title="REFERRAL BALANCE"
-                  Icon={BiDollarCircle}
+                  Icon={TbCurrencyNaira}
                   balance={wallet.data?.user_wallet.referral_amount_formatted}
                 />
               </>
