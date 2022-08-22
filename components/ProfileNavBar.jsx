@@ -333,7 +333,13 @@ function ProfileNavItem({
                   <Link href="/bookmarks/following">Following</Link>
                 </MenuItem>
 
-                <MenuItem>
+
+
+                 
+                <MenuItem icon={<BsPeopleFill size="18px" />}>
+
+             
+
                   <Link href="/bookmarks/favourites">Favourites</Link>
                 </MenuItem>
 
@@ -342,7 +348,7 @@ function ProfileNavItem({
                 </MenuItem> */}
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/referrals">Blocked Users</Link>
+                  <Link href="/bookmarks/blockedusers">Blocked Users</Link>
                 </MenuItem>
               </SubMenu>
 

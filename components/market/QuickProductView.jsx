@@ -44,7 +44,7 @@ const QuickProductView = ({toggleShowQuickView,  productInfo}) => {
                     </Link>
                
 
-                    <h3 className="text-2xl text-stone-900 font-semibold my-2">0.00 token</h3>
+                    <h3 className="text-2xl text-stone-900 font-semibold my-2">{productInfo.productInfo.user_product_price_formatted}</h3>
                     <p className="text-sm ">AVAILABILITY: <span className="font-semibold"> IN STOCK</span></p>
                     <p className="text-sm">Available Quantity: <span className="font-semibold">{productInfo.productInfo.quantity}</span></p>
                     <hr className="m-2 bg-black  mb-4" />

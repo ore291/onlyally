@@ -65,7 +65,7 @@ function TransactionComponent() {
   return (
     <div>
       <div>
-        <div className=" py-2.5 bg-lightPlayRed text-white flex text-[12px] ">
+        <div className=" py-2.5 bg-gray-200 text-black font-semibold flex text-[12px] ">
           <p className="flex justify-center w-[130px] ">Date</p>
           <p className="flex justify-center w-40 ">Payment Id</p>
           <p className="flex justify-center w-[130px] ">Mode</p>
