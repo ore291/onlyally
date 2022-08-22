@@ -589,7 +589,7 @@ function* fetchBlockUsersAPI() {
 function* saveBlockUserAPI() {
   try {
     const inputData = yield select(
-      (state) => state.users.saveBlockUser.inputData
+      (state) => state.user.saveBlockUser.inputData
     );
     const response = yield api.postMethod({
       action: "block_users_save",
