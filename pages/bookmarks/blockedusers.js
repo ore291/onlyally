@@ -9,14 +9,11 @@ import { FaArrowLeft } from "react-icons/fa";
 import { MdOutlineLibraryAddCheck } from "react-icons/md";
 import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import ProfileNavItem from "../../components/ProfileNavBar";
-import  {
-  fetchActiveFollowersStart,
-  fetchExpiredFollowersStart,
-  fetchFollowersStart,
-}   from "../../store/slices/followerSlice"
+
 import { useDispatch, useSelector } from "react-redux";
 import FansCard from "../../components/FansCard";
-import { fetchFavStart } from "../../store/slices/favSlice";
+
+import { fetchBlockUsersStart } from "../../store/slices/userSlice";
 
 export default function Fan() {
   const [fansTab, setFansTab] = useState("all")
@@ -26,13 +23,13 @@ export default function Fan() {
   } 
   const dispatch = useDispatch()
 
-  const  Favourites = useSelector(state => state.fav.fav)
+  const  blockUsers = useSelector(state => state.user.blockUsers)
 
   useEffect(()=> {
-    dispatch(fetchFavStart())
+    dispatch( fetchBlockUsersStart())
   }, [])
   
-console.log(Favourites)
+console.log(blockUsers)
  
 
   return (
@@ -44,7 +41,7 @@ console.log(Favourites)
           <section className="space-y-2  p-4">
             <div className="flex gap-4 items-center uppercase font-semibold">
               <FaArrowLeft size="20px" />
-              <h1>Favourites</h1>
+              <h1>Blocked Users</h1>
             </div>
           </section>
 
@@ -55,7 +52,7 @@ console.log(Favourites)
     
                 <div className="block lg:grid grid-cols-3">
                  
-                  {(Favourites.loading == false && Favourites.data.favs) ? Favourites.data.favs.map((user, i) => {
+                  {(blockUsers.loading == false && blockUsers.data.block_users) ? blockUsers.data.block_users.map((user, i) => {
                      
                      return (
                       <>

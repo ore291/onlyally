@@ -7,7 +7,7 @@ import {
   fetchSingleUserProfileStart,
 } from "../store/slices/OtherUsersSlice";
 import Link from "next/link";
-import { deleteFavStart } from "../store/slices/favSlice";
+import { deleteFavStart, saveFavStart} from "../store/slices/favSlice";
 import TipModal from "./tips/TipModal";
 import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,7 +47,16 @@ const FansCard = ({user}) => {
     const removeFav = (status)=> {
 
       setFavStatus(status)
-      dispatch(deleteFavStart())
+      if(status == "added"){
+
+        dispatch(deleteFavStart({
+          user_id : userDetails.data.user.user_id
+        }))
+      } else if(status ==  "removed"){
+        dispatch(saveFavStart({
+          user_id : userDetails.data.user.user_id
+        }))
+      }
     }
     const unFollowUser = (status) => {
       setSubscribeStatus(status) ;
@@ -64,14 +73,14 @@ const FansCard = ({user}) => {
       }
       ))
     }
-console.log(userDetails)
+
     return(
         <div
                     className="w-full  lg:w-[90%] border-2 border-grey-500 "
                   
                   >
         
-     {userDetails.loading == false &&
+     {userDetails.data.user &&
      <TipModal
      sendTip={sendTip}
      closeSendTipModal={closeSendTipModal}
