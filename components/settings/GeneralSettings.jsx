@@ -19,12 +19,16 @@ const GeneralSettings = () => {
 
   const categories = useSelector((state) => state.groups.categories);
 
+  const { data: group, loading } = useSelector(
+    (state) => state.groups.groupData
+  );
+
   const [billing, enableBilling] = useState(false);
 
-  useEffect(() => {
-    dispatch(fetchGroupsCategoriesStart());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchGroupsCategoriesStart());
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const handleBilling = () => {
     enableBilling(!billing);
@@ -41,6 +45,8 @@ const GeneralSettings = () => {
           name="name"
           placeholder=""
           required
+          value={group.name}
+         
           className="relative my-2 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
           {...register("example")}
         />
@@ -59,6 +65,7 @@ const GeneralSettings = () => {
           placeholder=" "
           className="resize-none min-h-[56px] overflow-auto relative my-2 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
           required
+          defaultValue={group.bio.description}
         />
         <label
           htmlFor="description"
@@ -70,6 +77,7 @@ const GeneralSettings = () => {
       <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
         <select
           name="category"
+          defaultValue={group.category_id}
           className="form-select relative mt-2  mb-1 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
           required
         >
@@ -105,7 +113,7 @@ const GeneralSettings = () => {
       <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
         <select
           name="privacy"
-          // value={groupData.privacy}
+          value={group.is_private}
           className="form-select relative mt-2  mb-1 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
           // onChange={(event) =>
           //   setGroupData({
@@ -114,8 +122,8 @@ const GeneralSettings = () => {
           //   })
           // }
         >
-          <option value="private">Private</option>
-          <option value="public">Public</option>
+          <option value={true}>Private</option>
+          <option value={false}>Public</option>
         </select>
         <label
           htmlFor="privacy"
@@ -200,7 +208,7 @@ const GeneralSettings = () => {
                     {/* toggle */}
                     <div className="relative">
                       {/* input */}
-                      <input type="checkbox" id="toggle1" className="sr-only" />
+                      <input type="checkbox" name="price-check" id="toggle1" className="sr-only" />
                       {/* line */}
                       <div className="block bg-gray-600 w-14 h-8 rounded-full tick-bg " />
                       {/* dot */}
@@ -212,82 +220,7 @@ const GeneralSettings = () => {
                 </div>
               </div>
             </div>
-            <div className="my-2">
-              <label
-                htmlFor="6month-price"
-                className="block text-lg font-semibold text-gray-700"
-              >
-                Subscription Price (6 Months)
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500 sm:text-sm"> &#8358; </span>
-                </div>
-                <input
-                  type="text"
-                  name="6month-price"
-                  id="6month-price"
-                  className="focus:ring-textPlayRed focus:border-textPlayRed block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-                  placeholder={0.0}
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center">
-                  <label
-                    htmlFor="toggle2"
-                    className="flex items-center cursor-pointer"
-                  >
-                    {/* toggle */}
-                    <div className="relative">
-                      {/* input */}
-                      <input type="checkbox" id="toggle2" className="sr-only" />
-                      {/* line */}
-                      <div className="block bg-gray-600 w-14 h-8 rounded-full tick-bg " />
-                      {/* dot */}
-                      <div className="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition" />
-                    </div>
-                    {/* label */}
-                    {/* <div className="ml-3 text-gray-700 font-medium">Toggle Me!</div> */}
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="my-2">
-              <label
-                htmlFor="12month-price"
-                className="block text-lg font-semibold text-gray-700"
-              >
-                Subscription Price (12 Months)
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500 sm:text-sm"> &#8358; </span>
-                </div>
-                <input
-                  type="text"
-                  name="12month-price"
-                  id="12month-price"
-                  className="focus:ring-textPlayRed focus:border-textPlayRed block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-                  placeholder={0.0}
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center">
-                  <label
-                    htmlFor="toggle3"
-                    className="flex items-center cursor-pointer"
-                  >
-                    {/* toggle */}
-                    <div className="relative">
-                      {/* input */}
-                      <input type="checkbox" id="toggle3" className="sr-only" />
-                      {/* line */}
-                      <div className="block bg-gray-600 w-14 h-8 rounded-full tick-bg " />
-                      {/* dot */}
-                      <div className="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition" />
-                    </div>
-                    {/* label */}
-                    {/* <div className="ml-3 text-gray-700 font-medium">Toggle Me!</div> */}
-                  </label>
-                </div>
-              </div>
-            </div>
+           
           </>
         ) : (
           ""

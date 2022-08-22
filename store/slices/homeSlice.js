@@ -194,8 +194,8 @@ export const HomeSlice = createSlice({
         return state;
       }
       state.homePost = action.payload.home.homePost;
-      state.trendingUsers = action.payload.home.trendingUsers;
-      state.postSug = action.payload.home.postSug;
+      // state.trendingUsers = action.payload.home.trendingUsers;
+      // state.postSug = action.payload.home.postSug;
     },
   },
 });

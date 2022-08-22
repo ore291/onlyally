@@ -28,7 +28,7 @@ import { fetchStoriesStart } from "../store/slices/storiesSlice";
 import { fetchHomePostsStart } from "../store/slices/homeSlice";
 import Sticky from "react-stickynode";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
-// import useInfiniteScroll from "../components/helper/useInfiniteScroll";
+import useInfiniteScroll from "../components/helpers/useInfiniteScroll";
 
 export default function Home() {
   const posts = useSelector((state) => state.home.homePost);
@@ -36,16 +36,16 @@ export default function Home() {
   const loginDetails = useSelector((state) => state.user.loginData);
   const dispatch = useDispatch();
 
-  const fetchHomeData = () => {
-    setTimeout(() => {
-      if (posts.length !== 0) {
-        dispatch(fetchHomePostsStart());
-        setIsFetching(false);
-      } else {
-        setNoMoreData(true);
-      }
-    }, 3000);
-  };
+  // const fetchHomeData = () => {
+  //   setTimeout(() => {
+  //     if (posts.length !== 0) {
+  //       dispatch(fetchHomePostsStart());
+  //       setIsFetching(false);
+  //     } else {
+  //       setNoMoreData(true);
+  //     }
+  //   }, 3000);
+  // };
 
   useEffect(() => {
     localStorage.setItem("userId", loginDetails.user_id);
@@ -78,8 +78,6 @@ export default function Home() {
   }, []);
 
   // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
-
-  const [noMoreData, setNoMoreData] = useState(false);
 
   const [sendTip, setSendTip] = useState(false);
 
@@ -197,9 +195,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
         })
       );
 
-      store.dispatch(
-        fetchUserDetailsStart({ accessToken: cookies.accessToken })
-      );
+      // store.dispatch(
+      //   fetchUserDetailsStart({ accessToken: cookies.accessToken })
+      // );
 
       // store.dispatch(fetchConfigurationStart());
 

@@ -23,6 +23,11 @@ const initialState = {
     loading: false,
     error: false,
   },
+  userGroups: {
+    data: [],
+    loading: false,
+    error: false,
+  },
   joinGroup: {
     inputData: null,
     data: [],
@@ -105,6 +110,27 @@ export const GroupsSlice = createSlice({
     },
     fetchGroupsFailure: (state, action) => {
       state.groups = {
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
+    fetchUserGroupsStart: (state, action) => {
+      state.userGroups = {
+        data: [],
+        loading: true,
+        error: false,
+      };
+    },
+    fetchUserGroupsSuccess: (state, action) => {
+      state.userGroups = {
+        data: [...state.userGroups.data, ...action.payload],
+        loading: false,
+        error: false,
+      };
+    },
+    fetchUserGroupsFailure: (state, action) => {
+      state.userGroups = {
         data: {},
         loading: false,
         error: action.payload,
@@ -255,12 +281,14 @@ export const GroupsSlice = createSlice({
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.groups.groupData || !action.payload.groups.groups || !action.payload.groups.groupMembersData) {
+      if (!action.payload.groups.groupData || !action.payload.groups.groups || !action.payload.groups.groupMembersData || !action.payload.groups.categories) {
         return state;
       }
       state.groupData = action.payload.groups.groupData;
       state.groups = action.payload.groups.groups;
       state.groupMembersData = action.payload.groups.groupMembersData;
+      state.userGroups = action.payload.groups.userGroups;
+      state.categories = action.payload.groups.categories;
     },
   },
 });
@@ -290,6 +318,9 @@ export const {
   fetchSingleGroupStart,
   fetchSingleGroupFailure,
   fetchSingleGroupSuccess,
+  fetchUserGroupsStart,
+  fetchUserGroupsSuccess,
+  fetchUserGroupsFailure,
 } = GroupsSlice.actions;
 
 export default GroupsSlice.reducer;

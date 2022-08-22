@@ -5,7 +5,7 @@ import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { fetchWalletDetailsStart } from "../store/slices/walletSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { getCookie, removeCookies } from "cookies-next";
+import { getCookie,  deleteCookie } from "cookies-next";
 import Link from "next/link";
 
 import {
@@ -32,17 +32,19 @@ const HeaderMenu = (userSession) => {
   const dispatch = useDispatch();
   const wallet = useSelector((state) => state.wallet.walletData);
   const user = useSelector((state) => state.user.profile.data);
+  const cookieUser = getCookie('user');
 
   useEffect(() => {
     userSession && dispatch(fetchWalletDetailsStart());
   }, [userSession]);
 
   const logout = async () => {
-    removeCookies("userId");
-    removeCookies("accessToken");
-    removeCookies("user_email");
-    removeCookies("username");
-    removeCookies("picture");
+    deleteCookie("userId");
+    deleteCookie("accessToken");
+    deleteCookie("user_email");
+    deleteCookie("username");
+    deleteCookie("picture");
+    deleteCookie("user");
     localStorage.removeItem("accessToken");
     localStorage.removeItem("userId");
     localStorage.removeItem("userLoginStatus");
@@ -80,7 +82,7 @@ const HeaderMenu = (userSession) => {
                   className="rounded-full"
                 />
 
-                <p className=" text-xs font-bold text-white">{user?.name}</p>
+                <p className=" text-xs font-bold text-white">{user.name ? user?.name : getCookie("username")}</p>
               </div>
             </Menu.Button>
             <Transition
@@ -106,25 +108,25 @@ const HeaderMenu = (userSession) => {
                       >
                         <div className="relative w-10 h-10 rounded-full mr-5">
                           <Image
-                            src={user.picture ? user.picture : ""}
+                            src={user.picture ? user.picture : getCookie("picture")}
                             layout="fill"
                             className="rounded-full"
                             objectFit="cover"
                             alt=""
                           />
                         </div>
-                        {user.name}
+                        {user.name ? user?.name : getCookie("username")}
                       </button>
                     )}
                   </Menu.Item>
                   <Menu.Item>
                     <div className="flex items-center justify-start px-1 pb-2  border-b">
                       <p className="font-bold text-sm whitespace-nowrap">
-                        {user?.total_followers} Fans
+                        {user?.total_followers || cookieUser.total_followers} Fans
                       </p>
                       <BsDot className="h-5 w-5" />
                       <p className="font-bold text-sm whitespace-nowrap">
-                        {user?.total_followings} Following
+                        {user?.total_followings || cookieUser.total_followings} Following
                       </p>
                       <button
                         className="row-container bg-gray-100 rounded-full px-2 py-1 ml-2"

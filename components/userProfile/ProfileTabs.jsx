@@ -5,6 +5,7 @@ import NewsFeedCard from "../feeds/NewsFeedCard";
 import ShopList from "../shop/ShopList";
 import GroupCard from "../groups/GroupCard";
 import ExplorePostCard from "../../components/explore/ExplorePostCard";
+
 import {
   MdSmartDisplay,
   MdPhotoSizeSelectActual,
@@ -21,6 +22,7 @@ import NoDataFound from "../NoDataFound/NoDataFound";
 import Link from "next/link";
 import ReactPlayer from "react-player/lazy";
 import ReactAudioPlayer from "react-audio-player";
+import { getCookie } from "cookies-next";
 
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
@@ -28,6 +30,10 @@ function classNames(...classNamees) {
 
 const ProfileTabs = () => {
   const posts = useSelector((state) => state.post.posts);
+  const user = useSelector((state) => state.user.profile.data);
+  const groups = useSelector((state) => state.groups.userGroups.data);
+  const channels = useSelector((state) => state.channels.userChannels.data);
+  const id = getCookie("userId");
   const dispatch = useDispatch();
 
   const audio = useRef();
@@ -137,61 +143,98 @@ const ProfileTabs = () => {
                 <NewsFeedCard post={post} key={index} />
               ))} */}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <div className="p-2 bg-white rounded-lg shadow-lg border">
+          <Tab.Panel
+            className={classNames(
+              "bg-white rounded-xl p-1 flex flex-col space-y-3"
+            )}
+          >
+            {channels.filter((channel) => channel.user_id === user.id).length >
+            0 ? (
+              <div className="p-2 bg-white rounded-lg shadow-lg border">
+                <div className="flex items-center space-x-2 my-5">
+                  <div className="side-icon">
+                    <MdSmartDisplay className="text-white h-6 w-6" />
+                  </div>
+                  <h1 className="text-xl md:text-3xl font-semibold">
+                    {user.name}&apos;s Channels
+                  </h1>
+                </div>
+                <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {channels
+                    .filter((channel) => channel.user_id === user.id )
+                    .map((channel, index) => (
+                      <ChannelCard
+                        key={channel.id}
+                        profile={true}
+                        channel={channel}
+                      />
+                    ))}
+                </div>
+              </div>
+            ) : null}
+
+            <div className="p-2 bg-white rounded-lg shadow-lg mt-2 border">
               <div className="flex items-center space-x-2 my-5">
                 <div className="side-icon">
                   <MdSmartDisplay className="text-white h-6 w-6" />
                 </div>
-                <h1 className="text-3xl font-semibold">Ore&apos;s Channels</h1>
-              </div>
-              <div className="p-2 grid grid-cols-3 gap-3">
-                {[...Array(3)].map((_, index) => (
-                  <ChannelCard key={index} profile={true} channel={index} />
-                ))}
-              </div>
-            </div>
-            <div className="p-2 bg-white rounded-lg shadow-lg mt-16 border">
-              <div className="flex items-center space-x-2 my-5">
-                <div className="side-icon">
-                  <MdSmartDisplay className="text-white h-6 w-6" />
-                </div>
-                <h1 className="text-3xl font-semibold">
-                  Channels joined by Ore
+                <h1 className="text-xl md:text-3xl font-semibold">
+                  Channels joined by {user.name}
                 </h1>
               </div>
-              <div className="p-2 grid grid-cols-3 gap-3">
-                {[...Array(4)].map((_, index) => (
-                  <ChannelCard key={index} profile={true} channel={index} />
-                ))}
+              <div className="p-2 grid grid-cols-1  md:grid-cols-2 gap-3">
+                {channels
+                  .filter((channel) => channel.user_id !== user.id )
+                  .map((channel, index) => (
+                    <ChannelCard
+                      key={channel.id}
+                      profile={true}
+                      channel={channel}
+                    />
+                  ))}
               </div>
             </div>
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <div className="p-2 bg-white rounded-lg shadow-lg border">
+          <Tab.Panel
+            className={classNames(
+              "bg-white rounded-xl p-1 flex flex-col space-y-5"
+            )}
+          >
+            {groups.filter((group) => group.user_id == user.id ).length > 0 ? (
+              <div className="p-2 bg-white rounded-lg shadow-lg border">
+                <div className="flex items-center space-x-2 my-5">
+                  <div className="side-icon">
+                    <MdSmartDisplay className="text-white h-6 w-6" />
+                  </div>
+                  <h1 className="text-xl md:text-3xl font-semibold">
+                    {user.name}&apos;s Groups
+                  </h1>
+                </div>
+                <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {groups
+                    .filter((group) => group.user_id == user.id )
+                    .map((group, index) => (
+                      <GroupCard key={group.id} profile={true} group={group} />
+                    ))}
+                </div>
+              </div>
+            ) : null}
+
+            <div className="p-2 bg-white rounded-lg shadow-lg mt-2 border">
               <div className="flex items-center space-x-2 my-5">
                 <div className="side-icon">
                   <MdSmartDisplay className="text-white h-6 w-6" />
                 </div>
-                <h1 className="text-3xl font-semibold">Ore&apos;s Groups</h1>
+                <h1 className="text-xl md:text-3xl font-semibold">
+                  Groups joined by {user.name}
+                </h1>
               </div>
-              <div className="p-2 grid grid-cols-2 gap-3">
-                {[...Array(3)].map((_, index) => (
-                  <GroupCard key={index} profile={true} />
-                ))}
-              </div>
-            </div>
-            <div className="p-2 bg-white rounded-lg shadow-lg mt-16 border">
-              <div className="flex items-center space-x-2 my-5">
-                <div className="side-icon">
-                  <MdSmartDisplay className="text-white h-6 w-6" />
-                </div>
-                <h1 className="text-3xl font-semibold">Groups joined by Ore</h1>
-              </div>
-              <div className="p-2 grid grid-cols-2 gap-3">
-                {[...Array(4)].map((_, index) => (
-                  <GroupCard key={index} profile={true} />
-                ))}
+              <div className="p-2 grid grid-cols-1  md:grid-cols-2 md:gap-3">
+                {groups
+                  .filter((group) => group.user_id != id)
+                  .map((group, index) => (
+                    <GroupCard key={group.id} profile={true} group={group} />
+                  ))}
               </div>
             </div>
           </Tab.Panel>

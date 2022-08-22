@@ -15,6 +15,8 @@ import {
   createChannelFailure,
   fetchChannelsCategoriesSuccess,
   fetchChannelsCategoriesFailure,
+  fetchUserChannelsSuccess,
+  fetchUserChannelsFailure,
 } from "../slices/channelsSlice";
 import { fetchGroupsCategoriesSuccess } from "../slices/groupsSlice";
 
@@ -35,6 +37,27 @@ function* fetchChannelsAPI(action) {
     }
   } catch (error) {
     yield put(fetchChannelsFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
+function* fetchUserChannelsAPI(action) {
+  if(action.payload){
+    var accessToken =  action.payload.accessToken;
+  }
+  try {
+    const response = yield api.getMethod({
+      action: "channels/if_member",
+      accessToken : accessToken
+    });
+    if (response.data.success) {
+      yield put(fetchUserChannelsSuccess(response.data.data));
+    } else {
+      yield put(fetchUserChannelsFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchUserChannelsFailure(error.message));
     yield put(notify(error.message, "error"));
   }
 }
@@ -129,6 +152,9 @@ function* fetchChannelsCategoriesAPI(action) {
 export default function* pageSaga() {
   yield all([
     yield takeLatest("channels/fetchChannelsStart", fetchChannelsAPI),
+  ]);
+  yield all([
+    yield takeLatest("channels/fetchUserChannelsStart", fetchUserChannelsAPI),
   ]);
   yield all([
     yield takeLatest("channels/channelSubscribeStart", channelSubscribeAPI),

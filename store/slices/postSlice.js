@@ -77,7 +77,7 @@ const initialState = {
     loadingButtonContent: null,
     buttonDisable: false,
   },
- 
+
   explorePosts: {
     inputData: {},
     data: {},
@@ -301,62 +301,173 @@ export const PostSlice = createSlice({
       };
     },
     ppvPaymentPaystackStart: (state, action) => {
-        state.ppvPayPaystack = {
-          inputData: action.payload,
-          loading: true,
-          error: false,
-          success: {},
-          buttonDisable: true,
-          loadingButtonContent: "Processing.. Please wait...",
-        }
+      state.ppvPayPaystack = {
+        inputData: action.payload,
+        loading: true,
+        error: false,
+        success: {},
+        buttonDisable: true,
+        loadingButtonContent: "Processing.. Please wait...",
+      };
     },
     ppvPaymentPaystackSuccess: (state, action) => {
-        state.ppvPayPaystack = {
-          loading: false,
-          error: false,
-          success: action.payload,
-          buttonDisable: false,
-          loadingButtonContent: null,
-        }
+      state.ppvPayPaystack = {
+        loading: false,
+        error: false,
+        success: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
     },
     ppvPaymentPaystackFailure: (state, action) => {
-        state.ppvPayPaystack = {
-          loading: true,
-          error: action.payload,
-          success: {},
-          buttonDisable: false,
-          loadingButtonContent: null,
-        }
+      state.ppvPayPaystack = {
+        loading: true,
+        error: action.payload,
+        success: {},
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
     },
     ppvPaymentWalletStart: (state, action) => {
-        state.ppvPayWallet = {
-          inputData: action.payload,
-          loading: true,
-          error: false,
-          success: {},
-          buttonDisable: true,
-          loadingButtonContent: "Processing.. Please wait...",
-        }
+      state.ppvPayWallet = {
+        inputData: action.payload,
+        loading: true,
+        error: false,
+        success: {},
+        buttonDisable: true,
+        loadingButtonContent: "Processing.. Please wait...",
+      };
     },
     ppvPaymentWalletSuccess: (state, action) => {
-        state.ppvPayWallet = {
-          loading: false,
-          error: false,
-          success: action.payload,
-          buttonDisable: false,
-          loadingButtonContent: null,
-        }
+      state.ppvPayWallet = {
+        loading: false,
+        error: false,
+        success: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
     },
     ppvPaymentWalletFailure: (state, action) => {
-        state.ppvPayWallet = {
-          loading: false,
-          error: action.payload,
-          success: {},
-          buttonDisable: false,
-          loadingButtonContent: null,
-        }
+      state.ppvPayWallet = {
+        loading: false,
+        error: action.payload,
+        success: {},
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
+    },
+    fetchReportPostsStart: (state, action) => {
+      state.reportPosts = {
+        data: {},
+        loading: true,
+        error: false,
+      };
     },
 
+    fetchReportPostsSuccess: (state, action) => {
+      state.reportPosts = {
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchReportPostsFailure: (state, action) => {
+      state.reportPosts = {
+        data: {},
+        loading: false,
+        error: action.error,
+      };
+    },
+    fetchReportReasonStart: (state, action) => {
+      state.reportReason = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+
+    fetchReportReasonSuccess: (state, action) => {
+      state.reportReason = {
+        inputData: action.payload,
+        data: action.data,
+        loading: false,
+        error: false,
+      };
+    },
+
+    fetchReportReasonFailure: (state, action) => {
+      state.reportReason = {
+        inputData: action.payload,
+        data: {},
+        loading: false,
+        error: action.error,
+      };
+    },
+    saveReportPostStart: (state, action) => {
+      state.saveReportPost = {
+        data: {},
+        loading: true,
+        error: false,
+        inputData: action.payload,
+        loadingButtonContent: "Loading... Please wait.",
+        buttonDisable: true,
+      };
+    },
+
+    saveReportPostSuccess: (state, action) => {
+      state.saveReportPost = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+
+    saveReportPostFailure: (state, action) => {
+      state.saveReportPost = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    deletePostStart: (state, action) => {
+      state.delPost = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "Loading... Please wait",
+        buttonDisable: true,
+      };
+    },
+
+    deletePostSuccess: (state, action) => {
+      state.delPost = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+
+    deletePostFailure: (state, action) => {
+      state.delPost = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -365,8 +476,7 @@ export const PostSlice = createSlice({
         return state;
       }
       state.explorePosts = action.payload.post.explorePosts;
-      state.posts = action.payload.post.posts
-      
+      state.posts = action.payload.post.posts;
     },
   },
 });
@@ -399,6 +509,18 @@ export const {
   ppvPaymentPaystackStart,
   ppvPaymentPaystackSuccess,
   ppvPaymentPaystackFailure,
+  fetchReportPostsStart,
+  fetchReportPostsFailure,
+  fetchReportPostsSuccess,
+  fetchReportReasonStart,
+  fetchReportReasonFailure,
+  fetchReportReasonSuccess,
+  saveReportPostStart,
+  saveReportPostFailure,
+  saveReportPostSuccess,
+  deletePostStart,
+  deletePostSuccess,
+  deletePostFailure,
 } = PostSlice.actions;
 
 export default PostSlice.reducer;

@@ -18,6 +18,6 @@ module.exports = {
   
   reactStrictMode: false,
   images: {
-    domains: ['picsum.photos','cms.onlyally.com','localhost','cp.playjor.com','stackdiary.com', 'playjor.ams3.digitaloceanspaces.com'],
+    domains: ['picsum.photos','cms.onlyally.com','dummyimage.com' ,'localhost','cp.playjor.com','stackdiary.com', 'playjor.ams3.digitaloceanspaces.com'],
   },
 }

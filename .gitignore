@@ -6,6 +6,8 @@
 /.pnp
 .pnp.js
 
+junk.js
+/components/junk.js
 /ore
 
 .server.js

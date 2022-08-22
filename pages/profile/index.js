@@ -39,12 +39,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import { fetchUserDetailsStart } from "../../store/slices/userSlice";
 import { fetchPostsStart } from "../../store/slices/postSlice";
+import {fetchUserGroupsStart} from "../../store/slices/groupsSlice";
+import {fetchUserChannelsStart} from "../../store/slices/channelsSlice";
+import {fetchUserProductsStart} from "../../store/slices/productsSlice";
 import { useEffect, useState } from "react";
 import VerifiedBadge from "../../components/handlers/VerifiedBadge";
 import configuration from "react-global-configuration";
 
-import { Popover, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+
 
 import { getCookies } from "cookies-next";
 
@@ -64,13 +66,14 @@ const Profile = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  // useEffect(() => {
-  //   if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
-  //   if (profile.loading) {
-  //     dispatch(fetchUserDetailsStart());
-  //     setBadgeStatus(localStorage.getItem("is_verified_badge"));
-  //   }
-  // }, []);
+  useEffect(() => {
+    // if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
+    // if (profile.loading) {
+    //   dispatch(fetchUserDetailsStart());
+    //   setBadgeStatus(localStorage.getItem("is_verified_badge"));
+    // }
+   
+  }, []);
 
   const onCopy = (event) => {
     const notificationMessage = getSuccessNotificationMessage(
@@ -110,7 +113,7 @@ const Profile = () => {
       ) : (
         <>
           <div className="profile-bg  relative  -mt-20 ">
-            <div className="relative w-full !h-[50vh] md:!h-[70vh]">
+            <div className="relative w-full !h-[40vh] md:!h-[70vh]">
               <Image
                 src={profile.data.cover}
                 alt={profile.data.name}
@@ -328,6 +331,18 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       store.dispatch(
         fetchUserDetailsStart({
+          accessToken: cookies.accessToken,
+        })
+      );
+
+      store.dispatch(
+        fetchUserGroupsStart({
+          accessToken: cookies.accessToken,
+        })
+      );
+
+      store.dispatch(
+        fetchUserChannelsStart({
           accessToken: cookies.accessToken,
         })
       );
