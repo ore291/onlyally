@@ -7,6 +7,7 @@ import SideNavLayout from "../components/SideNavLayout";
 import { END } from "redux-saga";
 import { useSession, getSession } from "next-auth/react";
 import { wrapper } from "../store";
+
 import { useSelector, useDispatch } from "react-redux";
 // const DeviceDetector = require("node-device-detector");
 // const DeviceHelper = require("node-device-detector/helper");
@@ -113,8 +114,10 @@ export default function Home() {
       <SideNavLayout>
         <main className=" lg:p-5">
           <Stories />
+
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5">
             <NewsFeed />
+
             <Sticky>
               <NewsFeedSideBar />
             </Sticky>

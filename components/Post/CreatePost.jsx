@@ -493,7 +493,7 @@ const CreatePost = () => {
                     action="
                   "
                   >
-                    <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
+                    <div className="row-container space-x-1 bg-gray-100 h-8 w-fit rounded-md relative">
                       <input
                         id="fileupload_photo"
                         type="file"
