@@ -862,7 +862,7 @@ const NewsFeedCard = ({ post, index }) => {
                   Are You sure you want to delete this post ?
                 </p>
                 <code className="text-center m-4">
-                  Note: Post won't be retreivable once it is deleted
+                  Note: Post won&apos;t be retreivable once it is deleted
                 </code>
                 <div className="flex justify-between">
                   <button
