@@ -19,7 +19,7 @@ const CreateGroup = () => {
   const [groupData, setGroupData] = useState({
     name: "",
     description: "",
-    category_id: 1,
+
     privacy: "public",
   });
 
@@ -137,7 +137,6 @@ const CreateGroup = () => {
                 <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
                   <select
                     name="category"
-                    value={groupData.category_id}
                     onChange={(event) =>
                       setGroupData({
                         ...groupData,

@@ -93,10 +93,6 @@ const AddWalletAmountModal = (props) => {
 
   useEffect(() => {
     if (props.addWalletAmountModal === true) {
-      setConfig({
-        ...config,
-        email: user.email,
-      });
       dispatch(fetchWalletDetailsStart());
     }
   }, [props.addWalletAmountModal]);

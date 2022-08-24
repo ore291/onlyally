@@ -4,32 +4,47 @@ import CreatorCard from "../creators/CreatorCard";
 import Button from "../Button";
 import { CgNotes } from "react-icons/cg";
 import { MdOutlineBolt } from "react-icons/md";
+import Link from "next/link";
 
 import { FiThumbsUp } from "react-icons/fi";
 import { MdInfoOutline } from "react-icons/md";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 
-const ChannelFeedSideBar = () => {
+const ChannelFeedSideBar = ({ channel, categories, channels }) => {
+  const checkAdmin = (member) => {
+    return member.pivot.role == "Admin";
+  };
+
+  const checkCategory = (category) => {
+    return category.category_id == channel.category_id;
+  };
+  const category = categories.find(checkCategory);
+  const admin = channel.members.find(checkAdmin);
+  const joinChannel = (slug) => {
+    dispatch(channelSubscribeStart(slug));
+  };
   return (
-    <div className="grid grid-cols-1 space-y-5 pr-1 mt-3  sticky -top-96 ">
+    <div className="grid grid-cols-1 space-y-5 pr-1 mt-3  pb-20 ">
       <div className="flex flex-col w-full space-y-2  bg-white rounded-md shadow-md p-2 pb-4 border">
-        <div className="py-2  text-gray-600">
+        {/* <div className="py-2  text-gray-600">
           <input
             className="border border-gray-100 bg-gray-200 h-8 flex-1 w-full rounded-full text-sm focus:ring-0 focus:border-gray-100 focus:outline-none"
             type="search"
             name="search"
             placeholder="Search for posts"
           />
-        </div>
-        <div className="flex items-center space-x-2">
+        </div> */}
+        {/* <div className="flex items-center space-x-2">
           <MdOutlineBolt className="w-5 h-5 text-gray-400" />
           <p className="font-medium text-sm">Boost Page</p>
-        </div>
+        </div> */}
         <div className="flex items-center space-x-2">
           <FiThumbsUp className="w-4 h-4 text-gray-400" />
           <div className="flex flex-col justify-center">
-            <p className="font-medium text-sm">2 People like this</p>
+            <p className="font-medium text-sm">
+              {channel.members.length} People like this
+            </p>
             <span className="text-xs font-medium text-green-500">
               +0 This week
             </span>
@@ -37,27 +52,33 @@ const ChannelFeedSideBar = () => {
         </div>{" "}
         <div className="flex items-center space-x-2">
           <CgNotes className="w-4 h-4 text-gray-400" />
-          <p className="font-medium text-sm">3 post</p>
+          <p className="font-medium text-sm">{channel.posts.length} posts</p>
         </div>
         <div className="flex items-center space-x-2">
           <RiPriceTag3Line className="w-4 h-4 text-gray-400" />
-          <p className="font-medium text-sm">Entertainment</p>
+          <p className="font-medium text-sm">{category?.name}</p>
         </div>
         <div className="flex items-center space-x-2">
           <MdInfoOutline className="w-4 h-4 text-gray-400" />
-          <p className="font-medium text-sm">We are the fans of afam</p>
+          <p className="font-medium text-sm">{channel.bio.description}</p>
         </div>
         <div className="flex items-center space-x-2">
           <div className="relative h-10 w-10 rounded-full">
             <Image
-              src={"/profile_avatar_full.jpg"}
+              src={admin.picture || "/profile_avatar_full.jpg"}
               className="rounded-full"
               layout="fill"
               objectFit="cover"
             />
           </div>
+
           <p className="font-medium text-sm">
-            This channel is owned by @afamdman
+            This channel is owned by{" "}
+            <Link href={`/${admin?.username}`} passHref>
+              <span className="cursor-pointer hover:text-green-500">
+                @{admin?.username}
+              </span>
+            </Link>
           </p>
         </div>
       </div>
@@ -89,9 +110,13 @@ const ChannelFeedSideBar = () => {
             <h2 className="text-lg font-semibold">
               Upgrade To Pro &amp; Put Me Here
             </h2>
-            <div className="w-20 p-1 py-2 mt-5 rounded-md row-container bg-[#FF6F45] cursor-pointer">
-              <span className="text-white text-sm font-semibold">Upgrade</span>
-            </div>
+            <Link href="/go-pro" passHref>
+              <div className="w-20 p-1 py-2 mt-5 rounded-md row-container bg-[#FF6F45] cursor-pointer">
+                <span className="text-white text-sm font-semibold">
+                  Upgrade
+                </span>
+              </div>
+            </Link>
           </div>
         </div>{" "}
         <div className="grid grid-cols-3 gap-2 px-2">
@@ -107,30 +132,48 @@ const ChannelFeedSideBar = () => {
       <div className="p-2 rounded-md border shadow-lg bg-white">
         <div className="flex items-center justify-between w-full border-b pb-3">
           <h3 className="text-lg font-semibold">Top Pages</h3>
-          <p className="text-sm font-medium text-blue-400 cursor-pointer">
-            See All
-          </p>
+          <Link href="/channels" passHref>
+            <p className="text-sm font-medium text-blue-400 cursor-pointer">
+              See All
+            </p>
+          </Link>
         </div>
-        <div className="grid grid-cols-1 space-y-2 py-2">
-          {[...Array(6)].map((_, i) => (
+        <div className="grid grid-cols-1 space-y-2 py-2 mb-5">
+          {channels.length > 0 && channels.slice(0, 5).map((channel, i) => (
             <div
-              className="flex justify-between items-center space-x-6"
+              className="grid grid-cols-4 p-1 px-2 place-content-center items-center"
               key={i}
             >
               <div className=" w-12 h-12 relative">
                 <Image
-                  src="/profile_avatar_full.jpg"
+                  src={channel.avatar || "/profile_avatar_full.jpg"}
                   alt="side-img"
                   layout="fill"
                   objectFit="cover"
-                  className="relative rounded-full w-12 h-12"
+                  className="relative rounded-full "
                 />
               </div>
-              <div className="flex flex-col space-y-.5">
-                <p className="font-bold  text-gray-600">Graphic Design</p>
-                <span className="text-sm font-semibold">345k Following</span>
+              <div className="flex flex-col space-y-.5 col-span-2">
+                <p className="font-medium text-sm  capitalize text-gray-600">
+                  {channel.name}
+                </p>
+                <span className="text-sm font-semibold">
+                  {channel.members.length} Following
+                </span>
               </div>
-              <Button text="Subscribe" active={true} />
+              {channel.is_member ? (
+                <Button
+                  onClick={() => router.push(`/channels/${channel.slug}`)}
+                  text="view"
+                  active={true}
+                />
+              ) : (
+                <Button
+                  text="Subscribe"
+                  active={true}
+                  onClick={(e) => joinChannel(channel.slug)}
+                />
+              )}
             </div>
           ))}
         </div>

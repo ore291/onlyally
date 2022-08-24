@@ -109,6 +109,8 @@ const nextAuthOptions = (req, res) => {
             setCookie("user_email", user.email, { req, res });
             setCookie("username", user.username, {req, res} )
             setCookie("picture", user.picture, {req, res});
+            setCookie("total_followers", user.total_followers, {req, res});
+            setCookie("total_followings", user.total_followings, {req, res});
             setCookie("user", user, {req, res});
   
       

@@ -152,7 +152,7 @@ const Comments = ({ post, currentIndex }) => {
                     <Image
                       layout="fill"
                       src="/comment.png"
-                      className="invert"
+                      className="invert  object-cover"
                       alt=""
                     />
                   </div>

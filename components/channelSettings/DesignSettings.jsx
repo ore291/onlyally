@@ -1,25 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { updateGroupPhotosStart } from "../../store/slices/groupsSlice";
-import {useDispatch, useSelector} from "react-redux";
+import axios from "axios";
+import { updateChannelPhotosStart } from "../../store/slices/channelsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { getCookie } from "cookies-next";
 
 const DesignSettings = () => {
   const dispatch = useDispatch();
 
-  const { data: group } = useSelector(
-    (state) => state.groups.groupData
-  );
-  
+  const [data, setData] = useState({});
+  const { data: channel } = useSelector((state) => state.channels.channelData);
+
   const [selectedImage, setSelectedImage] = useState();
   const [selectedCover, setSelectedCover] = useState();
 
-  const [data, setData ] = useState(
-    {
-     
-    }
-  );
-
+  const avatar = useRef();
 
   const {
     register,
@@ -30,43 +26,96 @@ const DesignSettings = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
+
     const body = {
       ...data,
-      slug : group.slug,
-    }
-    dispatch(updateGroupPhotosStart(body))
+      slug: channel.slug,
+    };
+    // console.log(body);
+    dispatch(updateChannelPhotosStart(body));
   };
 
   const { loading } = useSelector(
-    (state) => state.groups.updateGroupPhotos
+    (state) => state.channels.updateChannelPhotos
   );
-  
+
   const imageChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedImage(e.target.files[0]);
-      setData(
-        {
-          ...data,
-          avatar : e.target.files[0]
-        }
-      )
+      setData({
+        ...data,
+        avatar: e.target.files[0],
+      });
     }
   };
   const coverChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setSelectedCover(e.target.files[0]);
-      setData(
-        {
-          ...data,
-          cover : e.target.files[0]
-        }
-      )
+      setData({
+        ...data,
+        cover: e.target.files[0],
+      });
     }
   };
 
+  // async function createFile(url) {
+  //   let image = await axios.get(url, {
+  //     responseType: "arraybuffer",
+  //     headers: {
+  //       "Access-Control-Allow-Origin": "*",
+  //       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  //       "Access-Control-Allow-Headers": "Authorization",
+  //       Authorization: `Bearer ${getCookie("accessToken")}`,
+  //     },
+  //   });
+  //   let raw = Buffer.from(image.data).toString("base64");
+  //   setData({
+  //     ...data,
+  //     avatar: "data:" + image.headers["content-type"] + ";base64," + raw,
+  //   });
+  //   return "data:" + image.headers["content-type"] + ";base64," + raw;
+  // }
+
+  // const toDataURL = (url) =>
+  //   fetch(url)
+  //     .then((response) => response.blob())
+  //     .then(
+  //       (blob) =>
+  //         new Promise((resolve, reject) => {
+  //           const reader = new FileReader();
+  //           reader.onloadend = () => resolve(reader.result);
+  //           reader.onerror = reject;
+  //           reader.readAsDataURL(blob);
+  //         })
+  //     );
+
+  // function dataURLtoFile(dataurl, filename) {
+  //   var arr = dataurl.split(","),
+  //     mime = arr[0].match(/:(.*?);/)[1],
+  //     bstr = atob(arr[1]),
+  //     n = bstr.length,
+  //     u8arr = new Uint8Array(n);
+  //   while (n--) {
+  //     u8arr[n] = bstr.charCodeAt(n);
+  //   }
+  //   return new File([u8arr], filename);
+  // }
+
+  // async function dataUrlToFile(dataUrl) {
+  //   const res = await fetch(dataUrl);
+  //   const blob = await res.blob();
+  //   return new File([blob], `${channel.name.replace(/\s+/g, "")}.jpg`, {
+  //     type: "image/jpg",
+  //   });
+  // }
+
+  // useEffect(() => {
+  //   console.log(createFile(channel.avatar));
+  // }, []);
+
   return (
     <>
-      <form className="w-full "  onSubmit={onSubmit}>
+      <form className="w-full " onSubmit={onSubmit}>
         <div className="w-full relative mb-10">
           <div className="flex flex-wrap gap-2">
             <label
@@ -106,7 +155,6 @@ const DesignSettings = () => {
               id="add-cover-img"
               accept="image/png, image/gif, image/jpeg"
               className="opacity-0 h-0"
-            
             />
           </div>
           <div className="flex flex-wrap gap-2 centered-axis-xyz p-1 bg-white w-[150px] h-[150px] rounded-full">
@@ -142,12 +190,12 @@ const DesignSettings = () => {
             </label>
             <input
               onChange={imageChange}
+              ref={avatar}
               type="file"
               id="add-single-img"
               className="opacity-0 h-0"
               name="avatar"
               accept="image/png, image/gif, image/jpeg"
-              
             />
           </div>
         </div>
@@ -157,7 +205,7 @@ const DesignSettings = () => {
             type="submit"
             className="w-32 h-9 rounded-md  bg-lightPlayRed text-white font-medium text-sm row-container"
           >
-            {loading ? "Loading..." : "Save" }
+            {loading ? "Loading..." : "Save"}
           </button>
         </div>
       </form>

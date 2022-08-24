@@ -1,9 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "../Button";
 import MakeAdminMenu from "../settings/MakeAdminMenu";
+import { deleteGroupMemberStart } from "../../store/slices/groupsSlice";
+import { deleteChannelMemberStart } from "../../store/slices/channelsSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const MemberCard = ({ member, settings, owner }) => {
+const MemberCard = ({ member, settings, owner, slug, type }) => {
+  const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
+
+  const unJoin = async () => {
+    setLoading(true);
+    if (type != null && type === "channel") {
+      await dispatch(
+        deleteChannelMemberStart({
+          slug: slug,
+          user_id: member.user_id,
+        })
+      );
+    } else {
+      await dispatch(
+        deleteGroupMemberStart({
+          slug: slug,
+          user_id: member.user_id,
+        })
+      );
+    }
+  };
+
+  const removeMember = useSelector((state) => state.groups.deleteGroupMember);
+
+  useEffect(() => {
+    removeMember.loading === false && setLoading(false);
+  }, [removeMember.loading]);
+
   if (settings) {
     return (
       <div className="rounded-md h-[200px] border shadow-sm flex flex-col justify-around items-center relative">
@@ -23,7 +55,15 @@ const MemberCard = ({ member, settings, owner }) => {
           />
         </div>
         <p>{member.name}</p>
-        <Button active={true} text="Remove" />
+        {member.user_id !== owner ? (
+          <Button
+            onClick={unJoin}
+            active={true}
+            text={loading ? "Loading..." : "Remove"}
+          />
+        ) : (
+          <p className="text-lg font-semibold text-green-700 ">ADMIN</p>
+        )}
       </div>
     );
   }

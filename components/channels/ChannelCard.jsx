@@ -174,19 +174,23 @@ const ChannelCard = ({ main, channel, profile }) => {
         /> */}
 
         {channel.user_id === parseInt(cookies.userId) ? (
-          <Button
-            text="Edit"
-            active={true}
-            extraclassNamees="w-full h-8"
-            textclassName="text-sm text-gray-100 font-semibold"
-          />
+          <Link href={`/channels/${channel.slug}/settings`} passHref>
+            <Button
+              text="Edit"
+              active={true}
+              extraclassNamees="w-full h-8"
+              textclassName="text-sm text-gray-100 font-semibold"
+            />
+          </Link>
         ) : channel.is_member ? (
-          <Button
-            text="view"
-            active={true}
-            extraclassNamees="w-full h-8"
-            textclassName="text-sm text-gray-100 font-semibold"
-          />
+          <Link href={`/channels/${channel.slug}`} passHref>
+            <Button
+              text="view"
+              active={true}
+              extraclassNamees="w-full h-8"
+              textclassName="text-sm text-gray-100 font-semibold"
+            />
+          </Link>
         ) : (
           <Button
             text="Subscribe"

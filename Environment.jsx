@@ -144,7 +144,7 @@ const Environment = {
   },
 
   // used for playjor new routes
-  getMethod: async ({ action, object, accessToken = null} = {}) => {
+  getMethod: async ({ action, object, accessToken = null } = {}) => {
     const cookies = getCookies();
 
     const url =
@@ -199,7 +199,9 @@ const Environment = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Authorization",
-        Authorization: `Bearer ${accessToken ? accessToken : cookies.accessToken}`,
+        Authorization: `Bearer ${
+          accessToken ? accessToken : cookies.accessToken
+        }`,
       },
     };
 
@@ -290,25 +292,26 @@ const Environment = {
 
     // By Default added device type and login type in future use
 
-    formData.append("login_by", apiConstants.LOGIN_BY);
-    formData.append("device_type", apiConstants.DEVICE_TYPE);
-    formData.append("device_token", apiConstants.DEVICE_TOKEN);
+    // formData.append("login_by", apiConstants.LOGIN_BY);
+    // formData.append("device_type", apiConstants.DEVICE_TYPE);
+    // formData.append("device_token", apiConstants.DEVICE_TOKEN);
 
-    var device_model = "";
-    if (isAndroid == true) {
-      device_model = mobileModel;
-    } else if (isIOS == true) {
-      device_model = mobileModel;
-    } else {
-      device_model = browserName + " " + browserVersion;
-    }
+    // var device_model = "";
+    // if (isAndroid == true) {
+    //   device_model = mobileModel;
+    // } else if (isIOS == true) {
+    //   device_model = mobileModel;
+    // } else {
+    //   device_model = browserName + " " + browserVersion;
+    // }
 
-    formData.append("device_model", device_model);
+    // formData.append("device_model", device_model);
 
     var data = JSON.stringify({
+      ...object,
       id: cookies.userId,
       token: cookies.accessToken,
-      device_model: device_model,
+      // device_model: device_model,
     });
 
     var config = {
@@ -328,7 +331,7 @@ const Environment = {
     try {
       const response = await axios(config);
       return response;
-    } catch (error) {   
+    } catch (error) {
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
@@ -343,7 +346,7 @@ const Environment = {
         console.log(error.request);
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
+        console.log("Error", error.message);
       }
       console.log(error.config);
 
@@ -369,25 +372,10 @@ const Environment = {
 
     // By Default added device type and login type in future use
 
-    formData.append("login_by", apiConstants.LOGIN_BY);
-    formData.append("device_type", apiConstants.DEVICE_TYPE);
-    formData.append("device_token", apiConstants.DEVICE_TOKEN);
-
-    var device_model = "";
-    if (isAndroid == true) {
-      device_model = mobileModel;
-    } else if (isIOS == true) {
-      device_model = mobileModel;
-    } else {
-      device_model = browserName + " " + browserVersion;
-    }
-
-    formData.append("device_model", device_model);
-
     var data = JSON.stringify({
       id: cookies.userId,
       token: cookies.accessToken,
-      device_model: device_model,
+      ...object,
     });
 
     var config = {
