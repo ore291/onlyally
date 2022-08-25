@@ -174,7 +174,7 @@ export default function Referrals() {
                   </WhatsappShareButton>
                   <FacebookShareButton
                     url={`${Referals.referrals_signup_url}`}
-                    hashtag={"#playjoor"}
+                    hashtag={"#playjor"}
                   >
                     <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit">
                       <img

@@ -14,6 +14,22 @@ import {
   BsYoutube,
 } from "react-icons/bs";
 import {
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+  EmailIcon,
+  RedditIcon,
+  TelegramIcon,
+} from "react-share";
+import {
+  FacebookShareButton,
+  RedditShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+  TelegramShareButton,
+} from "next-share";
+import {
   FaBell,
   FaGlobeAfrica,
   FaUnlock,
@@ -90,7 +106,7 @@ const Profile = () => {
 
   const [requestVideoCall, setRequestVideoCall] = useState(false);
   const [requestAudioCall, setRequestAudioCall] = useState(false);
-
+  const [showShare, setShowShare] = useState(false);
   const [subscriptionData, setSubscriptionData] = useState({
     is_free: 0,
     plan_type: "months",
@@ -196,6 +212,7 @@ const Profile = () => {
 
   const open = Boolean(anchorEl);
   const popoverId = open ? "simple-popover" : undefined;
+  console.log(userDetails.data.user.share_link);
   return (
     <SideNavLayout>
       <div className="w-full">
@@ -205,20 +222,21 @@ const Profile = () => {
           <>
             <div className="profile-bg  relative  -mt-20">
               <div className="relative w-full !h-[50vh] md:!h-[70vh]">
-                {
-                  userDetails.data.user.cover !== undefined ? (
-                      <Image
-                  src={userDetails.data.user.cover}
-                  alt={userDetails.data.user.name}
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
-                  srcSet=""
-                  className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
-                />
-                  ) : (
-                    <Image
-                    src={"https://playjor.ams3.digitaloceanspaces.com/upload/photos/2022/01/kNogtdMLlZ6rWxL8GGCy_05_1321914ca6fc245f7bfa01dbc5760943_cover.jpg?cache=1631343744"}
+                {userDetails.data.user.cover !== undefined ? (
+                  <Image
+                    src={userDetails.data.user.cover}
+                    alt={userDetails.data.user.name}
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    srcSet=""
+                    className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
+                  />
+                ) : (
+                  <Image
+                    src={
+                      "https://playjor.ams3.digitaloceanspaces.com/upload/photos/2022/01/kNogtdMLlZ6rWxL8GGCy_05_1321914ca6fc245f7bfa01dbc5760943_cover.jpg?cache=1631343744"
+                    }
                     alt={`cover-image`}
                     layout="fill"
                     objectFit="cover"
@@ -226,9 +244,7 @@ const Profile = () => {
                     srcSet=""
                     className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
                   />
-                  )
-                }
-              
+                )}
               </div>
               <div
                 className="w-8 h-8 rounded-full absolute z-10 top-28 left-8 bg-white cursor-pointer"
@@ -330,10 +346,53 @@ const Profile = () => {
                   >
                     <GiPhone className="w-5 h-5" />
                   </div> */}
-                  <div className="profile-buttons">
+                  <div
+                    onClick={() => setShowShare((prev) => !prev)}
+                    className="profile-buttons"
+                  >
                     <RiUpload2Line className="w-5 h-5" />
                   </div>
                 </div>
+                {showShare && (
+                  <div
+                    //style={{ boxShadow: "10px 10px 10px 10px  rgba(0,0,0,0.5", }}
+                    className="drop-shadow-[10px_10px_10px_rgba(0,0,0,0.5)] hover:drop-shadow-[10px_10px_10px_rgba(0,0,0,0.25)]  w-[200px] cursor-pointer h-fit bg-white rounded-xl sm:ml-8  ml-20 lg:ml-12 flex flex-wrap"
+                  >
+                    <FacebookShareButton
+                      url={userDetails.data.user.share_link}
+                      hashtag={"#playjor"}
+                      className=""
+                    >
+                      <FacebookIcon className="w-[50px] hover:scale-[1.1]  h-[50px] rounded-full m-2" />
+                    </FacebookShareButton>
+                    <TwitterShareButton url={userDetails.data.user.share_link}>
+                      <TwitterIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />{" "}
+                    </TwitterShareButton>
+                    <WhatsappShareButton url={userDetails.data.user.share_link}>
+                      <WhatsappIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />
+                    </WhatsappShareButton>
+                    <EmailShareButton
+                      className=""
+                      url={userDetails.data.user.share_link}
+                      subject={"Playjor user profile"}
+                      body={`check out ${userDetails.data.user.name}'s profile`}
+                    >
+                      <EmailIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />
+                    </EmailShareButton>
+                    <RedditShareButton
+                      url={userDetails.data.user.share_link}
+                      title={`${userDetails.data.user.name}'s profile`}
+                    >
+                      <RedditIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />
+                    </RedditShareButton>
+                    <TelegramShareButton
+                      url={userDetails.data.user.share_link}
+                      title={`check out ${userDetails.data.user.name}'s profile`}
+                    >
+                      <TelegramIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />
+                    </TelegramShareButton>
+                  </div>
+                )}
                 <div className="flex justify-between px-8">
                   <div className="col-container space-y-0.5">
                     <p className="text-lg font-semibold">{userPosts.length}</p>
@@ -644,15 +703,14 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       const { username } = params;
 
-     if(username == cookies.username){
+      if (username == cookies.username) {
         return {
-            redirect: {
-              destination: "/profile"
-            }
-          }
-     }else{
-         
-     }
+          redirect: {
+            destination: "/profile",
+          },
+        };
+      } else {
+      }
 
       store.dispatch(
         fetchSingleUserProfileStart({
