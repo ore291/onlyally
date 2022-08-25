@@ -81,10 +81,7 @@ const TipModal = (props) => {
   useEffect(() => {
     if (props.sendTip === true) {
       setPaymentType(localStorage.getItem("default_payment_method"));
-      setConfig({
-        ...config,
-        email: user.email,
-      });
+    
       dispatch(fetchCardDetailsStart());
       dispatch(fetchWalletDetailsStart());
     }

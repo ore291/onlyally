@@ -47,7 +47,7 @@ const NewsFeedCard = ({ post, index }) => {
 
   const comments = useSelector((state) => state.comments.comments);
   const [showComments, setShowComments] = useState(false);
-
+  const [showDeletePostModal, setShowDeletePostModal] = useState(false);
   const [PPVPayment, setPPVPayment] = useState(false);
   const [sendTip, setSendTip] = useState(false);
   const [commentInputData, setCommentInputData] = useState({});
@@ -232,7 +232,7 @@ const NewsFeedCard = ({ post, index }) => {
   return (
     <>
       {postDisplayStatus == true ? (
-        <div className="sm:rounded-2xl bg-white sm:border shadow-md w-full cursor-pointer">
+        <div className="sm:rounded-2xl bg-white sm:border shadow-md w-full cursor-pointer relative">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b">
             <Link passHref href={`/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
@@ -321,9 +321,9 @@ const NewsFeedCard = ({ post, index }) => {
                               {userId != post.user_id ? (
                                 <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
                                   <p
-                                    onClick={(event) =>
-                                      handleBlockUser(event, post)
-                                    }
+                                    onClick={(event) => {
+                                      handleBlockUser(event, post);
+                                    }}
                                     className="font-bold text-xs"
                                   >
                                     Add to blocklists.
@@ -332,9 +332,9 @@ const NewsFeedCard = ({ post, index }) => {
                               ) : null}
                               {post.delete_btn_status == 1 ? (
                                 <div
-                                  onClick={(event) =>
-                                    handleDeletePost(event, post)
-                                  }
+                                  onClick={() => {
+                                    setShowDeletePostModal((prev) => !prev);
+                                  }}
                                   className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start"
                                 >
                                   <p className="font-bold text-xs">
@@ -343,12 +343,7 @@ const NewsFeedCard = ({ post, index }) => {
                                 </div>
                               ) : null}
                               {post.delete_btn_status == 1 ? (
-                                <div
-                                  onClick={(event) =>
-                                    handleDeletePost(event, post)
-                                  }
-                                  className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start"
-                                >
+                                <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
                                   <p className="font-bold text-xs">Edit post</p>
                                 </div>
                               ) : null}
@@ -858,6 +853,35 @@ const NewsFeedCard = ({ post, index }) => {
                 />
               </>
             ) : null}
+            {showDeletePostModal && (
+              <div
+                style={{ boxShadow: "0 3px 6px rgb(0 0 0 / 16%)" }}
+                className=" z-[9999999999999] absolute top-[30%] bg-white opacity-[5] left-[-40%]  w-[90%] translate-x-[50%] inline-block  rounded-lg "
+              >
+                <p className="text-white text-center  bg-red-700 hover:bg-[#CF0A08]  rounded-t-lg">
+                  Are You sure you want to delete this post ?
+                </p>
+                <code className="text-center m-4">
+                  Note: Post won&apos;t be retreivable once it is deleted
+                </code>
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => {
+                      setShowDeletePostModal((prev) => !prev);
+                    }}
+                    className="bg-red-700 hover:bg-[#CF0A08] text-white p-1 w-[30%] rounded-lg m-4"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={(event) => handleDeletePost(event, post)}
+                    className="bg-red-700 hover:bg-[#CF0A08] text-white p-1 w-[30%] rounded-lg m-4"
+                  >
+                    Proceed
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
           <div />
         </div>

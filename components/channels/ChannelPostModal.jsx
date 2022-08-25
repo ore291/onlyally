@@ -11,24 +11,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { notify } from "reapop";
 import {
   fetchPostCategoriesStart,
-  savePostStart,
   postFileUploadStart,
   postFileRemoveStart,
 } from "../../store/slices/postSlice";
-import { setCreatePostModal } from "../../store/slices/NavSlice";
+
+import { saveChannelPostStart } from "../../store/slices/channelsSlice";
+
 import PostEditor from "../feeds/PostEditor";
 
-const CreatePost = () => {
+const ChannelPostModal = (props) => {
   const dispatch = useDispatch();
-  const modalState = useSelector((state) => state.navbar.createPostModal);
-  const savePost = useSelector((state) => state.post.savePost);
+  const saveChannelPost = useSelector((state) => state.channels.saveChannelPost);
   const fileUpload = useSelector((state) => state.post.fileUpload);
   const searchUser = useSelector((state) => state.home.searchUser);
   const postCategories = useSelector((state) => state.post.postCategories);
-
-  function closeModal() {
-    dispatch(setCreatePostModal(false));
-  }
 
   // new addditions
 
@@ -272,7 +268,8 @@ const CreatePost = () => {
     event.preventDefault();
     if (fileUploadStatus) {
       dispatch(
-        savePostStart({
+        saveChannelPostStart({
+          channel_slug: props.channel_slug,
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
           post_file_id: fileUpload.data.post_file.post_file_id,
@@ -284,7 +281,8 @@ const CreatePost = () => {
       );
     } else {
       dispatch(
-        savePostStart({
+        saveChannelPostStart({
+          channel_slug: props.channel_slug,
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
           post_category_ids: inputData.post_category_ids
@@ -327,11 +325,11 @@ const CreatePost = () => {
   };
 
   return (
-    <Transition appear show={modalState} as={Fragment}>
+    <Transition appear show={props.channelPostModal} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto md:mt-8"
-        onClose={closeModal}
+        onClose={() => props.closeModal()}
       >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
@@ -343,7 +341,7 @@ const CreatePost = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-black opacity-50" />
+            <Dialog.Overlay className="fixed inset-0 bg-black opacity-25" />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
@@ -367,19 +365,21 @@ const CreatePost = () => {
                 as="div"
                 className="flex justify-between text-lg font-medium leading-6 text-gray-900"
               >
-                <div onClick={closeModal}>
+                <div onClick={() => props.closeModal()}>
                   <MdClose className="h-7 w-7 cursor-pointer" />
                 </div>
                 <button
                   type="submit"
                   className="px-3 py-1 text-white rounded-lg bg-gradient-to-r  from-lightPlayRed to-playRed hover:from-pink-500 hover:to-yellow-500"
                   onClick={handleSubmit}
-                  disabled={fileUpload.buttonDisable || savePost.buttonDisable}
+                  disabled={
+                    fileUpload.buttonDisable || saveChannelPost.buttonDisable
+                  }
                 >
                   {fileUpload.loadingButtonContent !== null
                     ? fileUpload.loadingButtonContent
-                    : savePost.loadingButtonContent !== null
-                    ? savePost.loadingButtonContent
+                    : saveChannelPost.loadingButtonContent !== null
+                    ? saveChannelPost.loadingButtonContent
                     : "POST"}
                 </button>
                 {/* <Button text="POST" active={true} extraclassNamees="w-24 h-8" /> */}
@@ -493,7 +493,7 @@ const CreatePost = () => {
                     action="
                   "
                   >
-                    <div className="row-container space-x-1 bg-gray-100 h-8 w-fit rounded-md relative">
+                    <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
                       <input
                         id="fileupload_photo"
                         type="file"
@@ -639,4 +639,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default ChannelPostModal;

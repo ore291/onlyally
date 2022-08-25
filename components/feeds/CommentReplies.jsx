@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
+import { HiOutlineEmojiHappy } from "react-icons/hi";
 
 import Link from "next/link";
 // import { saveBookmarkStart } from "../../store/actions/BookmarkAction";
 import {
   fetchCommentRepliesStart,
-  saveCommentReplyStart,
+  saveCommentRepliesStart,
 } from "../../store/slices/commentsSlice";
 
 import "react-image-lightbox/style.css";
@@ -18,6 +19,7 @@ import { EditorState, convertToRaw, Modifier } from "draft-js";
 const CommentReplies = (props) => {
   const dispatch = useDispatch();
   const commentReplies = useSelector((state) => state.comments.commentReplies);
+
   const { comment, commentActiveIndex } = props;
 
   const [commentReplyInputData, setCommentReplyInputData] = useState({});
@@ -37,7 +39,7 @@ const CommentReplies = (props) => {
   const handleCommentReplySubmit = (event, comment) => {
     event.preventDefault();
     dispatch(
-      saveCommentReplyStart({
+      saveCommentRepliesStart({
         reply: editorHtmlContent,
         post_id: comment.post_id,
         post_comment_id: comment.post_comment_id,
@@ -94,18 +96,19 @@ const CommentReplies = (props) => {
             {commentReplies.data.post_comment_replies.map(
               (comment_reply, index) => (
                 <>
-                  <div className="reply-box" key={index}>
-                    <div className="reply-user-img-sec">
-                      {/* <Image
-
-                        src={window.location.origin + "/assets/images/user.png"}
+                  <div className="reply-box flex space-x-1 ml-16 " key={index}>
+                  <div className="relative w-10 h-10 rounded-full max-w-full">
+                      <Image
                         alt=""
-                        className="reply-user-img"
-                      /> */}
+                        src={"/user.png"}
+                        objectFit="cover"
+                        layout="fill"
+                        className="rounded-full"
+                      />
                     </div>
                     <div className="reply-user-info">
                       <a to="#">
-                        <h4 className="reply-user-name">
+                        <h4 className="reply-user-name text-blue-700">
                           {comment_reply.user_displayname}
                         </h4>
                       </a>
@@ -121,7 +124,7 @@ const CommentReplies = (props) => {
                       <div className="reply-info-sec">
                         <ul className="list-unstyled reply-info-link">
                           <li>
-                            <p>{comment_reply.created}</p>
+                            <p className="text-xs text-gray-400 font-medium">{comment_reply.created}</p>
                           </li>
                         </ul>
                       </div>
@@ -130,40 +133,31 @@ const CommentReplies = (props) => {
                 </>
               )
             )}{" "}
-            <div className="reply-text-field">
-              <div className="reply-user-img-sec">
-                {/* <Image
-                  src={window.location.origin + "/assets/images/user.png"}
-                  alt=""
-                  className="reply-user-img"
-                /> */}
-              </div>
-
+             <div className="clear-both ml-16 border rounded-2xl p-0.5">
               <form
-                className="form-inline"
+                className="w-full flex items-center  mt-0"
                 action=""
                 onSubmit={handleCommentReplySubmit}
               >
-                <div className="form-reply">
-                  {/* <Form.Control
-							type="text"
-							placeholder="Write a reply"
-							id="reply"
-							name="reply"
-							value={commentReplyInputData.reply}
-							onChange={(event) =>
-								setCommentReplyInputData({
-									...commentReplyInputData,
-									reply: event.currentTarget.value,
-									post_id: comment.post_id,
-									post_comment_id: comment.post_comment_id,
-								})
-							}
-						/> */}
+                <div className="inline-block float-left clear-both basis-[15%]">
+                  <a className="title-container-1" href="#">
+                    <div className="relative w-10 h-10 rounded-full max-w-full">
+                      <Image
+                        alt=""
+                        src={"/user.png"}
+                        objectFit="cover"
+                        layout="fill"
+                        className="rounded-full"
+                      />
+                    </div>
+                  </a>
+                </div>
+
+                <div className="inline-block float-left basis-[65%] ">
                   <PostEditor
                     className="PostEditor__input"
-                    placeholder="Write a reply"
-                    ref={mentionsRef}
+                    placeholder={"Write a reply...."}
+                    refs={mentionsRef}
                     getEditorRawContent={setEditorContentstate}
                     getEditorHtmlContent={setEditorHtmlContent}
                     dispatch={dispatch}
@@ -171,34 +165,35 @@ const CommentReplies = (props) => {
                     setEditorState={setEditorState}
                   />
                 </div>
-              </form>
-              <div className="form-reply-right-icons">
-                <ul className="list-unstyled reply-action-icons">
-                  <li>
-                    <a
+
+                <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
+                  <li className="mt-0 mr-1 flex items-start">
+                    <button
                       to="#"
                       onClick={(event) =>
                         handleCommentReplySubmit(event, comment)
                       }
                     >
                       {/* <i className="fas fa-paper-plane"></i> */}
-                      {/* <Image
-                      alt=""
-                        className="comment-send-icon"
-                        src={
-                          window.location.origin +
-                          "/assets/images/icons/comment-send-icon.png"
-                        }
-                      /> */}
-                    </a>
+                      <div className="commentBtn row-container">
+                        <div className="relative w-7 h-7">
+                          <Image
+                            layout="fill"
+                            src="/comment.png"
+                            className="invert object-cover"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </button>
                   </li>
-                  <li>
+                  <li className="m-0 !mt-0 flex items-start">
                     <button
                       type="button"
-                      className="g-btn m-rounded emojiButtoon p-0 pr-2"
+                      className="p-0 pr-1"
                       onClick={triggerPicker}
                     >
-                      <i className="far fa-smile"></i>
+                      <HiOutlineEmojiHappy className="commentBtn" />
                     </button>
                   </li>
                   {emojiPickerState && (
@@ -210,62 +205,73 @@ const CommentReplies = (props) => {
                       />
                     </div>
                   )}
-                  {/* <Media as="li">
-										<Link to="#">
-											<i className="far fa-smile"></i>
-										</Link>
-									</Media> */}
                 </ul>
-              </div>
+              </form>
             </div>
           </>
         ) : (
           <>
-            <div className="reply-text-field">
-              <div className="reply-user-img-sec">
-                {/* <Image
-                  src={window.location.origin + "/assets/images/user.png"}
-                  alt=""
-                  className="reply-user-img"
-                /> */}
-              </div>
+            <div className="clear-both ml-16">
               <form
-                className="form-inline"
+                className="w-full flex items-center  mt-0"
                 action=""
                 onSubmit={handleCommentReplySubmit}
               >
-                <div className="form-reply">
+                <div className="inline-block float-left clear-both basis-[15%]">
+                  <a className="title-container-1" href="#">
+                    <div className="relative w-10 h-10 rounded-full max-w-full">
+                      <Image
+                        alt=""
+                        src={"/user.png"}
+                        objectFit="cover"
+                        layout="fill"
+                        className="rounded-full"
+                      />
+                    </div>
+                  </a>
+                </div>
+
+                <div className="inline-block float-left basis-[65%]">
                   <PostEditor
                     className="PostEditor__input"
-                    placeholder="Write a reply"
+                    placeholder={"Write a reply...."}
                     refs={mentionsRef}
                     getEditorRawContent={setEditorContentstate}
                     getEditorHtmlContent={setEditorHtmlContent}
-                    dispatch={props.dispatch}
+                    dispatch={dispatch}
                     editorState={editorState}
                     setEditorState={setEditorState}
                   />
                 </div>
-              </form>
-              <div className="form-reply-right-icons">
-                <ul className="list-unstyled reply-action-icons">
-                  <li>
-                    <a
+
+                <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
+                  <li className="mt-0 mr-1 flex items-start">
+                    <button
                       to="#"
                       onClick={(event) =>
                         handleCommentReplySubmit(event, comment)
                       }
                     >
-                      <i className="fas fa-paper-plane"></i>
-                    </a>
+                      {/* <i className="fas fa-paper-plane"></i> */}
+                      <div className="commentBtn row-container">
+                        <div className="relative w-7 h-7">
+                          <Image
+                            layout="fill"
+                            src="/comment.png"
+                            className="invert object-cover"
+                            alt=""
+                          />
+                        </div>
+                      </div>
+                    </button>
                   </li>
-                  <li>
+                  <li className="m-0 !mt-0 flex items-start">
                     <button
                       type="button"
-                      className="g-btn m-rounded emojiButtoon p-0 pr-2"
+                      className="p-0 pr-1"
                       onClick={triggerPicker}
                     >
-                      <i className="far fa-smile"></i>
+                      <HiOutlineEmojiHappy className="commentBtn" />
                     </button>
                   </li>
                   {emojiPickerState && (
@@ -277,13 +283,8 @@ const CommentReplies = (props) => {
                       />
                     </div>
                   )}
-                  {/* <Media as="li">
-													<Link to="#">
-														<i className="far fa-smile"></i>
-													</Link>
-												</Media> */}
                 </ul>
-              </div>
+              </form>
             </div>
           </>
         ))}

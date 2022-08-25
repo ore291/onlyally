@@ -78,10 +78,7 @@ const PPVPaymentModal = (props) => {
   useEffect(() => {
     if (props.PPVPayment === true) {
       setPaymentType(localStorage.getItem("default_payment_method"));
-      setConfig({
-        ...config,
-        email: user.email,
-      });
+    
       dispatch(fetchCardDetailsStart());
       dispatch(fetchWalletDetailsStart());
     }
