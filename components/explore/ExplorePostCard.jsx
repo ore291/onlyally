@@ -138,7 +138,7 @@ const ExplorePostCard = ({ post, type }) => {
     );
   }
 
-  if (type === "audio" &&  typeof window !== "undefined") {
+  if (type === "audio" && typeof window !== "undefined") {
     return (
       <div className="exploreCard">
         {post.is_paid_post == 1 ? (
@@ -189,7 +189,7 @@ const ExplorePostCard = ({ post, type }) => {
 
             <ReactAudioPlayer
               // light={postFile.preview_file}
-              src={post.postFiles.post_file || post.postFiles[0].post_file}
+              src={post.postFiles.post_file || post.postFiles[0]?.post_file}
               // file="forceAudio"
               controls={true}
               width="80%"
