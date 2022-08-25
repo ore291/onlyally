@@ -1,66 +1,24 @@
+import { useEffect } from "react";
 import { GrStatusGood } from "react-icons/gr";
+import { useDispatch, useSelector } from "react-redux";
+import { ordersListForOthersStart } from "../store/slices/productsSlice";
+import Link from "next/link";
+
 function TransactionComponent() {
-  const tranaction = [
-    {
-      date: "15 march 2022",
-      paymentId: "0-12-3e6376-784",
-      mode: " Card",
-      amount: "$1660.00",
-      delivery: "$0.00",
-      taxes: "$0.00",
-      total: "$1660.00",
-      status: "Success",
-      action: "view",
-    },
 
-    {
-      date: "15 march 2022",
-      paymentId: "0-12-3e6376-784",
-      mode: " Card",
-      amount: "$1660.00",
-      delivery: "$0.00",
-      taxes: "$0.00",
-      total: "$1660.00",
-      status: "Success",
-      action: "view",
-    },
+  const ordersListForOthers  = useSelector(state => state.products.ordersListForOthers)
+  const dispatch = useDispatch()
 
-    {
-      date: "15 march 2022",
-      paymentId: "0-12-3e6376-784",
-      mode: " Card",
-      amount: "$1660.00",
-      delivery: "$0.00",
-      taxes: "$0.00",
-      total: "$1660.00",
-      status: "Success",
-      action: "view",
-    },
 
-    {
-      date: "15 march 2022",
-      paymentId: "0-12-3e6376-784",
-      mode: " Card",
-      amount: "$1660.00",
-      delivery: "$0.00",
-      taxes: "$0.00",
-      total: "$1660.00",
-      status: "Success",
-      action: "view",
-    },
 
-    {
-      date: "15 march 2022",
-      paymentId: "0-12-3e6376-784",
-      mode: " Card",
-      amount: "$1660.00",
-      delivery: "$0.00",
-      taxes: "$0.00",
-      total: "$1660.00",
-      status: "Success",
-      action: "view",
-    },
-  ];
+ useEffect(() => {
+   dispatch(ordersListForOthersStart());
+ }, []);
+
+
+ const  ordersList = ordersListForOthers.data.orders
+
+
 
   return (
     <div>
@@ -77,23 +35,26 @@ function TransactionComponent() {
           <p className="flex justify-center w-[130px] ">Action</p>
         </div>
 
-        {tranaction.map((data, index) => (
+        {ordersList  && ordersList.map((data, index) => (
           <div className="py-2.5 flex items-center  text-[12px] " key={index}>
-            <p className="flex justify-center w-[130px] ">{data.date}</p>
-            <p className="flex justify-center w-40 ">{data.paymentId}</p>
-            <p className="flex justify-center w-[130px] ">{data.mode}</p>
-            <p className="flex justify-center w-[130px] ">{data.amount}</p>
-            <p className="flex justify-center w-[130px] ">{data.delivery}</p>
-            <p className="flex justify-center w-[130px] ">{data.taxes}</p>
-            <p className="flex justify-center w-[130px] ">{data.total}</p>
+            <p className="flex justify-center w-[130px] ">{data.order_payment.paid_date_formatted}</p>
+            <p className="flex justify-center w-40 ">{data.order_payment.payment_id}</p>
+            <p className="flex justify-center w-[130px] ">{data.order_payment.payment_mode}</p>
+            <p className="flex justify-center w-[130px] ">{data.order_payment.sub_total_formatted}</p>
+            <p className="flex justify-center w-[130px] ">{data.order_payment.delivery_price_formatted}</p>
+            <p className="flex justify-center w-[130px] ">{data.order_payment.tax_price_formatted}</p>
+            <p className="flex justify-center w-[130px] ">{data.total_formatted}</p>
             <p className="flex justify-center w-[130px] ">
               <GrStatusGood className="mt-1 mx-1 text-green-600" />{" "}
-              {data.status}
+              {data.order_payment.status ==1 ? 'success' : "pending"}
             </p>
             <div className="flex justify-center w-[130px]">
+            <Link href={`/order-view/${data.unique_id}`}   >
+
               <button className="text-white bg-red-500 py-1 px-5 hover:bg-red-700 rounded-md text-[11px]">
-                {data.action}
+                {"view"}
               </button>
+              </Link>
             </div>
           </div>
         ))}
