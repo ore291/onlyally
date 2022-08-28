@@ -52,24 +52,24 @@ const GroupFeedSideBar = ({ group }) => {
           </div>
           <div className="flex items-center space-x-2">
             <MdLockOutline className="w-4 h-4 text-gray-400" />
-            <p className="font-medium text-sm">Private</p>
+            <p className="font-medium text-sm">{group.is_private ? "Private" : "Public"}</p>
           </div>
           <div className="flex items-center space-x-2">
             <BsPeople className="w-4 h-4 text-gray-400" />
             <div className="col-container">
-              <p className="font-medium text-sm">2 Members</p>
+              <p className="font-medium text-sm">{group.members.length} Members</p>
               <span className="text-xs font-medium text-green-500">
                 +0 This week
               </span>
             </div>
           </div>
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <RiPriceTag3Line className="w-4 h-4 text-gray-400" />
             <p className="font-medium text-sm">Cars and Vehicles</p>
-          </div>
+          </div> */}
           <div className="flex items-center space-x-2">
             <CgNotes className="w-4 h-4 text-gray-400" />
-            <p className="font-medium text-sm">{group.posts.length} post</p>
+            <p className="font-medium text-sm">{group.posts.length} posts</p>
           </div>
         </div>
         <div className="flex flex-col p-2 pb-5 space-y-2 bg-white rounded-md shadow-lg border">

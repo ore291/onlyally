@@ -34,22 +34,26 @@ const ChannelPageHeader = ({ channel }) => {
             srcSet=""
             className="object-cover w-full max-h-[300px] md:max-h-[450px] "
           />
-          <div className="absolute -bottom-14 left-5 p-1 rounded-full bg-white">
-            <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full">
-              <Image
-                src={channel?.avatar || "/profile_avatar_full"}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-full"
-              />
-              {/* <div className="absolute bottom-0 -right-2 bg-blend-lighten bg-gray-500 p-2 rounded-full cursor-pointer">
+          <Link href={`/channels/${channel.slug}`} passHref>
+           
+            <div className="absolute -bottom-14 left-5 p-1 rounded-full bg-white cursor-pointer">
+              <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full">
+                <Image
+                  src={channel?.avatar || "/profile_avatar_full"}
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                />
+                {/* <div className="absolute bottom-0 -right-2 bg-blend-lighten bg-gray-500 p-2 rounded-full cursor-pointer">
                 <FaCamera className="h-3 w-3 text-gray-200" />
               </div> */}
+              </div>
             </div>
-          </div>
+          </Link>
+
           <div />
         </div>
-        <div className="flex justify-between p-2 px-4 items-center w-full bg-white rounded-b-lg shadow-lg ">
+        <div className="flex cursor-pointer justify-between p-2 px-4 items-center w-full bg-white rounded-b-lg shadow-lg ">
           <div className=" ml-24 md:ml-32">
             <Link href={`/channels/${channel.slug}`} passHref>
               <div className="flex flex-col justify-center space-y-.5 md:space-y-2">

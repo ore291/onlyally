@@ -36,22 +36,27 @@ const GroupPageHeader = ({ group }) => {
         </div>
         <div className="flex justify-between p-2 px-4 items-center shadow-lg w-full bg-white rounded-b-lg">
           <div className="row-container space-x-2">
-            <div className="relative w-14 h-14 rounded-xl">
-              {group.avatar && (
-                <Image
-                  src={group.avatar}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-xl"
-                  alt=""
-                />
-              )}
-            </div>
-            <div className="flex flex-col justify-center space-y-2">
-              <div className="row-container space-x-1">
-                <h2 className="text-3xl font-bold leading-7">{group.name}</h2>
-                {/* <MdVerified className="w-4 h-4 text-lightPlayRed" /> */}
+            <Link href={`/groups/${group.slug}`} passHref>
+              <div className="relative w-14 h-14 rounded-xl cursor-pointer">
+                {group.avatar && (
+                  <Image
+                    src={group.avatar}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-xl"
+                    alt=""
+                  />
+                )}
               </div>
+            </Link>
+            <div className="flex flex-col justify-center space-y-2">
+              <Link href={`/groups/${group.slug}`} passHref>
+                <div className="row-container space-x-1 cursor-pointer">
+                  <h2 className="text-3xl font-bold leading-7">{group.name}</h2>
+                  {/* <MdVerified className="w-4 h-4 text-lightPlayRed" /> */}
+                </div>
+              </Link>
+
               <p className="text-sm font-semibold">
                 {group?.members?.length} members
               </p>

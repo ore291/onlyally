@@ -135,12 +135,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         store.dispatch(fetchUserLoginSuccess(session.user.userDetails));
       }
 
-      // this.setState({ configLoading: false });
-
-      // session && store.dispatch(setUserData(session.user.userDetails))
-      // store.dispatch(fetchUserDetailsStart({accessToken: session.accessToken, userId: session.userId}));
-      // store.dispatch(END)
-      // await store.sagaTask.toPromise();
+  
 
       if (!session) {
         return {

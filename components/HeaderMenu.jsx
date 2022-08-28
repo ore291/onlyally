@@ -75,13 +75,13 @@ const HeaderMenu = (userSession) => {
           <Menu as="div" className="relative inline-block text-left">
             <Menu.Button>
               <div className="row-container rounded-full bg-[#BA253D] space-x-1 pr-2 cursor-pointer">
-                <Image
+                <img
                   alt=""
                   src={user.picture ? user.picture : getCookie("picture")}
                   width={38}
                   height={38}
                   objectFit="cover"
-                  className="rounded-full"
+                  className="rounded-full object-cover w-[38px] h-[38px] "
                 />
 
                 <p className=" text-xs font-bold text-white">{user.name ? user?.name : getCookie("username")}</p>

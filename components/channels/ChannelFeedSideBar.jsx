@@ -60,7 +60,7 @@ const ChannelFeedSideBar = ({ channel, categories, channels }) => {
         </div>
         <div className="flex items-center space-x-2">
           <MdInfoOutline className="w-4 h-4 text-gray-400" />
-          <p className="font-medium text-sm">{channel.bio.description}</p>
+          <p className="font-medium text-sm truncate">{channel.bio.description}</p>
         </div>
         <div className="flex items-center space-x-2">
           <div className="relative h-10 w-10 rounded-full">
@@ -154,9 +154,12 @@ const ChannelFeedSideBar = ({ channel, categories, channels }) => {
                 />
               </div>
               <div className="flex flex-col space-y-.5 col-span-2">
-                <p className="font-medium text-sm  capitalize text-gray-600">
+              <Link href={`/channels/${channel.slug}`} passHref>
+                <p className="font-medium text-sm  capitalize cursor-pointer text-gray-600">
                   {channel.name}
                 </p>
+              </Link>
+                
                 <span className="text-sm font-semibold">
                   {channel.members.length} Following
                 </span>
