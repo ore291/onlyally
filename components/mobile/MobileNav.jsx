@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setNavState } from "../../store/slices/NavSlice";
 import { useRouter } from "next/router";
-
+import HeaderCreateMenu from "../mobile/HeaderCreateMenu";
 import {
   FiCompass,
   FiHome,
@@ -52,9 +52,10 @@ const MobileNav = () => {
           >
             <FiMail className="w-12 h-6" />
           </button>
-          <button className="nav-btn" title="Add" onClick={() => navigate("/")}>
+          <HeaderCreateMenu />
+          {/* <button className="nav-btn" title="Add" onClick={() => navigate("/")}>
             <FiPlusSquare className="w-12 h-6" />
-          </button>
+          </button> */}
 
           <button
             className="nav-btn"

@@ -5,12 +5,6 @@ import Button from "../../components/Button";
 import Image from "next/image";
 import ProfileLoader from "../../components/Profile/ProfileLoader";
 import {
-  FacebookShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-  EmailShareButton,
-  RedditShareButton,
-  TelegramShareButton,
   FacebookIcon,
   TwitterIcon,
   WhatsappIcon,
@@ -18,7 +12,14 @@ import {
   RedditIcon,
   TelegramIcon,
 } from "react-share";
-
+import {
+  FacebookShareButton,
+  RedditShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+  TelegramShareButton,
+} from "next-share";
 import {
   BsFillArrowLeftCircleFill,
   BsGenderAmbiguous,
@@ -39,14 +40,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useSession } from "next-auth/react";
 import { fetchUserDetailsStart } from "../../store/slices/userSlice";
 import { fetchPostsStart } from "../../store/slices/postSlice";
-import {fetchUserGroupsStart} from "../../store/slices/groupsSlice";
-import {fetchUserChannelsStart} from "../../store/slices/channelsSlice";
-import {fetchUserProductsStart} from "../../store/slices/productsSlice";
+import { fetchUserGroupsStart } from "../../store/slices/groupsSlice";
+import { fetchUserChannelsStart } from "../../store/slices/channelsSlice";
+import { fetchUserProductsStart } from "../../store/slices/productsSlice";
 import { useEffect, useState } from "react";
 import VerifiedBadge from "../../components/handlers/VerifiedBadge";
 import configuration from "react-global-configuration";
-
-
 
 import { getCookies } from "cookies-next";
 
@@ -65,14 +64,13 @@ const Profile = () => {
   const [activeSec, setActiveSec] = useState("post");
 
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const [showShare, setShowShare] = useState(false);
   useEffect(() => {
     // if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
     // if (profile.loading) {
     //   dispatch(fetchUserDetailsStart());
     //   setBadgeStatus(localStorage.getItem("is_verified_badge"));
     // }
-   
   }, []);
 
   const onCopy = (event) => {
@@ -105,7 +103,7 @@ const Profile = () => {
 
   const open = Boolean(anchorEl);
   const popoverId = open ? "simple-popover" : undefined;
-
+  console.log(profile);
   return (
     <SideNavLayout>
       {profile.loading ? (
@@ -177,13 +175,58 @@ const Profile = () => {
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <GiPhone className="w-5 h-5" />
                 </div> */}
-                <div className="row-container  p-3 bg-gray-200 rounded-md">
+                <div
+                  onClick={() => setShowShare((prev) => !prev)}
+                  className="row-container cursor-pointer hover:text-white hover:bg-[#FF1534]  p-3 bg-gray-200 rounded-md"
+                >
                   <RiUpload2Line className="w-5 h-5" />
                 </div>
               </div>
+              {showShare && (
+                <div
+                  //style={{ boxShadow: "10px 10px 10px 10px  rgba(0,0,0,0.5", }}
+                  className="drop-shadow-[10px_10px_10px_rgba(0,0,0,0.5)] hover:drop-shadow-[10px_10px_10px_rgba(0,0,0,0.25)]  w-[200px] cursor-pointer h-fit bg-white rounded-xl ml-20 sm:ml-8 lg:ml-12 flex flex-wrap"
+                >
+                  <FacebookShareButton
+                    url={profile.data.share_link}
+                    hashtag={"#playjor"}
+                    className=""
+                  >
+                    <FacebookIcon className="w-[50px] hover:scale-[1.1]  h-[50px] rounded-full m-2" />
+                  </FacebookShareButton>
+                  <TwitterShareButton url={profile.data.share_link}>
+                    <TwitterIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />{" "}
+                  </TwitterShareButton>
+                  <WhatsappShareButton url={profile.data.share_link}>
+                    <WhatsappIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />
+                  </WhatsappShareButton>
+                  <EmailShareButton
+                    className=""
+                    url={profile.data.share_link}
+                    subject={"Playjor user profile"}
+                    body={`check out ${profile.data.name}'s profile`}
+                  >
+                    <EmailIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />
+                  </EmailShareButton>
+                  <RedditShareButton
+                    url={profile.data.share_link}
+                    title={`${profile.data.name}'s profile`}
+                  >
+                    <RedditIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />
+                  </RedditShareButton>
+                  <TelegramShareButton
+                    url={profile.data.share_link}
+                    title={`check out ${profile.data.name}'s profile`}
+                  >
+                    <TelegramIcon className="w-[50px] hover:scale-[1.1] h-[50px] rounded-full m-2" />
+                  </TelegramShareButton>
+                </div>
+              )}
               <div className="flex justify-around px-8">
                 <div className="col-container space-y-0.5">
-                  <p className="text-lg font-semibold">{profile.data.total_posts}</p>
+                  <p className="text-lg font-semibold">
+                    {profile.data.total_posts}
+                  </p>
                   <span>Posts</span>
                 </div>
                 <div
@@ -350,7 +393,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(
         fetchPostsStart({
           accessToken: cookies.accessToken,
-          type : "all"
+          type: "all",
         })
       );
 
