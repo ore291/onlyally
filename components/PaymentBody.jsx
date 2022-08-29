@@ -196,7 +196,7 @@ const changePaymentMethod = (payment) => {
       <div className="flex flex-wrap gap-2">
       {deliveryAddress.data.delivery_addresses  && deliveryAddress.data.delivery_addresses.map((data, i)=> {
             return(     
-          <div className="flex justify-center flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
+          <div key={i} className="flex justify-center flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
             <div className="text-gray-600 text-[10px] ml-2 font-medium ">
               <p>{data.contact_number}</p>
               <p>{data.state}</p>
