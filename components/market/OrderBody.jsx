@@ -22,7 +22,7 @@ const OrderBody = ({order_id}) => {
         if( ordersViewForOthers.data.order){
             var  orderArray = [ ...orderList.order_product]
         }
-        console.log(orderArray)
+      
 
     return(
         <div className="w-full flex flex-col  md:flex-row my-[2rem]">

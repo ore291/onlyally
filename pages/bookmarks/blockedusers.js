@@ -56,7 +56,7 @@ console.log(blockUsers)
                      
                      return (
                       <>
-                      <FansCard  user={user} i={i}/>
+                      <FansCard  user={user.blockeduser} i={i}/>
                       </>
                      )
                   })
