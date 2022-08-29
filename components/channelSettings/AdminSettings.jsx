@@ -15,7 +15,7 @@ function classNames(...classes) {
 const AdminSettings = ({ data }) => {
   let [categories] = useState([
     "General",
-    // "Privacy",
+    "Privacy",
     "Design",
     "Members",
     "Analytics",
@@ -55,11 +55,11 @@ const AdminSettings = ({ data }) => {
               <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <GeneralSettings />
               </Tab.Panel>
-              {/* <Tab.Panel
+              <Tab.Panel
                 className={classNames("bg-white rounded-xl p-1")}
               >
                 <PrivacySettings/>
-              </Tab.Panel> */}
+              </Tab.Panel>
               <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                 <DesignSettings />
               </Tab.Panel>

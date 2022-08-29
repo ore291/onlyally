@@ -76,11 +76,13 @@ const GroupCard = ({
         <div className="basis-1/5">
           {group.is_member ? (
             group.user_id == getCookie("userId") ? (
+              <Link href={`/groups/${group.slug}/settings`} passHref>
               <Button
                 text="Edit"
                 extraclassNamees="w-[100px] h-8"
                 active={true}
               />
+              </Link>
             ) : (
               <Button
                 text="Joined"
@@ -136,7 +138,10 @@ const GroupCard = ({
         <div className="basis-1/5">
           {group.is_member ? (
             group.user_id == getCookie("userId") ? (
-              <Button text="Edit" extraclassNamees="w-16 h-8" active={true} />
+              <Link href={`/groups/${group.slug}/settings`} passHref>
+                  <Button text="Edit" extraclassNamees="w-16 h-8" active={true} />
+              </Link>
+            
             ) : (
               <Button text="Joined" extraclassNamees="w-16 h-8" active={true} />
             )
@@ -235,11 +240,15 @@ const GroupCard = ({
             <Button text="View" extraclassNamees="w-[100px] h-8 bg-gray-100" /> */}
             {group.is_member ? (
               group.user_id == getCookie("userId") ? (
-                <Button
+                <Link href={`/groups/${group.slug}/settings`} passHref>
+                  <Button
                   text="Edit"
                   extraclassNamees="w-[100px] h-8"
                   active={true}
+
                 />
+                </Link>
+                
               ) : (
                 <Button
                   text="Joined"
