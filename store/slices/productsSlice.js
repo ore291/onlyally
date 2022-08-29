@@ -793,6 +793,35 @@ import { HYDRATE } from "next-redux-wrapper";
           buttonDisable: false,
         };
       },
+
+      ordersPaymentByPaystackStart: (state, action) => {
+        state.ordersPayment = {
+          data: {},
+          loading: true,
+          error: false,
+          loadingButtonContent: "Uploading....",
+          buttonDisable: true,
+        };
+      },
+      ordersPaymentByPaystackSuccess: (state, action) => {
+        state.ordersPayment = {
+          data: action.payload,
+          loading: false,
+          error: false,
+          loadingButtonContent: "",
+          buttonDisable: false,
+        };
+      },
+      ordersPaymentByPaystackFailure: (state, action) => {
+        state.ordersPayment = {
+          data: {},
+          loading: true,
+          error: action.payload,
+          loadingButtonContent: "",
+          buttonDisable: false,
+        };
+      },
+
       fetchSingleProductOrdersStart: (state, action) => {
         state.singleProductOrders = {
           data: {},
@@ -914,6 +943,9 @@ export const {
   ordersPaymentByPaypalSuccess,
     ordersPaymentByPaypalFailure,
   ordersPaymentByPaypalStart,
+  ordersPaymentByPaystackSuccess,
+  ordersPaymentByPaystackFailure,
+  ordersPaymentByPaystackStart,
   fetchSingleProductOrdersSuccess,
     fetchSingleProductOrdersFailure,
   fetchSingleProductOrdersStart,

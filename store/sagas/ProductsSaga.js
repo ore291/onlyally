@@ -78,6 +78,9 @@ import {
   ordersPaymentByPaypalSuccess,
   ordersPaymentByPaypalFailure,
   ordersPaymentByPaypalStart,
+  ordersPaymentByPaystackSuccess,
+  ordersPaymentByPaystackFailure,
+  ordersPaymentByPaystackStart,
   fetchSingleProductOrdersSuccess,
   fetchSingleProductOrdersFailure,
   fetchSingleProductOrdersStart,
@@ -623,6 +626,30 @@ function* orderPaypalPaymentAPI(action) {
   }
 }
 
+function* orderPaystackPaymentAPI(action) {
+  try {
+    const response = yield api.postMethod(
+     {action: "orders_payment_by_paypal",
+      object:action.payload}
+    );
+
+    if (response.data.success) {
+      yield put(ordersPaymentByPaystackSuccess(response.data.data));
+     
+      yield put(notify({message: response.data.message,status:'success'}));
+      window.location.assign(`/order-view/${response.data.data.unique_id}`);
+    } else {
+      yield put(ordersPaymentByPaystackFailure(response.data.error));
+     
+      yield put(notify({message: response.data.error,status:'error'}));
+    }
+  } catch (error) {
+    yield put(ordersPaymentByPaystackFailure(error));
+      yield put(notify({message:error.message,status:'error'
+}));
+  }
+}
+
 function* fetchSingleProductOrdersAPI(action) {
   try {
     const response = yield api.postMethod(
@@ -762,6 +789,9 @@ export default function* pageSaga() {
   ]);
   yield all([
     yield takeLatest("products/ordersPaymentByPaypalStart", orderPaypalPaymentAPI),
+  ]);
+  yield all([
+    yield takeLatest("products/ordersPaymentByPaystackStart", orderPaystackPaymentAPI),
   ]);
   yield all([
     yield takeLatest(

@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCartListStart, fetchDeliveryAddressStart, ordersPaymentByWalletStart } from "../store/slices/productsSlice";
+import { fetchCartListStart, fetchDeliveryAddressStart, ordersPaymentByPaystackStart, ordersPaymentByWalletStart } from "../store/slices/productsSlice";
 import PaymentModal from "./helpers/PaymentModal";
 import ProductPaymentModal from "./helpers/ProductPaymentModal";
 import Link from "next/link";
+import { usePaystackPayment } from "react-paystack";
+import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
+import { notify } from "reapop";
+
+
 
 
 
@@ -14,10 +19,13 @@ const   cartList =useSelector(state => state.products.cartList)
 const   deliveryAddress =useSelector(state => state.products.deliveryAddress)
 const   wallet  =useSelector(state => state.wallet.walletData)
 const  cards = useSelector(state => state.cards.cardDetails)
+const   ordersPayment =useSelector(state => state.products.ordersPayment)
+
+console.log(ordersPayment)
 
 const dispatch = useDispatch()
 
-const [selectedPayment, setSelectedPayment] = useState("paypal");
+const [selectedPayment, setSelectedPayment] = useState("paystack");
 const [selectedCard, setSelectedCard] = useState(null);
 const [selectedAddress, setSelectedAddress] = useState(null)
 const [isDefaultAddress, setIsDefaultAddress] = useState(false);
@@ -51,6 +59,58 @@ const handleAddressInputChange = (event) => {
     setSelectedAddress(null)
   }
 };
+
+//paystack payment functions
+
+const onSuccess = (reference) => {
+  // Implementation for whatever you want to do with reference and after success call.
+  setTimeout(() => {
+    const formdata = getFormData();
+    dispatch(
+      ordersPaymentByPaystackStart({
+        payment_id: reference.reference,
+        // post_id:
+        //   props.post_id != undefined || props.post_id != null
+        //     ? props.post_id
+        //     : "",
+        amount:cartList.data.total_amount,
+        user_id:cartList.data.carts[0].user_product.user_id,
+        pro_balance: true,
+        carts_ids :(cartList.data.carts) ?   cartList.data.carts[0].cart_id  : "",
+        delivery_address_id:deliveryAddress.data.delivery_addresses[0].delivery_address_id,
+        ...formdata
+      })
+    );
+  }, 1000);
+
+};
+
+//config
+const email = getCookie("user_email")
+
+const [config, setConfig] = useState({
+  reference: new Date().getTime().toString(),
+  email: email,
+  amount:(cartList.data.total_amount * 100),
+  publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
+});
+
+
+const onClose = () => {
+  // implementation for  whatever you want to do when the Paystack dialog closed.
+  dispatch(
+    notify({
+      message: "Payment cancelled please try again..",
+      status: "error",
+    })
+  );
+};
+
+//payment initialization
+
+const initializePayment = usePaystackPayment(config)
+
+
 
 const handleAddressCheckboxChange = () => {
   setIsDefaultAddress(!isDefaultAddress);
@@ -106,7 +166,7 @@ const handleSubmit = (event) => {
       dispatch(ordersPaymentByCardStart({ ...formdata }));
       break;
     }
-    case "paypal": {
+    case "paystack": {
       break;
     }
     case "wallet": {
@@ -125,46 +185,40 @@ const changePaymentMethod = (payment) => {
  
 
 
-  console.log(cartList)
-  console.log(deliveryAddress)
-  console.log( wallet)
+  // console.log(cartList)
+
+  // console.log(deliveryAddress)
+  // console.log( wallet)
 
   return (
     <div className="block lg:flex w-full space-x-5">
       <div className="mt-6 p-2 rounded-md w-full lg:w-[48%] lg:ml-3 flex flex-col justify-center space-y-5">
-        <div className="flex flex-wrap gap-2">
-          <div className="flex justify-center flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
+      <div className="flex flex-wrap gap-2">
+      {deliveryAddress.data.delivery_addresses  && deliveryAddress.data.delivery_addresses.map((data, i)=> {
+            return(     
+          <div key={i} className="flex justify-center flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
             <div className="text-gray-600 text-[10px] ml-2 font-medium ">
-              <p>968573087</p>
-              <p>Hosur Road</p>
-              <p>Kudiu Gati, Hosur Road, Banglone, Kankataka </p>
+              <p>{data.contact_number}</p>
+              <p>{data.state}</p>
+              <p>{data.address}</p>
             </div>
             <div>
               <input
                 type="radio"
-                checked="checked"
+             
                 className="checked:bg-none text-red-500 mr-3 h-2.5 w-2.5"
               />
             </div>
           </div>
+            )  
+
+      })}
 
         
         
 
-          <div className="flex justify-center flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
-            <div className="text-gray-600 text-[10px] ml-2 font-medium ">
-              <p>968573087</p>
-              <p>Hosur Road</p>
-              <p>Kudiu Gati, Hosur Road, Banglone, Kankataka </p>
-            </div>
-            <div>
-              <input
-                type="radio"
-                checked=""
-                className="checked:bg-none mr-3 h-2.5 w-2.5"
-              />
-            </div>
-          </div>
+
+          
         </div>
 
         {/* input fealds  */}
@@ -253,7 +307,7 @@ const changePaymentMethod = (payment) => {
 
 
         <div className="w-auto shadow-sm rounded grid grid-cols-2 gap-x-5 gap-y-2">
-          <div   onClick={() => changePaymentMethod("card")} className="flex  cursor-pointer justify-between flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
+          {/* <div   onClick={() => changePaymentMethod("card")} className="flex  cursor-pointer justify-between flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
             <div className="text-gray-600 text-[10px] ml-2 font-medium ">
             <label
                             
@@ -268,7 +322,7 @@ const changePaymentMethod = (payment) => {
                 className="checked:bg-none text-red-500 mr-3 h-2.5 w-2.5"
               />
             </div>
-          </div>
+          </div> */}
 
           <div   onClick={() => changePaymentMethod("wallet")} className="flex cursor-pointer justify-between flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
             <div className="text-gray-600 text-[10px] ml-2 font-medium ">
@@ -286,18 +340,18 @@ const changePaymentMethod = (payment) => {
             </div>
           </div>
 
-          <div onClick={() => changePaymentMethod("paypal")}  className="flex  cursor-pointer justify-between flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
+          <div onClick={() => changePaymentMethod("paystack")}  className="flex  cursor-pointer justify-between flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
             <div className="text-gray-600 text-[10px] ml-2 font-medium ">
             <label                      
                             htmlFor="inline-radio-3"
                             className="form-check-label"          
-                          >Paypal</label>
+                          >Paystack</label>
             </div>
             <div>
               <input
                 type="radio"
                 id="inline-radio-3"
-                checked={selectedPayment == "paypal" ? true : false}
+                checked={selectedPayment == "paystack" ? true : false}
                 className="checked:bg-none text-red-500 mr-3 h-2.5 w-2.5"
               />
             </div>
@@ -333,13 +387,13 @@ const changePaymentMethod = (payment) => {
         </div>
        </>
        }
-      {selectedPayment == "card"  
+      {selectedPayment == "paystack"  
       
       &&
 
       <>
         <div className="flex justify-between flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
-          <div className="text-gray-600 text-[10px] ml-2 font-medium ">
+          {/* <div className="text-gray-600 text-[10px] ml-2 font-medium ">
             <p>Xavier</p>
             <p>XXXX XXXX XXXX 4242</p>
           </div>
@@ -347,15 +401,21 @@ const changePaymentMethod = (payment) => {
             type="radio"
             checked="checked"
             className="checked:bg-none text-red-500 mr-3 h-2.5 w-2.5"
-          />
+          /> */}
         </div>
         <div className="space-x-2">
-          <button className="text-white bg-red-500 py-1.5 px-3.5 rounded-full">
+          <button    className="text-white bg-red-500 py-1.5 px-3.5 rounded-full"
+             onClick={() => {
+              initializePayment(onSuccess, onClose);
+            }}
+          >
             Pay Now
           </button>
+          <Link  href="/market/cart" >
           <button className="text-red-500 bg-white-500 py-1.5 px-3.5 rounded-full border">
-            Pay Now
+            Go back to cart
           </button>
+          </Link>
         </div>
       </>
       }
@@ -384,17 +444,7 @@ const changePaymentMethod = (payment) => {
   })}
        
 
-        <div className="flex justify-between items-center">
-            <div className="flex space-x-3">
-              <img
-                src="/images/settings/1.jpg"
-                alt="Order image"
-                className="w-1/5 flex justify-start rounded-full"
-              />
-              <p className="text-[10px] flex items-center">Search Band</p>
-            </div>
-            <p className="font-bold">$10.00</p>
-          </div>
+      
         </div>
 
         <hr className="w-full mt-2 " />
