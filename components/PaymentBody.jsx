@@ -205,7 +205,7 @@ const changePaymentMethod = (payment) => {
             <div>
               <input
                 type="radio"
-                checked="checked"
+             
                 className="checked:bg-none text-red-500 mr-3 h-2.5 w-2.5"
               />
             </div>
