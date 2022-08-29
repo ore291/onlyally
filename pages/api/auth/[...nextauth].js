@@ -15,23 +15,12 @@ import { useDeviceSelectors , getSelectorsByUserAgent} from 'react-device-detect
 const nextAuthOptions = (req, res) => {
   return {
     session: {
-      jwt: true,
+      strategy: "jwt",
       maxAge: 30 * 24 * 60 * 60
       },
     // Configure one or more authentication providers
     providers: [
-      // GoogleProvider({
-      //   clientId: process.env.GOOGLE_ID,
-      //   clientSecret: process.env.GOOGLE_SECRET,
-      // }),
-      // FacebookProvider({
-      //   clientId: process.env.FACEBOOK_ID,
-      //   clientSecret: process.env.FACEBOOK_SECRET,
-      // }),
-      // TwitterProvider({
-      //   clientId: process.env.TWITTER_ID,
-      //   clientSecret: process.env.TWITTER_SECRET,
-      // }),
+      
       CredentialsProvider({
         // The name to display on the sign in form (e.g. 'Sign in with...')
         name: "Credentials",
@@ -45,14 +34,7 @@ const nextAuthOptions = (req, res) => {
         },
   
         async authorize(credentials) {
-          // You need to provide your own logic here that takes the credentials
-          // submitted and returns either a object representing a user or value
-          // that is false/null if the credentials are invalid.
-          // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-          // You can also use the `req` object to obtain additional parameters
-          // (i.e., the request IP address)
-  
-          // const detector = new DeviceDetector({clientVersionTruncate: 0,});
+       
   
           const userAgent = req.headers['user-agent']; 
           const {  isAndroid,
@@ -134,9 +116,9 @@ const nextAuthOptions = (req, res) => {
       async signIn({ user, account, profile, email, credentials }) {
         return true;
       },
-      // async redirect({ url, baseUrl }) {
-      //   return baseUrl
-      // },
+      async redirect({ url, baseUrl }) {
+        return baseUrl
+      },
   
       async jwt({ token, user }) {
         if (user) {
@@ -157,6 +139,7 @@ const nextAuthOptions = (req, res) => {
       signIn: "/login",
       signOut: "/logout",
     },
+    secret : "QYcUQwS/N4ia+L75lDYDQdMzyzKAdHM2ruYoUatc5Ig="
   }
 }
 

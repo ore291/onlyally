@@ -47,7 +47,10 @@ const GroupCard = ({
           />
         </div>
         <div className="flex flex-col justify-center items-start space-y-1 basis-3/5">
-          <h2 className="font-medium text-lg">{group.name}</h2>
+          <Link href={`/groups/${group.slug}`} passHref>
+            <h2 className="font-medium text-lg cursor-pointer">{group.name}</h2>
+          </Link>
+
           <p className="text-sm text-gray-400 font-medium">
             {group.members.length} members &middot; 12 posts a week
           </p>
@@ -73,11 +76,13 @@ const GroupCard = ({
         <div className="basis-1/5">
           {group.is_member ? (
             group.user_id == getCookie("userId") ? (
+              <Link href={`/groups/${group.slug}/settings`} passHref>
               <Button
                 text="Edit"
                 extraclassNamees="w-[100px] h-8"
                 active={true}
               />
+              </Link>
             ) : (
               <Button
                 text="Joined"
@@ -123,7 +128,7 @@ const GroupCard = ({
         </div>
         <Link href={`/groups/${group.slug}`} passHref>
           <div className="flex flex-col justify-center items-start basis-3/5 cursor-pointer">
-            <h2 className="font-medium text-lg ">{group.name}</h2>
+            <h2 className="font-medium text-lg cursor-pointer">{group.name}</h2>
             <p className="text-sm text-gray-400 font-medium">
               {group.members.length} members
             </p>
@@ -133,7 +138,10 @@ const GroupCard = ({
         <div className="basis-1/5">
           {group.is_member ? (
             group.user_id == getCookie("userId") ? (
-              <Button text="Edit" extraclassNamees="w-16 h-8" active={true} />
+              <Link href={`/groups/${group.slug}/settings`} passHref>
+                  <Button text="Edit" extraclassNamees="w-16 h-8" active={true} />
+              </Link>
+            
             ) : (
               <Button text="Joined" extraclassNamees="w-16 h-8" active={true} />
             )
@@ -166,19 +174,22 @@ const GroupCard = ({
 
         <div className="p-2">
           <div className="flex flex-col items-start pb-1 space-y-2 ">
-            <p className="font-bold text-gray-500 text-lg truncate">
-              {group.name}
-            </p>
+            <Link href={`/groups/${group.slug}`} passHref>
+              <p className="font-bold text-gray-500 text-lg truncate cursor-pointer">
+                {group.name}
+              </p>
+            </Link>
+
             <p className="font-medium text-sm text-gray-400 truncate">
-              {group.members.length} Members 1.7k Post A Day
+              {group.members.length} Members 
             </p>
             <div className="flex items-center space-x-2 ">
-              <div className="row-container relative ">
+              <div className="flex items-center relative ">
                 {group.members && group.members.length > 0
                   ? group.members.slice(0, 2).map((member, i) => {
                       if (i === 1) {
                         return (
-                          <div className=" w-7 h-7 relative z-[5]" key={i}>
+                          <div className=" w-7 h-7 -ml-2 relative z-[5]" key={i}>
                             <Image
                               src={member.picture}
                               alt="side-img"
@@ -191,18 +202,16 @@ const GroupCard = ({
                       } else {
                         return (
                           <div
-                            className={`bg-white p-[2px] rounded-full row-container z-[10] absolute ${
-                              group.members.length > 1 ? "left-5" : "left-2"
-                            }`}
+                            className={`bg-white p-[2px] rounded-full  z-[10]   `} 
                             key={i}
                           >
-                            <div className=" w-8 h-8 relative">
+                            <div className=" w-7 h-7 relative">
                               <Image
                                 src={member.picture}
                                 alt="side-img"
                                 layout="fill"
                                 objectFit="cover"
-                                className="relative rounded-full w-12 h-12"
+                                className="relative rounded-full "
                               />
                             </div>
                           </div>
@@ -212,10 +221,10 @@ const GroupCard = ({
                   : null}
               </div>
               {group.members[0] && (
-                <div className="ml-4 pl-6 tracking-tight">
-                  <p className="text-xs font-medium text-gray-500">
-                    <span className="font-semibold">
-                      {group?.members[0]?.name}{" "}
+                <div className={`ml-4   w-40 tracking-tight`}>
+                  <p className="text-xs font-medium truncate   text-gray-500">
+                    <span className="font-medium capitalize">
+                      {group?.members[0]?.name} {" "}
                     </span>
                     and{" "}
                     {group.members.length > 1 ? group.members.length - 1 : ""}{" "}
@@ -231,11 +240,15 @@ const GroupCard = ({
             <Button text="View" extraclassNamees="w-[100px] h-8 bg-gray-100" /> */}
             {group.is_member ? (
               group.user_id == getCookie("userId") ? (
-                <Button
+                <Link href={`/groups/${group.slug}/settings`} passHref>
+                  <Button
                   text="Edit"
                   extraclassNamees="w-[100px] h-8"
                   active={true}
+
                 />
+                </Link>
+                
               ) : (
                 <Button
                   text="Joined"
@@ -274,7 +287,10 @@ const GroupCard = ({
         />
         <div className="p-2 py-3">
           <div className="flex flex-col items-start pb-2">
-            <p className="font-medium text-sm md:text-xl">{group.name}</p>
+            <Link href={`/groups/${group.slug}`} passHref>
+              <p className="font-medium text-sm md:text-xl">{group.name}</p>
+            </Link>
+
             <p className="font-medium text-xs md:text-sm text-gray-400">
               {group.members.length} members
             </p>
@@ -312,18 +328,22 @@ const GroupCard = ({
 
         <div className="p-2">
           <div className="flex flex-col items-start pb-1 ">
-            <p className="font-bold text-lg">{group.name}</p>
+            <Link href={`/groups/${group.slug}`} passHref>
+              <p className="font-bold text-lg cursor-pointer">{group.name}</p>
+            </Link>
+
             <p className="font-medium text-sm text-gray-400">
               {group.members.length} Members
             </p>
           </div>
 
           <div className="w-full flex items-center justify-between ">
-           
-          <Link href={`/groups/${group.slug}`} passHref>
-              <Button text="View" extraclassNamees="w-full hover:bg-lightPlayRed hover:text-white h-8 bg-gray-100" />
-          </Link>
-          
+            <Link href={`/groups/${group.slug}`} passHref>
+              <Button
+                text="View"
+                extraclassNamees="w-full hover:bg-lightPlayRed hover:text-white h-8 bg-gray-100"
+              />
+            </Link>
           </div>
         </div>
       </div>

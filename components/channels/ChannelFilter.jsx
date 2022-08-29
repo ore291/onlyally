@@ -2,6 +2,7 @@ import Image from "next/image";
 import Button from "../Button";
 import { IoMdThumbsUp } from "react-icons/io";
 import { BsTagFill } from "react-icons/bs";
+import Link from "next/link";
 
 const ChannelFilter = ({ channel }) => {
   return (
@@ -18,10 +19,13 @@ const ChannelFilter = ({ channel }) => {
       </div>
       <div className="col-span-2 flex space-y-1 lg:flex-row lg:items-center lg:justify-between w-full">
         <div className="flex-col flex space-y-1">
-          <p className="font-bold text-sm md:text-2xl truncate cursor-pointer capitalize">
+        <Link href={`/channels/${channel.slug}`} passHref>
+           <p className="font-bold text-sm md:text-2xl truncate cursor-pointer capitalize">
             {channel.name}
           </p>
-          <div className="justify-start row-container space-x-1">
+        </Link>
+         
+          {/* <div className="justify-start row-container space-x-1">
             <IoMdThumbsUp className="h-4 wa-4 text-black" />
             <div className="justify-start flex space-x-1">
               <IoMdThumbsUp className="h-4 w-4 text-black" />
@@ -32,7 +36,7 @@ const ChannelFilter = ({ channel }) => {
               <BsTagFill className="h-4 w-4 text-black" />
               <p className="text-sm text-gray-600">Entertainment</p>
             </div>
-          </div>
+          </div> */}
 
           <Button
             extraclassNamees="h-[35px] w-28"

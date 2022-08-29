@@ -91,13 +91,15 @@ const ChannelCard = ({ main, channel, profile }) => {
         </Link>
 
         <div className=" w-full ">
-          <p className="font-semibold text-center text-lg">{channel.name}</p>
+        <Link href={`/channels/${channel.slug}`} passHref>
+          <p className="font-semibold text-center text-lg cursor-pointer">{channel.name}</p>
+          </Link>
           <div className="flex items-center justify-center space-x-2 divide-x">
             <div className="col-container">
               <span className="  font-bold text-sm">4</span>
               <span className=" font-semibold text-gray-400">Posts</span>
             </div>
-            <div className="col-container pl-2">
+            <div className="col-container ">
               <span className="  font-bold text-sm">
                 {channel.members.length}
               </span>
@@ -148,14 +150,17 @@ const ChannelCard = ({ main, channel, profile }) => {
       </Link>
 
       <div className="grid grid-cols-1 place-content-center w-full ">
-        <p className="font-semibold text-center text-lg">{channel.name}</p>
-        <div className=" grid grid-cols-2 place-content-center">
-          <div className="flex flex-col items-center w-full">
+      <Link href={`/channels/${channel.slug}`} passHref>
+           <p className="font-semibold text-center text-lg cursor-pointer">{channel.name}</p>
+      </Link>
+     
+        <div className=" grid grid-cols-1 place-content-center">
+          {/* <div className="flex flex-col items-center w-full">
             <span className="    font-bold text-sm">
-              {/* {channel.posts.length} */}4
+              {channel.posts.length}4
             </span>
             <span className=" font-semibold text-gray-400 ">Posts</span>
-          </div>
+          </div> */}
 
           <div className="col-container">
             <span className=" font-bold text-sm ">
