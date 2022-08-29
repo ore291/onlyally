@@ -29,11 +29,36 @@ import {
   deleteChannelMemberFailure,
   deleteChannelMemberSuccess,
   deleteChannelSuccess,
-  deleteChannelFailure
+  deleteChannelFailure,
+  updateChannelMemberSuccess,
+  updateChannelMemberFailure,
 } from "../slices/channelsSlice";
 // import { fetchChannelsCategoriesSuccess } from "../slices/channelsSlice";
 
 
+
+function* updateUserChannelMemberAPI(action) {
+  try {
+    const response = yield api.putMethod({
+      action: `channels/${action.payload.slug}/member`,
+      object: action.payload,
+    });
+    if (response.data.success) {
+      yield put(updateChannelMemberSuccess(response.data.data));
+      yield put(
+        fetchSingleChannelStart({
+          channel_slug: action.payload.slug,
+        })
+      );
+    } else {
+      yield put(updateChannelMemberFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(updateChannelMemberFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
 
 function* updateUserChannelInfoAPI(action) {
   try {
@@ -371,6 +396,9 @@ export default function* pageSaga() {
       "channels/updateChannelPhotosStart",
       updateUserChannelPhotosAPI
     ),
+  ]);
+  yield all([
+    yield takeLatest("channels/updateChannelMemberStart", updateUserChannelMemberAPI),
   ]);
   yield all([
     yield takeLatest(

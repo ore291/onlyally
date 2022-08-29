@@ -79,12 +79,38 @@ const initialState = {
     loading: false,
     error: false,
   },
+  updateMemberStatus:{
+    data: {},
+    loading: false,
+    error: false,
+  },
 };
 
 export const GroupsSlice = createSlice({
   name: "groups",
   initialState,
   reducers: {
+    updateGroupMemberStart: (state, action)=>{
+        state.updateMemberStatus = {
+          data : {},
+          loading : true,
+          error :  false
+        }
+    },
+    updateGroupMemberSuccess: (state, action)=>{
+        state.updateMemberStatus = {
+          data : action.payload,
+          loading : false,
+          error :  false
+        }
+    },
+    updateGroupMemberFailure: (state, action)=>{
+        state.updateMemberStatus = {
+          data : {},
+          loading : false,
+          error :  action.payload
+        }
+    },
     updateGroupInfoStart: (state, action)=>{
         state.updateGroup = {
           data : {},
@@ -403,6 +429,9 @@ export const GroupsSlice = createSlice({
 });
 
 export const {
+  updateGroupMemberStart,
+  updateGroupMemberSuccess,
+  updateGroupMemberFailure,
   deleteGroupMemberStart,
   deleteGroupMemberFailure,
   deleteGroupMemberSuccess,

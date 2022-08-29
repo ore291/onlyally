@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "../Button";
-import MakeAdminMenu from "../settings/MakeAdminMenu";
+import MakeAdminMenu from "./MakeAdminMenu";
 import { deleteGroupMemberStart } from "../../store/slices/groupsSlice";
 import { deleteChannelMemberStart } from "../../store/slices/channelsSlice";
 import { useDispatch, useSelector } from "react-redux";

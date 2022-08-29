@@ -60,6 +60,11 @@ const initialState = {
     loading: false,
     error: false,
   },
+  updateMemberStatus:{
+    data: {},
+    loading: false,
+    error: false,
+  },
   deleteChannel: {
     data : [],
     loading: false,
@@ -80,6 +85,27 @@ export const ChannelsSlice = createSlice({
   name: "channels",
   initialState,
   reducers: {
+    updateChannelMemberStart: (state, action)=>{
+      state.updateMemberStatus = {
+        data : {},
+        loading : true,
+        error :  false
+      }
+  },
+  updateChannelMemberSuccess: (state, action)=>{
+      state.updateMemberStatus = {
+        data : action.payload,
+        loading : false,
+        error :  false
+      }
+  },
+  updateChannelMemberFailure: (state, action)=>{
+      state.updateMemberStatus = {
+        data : {},
+        loading : false,
+        error :  action.payload
+      }
+  },
     deleteChannelStart: (state, action) => {
       state.deleteChannel = {
         data : [],
@@ -377,6 +403,9 @@ export const ChannelsSlice = createSlice({
 });
 
 export const {
+  updateChannelMemberStart,
+  updateChannelMemberSuccess,
+  updateChannelMemberFailure,
   deleteChannelMemberStart,
   deleteChannelMemberFailure,
   deleteChannelMemberSuccess,

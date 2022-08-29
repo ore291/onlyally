@@ -1,5 +1,5 @@
 import React from "react";
-import MemberCard from "../helpers/MemberCard";
+import MemberCard from "./MemberCard";
 
 const MembersSettings = ({ channel }) => {
   return (
