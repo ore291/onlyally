@@ -370,16 +370,13 @@ function ProfileNavItem({
                 <MenuItem icon={<BiTransferAlt size="18px" />}>
                   <Link href="/market/transaction">View Transactions</Link>
                 </MenuItem>
-                <MenuItem icon={<BsBagCheck size="18px" />}>
-                  <Link href="/market/market">Market Checkout</Link>
-                </MenuItem>
                 <MenuItem icon={<MdOutlineNotes size="18px" />}>
                   <Link href="/market/orderList">Orders</Link>
                 </MenuItem>
                 <MenuItem icon={<AiOutlineCheckSquare size="18px" />}>
                   <Link href="/market/cart">Cart</Link>
                 </MenuItem>
-                <MenuItem icon={<AiOutlineCheckSquare size="18px" />}>
+                <MenuItem icon={<BsBagCheck size="18px" />}>
                   <Link href="/market/payment">Checkout</Link>
                 </MenuItem>
               </SubMenu>

@@ -160,7 +160,12 @@ const FansCard = ({user}) => {
                       />
                       <div>
                         <h2 className="text-2xl  font-semibold">{user.username}</h2>
-                        <p>@{user.u_unique_id}</p>
+                      {user.user_unique_id   &&
+                       <p>@{user.user_unique_id}</p>
+                      }
+                      {user.u_unique_id  &&                     
+                      <p>@{user.u_unique_id}</p>
+                      }
                       </div>
                       <div className=" flex  justify-center items-center flex-1 ">
                         <div  className="h-10 w-10 p-1 justify-center items-center flex  border-2 border-gray-400 hover:scale-105 cursor-pointer rounded-full">

@@ -207,7 +207,7 @@ const HeaderMenu = (userSession) => {
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <Link href="/market/market" passHref>
+                      <Link href="/market/marketplace" passHref>
                         <button
                           className={`${
                             active
