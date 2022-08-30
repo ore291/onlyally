@@ -33,8 +33,8 @@ const [newAddressInputData, setNewAddressInputData] = useState({
   name : "",
   contact_number : "",
   address : "",
-  landmark :"",
-  pincode : "",
+  landmark :12345,
+  pincode : 12345,
   state: "" ,
 
 });
@@ -283,25 +283,7 @@ const changePaymentMethod = (payment) => {
                 />
               </div>
 
-              <div className="flex flex-col w-full justify-center">
-                <input
-                  type="text"
-                  name="landmark"
-                  className="w-[100%] h-fit border-white shadow-gray-300 shadow-sm rounded text-[10px] outline-none"
-                  placeholder="Landmark"
-                  onChange={event => handleAddressInputChange(event)}
-                />
-              </div>
-
-              <div className="flex flex-col w-full justify-center">
-                <input
-                  type="text"
-                  name="pincode"
-                  className="w-[100%] h-[27px] border-white shadow-gray-300 shadow-md rounded text-[10px] outline-none"
-                  placeholder="Pin Code"
-                  onChange={event => handleAddressInputChange(event)}
-                />
-              </div>
+             
               <div className="flex flex-col w-full justify-center">
                 <input
                   type="text"
@@ -315,7 +297,7 @@ const changePaymentMethod = (payment) => {
               <div className="flex flex-row w-full justify-start  items-center space-x-2">
                 <input
                   type="checkbox"
-                  className=" font-medium"
+                  className="w-[100%] h-fit border-white shadow-gray-300 shadow-sm rounded text-[10px] outline-none"
                   id="saveInfo"
                   name="is_default"
                   defaultChecked={isDefaultAddress}
@@ -323,7 +305,8 @@ const changePaymentMethod = (payment) => {
                 />
                 <div
                    htmlFor="saveInfo"
-                  className="text-[10px] font-medium">
+                   className="w-[100%] h-fit border-white shadow-gray-300 shadow-sm rounded text-[10px] outline-none"
+                   >
                   Save the information for next time{" "}
                 </div>
               </div>
