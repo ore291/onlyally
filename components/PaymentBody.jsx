@@ -210,7 +210,9 @@ const changePaymentMethod = (payment) => {
             return(     
             
           <label  
-          htmlFor="inline-radio-1" 
+
+            htmlFor="inline-radio-1" 
+
             onClick={() =>
               handleDeliveryAddressSelect(data)
             }
