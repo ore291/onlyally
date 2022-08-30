@@ -36,7 +36,7 @@ const Product = () => {
           user_products_unique_id:product ,
         })
        )
-  }, [product])
+  }, [])
 
   if(singleProduct.loading == false){
 
