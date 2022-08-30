@@ -36,8 +36,8 @@ const Product = () => {
           user_products_unique_id:product ,
         })
        )
-  }, [])
-
+  }, [product])
+  const singleProductDetails = singleProduct.data.user_product
   if(singleProduct.loading == false){
 
     const singleProductDetails = singleProduct.data.user_product
