@@ -32,6 +32,8 @@ import {
   updateGroupPrivacySuccess,
   deleteGroupMemberFailure,
   deleteGroupMemberSuccess,
+  updateGroupMemberSuccess,
+  updateGroupMemberFailure,
 } from "../slices/groupsSlice";
 
 function* saveGroupPostAPI(action) {
@@ -188,6 +190,29 @@ function* updateUserGroupPrivacyAPI(action) {
     }
   } catch (error) {
     yield put(updateGroupPrivacyFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
+function* updateUserGroupMemberAPI(action) {
+  try {
+    const response = yield api.putMethod({
+      action: `groups/${action.payload.slug}/member`,
+      object: action.payload,
+    });
+    if (response.data.success) {
+      yield put(updateGroupMemberSuccess(response.data.data));
+      yield put(
+        fetchSingleGroupStart({
+          group_slug: action.payload.slug,
+        })
+      );
+    } else {
+      yield put(updateGroupMemberFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(updateGroupMemberFailure(error.message));
     yield put(notify(error.message, "error"));
   }
 }
@@ -389,6 +414,9 @@ export default function* pageSaga() {
   ]);
   yield all([
     yield takeLatest("groups/updateGroupInfoStart", updateUserGroupInfoAPI),
+  ]);
+  yield all([
+    yield takeLatest("groups/updateGroupMemberStart", updateUserGroupMemberAPI),
   ]);
   yield all([
     yield takeLatest("groups/updateGroupPhotosStart", updateUserGroupPhotosAPI),
