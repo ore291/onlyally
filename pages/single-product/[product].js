@@ -36,8 +36,8 @@ const Product = () => {
           user_products_unique_id:product ,
         })
        )
-  }, [])
-
+  }, [product])
+  const singleProductDetails = singleProduct.data.user_product
   if(singleProduct.loading == false){
 
     const singleProductDetails = singleProduct.data.user_product
@@ -50,7 +50,7 @@ const Product = () => {
     router.push("/market/cart")
   }
   
-  console.log(cartSave)
+
   return (
     <div>
       {singleProduct.loading == true ? <h2>Loading ...</h2>

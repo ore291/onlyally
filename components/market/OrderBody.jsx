@@ -15,7 +15,7 @@ const OrderBody = ({order_id}) => {
         );
       }, [order_id]);
    
-  
+      const  orderList  = ordersViewForOthers.data.order
       if(ordersViewForOthers.loading == false){
         const  orderList  = ordersViewForOthers.data.order
         }
