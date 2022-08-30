@@ -36,7 +36,7 @@ const Product = () => {
           user_products_unique_id:product ,
         })
        )
-  }, [])
+  }, [product])
 
   if(singleProduct.loading == false){
 
@@ -50,7 +50,7 @@ const Product = () => {
     router.push("/market/cart")
   }
   
-  console.log(cartSave)
+
   return (
     <div>
       {singleProduct.loading == true ? <h2>Loading ...</h2>
