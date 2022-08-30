@@ -54,7 +54,7 @@ const deleteAllCart = () => {
                  )}
                </table>
           <div className="flex w-full justify-between  my-6 mt-8">
-            <Link href="/marketplace/market">
+            <Link href="/market/marketplace">
 
             <button className="p-2 rounded-md bg-stone-300">CONTINUE SHOPPING</button>
             </Link>

@@ -13,7 +13,7 @@ const OrderBody = ({order_id}) => {
             order_unique_id: order_id
           })
         );
-      }, []);
+      }, [order_id]);
    
   
       if(ordersViewForOthers.loading == false){

@@ -62,7 +62,7 @@ if(othersProducts.loading == 'false'){
     <div>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavBar />
-        <div className="w-full lg:w-4/5  lg:ml-6 px-2 bg-white mx-auto mt-20 shadow py-4 space-y-4">
+        <div className="w-full lg:w-4/5  lg:ml-6 px-2 bg-white mx-auto mt-10 shadow py-4 space-y-4">
           <section>
             <MarketButtons />
             <img

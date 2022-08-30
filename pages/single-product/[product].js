@@ -42,10 +42,13 @@ const Product = () => {
 
     const singleProductDetails = singleProduct.data.user_product
   }
-  const addToCart =()=>{
-    dispatch(saveCartDetailsStart({user_product_id : singleProduct.data.user_product.id , quantity: ATDvalue}));
+  const addToCart = async()=>{
+     await  dispatch(saveCartDetailsStart({user_product_id : singleProduct.data.user_product.id , quantity: ATDvalue}));
+      router.push("/market/cart")
   } 
-
+  const seeCart =()=>{
+    router.push("/market/cart")
+  }
   
   console.log(cartSave)
   return (
@@ -102,7 +105,7 @@ const Product = () => {
                     <button onClick={addToCart} className="btn ml-2 my-2">Add to Cart</button>
                     </div>
                     :
-                    <button className="btn ml-2 my-2">See Cart</button>
+                    <button  onClick={seeCart} className="btn ml-2 my-2">See Cart</button>
 
                 }
 
