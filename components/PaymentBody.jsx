@@ -208,16 +208,14 @@ const changePaymentMethod = (payment) => {
       <div className="flex flex-wrap gap-2">
       {deliveryAddress.data.delivery_addresses  && deliveryAddress.data.delivery_addresses.map((data, i)=> {
             return(     
-
             
           <label  
-            for="inline-radio-1" 
+          htmlFor="inline-radio-1" 
             onClick={() =>
               handleDeliveryAddressSelect(data)
             }
             key={i}
             className="flex justify-center flex-row items-center text-gray-500 border shadow-md rounded-lg py-2">
-
             <div className="text-gray-600 text-[10px] ml-2 font-medium ">
               <p>{data.contact_number}</p>
               <p>{data.state}</p>
@@ -285,6 +283,8 @@ const changePaymentMethod = (payment) => {
                 />
               </div>
 
+              
+
              
               <div className="flex flex-col w-full justify-center">
                 <input
@@ -299,7 +299,7 @@ const changePaymentMethod = (payment) => {
               <div className="flex flex-row w-full justify-start  items-center space-x-2">
                 <input
                   type="checkbox"
-                  className="w-[100%] h-fit border-white shadow-gray-300 shadow-sm rounded text-[10px] outline-none"
+                  className=" font-medium"
                   id="saveInfo"
                   name="is_default"
                   defaultChecked={isDefaultAddress}
@@ -307,8 +307,7 @@ const changePaymentMethod = (payment) => {
                 />
                 <div
                    htmlFor="saveInfo"
-                   className="w-[100%] h-fit border-white shadow-gray-300 shadow-sm rounded text-[10px] outline-none"
-                   >
+                  className="text-[10px] font-medium">
                   Save the information for next time{" "}
                 </div>
               </div>
