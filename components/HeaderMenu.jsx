@@ -31,8 +31,10 @@ const HeaderMenu = (userSession) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const wallet = useSelector((state) => state.wallet.walletData);
-  const user = useSelector((state) => state.user.profile.data);
+  // const user = useSelector((state) => state.user.profile.data);
   const cookieUser = getCookie('user');
+
+  const user = JSON.parse(cookieUser);
 
   useEffect(() => {
     userSession && dispatch(fetchWalletDetailsStart());

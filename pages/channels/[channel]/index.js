@@ -64,7 +64,7 @@ const Channel = () => {
           <ChannelPageHeader channel={channel}/>
            {/* end header */}
             {channel.is_member ? (
-              <div className="max-w-[950px] mx-auto mt-14">
+              <div className="lg:max-w-[950px] xl:max-w-screen-xl mx-auto mt-14">
                 <ChannelPageTabs />
               </div>
             ) : (

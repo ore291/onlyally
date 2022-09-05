@@ -1,5 +1,5 @@
 import { call, select, put, takeLatest, all } from "redux-saga/effects";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import api from "../../Environment";
 
@@ -70,6 +70,7 @@ function* getUserDetailsAPI(action) {
         })
       );
       if (typeof window !== "undefined") {
+
         localStorage.setItem("user_picture", response.data.data.picture);
         localStorage.setItem(
           "user_unique_id",
@@ -135,6 +136,9 @@ function* updateUserDetailsAPI() {
     });
     if (response.data.success) {
       yield put(updateUserDetailsSuccess(response.data));
+      deleteCookie("user", response.data.data)
+      setCookie("user",response.data.data );
+      setCookie("picture",response.data.data.picture)
       localStorage.setItem("user_picture", response.data.data.picture);
       localStorage.setItem("user_unique_id", response.data.data.user_unique_id);
       localStorage.setItem("user_cover", response.data.data.cover);
@@ -180,6 +184,10 @@ function* updateUserAPI() {
     });
     if (response.data.success) {
       yield put(updateUserDetailsSuccess(response.data));
+      deleteCookie("user")
+      setCookie("user",response.data.data );
+      deleteCookie("picture")
+      setCookie("picture",response.data.data.picture)
       yield put(updateUserSuccess(response.data));
       localStorage.setItem("user_picture", response.data.data.picture);
       localStorage.setItem("user_unique_id", response.data.data.user_unique_id);

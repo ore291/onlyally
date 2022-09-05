@@ -12,7 +12,7 @@ import React, {
 } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { BsHeart, BsHeartFill, BsThreeDots } from "react-icons/bs";
+import { BsHeart, BsHeartFill, BsThreeDots, BsBookmark} from "react-icons/bs";
 import {
   FaBookmark,
   FaCheckCircle,
@@ -742,7 +742,7 @@ const NewsFeedCard = ({ post, index }) => {
                         title="Bookmark post"
                         className="flex items-center justify-center"
                       >
-                        <FaBookmark className="news-feed-card-icon " />
+                        <BsBookmark className="news-feed-card-icon " />
                       </button>
                     ) : null}
                   </>
@@ -763,7 +763,7 @@ const NewsFeedCard = ({ post, index }) => {
                   title="Bookmark post"
                   className="flex items-center justify-center"
                 >
-                  <FaBookmark className="news-feed-card-icon " />
+                  <BsBookmark className="news-feed-card-icon " />
                 </button>
               )}
             </div>

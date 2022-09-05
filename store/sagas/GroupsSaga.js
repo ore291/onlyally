@@ -17,6 +17,7 @@ import {
   fetchGroupsCategoriesSuccess,
   fetchGroupsCategoriesFailure,
   createGroupSuccess,
+  createGroupFailure,
   fetchSingleGroupSuccess,
   fetchSingleGroupFailure,
   fetchSingleGroupStart,
@@ -325,12 +326,12 @@ function* groupCreateAPI(action) {
       );
       window.location.assign("/groups/" + response.data.data.slug);
     } else {
-      yield put(deleteGroupFailure(response.data.message));
+      yield put(createGroupFailure(response.data.message));
       yield put(notify({ message: response.data.message, status: "error" }));
       window.location.assign("/gopro/");
     }
   } catch (error) {
-    yield put(deleteGroupFailure(error));
+    yield put(deleteGrcreateGroupFailureoupFailure(error));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }

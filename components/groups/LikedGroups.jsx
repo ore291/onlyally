@@ -14,6 +14,8 @@ const LikedGroups = () => {
     dispatch(fetchGroupsStart());
   }, []);
 
+  
+
   return (
     <div className="side-container">
       <div className="flex items-center justify-between px-2">

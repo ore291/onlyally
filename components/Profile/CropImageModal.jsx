@@ -119,7 +119,7 @@ const CropImageModal = (props) => {
                       </h3>
                       <div
                         className="rounded-full bg-white p-0.5 cursor-pointer"
-                        onClick={() => props.closePaymentModal()}
+                        onClick={() => props.closeModal()}
                       >
                         <FaTimes className="w-6 h-6 hover:text-red-600" />
                       </div>
