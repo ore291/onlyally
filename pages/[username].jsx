@@ -353,7 +353,7 @@ const Profile = () => {
                     Are You sure you want to block this user ?
                   </p>
                   <code className="text-center m-4">
-                    Note: users posts won't be visible to you any longer
+                    Note: users posts won&apos;t be visible to you any longer
                   </code>
                   <div className="flex justify-between">
                     <button
