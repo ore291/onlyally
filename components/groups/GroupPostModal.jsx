@@ -472,7 +472,7 @@ const GroupPostModal = (props) => {
                       />
                     </form>
                     {videoPreview.videoPreviewImage !== "" ? (
-                      <div grid grid-cols-1 className="mb-3 mb-lg-4">
+                      <div  className="grid grid-cols-1 mb-3 mb-lg-4">
                         <div className="post-img-preview-sec m-0">
                           <img
                             alt="#"

@@ -10,7 +10,7 @@ const NoDataFound = () => {
         {/* <div className="mx-auto text-center py-[2rem]"> */}
         <div className="relative max-w-[30em] mb-[2em] ">
           <img
-            layout="fill"
+            // layout="fill"
             alt="not-found"
             src={
               configData.frontend_no_data_image

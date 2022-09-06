@@ -82,7 +82,7 @@ const HeaderMenu = (userSession) => {
                   src={user.picture ? user.picture : getCookie("picture")}
                   width={38}
                   height={38}
-                  objectFit="cover"
+                  // objectFit="cover"
                   className="rounded-full object-cover w-[38px] h-[38px] "
                 />
 
