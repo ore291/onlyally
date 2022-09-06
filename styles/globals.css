@@ -792,3 +792,38 @@ input:checked ~ .dot {
 input:checked ~ .tick-bg {
   background-color: #fe1638;
 }
+
+.animate-display {
+  animation-name: display;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-duration: 1s;
+  transform-style: preserve-3d;
+}
+@keyframes display {
+  0% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  60% {
+    opacity: 0.2;
+  }
+  70% {
+    opacity: 0.4;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
