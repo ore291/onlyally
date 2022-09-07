@@ -81,9 +81,9 @@ const EcomCategory = () => {
                         </select>
                     </div>
                     <input type="radio" id="hightolow" name="arangement" value="High to Low"/>
-                    <label  className="ml-[1rem]  text-semibold" for="hightolow">High to Low</label><br/>
+                    <label  className="ml-[1rem]  text-semibold" htmlFor="hightolow">High to Low</label><br/>
                     <input type="radio" id="lowtohigh" name="arangement" value="Low to High"/>
-                    <label  className="ml-[1rem] text-semibold" for="lowtohigh">Low to high</label><br/>
+                    <label  className="ml-[1rem] text-semibold" htmlFor="lowtohigh">Low to high</label><br/>
                 <div className="flex my-[1rem]">
                     <button className="p-[0.5rem] text-semibold text-white  px-[1.2rem] bg-red-500 mr-2 rounded-xl">reset</button>
                     <button className="p-[0.5rem] text-semibold text-white  px-[1.2rem] bg-red-500 mr-2 rounded-xl ">Submit</button>
