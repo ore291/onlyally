@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MarketButtons from "../../components/MarketButtons";
 import ProfileNavBar from "../../components/ProfileNavBar";
-import { userProductViewForOthersStart, fetchUserSingleProductStart, saveCartDetailsStart } from "../../store/slices/productsSlice";
+import { userProductViewForOthersStart, fetchUserSingleProductStart, saveCartDetailsStart, fetchUserProductPicturesStart } from "../../store/slices/productsSlice";
 
 
 
@@ -18,9 +18,14 @@ const Product = () => {
   const dispatch =useDispatch()
   
   const [ATDvalue, setATDvalue] = useState(1)
+  const [displayImg, setDisplayImg] = useState(null)
   const singleProduct = useSelector(state => state.products.productViewForOthers);
+
   const cartSave = useSelector(state => state.products.cartSave)  ;
   
+  const imageHandler = (url) =>{
+       setDisplayImg(url)
+  }
   const  changeATDvalue = (x) => {
         if(x == 1 ){
           setATDvalue(ATDvalue + 1)  
@@ -49,7 +54,8 @@ const Product = () => {
   const seeCart =()=>{
     router.push("/market/cart")
   }
-  
+
+  console.log(singleProductDetails)
 
   return (
     <div>
@@ -65,11 +71,29 @@ const Product = () => {
         </section>
 
 
-        <div className="relative     flex-col  md:flex-row flex  rounded-xl  w-full h-2/3  bg-white" >
-           
-                <div className="flex-1 flex justify-center items-center" >
-                    <img className=" w-3/4 h-3/4 " src={singleProductDetails.picture} alt="" />
+        <div className="relative     flex-col  md:flex-row flex  rounded-xl  w-full h-3/4 bg-white" >
+          <div className="flex-1 flex flex-col mt-6" >
+                <div className="flex-1  h-[20rem]  " >
+                    <img className="  h-[17rem]  w-3/4" src={displayImg ? displayImg  : singleProductDetails.picture} alt="" />
+                </div>   
+          
+          <div className="flex flex-wrap mt-[2rem]   w-3/4	 " >
+            { singleProductDetails.user_product_pictures  &&    singleProductDetails.user_product_pictures.map((data, i) =>{
+               return(
+                <div key={i} className=" ml-[1rem] w-[4rem] h-[4rem] ">
+                      
+                 <img src={data.picture} 
+                 onClick={()=> imageHandler(data.picture)}
+                 className="w-full h-full hover:cursor-pointer rounded-lg hover:border-black hover:border hover:border-[2px]" 
+                 alt="" />             
                 </div>
+               )
+            })}
+          </div>
+  
+                    
+                </div>
+
                 <div className="flex-1 my-auto mx-auto  md:mx-0">
                     <h1 className="text-2xl font-bold  mb-2" >{singleProductDetails.name}</h1>
                     <hr className="m-2 bg-black w-16 mb-4" />
