@@ -65,7 +65,7 @@ const ChannelCard = ({ main, channel, profile }) => {
     return (
       <div className="h-[300px] w-full md:h-[300px] mb-5 border rounded-xl shadow-md overflow-hidden flex flex-col items-center relative group cursor-pointer flex-shrink-0 space-y-3">
         <Link href={`/channels/${channel.slug}`} passHref>
-          <div className="relative w-full h-[100px] rounded-t-lg mb-8 md:mb-16">
+          <div className="relative w-full h-[130px] md:h-[100px] rounded-t-lg mb-8 md:mb-16">
             <Image
               src={
                 channel.cover ||
@@ -76,16 +76,16 @@ const ChannelCard = ({ main, channel, profile }) => {
               className="rounded-t-lg"
               alt=""
             />
-            <div className="absolute -bottom-8 md:-bottom-16 max-w-[100px] md:max-w-[116px] inset-x-0 mx-auto ">
-              <div className="w-24 h-24 md:w-28 md:h-28 relative rounded-2xl  ">
-                <Image
-                  src={"https://dummyimage.com/300"}
+            <div className="absolute -bottom-8 md:-bottom-16 max-w-[100px] md:max-w-[116px] inset-x-0 mx-auto p-1 bg-white rounded-2xl">
+     
+                <img
+                  src={channel.avatar || "https://dummyimage.com/300"}
                   alt="side-img"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-2xl"
+             
+                
+                  className="rounded-2xl md:w-32 md:h-28 object-cover"
                 />
-              </div>
+              
             </div>
           </div>
         </Link>
@@ -94,11 +94,13 @@ const ChannelCard = ({ main, channel, profile }) => {
         <Link href={`/channels/${channel.slug}`} passHref>
           <p className="font-semibold text-center text-lg cursor-pointer">{channel.name}</p>
           </Link>
-          <div className="flex items-center justify-center space-x-2 divide-x">
-            <div className="col-container">
-              <span className="  font-bold text-sm">4</span>
+          <div className="flex items-center justify-center space-x-2 ">
+
+
+            {/* <div className="col-container">
+              <span className=" font-bold text-sm">4</span>
               <span className=" font-semibold text-gray-400">Posts</span>
-            </div>
+            </div> */}
             <div className="col-container ">
               <span className="  font-bold text-sm">
                 {channel.members.length}

@@ -25,6 +25,8 @@ import {
   deleteGroupFailure,
   fetchUserGroupsSuccess,
   fetchUserGroupsFailure,
+  fetchOtherUserGroupsSuccess,
+  fetchOtherUserGroupsFailure,
   updateGroupInfoFailure,
   updateGroupInfoSuccess,
   updateGroupPhotosFailure,
@@ -113,6 +115,27 @@ function* fetchUserGroupsAPI(action) {
     }
   } catch (error) {
     yield put(fetchUserGroupsFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+function* fetchOtherUserGroupsAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var id = action.payload.user_id
+  }
+  try {
+    const response = yield api.getMethod({
+      action: `groups/if_member/${id}`,
+      accessToken: accessToken,
+    });
+    if (response.data.success) {
+      yield put(fetchOtherUserGroupsSuccess(response.data.data));
+    } else {
+      yield put(fetchOtherUserGroupsFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchOtherUserGroupsFailure(error.message));
     yield put(notify(error.message, "error"));
   }
 }
@@ -395,6 +418,9 @@ export default function* pageSaga() {
   yield all([yield takeLatest("groups/fetchGroupsStart", fetchGroupsAPI)]);
   yield all([
     yield takeLatest("groups/fetchUserGroupsStart", fetchUserGroupsAPI),
+  ]);
+  yield all([
+    yield takeLatest("groups/fetchOtherUserGroupsStart", fetchOtherUserGroupsAPI),
   ]);
   yield all([
     yield takeLatest(

@@ -12,6 +12,11 @@ const initialState = {
     loading: false,
     error: false,
   },
+  otherUserChannels: {
+    data: [],
+    loading: false,
+    error: false,
+  },
   channelSubscribe:{
     inputData: null,
     loading: false,
@@ -291,6 +296,27 @@ export const ChannelsSlice = createSlice({
         error: action.payload,
       };
     },
+    fetchOtherUserChannelsStart: (state, action) => {
+      state.otherUserChannels = {    
+        data: [],
+        loading: true,
+        error: false,
+      };
+    },
+    fetchOtherUserChannelsSuccess: (state, action) => {
+      state.otherUserChannels = {
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchOtherUserChannelsFailure: (state, action) => {
+      state.otherUserChannels = {
+        data: [],
+        loading: false,
+        error: action.payload,
+      };
+    },
     channelSubscribeStart: (state, action)=>{
       state.channelSubscribe = {
         inputData: action.payload,
@@ -392,9 +418,10 @@ export const ChannelsSlice = createSlice({
         return state;
       }
       state.channels = action.payload.channels.channels;
-      state.userChannels = action.payload.channels.userChannels
-      state.channelData = action.payload.channels.channelData
-      state.categories = action.payload.channels.categories
+      state.userChannels = action.payload.channels.userChannels;
+      // state.otherUserChannels = action.payload.channels.otherUserChannels;
+      state.channelData = action.payload.channels.channelData;
+      state.categories = action.payload.channels.categories;
      
     },
   },
@@ -403,6 +430,9 @@ export const ChannelsSlice = createSlice({
 });
 
 export const {
+  fetchOtherUserChannelsSuccess,
+  fetchOtherUserChannelsFailure,
+  fetchOtherUserChannelsStart,
   updateChannelMemberStart,
   updateChannelMemberSuccess,
   updateChannelMemberFailure,

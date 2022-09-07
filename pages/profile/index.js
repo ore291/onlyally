@@ -42,10 +42,10 @@ import { fetchUserDetailsStart } from "../../store/slices/userSlice";
 import { fetchPostsStart } from "../../store/slices/postSlice";
 import { fetchUserGroupsStart } from "../../store/slices/groupsSlice";
 import { fetchUserChannelsStart } from "../../store/slices/channelsSlice";
-import { fetchUserProductsStart } from "../../store/slices/productsSlice";
+
 import { useEffect, useState } from "react";
 import VerifiedBadge from "../../components/handlers/VerifiedBadge";
-import configuration from "react-global-configuration";
+
 
 import { getCookies } from "cookies-next";
 
@@ -110,12 +110,14 @@ const Profile = () => {
         <ProfileLoader></ProfileLoader>
       ) : (
         <>
-          <div className="profile-bg  relative  -mt-20 ">
-            <div className="relative w-full !h-[40vh] md:!h-[70vh]">
+          <div className="profile-bg  relative  -mt-10 ">
+            <div className="relative w-full min-h-[30vh] md:min-h-[50vh]  ">
               <Image
                 src={profile.data.cover}
                 alt={profile.data.name}
                 layout="fill"
+                objectFit="cover"
+                objectPosition="center"
                 srcSet=""
                 className="w-full   "
               />

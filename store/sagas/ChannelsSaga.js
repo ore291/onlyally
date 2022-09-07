@@ -18,6 +18,8 @@ import {
   fetchChannelsCategoriesFailure,
   fetchUserChannelsSuccess,
   fetchUserChannelsFailure,
+  fetchOtherUserChannelsSuccess,
+  fetchOtherUserChannelsFailure,
   updateChannelInfoFailure,
   updateChannelInfoSuccess,
   updateChannelPhotosFailure,
@@ -32,6 +34,7 @@ import {
   deleteChannelFailure,
   updateChannelMemberSuccess,
   updateChannelMemberFailure,
+
 } from "../slices/channelsSlice";
 // import { fetchChannelsCategoriesSuccess } from "../slices/channelsSlice";
 
@@ -209,6 +212,26 @@ function* fetchUserChannelsAPI(action) {
   }
 }
 
+function* fetchOtherUserChannelsAPI(action) {
+  if(action.payload){
+    var id = action.payload.user_id
+  }
+  try {
+    const response = yield api.getMethod({
+      action: `channels/if_member/${id}`,
+    });
+    if (response.data.success) {
+      yield put(fetchOtherUserChannelsSuccess(response.data.data));
+    } else {
+      yield put(fetchOtherUserChannelsFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchOtherUserChannelsFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
 function* channelSubscribeAPI(action) {
   const inputData = yield select(
     (state) => state.channels.channelSubscribe.inputData
@@ -369,6 +392,9 @@ export default function* pageSaga() {
   ]);
   yield all([
     yield takeLatest("channels/fetchUserChannelsStart", fetchUserChannelsAPI),
+  ]);
+  yield all([
+    yield takeLatest("channels/fetchOtherUserChannelsStart", fetchOtherUserChannelsAPI),
   ]);
   yield all([
     yield takeLatest("channels/channelSubscribeStart", channelSubscribeAPI),

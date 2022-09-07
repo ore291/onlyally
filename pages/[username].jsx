@@ -55,6 +55,8 @@ import {
   fetchSingleUserPostsStart,
   fetchSingleUserProfileStart,
 } from "../store/slices/OtherUsersSlice";
+
+
 import { subscriptionPaymentPaystackStart } from "../store/slices/subscriptionSlice";
 
 import { getCookies, getCookie } from "cookies-next";
@@ -227,14 +229,14 @@ const Profile = () => {
           <ProfileLoader></ProfileLoader>
         ) : userDetails.data.user ? (
           <>
-            <div className="profile-bg  relative  -mt-20">
-              <div className="relative w-full !h-[50vh] md:!h-[70vh] ">
+            <div className="profile-bg  relative -mt-10 ">
+              <div className="relative w-full min-h-[30vh] md:min-h-[50vh] ">
                 {userDetails.data.user.cover !== undefined ? (
                   <Image
                     src={userDetails.data.user.cover}
                     alt={userDetails.data.user.name}
                     layout="fill"
-                    objectFit="cover"
+                    objectFit="contain"
                     objectPosition="center"
                     srcSet=""
                     className="w-full  !h-[30vh] md:!h-[70vh] object-cover object-center "

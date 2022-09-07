@@ -35,6 +35,11 @@ const initialState = {
     loading: false,
     error: false,
   },
+  otherUserGroups: {
+    data: [],
+    loading: false,
+    error: false,
+  },
   joinGroup: {
     inputData: null,
     data: [],
@@ -247,6 +252,27 @@ export const GroupsSlice = createSlice({
         error: action.payload,
       };
     },
+    fetchOtherUserGroupsStart: (state, action) => {
+      state.otherUserGroups = {
+        data: [],
+        loading: true,
+        error: false,
+      };
+    },
+    fetchOtherUserGroupsSuccess: (state, action) => {
+      state.otherUserGroups = {
+        data: [...state.otherUserGroups.data, ...action.payload],
+        loading: false,
+        error: false,
+      };
+    },
+    fetchOtherUserGroupsFailure: (state, action) => {
+      state.otherUserGroups = {
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
     joinGroupStart: (state, action) => {
       state.joinGroup = {
         inputData: action.payload,
@@ -423,6 +449,7 @@ export const GroupsSlice = createSlice({
       state.groups = action.payload.groups.groups;
       state.groupMembersData = action.payload.groups.groupMembersData;
       state.userGroups = action.payload.groups.userGroups;
+      state.otherUserGroups = action.payload.groups.otherUserGroups;
       state.categories = action.payload.groups.categories;
     },
   },
@@ -465,6 +492,9 @@ export const {
   fetchUserGroupsStart,
   fetchUserGroupsSuccess,
   fetchUserGroupsFailure,
+  fetchOtherUserGroupsStart,
+  fetchOtherUserGroupsSuccess,
+  fetchOtherUserGroupsFailure,
   updateGroupInfoStart,
   updateGroupInfoFailure,
   updateGroupInfoSuccess,
