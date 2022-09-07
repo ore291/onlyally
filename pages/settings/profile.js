@@ -46,6 +46,11 @@ export default function Profile() {
 
   const userGender = useState([[profile.data.gender]]);
 
+  useEffect(() => {
+    if (profile.loading || profile.data !== null)
+      dispatch(fetchUserDetailsStart());
+  }, []);
+
   // const [first, setFirst] = useState({
   //   plan: "",
   // });
@@ -149,8 +154,7 @@ export default function Profile() {
       let imageFile = event.currentTarget.files[0];
       let currentInputName = event.currentTarget.name;
 
-      console.log("originalFile instanceof Blob", imageFile instanceof Blob); // true
-      console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
+
 
       var options = {
         maxSizeMB: 1,
@@ -160,20 +164,11 @@ export default function Profile() {
 
       imageCompression(imageFile, options)
         .then(function (compressedFile) {
-          console.log(
-            "compressedFile instanceof Blob",
-            compressedFile instanceof Blob
-          ); // true
-          console.log(
-            `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-          ); // smaller than maxSizeMB
-          console.log("compressedFile" + compressedFile);
-
           var croppedReader = new FileReader();
           croppedReader.readAsDataURL(compressedFile);
           croppedReader.onloadend = function () {
             var base64data = croppedReader.result;
-            // console.log(base64data);
+         
 
             if (currentInputName === "picture") {
               setCropModalFlag({
@@ -189,10 +184,7 @@ export default function Profile() {
               });
             }
 
-            // if (currentInputName === "cover") {
-
-            //   setCropModalFlag({...cropModalFlag , image : reader.result ,  width : 95 , height : 25  ,shape : "rect" , flag : true , type: "cover",fileType : currentfileType , fileName : currentfileName })
-            // }
+          
           };
         })
         .catch(function (error) {
@@ -301,8 +293,8 @@ export default function Profile() {
                       Upload profile photo
                     </div>
                   </label>
-                  <label htmlFor="">
-                    <button className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold  hover:bg-red-500 hover:text-white transition duration-150 ">
+                  <label htmlFor="story-button">
+                    <button name="story-button" type="button" className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold  hover:bg-red-500 hover:text-white transition duration-150 ">
                       Upload Feature Story
                     </button>
                   </label>
@@ -932,7 +924,7 @@ export default function Profile() {
               <img
                 width="150"
                 height="150"
-                className="rounded-full "
+                className="rounded-full h-[150px]  w-[150px] object-cover"
                 src={profile.data.picture}
                 alt="profile-pic"
               />

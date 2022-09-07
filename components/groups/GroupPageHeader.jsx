@@ -5,9 +5,23 @@ import Button from "../Button";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import Link from "next/link";
+import { deleteGroupMemberStart , joinGroupStart} from "../../store/slices/groupsSlice";
+import {useDispatch, useSelector} from "react-redux";
 
 const GroupPageHeader = ({ group }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const exitGroup = ()=>{
+    dispatch(deleteGroupMemberStart({ 
+      slug : group.slug,
+      user_id : getCookie("userId")
+    }))
+  };
+
+  const handleJoinGroup = async (slug) => {
+    dispatch(joinGroupStart(slug));
+  };
   return (
     <div className="w-full mx-auto relative">
       <img
@@ -21,7 +35,7 @@ const GroupPageHeader = ({ group }) => {
       />
       <div className="w-full h-[107%] absolute inset-x-0 top-1 bg-gradient-to-b from-transparent to-[#f9f9f9] z-5"></div>
 
-      <div className=" max-w-[900px] mx-auto absolute inset-0 -bottom-8">
+      <div className=" max-w-[900px] 2xl:max-w-screen-lg mx-auto absolute inset-0 -bottom-8">
         <div className="w-full  rounded-2xl  relative z-10 ">
           <img
             src={
@@ -73,7 +87,8 @@ const GroupPageHeader = ({ group }) => {
               </Link>
             ) : group.is_member ? (
               <Button
-                text="Joined"
+                text="Exit"
+                onClick={() =>exitGroup()}
                 active={true}
                 extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-red-500"
               />

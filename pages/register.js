@@ -114,7 +114,7 @@ const Register = () => {
           <input
             type="text"
             className="block border border-grey-light w-full p-3 rounded mb-4"
-            controlId="signupName"
+            // controlId="signupName"
             name="fullname"
             placeholder="Full Name"
             value={signupInputData.name}
@@ -136,8 +136,8 @@ const Register = () => {
               autoComplete="off"
               value={signupInputData.user_name}
               placeholder="Username"
-              isValid={validation.isValid}
-              isInvalid={validation.isInValid}
+              // isValid={validation.isValid}
+              // isInvalid={validation.isInValid}
               onChange={(event) =>
                 event.currentTarget.value &&
                 event.currentTarget.value.length > 3

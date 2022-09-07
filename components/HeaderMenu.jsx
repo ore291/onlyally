@@ -31,8 +31,10 @@ const HeaderMenu = (userSession) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const wallet = useSelector((state) => state.wallet.walletData);
-  const user = useSelector((state) => state.user.profile.data);
+  // const user = useSelector((state) => state.user.profile.data);
   const cookieUser = getCookie('user');
+
+  const user = JSON.parse(cookieUser);
 
   useEffect(() => {
     userSession && dispatch(fetchWalletDetailsStart());
@@ -80,7 +82,7 @@ const HeaderMenu = (userSession) => {
                   src={user.picture ? user.picture : getCookie("picture")}
                   width={38}
                   height={38}
-                  objectFit="cover"
+                  // objectFit="cover"
                   className="rounded-full object-cover w-[38px] h-[38px] "
                 />
 
