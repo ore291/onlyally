@@ -44,13 +44,13 @@ const Comment = ({ comment, index, post }) => {
           </div>
         </Link>
       </div>
-      <div className="flex flex-col justify-center space-y-0.5 basis-[85%]">
+      <div className="flex flex-col justify-center space-y-0.5 basis-[90%]">
         <p className="font-extrabold">{comment.user_displayname}</p>{" "}
         <span
           dangerouslySetInnerHTML={{
             __html: comment.comment != undefined ? comment.comment : "",
           }}
-          className="comment-message"
+          className="comment-message text-xs "
         ></span>
         <div className="flex items-center space-x-3 text-gray-500">
           <span className="text-xs">{comment.created}</span>
@@ -93,9 +93,9 @@ const Comment = ({ comment, index, post }) => {
         </div>
        
       </div>
-      <div className="basis-[5%] hover:cursor-pointer hover:text-gray-400">
+      {/* <div className="basis-[5%] hover:cursor-pointer hover:text-gray-400">
         <BsHeart />
-      </div>
+      </div> */}
     </div>
     <CommentReplies
           key="index"

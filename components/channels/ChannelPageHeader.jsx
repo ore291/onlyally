@@ -5,7 +5,7 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
-import { channelSubscribeStart } from "../../store/slices/channelsSlice";
+import { channelSubscribeStart, deleteChannelMemberStart } from "../../store/slices/channelsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -13,9 +13,22 @@ const ChannelPageHeader = ({ channel }) => {
   const router = useRouter();
   const { loading } = useSelector((state) => state.channels.channelSubscribe);
   const dispatch = useDispatch();
-  const handleChannelSubscribe = (slug) => {
-    dispatch(channelSubscribeStart(slug));
+
+  const handleChannelSubscribe = async  (slug) => {
+     dispatch(channelSubscribeStart(slug));
+     
+     setTimeout(() => {
+     window.location.reload();
+    }, "1500")
+
   };
+
+  const unsubscribe = ()=>{
+    dispatch(deleteChannelMemberStart({
+      slug: channel.slug,
+      user_id : getCookie("userId")
+    }))
+  }
   return (
     <div className="w-full mx-auto relative pb-10">
       <img
@@ -26,7 +39,7 @@ const ChannelPageHeader = ({ channel }) => {
       />
       <div className="w-full h-[107%] absolute inset-x-0 top-1 bg-gradient-to-b from-transparent to-[#f9f9f9] z-5"></div>
 
-      <div className=" max-w-[900px] mx-auto absolute inset-0 -bottom-8">
+      <div className=" lg:max-w-[900px] 2xl:max-w-screen-lg mx-auto absolute inset-0 -bottom-8">
         <div className="w-full  rounded-2xl  relative z-10">
           <img
             src={channel?.cover}
@@ -77,12 +90,13 @@ const ChannelPageHeader = ({ channel }) => {
           ) : channel.is_member ? (
             <Button
               text="Unsubscribe"
+              onClick={() =>unsubscribe()}
               active={true}
               extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-red-500"
             />
           ) : (
             <Button
-              onClick={handleChannelSubscribe(channel.slug)}
+              onClick={()=>handleChannelSubscribe(channel.slug)}
               text={loading ? "subscribing" : "subscribe"}
               extraclassNamees="w-20 md:w-28 h-9 bg-gray-200 rounded-md"
             />

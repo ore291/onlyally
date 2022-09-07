@@ -7,6 +7,7 @@ import {
   deleteCommentSuccess,
   fetchCommentsFailure,
   fetchCommentsSuccess,
+  fetchCommentRepliesStart,
   saveCommentFailure,
   saveCommentSuccess,
   fetchCommentRepliesFailure,
@@ -106,6 +107,7 @@ function* saveCommentReplyAPI() {
     });
     if (response.data.success) {
       yield put(saveCommentRepliesSuccess(response.data.data));
+      yield put(fetchCommentRepliesStart(inputData));
       yield put(notify({ message: response.data.message, status: "success" }));
     } else {
       yield put(saveCommentRepliesFailure(response.data.error));

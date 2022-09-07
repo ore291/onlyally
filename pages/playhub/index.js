@@ -14,7 +14,7 @@ const PlayHub = () => {
         }}
         className="w-full bg-blend-darken bg-black/20 h-[70vh]"
       >
-        <div className="flex flex-col space-y-5 items-center text-white" text-center>
+        <div className="flex flex-col space-y-5 items-center text-white  text-center">
           <div className="w-[300px] md:w-[400px] h-[50px] md:h-[100px] mt-5 md:mt-10 relative bg-transparent">
             <Image
               src="/playhub/logo1.png"

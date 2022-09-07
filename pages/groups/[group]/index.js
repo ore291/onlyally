@@ -50,7 +50,7 @@ const Group = () => {
           <GroupPageHeader group={group} />
 
           {group.is_member ? (
-            <div className="max-w-4xl mx-auto mt-24">
+            <div className="max-w-4xl 2xl:max-w-screen-xl  mx-auto mt-24  2xl:mt-6">
               <GroupPageTabs />
             </div>
           ) : (

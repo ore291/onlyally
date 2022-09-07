@@ -30,7 +30,7 @@ const GroupPageTabs = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 bg-white">
         <div className="col-span-2  my-5">
           <Tab.Group>
-            <div className="bg-white rounded-2xl  pb-5 shadow-md">
+            <div className="bg-white rounded-2xl  pb-5 ">
               <Tab.List>
                 <div className="flex justify-center space-x-3 items-center p-2 overflow-hidden overflow-x-auto">
                   <div

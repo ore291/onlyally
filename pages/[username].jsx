@@ -61,7 +61,8 @@ import { getCookies, getCookie } from "cookies-next";
 
 import { END } from "redux-saga";
 import { wrapper } from "../store";
-
+import ReportModeModal from "../components/feeds/ReportModeModal";
+import { saveBlockUserStart } from "../store/slices/userSlice";
 const Profile = () => {
   const router = useRouter();
   const { username } = router.query;
@@ -107,6 +108,9 @@ const Profile = () => {
   const [requestVideoCall, setRequestVideoCall] = useState(false);
   const [requestAudioCall, setRequestAudioCall] = useState(false);
   const [showShare, setShowShare] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [showBlockUser, setShowBlockUser] = useState(false);
+  const [reportMode, setReportMode] = useState(false);
   const [subscriptionData, setSubscriptionData] = useState({
     is_free: 0,
     plan_type: "months",
@@ -209,10 +213,13 @@ const Profile = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const closeReportModeModal = () => {
+    setReportMode(false);
+  };
 
   const open = Boolean(anchorEl);
   const popoverId = open ? "simple-popover" : undefined;
-  console.log(userDetails.data.user.share_link);
+  console.log(userDetails.data.user);
   return (
     <SideNavLayout>
       <div className="w-full">
@@ -221,7 +228,7 @@ const Profile = () => {
         ) : userDetails.data.user ? (
           <>
             <div className="profile-bg  relative  -mt-20">
-              <div className="relative w-full !h-[50vh] md:!h-[70vh]">
+              <div className="relative w-full !h-[50vh] md:!h-[70vh] ">
                 {userDetails.data.user.cover !== undefined ? (
                   <Image
                     src={userDetails.data.user.cover}
@@ -230,7 +237,7 @@ const Profile = () => {
                     objectFit="cover"
                     objectPosition="center"
                     srcSet=""
-                    className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
+                    className="w-full  !h-[30vh] md:!h-[70vh] object-cover object-center "
                   />
                 ) : (
                   <Image
@@ -277,15 +284,25 @@ const Profile = () => {
                         <Popover.Panel className="absolute z-10 w-[150px] lg:w-[15vw]  px-4 mt-3 transform shadow-md -translate-x-1/2 -left-20 sm:px-0 lg:max-w-3xl">
                           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                             <div className="relative grid gap-y-1 bg-white p-1 grid-cols-1">
-                              <div className="hover:bg-gray-100 hover:text-lightPlayRed   h-8 p-1 rounded-md cursor-pointer flex items-center justify-start">
+                              <div
+                                onClick={() => {
+                                  setShowReportModal(true);
+                                }}
+                                className="hover:bg-gray-100 hover:text-lightPlayRed   h-8 p-1 rounded-md cursor-pointer flex items-center justify-start"
+                              >
                                 <p className="font-bold text-xs">Report User</p>
                               </div>
 
-                              <div className="hover:bg-gray-100 hover:text-lightPlayRed  h-10 p-1 rounded-md cursor-pointer flex items-center justify-start">
+                              {/* <div
+                                onClick={() => {
+                                  setShowBlockUser(true);
+                                }}
+                                className="hover:bg-gray-100 hover:text-lightPlayRed  h-10 p-1 rounded-md cursor-pointer flex items-center justify-start"
+                              >
                                 <p className="font-bold text-xs">
                                   I don&apos;t like the user. Add to blocklists.
                                 </p>
-                              </div>
+                              </div> */}
                             </div>
                           </div>
                         </Popover.Panel>
@@ -295,6 +312,78 @@ const Profile = () => {
                 </Popover>
               </div>
 
+              {showReportModal && (
+                <div
+                  style={{ boxShadow: "0 3px 6px rgb(0 0 0 / 16%)" }}
+                  className=" z-[9999999999999] absolute top-[40%] bg-white opacity-[5] right-[30%]  w-[50%] translate-x-[50%] inline-block  rounded-lg "
+                >
+                  <p className="text-white text-center  bg-red-700 hover:bg-[#CF0A08]  rounded-t-lg">
+                    Are You sure you want to report this user ?
+                  </p>
+                  <code className="text-center m-4">
+                    Note: Report will be investigated on no ones favour.
+                  </code>
+                  <div className="flex justify-between">
+                    <button
+                      onClick={() => {
+                        setShowReportModal((prev) => !prev);
+                      }}
+                      className="bg-red-700 hover:bg-[#CF0A08] text-white p-1 w-[30%] rounded-lg m-4"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={(event) => {
+                        setReportMode(true);
+                        setShowReportModal(false);
+                      }}
+                      className="bg-red-700 hover:bg-[#CF0A08] text-white p-1 w-[30%] rounded-lg m-4"
+                    >
+                      Proceed
+                    </button>
+                  </div>
+                </div>
+              )}
+              {showBlockUser && (
+                <div
+                  style={{ boxShadow: "0 3px 6px rgb(0 0 0 / 16%)" }}
+                  className=" z-[9999999999999] absolute top-[40%] bg-white opacity-[5] right-[30%]  w-[50%] translate-x-[50%] inline-block  rounded-lg "
+                >
+                  <p className="text-white text-center  bg-red-700 hover:bg-[#CF0A08]  rounded-t-lg">
+                    Are You sure you want to block this user ?
+                  </p>
+                  <code className="text-center m-4">
+                    Note: users posts won&apos;t be visible to you any longer
+                  </code>
+                  <div className="flex justify-between">
+                    <button
+                      onClick={() => {
+                        setShowBlockUser((prev) => !prev);
+                      }}
+                      className="bg-red-700 hover:bg-[#CF0A08] text-white p-1 w-[30%] rounded-lg m-4"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={(event) =>
+                        handleBlockUser(
+                          event,
+                          blockUserStatus,
+                          userDetails.data.user.user_id
+                        )
+                      }
+                      className="bg-red-700 hover:bg-[#CF0A08] text-white p-1 w-[30%] rounded-lg m-4"
+                    >
+                      Proceed
+                    </button>
+                  </div>
+                </div>
+              )}
+              <ReportModeModal
+                reportMode={reportMode}
+                closeReportModeModal={closeReportModeModal}
+                post={userDetails.data.user}
+              />
               <div className="row-container  absolute -bottom-16 inset-x-0  md:inset-x-auto md:-bottom-16 md:left-24">
                 <div className="p-1 bg-white rounded-3xl">
                   <div className="w-36 h-36 relative rounded-3xl ">

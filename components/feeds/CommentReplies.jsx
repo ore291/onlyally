@@ -15,12 +15,15 @@ import PostEditor from "./PostEditor.jsx";
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import { EditorState, convertToRaw, Modifier } from "draft-js";
+import { getCookie } from "cookies-next";
 
 const CommentReplies = (props) => {
   const dispatch = useDispatch();
   const commentReplies = useSelector((state) => state.comments.commentReplies);
 
   const { comment, commentActiveIndex } = props;
+  const avatar = getCookie("picture");
+ 
 
   const [commentReplyInputData, setCommentReplyInputData] = useState({});
 
@@ -46,12 +49,14 @@ const CommentReplies = (props) => {
       })
     );
     setCommentReplyInputData({});
-    dispatch(
-      fetchCommentRepliesStart({
-        post_id: comment.post_id,
-        post_comment_id: comment.post_comment_id,
-      })
-    );
+    // dispatch(
+    //   fetchCommentRepliesStart({
+    //     post_id: comment.post_id,
+    //     post_comment_id: comment.post_comment_id,
+    //   })
+    // );
+
+    setEditorState(EditorState.createEmpty());
   };
 
   function triggerPicker(event) {
@@ -96,21 +101,23 @@ const CommentReplies = (props) => {
             {commentReplies.data.post_comment_replies.map(
               (comment_reply, index) => (
                 <>
-                  <div className="reply-box flex space-x-1 ml-16 " key={index}>
-                  <div className="relative w-10 h-10 rounded-full max-w-full">
+                  <div className="reply-box grid grid-cols-8 gap-0 ml-10" key={index}>
+                  <div className="relative w-12 h-12 rounded-full ">
                       <Image
                         alt=""
-                        src={"/user.png"}
+                        src={comment_reply.user_picture !== ""
+                        ? comment_reply.user_picture
+                        : "https://cms.onlyally.com/placeholder.jpeg"}
                         objectFit="cover"
                         layout="fill"
-                        className="rounded-full"
+                        className="rounded-full w-20 h-20"
                       />
                     </div>
-                    <div className="reply-user-info">
-                      <a to="#">
-                        <h4 className="reply-user-name text-blue-700">
+                    <div className="reply-user-info col-span-7">
+                      <a to={`/${comment_reply.user_displayname}`}>
+                        <h5 className="reply-user-name text-blue-700">
                           {comment_reply.user_displayname}
-                        </h4>
+                        </h5>
                       </a>
                       <p
                         dangerouslySetInnerHTML={{
@@ -119,7 +126,7 @@ const CommentReplies = (props) => {
                               ? comment_reply.reply
                               : "",
                         }}
-                        className="reply-message"
+                        className="reply-message text-xs "
                       ></p>
                       <div className="reply-info-sec">
                         <ul className="list-unstyled reply-info-link">
@@ -144,7 +151,7 @@ const CommentReplies = (props) => {
                     <div className="relative w-10 h-10 rounded-full max-w-full">
                       <Image
                         alt=""
-                        src={"/user.png"}
+                        src={avatar}
                         objectFit="cover"
                         layout="fill"
                         className="rounded-full"
@@ -222,7 +229,7 @@ const CommentReplies = (props) => {
                     <div className="relative w-10 h-10 rounded-full max-w-full">
                       <Image
                         alt=""
-                        src={"/user.png"}
+                        src={avatar}
                         objectFit="cover"
                         layout="fill"
                         className="rounded-full"
