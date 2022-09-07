@@ -377,11 +377,11 @@ const changePaymentMethod = (payment) => {
           <div className="p-2.5 flex space-x-2">
             <p className="font-bold text-[10px]"> Wallat Balance : {wallet.data.user_wallet.remaining_formatted}</p>
             <Link
-                  href="/wallet"
+                  href="/payment/wallet"
                   className="withdraw-money-btn"
                   passHref
             >
-            <p className="bg-blue-600 text-white py-[1px] px-2 text-[8px]">
+            <p className="bg-blue-600  cursor-pointer text-white py-[1px] px-2 text-[8px]">
               Add Wallet Amount
             </p>
             </Link>

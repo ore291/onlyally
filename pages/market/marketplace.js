@@ -1,10 +1,11 @@
 import ProfileNavBar from "../../components/ProfileNavBar";
 import MarketButtons from "../../components/MarketButtons.jsx";
 import { FaSearch } from "react-icons/fa";
-import { fetchOtherUserProductsStart, fetchUserProductsStart } from "../../store/slices/productsSlice";
+import { fetchOtherUserProductsStart, fetchUserProductsStart, userProductsSearchStart } from "../../store/slices/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import QuickProductView from "../../components/market/QuickProductView";
+import { fetchProductsProOwnerStart } from "../../store/slices/productOwnerSlice";
 
 
 const Product = (productInfo) => {
@@ -46,14 +47,23 @@ const Marketplace = () => {
   const products = useSelector(state => state.products.products)
   const othersProducts = useSelector(state => state.products.otherUserProducts)
 
+  const [searchKey, setSearchKey] = useState();
+
+
   const dispatch = useDispatch()
   useEffect(()=> {
     dispatch( fetchUserProductsStart())
     dispatch( fetchOtherUserProductsStart())
   }, [])
+   
+  const handleChange = (event) => {
+    setSearchKey(event.target.value);
+      dispatch( fetchUserProductsStart({ search_key: event.target.value }))
+      dispatch( fetchOtherUserProductsStart({ search_key: event.target.value }))
+  
+  };
 
 
-console.log(othersProducts)
 
 if(othersProducts.loading == 'false'){
   console.log(othersProducts)
@@ -85,7 +95,8 @@ if(othersProducts.loading == 'false'){
                 type="text"
                 placeholder="Search"
                 className="outline-none bg-white border-none focus:outline-none focus:border-none"
-              />
+                 onChange={(event)=> handleChange(event)}
+           />
               <button className="btn bg-red-600 uppercase text-base">
                 <FaSearch />
               </button>
