@@ -42,7 +42,7 @@ const LikedChannels = () => {
         <div className="flex space-x-2  justify-center items-center mb-2">
           <Button text="POPULAR" active={true} />
           <Button text="NEWEST" active={false} />
-          <Button text="SEE ALL" active={false} />
+          <Button text="SEE ALL" active={false}  onClick={()=>router.push('/channels')}/>
         </div>
         {channels.loading ? (
           <div className="row-container">
