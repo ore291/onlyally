@@ -13,7 +13,7 @@ const initialState = {
   },
   searchUser: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
     inputData: {},
     loadingButtonContent: null,
@@ -118,7 +118,7 @@ export const HomeSlice = createSlice({
     searchUserFailure: (state, action) => {
       state.searchUser = {
         data: {},
-        loading: true,
+        loading: false,
         error: action.payload,
         inputData: {},
         loadingButtonContent: null,

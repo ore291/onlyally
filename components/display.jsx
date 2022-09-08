@@ -21,7 +21,7 @@ const Display = ({ i, user, handleChatUser }) => {
         />
       </div>
       {seeChild && (
-        <div className="animate-display w-[150px] h-[60px] py-[5px] px-[30px] absolute cursor-pointer z-50 bg-white grid grid-cols-2 left-[-200px] top-[0] rounded-xl drop-shadow-[5px_5px_5px_rgba(0,0,0,0.5)]">
+        <div className="animate-display w-[150px] h-[60px] py-[5px] px-[30px] absolute cursor-pointer z-50 bg-white grid grid-cols-2 left-[-160px] top-[0] rounded-xl drop-shadow-[5px_5px_5px_rgba(0,0,0,0.5)]">
           <Image
             src={user.to_userpicture}
             alt="side-img"

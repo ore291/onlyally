@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { useSession, getSession } from "next-auth/react";
@@ -9,6 +10,9 @@ import HeaderCreateMenu from "./HeaderCreateMenu";
 import HeaderMenu from "./HeaderMenu";
 import { useRouter } from "next/router";
 import { setMainMobileNavState } from "../store/slices/NavSlice";
+import {searchUserStart} from "../store/slices/homeSlice";
+import CommonCenterLoader from "./helpers/CommonCenterLoader";
+import VerifiedBadge from "./handlers/VerifiedBadge";
 import {
   getCookies,
   setCookie,
@@ -18,11 +22,22 @@ import {
 
 const Header = () => {
   const dispatch = useDispatch();
+  const [show, toggleShow] = useState(false);
   const router = useRouter();
   const mainNavOpen = useSelector((state) => state.navbar.mainMobileNav);
+  const searchUser = useSelector((state) => state.home.searchUser)
   const { data: session, status } = useSession();
   const toggleMobileNav = () => {
     dispatch(setMainMobileNavState(!mainNavOpen));
+  };
+
+  const handleSearch = (event) => {
+    if (event.currentTarget.value === "") {
+      toggleShow(false);
+    } else {
+      toggleShow(true);
+      dispatch(searchUserStart({ key: event.currentTarget.value }));
+    }
   };
 
   return (
@@ -48,7 +63,7 @@ const Header = () => {
             </div>
           </div>
           {/* search */}
-          <div className="hidden md:block">
+          <div className="hidden md:block relative">
             <div className="flex relative mt-1 p-1 pl-2 rounded-full md:text-sm  bg-[#C51834]  w-full  justify-center items-center shadow-md">
               <MdSearch className="h-5 w-5 text-gray-200" />
               <input
@@ -57,8 +72,47 @@ const Header = () => {
                 name=""
                 className="text-white placeholder-[#E08B93] rounded-full placeholder:text-sm w-96 h-5 pl-1 py-4 bg-[#C51834] outline-0 border-0 focus:outline-none focus:ring-0 ring-0"
                 id=""
+                onChange={handleSearch}
               />
             </div>
+            {show && (
+              <div className="absolute top-12 border search-dropdown-sec w-[415px] bg-white shadow-2xl text-black p-2 rounded-md z-20">
+                <ul className="list-unstyled search-dropdown-list-sec flex flex-col space-y-1 divide-y">
+                  {searchUser.loading
+                    ? <CommonCenterLoader />
+                    : searchUser.data.users.length > 0
+                    ? searchUser.data.users.map((user) => (
+                        <li className="py-1" key={user.user_unique_id}>
+                          <Link href={`/${user.user_unique_id}`} passHref>
+                            <div className="search-body flex items-center space-x-2 cursor-pointer">
+                              <div className="user-img-sec">
+                                <img
+                                  alt="#"
+                                  src={user.picture}
+                                  className="user-img w-10 h-10 rounded-full object-cover"
+                                />
+                              </div>
+                              <div className="search-content text-sm ">
+                                <h5 className="flex items-center space-x-1">
+                                  {user.name}{" "}
+                                  {user.is_verified_badge == 1 ? (
+                                    <div className="pl-2">
+                                      <VerifiedBadge />
+                                    </div>
+                                  ) : null}
+                                </h5>
+                                <p className="text-muted text-xs text-gray-400 f-12">
+                                  @{user.username}
+                                </p>
+                              </div>
+                            </div>
+                          </Link>
+                        </li>
+                      ))
+                    : t("no_user_found")}
+                </ul>
+              </div>
+            )}
           </div>
           <div className="hidden md:block">
             <div className="items-center justify-end space-x-2 hidden lg:flex  col-span-2">
