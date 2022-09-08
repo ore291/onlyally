@@ -27,6 +27,7 @@ const Display = ({ i, user, handleChatUser }) => {
             alt="side-img"
             width="50px"
             height="50px"
+            objectFit="cover"
             className=" rounded-[50%] "
           />
           <p className="font-bold mt-2 ml-2 ">{user.to_username}</p>
