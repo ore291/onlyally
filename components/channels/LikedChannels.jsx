@@ -41,9 +41,25 @@ const LikedChannels = () => {
       <p className="text-start font-bold">Channels you may like</p>
       <div className="flex flex-col space-y-2 items-center pb-4">
         <div className="flex space-x-2  justify-center items-center mb-2">
-          <Button text="POPULAR" active={active === 0 ? true :false} onClick={()=>{setactive(0)}} />
-          <Button text="NEWEST" active={active === 1 ? true : false} onClick={()=>{setactive(1)}} />
-          <Button text="SEE ALL" active={false} />
+          <Button
+            text="POPULAR"
+            active={active === 0 ? true : false}
+            onClick={() => {
+              setactive(0);
+            }}
+          />
+          <Button
+            text="NEWEST"
+            active={active === 1 ? true : false}
+            onClick={() => {
+              setactive(1);
+            }}
+          />
+          <Button
+            text="SEE ALL"
+            active={false}
+            onClick={() => router.push("/channels")}
+          />
         </div>
         {channels.loading ? (
           <div className="row-container">
@@ -104,8 +120,8 @@ const LikedChannels = () => {
               <div className="grid grid-cols-1 gap-y-2">
                 {channels.length > 0
                   ? [...channels]
-                      .sort((a,b) => a.created_at > b.created_at ? -1 : 1 )
-                     .slice(0, 5)
+                      .sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
+                      .slice(0, 5)
                       .map((channel, i) => (
                         <div
                           className="grid grid-cols-4 place-content-center items-center justify-center  w-full"
