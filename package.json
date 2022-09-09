@@ -26,6 +26,7 @@
     "embla-carousel-react": "^6.2.0",
     "emoji-mart": "^3.0.1",
     "form-data": "^4.0.0",
+    "framer-motion": "^7.3.2",
     "jquery": "^3.6.0",
     "multiselect-react-dropdown": "^2.0.21",
     "next": "^12.2.5",

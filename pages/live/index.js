@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import NoDataFound from "../../components/NoDataFound/NoDataFound";
 import UserLiveVideoLoader from "../../components/live/UserLiveVideoLoader";
 import { getCookies } from "cookies-next";
-import Table from "react-tailwind-table";
+
 import { useMemo } from "react";
 import GoLiveModal from "../../components/live/GoLiveModal";
 import BillingAccountLoader from "../../components/live/BillingAccountLoader.jsx";
