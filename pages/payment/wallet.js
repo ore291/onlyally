@@ -3,6 +3,7 @@ import ProfileNavBar from "../../components/ProfileNavBar.jsx";
 import BalanceCard from "../../components/wallet/BalanceCard";
 import WithdrawModal from "../../components/wallet/WithdrawModal";
 import AddWalletAmountModal from "../../components/wallet/AddWalletAmountModal";
+import SendMoneyModal from "../../components/wallet/SendMoneyModal.jsx";
 import {TbCurrencyNaira} from "react-icons/tb"
 import { ImBook } from "react-icons/im";
 import { BiDollarCircle } from "react-icons/bi";
@@ -21,11 +22,16 @@ import { fetchAllTransactionStart } from "../../store/slices/transactionSlice";
 
 const Wallet = () => {
   const [withdrawalModal, setWithdrawModal] = useState(false);
+  const [sendMoneyModal, setSendMoneyModal] = useState(false);
 
   const [addWalletAmountModal, setAddWalletAmountModal] = useState(false);
 
   const closeWithdrawModal = () => {
     setWithdrawModal(false);
+  };
+
+  const closeSendMoneyModal = () => {
+    setSendMoneyModal(false);
   };
 
   const closeAddWalletAmountModal = () => {
@@ -76,7 +82,7 @@ const Wallet = () => {
               </div>
               <div
                 className="cursor-pointer rounded-full h-8 bg-white row-container"
-                // onClick={() => setWithdrawModal(true)}
+                onClick={() => setSendMoneyModal(true)}
               >
                 <p className="text-sm font-semibold">Send Money</p>
               </div>
@@ -159,6 +165,11 @@ const Wallet = () => {
           </div>
         </div>
       </div>
+      <SendMoneyModal
+        SendMoneyModal={sendMoneyModal}
+        closeSendMoneyModal={closeSendMoneyModal}
+        payments={wallet}
+      />
       <WithdrawModal
         withdrawModal={withdrawalModal}
         closeWithdrawModal={closeWithdrawModal}

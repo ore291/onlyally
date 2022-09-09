@@ -12,6 +12,11 @@ const initialState = {
     error: false,
     
   },
+  sendMoney: {
+    data: {},
+    loading: false,
+    error: false,
+  },
   walletData: {
     data: {},
     loading: true,
@@ -115,6 +120,27 @@ export const WalletSlice = createSlice({
         payment_id: action.payload,
       };
     },
+    sendMoneyStart: (state, action) => {
+      state.sendMoney = {
+        data : {},
+        loading : true,
+        error : false
+      }
+    },
+    sendMoneySuccess: (state, action) => {
+      state.sendMoney = {
+        data : action.payload,
+        loading : false,
+        error : false
+      }
+    },
+    sendMoneyFailure: (state, action) => {
+      state.sendMoney = {
+        data : {},
+        loading : false,
+        error : action.payload,
+      }
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -128,6 +154,9 @@ export const WalletSlice = createSlice({
 });
 
 export const {
+  sendMoneyStart,
+  sendMoneyFailure,
+  sendMoneySuccess,
   addMoneyViaPaystackFailure,
   addMoneyViaPaystackSuccess,
   addMoneyViaPaystackStart,

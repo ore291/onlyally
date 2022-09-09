@@ -10,7 +10,7 @@ import HeaderCreateMenu from "./HeaderCreateMenu";
 import HeaderMenu from "./HeaderMenu";
 import { useRouter } from "next/router";
 import { setMainMobileNavState } from "../store/slices/NavSlice";
-import {searchUserStart} from "../store/slices/homeSlice";
+import { searchUserStart } from "../store/slices/homeSlice";
 import CommonCenterLoader from "./helpers/CommonCenterLoader";
 import VerifiedBadge from "./handlers/VerifiedBadge";
 import {
@@ -25,7 +25,7 @@ const Header = () => {
   const [show, toggleShow] = useState(false);
   const router = useRouter();
   const mainNavOpen = useSelector((state) => state.navbar.mainMobileNav);
-  const searchUser = useSelector((state) => state.home.searchUser)
+  const searchUser = useSelector((state) => state.home.searchUser);
   const { data: session, status } = useSession();
   const toggleMobileNav = () => {
     dispatch(setMainMobileNavState(!mainNavOpen));
@@ -34,7 +34,7 @@ const Header = () => {
   const handleSearch = (event) => {
     if (event.currentTarget.value === "") {
       toggleShow(false);
-    } else {
+    } else if (event.currentTarget.value.length > 2) {
       toggleShow(true);
       dispatch(searchUserStart({ key: event.currentTarget.value }));
     }
@@ -78,38 +78,40 @@ const Header = () => {
             {show && (
               <div className="absolute top-12 border search-dropdown-sec w-[415px] bg-white shadow-2xl text-black p-2 rounded-md z-20">
                 <ul className="list-unstyled search-dropdown-list-sec flex flex-col space-y-1 divide-y">
-                  {searchUser.loading
-                    ? <CommonCenterLoader />
-                    : searchUser.data.users.length > 0
-                    ? searchUser.data.users.map((user) => (
-                        <li className="py-1" key={user.user_unique_id}>
-                          <Link href={`/${user.user_unique_id}`} passHref>
-                            <div className="search-body flex items-center space-x-2 cursor-pointer">
-                              <div className="user-img-sec">
-                                <img
-                                  alt="#"
-                                  src={user.picture}
-                                  className="user-img w-10 h-10 rounded-full object-cover"
-                                />
-                              </div>
-                              <div className="search-content text-sm ">
-                                <h5 className="flex items-center space-x-1">
-                                  {user.name}{" "}
-                                  {user.is_verified_badge == 1 ? (
-                                    <div className="pl-2">
-                                      <VerifiedBadge />
-                                    </div>
-                                  ) : null}
-                                </h5>
-                                <p className="text-muted text-xs text-gray-400 f-12">
-                                  @{user.username}
-                                </p>
-                              </div>
+                  {searchUser.loading ? (
+                    <CommonCenterLoader />
+                  ) : searchUser.data.users.length > 0 ? (
+                    searchUser.data.users.map((user) => (
+                      <li className="py-1" key={user.user_unique_id}>
+                        <Link href={`/${user.user_unique_id}`} passHref>
+                          <div className="search-body flex items-center space-x-2 cursor-pointer">
+                            <div className="user-img-sec">
+                              <img
+                                alt="#"
+                                src={user.picture}
+                                className="user-img w-10 h-10 rounded-full object-cover"
+                              />
                             </div>
-                          </Link>
-                        </li>
-                      ))
-                    : t("no_user_found")}
+                            <div className="search-content text-sm ">
+                              <h5 className="flex items-center space-x-1">
+                                {user.name}{" "}
+                                {user.is_verified_badge == 1 ? (
+                                  <div className="pl-2">
+                                    <VerifiedBadge />
+                                  </div>
+                                ) : null}
+                              </h5>
+                              <p className="text-muted text-xs text-gray-400 f-12">
+                                @{user.username}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      </li>
+                    ))
+                  ) : (
+                    <p>No User Found</p>
+                  )}
                 </ul>
               </div>
             )}

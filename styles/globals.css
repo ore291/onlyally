@@ -4,6 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
 @layer utilities {
   .live-stream-button {
     @apply w-[50px] h-[50px]  row-container rounded-full  bg-[#ecece6] cursor-pointer shadow-md;
