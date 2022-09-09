@@ -21,16 +21,18 @@ const Display = ({ i, user, handleChatUser }) => {
         />
       </div>
       {seeChild && (
-        <div className="animate-display w-[150px] h-[60px] py-[5px] px-[30px] absolute cursor-pointer z-50 bg-white grid grid-cols-2 left-[-160px] top-[0] rounded-xl drop-shadow-[5px_5px_5px_rgba(0,0,0,0.5)]">
-          <Image
-            src={user.to_userpicture}
-            alt="side-img"
-            width="50px"
-            height="50px"
-            objectFit="cover"
-            className=" rounded-[50%] "
-          />
-          <p className="font-bold mt-2 ml-2 ">{user.to_username}</p>
+        <div className="animate-display w-[150px] h-[60px] py-[5px] absolute cursor-pointer z-50 bg-white row-container left-[-160px] top-[0] rounded-xl drop-shadow-[5px_5px_5px_rgba(0,0,0,0.5)]">
+          <div className="rounded-full relative w-[50px] h-[50px]">
+            <Image
+              src={user.to_userpicture}
+              alt="side-img"
+              layout="fill"
+              objectFit="cover"
+              className=" rounded-full object-cover"
+            />
+          </div>
+
+          <p className="font-medium text-sm  ml-2 capitalize">{user.to_username}</p>
         </div>
       )}
     </div>

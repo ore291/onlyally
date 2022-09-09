@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setNavState } from "../../store/slices/NavSlice";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {getCookie, deleteCookie} from "cookies-next"
+import { getCookie, deleteCookie } from "cookies-next";
 
 import {
   BsDot,
@@ -26,10 +26,10 @@ import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { MdMail, MdClose } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 
-const SideNav = () => {  
-  const cookieUser = getCookie('user');
+const SideNav = () => {
+  const cookieUser = getCookie("user");
 
-  console.log(JSON.parse(cookieUser));
+  const user = useSelector((state) => state.user.profile.data);
   const router = useRouter();
   const wallet = useSelector((state) => state.wallet.walletData);
   const toggleSideBar = () => {
@@ -41,7 +41,9 @@ const SideNav = () => {
     router.push(url);
   };
 
-  const user = JSON.parse(cookieUser);
+  if (cookieUser !== undefined) {
+    user = JSON.parse(cookieUser);
+  }
 
   const logout = async () => {
     deleteCookie("userId");
@@ -50,7 +52,7 @@ const SideNav = () => {
     deleteCookie("username");
     deleteCookie("picture");
     deleteCookie("user");
-    deleteCookie("wallet")
+    deleteCookie("wallet");
     deleteCookie("total_followers");
     deleteCookie("total_followings");
     localStorage.removeItem("accessToken");
@@ -76,8 +78,6 @@ const SideNav = () => {
 
   const dispatch = useDispatch();
   const navOpen = useSelector((state) => state.navbar.open);
-
-
 
   // console.log(user);
   if (navOpen) {
@@ -120,7 +120,7 @@ const SideNav = () => {
                 >
                   <FaWallet className="h-4 w-4 mr-1" />
                   <p className="text-xs xs:text-sm font-semibold whitespace-nowrap">
-                  {wallet?.data?.user_wallet?.remaining_formatted}
+                    {wallet?.data?.user_wallet?.remaining_formatted}
                   </p>
                   {/* <span>&#8358;</span>{ */}
                 </button>
