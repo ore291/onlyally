@@ -31,6 +31,10 @@ const HeaderMenu = (userSession) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const wallet = useSelector((state) => state.wallet.walletData);
+
+  const cookieWalletData = getCookie('wallet')
+
+ 
   // const user = useSelector((state) => state.user.profile.data);
   const cookieUser = getCookie('user');
 
@@ -38,7 +42,7 @@ const HeaderMenu = (userSession) => {
 
   useEffect(() => {
     userSession && dispatch(fetchWalletDetailsStart());
-  }, [userSession]);
+  }, []);
 
   const logout = async () => {
     deleteCookie("userId");
@@ -47,6 +51,7 @@ const HeaderMenu = (userSession) => {
     deleteCookie("username");
     deleteCookie("picture");
     deleteCookie("user");
+    deleteCookie("wallet")
     deleteCookie("total_followers");
     deleteCookie("total_followings");
     localStorage.removeItem("accessToken");
@@ -138,7 +143,7 @@ const HeaderMenu = (userSession) => {
                       >
                         <FaWallet className="h-4 w-4 mr-1" />
                         <p className="text-sm font-bold">
-                          {wallet?.data?.user_wallet?.remaining_formatted}
+                          {wallet?.data?.user_wallet?.remaining_formatted }
                         </p>
                       </button>
                     </div>

@@ -51,7 +51,7 @@ const RightSideBar = () => {
                   key={i}
                   handleChatUser={handleChatUser}
                   onClick={(event) => {
-                    console.log(user.to_user_id);
+                   
                     handleChatUser(event, user.to_user_id);
                   }}
                 />

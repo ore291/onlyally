@@ -15,9 +15,7 @@ import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
 import {
   getCookies,
-  setCookie,
-  removeCookies,
-  checkCookies,
+
 } from "cookies-next";
 import {
   fetchUserDetailsStart,
@@ -29,7 +27,7 @@ import { fetchStoriesStart } from "../store/slices/storiesSlice";
 import { fetchHomePostsStart } from "../store/slices/homeSlice";
 import Sticky from "react-stickynode";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
-import useInfiniteScroll from "../components/helpers/useInfiniteScroll";
+
 
 export default function Home() {
   const posts = useSelector((state) => state.home.homePost);
@@ -37,16 +35,6 @@ export default function Home() {
   const loginDetails = useSelector((state) => state.user.loginData);
   const dispatch = useDispatch();
 
-  // const fetchHomeData = () => {
-  //   setTimeout(() => {
-  //     if (posts.length !== 0) {
-  //       dispatch(fetchHomePostsStart());
-  //       setIsFetching(false);
-  //     } else {
-  //       setNoMoreData(true);
-  //     }
-  //   }, 3000);
-  // };
 
   useEffect(() => {
     localStorage.setItem("userId", loginDetails.user_id);
@@ -78,26 +66,15 @@ export default function Home() {
     localStorage.setItem("emailId", loginDetails.email);
   }, []);
 
-  // const [isFetching, setIsFetching] = useInfiniteScroll(fetchHomeData);
 
-  const [sendTip, setSendTip] = useState(false);
 
-  const closeSendTipModal = () => {
-    setSendTip(false);
-  };
+
 
   const [isVisible, setIsVisible] = useState(true);
 
   const [show, toggleShow] = useState(false);
 
-  const handleSearch = (event) => {
-    if (event.currentTarget.value === "") {
-      toggleShow(false);
-    } else {
-      toggleShow(true);
-      dispatch(searchUserStart({ key: event.currentTarget.value }));
-    }
-  };
+
 
   return (
     <>

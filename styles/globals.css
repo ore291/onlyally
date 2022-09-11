@@ -4,6 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
 @layer utilities {
   .live-stream-button {
     @apply w-[50px] h-[50px]  row-container rounded-full  bg-[#ecece6] cursor-pointer shadow-md;
@@ -797,7 +805,7 @@ input:checked ~ .tick-bg {
   animation-name: display;
   animation-timing-function: ease-in-out;
   animation-iteration-count: 1;
-  animation-duration: 1s;
+  animation-duration: 700ms;
   transform-style: preserve-3d;
 }
 @keyframes display {
@@ -805,24 +813,7 @@ input:checked ~ .tick-bg {
     opacity: 0;
   }
 
-  40% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.1;
-  }
-  60% {
-    opacity: 0.2;
-  }
-  70% {
-    opacity: 0.4;
-  }
-  80% {
-    opacity: 0.6;
-  }
-  90% {
-    opacity: 0.8;
-  }
+
   100% {
     opacity: 1;
   }

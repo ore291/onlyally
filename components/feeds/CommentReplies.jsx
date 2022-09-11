@@ -10,7 +10,6 @@ import {
   saveCommentRepliesStart,
 } from "../../store/slices/commentsSlice";
 
-import "react-image-lightbox/style.css";
 import PostEditor from "./PostEditor.jsx";
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
