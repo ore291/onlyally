@@ -81,12 +81,13 @@ function* fetchPostsAPI(action) {
       object: inputData,
       accessToken: accessToken,
     });
+    
     if (response.data.success) {
       yield put(fetchPostsSuccess(response.data.data));
     } else {
-      yield put(fetchPostsFailure(response.data.error));
+      yield put(fetchPostsFailure(response.data));
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({ message: response.data.error, status: "error" }));
+      // yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchPostsFailure(error));

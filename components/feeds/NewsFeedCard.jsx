@@ -414,10 +414,11 @@ const NewsFeedCard = ({ post, index }) => {
                                       <ReactPlayer
                                         light={postFile.preview_file}
                                         url={postFile.post_file}
+                                        config={{ file: { attributes: { controlsList: 'nodownload' } } }}
                                         controls={true}
                                         width="100%"
                                         height="100%"
-                                        playing
+                                        // playing
                                         className="post-video-size"
                                       />
                                     )}
