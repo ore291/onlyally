@@ -45,7 +45,7 @@ function* logoutStatusCheck() {
         deleteCookie("picture");
         deleteCookie("userId");
         deleteCookie("user");
-        yield put(notify({message: inputData.error, status:"error"}));
+        // yield put(notify({message: inputData.error, status:"error"}));
         setTimeout(() => {
             signOut();
           }, 100);

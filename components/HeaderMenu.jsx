@@ -72,7 +72,8 @@ const HeaderMenu = (userSession) => {
     localStorage.removeItem("total_followers");
     localStorage.removeItem("total_followings");
     localStorage.removeItem("is_subscription_enabled");
-    await signOut({ callbackUrl: "/login" });
+    window.location.assign("/")
+    // await signOut({ callbackUrl: "/login" });
   };
 
   return (

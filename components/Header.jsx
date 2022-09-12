@@ -23,10 +23,11 @@ import {
 const Header = () => {
   const dispatch = useDispatch();
   const [show, toggleShow] = useState(false);
+  const cookies = getCookies();
   const router = useRouter();
   const mainNavOpen = useSelector((state) => state.navbar.mainMobileNav);
   const searchUser = useSelector((state) => state.home.searchUser);
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
   const toggleMobileNav = () => {
     dispatch(setMainMobileNavState(!mainNavOpen));
   };
@@ -118,7 +119,7 @@ const Header = () => {
           </div>
           <div className="hidden md:block">
             <div className="items-center justify-end space-x-2 hidden lg:flex  col-span-2">
-              <HeaderCreateMenu user={session?.user?.userDetails} />
+              <HeaderCreateMenu user={JSON.parse(decodeURIComponent(cookies.user))} />
               <Link href="/messages" passHref>
                 <div className="icon-bg">
                   <SiGooglechat className="h-5 w-5 text-white" />
@@ -131,7 +132,7 @@ const Header = () => {
                 </div>
               </Link>
 
-              <HeaderMenu user={session?.user?.userDetails} />
+              <HeaderMenu user={JSON.parse(decodeURIComponent(cookies.user))} />
             </div>
           </div>
 

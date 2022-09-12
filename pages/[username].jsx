@@ -236,7 +236,7 @@ const Profile = () => {
                     src={userDetails.data.user.cover}
                     alt={userDetails.data.user.name}
                     layout="fill"
-                    objectFit="contain"
+                    objectFit="cover"
                     objectPosition="center"
                     srcSet=""
                     className="w-full  !h-[30vh] md:!h-[70vh] object-cover object-center "

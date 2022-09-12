@@ -41,10 +41,7 @@ const Register = () => {
     dispatch(registerStart(signupInputData));
   };
 
-  const handleForgotPassword = (event) => {
-    event.preventDefault();
-    dispatch(forgotPasswordStart(forgotPasswordInputData));
-  };
+  
 
   const handleUsernameValidation = (event, username) => {
     setSignupInputData({
@@ -100,8 +97,8 @@ const Register = () => {
     });
   }, []);
   return (
-    <div className="register">
-      <div className=" h-screen mx-auto max-w-lg  mt-5 !z-40">
+    <div className="register ">
+      <div className="  mx-auto max-w-xl min-h-screen md:min-h-full  p-2 pt-14 md:p-20">
         <form
           onSubmit={handleSignup}
           id="form"
@@ -207,7 +204,7 @@ const Register = () => {
               }
             />
             <span
-              className="cursor-pointer text-lightPlayRed font-semibold text-left"
+              className="cursor-pointer text-lightPlayRed text-xs font-semibold text-left"
               onClick={checkReferralCode}
             >
               Check Referral
@@ -244,7 +241,7 @@ const Register = () => {
         <div className="text-grey-dark mt-6">
           Already have an account?
           <Link href="/login" passHref>
-            <span className="no-underline border-b border-blue text-blue">
+            <span className="no-underline border-b border-blue cursor-pointer text-blue-500">
               Log in
             </span>
           </Link>

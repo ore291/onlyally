@@ -8,11 +8,11 @@ import { useEffect } from "react";
 
 const TopCreators = () => {
   const dispatch = useDispatch();
-  const { data: session } = useSession();
+
 
   useEffect(() => {
     dispatch(fetchPostSuggestionsStart());
-  }, [session]);
+  }, []);
 
   const postSug = useSelector((state) => state.home.postSug);
   return (

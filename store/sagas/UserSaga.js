@@ -16,6 +16,8 @@ import {
   referralValidationFailure,
   editUserDetails,
   getLoginDetails,
+  resetPasswordSuccess,
+  resetPasswordFailure,
   loginSuccess,
   loginFailure,
   fetchUserLoginSuccess,
@@ -42,6 +44,8 @@ import {
   deleteAccountStart,
   deleteAccountSuccess,
   deleteAccountFailure,
+  forgotPasswordFailure,
+  forgotPasswordSuccess,
 } from "../slices/userSlice";
 import { errorLogoutCheck } from "../slices/errorSlice";
 import { notify } from "reapop";
@@ -70,7 +74,6 @@ function* getUserDetailsAPI(action) {
         })
       );
       if (typeof window !== "undefined") {
-
         localStorage.setItem("user_picture", response.data.data.picture);
         localStorage.setItem(
           "user_unique_id",
@@ -136,9 +139,9 @@ function* updateUserDetailsAPI() {
     });
     if (response.data.success) {
       yield put(updateUserDetailsSuccess(response.data));
-      deleteCookie("user", response.data.data)
-      setCookie("user",response.data.data );
-      setCookie("picture",response.data.data.picture)
+      deleteCookie("user", response.data.data);
+      setCookie("user", response.data.data);
+      setCookie("picture", response.data.data.picture);
       localStorage.setItem("user_picture", response.data.data.picture);
       localStorage.setItem("user_unique_id", response.data.data.user_unique_id);
       localStorage.setItem("user_cover", response.data.data.cover);
@@ -184,10 +187,10 @@ function* updateUserAPI() {
     });
     if (response.data.success) {
       yield put(updateUserDetailsSuccess(response.data));
-      deleteCookie("user")
-      setCookie("user",response.data.data );
-      deleteCookie("picture")
-      setCookie("picture",response.data.data.picture)
+      deleteCookie("user");
+      setCookie("user", JSON.stringify(response.data.data));
+      deleteCookie("picture");
+      setCookie("picture", response.data.data.picture);
       yield put(updateUserSuccess(response.data));
       localStorage.setItem("user_picture", response.data.data.picture);
       localStorage.setItem("user_unique_id", response.data.data.user_unique_id);
@@ -282,9 +285,16 @@ function* userLoginAPI() {
           );
           localStorage.setItem("userId", response.data.data.user_id);
           localStorage.setItem("accessToken", response.data.data.token);
-          setCookie("userId", response.data.data.user_id);
-          setCookie("accessToken", response.data.data.token);
-          setCookie("user_picture", response.data.data.picture);
+          var user = response.data.data
+          setCookie("userId", user.user_id);
+          setCookie("accessToken", user.token);
+          setCookie("user_picture", user.picture);
+          setCookie("user_email", user.email, );
+          setCookie("username", user.username,  )
+          setCookie("picture", user.picture,);
+          setCookie("total_followers", user.total_followers, );
+          setCookie("total_followings", user.total_followings);
+          setCookie("user", JSON.stringify(user) );
 
           window.location.assign("/");
         }
@@ -361,7 +371,7 @@ function* userRegisterAPI() {
 function* forgotPasswordAPI() {
   try {
     const userData = yield select(
-      (state) => state.users.forgotPasswordInputData.data
+      (state) => state.user.forgotPasswordInputData.data
     );
 
     if (
@@ -369,33 +379,28 @@ function* forgotPasswordAPI() {
       userData.email == undefined ||
       userData.email == null
     ) {
-      const notificationMessage = getErrorNotificationMessage(
-        "Please enter the email address"
+      yield put(
+        notify({ message: "Please enter the email address", status: "info" })
       );
-      yield put(notify(notificationMessage));
       yield put(forgotPasswordFailure());
     } else {
-      const response = yield api.postMethod("forgot_password", userData);
+      const response = yield api.postMethod({
+        action: "forgot_password",
+        object: userData,
+      });
       yield put(forgotPasswordSuccess(response.data));
       if (response.data.success) {
-        const notificationMessage = getSuccessNotificationMessage(
-          response.data.message
+        yield put(
+          notify({ message: response.data.message, status: "success" })
         );
-        yield put(notify(notificationMessage));
         window.location.assign("/");
       } else {
-        const notificationMessage = getErrorNotificationMessage(
-          response.data.error.error
-        );
-        yield put(notify(notificationMessage));
+        yield put(notify({ message: response.data.error, status: "error" }));
       }
     }
   } catch (error) {
     yield put(forgotPasswordFailure(error));
-    const notificationMessage = getErrorNotificationMessage(
-      error.response.data.error.error
-    );
-    yield put(notify(notificationMessage));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -634,9 +639,12 @@ function* saveBlockUserAPI() {
 function* resetPasswordAPI() {
   try {
     const inputData = yield select(
-      (state) => state.users.resetPasswordInputData.inputData
+      (state) => state.user.forgotPasswordInputData.inputData
     );
-    const response = yield api.postMethod("reset_password", inputData);
+    const response = yield api.postMethod({
+      action: "reset_password",
+      object: inputData,
+    });
     yield put(resetPasswordSuccess(response.data));
     if (response.data.success) {
       localStorage.setItem("userLoginStatus", true);
@@ -656,23 +664,17 @@ function* resetPasswordAPI() {
           ? response.data.data.is_verified_badge
           : 0
       );
-      const notificationMessage = getSuccessNotificationMessage(
-        response.data.message
-      );
+
       localStorage.setItem("userId", response.data.data.user_id);
       localStorage.setItem("accessToken", response.data.data.token);
-      yield put(notify(notificationMessage));
-      window.location.assign("/home");
+      yield put(notify({ message: response.data.message, status: "success" }));
+      window.location.assign("/login");
     } else {
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(notify(notificationMessage));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(resetPasswordFailure(error));
-    const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(notify(notificationMessage));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -946,7 +948,7 @@ export default function* pageSaga() {
     yield takeLatest("user/loginStart", userLoginAPI),
     yield takeLatest("user/registerStart", userRegisterAPI),
     yield takeLatest("user/deleteAccountStart", deleteAccountAPI),
-    //   yield takeLatest(FORGOT_PASSWORD_START, forgotPasswordAPI),
+    yield takeLatest("user/forgotPasswordStart", forgotPasswordAPI),
     //yield takeLatest("user/deleteAccountStart", deleteAccountAPI),
 
     //   yield takeLatest(REGISTER_VERIFY_START, registerVerify),
@@ -962,7 +964,7 @@ export default function* pageSaga() {
     //     USER_VERIFY_BADGE_STATUS_START,
     //     verificationBadgeStatusUpdateAPI
     //   ),
-    //   yield takeLatest(RESET_PASSWORD_START, resetPasswordAPI),
+      yield takeLatest('user/resetPasswordStart', resetPasswordAPI),
     yield takeLatest("user/userNameValidationStart", usernameValidationAPI),
     yield takeLatest("user/referralValidationStart", referralValidationAPI),
     yield takeLatest(

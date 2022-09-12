@@ -350,7 +350,7 @@ export const UserSlice = createSlice({
     forgotPasswordSuccess: (state, action) => {
       state.forgotPasswordInputData = {
         data: {},
-        loading: true,
+        loading: false,
         error: false,
         buttonDisable: false,
         loadingButtonContent: null,
@@ -359,7 +359,7 @@ export const UserSlice = createSlice({
     forgotPasswordFailure: (state, action) => {
       state.forgotPasswordInputData = {
         data: {},
-        loading: true,
+        loading: false,
         error: action.payload,
         buttonDisable: false,
         loadingButtonContent: null,
@@ -580,29 +580,35 @@ export const UserSlice = createSlice({
       };
     },
     resetPasswordStart: (state, action) => {
-      state.resetPasswordInputData = {
+      state.forgotPasswordInputData = {
         inputData: action.payload,
+        buttonDisable : true,
+        loadingButtonContent : "Loading please wait"
       };
-      state.buttonDisable = true;
-      state.loadingButtonContent = "Loading please wait";
+      
     },
     resetPasswordSuccess: (state, action) => {
       state.profile = {
-        data: action.payload.data,
+        data: action.payload,
         loading: false,
         error: false,
       };
-      state.inputData = {
-        data: {},
-        loading: true,
+      state.forgotPasswordInputData = {
+        data: action.payload,
+        loading: false,
         error: false,
         buttonDisable: false,
         loadingButtonContent: null,
       };
     },
     resetPasswordFailure: (state, action) => {
-      state.buttonDisable = false;
-      state.loadingButtonContent = null;
+      state.forgotPasswordInputData = {
+        data: {},
+        loading: false,
+        error: action.payload,
+        buttonDisable: false,
+        loadingButtonContent: null,
+      };
     },
     userNameValidationStart: (state, action) => {
       state.validationInputData = {
@@ -680,8 +686,8 @@ export const UserSlice = createSlice({
     },
     loginSuccess: (state, action) => {
       state.loginInputData = {
-        data: {},
-        loading: true,
+        data: action.payload,
+        loading: false,
         error: false,
         buttonDisable: false,
         loadingButtonContent: null,
@@ -695,8 +701,8 @@ export const UserSlice = createSlice({
     loginFailure: (state, action) => {
       state.loginInputData = {
         data: {},
-        loading: true,
-        error: false,
+        loading: false,
+        error: action.payload,
         buttonDisable: false,
         loadingButtonContent: null,
       };

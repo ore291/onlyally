@@ -10,11 +10,10 @@ import Notifications from "../components/notifications/Notifications.jsx";
 import { apiConstants } from "../components/Constant/constants";
 import configuration from "react-global-configuration";
 import { useEffect } from "react";
-import {fetchUserDetailsStart} from "../store/slices/userSlice";
-import {useDispatch, useSelector} from "react-redux";
+import { fetchUserDetailsStart } from "../store/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { setUpNotifications } from "reapop";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
-
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   setUpNotifications({
@@ -28,7 +27,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     },
   });
 
-  const user = useSelector((state) => state.user.profile.data)
+  const user = useSelector((state) => state.user.profile.data);
 
   const dispatch = useDispatch();
   const fetchConfig = async () => {
@@ -45,21 +44,24 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
     fetchConfig();
 
-    if(user === {}){
-       dispatch(fetchUserDetailsStart());
+    if (user === {}) {
+      dispatch(fetchUserDetailsStart());
     }
-   
-    dispatch(fetchConfigurationStart()); 
+
+    dispatch(fetchConfigurationStart());
   }, []);
 
   return (
-    <SessionProvider session={session}  refetchOnWindowFocus={true} refetchInterval={5 * 60}>
+    // <SessionProvider session={session}  refetchOnWindowFocus={true} refetchInterval={5 * 60}>
+    <>
       <NextNProgress color="#FF1636" />
       <Layout>
         <Component {...pageProps} />
       </Layout>
       <Notifications />
-    </SessionProvider>
+    </>
+
+    // </SessionProvider>
   );
 }
 

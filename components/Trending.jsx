@@ -7,11 +7,11 @@ import CommonCenterLoader from "./helpers/CommonCenterLoader";
 
 const Trending = () => {
   const dispatch = useDispatch();
-  const { data: session } = useSession();
+
 
   useEffect(() => {
     dispatch(fetchTrendingUsersStart());
-  }, [session]);
+  }, []);
 
   const trendingUsers = useSelector((state) => state.home.trendingUsers);
   return (

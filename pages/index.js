@@ -108,16 +108,18 @@ export default function Home() {
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
     async ({ req, res }) => {
-      const session = await getSession({ req });
+      // const session = await getSession({ req });
+
+      const cookies = getCookies({ req, res });
 
       // const dispatch = useDispatch();
-      if (session) {
-        store.dispatch(fetchUserLoginSuccess(session.user.userDetails));
+      if (cookies.accessToken) {
+        store.dispatch(fetchUserLoginSuccess(JSON.parse(cookies.user)));
       }
 
   
 
-      if (!session) {
+      if (!cookies.accessToken) {
         return {
           redirect: {
             destination: "/login",
@@ -149,12 +151,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
         // device_model = "Chrome" + " " + "100";
       }
 
-      var user = session.user.userDetails;
-      // setCookie("userId", user.user_id, { req, res });
-      // setCookie("accessToken", user.token, { req, res });
-      // setCookie("user_email", user.email, { req, res });
-      // setCookie("username", user.username, {req, res} )
-      const cookies = getCookies({ req, res });
+      var user = JSON.parse(cookies.user);
+     
       store.dispatch(
         fetchHomePostsStart({
           accessToken: cookies.accessToken,

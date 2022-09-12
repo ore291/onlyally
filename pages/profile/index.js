@@ -55,7 +55,7 @@ import { wrapper } from "../../store";
 const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { data: session } = useSession();
+
   const profile = useSelector((state) => state.user.profile);
   const posts = useSelector((state) => state.post.posts);
 
