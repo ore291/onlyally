@@ -89,7 +89,6 @@ const onSuccess = (reference) => {
         user_id:cartList.data.carts[0].user_product.user_id,
         pro_balance: true,
         carts_ids :(cartList.data.carts) ?   cartList.data.carts[0].cart_id  : "",
-        delivery_address_id:deliveryAddress.data.delivery_addresses[0].delivery_address_id,
         ...formdata
       })
     );
@@ -139,6 +138,15 @@ useEffect(() => {
   dispatch(fetchCartListStart());
   dispatch(fetchDeliveryAddressStart());
  }, []);
+
+ useEffect(() => {
+    cartList.data && setConfig(
+      {
+        ...config, 
+        amount: cartList.data.total_amount * 100
+      }
+    )
+ }, [cartList])
 
 
 

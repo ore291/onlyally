@@ -1,24 +1,22 @@
+import {
+  checkCookies, getCookies, removeCookies, setCookie
+} from "cookies-next";
+import { getSession, useSession } from "next-auth/react";
 import Image from "next/image";
-import { useState, useRef } from "react";
 import Link from "next/link";
-import { useSelector, useDispatch } from "react-redux";
-import { useSession, getSession } from "next-auth/react";
-import { MdMenu, MdClose, MdSearch, MdOutlineSearch } from "react-icons/md";
-import { SiGooglechat } from "react-icons/si";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
 import { AiFillBell } from "react-icons/ai";
+import { FaShoppingCart } from "react-icons/fa";
+import { MdClose, MdMenu, MdOutlineSearch, MdSearch } from "react-icons/md";
+import { SiGooglechat } from "react-icons/si";
+import { useDispatch, useSelector } from "react-redux";
+import { searchUserStart } from "../store/slices/homeSlice";
+import { setMainMobileNavState } from "../store/slices/NavSlice";
+import VerifiedBadge from "./handlers/VerifiedBadge";
 import HeaderCreateMenu from "./HeaderCreateMenu";
 import HeaderMenu from "./HeaderMenu";
-import { useRouter } from "next/router";
-import { setMainMobileNavState } from "../store/slices/NavSlice";
-import { searchUserStart } from "../store/slices/homeSlice";
 import CommonCenterLoader from "./helpers/CommonCenterLoader";
-import VerifiedBadge from "./handlers/VerifiedBadge";
-import {
-  getCookies,
-  setCookie,
-  removeCookies,
-  checkCookies,
-} from "cookies-next";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -137,6 +135,12 @@ const Header = () => {
               <Link href="/notifications" passHref>
                 <div className="icon-bg">
                   <AiFillBell className="h-5 w-5 text-white" />
+                </div>
+              </Link>
+
+              <Link href="/market/cart" passHref>
+                <div className="icon-bg">
+                  <FaShoppingCart className="h-5 w-5 text-white" />
                 </div>
               </Link>
 
