@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { useSession, getSession } from "next-auth/react";
@@ -22,6 +22,7 @@ import {
 
 const Header = () => {
   const dispatch = useDispatch();
+  const search = useRef()
   const [show, toggleShow] = useState(false);
   const cookies = getCookies();
   const router = useRouter();
@@ -40,6 +41,12 @@ const Header = () => {
       dispatch(searchUserStart({ key: event.currentTarget.value }));
     }
   };
+
+  const searchRedirect = (user) => {
+    search.current.value = "";
+    toggleShow(false);
+    router.push(`/${user}`);
+  }
 
   return (
     <nav className="bg-[#B30D28] sticky top-0 z-50">
@@ -71,6 +78,7 @@ const Header = () => {
                 type="text"
                 placeholder="Search for people, Channels, Groups and #hashtags"
                 name=""
+                ref={search}
                 className="text-white placeholder-[#E08B93] rounded-full placeholder:text-sm w-96 h-5 pl-1 py-4 bg-[#C51834] outline-0 border-0 focus:outline-none focus:ring-0 ring-0"
                 id=""
                 onChange={handleSearch}
@@ -84,8 +92,8 @@ const Header = () => {
                   ) : searchUser.data.users.length > 0 ? (
                     searchUser.data.users.map((user) => (
                       <li className="py-1" key={user.user_unique_id}>
-                        <Link href={`/${user.user_unique_id}`} passHref>
-                          <div className="search-body flex items-center space-x-2 cursor-pointer">
+                      
+                          <div onClick={()=>searchRedirect(user.user_unique_id)} className="search-body flex items-center space-x-2 cursor-pointer">
                             <div className="user-img-sec">
                               <img
                                 alt="#"
@@ -107,7 +115,7 @@ const Header = () => {
                               </p>
                             </div>
                           </div>
-                        </Link>
+                       
                       </li>
                     ))
                   ) : (

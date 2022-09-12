@@ -5,7 +5,7 @@ import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { fetchWalletDetailsStart } from "../store/slices/walletSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { getCookie,  deleteCookie } from "cookies-next";
+import { getCookie, deleteCookie, hasCookie } from "cookies-next";
 import Link from "next/link";
 
 import {
@@ -30,18 +30,26 @@ import { IoLogOut } from "react-icons/io5";
 const HeaderMenu = (userSession) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [cookieWalletData, setCookieWalletData] = useState({user_wallet : {remaining_formatted : null}})
   const wallet = useSelector((state) => state.wallet.walletData);
 
-  const cookieWalletData = getCookie('wallet')
 
- 
+
+  // if (hasCookie("wallet ")) {
+  //   cookieWalletData = JSON.parse(decodeURIComponent(getCookie("wallet")));
+  // }
+
   // const user = useSelector((state) => state.user.profile.data);
-  const cookieUser = getCookie('user');
+  const cookieUser = getCookie("user");
 
   const user = JSON.parse(cookieUser);
 
   useEffect(() => {
-    userSession && dispatch(fetchWalletDetailsStart());
+    dispatch(fetchWalletDetailsStart());
+
+    if (hasCookie("wallet")) {
+      setCookieWalletData(JSON.parse(decodeURIComponent(getCookie("wallet"))));
+    }
   }, []);
 
   const logout = async () => {
@@ -51,7 +59,7 @@ const HeaderMenu = (userSession) => {
     deleteCookie("username");
     deleteCookie("picture");
     deleteCookie("user");
-    deleteCookie("wallet")
+    deleteCookie("wallet");
     deleteCookie("total_followers");
     deleteCookie("total_followings");
     localStorage.removeItem("accessToken");
@@ -72,7 +80,7 @@ const HeaderMenu = (userSession) => {
     localStorage.removeItem("total_followers");
     localStorage.removeItem("total_followings");
     localStorage.removeItem("is_subscription_enabled");
-    window.location.assign("/")
+    window.location.assign("/");
     // await signOut({ callbackUrl: "/login" });
   };
 
@@ -92,7 +100,9 @@ const HeaderMenu = (userSession) => {
                   className="rounded-full object-cover w-[38px] h-[38px] "
                 />
 
-                <p className=" text-xs font-bold text-white">{user.name ? user?.name : getCookie("username")}</p>
+                <p className=" text-xs font-bold text-white">
+                  {user.name ? user?.name : getCookie("username")}
+                </p>
               </div>
             </Menu.Button>
             <Transition
@@ -118,7 +128,9 @@ const HeaderMenu = (userSession) => {
                       >
                         <div className="relative w-10 h-10 rounded-full mr-5">
                           <Image
-                            src={user.picture ? user.picture : getCookie("picture")}
+                            src={
+                              user.picture ? user.picture : getCookie("picture")
+                            }
                             layout="fill"
                             className="rounded-full"
                             objectFit="cover"
@@ -132,11 +144,14 @@ const HeaderMenu = (userSession) => {
                   <Menu.Item>
                     <div className="flex items-center justify-start px-1 pb-2  border-b">
                       <p className="font-bold text-sm whitespace-nowrap">
-                        {user?.total_followers || getCookie("total_followers")} Fans
+                        {user?.total_followers || getCookie("total_followers")}{" "}
+                        Fans
                       </p>
                       <BsDot className="h-5 w-5" />
                       <p className="font-bold text-sm whitespace-nowrap">
-                        {user?.total_followings || getCookie("total_followings")} Following
+                        {user?.total_followings ||
+                          getCookie("total_followings")}{" "}
+                        Following
                       </p>
                       <button
                         className="row-container bg-gray-100 rounded-full px-2 py-1 ml-2"
@@ -144,7 +159,8 @@ const HeaderMenu = (userSession) => {
                       >
                         <FaWallet className="h-4 w-4 mr-1" />
                         <p className="text-sm font-bold">
-                          {wallet?.data?.user_wallet?.remaining_formatted }
+                          {wallet?.data?.user_wallet?.remaining_formatted ||
+                            cookieWalletData.user_wallet.remaining_formatted || "loading..."}
                         </p>
                       </button>
                     </div>

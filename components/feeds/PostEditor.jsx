@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
+import { searchUserStart } from "../../store/slices/homeSlice";
 import { EditorState, convertToRaw, Modifier } from "draft-js";
 import Editor from "@draft-js-plugins/editor";
 import createMentionPlugin, {
@@ -7,7 +8,6 @@ import createMentionPlugin, {
 import "draft-js/dist/Draft.css";
 import "@draft-js-plugins/mention/lib/plugin.css";
 import { connect } from "react-redux";
-import { searchUserStart } from "../../store/slices/homeSlice";
 import { stateToHTML } from "draft-js-export-html";
 import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
@@ -75,7 +75,7 @@ const PostEditor = (props) => {
 
     const customEntityTransform = (entity, text) => {
       if (entity.type !== "mention") return;
-      return `<a href="${host}/${entity.data.mention.link}">${text}</a>`;
+      return `<a style="color : red;" href="${host}/${entity.data.mention.link}">${text}</a>`;
     };
 
     const rawContentState = raw;
@@ -90,28 +90,30 @@ const PostEditor = (props) => {
 
   // Check editor text for mentions
   const onSearchChange = ({ value }) => {
-    dispatch(searchUserStart({ key: value }));
-    console.log(value);
+  
+      dispatch(searchUserStart({ key: value }));
+      console.log(value);
 
-    let fetchedData = searchUser.data.users;
+      let fetchedData = searchUser.data.users;
 
-    var newData = [];
+      var newData = [];
 
-    fetchedData &&
-      fetchedData.map((user) =>
-        newData.push({
-          id: user.user_id,
-          name: `@${user.name}`,
-          link: user.user_unique_id,
-          avatar: user.picture,
-        })
-      );
+      fetchedData &&
+        fetchedData.map((user) =>
+          newData.push({
+            id: user.user_id,
+            name: `@${user.name}`,
+            link: user.user_unique_id,
+            avatar: user.picture,
+          })
+        );
 
-    // console.log(newData)
+      console.log(newData)
 
-    searchUser.data.users && setMentions(newData);
+      searchUser.data.users && setMentions(newData);
 
-    setSuggestions(defaultSuggestionsFilter(value, mentions));
+      setSuggestions(defaultSuggestionsFilter(value, mentions));
+
   };
 
   const onAddMention = () => {};
