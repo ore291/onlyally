@@ -351,7 +351,7 @@ function* groupCreateAPI(action) {
     } else {
       yield put(createGroupFailure(response.data.message));
       yield put(notify({ message: response.data.message, status: "error" }));
-      window.location.assign("/gopro/");
+      window.location.assign("/go-pro/");
     }
   } catch (error) {
     yield put(deleteGrcreateGroupFailureoupFailure(error));

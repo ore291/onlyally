@@ -365,7 +365,7 @@ const NewsFeedCard = ({ post, index }) => {
                   : "p-2 break-words text-[14px] font-normal leading-5 tracking-wide"
               }`}
             >
-              <ReadMoreMaster byWords={true} length={5} ellipsis="...">
+              <ReadMoreMaster byWords={true} length={100} ellipsis="...">
                 {post.content}
               </ReadMoreMaster>
             </div>

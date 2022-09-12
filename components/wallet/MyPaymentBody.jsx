@@ -28,9 +28,9 @@ function MyPaymentBody() {
     <div className="mt-2">
       <Tab.Group>
         <Tab.List className="space-x-2">
-          <Tab as={Fragment}>
+          <Tab >
             {({ selected }) => (
-              <button
+              <div
                 className={`
                 p-2 rounded-md
                   ${
@@ -40,12 +40,12 @@ function MyPaymentBody() {
                   }`}
               >
                 Transactions
-              </button>
+              </div>
             )}
           </Tab>
-          <Tab as={Fragment}>
+          <Tab>
             {({ selected }) => (
-              <button
+              <div
                 className={`
                 p-2 rounded-md
                   ${
@@ -55,7 +55,7 @@ function MyPaymentBody() {
                   }`}
               >
                 Withdraws
-              </button>
+              </div>
             )}
           </Tab>
         </Tab.List>

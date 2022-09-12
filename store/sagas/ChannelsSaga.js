@@ -299,7 +299,7 @@ function* channelCreateAPI(action) {
     } else {
       yield put(createChannelFailure(response.data.message));
       yield put(notify({ message: response.data.message, status: "error" }));
-      window.location.assign("/gopro/" );
+      window.location.assign("/go-pro/" );
     }
   } catch (error) {
     yield put(createChannelFailure(error.message));
