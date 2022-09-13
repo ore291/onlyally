@@ -27,7 +27,7 @@ import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { MdMail } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 
-const HeaderMenu = (userSession) => {
+const HeaderMenu = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [cookieWalletData, setCookieWalletData] = useState({user_wallet : {remaining_formatted : null}})

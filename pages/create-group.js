@@ -19,6 +19,7 @@ const CreateGroup = () => {
   const [groupData, setGroupData] = useState({
     name: "",
     description: "",
+    category_id : 1,
 
     privacy: "public",
   });

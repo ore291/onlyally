@@ -144,7 +144,7 @@ const Header = () => {
                 </div>
               </Link>
 
-              <HeaderMenu user={JSON.parse(decodeURIComponent(cookies.user))} />
+              <HeaderMenu  />
             </div>
           </div>
 

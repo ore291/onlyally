@@ -90,7 +90,7 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
                 <div className="gallery-pay-button-div">
                   <button
                     type="button"
-                    className="gallery-pay-button"
+                    className="gallery-pay-button 2"
                     onClick={(event) => handlePPVPayment(event, 1)}
                   >
                     {post.payment_info.payment_text}
@@ -101,24 +101,15 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
               )}
               {post.payment_info.is_user_needs_pay === 1 &&
               post.payment_info.post_payment_type === "subscription" ? (
-                scrollToTop ? (
-                  <div
-                    className="gallery-pay-button-div"
-                    // onClick={scrollToTop}
-                  >
-                    <button className="gallery-pay-button">
-                      {post.payment_info.payment_text}
-                    </button>
-                  </div>
-                ) : (
-                  <Link to={`/profile/` + post.user.unique_id}>
+               
+                  <Link href={`/profile/` + post.user.unique_id} passHref>
                     <div className="gallery-pay-button-div">
                       <button className="gallery-pay-button">
                         {post.payment_info.payment_text}
                       </button>
                     </div>
                   </Link>
-                )
+               
               ) : (
                 ""
               )}

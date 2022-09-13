@@ -142,6 +142,7 @@ const NewsFeedCard = ({ post, index }) => {
 
   const handlePPVPayment = (event, status) => {
     event.preventDefault();
+    console.log('i told you')
     if (status && status == 1) {
       setModalStatus(0);
       setPPVPayment(true);

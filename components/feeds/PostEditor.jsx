@@ -1,6 +1,11 @@
 import React, { useState, useRef, useCallback } from "react";
 import { searchUserStart } from "../../store/slices/homeSlice";
-import { EditorState, convertToRaw, Modifier } from "draft-js";
+import {
+  EditorState,
+  convertToRaw,
+  Modifier,
+  CompositeDecorator,
+} from "draft-js";
 import Editor from "@draft-js-plugins/editor";
 import createMentionPlugin, {
   defaultSuggestionsFilter,
@@ -18,12 +23,21 @@ import createLinkifyPlugin from "@draft-js-plugins/linkify";
 import "@draft-js-plugins/linkify/lib/plugin.css";
 import draftToHtml from "draftjs-to-html";
 import { useDispatch, useSelector } from "react-redux";
+import createLinkDetectionPlugin from "draft-js-link-detection-plugin";
+
+const linkDetectionPlugin = createLinkDetectionPlugin();
 
 const hashtagPlugin = createHashtagPlugin();
+
 const linkifyPlugin = createLinkifyPlugin();
 const mentionPlugin = createMentionPlugin();
 const { MentionSuggestions } = mentionPlugin;
-const plugins = [mentionPlugin, linkifyPlugin, hashtagPlugin];
+const plugins = [
+  mentionPlugin,
+  linkifyPlugin,
+  hashtagPlugin,
+  linkDetectionPlugin,
+];
 
 const PostEditor = (props) => {
   const dispatch = useDispatch();
@@ -74,9 +88,24 @@ const PostEditor = (props) => {
     };
 
     const customEntityTransform = (entity, text) => {
-      if (entity.type !== "mention") return;
-      return `<a style="color : red;" href="${host}/${entity.data.mention.link}">${text}</a>`;
+      if (entity.type === "LINK") {
+        return `<a   style="color : #3b5998; text-decoration : underline;"  href="${entity.data.url}" target="_blank">${text}</a>`;
+      } else if (entity.type === "mention") {
+        return `<a style="color : red;" href="${host}/${entity.data.mention.link}">${text}</a>`;
+      } else {
+        return;
+      }
     };
+
+    // const customEntityTransform = (entity, text) => {
+    //   if (entity.type !== 'LINK' || entity.type !== 'mention') return;
+
+    //   if (entity.type === "mention") return `<a style="color : red;" href="${host}/${entity.data.mention.link}">${text}</a>`;
+
+    //   if(entity.type === "LINK") return `<a  href="${entity.data.url}" target="_blank">${text}</a>`;
+    // };
+
+    // style="color : #3b5998; text-decoration : underline;"
 
     const rawContentState = raw;
 
@@ -90,30 +119,28 @@ const PostEditor = (props) => {
 
   // Check editor text for mentions
   const onSearchChange = ({ value }) => {
-  
-      dispatch(searchUserStart({ key: value }));
-      console.log(value);
+    dispatch(searchUserStart({ key: value }));
+    console.log(value);
 
-      let fetchedData = searchUser.data.users;
+    let fetchedData = searchUser.data.users;
 
-      var newData = [];
+    var newData = [];
 
-      fetchedData &&
-        fetchedData.map((user) =>
-          newData.push({
-            id: user.user_id,
-            name: `@${user.name}`,
-            link: user.user_unique_id,
-            avatar: user.picture,
-          })
-        );
+    fetchedData &&
+      fetchedData.map((user) =>
+        newData.push({
+          id: user.user_id,
+          name: `@${user.name}`,
+          link: user.user_unique_id,
+          avatar: user.picture,
+        })
+      );
 
-      console.log(newData)
+    // console.log(newData)
 
-      searchUser.data.users && setMentions(newData);
+    searchUser.data.users && setMentions(newData);
 
-      setSuggestions(defaultSuggestionsFilter(value, mentions));
-
+    setSuggestions(defaultSuggestionsFilter(value, mentions));
   };
 
   const onAddMention = () => {};
@@ -130,6 +157,8 @@ const PostEditor = (props) => {
   };
 
   const handleChange = (editorState) => {
+    console.log(convertToRaw(editorState.getCurrentContent()));
+
     props.setEditorState != undefined
       ? props.setEditorState(editorState)
       : setEditorState(editorState);
@@ -149,9 +178,7 @@ const PostEditor = (props) => {
         }
         plugins={plugins}
         onChange={(editorState) => handleChange(editorState)}
-        placeholder={
-          props.placeholder ? props.placeholder : t("new_post_placeholder")
-        }
+        placeholder={props.placeholder ? props.placeholder : "Create New Post"}
       ></Editor>
       <MentionSuggestions
         open={open}
@@ -163,12 +190,5 @@ const PostEditor = (props) => {
     </div>
   );
 };
-
-// const mapStateToPros = (state) => ({
-//   searchUser: state.home.searchUser,
-// });
-// const mapDispatchToProps = (dispatch) => {
-//   return { dispatch };
-// };
 
 export default PostEditor;

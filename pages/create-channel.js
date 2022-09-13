@@ -19,6 +19,7 @@ const CreateChannel = () => {
   const [channelData, setChannelData] = useState({
     name: "",
     description: "",
+    category_id : 1,
     privacy: "public",
   });
 

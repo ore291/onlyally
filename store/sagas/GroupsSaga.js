@@ -121,7 +121,7 @@ function* fetchUserGroupsAPI(action) {
 function* fetchOtherUserGroupsAPI(action) {
   if (action.payload) {
     var accessToken = action.payload.accessToken;
-    var id = action.payload.user_id
+    var id = action.payload.user_id;
   }
   try {
     const response = yield api.getMethod({
@@ -342,6 +342,8 @@ function* groupCreateAPI(action) {
       object: inputData,
     });
 
+    console.log(response);
+
     if (response.status && response.status === 201) {
       yield put(createGroupSuccess(response.data));
       yield put(
@@ -351,7 +353,9 @@ function* groupCreateAPI(action) {
     } else {
       yield put(createGroupFailure(response.data.message));
       yield put(notify({ message: response.data.message, status: "error" }));
-      window.location.assign("/go-pro/");
+      setTimeout(function () {
+        window.location.assign("/go-pro/");
+      }, 4000);
     }
   } catch (error) {
     yield put(deleteGrcreateGroupFailureoupFailure(error));
@@ -420,7 +424,10 @@ export default function* pageSaga() {
     yield takeLatest("groups/fetchUserGroupsStart", fetchUserGroupsAPI),
   ]);
   yield all([
-    yield takeLatest("groups/fetchOtherUserGroupsStart", fetchOtherUserGroupsAPI),
+    yield takeLatest(
+      "groups/fetchOtherUserGroupsStart",
+      fetchOtherUserGroupsAPI
+    ),
   ]);
   yield all([
     yield takeLatest(

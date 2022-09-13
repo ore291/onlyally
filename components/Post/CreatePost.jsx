@@ -283,6 +283,7 @@ const CreatePost = () => {
         })
       );
     } else {
+      
       dispatch(
         savePostStart({
           content: editorHtmlContent,
