@@ -16,13 +16,15 @@ const Channels = () => {
   const userCategory = useSelector((state) => state.userCategory);
   const channels = useSelector((state) => state.channels.channels);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchUserCategoryListStart());
     dispatch(fetchContentCreatorListStart());
     dispatch(fetchChannelsStart());
   }, []);
 
-  const dispatch = useDispatch();
+
 
   return (
     <SideNavLayout>

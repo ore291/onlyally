@@ -11,6 +11,8 @@ function classNames(...classNamees) {
 }
 
 const ChannelTabs = ({ channels }) => {
+
+  const dispatch = useDispatch();
   let [categories] = useState([
     "Subscribed channels",
     "Suggested Channels",

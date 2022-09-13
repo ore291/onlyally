@@ -9,6 +9,7 @@ import Link from "next/link";
 
 const ChannelCard = ({ main, channel, profile }) => {
   const cookies = getCookies();
+  const dispatch = useDispatch();
 
   const handleChannelSubscribe = (slug) => {
     dispatch(channelSubscribeStart(slug));
