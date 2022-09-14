@@ -92,21 +92,38 @@ const CreatePost = () => {
       setFileUploadStatus(true);
       let reader = new FileReader();
 
-      let file = event.currentTarget.files[0];
+      // reader.onloadend = () => {
+      //   console.log(reader.result);
+      //   setImage({ ...image, previewImage: reader.result });
+      // };
 
-      reader.onloadend = () => {
-        setImage({ ...image, previewImage: reader.result });
-      };
-
-      if (file) {
-        reader.readAsDataURL(file);
+      const validImageFiles = [];
+      for (let i = 0; i < event.currentTarget.files.length; i++) {
+        const file = event.currentTarget.files[i];
+        validImageFiles.push(file);
       }
-      if (!file) {
+      if (validImageFiles.length) {
+        setImageFiles(validImageFiles);
+      }
+
+      var files = {};
+
+      let images = Array.from(event.currentTarget.files);
+
+      images.forEach((file, i) => {
+        files[`file[${i}]`] = file;
+      });
+
+      // if (file) {
+      //   reader.readAsDataURL(file);
+      // }
+
+      if (!event.currentTarget.files[0]) {
         dispatch(notify("file field is required", "error"));
       } else {
         dispatch(
           postFileUploadStart({
-            file: event.currentTarget.files[0],
+            ...files,
             file_type: fileType,
           })
         );
@@ -283,7 +300,6 @@ const CreatePost = () => {
         })
       );
     } else {
-      
       dispatch(
         savePostStart({
           content: editorHtmlContent,
@@ -327,6 +343,36 @@ const CreatePost = () => {
     }
   };
 
+  useEffect(() => {
+    const images = [],
+      fileReaders = [];
+    let isCancel = false;
+    if (imageFiles.length) {
+      imageFiles.forEach((file) => {
+        const fileReader = new FileReader();
+        fileReaders.push(fileReader);
+        fileReader.onload = (e) => {
+          const { result } = e.target;
+          if (result) {
+            images.push(result);
+          }
+          if (images.length === imageFiles.length && !isCancel) {
+            setImages(images);
+          }
+        };
+        fileReader.readAsDataURL(file);
+      });
+    }
+    return () => {
+      isCancel = true;
+      fileReaders.forEach((fileReader) => {
+        if (fileReader.readyState === 1) {
+          fileReader.abort();
+        }
+      });
+    };
+  }, [imageFiles]);
+
   return (
     <Transition appear show={modalState} as={Fragment}>
       <Dialog
@@ -348,12 +394,12 @@ const CreatePost = () => {
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
-          <span
+          {/* <span
             className="inline-block h-screen align-middle"
             aria-hidden="true"
           >
             &#8203;
-          </span>
+          </span> */}
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -473,7 +519,7 @@ const CreatePost = () => {
                       />
                     </form>
                     {videoPreview.videoPreviewImage !== "" ? (
-                      <div  className="grid grid-cols-1 mb-3 mb-lg-4">
+                      <div className="grid grid-cols-1 mb-3 mb-lg-4">
                         <div className="post-img-preview-sec m-0">
                           <img
                             alt="#"
@@ -583,7 +629,26 @@ const CreatePost = () => {
                 ) : null}
               </div>{" "}
               <div>
-                {image.previewImage !== "" ? (
+                {images.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 ">
+                    {images.map((image, i) => (
+                      <div
+                        key={i}
+                        className="relative row-container my-4 p-4 w-full rounded-[4px]"
+                      >
+                        <a to="#" onClick={imageClose}>
+                          <FaRegTimesCircle className="absolute right-[20px] top-[25px] text-[#f32013] text-[1.3em] font-normal cursor-pointer" />
+                        </a>
+                        <img
+                          alt="#"
+                          src={image}
+                          className="border-[rgba(0,0,0,0.1)] border-[5px] align-middle w-full"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+                {/* {image.previewImage !== "" ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-1">
                     <div className="relative row-container my-4 p-4 w-full rounded-[4px]">
                       <a to="#" onClick={imageClose}>
@@ -596,7 +661,7 @@ const CreatePost = () => {
                       />
                     </div>
                   </div>
-                ) : null}
+                ) : null} */}
                 {videoTitle !== "" ? (
                   <div className="post-title-content create-post-video-title">
                     <h4>{videoTitle}</h4>

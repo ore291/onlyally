@@ -157,7 +157,7 @@ const PostEditor = (props) => {
   };
 
   const handleChange = (editorState) => {
-    console.log(convertToRaw(editorState.getCurrentContent()));
+  
 
     props.setEditorState != undefined
       ? props.setEditorState(editorState)
