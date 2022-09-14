@@ -90,12 +90,7 @@ const CreatePost = () => {
   const handleChangeImage = (event, fileType) => {
     if (event.currentTarget.type === "file") {
       setFileUploadStatus(true);
-      let reader = new FileReader();
-
-      // reader.onloadend = () => {
-      //   console.log(reader.result);
-      //   setImage({ ...image, previewImage: reader.result });
-      // };
+   
 
       const validImageFiles = [];
       for (let i = 0; i < event.currentTarget.files.length; i++) {
