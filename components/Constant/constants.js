@@ -13,6 +13,6 @@ export const apiConstants = {
   
     google_api_key: "AIzaSyAfDkN9CGZJnwWXA93dH1EUnLgDkA-ohKg",
   
-    settingsUrl: "https://cp.playjor.com/api/user/get_settings_json",
+    settingsUrl: "https://api.playjor.com/api/user/get_settings_json",
   };
   

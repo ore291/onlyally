@@ -70,7 +70,7 @@ const nextAuthOptions = (req, res) => {
           
           var config = {
             method: "post",
-            url: "https://cp.playjor.com/api/user/login",
+            url: "https://api.playjor.com/api/user/login",
             headers: {
               ...data.getHeaders(),
             },
@@ -222,7 +222,7 @@ export default (req, res) => {
         
 //         var config = {
 //           method: "post",
-//           url: "https://cp.playjor.com/api/user/login",
+//           url: "https://api.playjor.com/api/user/login",
 //           headers: {
 //             ...data.getHeaders(),
 //           },
