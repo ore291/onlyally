@@ -13,10 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 // const DeviceHelper = require("node-device-detector/helper");
 import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
-import {
-  getCookies,
-
-} from "cookies-next";
+import { getCookies } from "cookies-next";
 import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
@@ -27,54 +24,27 @@ import { fetchStoriesStart } from "../store/slices/storiesSlice";
 import { fetchHomePostsStart } from "../store/slices/homeSlice";
 import Sticky from "react-stickynode";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
-
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile,
+} from "react-device-detect";
 
 export default function Home() {
-  const posts = useSelector((state) => state.home.homePost);
+
   const configData = useSelector((state) => state.config.configData);
-  const loginDetails = useSelector((state) => state.user.loginData);
+  
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    localStorage.setItem("userId", loginDetails.user_id);
-    localStorage.setItem("token", loginDetails.token);
-    localStorage.setItem("userLoginStatus", true);
-    localStorage.setItem("user_picture", loginDetails.picture);
-    localStorage.setItem("user_cover", loginDetails.cover);
-    localStorage.setItem("name", loginDetails.name);
-    localStorage.setItem("username", loginDetails.username);
-    localStorage.setItem("socket", true);
-    localStorage.setItem("user_unique_id", loginDetails.user_unique_id);
-    localStorage.setItem(
-      "is_document_verified",
-      loginDetails.is_document_verified
-    );
-    localStorage.setItem(
-      "is_verified_badge",
-      loginDetails.is_verified_badge ? loginDetails.is_verified_badge : 0
-    );
-    localStorage.setItem("is_content_creator", loginDetails.is_content_creator);
-    localStorage.setItem(
-      "default_payment_method",
-      loginDetails.default_payment_method
-    );
-    localStorage.setItem(
-      "is_two_step_auth_enabled",
-      loginDetails.is_two_step_auth_enabled
-    );
-    localStorage.setItem("emailId", loginDetails.email);
+    dispatch(fetchHomePostsStart())
+  
   }, []);
-
-
-
-
 
   const [isVisible, setIsVisible] = useState(true);
 
   const [show, toggleShow] = useState(false);
-
-
 
   return (
     <>
@@ -95,9 +65,11 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-3 md:gap-5">
             <NewsFeed />
 
-            <Sticky>
-              <NewsFeedSideBar />
-            </Sticky>
+            <BrowserView>
+              <Sticky>
+                <NewsFeedSideBar />
+              </Sticky>
+            </BrowserView>
           </div>
         </main>
       </SideNavLayout>
@@ -105,82 +77,80 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async ({ req, res }) => {
-      // const session = await getSession({ req });
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) =>
+//     async ({ req, res }) => {
+//       // const session = await getSession({ req });
 
-      const cookies = getCookies({ req, res });
+//       const cookies = getCookies({ req, res });
 
-      // const dispatch = useDispatch();
-      if (cookies.accessToken) {
-        store.dispatch(fetchUserLoginSuccess(JSON.parse(cookies.user)));
-      }
+//       // const dispatch = useDispatch();
+//       if (cookies.accessToken) {
+//         store.dispatch(fetchUserLoginSuccess(JSON.parse(cookies.user)));
+//       }
 
-  
+//       if (!cookies.accessToken) {
+//         return {
+//           redirect: {
+//             destination: "/login",
+//             permanent: false,
+//           },
+//         };
+//       }
 
-      if (!cookies.accessToken) {
-        return {
-          redirect: {
-            destination: "/login",
-            permanent: false,
-          },
-        };
-      }
+//       // const userAgent = req.headers["user-agent"];
+//       // const {
+//       //   isAndroid,
+//       //   isIOS,
+//       //   isWindows,
+//       //   isMacOs,
+//       //   mobileModel,
+//       //   browserName,
+//       //   osName,
+//       //   mobileVendor,
+//       //   browserVersion,
+//       // } = getSelectorsByUserAgent(userAgent);
 
-      const userAgent = req.headers["user-agent"];
-      const {
-        isAndroid,
-        isIOS,
-        isWindows,
-        isMacOs,
-        mobileModel,
-        browserName,
-        osName,
-        mobileVendor,
-        browserVersion,
-      } = getSelectorsByUserAgent(userAgent);
+//       // var device_model = "";
+//       // if (isAndroid == true) {
+//       //   device_model = mobileModel;
+//       // } else if (isIOS == true) {
+//       //   device_model = mobileModel;
+//       // } else {
+//       //   device_model = browserName + " " + browserVersion;
+//       //   // device_model = "Chrome" + " " + "100";
+//       // }
 
-      var device_model = "";
-      if (isAndroid == true) {
-        device_model = mobileModel;
-      } else if (isIOS == true) {
-        device_model = mobileModel;
-      } else {
-        device_model = browserName + " " + browserVersion;
-        // device_model = "Chrome" + " " + "100";
-      }
+//       var user = JSON.parse(cookies.user);
 
-      var user = JSON.parse(cookies.user);
-     
-      store.dispatch(
-        fetchHomePostsStart({
-          accessToken: cookies.accessToken,
-          userId: cookies.userId,
-          device_model: device_model,
-        })
-      );
-      store.dispatch(
-        fetchStoriesStart({
-          accessToken: cookies.accessToken,
-          userId: cookies.userId,
-          device_model: device_model,
-        })
-      );
+//       // store.dispatch(
+//       //   fetchHomePostsStart({
+//       //     accessToken: cookies.accessToken,
+//       //     userId: cookies.userId,
+//       //     device_model: device_model,
+//       //   })
+//       // );
+//       // store.dispatch(
+//       //   fetchStoriesStart({
+//       //     accessToken: cookies.accessToken,
+//       //     userId: cookies.userId,
+//       //     device_model: device_model,
+//       //   })
+//       // );
 
-      // store.dispatch(
-      //   fetchUserDetailsStart({ accessToken: cookies.accessToken })
-      // );
+//       // store.dispatch(
+//       //   fetchUserDetailsStart({ accessToken: cookies.accessToken })
+//       // );
 
-      // store.dispatch(fetchConfigurationStart());
+//       // store.dispatch(fetchConfigurationStart());
 
-      store.dispatch(END);
-      await store.sagaTask.toPromise();
+//       store.dispatch(END);
+//       await store.sagaTask.toPromise();
 
-      return {
-        props: {
-          user_img: user.picture,
-        },
-      };
-    }
-);
+//       return {
+//         props: {
+//           user_img: user.picture,
+//         },
+//       };
+//     }
+// );

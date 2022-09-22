@@ -54,7 +54,7 @@ export const StoriesSlice = createSlice({
     fetchStoriesFailure: (state, action) => {
       state.stories = {
         data: {},
-        loading: true,
+        loading: false,
         error: action.payload,
       };
     },
@@ -79,7 +79,7 @@ export const StoriesSlice = createSlice({
     storyFileUploadFailure: (state, action) => {
       state.storyUpload = {
         data: {},
-        loading: true,
+        loading: false,
         error: action.payload,
         loadingButtonContent: "",
         buttonDisable: false,

@@ -4,6 +4,7 @@ import { IoIosAlbums } from "react-icons/io";
 import { CgNotes } from "react-icons/cg";
 import { TiVideo } from "react-icons/ti";
 import { MdSmartDisplay } from "react-icons/md";
+import CreateButton from "../helpers/CreateButton";
 import { useRouter } from "next/router";
 import { FiPlus } from "react-icons/fi";
 import Link from "next/link";
@@ -149,10 +150,7 @@ const MainMobileNav = () => {
               </div>
               <span className="text-xl font-bold">Playhub</span>
             </div>
-            <div className=" space-x-1 cursor-pointer row-container  w-40 h-10 ml-5 text-white   bg-lightPlayRed rounded-full">
-              <FiPlus className="h-6 w-6" />{" "}
-              <p className="text-lg font-medium">Create</p>
-            </div>
+            <CreateButton  navigate={navigate}/>
           </div>
         </div>
       </aside>

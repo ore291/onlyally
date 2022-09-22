@@ -73,7 +73,7 @@ const SideNav = () => {
     localStorage.removeItem("total_followers");
     localStorage.removeItem("total_followings");
     localStorage.removeItem("is_subscription_enabled");
-    window.location.assign("/")
+    window.location.assign("/login")
     // await signOut({ callbackUrl: "/login" });
   };
 

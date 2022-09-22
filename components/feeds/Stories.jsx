@@ -9,7 +9,8 @@ import { fetchStoriesStart } from "../../store/slices/storiesSlice";
 import { setUploadModal } from "../../store/slices/NavSlice";
 import StoriesSliderModal from "./StoriesSliderModal";
 import StoriesUploadModal from "./StoryUploadModal";
-import { getCookies } from "cookies-next";
+import { getCookie } from "cookies-next";
+
 
 const Stories = () => {
   const loginDetails = useSelector((state) => state.user.loginData);
@@ -56,10 +57,9 @@ const Stories = () => {
     setSliderData(story);
   };
 
-  // useEffect(() => {
-  //   dispatch(fetchStoriesStart());
-
-  // }, [user]);
+  useEffect(() => {
+    dispatch(fetchStoriesStart());
+  }, []);
 
   // useEffect(() => {
   //   if (SliderModalToggle) {
@@ -85,7 +85,7 @@ const Stories = () => {
                 >
                   <Story
                     username={"Create new story"}
-                    img={loginDetails.picture || profile.picture}
+                    img={getCookie('picture') || profile.picture}
                     isYou={true}
                     className="embla__slide1"
                   />

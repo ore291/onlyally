@@ -7,6 +7,10 @@ import CreateButton from "./helpers/CreateButton";
 
 const LeftSideBar = () => {
   const router = useRouter();
+
+  const navigate = (url) => {
+    router.push(url);
+  };
   return (
     <aside className="hidden z-10 lg:block col-span-2 h-[90vh] border-solid  pt-10  self-start border-r-[1px] sticky top-16 overflow-none ">
       <div className="flex flex-col space-y-4 ">
@@ -121,7 +125,7 @@ const LeftSideBar = () => {
           <p className="text-lg font-medium">Create</p>
         </div> */}
 
-        <CreateButton />
+        <CreateButton navigate={navigate}/>
       </div>
     </aside>
   );
