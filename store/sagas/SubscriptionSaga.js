@@ -71,122 +71,126 @@ function* getSingleSubscriptionAPI() {
 }
 
 function* subscriptionPaymentPayStackAPI() {
-    try {
-      const subscriptionDetails = yield select(
-        (state) => state.subscriptions.subPayPaystack.inputData
+  try {
+    const subscriptionDetails = yield select(
+      (state) => state.subscriptions.subPayPaystack.inputData
+    );
+    const response = yield api.postMethod({
+      action: "user_subscriptions_payment_by_paypal",
+      object: subscriptionDetails,
+    });
+    if (response.data.success) {
+      yield put(subscriptionPaymentPaystackSuccess(response.data.data));
+      yield put(notify({ message: response.data.message, status: "success" }));
+      localStorage.setItem(
+        "total_followers",
+        JSON.stringify(response.data.data.total_followers)
       );
-      const response = yield api.postMethod(
-        {action:
-        "user_subscriptions_payment_by_paypal",
-        object :
-        subscriptionDetails
-        });
-      if (response.data.success) {
-        yield put(subscriptionPaymentPaystackSuccess(response.data.data));
-        yield put(notify({ message: response.data.message, status: "success" }));
-        localStorage.setItem(
-          "total_followers",
-          JSON.stringify(response.data.data.total_followers)
-        );
-        localStorage.setItem(
-          "total_followings",
-          JSON.stringify(response.data.data.total_followings)
-        );
+      localStorage.setItem(
+        "total_followings",
+        JSON.stringify(response.data.data.total_followings)
+      );
+      if (window.location.pathname !== "/onboarding") {
         window.location.assign(`/${subscriptionDetails.user_unique_id}`);
-      } else {
-        yield put(subscriptionPaymentPaystackFailure(response.data.error));
-        yield put(notify({ message: response.data.error, status: "error" }));;
       }
-    } catch (error) {
-      yield put(subscriptionPaymentPaystackFailure(error));
-      yield put(notify({ message: error.message, status: "error" }));
+    } else {
+      yield put(subscriptionPaymentPaystackFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
+  } catch (error) {
+    yield put(subscriptionPaymentPaystackFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
   }
-  
-  
-  
-  function* subscriptionPaymentWalletAPI() {
-    try {
-      const subscriptionDetails = yield select(
-        (state) => state.subscriptions.subPayWallet.inputData
-      );
-      const response = yield api.postMethod(
-          {action :
-        "user_subscriptions_payment_by_wallet", object :
-        subscriptionDetails }
-      );
-  
-      if (response.data.success) {
-        yield put(subscriptionPaymentWalletSuccess(response.data.data));
-        yield put(notify({ message: response.data.message, status: "success" }));
-        localStorage.setItem(
-          "total_followers",
-          JSON.stringify(response.data.data.total_followers)
-        );
-        localStorage.setItem(
-          "total_followings",
-          JSON.stringify(response.data.data.total_followings)
-        );
-        window.location.assign(`${subscriptionDetails.user_unique_id}`);
-      } else {
-        yield put(subscriptionPaymentWalletFailure(response.data.error));
-        yield put(notify({ message: response.data.error, status: "error" }));
-      }
-    } catch (error) {
-      yield put(subscriptionPaymentWalletFailure(error));
-      yield put(notify({ message: error.message, status: "error" }));
-    }
-  }
-  
-  function* subscriptionAutoRenewalAPI() {
-    try {
-      const subscriptionDetails = yield select(
-        (state) => state.subscriptions.subscriptionRenew.inputData
-      );
-      const response = yield api.postMethod({
-        action :
-        "subscriptions_autorenewal_status", object :
-        subscriptionDetails
-      });
-      yield put(subscriptionAutoRenewalSuccess(response.data.data));
-      if (response.data.success) {
-        yield put(notify({ message: response.data.message, status: "error" }));
-        yield put(subscriptionAutoRenewalFailure(response.data.error));
-      } else {
-        yield put(notify({ message: response.data.error, status: "error" }));
-      }
-    } catch (error) {
-      yield put(subscriptionAutoRenewalFailure(error));
-      yield put(notify({ message: error.message, status: "error" }));
-    }
-  }
-  
+}
 
-  
+function* subscriptionPaymentWalletAPI() {
+  try {
+    const subscriptionDetails = yield select(
+      (state) => state.subscriptions.subPayWallet.inputData
+    );
+    const response = yield api.postMethod({
+      action: "user_subscriptions_payment_by_wallet",
+      object: subscriptionDetails,
+    });
+
+    if (response.data.success) {
+      yield put(subscriptionPaymentWalletSuccess(response.data.data));
+      yield put(notify({ message: response.data.message, status: "success" }));
+      localStorage.setItem(
+        "total_followers",
+        JSON.stringify(response.data.data.total_followers)
+      );
+      localStorage.setItem(
+        "total_followings",
+        JSON.stringify(response.data.data.total_followings)
+      );
+      window.location.assign(`${subscriptionDetails.user_unique_id}`);
+    } else {
+      yield put(subscriptionPaymentWalletFailure(response.data.error));
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(subscriptionPaymentWalletFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* subscriptionAutoRenewalAPI() {
+  try {
+    const subscriptionDetails = yield select(
+      (state) => state.subscriptions.subscriptionRenew.inputData
+    );
+    const response = yield api.postMethod({
+      action: "subscriptions_autorenewal_status",
+      object: subscriptionDetails,
+    });
+    yield put(subscriptionAutoRenewalSuccess(response.data.data));
+    if (response.data.success) {
+      yield put(notify({ message: response.data.message, status: "error" }));
+      yield put(subscriptionAutoRenewalFailure(response.data.error));
+    } else {
+      yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(subscriptionAutoRenewalFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
 
 export default function* pageSaga() {
-  yield all([yield takeLatest('subscriptions/fetchSubscriptionStart', getSubscriptionAPI)]);
   yield all([
-    yield takeLatest('subscriptions/fetchMySubscriptionStart', getMySubscriptionAPI),
-  ]);
-  yield all([
-    yield takeLatest('subscriptions/fetchSingleSubscriptionStart', getSingleSubscriptionAPI),
+    yield takeLatest(
+      "subscriptions/fetchSubscriptionStart",
+      getSubscriptionAPI
+    ),
   ]);
   yield all([
     yield takeLatest(
-      'subscriptions/subscriptionPaymentPaystackStart',
+      "subscriptions/fetchMySubscriptionStart",
+      getMySubscriptionAPI
+    ),
+  ]);
+  yield all([
+    yield takeLatest(
+      "subscriptions/fetchSingleSubscriptionStart",
+      getSingleSubscriptionAPI
+    ),
+  ]);
+  yield all([
+    yield takeLatest(
+      "subscriptions/subscriptionPaymentPaystackStart",
       subscriptionPaymentPayStackAPI
     ),
   ]);
   yield all([
     yield takeLatest(
-      'subscriptions/subscriptionPaymentWalletStart',
+      "subscriptions/subscriptionPaymentWalletStart",
       subscriptionPaymentWalletAPI
     ),
   ]);
   yield all([
     yield takeLatest(
-      'subscriptions/subscriptionAutoRenewalStart',
+      "subscriptions/subscriptionAutoRenewalStart",
       subscriptionAutoRenewalAPI
     ),
   ]);

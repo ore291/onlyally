@@ -119,10 +119,10 @@ function* getUserDetailsAPI(action) {
       }
     } else {
       yield put(fetchUserDetailsFailure(response.data.error));
-      // yield put(errorLogoutCheck(response.data));
-      // yield put(
-      //   notify({ message: response.data.error, status: "error" })
-      // );
+      yield put(errorLogoutCheck(response.data));
+      yield put(
+        notify({ message: response.data.error, status: "error" })
+      );
     }
   } catch (error) {
     yield put(fetchUserDetailsFailure(error));
@@ -167,7 +167,10 @@ function* updateUserDetailsAPI() {
         response.data.data.default_payment_method
       );
       yield put(notify({ message: response.data.message, status: "success" }));
-      window.location.assign("/profile");
+      if(window.location.pathname != "/onboarding"){
+        window.location.assign("/profile");
+      }
+      
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
       yield put(updateUserDetailsFailure(response.data.error));
@@ -234,6 +237,7 @@ function* userLoginAPI() {
       action: "login",
       object: userData,
     });
+    
     yield put(loginSuccess(response.data));
     yield put(fetchUserLoginSuccess(response.data));
     if (response.data.success) {
@@ -295,7 +299,7 @@ function* userLoginAPI() {
           setCookie("total_followers", user.total_followers, );
           setCookie("total_followings", user.total_followings);
           setCookie("user", JSON.stringify(user) );
-
+        
           window.location.assign("/");
         }
       }
@@ -321,43 +325,27 @@ function* userRegisterAPI() {
       if (response.data.code == 1001)
         window.location.assign("/register/verify");
       else {
-        localStorage.setItem("userId", response.data.data.user_id);
-        localStorage.setItem("accessToken", response.data.data.token);
-        localStorage.setItem("userLoginStatus", true);
-        localStorage.setItem("user_picture", response.data.data.picture);
-        localStorage.setItem("user_cover", response.data.data.cover);
-        localStorage.setItem("username", response.data.data.username);
-        localStorage.setItem("name", response.data.data.name);
-        localStorage.setItem("socket", true);
-        localStorage.setItem(
-          "user_unique_id",
-          response.data.data.user_unique_id
-        );
-        localStorage.setItem(
-          "is_document_verified",
-          response.data.data.is_document_verified
-        );
-        localStorage.setItem(
-          "is_verified_badge",
-          response.data.data.is_verified_badge
-            ? response.data.data.is_verified_badge
-            : 0
-        );
-        localStorage.setItem(
-          "is_two_step_auth_enabled",
-          response.data.data.is_two_step_auth_enabled
-        );
-        yield put(notify({ message: response.data.message }));
-        if (response.data.data.is_welcome_steps == 1) {
-          window.location.assign("/upload-profile-picture");
-        } else {
-          signIn("credentials", {
-            callbackUrl: "/",
-            // redirect: false,
-            email: userData.email,
-            password: userData.password,
-          });
-        }
+        const response2 = yield api.postMethod({
+          action: "login",
+          object: userData,
+        });
+
+
+        var user = response2.data.data;
+
+        
+        setCookie("userId", user.user_id);
+        setCookie("accessToken", user.token);
+        setCookie("user_picture", user.picture);
+        setCookie("user_email", user.email, );
+        setCookie("username", user.username,  )
+        setCookie("picture", user.picture,);
+        setCookie("total_followers", user.total_followers, );
+        setCookie("total_followings", user.total_followings);
+        setCookie("user", JSON.stringify(user) );
+        yield put(notify({ message: response.data.message })); 
+        window.location.assign("/onboarding");
+     
       }
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));

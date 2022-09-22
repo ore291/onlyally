@@ -5,7 +5,7 @@ const initialState = {
   loginData: {},
   profile: {
     data: {},
-    loading: false,
+    loading: true,
     error: false,
   },
   onlineStatus: {
@@ -18,7 +18,7 @@ const initialState = {
   },
   profileInputData: {
     data: {},
-    loading: true,
+    loading: false,
     error: false,
     buttonDisable: false,
     loadingButtonContent: null,
@@ -197,8 +197,9 @@ export const UserSlice = createSlice({
     updateUserDetailsStart: (state, action) => {
       state.profileInputData = {
         data: {
-          first_name: state.profile.data.first_name,
-          last_name: state.profile.data.last_name,
+          first_name:
+            action.payload.first_name || state.profile.data.first_name,
+          last_name: action.payload.last_name || state.profile.data.last_name,
           email: state.profile.data.email,
           name: state.profile.data.name,
           username: state.profile.data.username,
@@ -213,9 +214,9 @@ export const UserSlice = createSlice({
             state.profile.data.height == null ? 0 : state.profile.data.height,
           weight:
             state.profile.data.weight == null ? 0 : state.profile.data.weight,
-          address: state.profile.data.address,
+          address: action.payload.country || state.profile.data.address,
           website: state.profile.data.website,
-          u_category_id: state.profile.data.u_category_id,
+          u_category_id: state.profile.data.u_category_id || 1,
           amazon_wishlist: state.profile.data.amazon_wishlist,
           instagram_link: state.profile.data.instagram_link,
           facebook_link: state.profile.data.facebook_link,
@@ -248,6 +249,7 @@ export const UserSlice = createSlice({
               : ""
             : "",
         },
+        loading: true,
         buttonDisable: true,
         loadingButtonContent: "Loading...please wait",
       };
@@ -275,10 +277,15 @@ export const UserSlice = createSlice({
         loadingButtonContent: null,
         loading: false,
       };
+      state.profileInputData = {
+        ...state.profileInputData,
+        loading: false,
+        buttonDisable: false,
+      };
     },
     updateUserDetailsFailure: (state, action) => {
       state.profile = {
-        data: state.profile.data,
+        data: action.payload,
         loading: false,
         error: action.payload,
         buttonDisable: false,
@@ -312,7 +319,8 @@ export const UserSlice = createSlice({
         data: action.payload.data,
       };
       state.registerInputData = {
-        data: {},
+        data: { ...state.registerInputData.data },
+
         loading: false,
         error: false,
         buttonDisable: false,
@@ -582,10 +590,9 @@ export const UserSlice = createSlice({
     resetPasswordStart: (state, action) => {
       state.forgotPasswordInputData = {
         inputData: action.payload,
-        buttonDisable : true,
-        loadingButtonContent : "Loading please wait"
+        buttonDisable: true,
+        loadingButtonContent: "Loading please wait",
       };
-      
     },
     resetPasswordSuccess: (state, action) => {
       state.profile = {
