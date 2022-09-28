@@ -33,33 +33,55 @@ const HeaderMenu = () => {
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-
   useEffect(() => {
-    setMounted(true)
-  },[])
+    setMounted(true);
+  }, []);
 
   const runThemeChanger = (active) => {
-
-    if(!mounted) return null;
+    if (!mounted) return null;
     const currentTheme = theme === "system" ? systemTheme : theme;
 
     if (currentTheme === "dark") {
       return (
-        <div className="flex items-center "  onClick={() => setTheme("light")}>
-          <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:text-gray-900 rounded-full p-2 mr-3`}>
-            <BsFillSunFill className="h-6 w-6" />
-          </div>{" "}
-          <span>Light Mode</span>
-        </div>
+        <button onClick={() => setTheme("light")}
+          className={`${
+            active
+              ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
+              : "text-[#252525] font-semibold dark:text-gray-100"
+          } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
+        >
+          <div className="flex items-center " >
+            <div
+              className={`${
+                active && "dark:bg-gray-100"
+              }   row-container bg-gray-100 dark:text-gray-900 rounded-full p-2 mr-3`}
+            >
+              <BsFillSunFill className="h-6 w-6" />
+            </div>{" "}
+            <span>Light Mode</span>
+          </div>
+        </button>
       );
     } else {
       return (
-        <div className="flex items-center " onClick={() => setTheme("dark")}>
-          <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:text-gray-900  rounded-full p-2 mr-3`}>
-            <BsMoonFill className="h-6 w-6" />
-          </div>{" "}
-          <span>Night Mode</span>
-        </div>
+        <button onClick={() => setTheme("dark")}
+          className={`${
+            active
+              ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
+              : "text-[#252525] font-semibold dark:text-gray-100"
+          } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
+        >
+          <div className="flex items-center ">
+            <div
+              className={`${
+                active && "dark:bg-gray-100"
+              }   row-container bg-gray-100 dark:text-gray-900  rounded-full p-2 mr-3`}
+            >
+              <BsMoonFill className="h-6 w-6" />
+            </div>{" "}
+            <span>Night Mode</span>
+          </div>
+        </button>
       );
     }
   };
@@ -211,7 +233,11 @@ const HeaderMenu = () => {
                             : "text-[#252525] dark:text-gray-100 font-semibold"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
-                        <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                        <div
+                          className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                        >
                           <FaUserCircle className="h-6 w-6 " />
                         </div>
                         My Profile
@@ -228,7 +254,11 @@ const HeaderMenu = () => {
                             : "text-[#252525] dark:text-gray-100 dark:bg-gray-900  font-semibold"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
-                        <div className={`${active && " dark:text-gray-100"}   row-container bg-gray-100  dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                        <div
+                          className={`${
+                            active && " dark:text-gray-100"
+                          }   row-container bg-gray-100  dark:bg-gray-900 rounded-full p-2 mr-3`}
+                        >
                           <RiBarChartHorizontalFill className="h-6 w-6" />
                         </div>
                         Dashboard
@@ -245,7 +275,11 @@ const HeaderMenu = () => {
                             : "text-[#252525] font-semibold dark:text-gray-100"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
-                          <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                        <div
+                          className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                        >
                           <svg
                             width="24"
                             height="24"
@@ -267,7 +301,7 @@ const HeaderMenu = () => {
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
-                      <div  onClick={() => router.push("/market/marketplace")}>
+                      <div onClick={() => router.push("/market/marketplace")}>
                         <button
                           className={`${
                             active
@@ -275,7 +309,11 @@ const HeaderMenu = () => {
                               : "text-[#252525] font-semibold dark:text-gray-100"
                           } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                         >
-                          <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                          <div
+                             className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                          >
                             <FaShoppingBag className="h-6 w-6 " />
                           </div>
                           Shop
@@ -283,9 +321,9 @@ const HeaderMenu = () => {
                       </div>
                     )}
                   </Menu.Item>
-                  <Menu.Item>
+                  {/* <Menu.Item>
                     {({ active }) => (
-                      <div onClick={() =>router.push('/stories')}>
+                      <div onClick={() => router.push("/stories")}>
                         <button
                           className={`${
                             active
@@ -293,14 +331,18 @@ const HeaderMenu = () => {
                               : "text-[#252525] font-semibold dark:text-gray-100"
                           } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                         >
-                          <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                          <div
+                             className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                          >
                             <FaHistory className="h-6 w-6" />
                           </div>
                           Stories
                         </button>
                       </div>
                     )}
-                  </Menu.Item>
+                  </Menu.Item> */}
                   <Menu.Item>
                     {({ active }) => (
                       <button
@@ -311,7 +353,11 @@ const HeaderMenu = () => {
                             : "text-[#252525] font-semibold dark:text-gray-100"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
-                        <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                        <div
+                          className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                        >
                           <FaBookmark className="h-6 w-6" />
                         </div>
                         Bookmarks
@@ -347,7 +393,11 @@ const HeaderMenu = () => {
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         {" "}
-                        <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                        <div
+                          className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                        >
                           <BsListStars className="h-6 w-6" />
                         </div>
                         Lists
@@ -364,7 +414,11 @@ const HeaderMenu = () => {
                             : "text-[#252525] font-semibold dark:text-gray-100"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
-                        <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                        <div
+                          className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                        >
                           <MdMail className="h-6 w-6" />
                         </div>
                         Invite Your Friends
@@ -381,7 +435,11 @@ const HeaderMenu = () => {
                             : "text-[#252525] font-semibold dark:text-gray-100"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
-                        <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                        <div
+                         className={`${
+                          active ? "" : "dark:bg-gray-900"
+                        }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                        >
                           <BsShieldFillCheck className="h-6 w-6" />
                         </div>
                         Privacy Settings
@@ -419,17 +477,7 @@ const HeaderMenu = () => {
                 )}
               </Menu.Item> */}
                   <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        className={`${
-                          active
-                            ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
-                            : "text-[#252525] font-semibold dark:text-gray-100"
-                        } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
-                      >
-                        {runThemeChanger(active)}
-                      </button>
-                    )}
+                    {({ active }) => mounted && runThemeChanger(active)}
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
@@ -441,7 +489,11 @@ const HeaderMenu = () => {
                             : "text-[#252525] font-semibold dark:text-gray-100"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm `}
                       >
-                        <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
+                        <div
+                          className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                        >
                           <IoLogOut className="h-6 w-6" />
                         </div>
                         Log Out
@@ -455,8 +507,10 @@ const HeaderMenu = () => {
                           <span>&copy;</span>2022 Playjor!
                         </p>
                         <div className="flex space-x-1 items-center ">
-                          <FaGlobeAfrica className="w-2 h-2" />{" "}
-                          <p className="text-xs text-[#252525] dark:text-gray-100">Language</p>
+                          <FaGlobeAfrica className="w-2 h-2" />
+                          <p className="text-xs text-[#252525] dark:text-gray-100">
+                            Language
+                          </p>
                         </div>
                       </div>
                     </div>
