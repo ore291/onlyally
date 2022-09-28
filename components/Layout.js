@@ -13,6 +13,7 @@ function Layout(props) {
 
   return (
     <>
+    {/* <Header /> */}
       {router.pathname != "/onboarding" && (
         <>{checkSession ? <Header /> : <HeaderOffline />}</>
       )}

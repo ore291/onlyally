@@ -299,6 +299,7 @@ function* userLoginAPI() {
           setCookie("total_followers", user.total_followers, );
           setCookie("total_followings", user.total_followings);
           setCookie("user", JSON.stringify(user) );
+          setCookie("pro", JSON.stringify(user.pro_package_config))
         
           window.location.assign("/");
         }
@@ -343,7 +344,10 @@ function* userRegisterAPI() {
         setCookie("total_followers", user.total_followers, );
         setCookie("total_followings", user.total_followings);
         setCookie("user", JSON.stringify(user) );
-        yield put(notify({ message: response.data.message })); 
+        setCookie("pro", JSON.stringify(user.pro_package_config))
+        yield put(notify({ message: response.data.message }));
+        
+       
         window.location.assign("/onboarding");
      
       }

@@ -169,7 +169,7 @@ const PostEditor = (props) => {
     <div
       onFocus={() => focusEditor()}
       onBlur={() => blurEditor()}
-      className={focusStyle ? "hasFocus active" : "hasFocus"}
+      className={focusStyle ? "hasFocus active dark:text-gray-900" : "hasFocus dark:text-gray-900"}
     >
       <Editor
         ref={editor}

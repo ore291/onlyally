@@ -1,13 +1,17 @@
 import {
-  checkCookies, getCookies, removeCookies, setCookie
+  checkCookies,
+  getCookies,
+  removeCookies,
+  setCookie,
 } from "cookies-next";
 import { getSession, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useRef, useState, Fragment } from "react";
 import { AiFillBell } from "react-icons/ai";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaTimes } from "react-icons/fa";
+import { Transition } from "@headlessui/react";
 import { MdClose, MdMenu, MdOutlineSearch, MdSearch } from "react-icons/md";
 import { SiGooglechat } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +24,7 @@ import CommonCenterLoader from "./helpers/CommonCenterLoader";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const search = useRef()
+  const search = useRef();
   const [show, toggleShow] = useState(false);
   const cookies = getCookies();
   const router = useRouter();
@@ -40,17 +44,61 @@ const Header = () => {
     }
   };
 
+  const [mobilesearch, setMobileSearch] = useState(false);
+
   const searchRedirect = (user) => {
     search.current.value = "";
     toggleShow(false);
+    setMobileSearch(false);
     router.push(`/${user}`);
-  }
+  };
 
   return (
-    <nav className="bg-[#B30D28] sticky top-0 z-50">
-      <div className="lg:max-w-7xl  2xl:max-w-screen-2xl mx-auto  sm:px-6 lg:px-8 ">
+    <nav className="bg-[#B30D28] sticky top-0 z-40">
+      <div className="lg:max-w-7xl  2xl:max-w-screen-2xl mx-auto  px-1 sm:px-6 lg:px-8 relative">
+        {show && (
+          <div className="absolute top-16 inset-x-0 mx-auto border search-dropdown-sec w-[415px] bg-white shadow-2xl text-black p-2 rounded-md z-20">
+            <ul className="list-unstyled search-dropdown-list-sec flex flex-col space-y-1 divide-y">
+              {searchUser.loading ? (
+                <CommonCenterLoader />
+              ) : searchUser.data.users.length > 0 ? (
+                searchUser.data.users.map((user) => (
+                  <li className="py-1" key={user.user_unique_id}>
+                    <div
+                      onClick={() => searchRedirect(user.user_unique_id)}
+                      className="search-body flex items-center space-x-2 cursor-pointer"
+                    >
+                      <div className="user-img-sec">
+                        <img
+                          alt="#"
+                          src={user.picture}
+                          className="user-img w-10 h-10 rounded-full object-cover"
+                        />
+                      </div>
+                      <div className="search-content text-sm ">
+                        <h5 className="flex items-center space-x-1">
+                          {user.name}{" "}
+                          {user.is_verified_badge == 1 ? (
+                            <div className="pl-2">
+                              <VerifiedBadge />
+                            </div>
+                          ) : null}
+                        </h5>
+                        <p className="text-muted text-xs text-gray-400 f-12">
+                          @{user.username}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <p>No User Found</p>
+              )}
+            </ul>
+          </div>
+        )}
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
+          <div className="flex items-center ">
             {" "}
             <button onClick={() => toggleMobileNav()}>
               <MdMenu className="text-white h-8 w-8 cursor-pointer mr-2" />
@@ -82,50 +130,11 @@ const Header = () => {
                 onChange={handleSearch}
               />
             </div>
-            {show && (
-              <div className="absolute top-12 border search-dropdown-sec w-[415px] bg-white shadow-2xl text-black p-2 rounded-md z-20">
-                <ul className="list-unstyled search-dropdown-list-sec flex flex-col space-y-1 divide-y">
-                  {searchUser.loading ? (
-                    <CommonCenterLoader />
-                  ) : searchUser.data.users.length > 0 ? (
-                    searchUser.data.users.map((user) => (
-                      <li className="py-1" key={user.user_unique_id}>
-                      
-                          <div onClick={()=>searchRedirect(user.user_unique_id)} className="search-body flex items-center space-x-2 cursor-pointer">
-                            <div className="user-img-sec">
-                              <img
-                                alt="#"
-                                src={user.picture}
-                                className="user-img w-10 h-10 rounded-full object-cover"
-                              />
-                            </div>
-                            <div className="search-content text-sm ">
-                              <h5 className="flex items-center space-x-1">
-                                {user.name}{" "}
-                                {user.is_verified_badge == 1 ? (
-                                  <div className="pl-2">
-                                    <VerifiedBadge />
-                                  </div>
-                                ) : null}
-                              </h5>
-                              <p className="text-muted text-xs text-gray-400 f-12">
-                                @{user.username}
-                              </p>
-                            </div>
-                          </div>
-                       
-                      </li>
-                    ))
-                  ) : (
-                    <p>No User Found</p>
-                  )}
-                </ul>
-              </div>
-            )}
           </div>
           <div className="hidden md:block">
             <div className="items-center justify-end space-x-2 hidden lg:flex  col-span-2">
-              <HeaderCreateMenu user={JSON.parse(decodeURIComponent(cookies.user))} />
+              {/* <HeaderCreateMenu user={JSON.parse(decodeURIComponent(cookies.user))} /> */}
+              <HeaderCreateMenu />
               <Link href="/messages" passHref>
                 <div className="icon-bg">
                   <SiGooglechat className="h-5 w-5 text-white" />
@@ -144,11 +153,48 @@ const Header = () => {
                 </div>
               </Link>
 
-              <HeaderMenu  />
+              {/* remember to uncomment */}
+
+              <HeaderMenu />
             </div>
           </div>
+          <Transition
+            as={Fragment}
+            show={mobilesearch}
+            enter="transform transition duration-[400ms]"
+            enterFrom="opacity-0  scale-50"
+            enterTo="opacity-100  scale-100"
+            leave="transform duration-200 transition ease-in-out"
+            leaveFrom="opacity-100 scale-100 "
+            leaveTo="opacity-0 scale-95 "
+          >
+            <div className="w-[99%] flex items-center space-x-1 mx-auto bg-[#B30D28]  border-gray-100 border-2 rounded-full absolute inset-x-0 h-[90%]">
+              <input
+                ref={search}
+                type="text"
+                name=""
+                placeholder="Search for people, Channels, Groups and #hashtags"
+                className="placeholder-[#E08B93] text-white bg-[#B30D28] rounded-full basis-[90%] outline-none focus:ring-0 border-0 focus:outline-none w-full bg-transparent h-full"
+                id=""
+                onChange={handleSearch}
+              />
 
-          <div className=" md:hidden rounded-full bg-[#C51834] flex items-center justify-center p-1 ">
+              <MdClose
+                onClick={() => {
+                  setMobileSearch(false);
+                  toggleShow(false);
+                }}
+                className="h-8 w-6"
+              />
+            </div>
+          </Transition>
+
+          <div
+            onClick={() => {
+              setMobileSearch(true);
+            }}
+            className=" md:hidden rounded-full bg-[#C51834] flex items-center justify-center p-1 "
+          >
             <MdOutlineSearch className="h-8 w-8 text-white" />
           </div>
         </div>

@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import "../styles/custom.scss";
 
 import NextNProgress from "nextjs-progressbar";
+import { ThemeProvider } from "next-themes";
 
 import Layout from "../components/Layout";
 import { SessionProvider } from "next-auth/react";
@@ -55,10 +56,12 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     // <SessionProvider session={session}  refetchOnWindowFocus={true} refetchInterval={5 * 60}>
     <>
       <NextNProgress color="#FF1636" />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-      <Notifications />
+      <ThemeProvider enableSystem={true} attribute="class">
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+        <Notifications />
+      </ThemeProvider>
     </>
 
     // </SessionProvider>

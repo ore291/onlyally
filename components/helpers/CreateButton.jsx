@@ -11,7 +11,7 @@ const CreateButton = ({navigate}) => {
   
 
   return (
-    <Popover className="relative">
+    <Popover className="relative dark:bg-gray-900">
       {({ open }) => (
         <>
           <Popover.Button
@@ -43,9 +43,9 @@ const CreateButton = ({navigate}) => {
                 className="absolute z-10 w-[250px] lg:w-[18vw]  mt-3 transform drop-shadow-2xl right-4 lg:translate-x-1/2 sm:px-0 lg:max-w-3xl rounded-xl"
               >
                 <div className="overflow-hidden  ">
-                  <div className="relative grid gap-y-2 bg-white p-4  grid-cols-1">
+                  <div className="relative grid gap-y-2 bg-white dark:bg-gray-900 p-4  grid-cols-1">
                     <div
-                      className=" group flex  items-center space-x-2 cursor-pointer bg-white"
+                      className=" group flex  items-center space-x-2 cursor-pointer bg-white dark:bg-gray-900"
                       onClick={() => navigate("/create-group")}
                     >
                       <MdOutlineGroups className="w-6 h-6 group-hover:text-lightPlayRed" />
@@ -54,7 +54,7 @@ const CreateButton = ({navigate}) => {
                       </span>
                     </div>
                     <div
-                      className="group flex items-center space-x-2 cursor-pointer bg-white"
+                      className="group flex items-center space-x-2 cursor-pointer bg-white dark:bg-gray-900"
                       onClick={() => navigate("/create-channel")}
                     >
                       <BsYoutube className="w-6 h-6 group-hover:text-lightPlayRed" />

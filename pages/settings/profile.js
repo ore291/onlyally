@@ -154,8 +154,6 @@ export default function Profile() {
       let imageFile = event.currentTarget.files[0];
       let currentInputName = event.currentTarget.name;
 
-
-
       var options = {
         maxSizeMB: 1,
         maxWidthOrHeight: 1920,
@@ -168,7 +166,6 @@ export default function Profile() {
           croppedReader.readAsDataURL(compressedFile);
           croppedReader.onloadend = function () {
             var base64data = croppedReader.result;
-         
 
             if (currentInputName === "picture") {
               setCropModalFlag({
@@ -183,8 +180,6 @@ export default function Profile() {
                 fileName: currentfileName,
               });
             }
-
-          
           };
         })
         .catch(function (error) {
@@ -294,7 +289,11 @@ export default function Profile() {
                     </div>
                   </label>
                   <label htmlFor="story-button">
-                    <button name="story-button" type="button" className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold  hover:bg-red-500 hover:text-white transition duration-150 ">
+                    <button
+                      name="story-button"
+                      type="button"
+                      className="border-2 border-red-600 px-2 lg:px-4 py-2 cursor-pointer text-xs lg:text-lg rounded-lg shadow-md text-red-700 font-bold  hover:bg-red-500 hover:text-white transition duration-150 "
+                    >
                       Upload Feature Story
                     </button>
                   </label>
@@ -496,57 +495,61 @@ export default function Profile() {
               </div>
             </article>
           </section>
-
-          <section className="space-y-4">
-            <div>
-              <span className="font-medium">
-                Subscription Price (Per Month)
-              </span>
-              <div className="border-2 border-gray-400 rounded-md py-2 px-2">
-                {/* <h4>$29.95</h4> */}
-                <input
-                  id="monthly_amount"
-                  type="number"
-                  step="any"
-                  min="0"
-                  placeholder=""
-                  name="monthly_amount"
-                  defaultValue={profile.data.monthly_amount}
-                  onChange={(event) => {
-                    dispatch(
-                      editUserDetails({
-                        name: event.currentTarget.name,
-                        value: event.currentTarget.value,
-                      })
-                    );
-                  }}
-                />
+          {profile.data.pro_package_config &&
+          Object.keys(profile?.data.pro_package_config).length == 0 ? null : (
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-x-1 ">
+              <div>
+                <span className="font-medium">
+                  Subscription Price (Per Month)
+                </span>
+                <div className="border-2 border-gray-400 rounded-md py-2 px-2 w-full">
+                  
+                  <input
+                    className="w-full outline-none border-0 ring-0 focus:ring-0 focus:outine-none"
+                    id="monthly_amount"
+                    type="number"
+                    step="any"
+                    min="0"
+                    placeholder=""
+                    name="monthly_amount"
+                    defaultValue={profile.data.monthly_amount}
+                    onChange={(event) => {
+                      dispatch(
+                        editUserDetails({
+                          name: event.currentTarget.name,
+                          value: event.currentTarget.value,
+                        })
+                      );
+                    }}
+                  />
+                </div>
               </div>
-            </div>
 
-            <div>
-              <span className="font-medium">Subscription Price (1 year)</span>
-              <div className="border-2 border-gray-400 rounded-md py-2 px-2">
-                <input
-                  id="yearly_amount"
-                  type="number"
-                  step="any"
-                  min="0"
-                  placeholder=""
-                  name="yearly_amount"
-                  defaultValue={profile.data.yearly_amount}
-                  onChange={(event) => {
-                    dispatch(
-                      editUserDetails({
-                        name: event.currentTarget.name,
-                        value: event.currentTarget.value,
-                      })
-                    );
-                  }}
-                />
+              <div>
+                <span className="font-medium">Subscription Price (1 year)</span>
+                <div className="border-2 border-gray-400 rounded-md py-2 px-2 w-full">
+                  <input
+                    className="w-full outline-none border-0 ring-0 focus:ring-0 focus:outine-none"
+                    id="yearly_amount"
+                    type="number"
+                    step="any"
+                    min="0"
+                    placeholder=""
+                    name="yearly_amount"
+                    defaultValue={profile.data.yearly_amount}
+                    onChange={(event) => {
+                      dispatch(
+                        editUserDetails({
+                          name: event.currentTarget.name,
+                          value: event.currentTarget.value,
+                        })
+                      );
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           <section className="text-grey-500 space-y-4">
             <div>
@@ -928,16 +931,20 @@ export default function Profile() {
                 src={profile.data.picture}
                 alt="profile-pic"
               />
-              {/* {first.plan ? (
-                <h1> {first.plan} Member</h1>
-              ) : profile.data.pro_membership_logs[0] ? (
-                <h1> {profile.data.pro_membership_logs[0].plan} Member</h1>
-              ) : (
-                ""
-              )} */}
 
-              <h5 className="font-medium">Membership</h5>
-              <Link href="/go-pro">
+              {profile.data.pro_package_config &&
+              Object.keys(profile?.data.pro_package_config).length == 0 ? (
+                <h5>Free Membership</h5>
+              ) : (
+                <>
+                  {`${
+                    profile.data.pro_package_config &&
+                    profile.data.pro_package_config["name"]
+                  } Membership`}
+                </>
+              )}
+
+              <Link href="/go-pro" passHref>
                 <button className="btn bg-red-600 uppercase text-base rounded-lg">
                   Upgrade
                 </button>

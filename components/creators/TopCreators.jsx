@@ -19,11 +19,11 @@ const TopCreators = () => {
     <div className="side-container items-start">
       <div className="flex items-center justify-center  space-x-1">
         <div className="flex rounded-full bg-orange-400 items-center justify-center w-6 h-6">
-          <RiVipCrownFill className=" text-white" />
+          <RiVipCrownFill className=" text-white  dark:text-gray-100" />
         </div>
         <p className="text-start">Top Content Creators</p>
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-1">
         {postSug.loading ? (
           <CommonCenterLoader />
         ) : (

@@ -10,9 +10,10 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { isMobile } from "react-device-detect";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { BsHeart, BsHeartFill, BsThreeDots, BsBookmark} from "react-icons/bs";
+import { BsHeart, BsHeartFill, BsThreeDots, BsBookmark } from "react-icons/bs";
 import {
   FaBookmark,
   FaCheckCircle,
@@ -142,7 +143,7 @@ const NewsFeedCard = ({ post, index }) => {
 
   const handlePPVPayment = (event, status) => {
     event.preventDefault();
-    console.log('i told you')
+    console.log("i told you");
     if (status && status == 1) {
       setModalStatus(0);
       setPPVPayment(true);
@@ -233,7 +234,7 @@ const NewsFeedCard = ({ post, index }) => {
   return (
     <>
       {postDisplayStatus == true ? (
-        <div className="sm:rounded-2xl bg-white sm:border shadow-md w-full cursor-pointer relative">
+        <div className="sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-100 sm:border shadow-md w-full cursor-pointer relative">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b">
             <Link passHref href={`/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
@@ -265,7 +266,7 @@ const NewsFeedCard = ({ post, index }) => {
               <span className="text-xs sm:text-sm text-gray-600 font-light ">
                 {post.publish_time_formatted}
               </span>
-              <Popover className="relative">
+              <Popover className="relative ">
                 {({ open }) => (
                   <>
                     <Popover.Button
@@ -275,84 +276,66 @@ const NewsFeedCard = ({ post, index }) => {
                     >
                       <BsThreeDots className="h-6 w-6 font-semibold rotate-90 lg:rotate-0" />
                     </Popover.Button>
-                    {open && (
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-200"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterhref="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leavehref="opacity-0 translate-y-1"
-                      >
-                        <Popover.Panel
-                          static
-                          className="absolute z-10 w-[250px] lg:w-[20vw]  mt-3 transform shadow-md right-4 lg:translate-x-1/2 sm:px-0 lg:max-w-3xl"
-                        >
-                          <div className="overflow-hidden rounded-lg ">
-                            <div className="relative grid gap-y-2 bg-white p-1 grid-cols-1">
-                              <CopyToClipboard
-                                text={post.share_link}
-                                onCopy={() => {
-                                  setCopied("copied");
-                                  setTimeout(() => {
-                                    setCopied("");
-                                  }, 2000);
-                                  console.log("notification copied");
-                                }}
-                              >
-                                <div className="hover:bg-gray-100 hover:text-red-500  border-b h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                  <p className="font-bold text-xs">
-                                    {copied === ""
-                                      ? "copy link to text"
-                                      : "copied"}
-                                  </p>
-                                </div>
-                              </CopyToClipboard>
-                              {userId != post.user_id ? (
-                                <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                  <p
-                                    onClick={() => setReportMode(true)}
-                                    className="font-bold text-xs"
-                                  >
-                                    Report
-                                  </p>
-                                </div>
-                              ) : null}
-                              {userId != post.user_id ? (
-                                <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                  <p
-                                    onClick={(event) => {
-                                      handleBlockUser(event, post);
-                                    }}
-                                    className="font-bold text-xs"
-                                  >
-                                    Add to blocklists.
-                                  </p>
-                                </div>
-                              ) : null}
-                              {post.delete_btn_status == 1 ? (
-                                <div
-                                  onClick={() => {
-                                    setShowDeletePostModal((prev) => !prev);
-                                  }}
-                                  className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start"
-                                >
-                                  <p className="font-bold text-xs">
-                                    Delete Post.
-                                  </p>
-                                </div>
-                              ) : null}
-                              {post.delete_btn_status == 1 ? (
-                                <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                                  <p className="font-bold text-xs">Edit post</p>
-                                </div>
-                              ) : null}
+
+                    <Popover.Panel className="absolute -left-40   z-10 mt-3 w-full max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+                      <div className="!overflow-hidden w-[200px] p-2">
+                        <div className="relative rounded-md grid gap-y-2 border border-black dark:border-white dark:border bg-white dark:bg-gray-900 dark:text-gray-100 p-1 grid-cols-1">
+                          <CopyToClipboard
+                            text={post.share_link}
+                            onCopy={() => {
+                              setCopied("copied");
+                              setTimeout(() => {
+                                setCopied("");
+                              }, 2000);
+                              console.log("notification copied");
+                            }}
+                          >
+                            <div className="hover:bg-gray-100 hover:text-red-500  border-b h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                              <p className="font-bold text-xs">
+                                {copied === "" ? "copy link to post" : "copied"}
+                              </p>
                             </div>
-                          </div>
-                        </Popover.Panel>
-                      </Transition>
-                    )}
+                          </CopyToClipboard>
+                          {userId != post.user_id ? (
+                            <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                              <p
+                                onClick={() => setReportMode(true)}
+                                className="font-bold text-xs"
+                              >
+                                Report
+                              </p>
+                            </div>
+                          ) : null}
+                          {userId != post.user_id ? (
+                            <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                              <p
+                                onClick={(event) => {
+                                  handleBlockUser(event, post);
+                                }}
+                                className="font-bold text-xs"
+                              >
+                                Add to blocklists.
+                              </p>
+                            </div>
+                          ) : null}
+                          {post.delete_btn_status == 1 ? (
+                            <div
+                              onClick={() => {
+                                setShowDeletePostModal((prev) => !prev);
+                              }}
+                              className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start"
+                            >
+                              <p className="font-bold text-xs">Delete Post.</p>
+                            </div>
+                          ) : null}
+                          {post.delete_btn_status == 1 ? (
+                            <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                              <p className="font-bold text-xs">Edit post</p>
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                    </Popover.Panel>
                   </>
                 )}
               </Popover>
@@ -366,7 +349,12 @@ const NewsFeedCard = ({ post, index }) => {
                   : "p-2 break-words text-[14px] font-normal leading-5 tracking-wide"
               }`}
             >
-              <ReadMoreMaster byWords={true} length={100} ellipsis="...">
+              <ReadMoreMaster
+                parentclassName={"font-medium text-sm"}
+                byWords={true}
+                length={isMobile ? 50 : 100}
+                ellipsis="..."
+              >
                 {post.content}
               </ReadMoreMaster>
             </div>
@@ -415,7 +403,13 @@ const NewsFeedCard = ({ post, index }) => {
                                       <ReactPlayer
                                         light={postFile.preview_file}
                                         url={postFile.post_file}
-                                        config={{ file: { attributes: { controlsList: 'nodownload' } } }}
+                                        config={{
+                                          file: {
+                                            attributes: {
+                                              controlsList: "nodownload",
+                                            },
+                                          },
+                                        }}
                                         controls={true}
                                         width="100%"
                                         height="100%"
@@ -694,12 +688,14 @@ const NewsFeedCard = ({ post, index }) => {
                   <Image
                     layout="fill"
                     src="/materials/icons8-speech-48.png"
+                    className="dark:invert"
                     alt=""
                   />
                 </div>
                 <span className="text-sm">{post.total_comments}</span>
               </button>
-              {cookies.userId != post.user_id ? (
+              {cookies.userId != post.user_id ||
+              Object.keys(post?.user?.pro_package_config).length != 0 ? (
                 <button
                   type="button"
                   title="Donate to post"
@@ -710,6 +706,7 @@ const NewsFeedCard = ({ post, index }) => {
                     <Image
                       layout="fill"
                       src="/tips.png"
+                      className="dark:invert"
                       objectFit="cover"
                       alt=""
                     />

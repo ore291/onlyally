@@ -32,14 +32,12 @@ import {
 } from "react-device-detect";
 
 export default function Home() {
-
   const configData = useSelector((state) => state.config.configData);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchHomePostsStart())
-  
+    dispatch(fetchHomePostsStart());
   }, []);
 
   const [isVisible, setIsVisible] = useState(true);
@@ -77,80 +75,78 @@ export default function Home() {
   );
 }
 
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) =>
-//     async ({ req, res }) => {
-//       // const session = await getSession({ req });
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async ({ req, res }) => {
+      //       // const session = await getSession({ req });
 
-//       const cookies = getCookies({ req, res });
+      const cookies = getCookies({ req, res });
 
-//       // const dispatch = useDispatch();
-//       if (cookies.accessToken) {
-//         store.dispatch(fetchUserLoginSuccess(JSON.parse(cookies.user)));
-//       }
+      //       // const dispatch = useDispatch();
+      //       if (cookies.accessToken) {
+      //         store.dispatch(fetchUserLoginSuccess(JSON.parse(cookies.user)));
+      //       }
 
-//       if (!cookies.accessToken) {
-//         return {
-//           redirect: {
-//             destination: "/login",
-//             permanent: false,
-//           },
-//         };
-//       }
+      if (!cookies.accessToken) {
+        return {
+          redirect: {
+            destination: "/login",
+            permanent: false,
+          },
+        };
+      }
 
-//       // const userAgent = req.headers["user-agent"];
-//       // const {
-//       //   isAndroid,
-//       //   isIOS,
-//       //   isWindows,
-//       //   isMacOs,
-//       //   mobileModel,
-//       //   browserName,
-//       //   osName,
-//       //   mobileVendor,
-//       //   browserVersion,
-//       // } = getSelectorsByUserAgent(userAgent);
+      //       // const userAgent = req.headers["user-agent"];
+      //       // const {
+      //       //   isAndroid,
+      //       //   isIOS,
+      //       //   isWindows,
+      //       //   isMacOs,
+      //       //   mobileModel,
+      //       //   browserName,
+      //       //   osName,
+      //       //   mobileVendor,
+      //       //   browserVersion,
+      //       // } = getSelectorsByUserAgent(userAgent);
 
-//       // var device_model = "";
-//       // if (isAndroid == true) {
-//       //   device_model = mobileModel;
-//       // } else if (isIOS == true) {
-//       //   device_model = mobileModel;
-//       // } else {
-//       //   device_model = browserName + " " + browserVersion;
-//       //   // device_model = "Chrome" + " " + "100";
-//       // }
+      //       // var device_model = "";
+      //       // if (isAndroid == true) {
+      //       //   device_model = mobileModel;
+      //       // } else if (isIOS == true) {
+      //       //   device_model = mobileModel;
+      //       // } else {
+      //       //   device_model = browserName + " " + browserVersion;
+      //       //   // device_model = "Chrome" + " " + "100";
+      //       // }
 
-//       var user = JSON.parse(cookies.user);
+      //       var user = JSON.parse(cookies.user);
 
-//       // store.dispatch(
-//       //   fetchHomePostsStart({
-//       //     accessToken: cookies.accessToken,
-//       //     userId: cookies.userId,
-//       //     device_model: device_model,
-//       //   })
-//       // );
-//       // store.dispatch(
-//       //   fetchStoriesStart({
-//       //     accessToken: cookies.accessToken,
-//       //     userId: cookies.userId,
-//       //     device_model: device_model,
-//       //   })
-//       // );
+      //       // store.dispatch(
+      //       //   fetchHomePostsStart({
+      //       //     accessToken: cookies.accessToken,
+      //       //     userId: cookies.userId,
+      //       //     device_model: device_model,
+      //       //   })
+      //       // );
+      //       // store.dispatch(
+      //       //   fetchStoriesStart({
+      //       //     accessToken: cookies.accessToken,
+      //       //     userId: cookies.userId,
+      //       //     device_model: device_model,
+      //       //   })
+      //       // );
 
-//       // store.dispatch(
-//       //   fetchUserDetailsStart({ accessToken: cookies.accessToken })
-//       // );
+      //       // store.dispatch(
+      //       //   fetchUserDetailsStart({ accessToken: cookies.accessToken })
+      //       // );
 
-//       // store.dispatch(fetchConfigurationStart());
+      //       // store.dispatch(fetchConfigurationStart());
 
-//       store.dispatch(END);
-//       await store.sagaTask.toPromise();
+      //       store.dispatch(END);
+      //       await store.sagaTask.toPromise();
 
-//       return {
-//         props: {
-//           user_img: user.picture,
-//         },
-//       };
-//     }
-// );
+      return {
+        props: {},
+      };
+    }
+);

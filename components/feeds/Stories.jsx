@@ -91,8 +91,8 @@ const Stories = () => {
                   />
                 </div>
 
-                {userStories.data.stories &&
-                  userStories.data.stories.length > 0 &&
+                {userStories.data &&
+                  userStories?.data?.stories?.length > 0 &&
                   userStories.data.stories.map((story, index) => (
                     <div
                       className="embla__slide1"

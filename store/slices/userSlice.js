@@ -198,8 +198,8 @@ export const UserSlice = createSlice({
       state.profileInputData = {
         data: {
           first_name:
-            action.payload.first_name || state.profile.data.first_name,
-          last_name: action.payload.last_name || state.profile.data.last_name,
+          action.payload.first_name  ? action.payload.first_name : state.profile.data.first_name,
+          last_name: action.payload.last_name ? action.payload.last_name  : state.profile.data.last_name,
           email: state.profile.data.email,
           name: state.profile.data.name,
           username: state.profile.data.username,
@@ -214,7 +214,7 @@ export const UserSlice = createSlice({
             state.profile.data.height == null ? 0 : state.profile.data.height,
           weight:
             state.profile.data.weight == null ? 0 : state.profile.data.weight,
-          address: action.payload.country || state.profile.data.address,
+          address: action.payload.country ? action.payload.country : state.profile.data.address,
           website: state.profile.data.website,
           u_category_id: state.profile.data.u_category_id || 1,
           amazon_wishlist: state.profile.data.amazon_wishlist,

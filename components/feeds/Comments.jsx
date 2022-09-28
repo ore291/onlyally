@@ -120,7 +120,7 @@ const Comments = ({ post, currentIndex }) => {
             </a>
           </div>
           {commentActiveIndex == currentIndex ? (
-            <div className="inline-block float-left basis-[70%]">
+            <div className="inline-block float-left basis-[70%] dark:text-gray-900">
               <PostEditor
                 className="PostEditor__input"
                 placeholder={"Add comments here...."}
