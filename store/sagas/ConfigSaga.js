@@ -1,4 +1,5 @@
 import { call, select, put, takeLatest, all } from "redux-saga/effects";
+import {setCookie} from "cookies-next";
 
 import { fetchConfigurationSuccess, fetchConfigurationFailure } from "../slices/configurationSlice";
 import {apiConstants} from '../../components/Constant/constants';
@@ -9,6 +10,7 @@ function* fetchConfigAPI() {
       const response = yield axios.get(apiConstants.settingsUrl);
       if (response.data) {
         yield put(fetchConfigurationSuccess(response.data.data));
+        setCookie("config", response.data.data);
       } else {
         yield put(fetchConfigurationFailure(response));
       }

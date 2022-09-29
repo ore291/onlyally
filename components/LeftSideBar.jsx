@@ -2,6 +2,7 @@ import { TiVideo } from "react-icons/ti";
 import { MdSmartDisplay } from "react-icons/md";
 import { useRouter } from "next/router";
 import { FiPlus } from "react-icons/fi";
+import {FaBlog} from "react-icons/fa"
 import Link from "next/link";
 import CreateButton from "./helpers/CreateButton";
 
@@ -98,6 +99,18 @@ const LeftSideBar = () => {
             <span className="font-bold">Groups</span>
           </div>
         </Link>
+        <a
+          href="https://blog.playjor.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="side-nav-button">
+            <div className="side-icon">
+             <FaBlog className="text-white h-6 w-6" />
+            </div>
+            <span className="font-bold">Blog</span>
+          </div>
+        </a>
         <Link href="/playhub" passHref>
           <div className="side-nav-button">
             <div className="side-icon">
@@ -125,7 +138,7 @@ const LeftSideBar = () => {
           <p className="text-lg font-medium">Create</p>
         </div> */}
 
-        <CreateButton navigate={navigate}/>
+        <CreateButton navigate={navigate} />
       </div>
     </aside>
   );

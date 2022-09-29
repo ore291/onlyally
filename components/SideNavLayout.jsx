@@ -3,25 +3,23 @@ import RightSideBar from "./RightSideBar";
 import MobileNav from "./mobile/MobileNav";
 import SideNav from "./mobile/SideNav";
 import MainMobileNav from "./mobile/MainMobileNav";
-import {useEffect} from "react";
-import {hasCookie} from "cookies-next";
+import { useEffect } from "react";
+import { hasCookie } from "cookies-next";
 import {
   BrowserView,
   MobileView,
   isBrowser,
   isMobile,
 } from "react-device-detect";
-import {useRouter} from "next/router"
+import { useRouter } from "next/router";
 
 const SideNavLayout = ({ children }) => {
-
   // const checkSession = hasCookie("accessToken");
   // const router = useRouter();
 
   // useEffect(() => {
   //   !checkSession && router.push("/login")
   // }, [checkSession])
-
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 relative">
@@ -31,8 +29,9 @@ const SideNavLayout = ({ children }) => {
       <MobileView>
         <MobileNav />
       </MobileView>
-
-      <SideNav />
+      <MobileView>
+        <SideNav />
+      </MobileView>
       <BrowserView>
         <RightSideBar />
       </BrowserView>

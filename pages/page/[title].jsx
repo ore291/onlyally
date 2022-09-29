@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import CommonCenterLoader from "../../components/helpers/CommonCenterLoader";
+import SideNavLayout from "../../components/SideNavLayout";
 
 const StaticPage = () => {
   const router = useRouter();
@@ -31,30 +32,30 @@ const StaticPage = () => {
   }, [router.isReady, title]);
   return (
     <>
-        <div className="max-w-6xl mx-auto p-2 mt-4 md:mt-10 dark:text-gray-100 min-h-screen">
+        <div className="max-w-6xl mx-auto p-2 mt-4 md:mt-10 dark:text-gray-100 min-h-screen relative">
           {singlePage.loading ? (
             // t("loading")
             <CommonCenterLoader></CommonCenterLoader>
           ) : (
-            <Container>
+            <div className="container">
               <h4 className="head-title text-xl md:text-3xl text-center border-b w-full dark:border-gray-100 font-bold">{singlePage.data.title}</h4>
-              <Row>
-                <Col sm="12" md="12">
+           
+                <div className="w-full">
                   <div className="static-box">
-                    <h5 className="my-3">
+                    {/* <h5 className="my-3">
                       updated_at: {singlePage.data.updated_at_formatted}
-                    </h5>
-                    <p
+                    </h5> */}
+                    <div
 
-                        className="dark:!text-gray-100 text-justify"
+                        className="dark:!text-gray-100 text-justify w-full"
                       dangerouslySetInnerHTML={{
                         __html: singlePage.data.description,
                       }}
-                    ></p>
+                    ></div>
                   </div>
-                </Col>
-              </Row>
-            </Container>
+                </div>
+             
+            </div>
           )}
         </div>
       </>

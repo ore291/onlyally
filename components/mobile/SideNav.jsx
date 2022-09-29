@@ -1,6 +1,5 @@
-import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setNavState } from "../../store/slices/NavSlice";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import {
   BsListStars,
   BsShieldFillCheck,
   BsMoonFill,
+  BsFillSunFill,
 } from "react-icons/bs";
 import {
   FaWallet,
@@ -25,13 +25,67 @@ import {
 import { RiBarChartHorizontalFill } from "react-icons/ri";
 import { MdMail, MdClose } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
+import { useTheme } from "next-themes";
 
 const SideNav = () => {
-  const cookieUser = getCookie("user");
+  const { systemTheme, theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const config = useSelector((state) => state.config);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const runThemeChanger = () => {
+    if (!mounted) return null;
+    const currentTheme = theme === "system" ? systemTheme : theme;
+
+    if (currentTheme === "dark") {
+      return (
+        <button
+          onClick={() => {
+            setTheme("light");
+            dispatch(setNavState(false));
+          }}
+          className={`${"text-[#252525] font-semibold dark:text-gray-100"} group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
+        >
+          <div className="flex items-center ">
+            <div
+              className={`  row-container bg-gray-100 dark:text-gray-900 rounded-full p-2 mr-3`}
+            >
+              <BsFillSunFill className="h-6 w-6" />
+            </div>{" "}
+            <span>Light Mode</span>
+          </div>
+        </button>
+      );
+    } else {
+      return (
+        <button
+          onClick={() => {
+            setTheme("dark");
+            dispatch(setNavState(false));
+          }}
+          className="text-[#252525] font-semibold dark:text-gray-100"
+        >
+          <div className="flex items-center ">
+            <div
+              className={` row-container bg-gray-100 dark:text-gray-900  rounded-full p-2 mr-3`}
+            >
+              <BsMoonFill className="h-6 w-6" />
+            </div>{" "}
+            <span>Night Mode</span>
+          </div>
+        </button>
+      );
+    }
+  };
+
+  const cookieUser = getCookie("user");
   const user = useSelector((state) => state.user.profile.data);
   const router = useRouter();
   const wallet = useSelector((state) => state.wallet.walletData);
+
   const toggleSideBar = () => {
     dispatch(setNavState(!navOpen));
   };
@@ -73,23 +127,22 @@ const SideNav = () => {
     localStorage.removeItem("total_followers");
     localStorage.removeItem("total_followings");
     localStorage.removeItem("is_subscription_enabled");
-    window.location.assign("/login")
+    window.location.assign("/login");
     // await signOut({ callbackUrl: "/login" });
   };
 
   const dispatch = useDispatch();
   const navOpen = useSelector((state) => state.navbar.open);
 
-  // console.log(user);
   if (navOpen) {
     return (
-      <div className="top-12 right-0 w-full bg-black bg-opacity-60 fixed h-screen  z-10 md:hidden">
+      <div className="top-12 right-0 w-full bg-black  bg-opacity-60 fixed h-screen  z-10 md:hidden">
         <div className="grid grid-cols-3">
           <div
             className="bg-transparent h-full"
             onClick={() => dispatch(setNavState(false))}
           ></div>
-          <div className=" col-span-2 pt-2 pb-5 bg-white h-full">
+          <div className=" col-span-2 pt-2 pb-5 bg-white dark:bg-gray-900 dark:text-gray-100 h-full">
             <div className="flex flex-col space-y-3  p-3">
               <div className="flex items-center justify-between">
                 <div className="relative w-10 h-10 rounded-full mr-5">
@@ -116,7 +169,7 @@ const SideNav = () => {
                   {user.total_followings} Following
                 </p>
                 <button
-                  className="row-container bg-gray-100 rounded-full px-1 py-1 "
+                  className="row-container bg-gray-100 dark:bg-gray-600 dark:text-gray-100 rounded-full px-1 py-1 "
                   onClick={() => navigate("/payment/wallet")}
                 >
                   <FaWallet className="h-4 w-4 mr-1" />
@@ -133,7 +186,7 @@ const SideNav = () => {
                 onClick={() => navigate("/profile")}
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
               >
-                <div className="row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className="row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <FaUserCircle className="h-6 w-6 " />
                 </div>
                 My Profile
@@ -143,7 +196,7 @@ const SideNav = () => {
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => navigate("/dashboard")}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <RiBarChartHorizontalFill className="h-6 w-6" />
                 </div>
                 Dashboard
@@ -174,43 +227,43 @@ const SideNav = () => {
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => navigate("/market/market")}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <FaShoppingBag className="h-6 w-6 " />
                 </div>
                 Shop
               </button>
-              <button
+              {/* <button
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => navigate("/stories")}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <FaHistory className="h-6 w-6" />
                 </div>
                 Stories
-              </button>
+              </button> */}
               <button
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => navigate("/bookmarks/photos")}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <FaBookmark className="h-6 w-6" />
                 </div>
                 Bookmarks
               </button>
-              <button
+              {/* <button
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => navigate("/calls/video-call")}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <FaVideo className="h-6 w-6" />
                 </div>
                 Video Calls
-              </button>
+              </button> */}
               <button
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => navigate("/list/fans")}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <BsListStars className="h-6 w-6" />
                 </div>
                 Lists
@@ -219,7 +272,7 @@ const SideNav = () => {
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => navigate("/referrals")}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <MdMail className="h-6 w-6" />
                 </div>
                 Invite Your Friends
@@ -228,13 +281,13 @@ const SideNav = () => {
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => navigate("/settings/profile")}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <BsShieldFillCheck className="h-6 w-6" />
                 </div>
                 Privacy Settings
               </button>
               {/* <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <svg
                     width="24"
                     height="24"
@@ -251,31 +304,81 @@ const SideNav = () => {
                   </svg>
                 </div>
                 General Settings
-              </button>
-              <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+              </button> */}
+              {/* <button className="group flex rounded-md items-center space-x-2 w-full  text-sm">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <BsMoonFill className="h-6 w-6" />
                 </div>
                 Night Mode
               </button> */}
+              {mounted && runThemeChanger()}
               <button
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
                 onClick={() => logout()}
               >
-                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3">
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
                   <IoLogOut className="h-6 w-6" />
                 </div>
                 Log Out
               </button>
-              <div className="mt-3 mb-10">
+              <div className="mt-5 text-[#252525] dark:text-gray-100">
                 <div className="flex justify-between items-center">
-                  <p className="text-xs text-[#252525]">
+                  <p className="text-xs ">
                     <span>&copy;</span>2022 Playjor!
                   </p>
                   <div className="flex space-x-1 items-center ">
-                    <FaGlobeAfrica className="w-2 h-2" />{" "}
-                    <p className="text-xs text-[#252525]">Language</p>
+                    <FaGlobeAfrica className="w-2 h-2" />
+                    <p className="text-xs ">Language</p>
                   </div>
+                </div>
+                <div className="flex flex-wrap items-center justify-evenly space-y-1 group space-x-1">
+                  {config.loading
+                    ? "Loading..."
+                    : config.configData.footer_pages1 &&
+                      config?.configData?.footer_pages1.map(
+                        (static_page, i) => (
+                          <span
+                            key={i}
+                            onClick={()=>navigate(
+                              `/page/${static_page.static_page_unique_id}`
+                            )}
+                            className="text-xs cursor-pointer hover:text-green-500 "
+                          >
+                            {static_page.title}
+                            {/* {page.hidden == null && (
+                                <span className=""> &#8226;</span>
+                              )} */}
+                          </span>
+                        )
+                      )}
+                  {config.loading
+                    ? "Loading..."
+                    : config.configData.footer_pages2 &&
+                      config?.configData?.footer_pages2.map(
+                        (static_page, i) => (
+                          <span
+                            key={i}
+                            onClick={() =>navigate(
+                              `/page/${static_page.static_page_unique_id}`
+                            )}
+                            className="text-xs cursor-pointer hover:text-green-500 "
+                          >
+                            {static_page.title}
+                            {/* {page.hidden == null && (
+                            <span className=""> &#8226;</span>
+                          )} */}
+                          </span>
+                        )
+                      )}
+                  <a
+                    href="https://blog.playjor.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="text-xs cursor-pointer hover:text-green-500 ">
+                      Blog
+                    </span>
+                  </a>
                 </div>
               </div>
             </div>

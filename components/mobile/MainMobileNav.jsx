@@ -1,5 +1,6 @@
 import MobileNavCard from "./MobileNavCard";
 import { MdClose, MdHome, MdBookmarkAdd, MdGroups } from "react-icons/md";
+import { FaBlog } from "react-icons/fa";
 import { IoIosAlbums } from "react-icons/io";
 import { CgNotes } from "react-icons/cg";
 import { TiVideo } from "react-icons/ti";
@@ -127,6 +128,18 @@ const MainMobileNav = () => {
               </div>
               <span className="text-xl font-bold">Groups</span>
             </div>
+            <a
+              href="https://blog.playjor.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="side-nav-mobile-button hover:text-white hover:bg-textPlayRed rounded-md w-full p-2">
+                <div className="side-icon">
+                  <FaBlog className="text-white h-6 w-6" />
+                </div>
+                <span className="font-bold">Blog</span>
+              </div>
+            </a>
 
             <div
               className="side-nav-mobile-button hover:text-white hover:bg-textPlayRed rounded-md w-full p-2"
@@ -150,7 +163,7 @@ const MainMobileNav = () => {
               </div>
               <span className="text-xl font-bold">Playhub</span>
             </div>
-            <CreateButton  navigate={navigate}/>
+            <CreateButton navigate={navigate} />
           </div>
         </div>
       </aside>

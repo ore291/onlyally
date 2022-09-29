@@ -2,7 +2,6 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/router";
-import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { fetchWalletDetailsStart } from "../store/slices/walletSlice";
 import { useSelector, useDispatch } from "react-redux";
@@ -32,39 +31,9 @@ import { IoLogOut } from "react-icons/io5";
 const HeaderMenu = () => {
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const config = useSelector((state) => state.config)
+  const config = useSelector((state) => state.config);
 
-  const pages = [
-    {
-      title: "About",
-      url: "/about",
-    },
-    {
-      title: "Contact Us",
-      url: "/contact-us",
-    },
-    {
-      title: "Privacy Policy",
-      url: "/privacy-policy",
-    },
-    {
-      title: "Terms of Use",
-      url: "/terms-of-use",
-    },
-    {
-      title: "Refund",
-      url: "/refund",
-    },
-    {
-      title: "Payout",
-      url: "/payout",
-    },
-    {
-      title: "Creator Agreement",
-      url: "/creator-agreement",
-      hidden: true,
-    },
-  ];
+ 
 
   useEffect(() => {
     setMounted(true);
@@ -547,26 +516,53 @@ const HeaderMenu = () => {
                         </div>
                       </div>
                       <div className="flex flex-wrap items-center justify-evenly space-y-1 group space-x-1">
-                        {config.loading ? "Loading..." : config.configData.footer_pages1 && config?.configData?.footer_pages1.map((static_page, i) => (
-                          <Link key={i} href={`/page/${static_page.static_page_unique_id}`} passHref>
-                            <span className="text-xs cursor-pointer hover:text-green-500 ">
-                            {static_page.title}
-                              {/* {page.hidden == null && (
+                        {config.loading
+                          ? "Loading..."
+                          : config.configData.footer_pages1 &&
+                            config?.configData?.footer_pages1.map(
+                              (static_page, i) => (
+                                <Link
+                                  key={i}
+                                  href={`/page/${static_page.static_page_unique_id}`}
+                                  passHref
+                                >
+                                  <span className="text-xs cursor-pointer hover:text-green-500 ">
+                                    {static_page.title}
+                                    {/* {page.hidden == null && (
                                 <span className=""> &#8226;</span>
                               )} */}
-                            </span>
-                          </Link>
-                        ))}
-                        {config.loading ? "Loading..." : config.configData.footer_pages2 && config?.configData?.footer_pages2.map((static_page, i) => (
-                          <Link key={i} href={`/page/${static_page.static_page_unique_id}`} passHref>
-                            <span className="text-xs cursor-pointer hover:text-green-500 ">
-                            {static_page.title}
-                              {/* {page.hidden == null && (
+                                  </span>
+                                </Link>
+                              )
+                            )}
+                        {config.loading
+                          ? "Loading..."
+                          : config.configData.footer_pages2 &&
+                            config?.configData?.footer_pages2.map(
+                              (static_page, i) => (
+                                <Link
+                                  key={i}
+                                  href={`/page/${static_page.static_page_unique_id}`}
+                                  passHref
+                                >
+                                  <span className="text-xs cursor-pointer hover:text-green-500 ">
+                                    {static_page.title}
+                                    {/* {page.hidden == null && (
                                 <span className=""> &#8226;</span>
                               )} */}
-                            </span>
-                          </Link>
-                        ))}
+                                  </span>
+                                </Link>
+                              )
+                            )}
+                        <a
+                          href="https://blog.playjor.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <span className="text-xs cursor-pointer hover:text-green-500 ">
+                            Blog
+                          </span>
+                        </a>
                       </div>
                     </div>
                   </Menu.Item>

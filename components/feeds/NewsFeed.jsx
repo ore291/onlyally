@@ -23,7 +23,7 @@ const NewsFeed = () => {
 
   return (
     // <div className="md:col-span-2 flex flex-col place-content-center space-y-2 mb-10">
-    <div className="md:col-span-2 w-full">
+    <div className="md:col-span-2 w-full min-h-screen md:min-h-full">
       <InfiniteScroll
         dataLength={posts.length}
         next={fetchHomeData}

@@ -3,6 +3,7 @@ import "../styles/custom.scss";
 
 import NextNProgress from "nextjs-progressbar";
 import { ThemeProvider } from "next-themes";
+import {setCookie} from "cookies-next";
 
 import Layout from "../components/Layout";
 import { SessionProvider } from "next-auth/react";
@@ -35,6 +36,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     try {
       const response = await fetch(apiConstants.settingsUrl);
       const configValue = await response.json();
+
+      setCookie('config', JSON.stringify(configValue.data))
 
       configuration.set({ configData: configValue.data }, { freeze: false });
     } catch (error) {

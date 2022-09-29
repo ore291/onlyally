@@ -1,8 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
+import {setCookie, getCookie, hasCookie } from "cookies-next";
+
+
+const cog = hasCookie('config');
 
 const initialState = {
-  configData: {},
+  configData: cog ? JSON.parse(getCookie('config')) : {},
   loading: false,
   error: false,
 };
@@ -18,25 +22,26 @@ export const ConfigSlice = createSlice({
     },
     fetchConfigurationSuccess: (state, action) => {
       state.configData = action.payload;
+   
       state.loading = false;
       state.error = false;
     },
     fetchConfigurationFailure: (state, action) => {
-      state.configData = {};
+      // state.configData = {};
       state.loading = false;
       state.error = action.payload;
     },
   },
 
-  extraReducers: {
-    [HYDRATE]: (state, action) => {
-      // handle client
-      if (!action.payload.config.configData) {
-        return state;
-      }
-      state.configData = action.payload.config.configData;
-    },
-  },
+  // extraReducers: {
+  //   [HYDRATE]: (state, action) => {
+  //     // handle client
+  //     if (!action.payload.config.configData) {
+  //       return state;
+  //     }
+  //     state.configData = action.payload.config.configData;
+  //   },
+  // },
 });
 
 
