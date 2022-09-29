@@ -23,7 +23,7 @@ const initialState = {
           inputData: action.payload,
         };
       },
-      fetchSinglePageStart: (state, action) => {
+      fetchSinglePageSuccess: (state, action) => {
         state.pageData = {
           data: action.payload,
           loading: false,
@@ -34,7 +34,7 @@ const initialState = {
       fetchSinglePageFailure: (state, action) => {
         state.pageData = {
           data: {},
-          loading: true,
+          loading: false,
           error: action.payload,
           inputData: {},
         };

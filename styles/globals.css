@@ -1053,3 +1053,27 @@ input:checked ~ .tick-bg {
     opacity: 1;
   }
 }
+
+
+.dark .static-box p {
+  text-align: justify;
+  color: #fff!important;
+  background-color: transparent !important;
+}
+
+.dark .static-box p > h2 > * {
+  text-align: justify;
+  color: #fff!important;
+  background-color: transparent !important;
+}
+
+.dark .static-box p > * {
+  text-align: justify;
+  color: #fff!important;
+  background-color: transparent !important;
+}
+
+
+.static-box p, span {
+  text-align: justify;
+}

@@ -32,6 +32,39 @@ import { IoLogOut } from "react-icons/io5";
 const HeaderMenu = () => {
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const config = useSelector((state) => state.config)
+
+  const pages = [
+    {
+      title: "About",
+      url: "/about",
+    },
+    {
+      title: "Contact Us",
+      url: "/contact-us",
+    },
+    {
+      title: "Privacy Policy",
+      url: "/privacy-policy",
+    },
+    {
+      title: "Terms of Use",
+      url: "/terms-of-use",
+    },
+    {
+      title: "Refund",
+      url: "/refund",
+    },
+    {
+      title: "Payout",
+      url: "/payout",
+    },
+    {
+      title: "Creator Agreement",
+      url: "/creator-agreement",
+      hidden: true,
+    },
+  ];
 
   useEffect(() => {
     setMounted(true);
@@ -43,14 +76,15 @@ const HeaderMenu = () => {
 
     if (currentTheme === "dark") {
       return (
-        <button onClick={() => setTheme("light")}
+        <button
+          onClick={() => setTheme("light")}
           className={`${
             active
               ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
               : "text-[#252525] font-semibold dark:text-gray-100"
           } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
         >
-          <div className="flex items-center " >
+          <div className="flex items-center ">
             <div
               className={`${
                 active && "dark:bg-gray-100"
@@ -64,7 +98,8 @@ const HeaderMenu = () => {
       );
     } else {
       return (
-        <button onClick={() => setTheme("dark")}
+        <button
+          onClick={() => setTheme("dark")}
           className={`${
             active
               ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
@@ -310,9 +345,9 @@ const HeaderMenu = () => {
                           } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                         >
                           <div
-                             className={`${
-                            active ? "" : "dark:bg-gray-900"
-                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                            className={`${
+                              active ? "" : "dark:bg-gray-900"
+                            }   row-container bg-gray-100  rounded-full p-2 mr-3`}
                           >
                             <FaShoppingBag className="h-6 w-6 " />
                           </div>
@@ -436,9 +471,9 @@ const HeaderMenu = () => {
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div
-                         className={`${
-                          active ? "" : "dark:bg-gray-900"
-                        }   row-container bg-gray-100  rounded-full p-2 mr-3`}
+                          className={`${
+                            active ? "" : "dark:bg-gray-900"
+                          }   row-container bg-gray-100  rounded-full p-2 mr-3`}
                         >
                           <BsShieldFillCheck className="h-6 w-6" />
                         </div>
@@ -501,17 +536,37 @@ const HeaderMenu = () => {
                     )}
                   </Menu.Item>
                   <Menu.Item>
-                    <div className="mt-3">
+                    <div className="mt-5 text-[#252525] dark:text-gray-100">
                       <div className="flex justify-between items-center">
-                        <p className="text-xs text-[#252525] dark:text-gray-100">
+                        <p className="text-xs ">
                           <span>&copy;</span>2022 Playjor!
                         </p>
                         <div className="flex space-x-1 items-center ">
                           <FaGlobeAfrica className="w-2 h-2" />
-                          <p className="text-xs text-[#252525] dark:text-gray-100">
-                            Language
-                          </p>
+                          <p className="text-xs ">Language</p>
                         </div>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-evenly space-y-1 group space-x-1">
+                        {config.loading ? "Loading..." : config.configData.footer_pages1 && config?.configData?.footer_pages1.map((static_page, i) => (
+                          <Link key={i} href={`/page/${static_page.static_page_unique_id}`} passHref>
+                            <span className="text-xs cursor-pointer hover:text-green-500 ">
+                            {static_page.title}
+                              {/* {page.hidden == null && (
+                                <span className=""> &#8226;</span>
+                              )} */}
+                            </span>
+                          </Link>
+                        ))}
+                        {config.loading ? "Loading..." : config.configData.footer_pages2 && config?.configData?.footer_pages2.map((static_page, i) => (
+                          <Link key={i} href={`/page/${static_page.static_page_unique_id}`} passHref>
+                            <span className="text-xs cursor-pointer hover:text-green-500 ">
+                            {static_page.title}
+                              {/* {page.hidden == null && (
+                                <span className=""> &#8226;</span>
+                              )} */}
+                            </span>
+                          </Link>
+                        ))}
                       </div>
                     </div>
                   </Menu.Item>
