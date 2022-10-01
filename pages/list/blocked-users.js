@@ -51,14 +51,14 @@ export default function Fan() {
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
                 {!blockUsers.loading ? (
-                blockUsers.data.block_users.length === 0 ? (
+                blockUsers.data.total == 0 ? (
                   <div className="w-full row-container ">
                     <NoDataFound />
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                     {blockUsers.data.block_users && blockUsers.data.block_users.map((user, i) => {
-                      return <FansCard user={user.otherUser} key={i}  />;
+                      return <FansCard user={user.blockeduser} key={i} blocked={true} />;
                     })}
                   </div>
                 )

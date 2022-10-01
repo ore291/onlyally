@@ -12,7 +12,7 @@ import { saveBlockUserStart } from "../store/slices/userSlice";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { notify } from "reapop";
 import { subscriptionPaymentPaystackStart } from "../store/slices/subscriptionSlice";
-const FansCard = ({ user }) => {
+const FansCard = ({ user, blocked }) => {
   // const userDetails = useSelector((state) => state.otherUser.userDetails);
   const deleteFav = useSelector((state) => state.fav.deleteFav);
 
@@ -121,7 +121,7 @@ const FansCard = ({ user }) => {
                 </li>
               </CopyToClipboard>
               {unblockStatus != "" ? (
-                unblockStatus == "unblocked" ? (
+                unblockStatus == "unBlocked" ? (
                   <li
                     onClick={() => blockUser("blocked")}
                     className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer"
@@ -136,7 +136,7 @@ const FansCard = ({ user }) => {
                     Unblock the user{" "}
                   </li>
                 )
-              ) : user.is_block_user == 1 ? (
+              ) : blocked ? (
                 <li
                   onClick={() => blockUser("unBlocked")}
                   className="p-2 hover:bg-grey-500 font-medium hover:text-red-600 cursor-pointer"
