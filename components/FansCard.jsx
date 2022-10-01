@@ -42,19 +42,11 @@ const FansCard = ({ user }) => {
 
   const removeFav = (status) => {
     setFavStatus(status);
-    if (status == "added") {
-      dispatch(
-        deleteFavStart({
-          user_id: user.user_id,
-        })
-      );
-    } else if (status == "removed") {
-      dispatch(
-        saveFavStart({
-          user_id: user.user_id,
-        })
-      );
-    }
+    dispatch(
+      saveFavStart({
+        user_id: user.user_id,
+      })
+    );
   };
   const unFollowUser = (status) => {
     setSubscribeStatus(status);
@@ -238,9 +230,15 @@ const FansCard = ({ user }) => {
           alt="Placeholder"
         />
         <div>
-          <h2 className="text-2xl  font-semibold">{user.username}</h2>
-          {user.user_unique_id && <p>@{user.user_unique_id}</p>}
-          {user.u_unique_id && <p>@{user.u_unique_id}</p>}
+          <Link href={`/` + user.user_unique_id} passHref>
+            <h2 className="text-2xl  font-semibold">{user.username}</h2>
+          </Link>
+          <Link href={`/` + user.user_unique_id} passHref>
+            <>
+              {user.user_unique_id && <p>@{user.user_unique_id}</p>}
+              {user.u_unique_id && <p>@{user.u_unique_id}</p>}
+            </>
+          </Link>
         </div>
         <div className=" flex  justify-center items-center flex-1 ">
           <CopyToClipboard
@@ -266,30 +264,37 @@ const FansCard = ({ user }) => {
       </section>
 
       <div className="pb-4  mx-2">
-        {favStatus != "" ? (
-          favStatus == "added" ? (
-            <section
-              onClick={() => removeFav("removed")}
-              className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
-            >
-              <AiOutlineStar />
-              Remove from Favorites
-            </section>
-          ) : (
-            <section
-              onClick={() => removeFav("added")}
-              className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
-            >
-              <AiOutlineStar />
-              Add to Favorites
-            </section>
-          )
+        {favStatus !== "" ? (
+          <>
+            <>
+              {favStatus === "added" ? (
+                <section
+                  onClick={() => removeFav("removed")}
+                  className="my-4 ml-2  cursor-pointer text-orange-500   w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
+                >
+                  <AiOutlineStar className="text-orange-500   fill-orange-500 "/>
+                  Remove from Favorites
+                </section>
+              ) : null}
+            </>
+            <>
+              {favStatus === "removed" ? (
+                <section
+                  onClick={() => removeFav("added")}
+                  className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
+                >
+                  <AiOutlineStar />
+                  Add to Favorites
+                </section>
+              ) : null}
+            </>
+          </>
         ) : user.is_fav_user == 1 ? (
           <section
             onClick={() => removeFav("removed")}
-            className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
+            className="my-4 ml-2  text-orange-500  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
           >
-            <AiOutlineStar />
+            <AiOutlineStar  className="text-orange-500   fill-orange-500"/>
             Remove from Favorites
           </section>
         ) : (
@@ -297,7 +302,7 @@ const FansCard = ({ user }) => {
             onClick={() => removeFav("added")}
             className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
           >
-            <AiOutlineStar />
+            <AiOutlineStar  />
             Add to Favorites
           </section>
         )}
@@ -307,7 +312,7 @@ const FansCard = ({ user }) => {
             onClick={() => setSendTip(!sendTip)}
             className="flex justify-center items-center h-10 bg-red-600 uppercase text-base rounded-full w-full "
           >
-            <AiOutlineDollarCircle className="ml-3" size="23" />
+            <AiOutlineDollarCircle className="ml-3 text-white" size="23" />
             <p className="flex-1 text-white"> TIP</p>
           </button>
         </div>

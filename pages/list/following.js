@@ -38,9 +38,9 @@ export default function Fan() {
     dispatch(fetchFollowingStart());
   }, []);
 
-  const followingUser = following.data.followers;
-  const activeFollowingUser = activeFollowing.data.followers;
-  const expiredFollowingUser = expiredFollowing.data.followers;
+  // const followingUser = following.data.followers;
+  // const activeFollowingUser = activeFollowing.data.followers;
+  // const expiredFollowingUser = expiredFollowing.data.followers;
  
 
   return (
