@@ -9,14 +9,15 @@ import { FaArrowLeft } from "react-icons/fa";
 import { MdOutlineLibraryAddCheck } from "react-icons/md";
 import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import ProfileNavItem from "../../components/ProfileNavBar";
+import NoDataFound from "../../components/NoDataFound/NoDataFound";
+
 import {
-  fetchActiveFollowersStart,
-  fetchExpiredFollowersStart,
-  fetchFollowersStart,
+  fetchActiveFollowingStart,
+  fetchExpiredFollowingStart,
+  fetchFollowingStart,
 } from "../../store/slices/followerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import FansCard from "../../components/FansCard";
-import NoDataFound from "../../components/NoDataFound/NoDataFound";
 
 export default function Fan() {
   const [fansTab, setFansTab] = useState("all");
@@ -25,17 +26,22 @@ export default function Fan() {
     setFansTab(tab);
   };
   const dispatch = useDispatch();
-  const followers = useSelector((state) => state.follow.followers);
-  const activeFollowers = useSelector((state) => state.follow.activeFollowers);
-  const expiredFollowers = useSelector(
-    (state) => state.follow.expiredFollowers
+  const following = useSelector((state) => state.follow.following);
+  const activeFollowing = useSelector((state) => state.follow.activeFollowing);
+  const expiredFollowing = useSelector(
+    (state) => state.follow.expiredFollowing
   );
 
   useEffect(() => {
-    dispatch(fetchActiveFollowersStart());
-    dispatch(fetchExpiredFollowersStart());
-    dispatch(fetchFollowersStart());
+    dispatch(fetchActiveFollowingStart());
+    dispatch(fetchExpiredFollowingStart());
+    dispatch(fetchFollowingStart());
   }, []);
+
+  const followingUser = following.data.followers;
+  const activeFollowingUser = activeFollowing.data.followers;
+  const expiredFollowingUser = expiredFollowing.data.followers;
+ 
 
   return (
     <>
@@ -46,11 +52,11 @@ export default function Fan() {
           <section className="space-y-2  p-4">
             <div className="flex gap-4 items-center uppercase font-semibold">
               <FaArrowLeft size="20px" />
-              <h1>Fans</h1>
+              <h1>Following</h1>
             </div>
           </section>
 
-          <div className="border-b-2 pb-2 block lg:flex items-center gap-4">
+          <div className="border-b-2 pb-2 block lg:flex items-center space-y-2 gap-4">
             <article
               onClick={() => changeFansTab("active")}
               className={
@@ -88,63 +94,82 @@ export default function Fan() {
           {fansTab === "active" && (
             <section className="my-4">
               <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
-              {!activeFollowers.loading ? (
-                activeFollowers.data.total === 0 ? (
+
+              {!activeFollowing.loading ? (
+                activeFollowing.data.total === 0 ? (
                   <div className="w-full row-container ">
                     <NoDataFound />
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                    {activeFollowers.data.followers.map((user, i) => {
-                      return <FansCard user={user.otherUser} key={i} />;
+                    {activeFollowing.data.followers.map((user, i) => {
+                      return <FansCard user={user.otherUser} key={i}  />;
                     })}
                   </div>
                 )
               ) : (
                 <h1>loading...</h1>
               )}
+
+              {/* <div className="grid md:grid-cols-2 lg:grid-cols-3">
+                {activeFollowing.loading == false ? (
+                  activeFollowingUser.map((user, i) => {
+                    return (
+                      <>
+                        <FansCard user={user.otherUser} i={i} />
+                      </>
+                    );
+                  })
+                ) : (
+                  <h1>loading...</h1>
+                )}
+              </div> */}
             </section>
           )}
           {fansTab === "unsubscribed" && (
             <section className="my-4">
               <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
-
-              {!expiredFollowers.loading ? (
-                expiredFollowers.data.total === 0 ? (
+              {!expiredFollowing.loading ? (
+                expiredFollowing.data.total === 0 ? (
                   <div className="w-full row-container ">
                     <NoDataFound />
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                    {expiredFollowers.data.followers.map((user, i) => {
-                      return <FansCard user={user.otherUser} key={i} />;
+                    {expiredFollowing.data.followers.map((user, i) => {
+                      return <FansCard user={user.otherUser} key={i}  />;
                     })}
                   </div>
                 )
               ) : (
                 <h1>loading...</h1>
               )}
+
+           
             </section>
           )}
 
           {fansTab === "all" && (
             <section className="my-4">
               <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
-              {!followers.loading ? (
-                followers.data.total === 0 ? (
+
+              {!following.loading ? (
+                following.data.total === 0 ? (
                   <div className="w-full row-container ">
                     <NoDataFound />
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                    {followers.data.followers.map((user, i) => {
-                      return <FansCard user={user.otherUser} key={i} />;
+                    {following.data.followers.map((user, i) => {
+                      return <FansCard user={user.otherUser} key={i}  />;
                     })}
                   </div>
                 )
               ) : (
                 <h1>loading...</h1>
               )}
+
+            
             </section>
           )}
         </div>

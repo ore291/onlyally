@@ -73,7 +73,7 @@ function ProfileNavItem({
         )}
       </div>
       {nav ? (
-        <div className="lg-0 w-[20%] px-2 lg:px-0 z-0">
+        <div className=" w-[20%] px-2 lg:px-0 z-0">
           <div className="pr-7 py-7 block lg:bg-white rounded shadow-sm ">
             <ProSidebar className="block">
               <Menu iconShape="circle" className="font-medium text-gray-600">
@@ -105,12 +105,12 @@ function ProfileNavItem({
                   </div>
                 </SubMenu>
 
-                <MenuItem
+                {/* <MenuItem
                   icon={<BiHistory size="20px" />}
                   style={{ color: storiesColor }}
                 >
                   <Link href="/stories">Stories</Link>
-                </MenuItem>
+                </MenuItem> */}
 
                 <SubMenu title="Bookmarks" icon={<BsBookmark />}>
                   <div className="space-y-4">
@@ -129,7 +129,7 @@ function ProfileNavItem({
                   </div>
                 </SubMenu>
 
-                <SubMenu title="Calls" icon={<FiPhoneCall size="20px" />}>
+                {/* <SubMenu title="Calls" icon={<FiPhoneCall size="20px" />}>
                   <div className="space-y-4">
                     <MenuItem className="text-xs" icon={<IoVideocam />}>
                       <Link href="/calls/video-call">Videos Calls</Link>
@@ -138,7 +138,7 @@ function ProfileNavItem({
                       <Link href="/calls/audio-call">Audios Calls</Link>
                     </MenuItem>
                   </div>
-                </SubMenu>
+                </SubMenu> */}
 
                 <SubMenu title="List" icon={<BsListStars size="20px" />}>
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
@@ -146,19 +146,19 @@ function ProfileNavItem({
                   </MenuItem>
 
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
-                    <Link href="/referrals">Following</Link>
+                    <Link href="/list/following">Following</Link>
                   </MenuItem>
 
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
-                    <Link href="/bookmarks/referrals">Favorites</Link>
+                    <Link href="/list/favourites">Favourites</Link>
                   </MenuItem>
 
-                  <MenuItem icon={<BsPeopleFill size="18px" />}>
-                    <Link href="/bookmarks/referrals">Bookmarks</Link>
-                  </MenuItem>
+                  {/* <MenuItem icon={<BsPeopleFill size="18px" />}>
+                  <Link href="/bookmarks/referrals">Bookmarks</Link>
+                </MenuItem> */}
 
                   <MenuItem icon={<BsPeopleFill size="18px" />}>
-                    <Link href="/bookmarks/referrals">Blocked Users</Link>
+                    <Link href="/list/blocked-users">Blocked Users</Link>
                   </MenuItem>
                 </SubMenu>
 
@@ -289,12 +289,12 @@ function ProfileNavItem({
                 </div>
               </SubMenu>
 
-              <MenuItem
+              {/* <MenuItem
                 icon={<BiHistory size="20px" />}
                 style={{ color: storiesColor }}
               >
                 <Link href="/stories">Stories</Link>
-              </MenuItem>
+              </MenuItem> */}
 
               <SubMenu title="Bookmarks" icon={<BsBookmark />}>
                 <div className="space-y-4">
@@ -313,7 +313,7 @@ function ProfileNavItem({
                 </div>
               </SubMenu>
 
-              <SubMenu title="Calls" icon={<FiPhoneCall size="20px" />}>
+              {/* <SubMenu title="Calls" icon={<FiPhoneCall size="20px" />}>
                 <div className="space-y-4">
                   <MenuItem className="text-xs" icon={<IoVideocam />}>
                     <Link href="/calls/video-call">Videos Calls</Link>
@@ -322,25 +322,19 @@ function ProfileNavItem({
                     <Link href="/calls/audio-call">Audios Calls</Link>
                   </MenuItem>
                 </div>
-              </SubMenu>
+              </SubMenu> */}
 
               <SubMenu title="List" icon={<BsListStars size="20px" />}>
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/fans">Fans</Link>
+                  <Link href="/list/fans">Fans</Link>
                 </MenuItem>
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/following">Following</Link>
+                  <Link href="/list/following">Following</Link>
                 </MenuItem>
 
-
-
-                 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-
-             
-
-                  <Link href="/bookmarks/favourites">Favourites</Link>
+                  <Link href="/list/favourites">Favourites</Link>
                 </MenuItem>
 
                 {/* <MenuItem icon={<BsPeopleFill size="18px" />}>
@@ -348,7 +342,7 @@ function ProfileNavItem({
                 </MenuItem> */}
 
                 <MenuItem icon={<BsPeopleFill size="18px" />}>
-                  <Link href="/bookmarks/blockedusers">Blocked Users</Link>
+                  <Link href="/list/blocked-users">Blocked Users</Link>
                 </MenuItem>
               </SubMenu>
 

@@ -109,7 +109,7 @@ const Stories = () => {
                   ))}
               </div>
             </div>
-            {userStories.data.stories.length > 5 ? (
+            {userStories?.data?.stories?.length > 5 ? (
               <>
                 {" "}
                 <PrevButton onClick={scrollPrev} enabled={prevBtnEnabled} />

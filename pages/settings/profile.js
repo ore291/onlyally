@@ -552,7 +552,7 @@ export default function Profile() {
           )}
 
           <section className="text-grey-500 space-y-4">
-            <div>
+            {/* <div>
               <span className="uppercase font-medium">
                 Video call amount(usd) optional
               </span>
@@ -599,7 +599,7 @@ export default function Profile() {
                 Note: set price for the audio call this amount will be paid by
                 those requesting the audio call
               </span>
-            </div>
+            </div> */}
 
             <div>
               <span className="uppercase font-medium">

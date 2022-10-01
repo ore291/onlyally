@@ -172,7 +172,7 @@ export const FollowerSlice = createSlice({
     fetchExpiredFollowersFailure: (state, action) => {
         state.expiredFollowers = {
             data: {},
-          loading: true,
+          loading: false,
           error: action.payload,
         }
     },

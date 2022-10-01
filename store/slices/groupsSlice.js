@@ -226,7 +226,7 @@ export const GroupsSlice = createSlice({
     },
     fetchGroupsFailure: (state, action) => {
       state.groups = {
-        data: {},
+        data: [],
         loading: false,
         error: action.payload,
       };
@@ -247,7 +247,7 @@ export const GroupsSlice = createSlice({
     },
     fetchUserGroupsFailure: (state, action) => {
       state.userGroups = {
-        data: {},
+        data: [],
         loading: false,
         error: action.payload,
       };
@@ -268,7 +268,7 @@ export const GroupsSlice = createSlice({
     },
     fetchOtherUserGroupsFailure: (state, action) => {
       state.otherUserGroups = {
-        data: {},
+        data: [],
         loading: false,
         error: action.payload,
       };

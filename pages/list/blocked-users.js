@@ -9,14 +9,12 @@ import { FaArrowLeft } from "react-icons/fa";
 import { MdOutlineLibraryAddCheck } from "react-icons/md";
 import { BsBoxArrowRight, BsThreeDots } from "react-icons/bs";
 import ProfileNavItem from "../../components/ProfileNavBar";
-import  {
-  fetchActiveFollowersStart,
-  fetchExpiredFollowersStart,
-  fetchFollowersStart,
-}   from "../../store/slices/followerSlice"
+import NoDataFound from "../../components/NoDataFound/NoDataFound";
+
 import { useDispatch, useSelector } from "react-redux";
 import FansCard from "../../components/FansCard";
-import { fetchFavStart } from "../../store/slices/favSlice";
+
+import { fetchBlockUsersStart } from "../../store/slices/userSlice";
 
 export default function Fan() {
   const [fansTab, setFansTab] = useState("all")
@@ -26,13 +24,13 @@ export default function Fan() {
   } 
   const dispatch = useDispatch()
 
-  const  Favourites = useSelector(state => state.fav.fav)
+  const  blockUsers = useSelector(state => state.user.blockUsers)
 
   useEffect(()=> {
-    dispatch(fetchFavStart())
+    dispatch( fetchBlockUsersStart())
   }, [])
   
-console.log(Favourites)
+
  
 
   return (
@@ -40,11 +38,11 @@ console.log(Favourites)
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem color="red" />
 
-        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
+        <div className="w-full lg:w-4/5  lg:ml-6 bg-white px-4 mx-auto m-2 shadow py-4">
           <section className="space-y-2  p-4">
             <div className="flex gap-4 items-center uppercase font-semibold">
               <FaArrowLeft size="20px" />
-              <h1>Favourites</h1>
+              <h1>Blocked Users</h1>
             </div>
           </section>
 
@@ -52,21 +50,36 @@ console.log(Favourites)
   
                 <section className="my-4">
                 <h3 className="font-medium">{fansTab.toUpperCase()}</h3>
+                {!blockUsers.loading ? (
+                blockUsers.data.block_users.length === 0 ? (
+                  <div className="w-full row-container ">
+                    <NoDataFound />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                    {blockUsers.data.block_users && blockUsers.data.block_users.map((user, i) => {
+                      return <FansCard user={user.otherUser} key={i}  />;
+                    })}
+                  </div>
+                )
+              ) : (
+                <h1>loading...</h1>
+              )}
     
-                <div className="block lg:grid grid-cols-3">
+                {/* <div className="block lg:grid grid-cols-3">
                  
-                  {(Favourites.loading == false && Favourites.data.favs) ? Favourites.data.favs.map((user, i) => {
+                  {(blockUsers.loading == false && blockUsers.data.block_users) ? blockUsers.data.block_users.map((user, i) => {
                      
                      return (
                       <>
-                      <FansCard  user={user} i={i}/>
+                      <FansCard  user={user.blockeduser} i={i}/>
                       </>
                      )
                   })
                 :
                  <h1>loading...</h1>
                 }
-                </div>
+                </div> */}
               </section>
         
 
