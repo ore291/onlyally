@@ -48,7 +48,7 @@ const RightSideBar = () => {
                 <Display
                   user={user}
                   i={i}
-                  key={i}
+                  key={user.to_user_id}
                   handleChatUser={handleChatUser}
                   onClick={(event) => {
                    

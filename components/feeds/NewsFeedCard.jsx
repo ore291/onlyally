@@ -694,25 +694,28 @@ const NewsFeedCard = ({ post, index }) => {
                 </div>
                 <span className="text-sm">{post.total_comments}</span>
               </button>
-              {cookies.userId != post.user_id ||
-              Object.keys(post?.user?.pro_package_config).length != 0 ? (
-                <button
-                  type="button"
-                  title="Donate to post"
-                  className="flex items-center justify-center space-x-1"
-                  onClick={() => setSendTip(true)}
-                >
-                  <div className="relative news-feed-card-icon">
-                    <Image
-                      layout="fill"
-                      src="/tips.png"
-                      className="dark:invert"
-                      objectFit="cover"
-                      alt=""
-                    />
-                  </div>
-                  <span className="text-xs">Tip</span>
-                </button>
+              {cookies.userId != post.user_id ? (
+                <>
+                  {Object.keys(post?.user?.pro_package_config).length != 0 ? (
+                    <button
+                      type="button"
+                      title="Donate to post"
+                      className="flex items-center justify-center space-x-1"
+                      onClick={() => setSendTip(true)}
+                    >
+                      <div className="relative news-feed-card-icon">
+                        <Image
+                          layout="fill"
+                          src="/tips.png"
+                          className="dark:invert"
+                          objectFit="cover"
+                          alt=""
+                        />
+                      </div>
+                      <span className="text-xs">Tip</span>
+                    </button>
+                  ) : null}
+                </>
               ) : null}
 
               {bookmarkStatus !== "" ? (

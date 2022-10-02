@@ -5,10 +5,9 @@ const Display = ({ i, user, handleChatUser }) => {
   const [seeChild, setSeeChild] = useState(false);
   return (
     <div className="relative">
-      <div className=" w-fit h-14 relative cursor-pointer " key={i}>
+      <div className=" w-fit h-14 relative cursor-pointer " key={user.to_user_id}>
         <Image
           onClick={(event) => {
-            console.log(user.to_user_id);
             handleChatUser(event, user.to_user_id);
           }}
           onMouseEnter={() => setSeeChild(true)}

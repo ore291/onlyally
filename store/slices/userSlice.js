@@ -180,7 +180,7 @@ export const UserSlice = createSlice({
     fetchUserDetailsFailure: (state, action) => {
       state.profile = {
         data: {},
-        loading: true,
+        loading: false,
         error: action.payload,
       };
     },
@@ -195,11 +195,11 @@ export const UserSlice = createSlice({
       };
     },
     updateUserDetailsStart: (state, action) => {
+    
       state.profileInputData = {
         data: {
-          first_name:
-          action.payload.first_name  ? action.payload.first_name : state.profile.data.first_name,
-          last_name: action.payload.last_name ? action.payload.last_name  : state.profile.data.last_name,
+          first_name: action.payload.first_name != null ? action.payload.first_name : state.profile.data.first_name,
+          last_name: action.payload.last_name != null ? action.payload.last_name  : state.profile.data.last_name,
           email: state.profile.data.email,
           name: state.profile.data.name,
           username: state.profile.data.username,
