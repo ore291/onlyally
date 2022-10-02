@@ -20,7 +20,7 @@ function MaeketB() {
             </>
           )
         }
-        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
+        <div className="w-full lg:w-4/5  lg:ml-6 bg-white px-4 mx-auto m-2 shadow py-4">
           <MarketButtons />
           <p className="font-semibold ml-10 mt-4">Product</p>
           <MarketForm />

@@ -14,10 +14,12 @@ import { Picker, EmojiData } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
 import PostEditor from "./PostEditor";
 import { useDispatch } from "react-redux";
+import { notify } from "reapop";
 
 const Comments = ({ post, currentIndex }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.loginData);
+  const [hasText, setHasText] = useState(false);
 
   const mentionsRef = useRef();
 
@@ -41,6 +43,14 @@ const Comments = ({ post, currentIndex }) => {
 
   const handleCommentSubmit = (event) => {
     event.preventDefault();
+    if (!hasText) {
+      return dispatch(
+        notify({
+          message: "Please add text or upload content",
+          status: "info",
+        })
+      );
+    }
     dispatch(
       saveCommentStart({
         comment: editorHtmlContent,
@@ -127,6 +137,7 @@ const Comments = ({ post, currentIndex }) => {
                 refs={mentionsRef}
                 getEditorRawContent={setEditorContentstate}
                 getEditorHtmlContent={setEditorHtmlContent}
+                getHasText={setHasText}
                 dispatch={dispatch}
                 editorState={editorState}
                 setEditorState={setEditorState}

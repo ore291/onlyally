@@ -36,7 +36,7 @@ export default function Auth2() {
     <>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem authColor={"#B30D28"} />
-        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
+        <div className="w-full lg:w-4/5  lg:ml-6 bg-white px-4 mx-auto mt-10 shadow py-4">
           <section className="w-2/3 mx-auto space-y-4 ">
             <h1 className="font-semibold border-b-2 border-gray-300 text-center pb-4 ">
               Two Step Authetication

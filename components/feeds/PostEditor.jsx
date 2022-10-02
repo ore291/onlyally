@@ -120,7 +120,7 @@ const PostEditor = (props) => {
   // Check editor text for mentions
   const onSearchChange = ({ value }) => {
     dispatch(searchUserStart({ key: value }));
-    console.log(value);
+    // console.log(value);
 
     let fetchedData = searchUser.data.users;
 
@@ -157,8 +157,16 @@ const PostEditor = (props) => {
   };
 
   const handleChange = (editorState) => {
-  
+    const contentState = props.editorState
+      ? props.editorState.getCurrentContent()
+      : editorState.getCurrentContent();
 
+    props.getHasText != undefined &&
+      props.getHasText(
+        contentState.hasText() &&
+          contentState.getPlainText().trim().length !== 0
+      );
+    // console.log(contentState.hasText() && contentState.getPlainText().trim().length !== 0)
     props.setEditorState != undefined
       ? props.setEditorState(editorState)
       : setEditorState(editorState);
@@ -169,7 +177,11 @@ const PostEditor = (props) => {
     <div
       onFocus={() => focusEditor()}
       onBlur={() => blurEditor()}
-      className={focusStyle ? "hasFocus active dark:text-gray-900" : "hasFocus dark:text-gray-900"}
+      className={
+        focusStyle
+          ? "hasFocus active dark:text-gray-900"
+          : "hasFocus dark:text-gray-900"
+      }
     >
       <Editor
         ref={editor}

@@ -27,9 +27,9 @@ const Cart = () => {
   return (
     <div className="flex flex-col justify-center lg:flex-row">
       <ProfileNavBar className="w-24 mb-8" />
-      <div className="w-full lg:w-4/5 lg:mr-16 mr-0 lg:ml-6 bg-white px-2 md:px-4 mx-auto mt-20 shadow py-4">
+      <div className="w-full lg:w-4/5  mr-0 lg:ml-6 bg-white px-2 md:px-4 mx-auto mt-2 shadow py-4">
         <p className="font-semibold mt1.5 mb-3.5 pl-2">
-          <span className="mx-2">Shoopping cart</span>
+          <span className="mx-2">Shopping cart</span>
           {">"}
           <span className="mx-2">Proceed to Checkout</span>
           {">"}
@@ -72,7 +72,7 @@ const Cart = () => {
                   })}
               </table>
               <div className="flex w-full justify-between  my-6 mt-8">
-                <Link href="/market/marketplace">
+                <Link href="/market/marketplace" passHref>
                   <button className="p-2 rounded-md bg-stone-300">
                     CONTINUE SHOPPING
                   </button>

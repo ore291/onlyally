@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
+import {notify} from "reapop";
 
 import Link from "next/link";
 // import { saveBookmarkStart } from "../../store/actions/BookmarkAction";
@@ -19,10 +20,10 @@ import { getCookie } from "cookies-next";
 const CommentReplies = (props) => {
   const dispatch = useDispatch();
   const commentReplies = useSelector((state) => state.comments.commentReplies);
+  const [hasText, setHasText] = useState(false);
 
   const { comment, commentActiveIndex } = props;
   const avatar = getCookie("picture");
- 
 
   const [commentReplyInputData, setCommentReplyInputData] = useState({});
 
@@ -40,6 +41,14 @@ const CommentReplies = (props) => {
 
   const handleCommentReplySubmit = (event, comment) => {
     event.preventDefault();
+    if (!hasText) {
+      return dispatch(
+        notify({
+          message: "Please add text or upload content",
+          status: "info",
+        })
+      );
+    };
     dispatch(
       saveCommentRepliesStart({
         reply: editorHtmlContent,
@@ -100,13 +109,18 @@ const CommentReplies = (props) => {
             {commentReplies.data.post_comment_replies.map(
               (comment_reply, index) => (
                 <>
-                  <div className="reply-box grid grid-cols-8 gap-0 ml-10" key={index}>
-                  <div className="relative w-12 h-12 rounded-full ">
+                  <div
+                    className="reply-box grid grid-cols-8 gap-0 ml-10"
+                    key={index}
+                  >
+                    <div className="relative w-12 h-12 rounded-full ">
                       <Image
                         alt=""
-                        src={comment_reply.user_picture !== ""
-                        ? comment_reply.user_picture
-                        : "https://cms.onlyally.com/placeholder.jpeg"}
+                        src={
+                          comment_reply.user_picture !== ""
+                            ? comment_reply.user_picture
+                            : "https://cms.onlyally.com/placeholder.jpeg"
+                        }
                         objectFit="cover"
                         layout="fill"
                         className="rounded-full w-20 h-20"
@@ -130,7 +144,9 @@ const CommentReplies = (props) => {
                       <div className="reply-info-sec">
                         <ul className="list-unstyled reply-info-link">
                           <li>
-                            <p className="text-xs text-gray-400 font-medium">{comment_reply.created}</p>
+                            <p className="text-xs text-gray-400 font-medium">
+                              {comment_reply.created}
+                            </p>
                           </li>
                         </ul>
                       </div>
@@ -139,7 +155,7 @@ const CommentReplies = (props) => {
                 </>
               )
             )}{" "}
-             <div className="clear-both ml-16 border rounded-2xl p-0.5">
+            <div className="clear-both ml-16 border rounded-2xl p-0.5">
               <form
                 className="w-full flex items-center  mt-0"
                 action=""
@@ -166,6 +182,7 @@ const CommentReplies = (props) => {
                     refs={mentionsRef}
                     getEditorRawContent={setEditorContentstate}
                     getEditorHtmlContent={setEditorHtmlContent}
+                    getHasText={setHasText}
                     dispatch={dispatch}
                     editorState={editorState}
                     setEditorState={setEditorState}
@@ -245,6 +262,7 @@ const CommentReplies = (props) => {
                     getEditorRawContent={setEditorContentstate}
                     getEditorHtmlContent={setEditorHtmlContent}
                     dispatch={dispatch}
+                    getHasText={setHasText}
                     editorState={editorState}
                     setEditorState={setEditorState}
                   />

@@ -25,6 +25,7 @@ const CreatePost = () => {
   const fileUpload = useSelector((state) => state.post.fileUpload);
   const searchUser = useSelector((state) => state.home.searchUser);
   const postCategories = useSelector((state) => state.post.postCategories);
+  const [hasText, setHasText] = useState(false);
 
   function closeModal() {
     dispatch(setCreatePostModal(false));
@@ -90,7 +91,6 @@ const CreatePost = () => {
   const handleChangeImage = (event, fileType) => {
     if (event.currentTarget.type === "file") {
       setFileUploadStatus(true);
-   
 
       const validImageFiles = [];
       for (let i = 0; i < event.currentTarget.files.length; i++) {
@@ -282,7 +282,13 @@ const CreatePost = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (fileUploadStatus) {
+      if (disableImage && disableAudio && !inputData.preview_file) {
+        return dispatch(
+          notify({ message: "Please select a video thumbnail", status: "info" })
+        );
+      }
       dispatch(
         savePostStart({
           content: editorHtmlContent,
@@ -295,6 +301,14 @@ const CreatePost = () => {
         })
       );
     } else {
+      if (!hasText) {
+        return dispatch(
+          notify({
+            message: "Please add text or upload content",
+            status: "info",
+          })
+        );
+      };
       dispatch(
         savePostStart({
           content: editorHtmlContent,
@@ -435,6 +449,7 @@ const CreatePost = () => {
                       refs={mentionsRef}
                       getEditorRawContent={setEditorContentstate}
                       getEditorHtmlContent={setEditorHtmlContent}
+                      getHasText={setHasText}
                       dispatch={dispatch}
                       // searchUser={props.searchUser}
                     />
@@ -500,9 +515,10 @@ const CreatePost = () => {
                   <>
                     <form className="my-2">
                       <label className="text-muted m-1 mt-3 f-12 text-uppercase mb-3 mb-lg-3">
-                        Upload Video Thumbnail (Optional)
+                        Upload Video Thumbnail (Required)
                       </label>
                       <input
+                        required
                         style={{ display: "block" }}
                         type="file"
                         placeholder="Upload Video thumbnail"

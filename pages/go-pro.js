@@ -51,7 +51,7 @@ export default function Auth2() {
     <>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem />
-        <div className="w-full  lg:mr-6 lg:ml-10 bg-white mx-auto mt-20 shadow rounded-md space-y-8">
+        <div className="w-full  lg:mr-6 lg:ml-10 bg-white mx-auto mt-10 shadow rounded-md space-y-8">
           <div className="bg-[url('/images/settings/bluebg.png')] flex p-4 justify-between rounded-md bg-center items-center">
             <div>
               <span>

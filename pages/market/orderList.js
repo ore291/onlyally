@@ -8,7 +8,7 @@ function Order() {
     <div>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavBar className="w-24 mb-8" />
-        <div className=" w-full px-1 mx-auto pt-3 mr-24  mt-12 bg-white rounded space-y-3">
+        <div className=" w-full px-1 mx-auto pt-3 ml-2 mt-2 bg-white rounded space-y-3">
           <MarketButtons className=" mr-4" />
           <OrderList />
         </div>
