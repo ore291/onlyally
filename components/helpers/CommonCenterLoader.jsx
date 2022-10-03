@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 const CommonCenterLoader = () => (
-  <div className="text-center">
+  <div className="text-center w-full h-full row-container">
     <div className="relative ">
       <Image
         alt=""
