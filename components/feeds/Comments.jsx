@@ -57,6 +57,7 @@ const Comments = ({ post, currentIndex }) => {
         post_id: post.post_id,
       })
     );
+
     // setCommentInputData({});
     setEditorState(EditorState.createEmpty());
   };

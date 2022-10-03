@@ -143,7 +143,6 @@ const NewsFeedCard = ({ post, index }) => {
 
   const handlePPVPayment = (event, status) => {
     event.preventDefault();
-    console.log("i told you");
     if (status && status == 1) {
       setModalStatus(0);
       setPPVPayment(true);
@@ -234,11 +233,11 @@ const NewsFeedCard = ({ post, index }) => {
   return (
     <>
       {postDisplayStatus == true ? (
-        <div className="sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-100 sm:border shadow-md w-full cursor-pointer relative">
-          <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b">
+        <div className="sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-100 sm:border dark:border-gray-800  shadow-md w-full cursor-pointer relative">
+          <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b dark:border-gray-800 ">
             <Link passHref href={`/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
-                <div className="relative w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700">
+                <div className="relative w-12 h-12 rounded-full shadow-sm bg-gray-500 border-gray-700 ">
                   <Image
                     layout="fill"
                     src={post.user_picture}
@@ -692,7 +691,15 @@ const NewsFeedCard = ({ post, index }) => {
                     alt=""
                   />
                 </div>
-                <span className="text-sm">{post.total_comments}</span>
+                {comments.inputData.post_id === post.post_id ? (
+                  <span className="text-sm">
+                    {comments.data.post_comments
+                      ? comments.data.post_comments.length
+                      : post.total_comments}
+                  </span>
+                ) : (
+                  <span className="text-sm">{post.total_comments}</span>
+                )}
               </button>
               {cookies.userId != post.user_id ? (
                 <>

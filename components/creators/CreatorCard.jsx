@@ -29,7 +29,7 @@ const CreatorCard = ({ username, image, main, verified, creator }) => {
   }
   return (
     <Link href={`/${username}`} passHref>
-      <div className="bg-white dark:!bg-gray-900 dark:!text-gray-100 rounded-lg shadow-sm border flex flex-col items-center justify-center cursor-pointer p-0.5">
+      <div className="bg-white dark:!bg-gray-900 dark:!text-gray-100 rounded-lg shadow-sm border dark:border-gray-800  flex flex-col items-center justify-center cursor-pointer p-0.5">
         <div className="px-1 pt-1 w-[70px] h-[70px] relative rounded-lg">
           <Image
             src={image}

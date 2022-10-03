@@ -13,7 +13,7 @@ const LeftSideBar = () => {
     router.push(url);
   };
   return (
-    <aside className="hidden z-10 lg:block col-span-2 h-[90vh] border-solid  pt-10  self-start border-r-[1px] sticky top-16 overflow-none ">
+    <aside className="hidden z-10 lg:block col-span-2 h-[90vh] border-solid dark:border-gray-800  pt-10  self-start border-r-[1px] sticky top-16 overflow-none ">
       <div className="flex flex-col space-y-4 ">
         <Link href="/" passHref>
           <div className="side-nav-button">

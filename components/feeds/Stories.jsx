@@ -70,7 +70,7 @@ const Stories = () => {
   // }, [renderSliderModal]);
 
   return (
-    <div className=" mt-3 md:mt-0 mb-5 md:p-5 md:border-y md:shadow-md ">
+    <div className=" mt-3 md:mt-0 mb-5 md:p-5 md:border-y md:shadow-md dark:border-gray-800 ">
       <>
         {userStories.loading ? (
           <StorySliderLoader />
