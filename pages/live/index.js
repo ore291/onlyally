@@ -35,7 +35,7 @@ const Live = () => {
   };
 
   return (
-    <SideNavLayout>
+    <SideNavLayout title={"Playjor | Live"}>
       <div className="lg:max-w-[980px] xl:max-w-6xl mx-auto my-8 bg-white p-5">
         {/* {[...Array(10)].map((_, index) => (
             <LiveCard key={index} />

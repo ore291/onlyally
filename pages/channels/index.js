@@ -27,7 +27,7 @@ const Channels = () => {
 
 
   return (
-    <SideNavLayout>
+    <SideNavLayout title={"Playjor | Channels"}>
       <div className="max-w-[950px] px-1 mx-auto">
         <div className="p-5 my-3 lg:my-6  bg-white rounded-xl shadow-lg  outline-none">
           <h1 className="text-3xl font-semibold mb-2">Channels</h1>

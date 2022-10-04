@@ -33,7 +33,7 @@ const Explore = () => {
 
 
   return (
-    <SideNavLayout>
+    <SideNavLayout title={"Playjor | Explore"}>
       <div className="max-w-5xl px-1 mx-auto">
         <FilterSearch />
 

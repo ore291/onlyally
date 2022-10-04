@@ -13,6 +13,7 @@ import React, {
 import { isMobile } from "react-device-detect";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import { MdVolumeOff, MdVolumeUp } from "react-icons/md";
 import { BsHeart, BsHeartFill, BsThreeDots, BsBookmark } from "react-icons/bs";
 import {
   FaBookmark,
@@ -39,6 +40,7 @@ import EmblaSlide from "./EmblaSlide";
 import { saveBlockUserStart } from "../../store/slices/userSlice";
 import { deletePostStart } from "../../store/slices/postSlice";
 import ReportModeModal from "./ReportModeModal";
+import { InView } from "react-intersection-observer";
 
 const NewsFeedCard = ({ post, index }) => {
   const dispatch = useDispatch();
@@ -53,6 +55,8 @@ const NewsFeedCard = ({ post, index }) => {
   const [sendTip, setSendTip] = useState(false);
   const [commentInputData, setCommentInputData] = useState({});
   const [isVisible, setIsVisible] = useState(true);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const [audioMuted, setAudioMuted] = useState(true);
   const [commentActiveIndex, setCommentActiveIndex] = useState(null);
 
   const [reportMode, setReportMode] = useState(false);
@@ -60,6 +64,10 @@ const NewsFeedCard = ({ post, index }) => {
   const closeReportModeModal = () => {
     setReportMode(false);
   };
+
+  // const playVideo = (bool) => {
+  //   setVideoPlaying(bool);
+  // }
 
   const audio = useRef();
   const [playing, setPlaying] = useState(false);
@@ -91,7 +99,7 @@ const NewsFeedCard = ({ post, index }) => {
       dispatch(fetchSinglePostStart({ post_unique_id: post.post_unique_id }));
     }
     setInitialRender(true);
-  }, [likeStatus]);
+  }, []);
 
   useEffect(() => {
     setLikeFormatted(
@@ -399,22 +407,76 @@ const NewsFeedCard = ({ post, index }) => {
                                         <div className="gallery-play-icon"></div>
                                       </div>
                                     ) : (
-                                      <ReactPlayer
-                                        light={postFile.preview_file}
-                                        url={postFile.post_file}
-                                        config={{
-                                          file: {
-                                            attributes: {
-                                              controlsList: "nodownload",
-                                            },
-                                          },
+                                      <InView
+                                        as="div"
+                                        className="player-wrapper bg-[#000] w-full"
+                                        initialInView={true}
+                                        skip={postFile.file_type !== "video"}
+                                        onChange={(inView, entry) => {
+                                          // console.log("Inview:", inView);
+                                          if (inView) {
+                                            // vidRef.current.play();
+                                            setVideoPlaying(true);
+                                          } else {
+                                            // vidRef.current.pause();
+                                            setVideoPlaying(false);
+                                            setAudioMuted(true);
+                                          }
                                         }}
-                                        controls={true}
-                                        width="100%"
-                                        height="100%"
-                                        // playing
-                                        className="post-video-size"
-                                      />
+                                      >
+                                        <ReactPlayer
+                                          onClick={() => setVideoPlaying(false)}
+                                          volume={0.5}
+                                          // light={postFile.preview_file}
+                                          url={postFile.post_file}
+                                          config={{
+                                            file: {
+                                              attributes: {
+                                                controlsList: "nodownload",
+                                              },
+                                            },
+                                          }}
+                                          onClickPreview
+                                          loop={true}
+                                          controls={false}
+                                          muted={audioMuted}
+                                          width="100%"
+                                          playsinline
+                                          height="100%"
+                                          playing={videoPlaying}
+                                          className="post-video-size react-player"
+                                        />
+
+                                        {!videoPlaying ? (
+                                          <button
+                                            className="absolute h-10 w-10 md:h-16 md:w-16 inset-0 m-auto z-20"
+                                            onClick={() =>
+                                              setVideoPlaying(true)
+                                            }
+                                          >
+                                            <FaPlay className="text-white h-10 w-10 md:h-16 md:w-16" />
+                                          </button>
+                                        ) : null}
+
+                                        <button className="absolute h-6 w-6 bottom-3 right-3  m-auto z-20">
+                                          {" "}
+                                          {audioMuted ? (
+                                            <MdVolumeOff
+                                              className="text-white h-6 w-6"
+                                              onClick={() =>
+                                                setAudioMuted(!audioMuted)
+                                              }
+                                            />
+                                          ) : (
+                                            <MdVolumeUp
+                                              className="text-white h-6 w-6"
+                                              onClick={() =>
+                                                setAudioMuted(!audioMuted)
+                                              }
+                                            />
+                                          )}{" "}
+                                        </button>
+                                      </InView>
                                     )}
                                     {post.payment_info.is_user_needs_pay ===
                                       1 &&

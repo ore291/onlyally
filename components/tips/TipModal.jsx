@@ -89,6 +89,13 @@ const TipModal = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if(amount < 100){
+      return dispatch(notify({
+        message: "Minimum amount is ₦100",
+        status: "warning"
+      }))
+    }
+
     if (paymentType === "WALLET")
       dispatch(
         sendTipByWalletStart({
@@ -106,7 +113,18 @@ const TipModal = (props) => {
     props.closeSendTipModal();
   };
 
+  
   const initializePayment = usePaystackPayment(config);
+
+  const init = ()=>{
+    if(amount < 100){
+      return dispatch(notify({
+        message: "Minimum amount is ₦100",
+        status: "warning"
+      }))
+    };
+    initializePayment(onSuccess, onClose);
+  }
 
   return (
     <>
@@ -224,7 +242,7 @@ const TipModal = (props) => {
                       <button
                         className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-white"
                         onClick={() => {
-                          initializePayment(onSuccess, onClose);
+                          init();
                         }}
                       >
                         <span className="font-semibold text-sm">Pay with</span>

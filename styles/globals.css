@@ -1,8 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* @import url("https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap"); */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,700&display=swap');
+
 
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
@@ -15,7 +19,7 @@
   body {
     padding: 0;
     margin: 0;
-    font-family: "Maven Pro", sans-serif;
+    font-family: "Montserrat","Poppins", sans-serif;
    @apply bg-[#f9f9f9] dark:!bg-gray-900 dark:!text-gray-100
   }
 }
@@ -70,9 +74,9 @@
     @apply w-3 h-3 my-6 mx-1 bg-white rounded-full;
   }
 
-  .post-video-size {
-    @apply !w-[95%]  left-0 right-0 mx-auto object-cover;
-  }
+  /* .post-video-size {
+    @apply !w-[95%]  h-full !max-h-[600px] left-0 right-0 mx-auto object-cover;
+  } */
   /* .post-video-size {
     @apply !w-full !h-[20em] object-cover min-h-[20em];
   } */
@@ -1076,4 +1080,15 @@ input:checked ~ .tick-bg {
 
 .static-box p, span {
   text-align: justify;
+}
+
+.player-wrapper {
+  position: relative;
+  padding-top: 56.25% /* Player ratio: 100 / (1280 / 720) */
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
 }

@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <>
-      <Head>
+      {/* <Head>
         <title>{configData.site_name}</title>
         <link
           rel="icon"
@@ -54,9 +54,28 @@ export default function Home() {
           href={configData.site_icon}
           // sizes="16x16"
         />
-      </Head>
 
-      <SideNavLayout>
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+      </Head> */}
+
+      <SideNavLayout title={configData.site_name}>
         <main className=" lg:p-5">
           <Stories />
 

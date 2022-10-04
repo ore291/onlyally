@@ -5,6 +5,7 @@ import SideNav from "./mobile/SideNav";
 import MainMobileNav from "./mobile/MainMobileNav";
 import { useEffect } from "react";
 import { hasCookie } from "cookies-next";
+import Head from "next/head";
 import {
   BrowserView,
   MobileView,
@@ -13,7 +14,7 @@ import {
 } from "react-device-detect";
 import { useRouter } from "next/router";
 
-const SideNavLayout = ({ children }) => {
+const SideNavLayout = ({ children , title}) => {
   // const checkSession = hasCookie("accessToken");
   // const router = useRouter();
 
@@ -22,7 +23,37 @@ const SideNavLayout = ({ children }) => {
   // }, [checkSession])
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 relative">
+    <>
+    <Head>
+        <title>{title || "Playjor"}</title>
+        {/* <link
+          rel="icon"
+          type="image/png"
+          href={configData.site_icon}
+          // sizes="16x16"
+        /> */}
+
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+      </Head>
+     <div className="grid grid-cols-1 lg:grid-cols-12 relative">
+
       <LeftSideBar />
 
       <main className="lg:col-span-9 ">{children}</main>
@@ -38,6 +69,8 @@ const SideNavLayout = ({ children }) => {
 
       <MainMobileNav />
     </div>
+    </>
+   
   );
 };
 

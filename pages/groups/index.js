@@ -27,7 +27,7 @@ const Groups = () => {
   const categories = useSelector((state) => state.groups.categories);
 
   return (
-    <SideNavLayout>
+    <SideNavLayout title={"Playjor | Groups"}>
       <div className="max-w-5xl mx-auto xl:max-w-7xl p-0 md:p-5">
         {groups.loading ? (
           <div className="row-container">

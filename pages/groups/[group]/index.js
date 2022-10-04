@@ -40,7 +40,7 @@ const Group = () => {
   };
 
   return (
-    <SideNavLayout>
+    <SideNavLayout >
       {loading ? (
         <div className="row-container">
           <ProfileLoader />
