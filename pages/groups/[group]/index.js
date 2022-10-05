@@ -8,6 +8,7 @@ import { RiPriceTag3Line } from "react-icons/ri";
 import { MdLockOutline } from "react-icons/md";
 import { CgNotes } from "react-icons/cg";
 import Image from "next/image";
+import GroupPaymentModal from "../../../components/groups/GroupPaymentModal";
 import Button from "../../../components/Button";
 import {
   getSelectorsByUserAgent,
@@ -26,6 +27,10 @@ import { END } from "redux-saga";
 import { wrapper } from "../../../store";
 
 const Group = () => {
+  const [show, setShow] = useState(false);
+
+  const toggleShow = (bool) => setShow(bool);
+
   const dispatch = useDispatch();
   const { data: group, loading } = useSelector(
     (state) => state.groups.groupData
@@ -35,12 +40,24 @@ const Group = () => {
 
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleJoinGroup = async (slug) => {
-    dispatch(joinGroupStart(slug));
+  const handleJoinGroup = async () => {
+    dispatch(joinGroupStart(group.slug));
+
+    setTimeout(() => {
+      router.reload();
+    }, 2000);
+  };
+
+  const handleSubscription = () => {
+    if (group.is_private && group.configuration?.billing?.amount > 0) {
+      toggleShow(true);
+    } else if (group.is_private && group.configuration?.billing?.amount < 1) {
+      handleJoinGroup();
+    }
   };
 
   return (
-    <SideNavLayout >
+    <SideNavLayout>
       {loading ? (
         <div className="row-container">
           <ProfileLoader />
@@ -49,70 +66,87 @@ const Group = () => {
         <div>
           <GroupPageHeader group={group} />
 
-          {group.is_member ? (
+          {!group.is_private ? (
             <div className="max-w-4xl 2xl:max-w-screen-xl  mx-auto mt-24  2xl:mt-6">
               <GroupPageTabs />
             </div>
           ) : (
-            <div
-              className={`row-container my-16  ${
-                group.is_member ? "hidden" : ""
-              }`}
-            >
-              <div className="bg-white w-[500px] rounded-lg shadow-lg p-5">
-                <div className="flex flex-col items-start space-y-2 mb-5">
-                  <div className="flex items-center space-x-2">
-                    <MdLockOutline className="w-5 h-5 text-gray-500" />
-                    <p className="font-semibold text-lg">Private</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <BsPeople className="w-5 h-5 text-gray-500" />
-                    <p className="font-semibold text-lg">
-                      {group.members.length} Members
-                    </p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RiPriceTag3Line className="w-5 h-5 text-gray-500" />
-                    <p className="font-semibold text-lg">Cars and Vehicles</p>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <CgNotes className="w-5 h-5 text-gray-500" />
-                    <p className="font-semibold text-lg">
-                      {group.posts.length} Posts
-                    </p>
-                  </div>
+            <>
+              {group.is_member ? (
+                <div className="max-w-4xl 2xl:max-w-screen-xl  mx-auto mt-24  2xl:mt-6">
+                  <GroupPageTabs />
                 </div>
-                <div className="col-container space-y-3">
-                  <h2 className="text-4xl font-bold text-center">
-                    Sorry, Private Group!
-                  </h2>
-                  <p className="font-bold text-sm text-gray-500 text-center w-[370px]">
-                    This page is a private group and content is only availaible
-                    on subscription.
-                  </p>
-                  <div className="row-container space-x-4">
-                    <div onClick={() => setSubscribed(true)}>
-                      <Button
-                        text="Join"
-                        extraclassNamees="w-36 h-9"
-                        active={true}
-                      />
+              ) : (
+                <div
+                  className={`row-container my-16  ${
+                    group.is_member ? "hidden" : ""
+                  }`}
+                >
+                  <div className="bg-white w-[500px] rounded-lg shadow-lg p-5">
+                    <div className="flex flex-col items-start space-y-2 mb-5">
+                      <div className="flex items-center space-x-2">
+                        <MdLockOutline className="w-5 h-5 text-gray-500" />
+                        <p className="font-semibold text-lg">Private</p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <BsPeople className="w-5 h-5 text-gray-500" />
+                        <p className="font-semibold text-lg">
+                          {group.members.length} Members
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RiPriceTag3Line className="w-5 h-5 text-gray-500" />
+                        <p className="font-semibold text-lg">
+                          Cars and Vehicles
+                        </p>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <CgNotes className="w-5 h-5 text-gray-500" />
+                        <p className="font-semibold text-lg">
+                          {group.posts.length} Posts
+                        </p>
+                      </div>
                     </div>
+                    <div className="col-container space-y-3">
+                      <h2 className="text-4xl font-bold text-center">
+                        Sorry, Private Group!
+                      </h2>
+                      <p className="font-bold text-sm text-gray-500 text-center w-[370px]">
+                        This page is a private group and content is only
+                        availaible on subscription.
+                      </p>
+                      <div className="row-container space-x-4">
+                        <div onClick={() => handleSubscription()}>
+                          <Button
+                            text="Join"
+                            extraclassNamees="w-36 h-9"
+                            active={true}
+                          />
+                        </div>
 
-                    {/* <button onClick={() => router.back()}> */}
-                    <Button
-                      onClick={() => router.back()}
-                      text="Go Back"
-                      extraclassNamees="w-36 h-9 bg-[#FFD0D8] hover:bg-[#FF1534] hover:text-white text-lightPlayRed"
-                      textclassName="group-hover:text-white hover:text-white  font-semibold"
-                    />
-                    {/* </button> */}
+                        {/* <button onClick={() => router.back()}> */}
+                        <Button
+                          onClick={() => router.back()}
+                          text="Go Back"
+                          extraclassNamees="w-36 h-9 bg-[#FFD0D8] hover:bg-[#FF1534] hover:text-white text-lightPlayRed"
+                          textclassName="group-hover:text-white hover:text-white  font-semibold"
+                        />
+                        {/* </button> */}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              )}
+            </>
           )}
         </div>
+      ) : null}
+      {show ? (
+        <GroupPaymentModal
+          show={show}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
       ) : null}
     </SideNavLayout>
   );

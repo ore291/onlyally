@@ -2,8 +2,9 @@ import Button from "../Button";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import SideBarLoader from "../helpers/SideBarLoader";
 
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchChannelsStart,
@@ -63,7 +64,7 @@ const LikedChannels = () => {
         </div>
         {channels.loading ? (
           <div className="row-container">
-            <CommonCenterLoader />
+            <SideBarLoader />
           </div>
         ) : (
           <>
@@ -78,25 +79,30 @@ const LikedChannels = () => {
                           className="grid grid-cols-4 place-content-center items-center justify-center  w-full"
                           key={i}
                         >
-                          <div className=" w-12 h-12 relative ">
-                            <Image
-                              src={channel.avatar}
-                              alt="side-img"
-                              layout="fill"
-                              objectFit="cover"
-                              className="rounded-full"
-                            />
-                          </div>
+                          {" "}
+                          <Link href={`/channels/${channel.slug}`} passHref>
+                            <div className=" w-12 h-12 relative cursor-pointer">
+                              <Image
+                                src={channel.avatar}
+                                alt="side-img"
+                                layout="fill"
+                                objectFit="cover"
+                                className="rounded-full"
+                              />
+                            </div>
+                          </Link>
                           <div className="flex flex-col space-y-.5 col-span-2 ">
-                            <p className="font-bold text-sm  text-gray-600 whitespace-nowrap">
-                              {channel.name}
-                            </p>
+                            <Link href={`/channels/${channel.slug}`} passHref>
+                              <p className="font-semibold text-xs text-ellipsis capitalize cursor-pointer  text-gray-600 whitespace-nowrap">
+                                {channel.name}
+                              </p>
+                            </Link>
                             <span className="text-xs font-semibold">
                               {channel.members.length} Subscribers
                             </span>
                           </div>
                           <div className=" row-container">
-                            {checkMember(channel.members) ? (
+                            {channel.is_member ? (
                               <Button
                                 onClick={() =>
                                   router.push(`/channels/${channel.slug}`)

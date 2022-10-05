@@ -7,7 +7,12 @@ import { FaCamera } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { fetchChannelsCategoriesStart, fetchSingleChannelStart, joinChannelStart , fetchChannelsStart} from "../../../store/slices/channelsSlice";
+import {
+  fetchChannelsCategoriesStart,
+  fetchSingleChannelStart,
+  joinChannelStart,
+  fetchChannelsStart,
+} from "../../../store/slices/channelsSlice";
 import ProfileLoader from "../../../components/Profile/ProfileLoader";
 import Button from "../../../components/Button";
 import { fetchUserDetailsStart } from "../../../store/slices/userSlice";
@@ -45,13 +50,13 @@ const Channel = () => {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     // Code using query
+  useEffect(() => {
+    if (router.isReady) {
+      // Code using query
 
-  //     dispatch(fetchSingleChannelStart(router.query.channel));
-  //   }
-  // }, [router.isReady]);
+      dispatch(fetchSingleChannelStart({ channel_slug: router.query.channel }));
+    }
+  }, [router.isReady]);
 
   return (
     <SideNavLayout>
@@ -60,9 +65,10 @@ const Channel = () => {
       ) : (
         channel && (
           <div>
-           {/* header */}
-          <ChannelPageHeader channel={channel}/>
-           {/* end header */}
+            {/* header */}
+            <ChannelPageHeader channel={channel} />
+            {/* end header */}
+
             {channel.is_member ? (
               <div className="lg:max-w-[950px] xl:max-w-screen-xl mx-auto mt-14">
                 <ChannelPageTabs />
@@ -106,62 +112,61 @@ const Channel = () => {
 
 export default Channel;
 
+// export const getServerSideProps = wrapper.getServerSideProps(
+//   (store) =>
+//     async ({ req, res, params }) => {
+//       const { channel } = params;
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async ({ req, res, params }) => {
-      const { channel } = params;
+//       const userAgent = req.headers["user-agent"];
+//       const {
+//         isAndroid,
+//         isIOS,
+//         isWindows,
+//         isMacOs,
+//         mobileModel,
+//         browserName,
+//         osName,
+//         mobileVendor,
+//         browserVersion,
+//       } = getSelectorsByUserAgent(userAgent);
 
-      const userAgent = req.headers["user-agent"];
-      const {
-        isAndroid,
-        isIOS,
-        isWindows,
-        isMacOs,
-        mobileModel,
-        browserName,
-        osName,
-        mobileVendor,
-        browserVersion,
-      } = getSelectorsByUserAgent(userAgent);
+//       var device_model = "";
+//       if (isAndroid == true) {
+//         device_model = mobileModel;
+//       } else if (isIOS == true) {
+//         device_model = mobileModel;
+//       } else {
+//         device_model = browserName + " " + browserVersion;
+//         // device_model = "Chrome" + " " + "100";
+//       }
 
-      var device_model = "";
-      if (isAndroid == true) {
-        device_model = mobileModel;
-      } else if (isIOS == true) {
-        device_model = mobileModel;
-      } else {
-        device_model = browserName + " " + browserVersion;
-        // device_model = "Chrome" + " " + "100";
-      }
+//       const cookies = getCookies({ req, res });
 
-      const cookies = getCookies({ req, res });
+//       store.dispatch(
+//         fetchSingleChannelStart({
+//           accessToken: cookies.accessToken,
+//           channel_slug: channel,
+//         })
+//       );
+//       store.dispatch(
+//         fetchChannelsCategoriesStart({
+//           accessToken: cookies.accessToken,
+//           channel_slug: channel,
+//         })
+//       );
 
-      store.dispatch(
-        fetchSingleChannelStart({
-          accessToken: cookies.accessToken,
-          channel_slug: channel,
-        })
-      );
-      store.dispatch(
-        fetchChannelsCategoriesStart({
-          accessToken: cookies.accessToken,
-          channel_slug: channel,
-        })
-      );
+//       store.dispatch(
+//         fetchChannelsStart({
+//           accessToken: cookies.accessToken,
+//           channel_slug: channel,
+//         })
+//       );
 
-      store.dispatch(
-        fetchChannelsStart({
-          accessToken: cookies.accessToken,
-          channel_slug: channel,
-        })
-      );
+//       store.dispatch(END);
+//       await store.sagaTask.toPromise();
 
-      store.dispatch(END);
-      await store.sagaTask.toPromise();
-
-      return {
-        props: {},
-      };
-    }
-);
+//       return {
+//         props: {},
+//       };
+//     }
+// );

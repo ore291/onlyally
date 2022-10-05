@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Tab } from "@headlessui/react";
 import { useSelector } from "react-redux";
-import NewsFeedCard from "../feeds/NewsFeedCard";
+import NewsFeedCard from "../feeds/OtherFeedCard";
 import GroupFeedSideBar from "./GroupFeedSideBar";
 import { BsPlusCircle, BsCameraVideo } from "react-icons/bs";
 import { RiMusic2Line } from "react-icons/ri";
@@ -10,7 +10,6 @@ import GroupPostModal from "./GroupPostModal";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import NoDataFound from "../NoDataFound/NoDataFound";
-
 
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
@@ -33,13 +32,15 @@ const GroupPageTabs = () => {
             <div className="bg-white rounded-2xl  pb-5 ">
               <Tab.List>
                 <div className="flex justify-center space-x-3 items-center p-2 overflow-hidden overflow-x-auto">
-                  <div
-                    onClick={() => setCategoryPost(true)}
-                    className="w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium focus:outline-none focus:ring-0 row-container space-x-2 py-1 text-gray-800 bg-white rounded-full shadow-lg cursor-pointer border hover:text-white hover:bg-lightPlayRed"
-                  >
-                    <BsPlusCircle className="w-5 h-5" />
-                    <span>Create</span>
-                  </div>
+                  {group.is_member && (
+                    <div
+                      onClick={() => setCategoryPost(true)}
+                      className="w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium focus:outline-none focus:ring-0 row-container space-x-2 py-1 text-gray-800 bg-white rounded-full shadow-lg cursor-pointer border hover:text-white hover:bg-lightPlayRed"
+                    >
+                      <BsPlusCircle className="w-5 h-5" />
+                      <span>Create</span>
+                    </div>
+                  )}
                   <Tab
                     className={({ selected }) =>
                       classNames(
@@ -99,14 +100,14 @@ const GroupPageTabs = () => {
                 </Tab.Panel>
                 <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                   <div className="p-2 grid grid-cols-1 gap-y-3">
-                    {posts.map((post, index) => (
+                    {group.posts.map((post, index) => (
                       <NewsFeedCard post={post} key={index} />
                     ))}
                   </div>
                 </Tab.Panel>
                 <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
                   <div className="p-2 grid grid-cols-1 gap-y-3">
-                    {posts.map((post, index) => (
+                    {group.posts.map((post, index) => (
                       <NewsFeedCard post={post} key={index} />
                     ))}
                   </div>

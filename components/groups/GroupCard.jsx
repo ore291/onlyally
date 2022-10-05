@@ -36,16 +36,19 @@ const GroupCard = ({
   if (groupsSuggestion) {
     return (
       <div className="row-container space-x-1">
-        <div className="  relative basis-1/5 rounded-md">
-          <Image
-            src={group.avatar}
-            alt="side-img"
-            width={60}
-            height={60}
-            objectFit="cover"
-            className="relative rounded-md"
-          />
-        </div>
+        <Link href={`/groups/${group.slug}`} passHref>
+          <div className="  relative basis-1/5 rounded-md cursor-pointer">
+            <Image
+              src={group.avatar}
+              alt="side-img"
+              width={60}
+              height={60}
+              objectFit="cover"
+              className="relative rounded-md"
+            />
+          </div>
+        </Link>
+
         <div className="flex flex-col justify-center items-start space-y-1 basis-3/5">
           <Link href={`/groups/${group.slug}`} passHref>
             <h2 className="font-medium text-lg cursor-pointer">{group.name}</h2>
@@ -77,11 +80,11 @@ const GroupCard = ({
           {group.is_member ? (
             group.user_id == getCookie("userId") ? (
               <Link href={`/groups/${group.slug}/settings`} passHref>
-              <Button
-                text="Edit"
-                extraclassNamees="w-[100px] h-8"
-                active={true}
-              />
+                <Button
+                  text="Edit"
+                  extraclassNamees="w-[100px] h-8"
+                  active={true}
+                />
               </Link>
             ) : (
               <Button
@@ -139,9 +142,8 @@ const GroupCard = ({
           {group.is_member ? (
             group.user_id == getCookie("userId") ? (
               <Link href={`/groups/${group.slug}/settings`} passHref>
-                  <Button text="Edit" extraclassNamees="w-16 h-8" active={true} />
+                <Button text="Edit" extraclassNamees="w-16 h-8" active={true} />
               </Link>
-            
             ) : (
               <Button text="Joined" extraclassNamees="w-16 h-8" active={true} />
             )
@@ -159,18 +161,20 @@ const GroupCard = ({
   if (groupsPage) {
     return (
       <div className="flex flex-col w-[230px] flex-shrink-0 flex-grow-0   rounded-t-lg border shadow-md ">
-        <div className="relative h-24 w-full rounded-t-lg">
-          <Image
-            src={
-              group.cover ||
-              "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
-            }
-            alt="fh"
-            layout="fill"
-            objectFit="cover"
-            className=" rounded-t-lg"
-          />
-        </div>
+        <Link href={`/groups/${group.slug}`} passHref>
+          <div className="relative h-24 w-full rounded-t-lg cursor-pointer">
+            <Image
+              src={
+                group.cover ||
+                "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+              }
+              alt="fh"
+              layout="fill"
+              objectFit="cover"
+              className=" rounded-t-lg"
+            />
+          </div>
+        </Link>
 
         <div className="p-2">
           <div className="flex flex-col items-start pb-1 space-y-2 ">
@@ -181,7 +185,7 @@ const GroupCard = ({
             </Link>
 
             <p className="font-medium text-sm text-gray-400 truncate">
-              {group.members.length} Members 
+              {group.members.length} Members
             </p>
             <div className="flex items-center space-x-2 ">
               <div className="flex items-center relative ">
@@ -189,7 +193,10 @@ const GroupCard = ({
                   ? group.members.slice(0, 2).map((member, i) => {
                       if (i === 1) {
                         return (
-                          <div className=" w-7 h-7 -ml-2 relative z-[5]" key={i}>
+                          <div
+                            className=" w-7 h-7 -ml-2 relative z-[5]"
+                            key={i}
+                          >
                             <Image
                               src={member.picture}
                               alt="side-img"
@@ -202,7 +209,7 @@ const GroupCard = ({
                       } else {
                         return (
                           <div
-                            className={`bg-white p-[2px] rounded-full  z-[10]   `} 
+                            className={`bg-white p-[2px] rounded-full  z-[10]   `}
                             key={i}
                           >
                             <div className=" w-7 h-7 relative">
@@ -224,7 +231,7 @@ const GroupCard = ({
                 <div className={`ml-4   w-40 tracking-tight`}>
                   <p className="text-xs font-medium truncate   text-gray-500">
                     <span className="font-medium capitalize">
-                      {group?.members[0]?.name} {" "}
+                      {group?.members[0]?.name}{" "}
                     </span>
                     and{" "}
                     {group.members.length > 1 ? group.members.length - 1 : ""}{" "}
@@ -242,13 +249,11 @@ const GroupCard = ({
               group.user_id == getCookie("userId") ? (
                 <Link href={`/groups/${group.slug}/settings`} passHref>
                   <Button
-                  text="Edit"
-                  extraclassNamees="w-[100px] h-8"
-                  active={true}
-
-                />
+                    text="Edit"
+                    extraclassNamees="w-[100px] h-8"
+                    active={true}
+                  />
                 </Link>
-                
               ) : (
                 <Button
                   text="Joined"
@@ -277,14 +282,17 @@ const GroupCard = ({
   if (filter) {
     return (
       <div className="flex flex-col w-full rounded-2xl border shadow-lg ">
-        <img
-          src={
-            group.cover ||
-            "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
-          }
-          alt=""
-          className="w-full h-24 rounded-t-lg object-cover"
-        />
+        <Link href={`/groups/${group.slug}`} passHref>
+          <img
+            src={
+              group.cover ||
+              "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+            }
+            alt=""
+            className="w-full h-24 rounded-t-lg object-cover"
+          />
+        </Link>
+
         <div className="p-2 py-3">
           <div className="flex flex-col items-start pb-2">
             <Link href={`/groups/${group.slug}`} passHref>
@@ -312,19 +320,21 @@ const GroupCard = ({
   if (profile) {
     return (
       <div className="flex flex-col w-full  rounded-t-lg border shadow-md ">
-        <div className="relative h-24 w-full rounded-t-lg">
-          <Image
-            src={
-              group.cover !== undefined
-                ? group?.cover
-                : "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
-            }
-            alt="fh"
-            layout="fill"
-            objectFit="cover"
-            className=" rounded-t-lg"
-          />
-        </div>
+        <Link href={`/groups/${group.slug}`} passHref>
+          <div className="relative h-24 w-full rounded-t-lg">
+            <Image
+              src={
+                group.cover !== undefined
+                  ? group?.cover
+                  : "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+              }
+              alt="fh"
+              layout="fill"
+              objectFit="cover"
+              className=" rounded-t-lg"
+            />
+          </div>
+        </Link>
 
         <div className="p-2">
           <div className="flex flex-col items-start pb-1 ">
@@ -352,32 +362,38 @@ const GroupCard = ({
 
   return (
     <div className="flex flex-col w-full relative space-y-1 rounded-t-lg ">
-      <div className="w-full h-24 rounded-lg relative">
-        <Image
-          src={
-            group.cover ||
-            "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
-          }
-          layout="fill"
-          objectFit="cover"
-          className="rounded-lg"
-          alt=""
-        />
-      </div>
-
-      <div className="absolute bottom-1 left-1 p-1 bg-white   rounded-full">
-        <div className="relative w-[75px] h-[75px] rounded-full">
+      <Link href={`/groups/${group.slug}`} passHref>
+        <div className="w-full h-24 rounded-lg relative cursor-pointer">
           <Image
-            src={group.avatar}
-            className="rounded-full"
-            objectFit="cover"
+            src={
+              group.cover ||
+              "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+            }
             layout="fill"
+            objectFit="cover"
+            className="rounded-lg"
             alt=""
           />
         </div>
+      </Link>
+
+      <div className="absolute bottom-1 left-1 p-1 bg-white   rounded-full">
+        <Link href={`/groups/${group.slug}`} passHref>
+          <div className="relative w-[75px] h-[75px] rounded-full cursor-pointer">
+            <Image
+              src={group.avatar}
+              className="rounded-full"
+              objectFit="cover"
+              layout="fill"
+              alt=""
+            />
+          </div>
+        </Link>
       </div>
       <div className="flex justify-between ml-20 items-center space-x-6">
-        <p className="text-sm font-bold whitespace-nowrap">{group.name}</p>
+        <Link href={`/groups/${group.slug}`} passHref>
+          <p className="text-xs font-semibold capitalize text-ellipsis cursor-pointer  whitespace-nowrap">{group.name}</p>
+        </Link>
         {group.is_member ? (
           <Link href={`/groups/${group.slug}`} passHref>
             <Button text="view" active={true} />
