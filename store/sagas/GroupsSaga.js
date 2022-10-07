@@ -4,6 +4,8 @@ import api from "../../Environment";
 import { notify } from "reapop";
 
 import {
+  finishPaymentSuccess,
+  finishPaymentFailure,
   fetchSingleGroupMemberSuccess,
   fetchSingleGroupMemberFailure,
   saveGroupPostStart,
@@ -249,16 +251,22 @@ function* groupPaymentAPI(action) {
       action: `groups/${action.payload.slug}/member`,
       object: action.payload,
     });
-    if (response.data.status == 402) {
-      yield put(groupPaymentSuccess(response.data.data));
+    if (response.status == 402) {
+      yield put(groupPaymentSuccess(response.error));
+      if(typeof window !== "undefined"){
+        localStorage.setItem(`paymentStart-${action.payload.slug}`, 1)
+        localStorage.setItem(`paymentGroup-${action.payload.slug}` , action.payload.slug)
+        localStorage.setItem(`paymentReference-${action.payload.slug}`, response.error.data.reference)
+      }
+      yield put(notify({ message: response.error.message, status: "info" }));
       // yield put(
       //   fetchSingleGroupStart({
       //     group_slug: action.payload.slug,
       //   })
       // );
     } else {
-      yield put(groupPaymentFailure(response.data.error));
-      yield put(notify({ message: response.data.error, status: "error" }));
+      yield put(groupPaymentFailure(response.error));
+      yield put(notify({ message: response.error.message, status: "error" }));
     }
   } catch (error) {
     yield put(groupPaymentFailure(error.message));
@@ -293,6 +301,7 @@ function* groupJoinAPI(action) {
   try {
     const response = yield api.putMethod({
       action: `groups/${inputData}/member`,
+      
     });
 
     if (response.data != null && response.data.success != null) {
@@ -305,6 +314,31 @@ function* groupJoinAPI(action) {
     }
   } catch (error) {
     yield put(joinGroupFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
+
+function* privateGroupJoinAPI(action) {
+  if(action.payload){
+    var object = action.payload
+  }
+  try {
+    const response = yield api.putMethod({
+      action: `groups/${object.slug}/member`,
+      object : object
+      
+    });
+
+    if (response.data != null && response.data.success != null) {
+      yield put(finishPaymentSuccess(response.data.data));
+      yield put(fetchGroupsStart());
+      yield put(notify({ message: "Group joined", status: "success" }));
+    } else {
+      yield put(finishPaymentFailure(response));
+      yield put(notify({ message: response.error.message, status: "error" }));
+    }
+  } catch (error) {
+    yield put(finishPaymentFailure(error.message));
     yield put(notify(error.message, "error"));
   }
 }
@@ -461,6 +495,7 @@ export default function* pageSaga() {
     ),
   ]);
   yield all([yield takeLatest("groups/joinGroupStart", groupJoinAPI)]);
+  yield all([yield takeLatest("groups/finishPaymentStart", privateGroupJoinAPI)]);
   yield all([yield takeLatest("groups/createGroupStart", groupCreateAPI)]);
   yield all([
     yield takeLatest("groups/fetchSingleGroupStart", fetchSingleGroupAPI),

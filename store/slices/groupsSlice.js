@@ -19,6 +19,14 @@ const initialState = {
     loadingButtonContent: null,
     buttonDisable: false,
   },
+  finishPayment: {
+    data: {},
+    loading: true,
+    error: false,
+    inputData: {},
+    loadingButtonContent: null,
+    buttonDisable: false,
+  },
   deleteGroup: {
     data : [],
     loading: false,
@@ -35,7 +43,7 @@ const initialState = {
   },
   groups: {
     data: [],
-    loading: false,
+    loading: true,
     error: false,
   },
   userGroups: {
@@ -473,6 +481,33 @@ export const GroupsSlice = createSlice({
         error: action.payload
       }
     },
+    finishPaymentStart: (state, action)=>{
+      state.finishPayment = {
+        data : {},
+        inputData : action.payload,
+        loading: true,
+        buttonDisable: false,
+        error: false
+      }
+    },
+    finishPaymentSuccess: (state, action)=>{
+      state.finishPayment = {
+        data : action.payload,
+        inputData :{},
+        loading: false,
+        buttonDisable: false,
+        error: false
+      }
+    },
+    finishPaymentFailure: (state, action)=>{
+      state.finishPayment = {
+        data : {},
+        inputData : {},
+        loading: false,
+        buttonDisable: false,
+        error: action.payload
+      }
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -491,6 +526,9 @@ export const GroupsSlice = createSlice({
 });
 
 export const {
+  finishPaymentStart,
+  finishPaymentSuccess,
+  finishPaymentFailure,
   groupPaymentStart,
   groupPaymentSuccess,
   groupPaymentFailure,

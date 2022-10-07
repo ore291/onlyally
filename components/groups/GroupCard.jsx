@@ -14,6 +14,7 @@ const GroupCard = ({
   groupsAll,
   groupsSuggestion,
   group,
+  catPage
 }) => {
   const dispatch = useDispatch();
 
@@ -272,6 +273,73 @@ const GroupCard = ({
               <Button
                 text="View"
                 extraclassNamees="w-[100px] h-8 bg-gray-100"
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (catPage) {
+    return (
+      <div className="flex flex-col w-full   rounded-t-lg border shadow-md ">
+        <Link href={`/groups/${group.slug}`} passHref>
+          <div className="relative h-32 w-full rounded-t-lg cursor-pointer">
+            <Image
+              src={
+                group.cover ||
+                "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+              }
+              alt="fh"
+              layout="fill"
+              objectFit="cover"
+              className=" rounded-t-lg"
+            />
+          </div>
+        </Link>
+
+        <div className="p-2">
+          <div className="flex flex-col items-start pb-1 space-y-2 ">
+            <Link href={`/groups/${group.slug}`} passHref>
+              <p className="font-bold capitalize text-gray-500 text-lg truncate cursor-pointer">
+                {group.name}
+              </p>
+            </Link>
+
+          </div>
+
+          <div className="w-full flex items-center justify-between ">
+            {/* <Button text="Joined" extraclassNamees="w-[100px] h-8" active={true} />
+            <Button text="View" extraclassNamees="w-[100px] h-8 bg-gray-100" /> */}
+            {/* {group.is_member ? (
+              group.user_id == getCookie("userId") ? (
+                <Link href={`/groups/${group.slug}/settings`} passHref>
+                  <Button
+                    text="Edit"
+                    extraclassNamees="w-[110px] h-8"
+                    active={true}
+                  />
+                </Link>
+              ) : (
+                <Button
+                  text="Joined"
+                  extraclassNamees="w-[110px] h-8"
+                  active={true}
+                />
+              )
+            ) : (
+              <Button
+                text="Join"
+                active={true}
+                extraclassNamees="w-[110px] h-8"
+                onClick={(e) => handleJoinGroup(group.slug)}
+              />
+            )} */}
+            <Link href={`/groups/${group.slug}`} passHref>
+              <Button
+                text="View"
+                extraclassNamees="w-full mx-2 h-8 bg-gray-100"
               />
             </Link>
           </div>

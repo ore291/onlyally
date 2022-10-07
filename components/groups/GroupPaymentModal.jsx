@@ -5,12 +5,92 @@ import { useSelector, useDispatch } from "react-redux";
 import { usePaystackPayment } from "react-paystack";
 import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import { FaTimes } from "react-icons/fa";
-import {groupPaymentStart} from "../../store/slices/groupsSlice";
+import {
+  groupPaymentStart,
+  finishPaymentStart,
+} from "../../store/slices/groupsSlice";
+import Spinner from "react-bootstrap/Spinner";
+import { useRouter } from "next/router";
+import { notify } from "reapop";
 
-const GroupPaymentModal = ({group_slug, show, toggleShow}) => {
+const GroupPaymentModal = ({ group_slug, show, toggleShow }) => {
+  const dispatch = useDispatch();
+  const router = useRouter();
 
+  const payment = useSelector((state) => state.groups.groupPayment);
 
- 
+  const [payStart, setPaystart] = useState(false);
+
+  const confirmPayment = ()=> {
+    dispatch(
+      finishPaymentStart({
+        slug: group_slug,
+        reference: payment.data?.data?.reference,
+        payement_link: true,
+      })
+    );
+    // setTimeout(() => {
+    //   toggleShow(false);
+    //   window.location.assign(`/groups/${group_slug}`);
+    // }, 3000);
+  }
+
+  const email = getCookie("user_email");
+
+  const [config, setConfig] = useState({
+    reference: payment.data?.data?.reference || "",
+    email: email,
+    amount: payment.data?.data?.amount * 100 || 0,
+    publicKey: "pk_test_e6d9a7801826c67298efbedbd115e8c04cf02144",
+
+    // pk_test_2c18b11cc02303cf-5ae0cdf359ae6408208dfedd
+  });
+
+  const onSuccess = (reference) => {
+    // Implementation for whatever you want to do with reference and after success call.
+    dispatch(
+      finishPaymentStart({
+        slug: group_slug,
+        reference: payment.data?.data?.reference,
+        payement_link: true,
+      })
+    );
+    // setTimeout(() => {
+    //   toggleShow(false);
+    //   window.location.assign(`/groups/${group_slug}`);
+    // }, 3000);
+  };
+
+  const onClose = () => {
+    // implementation for  whatever you want to do when the Paystack dialog closed.
+    dispatch(
+      notify({
+        message: "Payment cancelled please try again..",
+        status: "error",
+      })
+    );
+  };
+
+  useEffect(() => {
+    dispatch(
+      groupPaymentStart({
+        slug: group_slug,
+        payment_link: true,
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    if (!payment.data.data) return;
+
+    setConfig({
+      ...config,
+      reference: payment.data?.data?.reference,
+      amount: payment.data?.data?.amount * 100,
+    });
+  }, payment.data);
+
+  const initializePayment = usePaystackPayment(config);
 
   return (
     <>
@@ -18,7 +98,7 @@ const GroupPaymentModal = ({group_slug, show, toggleShow}) => {
         <Dialog
           as="div"
           className="relative z-10"
-          onClose={() => toggleShow(false)}
+          onClose={() => toggleShow(true)}
         >
           <Transition.Child
             as={Fragment}
@@ -46,7 +126,7 @@ const GroupPaymentModal = ({group_slug, show, toggleShow}) => {
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-1 text-left align-middle shadow-xl transition-all">
                   <div className="flex w-full items-center justify-between p-2 bg-playRed rounded-t-2xl">
                     <h3 className="text-lg font-medium leading-6 text-white">
-                      Pay and see the Post
+                      Subscribe now to join the group
                     </h3>
                     <div
                       className="rounded-full bg-white p-0.5 cursor-pointer"
@@ -55,6 +135,75 @@ const GroupPaymentModal = ({group_slug, show, toggleShow}) => {
                       <FaTimes className="w-6 h-6 hover:text-red-600" />
                     </div>
                   </div>
+
+                  {payment.loading ? (
+                    <div className="w-full h-40 row-container bg-green-300">
+                      <div className="grid gap-2">
+                        <div className="flex items-center justify-center ">
+                          <div className="w-16 h-16 border-b-2 border-gray-900 rounded-full animate-spin"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {localStorage.getItem(`paymentStart-${group_slug}`) ==
+                        1 && (
+                        <div
+                          onClick={() => router.back()}
+                          className="h-8 rounded-md cursor-pointer row-container w-[120px] bg-textPlayRed text-white font-medium"
+                        >
+                          Verify Payment
+                        </div>
+                      )}
+
+                      {payment.data != {} && (
+                        <div className="w-full m-2 col-container space-y-1">
+                          <h2 className="text-2xl font-bold text-center">
+                            Sorry, Private Group!
+                          </h2>
+                          <p className="font-bold text-sm text-gray-500 text-center ">
+                            This page is a private group and content is only
+                            availaible on subscription.
+                          </p>
+                          <p className="font-medium text-sm text-red-500">
+                            Note : {payment.data.message}
+                          </p>
+
+                          {payStart ? (
+                            <div className="w-full flex my-2 p-3 items-center justify-between">
+                              <div
+                                onClick={() => confirmPayment()}
+                                className="h-8 rounded-md cursor-pointer row-container w-[120px] bg-textPlayRed text-white font-medium"
+                              >
+                                Confirm Payment
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="w-full flex my-2 p-3 items-center justify-between">
+                              <div
+                                onClick={() => {
+                                  setPaystart(true);
+                                  window.open(
+                                    payment.data?.data?.payment_link || "#",
+                                    "_blank"
+                                  );
+                                }}
+                                className="h-8 row-container cursor-pointer w-[120px] bg-green-500 rounded-md text-white font-medium"
+                              >
+                                Pay Now
+                              </div>
+                              <div
+                                onClick={() => router.back()}
+                                className="h-8 rounded-md cursor-pointer row-container w-[120px] bg-textPlayRed text-white font-medium"
+                              >
+                                Go Back
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
                   {/* <div className="grid grid-cols-1 md:grid-cols-6 md:gap-x-2 p-3">
                     <div className="hidden md:block">
                       <div className="text-center row-container bg-playRed h-10 rounded-lg">
