@@ -6,32 +6,32 @@ import { usePaystackPayment } from "react-paystack";
 import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import { FaTimes } from "react-icons/fa";
 import {
-  groupPaymentStart,
+  channelPaymentStart,
   finishPaymentStart,
-} from "../../store/slices/groupsSlice";
+} from "../../store/slices/channelsSlice";
 import Spinner from "react-bootstrap/Spinner";
 import { useRouter } from "next/router";
 import { notify } from "reapop";
 
-const GroupPaymentModal = ({ group_slug, show, toggleShow }) => {
+const ChannelPaymentModal = ({ channel_slug, show, toggleShow }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const payment = useSelector((state) => state.groups.groupPayment);
+  const payment = useSelector((state) => state.channels.channelPayment);
 
   const [payStart, setPaystart] = useState(false);
 
   const confirmPayment = () => {
     dispatch(
       finishPaymentStart({
-        slug: group_slug,
+        slug: channel_slug,
         reference: payment.data?.data?.reference,
         payement_link: true,
       })
     );
     // setTimeout(() => {
     //   toggleShow(false);
-    //   window.location.assign(`/groups/${group_slug}`);
+    //   window.location.assign(`/channels/${channel_slug}`);
     // }, 3000);
   };
 
@@ -50,13 +50,13 @@ const GroupPaymentModal = ({ group_slug, show, toggleShow }) => {
     // Implementation for whatever you want to do with reference and after success call.
     dispatch(
       finishPaymentStart({
-        slug: group_slug,
+        slug: channel_slug,
         reference: payment.data?.data?.reference || reference.reference,
       })
     );
     setTimeout(() => {
       toggleShow(false);
-      window.location.assign(`/groups/${group_slug}`);
+      window.location.assign(`/channels/${channel_slug}`);
     }, 2000);
   };
 
@@ -72,8 +72,8 @@ const GroupPaymentModal = ({ group_slug, show, toggleShow }) => {
 
   useEffect(() => {
     dispatch(
-      groupPaymentStart({
-        slug: group_slug,
+      channelPaymentStart({
+        slug: channel_slug,
         payment_link: true,
       })
     );
@@ -136,7 +136,7 @@ const GroupPaymentModal = ({ group_slug, show, toggleShow }) => {
                   </div>
 
                   {payment.loading ? (
-                    <div className="w-full h-40 row-container bg-green-300">
+                    <div className="w-full h-40 row-container bg-gray-50-300">
                       <div className="grid gap-2">
                         <div className="flex items-center justify-center ">
                           <div className="w-16 h-16 border-b-2 border-gray-900 rounded-full animate-spin"></div>
@@ -145,7 +145,7 @@ const GroupPaymentModal = ({ group_slug, show, toggleShow }) => {
                     </div>
                   ) : (
                     <>
-                      {/* {localStorage.getItem(`paymentStart-${group_slug}`) ==
+                      {/* {localStorage.getItem(`paymentStart-${channel_slug}`) ==
                         1 && (
                         <div
                           onClick={() => router.back()}
@@ -158,10 +158,10 @@ const GroupPaymentModal = ({ group_slug, show, toggleShow }) => {
                       {payment.data != {} && (
                         <div className="w-full m-2 col-container space-y-1">
                           <h2 className="text-2xl font-bold text-center">
-                            Sorry, Private Group!
+                            Sorry, Private Channel!
                           </h2>
                           <p className="font-bold text-sm text-gray-500 text-center ">
-                            This page is a private group and content is only
+                            This page is private and content is only
                             availaible on subscription.
                           </p>
                           <p className="font-medium text-sm text-red-500">
@@ -206,4 +206,4 @@ const GroupPaymentModal = ({ group_slug, show, toggleShow }) => {
   );
 };
 
-export default GroupPaymentModal;
+export default ChannelPaymentModal;

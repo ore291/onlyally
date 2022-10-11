@@ -1,33 +1,60 @@
-import React from "react";
+import React,{useState} from "react";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import Button from "../Button";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Image from "next/image";
 import Link from "next/link";
-import { deleteGroupMemberStart , joinGroupStart} from "../../store/slices/groupsSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {
+  deleteGroupMemberStart,
+  joinGroupStart,
+} from "../../store/slices/groupsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import GroupPaymentModal from "./GroupPaymentModal";
 
 const GroupPageHeader = ({ group }) => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const exitGroup = ()=>{
-    dispatch(deleteGroupMemberStart({ 
-      slug : group.slug,
-      user_id : getCookie("userId")
-    }))
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const toggleShow = (bool) => setShowPaymentModal(bool);
+
+
+  const handleJoinGroup = async () => {
+    dispatch(joinGroupStart(group.slug));
   };
 
-  const handleJoinGroup = async (slug) => {
-    dispatch(joinGroupStart(slug));
+  const handleSubscription = () => {
+    if (group.is_private && group.configuration?.billing?.amount > 0) {
+      toggleShow(true);
+    } else if (group.is_private && group.configuration?.billing?.amount < 1) {
+      handleJoinGroup();
+    } else {
+      handleJoinGroup();
+    }
   };
+
+  const exitGroup = () => {
+    dispatch(
+      deleteGroupMemberStart({
+        slug: group.slug,
+        user_id: getCookie("userId"),
+      })
+    );
+  };
+
+ 
   return (
+    <>
     <div className="w-full mx-auto relative">
       <img
         src={
-          group.cover ||
-          "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+          group?.media[1]?.original_url
+            ? group?.media[1]?.original_url
+            : group.cover ||
+              "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
         }
         alt=""
         srcSet=""
@@ -39,8 +66,10 @@ const GroupPageHeader = ({ group }) => {
         <div className="w-full  rounded-2xl  relative z-10 ">
           <img
             src={
-              group.cover ||
-              "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+              group?.media[1]?.original_url
+                ? group?.media[1]?.original_url
+                : group.cover ||
+                  "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
             }
             alt=""
             srcSet=""
@@ -52,15 +81,18 @@ const GroupPageHeader = ({ group }) => {
           <div className="row-container space-x-2">
             <Link href={`/groups/${group.slug}`} passHref>
               <div className="relative w-14 h-14 rounded-xl cursor-pointer">
-                {group.avatar && (
-                  <Image
-                    src={group.avatar}
-                    layout="fill"
-                    objectFit="cover"
-                    className="rounded-xl"
-                    alt=""
-                  />
-                )}
+                <Image
+                  src={
+                    group?.media[0]?.original_url
+                      ? group?.media[0]?.original_url
+                      : group.avatar ||
+                        "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-avatar.jpg"
+                  }
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-xl"
+                  alt=""
+                />
               </div>
             </Link>
             <div className="flex flex-col justify-center space-y-2">
@@ -88,13 +120,13 @@ const GroupPageHeader = ({ group }) => {
             ) : group.is_member ? (
               <Button
                 text="Exit"
-                onClick={() =>exitGroup()}
+                onClick={() => exitGroup()}
                 active={true}
                 extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-red-500"
               />
             ) : (
               <Button
-                onClick={() => handleJoinGroup(group.slug)}
+                onClick={() => handleSubscription()}
                 text="Join"
                 textclassName="text-lg font-semibold"
                 extraclassNamees="w-20 md:w-28 h-8  text-red-400 hover:bg-lightPlayRed hover:text-white rounded-md"
@@ -111,6 +143,15 @@ const GroupPageHeader = ({ group }) => {
         <BsFillArrowLeftCircleFill className="h-8 w-8  " />
       </div>
     </div>
+    {showPaymentModal ? (
+        <GroupPaymentModal
+          show={showPaymentModal}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
+      ) : null}
+    </>
+    
   );
 };
 

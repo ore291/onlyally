@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import GroupPaymentModal from "./GroupPaymentModal.jsx";
+import { useState } from "react";
 
 const GroupCard = ({
   filter,
@@ -14,11 +16,31 @@ const GroupCard = ({
   groupsAll,
   groupsSuggestion,
   group,
-  catPage
+  catPage,
 }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.loginData);
+
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
+  const toggleShow = (bool) => setShowPaymentModal(bool);
+
+
+  const handleJoinGroup = async () => {
+    dispatch(joinGroupStart(group.slug));
+  };
+
+  const handleSubscription = () => {
+    if (group.is_private && group.configuration?.billing?.amount > 0) {
+      toggleShow(true);
+    } else if (group.is_private && group.configuration?.billing?.amount < 1) {
+      handleJoinGroup();
+    } else {
+      handleJoinGroup();
+    }
+  };
 
   const router = useRouter();
 
@@ -30,13 +52,11 @@ const GroupCard = ({
     return members.includes(user.user_id);
   };
 
-  const handleJoinGroup = async (slug) => {
-    dispatch(joinGroupStart(slug));
-  };
 
   if (groupsSuggestion) {
     return (
-      <div className="row-container space-x-1">
+      <>
+        <div className="row-container space-x-1">
         <Link href={`/groups/${group.slug}`} passHref>
           <div className="  relative basis-1/5 rounded-md cursor-pointer">
             <Image
@@ -97,7 +117,7 @@ const GroupCard = ({
           ) : (
             <div
               className="p-2 row-container space-x-1 bg-[#FFE2E5] rounded-md cursor-pointer"
-              onClick={(e) => handleJoinGroup(group.slug)}
+              onClick={(e) => handleSubscription()}
             >
               <BsFillPlusCircleFill className="w-4 h-4 text-lightPlayRed" />
               <span className="text-sm font-semibold text-textPlayRed">
@@ -105,7 +125,7 @@ const GroupCard = ({
               </span>
             </div>
           )}
-          {/* <div className="p-2 row-container space-x-1 bg-[#FFE2E5] rounded-md cursor-pointer" onClick={(e) => handleJoinGroup(group.slug)}>
+          {/* <div className="p-2 row-container space-x-1 bg-[#FFE2E5] rounded-md cursor-pointer" onClick={(e) => handleSubscription()}>
             <BsFillPlusCircleFill className="w-4 h-4 text-lightPlayRed" />
             <span className="text-sm font-semibold text-textPlayRed">
               Follow
@@ -113,11 +133,21 @@ const GroupCard = ({
           </div> */}
         </div>
       </div>
+      {showPaymentModal ? (
+        <GroupPaymentModal
+          show={showPaymentModal}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
+      ) : null}
+      </>
+    
     );
   }
   if (groupsAll) {
     return (
-      <div className="row-container space-x-1">
+      <>
+        <div className="row-container space-x-1">
         <div className="  relative basis-1/5 rounded-md">
           <Link href={`/groups/${group.slug}`} passHref>
             <Image
@@ -152,16 +182,26 @@ const GroupCard = ({
             <Button
               text="Join"
               extraclassNamees="hover:bg-lightPlayRed hover:text-white w-16 h-8"
-              onClick={(e) => handleJoinGroup(group.slug)}
+              onClick={(e) => handleSubscription()}
             />
           )}
         </div>
       </div>
+      {showPaymentModal ? (
+        <GroupPaymentModal
+          show={showPaymentModal}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
+      ) : null}
+      </>
+    
     );
   }
   if (groupsPage) {
     return (
-      <div className="flex flex-col w-[230px] flex-shrink-0 flex-grow-0   rounded-t-lg border shadow-md ">
+      <>
+        <div className="flex flex-col w-[230px] flex-shrink-0 flex-grow-0   rounded-t-lg border shadow-md ">
         <Link href={`/groups/${group.slug}`} passHref>
           <div className="relative h-24 w-full rounded-t-lg cursor-pointer">
             <Image
@@ -266,7 +306,7 @@ const GroupCard = ({
               <Button
                 text="Join"
                 active={true}
-                onClick={(e) => handleJoinGroup(group.slug)}
+                onClick={(e) => handleSubscription()}
               />
             )}
             <Link href={`/groups/${group.slug}`} passHref>
@@ -278,12 +318,23 @@ const GroupCard = ({
           </div>
         </div>
       </div>
+      {showPaymentModal ? (
+        <GroupPaymentModal
+          show={showPaymentModal}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
+      ) : null}
+      </>
+    
     );
   }
 
   if (catPage) {
     return (
-      <div className="flex flex-col w-full   rounded-t-lg border shadow-md ">
+      <>
+      
+         <div className="flex flex-col w-full   rounded-t-lg border shadow-md ">
         <Link href={`/groups/${group.slug}`} passHref>
           <div className="relative h-32 w-full rounded-t-lg cursor-pointer">
             <Image
@@ -306,7 +357,6 @@ const GroupCard = ({
                 {group.name}
               </p>
             </Link>
-
           </div>
 
           <div className="w-full flex items-center justify-between ">
@@ -333,7 +383,7 @@ const GroupCard = ({
                 text="Join"
                 active={true}
                 extraclassNamees="w-[110px] h-8"
-                onClick={(e) => handleJoinGroup(group.slug)}
+                onClick={(e) => handleSubscription()}
               />
             )} */}
             <Link href={`/groups/${group.slug}`} passHref>
@@ -345,11 +395,21 @@ const GroupCard = ({
           </div>
         </div>
       </div>
+      {showPaymentModal ? (
+        <GroupPaymentModal
+          show={showPaymentModal}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
+      ) : null}
+      </>
+   
     );
   }
   if (filter) {
     return (
-      <div className="flex flex-col w-full rounded-2xl border shadow-lg ">
+      <>
+        <div className="flex flex-col w-full rounded-2xl border shadow-lg ">
         <Link href={`/groups/${group.slug}`} passHref>
           <img
             src={
@@ -377,17 +437,28 @@ const GroupCard = ({
               text="Join"
               extraclassNamees="w-full h-8"
               active={true}
-              onClick={(e) => handleJoinGroup(group.slug)}
+              onClick={(e) => handleSubscription()}
             />
           </div>
         </div>
       </div>
+      {showPaymentModal ? (
+        <GroupPaymentModal
+          show={showPaymentModal}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
+      ) : null}
+      
+      </>
+    
     );
   }
 
   if (profile) {
     return (
-      <div className="flex flex-col w-full  rounded-t-lg border shadow-md ">
+      <>
+        <div className="flex flex-col w-full  rounded-t-lg border shadow-md ">
         <Link href={`/groups/${group.slug}`} passHref>
           <div className="relative h-24 w-full rounded-t-lg">
             <Image
@@ -425,11 +496,21 @@ const GroupCard = ({
           </div>
         </div>
       </div>
+      {showPaymentModal ? (
+        <GroupPaymentModal
+          show={showPaymentModal}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
+      ) : null}
+      </>
+    
     );
   }
 
   return (
-    <div className="flex flex-col w-full relative space-y-1 rounded-t-lg ">
+    <>
+     <div className="flex flex-col w-full relative space-y-1 rounded-t-lg ">
       <Link href={`/groups/${group.slug}`} passHref>
         <div className="w-full h-24 rounded-lg relative cursor-pointer">
           <Image
@@ -460,7 +541,9 @@ const GroupCard = ({
       </div>
       <div className="flex justify-between ml-20 items-center space-x-6">
         <Link href={`/groups/${group.slug}`} passHref>
-          <p className="text-xs font-semibold capitalize text-ellipsis cursor-pointer  whitespace-nowrap">{group.name}</p>
+          <p className="text-xs font-semibold capitalize text-ellipsis cursor-pointer  whitespace-nowrap">
+            {group.name}
+          </p>
         </Link>
         {group.is_member ? (
           <Link href={`/groups/${group.slug}`} passHref>
@@ -470,11 +553,21 @@ const GroupCard = ({
           <Button
             text="Join"
             active={true}
-            onClick={(e) => handleJoinGroup(group.slug)}
+            onClick={(e) => handleSubscription()}
           />
         )}
       </div>
     </div>
+    {showPaymentModal ? (
+        <GroupPaymentModal
+          show={showPaymentModal}
+          toggleShow={toggleShow}
+          group_slug={group.slug}
+        />
+      ) : null}
+    
+    </>
+   
   );
 };
 

@@ -7,6 +7,22 @@ const initialState = {
     loading: false,
     error: false,
   },
+  channelPayment: {
+    data: {},
+    loading: true,
+    error: false,
+    inputData: {},
+    loadingButtonContent: null,
+    buttonDisable: false,
+  },
+  finishPayment: {
+    data: {},
+    loading: true,
+    error: false,
+    inputData: {},
+    loadingButtonContent: null,
+    buttonDisable: false,
+  },
   userChannels: {
     data: [],
     loading: false,
@@ -17,28 +33,28 @@ const initialState = {
     loading: false,
     error: false,
   },
-  channelSubscribe:{
+  channelSubscribe: {
     inputData: null,
     loading: false,
     error: false,
     data: {},
   },
   channelData: {
-    inputData: '',
+    inputData: "",
     data: [],
     loading: false,
     error: false,
   },
-  createChannel : {
+  createChannel: {
     inputData: null,
     data: {},
     loading: false,
     error: false,
   },
-  categories : {
+  categories: {
     data: [],
     loading: false,
-    error: false
+    error: false,
   },
 
   saveChannelPost: {
@@ -50,39 +66,37 @@ const initialState = {
     buttonDisable: false,
   },
 
-  updateChannel:{
+  updateChannel: {
     data: {},
     loading: false,
     error: false,
   },
-  updateChannelPhotos:{
+  updateChannelPhotos: {
     data: {},
     loading: false,
     error: false,
   },
-  updateChannelPrivacy:{
+  updateChannelPrivacy: {
     data: {},
     loading: false,
     error: false,
   },
-  updateMemberStatus:{
+  updateMemberStatus: {
     data: {},
     loading: false,
     error: false,
   },
   deleteChannel: {
-    data : [],
+    data: [],
     loading: false,
     buttonDisable: false,
-    error: false
-
+    error: false,
   },
   deleteChannelMember: {
-    data : [],
+    data: [],
     loading: false,
     buttonDisable: false,
-    error: false
-
+    error: false,
   },
 };
 
@@ -90,172 +104,171 @@ export const ChannelsSlice = createSlice({
   name: "channels",
   initialState,
   reducers: {
-    updateChannelMemberStart: (state, action)=>{
+    updateChannelMemberStart: (state, action) => {
       state.updateMemberStatus = {
-        data : {},
-        loading : true,
-        error :  false
-      }
-  },
-  updateChannelMemberSuccess: (state, action)=>{
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+    updateChannelMemberSuccess: (state, action) => {
       state.updateMemberStatus = {
-        data : action.payload,
-        loading : false,
-        error :  false
-      }
-  },
-  updateChannelMemberFailure: (state, action)=>{
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    updateChannelMemberFailure: (state, action) => {
       state.updateMemberStatus = {
-        data : {},
-        loading : false,
-        error :  action.payload
-      }
-  },
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
     deleteChannelStart: (state, action) => {
       state.deleteChannel = {
-        data : [],
+        data: [],
         loading: true,
         buttonDisable: true,
-        error: false
-      }
+        error: false,
+      };
     },
     deleteChannelSuccess: (state, action) => {
       state.deleteChannel = {
-        data : action.payload,
+        data: action.payload,
         loading: false,
         buttonDisable: false,
-        error: false
-      }
+        error: false,
+      };
     },
     deleteChannelFailure: (state, action) => {
       state.deleteChannel = {
-        data : [],
+        data: [],
         loading: false,
         buttonDisable: false,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     },
     deleteChannelMemberStart: (state, action) => {
       state.deleteChannelMember = {
-        data : [],
+        data: [],
         loading: true,
         buttonDisable: true,
-        error: false
-      }
+        error: false,
+      };
     },
     deleteChannelMemberSuccess: (state, action) => {
       state.deleteChannelMember = {
-        data : action.payload,
+        data: action.payload,
         loading: false,
         buttonDisable: false,
-        error: false
-      }
+        error: false,
+      };
     },
     deleteChannelMemberFailure: (state, action) => {
       state.deleteChannelMember = {
-        data : [],
+        data: [],
         loading: false,
         buttonDisable: false,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     },
-    updateChannelInfoStart: (state, action)=>{
+    updateChannelInfoStart: (state, action) => {
       state.updateChannel = {
-        data : {},
-        loading : true,
-        error :  false
-      }
-  },
-  updateChannelInfoSuccess: (state, action)=>{
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+    updateChannelInfoSuccess: (state, action) => {
       state.updateChannel = {
-        data : action.payload,
-        loading : false,
-        error :  false
-      }
-  },
-  updateChannelInfoFailure: (state, action)=>{
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    updateChannelInfoFailure: (state, action) => {
       state.updateChannel = {
-        data : {},
-        loading : false,
-        error :  action.payload
-      }
-  },
-  updateChannelPrivacyStart: (state, action)=>{
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
+    updateChannelPrivacyStart: (state, action) => {
       state.updateChannelPrivacy = {
-        data : {},
-        loading : true,
-        error :  false
-      }
-  },
-  updateChannelPrivacySuccess: (state, action)=>{
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+    updateChannelPrivacySuccess: (state, action) => {
       state.updateChannelPrivacy = {
-        data : action.payload,
-        loading : false,
-        error :  false
-      }
-  },
-  updateChannelPrivacyFailure: (state, action)=>{
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    updateChannelPrivacyFailure: (state, action) => {
       state.updateChannelPrivacy = {
-        data : {},
-        loading : false,
-        error :  action.payload
-      }
-  },
-  updateChannelPhotosStart: (state, action)=>{
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
+    updateChannelPhotosStart: (state, action) => {
       state.updateChannelPhotos = {
-        data : {},
-        loading : true,
-        error :  false
-      }
-  },
-  updateChannelPhotosSuccess: (state, action)=>{
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+    updateChannelPhotosSuccess: (state, action) => {
       state.updateChannelPhotos = {
-        data : action.payload,
-        loading : false,
-        error :  false
-      }
-  },
-  updateChannelPhotosFailure: (state, action)=>{
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    updateChannelPhotosFailure: (state, action) => {
       state.updateChannelPhotos = {
-        data : {},
-        loading : false,
-        error :  action.payload
-      }
-  },
-  saveChannelPostStart: (state, action) => {
-    state.saveChannelPost = {
-      inputData: action.payload,
-      data: {},
-      loading: true,
-      error: false,
-      loadingButtonContent: "Loading... Please wait",
-      buttonDisable: true,
-    };
-  },
-  saveChannelPostSuccess: (state, action) => {
-    state.saveChannelPost = {
-      data: action.payload,
-      loading: false,
-      error: false,
-      inputData: {},
-      loadingButtonContent: null,
-      buttonDisable: false,
-    };
-  },
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
+    saveChannelPostStart: (state, action) => {
+      state.saveChannelPost = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "Loading... Please wait",
+        buttonDisable: true,
+      };
+    },
+    saveChannelPostSuccess: (state, action) => {
+      state.saveChannelPost = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
 
-  saveChannelPostFailure: (state, action) => {
-    state.saveChannelPost = {
-      data: {},
-      loading: true,
-      error: action.payload,
-      inputData: {},
-      loadingButtonContent: null,
-      buttonDisable: false,
-    };
-  },
+    saveChannelPostFailure: (state, action) => {
+      state.saveChannelPost = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
     fetchChannelsStart: (state, action) => {
       state.channels = {
-      
         data: [],
         loading: true,
         error: false,
@@ -276,7 +289,7 @@ export const ChannelsSlice = createSlice({
       };
     },
     fetchUserChannelsStart: (state, action) => {
-      state.userChannels = {    
+      state.userChannels = {
         data: [],
         loading: true,
         error: false,
@@ -297,7 +310,7 @@ export const ChannelsSlice = createSlice({
       };
     },
     fetchOtherUserChannelsStart: (state, action) => {
-      state.otherUserChannels = {    
+      state.otherUserChannels = {
         data: [],
         loading: true,
         error: false,
@@ -317,104 +330,162 @@ export const ChannelsSlice = createSlice({
         error: action.payload,
       };
     },
-    channelSubscribeStart: (state, action)=>{
+    channelSubscribeStart: (state, action) => {
       state.channelSubscribe = {
         inputData: action.payload,
         loading: true,
         error: false,
         data: {},
-      }
+      };
     },
-    channelSubscribeSuccess: (state, action)=>{
+    channelSubscribeSuccess: (state, action) => {
       state.channelSubscribe = {
-        inputData:null,
+        inputData: null,
         loading: false,
         error: false,
         data: action.payload,
-      }
+      };
     },
-    channelSubscribeFailure: (state, action)=>{
+    channelSubscribeFailure: (state, action) => {
       state.channelSubscribe = {
         inputData: null,
         loading: false,
         error: action.payload,
         data: {},
-      }
+      };
     },
-    fetchSingleChannelStart: (state, action)=>{
+    fetchSingleChannelStart: (state, action) => {
       state.channelData = {
         inputData: action.payload,
         data: {},
         loading: true,
-        error: false
-      }
+        error: false,
+      };
     },
-    fetchSingleChannelSuccess: (state, action)=>{
+    fetchSingleChannelSuccess: (state, action) => {
       state.channelData = {
-        inputData : "",
+        inputData: "",
         data: action.payload,
         loading: false,
-        error: false
-      }
+        error: false,
+      };
     },
-    fetchSingleChannelFailure: (state, action)=>{
+    fetchSingleChannelFailure: (state, action) => {
       state.channelData = {
-        inputData : "",
+        inputData: "",
         data: {},
         loading: false,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     },
-    createChannelStart: (state, action)=>{
+    createChannelStart: (state, action) => {
       state.createChannel = {
         inputData: action.payload,
         loading: true,
         error: false,
         data: {},
-      }
+      };
     },
-    createChannelSuccess: (state, action)=>{
+    createChannelSuccess: (state, action) => {
       state.createChannel = {
-        inputData:null,
+        inputData: null,
         loading: false,
         error: false,
         data: action.payload,
-      }
+      };
     },
-    createChannelFailure: (state, action)=>{
+    createChannelFailure: (state, action) => {
       state.createChannel = {
         inputData: null,
         loading: false,
         error: action.payload,
         data: {},
-      }
+      };
     },
-    fetchChannelsCategoriesStart: (state, action)=>{
+    fetchChannelsCategoriesStart: (state, action) => {
       state.categories = {
-        data : [],
+        data: [],
         loading: true,
-        error : false,
-      }
-  },
-  fetchChannelsCategoriesSuccess: (state, action)=>{
+        error: false,
+      };
+    },
+    fetchChannelsCategoriesSuccess: (state, action) => {
       state.categories = {
-        data : action.payload,
+        data: action.payload,
         loading: false,
-        error : false,
-      }
-  },
-  fetchChannelsCategoriesFailure: (state, action)=>{
-    state.categories = {
-      data : [],
-      loading: false,
-      error : action.payload,
-    }
-},
+        error: false,
+      };
+    },
+    fetchChannelsCategoriesFailure: (state, action) => {
+      state.categories = {
+        data: [],
+        loading: false,
+        error: action.payload,
+      };
+    },
+    channelPaymentStart: (state, action) => {
+      state.channelPayment = {
+        data: {},
+        inputData: action.payload,
+        loading: true,
+        buttonDisable: false,
+        error: false,
+      };
+    },
+    channelPaymentSuccess: (state, action) => {
+      state.channelPayment = {
+        data: action.payload,
+        inputData: {},
+        loading: false,
+        buttonDisable: false,
+        error: false,
+      };
+    },
+    channelPaymentFailure: (state, action) => {
+      state.channelPayment = {
+        data: {},
+        inputData: {},
+        loading: false,
+        buttonDisable: false,
+        error: action.payload,
+      };
+    },
+    finishPaymentStart: (state, action) => {
+      state.finishPayment = {
+        data: {},
+        inputData: action.payload,
+        loading: true,
+        buttonDisable: false,
+        error: false,
+      };
+    },
+    finishPaymentSuccess: (state, action) => {
+      state.finishPayment = {
+        data: action.payload,
+        inputData: {},
+        loading: false,
+        buttonDisable: false,
+        error: false,
+      };
+    },
+    finishPaymentFailure: (state, action) => {
+      state.finishPayment = {
+        data: {},
+        inputData: {},
+        loading: false,
+        buttonDisable: false,
+        error: action.payload,
+      };
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
       // handle client
-      if (!action.payload.channels.channels || !action.payload.channels.channelData || !action.payload.channels.categories) {
+      if (
+        !action.payload.channels.channels ||
+        !action.payload.channels.channelData ||
+        !action.payload.channels.categories
+      ) {
         return state;
       }
       state.channels = action.payload.channels.channels;
@@ -422,14 +493,17 @@ export const ChannelsSlice = createSlice({
       // state.otherUserChannels = action.payload.channels.otherUserChannels;
       state.channelData = action.payload.channels.channelData;
       state.categories = action.payload.channels.categories;
-     
     },
   },
-
-
 });
 
 export const {
+  finishPaymentStart,
+  finishPaymentSuccess,
+  finishPaymentFailure,
+  channelPaymentStart,
+  channelPaymentSuccess,
+  channelPaymentFailure,
   fetchOtherUserChannelsSuccess,
   fetchOtherUserChannelsFailure,
   fetchOtherUserChannelsStart,

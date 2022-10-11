@@ -4,6 +4,10 @@ import api from "../../Environment";
 import { notify } from "reapop";
 
 import {
+  finishPaymentSuccess,
+  finishPaymentFailure,
+  channelPaymentSuccess,
+  channelPaymentFailure,
   fetchChannelsFailure,
   fetchChannelsSuccess,
   fetchChannelsStart,
@@ -34,11 +38,51 @@ import {
   deleteChannelFailure,
   updateChannelMemberSuccess,
   updateChannelMemberFailure,
-
 } from "../slices/channelsSlice";
 // import { fetchChannelsCategoriesSuccess } from "../slices/channelsSlice";
 
+function* channelPaymentAPI(action) {
+  try {
+    const response = yield api.putMethod({
+      action: `channels/${action.payload.slug}/member`,
+      object: action.payload,
+    });
+    if (response.status == 402) {
+      yield put(channelPaymentSuccess(response.error));
+      yield put(notify({ message: response.error.message, status: "info" }));
+    } else {
+      yield put(channelPaymentFailure(response.error));
+      yield put(notify({ message: response.error.message, status: "error" }));
+    }
+  } catch (error) {
+    yield put(channelPaymentFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
 
+function* privateChannelJoinAPI(action) {
+  if (action.payload) {
+    var object = action.payload;
+  }
+  try {
+    const response = yield api.putMethod({
+      action: `channels/${object.slug}/member`,
+      object: object,
+    });
+
+    if (response.data != null && response.data.success != null) {
+      yield put(finishPaymentSuccess(response.data.data));
+      yield put(fetchChannelsStart());
+      yield put(notify({ message: "Channel subscribed", status: "success" }));
+    } else {
+      yield put(finishPaymentFailure(response));
+      yield put(notify({ message: response.error.message, status: "error" }));
+    }
+  } catch (error) {
+    yield put(finishPaymentFailure(error.message));
+    yield put(notify(error.message, "error"));
+  }
+}
 
 function* updateUserChannelMemberAPI(action) {
   try {
@@ -71,11 +115,14 @@ function* updateUserChannelInfoAPI(action) {
     });
     if (response.data.success) {
       yield put(updateChannelInfoSuccess(response.data.data));
-      yield put(fetchSingleChannelStart({
-        channel_slug : action.payload.slug
-      }));
-      yield put(notify({ message: "Channel Updated Successfully", status: "success" }));
-
+      yield put(
+        fetchSingleChannelStart({
+          channel_slug: action.payload.slug,
+        })
+      );
+      yield put(
+        notify({ message: "Channel Updated Successfully", status: "success" })
+      );
     } else {
       yield put(updateChannelInfoFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -94,11 +141,14 @@ function* updateUserChannelPhotosAPI(action) {
     });
     if (response.data.success) {
       yield put(updateChannelPhotosSuccess(response.data.data));
-      yield put(fetchSingleChannelStart({
-        channel_slug : action.payload.slug
-      }));
-      yield put(notify({ message: "Channel Updated Successfully", status: "success" }));
-
+      yield put(
+        fetchSingleChannelStart({
+          channel_slug: action.payload.slug,
+        })
+      );
+      yield put(
+        notify({ message: "Channel Updated Successfully", status: "success" })
+      );
     } else {
       yield put(updateChannelPhotosFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -117,11 +167,14 @@ function* updateUserChannelPrivacyAPI(action) {
     });
     if (response.data.success) {
       yield put(updateChannelPrivacySuccess(response.data.data));
-      yield put(fetchSingleChannelStart({
-        channel_slug : action.payload.slug
-      }));
-      yield put(notify({ message: "Channel Updated Successfully", status: "success" }));
-
+      yield put(
+        fetchSingleChannelStart({
+          channel_slug: action.payload.slug,
+        })
+      );
+      yield put(
+        notify({ message: "Channel Updated Successfully", status: "success" })
+      );
     } else {
       yield put(updateChannelPrivacyFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -155,7 +208,9 @@ function* saveChannelPostAPI() {
           notify({ message: response.data.message, status: "success" })
         );
 
-        yield put(fetchSingleChannelStart({channel_slug : inputData.channel_slug}));
+        yield put(
+          fetchSingleChannelStart({ channel_slug: inputData.channel_slug })
+        );
 
         // window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
@@ -171,13 +226,13 @@ function* saveChannelPostAPI() {
 }
 
 function* fetchChannelsAPI(action) {
-  if(action.payload){
-    var accessToken =  action.payload.accessToken;
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
   }
   try {
     const response = yield api.getMethod({
       action: "channels",
-      accessToken : accessToken
+      accessToken: accessToken,
     });
     if (response.data.success) {
       yield put(fetchChannelsSuccess(response.data.data));
@@ -192,13 +247,13 @@ function* fetchChannelsAPI(action) {
 }
 
 function* fetchUserChannelsAPI(action) {
-  if(action.payload){
-    var accessToken =  action.payload.accessToken;
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
   }
   try {
     const response = yield api.getMethod({
       action: "channels/if_member",
-      accessToken : accessToken
+      accessToken: accessToken,
     });
     if (response.data.success) {
       yield put(fetchUserChannelsSuccess(response.data.data));
@@ -213,8 +268,8 @@ function* fetchUserChannelsAPI(action) {
 }
 
 function* fetchOtherUserChannelsAPI(action) {
-  if(action.payload){
-    var id = action.payload.user_id
+  if (action.payload) {
+    var id = action.payload.user_id;
   }
   try {
     const response = yield api.getMethod({
@@ -255,10 +310,9 @@ function* channelSubscribeAPI(action) {
 }
 
 function* fetchSingleChannelAPI(action) {
-  if(action.payload){
-    var accessToken =  action.payload.accessToken;
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
     var slug = action.payload.channel_slug;
-
   }
   // const inputData = yield select(
   //   (state) => state.channels.channelData.inputData
@@ -299,7 +353,7 @@ function* channelCreateAPI(action) {
     } else {
       yield put(createChannelFailure(response.data.message));
       yield put(notify({ message: response.data.message, status: "error" }));
-      window.location.assign("/go-pro/" );
+      window.location.assign("/go-pro/");
     }
   } catch (error) {
     yield put(createChannelFailure(error.message));
@@ -308,14 +362,13 @@ function* channelCreateAPI(action) {
 }
 
 function* fetchChannelsCategoriesAPI(action) {
-  if(action.payload){
-    var accessToken =  action.payload.accessToken;
-
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
   }
   try {
     const response = yield api.getMethod({
       action: "channels/categories",
-      accessToken : accessToken
+      accessToken: accessToken,
     });
 
     if (response.status === 200) {
@@ -380,13 +433,19 @@ function* deleteChannelMemberAPI(action) {
   }
 }
 
-
 export default function* pageSaga() {
-  yield all([yield takeLatest("channels/deleteChannelStart", deleteChannelAPI)]);
   yield all([
-    yield takeLatest("channels/deleteChannelMemberStart", deleteChannelMemberAPI),
+    yield takeLatest("channels/deleteChannelStart", deleteChannelAPI),
   ]);
-  yield all([yield takeLatest("channels/saveChannelPostStart", saveChannelPostAPI)]);
+  yield all([
+    yield takeLatest(
+      "channels/deleteChannelMemberStart",
+      deleteChannelMemberAPI
+    ),
+  ]);
+  yield all([
+    yield takeLatest("channels/saveChannelPostStart", saveChannelPostAPI),
+  ]);
   yield all([
     yield takeLatest("channels/fetchChannelsStart", fetchChannelsAPI),
   ]);
@@ -394,7 +453,10 @@ export default function* pageSaga() {
     yield takeLatest("channels/fetchUserChannelsStart", fetchUserChannelsAPI),
   ]);
   yield all([
-    yield takeLatest("channels/fetchOtherUserChannelsStart", fetchOtherUserChannelsAPI),
+    yield takeLatest(
+      "channels/fetchOtherUserChannelsStart",
+      fetchOtherUserChannelsAPI
+    ),
   ]);
   yield all([
     yield takeLatest("channels/channelSubscribeStart", channelSubscribeAPI),
@@ -424,12 +486,21 @@ export default function* pageSaga() {
     ),
   ]);
   yield all([
-    yield takeLatest("channels/updateChannelMemberStart", updateUserChannelMemberAPI),
+    yield takeLatest(
+      "channels/updateChannelMemberStart",
+      updateUserChannelMemberAPI
+    ),
   ]);
   yield all([
     yield takeLatest(
       "channels/updateChannelPrivacyStart",
       updateUserChannelPrivacyAPI
     ),
+  ]);
+  yield all([
+    yield takeLatest("channels/finishPaymentStart", privateChannelJoinAPI),
+  ]);
+  yield all([
+    yield takeLatest("channels/channelPaymentStart", channelPaymentAPI),
   ]);
 }
