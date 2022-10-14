@@ -194,7 +194,7 @@ const Login = () => {
                 Or login with
               </p>
               <div className="flex items-center justify-around space-x-4">
-                {typeof window !== "undefined" && (
+                {/* {typeof window !== "undefined" && (
                   // Client-side-only code
                   <LoginSocialFacebook
                     appId={"228628742708121" || ""}
@@ -211,7 +211,7 @@ const Login = () => {
                       <FaFacebookF className="w-8 h-8 text-blue-700" />
                     </div>
                   </LoginSocialFacebook>
-                )}
+                )} */}
 
                 <div className="social-login-buttons">
                   <FaTwitter className="w-8 h-8 text-[#1DA1F2] " />
