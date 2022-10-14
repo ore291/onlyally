@@ -35,7 +35,7 @@ import {
 } from "react-device-detect";
 import Link from "next/link";
 
-const REDIRECT_URI = window.location.href;
+// const REDIRECT_URI = window.location.href;
 
 const Login = () => {
   const dispatch = useDispatch();
