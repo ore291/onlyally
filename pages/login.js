@@ -6,11 +6,11 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-import {
-  LoginSocialGoogle,
-  LoginSocialFacebook,
-  LoginSocialTwitter,
-} from "reactjs-social-login";
+// import {
+//   LoginSocialGoogle,
+//   LoginSocialFacebook,
+//   LoginSocialTwitter,
+// } from "reactjs-social-login";
 
 import {
   FaUserCircle,
