@@ -59,7 +59,7 @@ const Notifications = () => {
 
   return (
     <SideNavLayout>
-      <div className="max-w-5xl mx-auto bg-white p-5">
+      <div className="max-w-5xl mx-auto bg-white dark:bg-gray-900 dark:text-gray-400 p-5">
         <div className="w-full flex justify-start items-center mb-8">
           <MdArrowBack className="w-8 h-8" />
           <h2 className="text-2xl uppercase font-semibold">NOTIFICATIONS</h2>
@@ -78,7 +78,7 @@ const Notifications = () => {
                   )
                 }
               >
-                <RiCheckboxMultipleLine className="w-6 h-6 " />
+                <RiCheckboxMultipleLine className="w-6 h-6 dark:text-gray-400" />
                 <h2 className="text-sm font-medium ">All</h2>
               </Tab>
               <Tab
@@ -92,7 +92,7 @@ const Notifications = () => {
                   )
                 }
               >
-                <FaRegComment className="w-6 h-6 " />
+                <FaRegComment className="w-6 h-6 dark:text-gray-400" />
                 <h2 className="text-sm font-medium ">COMMENTS</h2>
               </Tab>
               <Tab
@@ -106,7 +106,7 @@ const Notifications = () => {
                   )
                 }
               >
-                <BsHeart className="w-6 h-6 " />
+                <BsHeart className="w-6 h-6 dark:text-gray-400" />
                 <h2 className="text-sm font-medium ">LIKED</h2>
               </Tab>
               <Tab
@@ -120,7 +120,7 @@ const Notifications = () => {
                   )
                 }
               >
-                <BsUnlock className="w-6 h-6 " />
+                <BsUnlock className="w-6 h-6 dark:text-gray-400" />
                 <h2 className="text-sm font-medium ">SUBSCRIBED</h2>
               </Tab>
               <Tab
@@ -140,6 +140,7 @@ const Notifications = () => {
                   width="24"
                   height="24"
                   objectFit="cover"
+                  className="dark:invert"
                   alt=""
                 />
                 <h2 className="text-sm font-medium ">TIPPED</h2>
@@ -179,7 +180,7 @@ const Notifications = () => {
             <NotificationLoader></NotificationLoader>
           ) : (
             <Tab.Panels className="mt-2">
-              <Tab.Panel className={classNames("bg-white p-1")}>
+              <Tab.Panel className={classNames("bg-white p-1 dark:bg-gray-900 dark:text-gray-400")}>
                 <div className="p-2 grid grid-cols-1">
                   {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
@@ -193,7 +194,7 @@ const Notifications = () => {
                   )}
                 </div>
               </Tab.Panel>
-              <Tab.Panel className={classNames("bg-white p-1")}>
+              <Tab.Panel className={classNames("bg-white p-1 dark:bg-gray-900 dark:text-gray-400")}>
                 <div className="p-2 grid grid-cols-1">
                   {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
@@ -207,7 +208,7 @@ const Notifications = () => {
                   )}
                 </div>
               </Tab.Panel>
-              <Tab.Panel className={classNames("bg-white p-1")}>
+              <Tab.Panel className={classNames("bg-white p-1 dark:bg-gray-900 dark:text-gray-400")}>
                 {notifications.length > 0 ? (
                   notifications.map((notification, index) => (
                     <Notificationcard key={index} notification={notification} />
@@ -216,7 +217,7 @@ const Notifications = () => {
                   <NoDataFound />
                 )}
               </Tab.Panel>
-              <Tab.Panel className={classNames("bg-white p-1")}>
+              <Tab.Panel className={classNames("bg-white p-1 dark:bg-gray-900 dark:text-gray-400")}>
                 <div className="p-2 grid grid-cols-1">
                   {notifications.length > 0 ? (
                     notifications.map((notification, index) => (
@@ -230,7 +231,7 @@ const Notifications = () => {
                   )}
                 </div>
               </Tab.Panel>
-              <Tab.Panel className={classNames("bg-white p-1")}>
+              <Tab.Panel className={classNames("bg-white p-1 dark:bg-gray-900 dark:text-gray-400")}>
                 <div className="p-2 grid grid-cols-1">
                   {notifications.length > 0 ? (
                     notifications.map((notification, index) => (

@@ -12,7 +12,7 @@ import {
 } from "../../store/slices/channelsSlice";
 import CommonCenterLoader from "../helpers/CommonCenterLoader";
 import ChannelPaymentModal from "./ChannelPaymentModal";
-import ChannelCard from "./ChannelCard"
+import ChannelCard from "./ChannelCard";
 
 // .filter(filterchannel => !checkMember(filterchannel.members)) code for filtering
 
@@ -38,7 +38,10 @@ const LikedChannels = () => {
   const handleSubscription = (channel) => {
     if (channel.is_private && channel.configuration?.billing?.amount > 0) {
       toggleShow(true);
-    } else if (channel.is_private && channel.configuration?.billing?.amount < 1) {
+    } else if (
+      channel.is_private &&
+      channel.configuration?.billing?.amount < 1
+    ) {
       handleJoinChannel(channel);
     }
   };
@@ -63,6 +66,8 @@ const LikedChannels = () => {
           <Button
             text="POPULAR"
             active={active === 0 ? true : false}
+            
+          
             onClick={() => {
               setactive(0);
             }}
@@ -70,6 +75,8 @@ const LikedChannels = () => {
           <Button
             text="NEWEST"
             active={active === 1 ? true : false}
+         
+            
             onClick={() => {
               setactive(1);
             }}
@@ -93,8 +100,7 @@ const LikedChannels = () => {
                       .sort(() => Math.random() - Math.random())
                       .slice(0, 5)
                       .map((channel, i) => (
-                        <ChannelCard key={i} liked={true} channel={channel}/>
-                        
+                        <ChannelCard key={i} liked={true} channel={channel} />
                       ))
                   : null}
               </div>
@@ -105,7 +111,7 @@ const LikedChannels = () => {
                       .sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
                       .slice(0, 5)
                       .map((channel, i) => (
-                        <ChannelCard key={i} liked={true} channel={channel}/>
+                        <ChannelCard key={i} liked={true} channel={channel} />
                       ))
                   : null}
               </div>

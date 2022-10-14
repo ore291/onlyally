@@ -61,7 +61,7 @@ const GoLiveModal = (props) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-1 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-300 p-1 text-left align-middle shadow-xl transition-all">
                   <div className="flex w-full items-center justify-between p-2 bg-playRed rounded-t-2xl">
                     <h3 className="text-lg font-medium leading-6 text-white">
                       Go Live

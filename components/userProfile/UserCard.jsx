@@ -2,27 +2,40 @@ import Image from "next/image";
 import Button from "../Button";
 import UserCardPopup from "./UserCardPopup";
 import { IoMdPersonAdd } from "react-icons/io";
-import { FaUnlock } from "react-icons/fa";
+import { FaUnlock, FaUserTimes } from "react-icons/fa";
+
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchSingleUserProfileStart,
   fetchSingleUserPostsStart,
 } from "../../store/slices/OtherUsersSlice";
+import { getCookie } from "cookies-next";
 import {
   setPaymentModal,
   setUnfollowerModal,
 } from "../../store/slices/NavSlice";
 import { subscriptionPaymentPaystackStart } from "../../store/slices/subscriptionSlice";
 import { Popover, Transition, Dialog } from "@headlessui/react";
-import PaymentModal from "../../components/helpers/PaymentModal";
-import UnfollowModal from "../../components/helpers/UnfollowModal";
+import PaymentModal from "../../components/helpers/QuickFollowPaymentModal";
+import UnfollowModal from "../../components/helpers/QuickUnfollowModal";
 import { useEffect, useState, Fragment } from "react";
 
 const UserCard = ({ creator }) => {
   const dispatch = useDispatch();
-  const unfollowModal = useSelector((state) => state.navbar.unfollowUserModal);
+  const [unfollowModal, setUnfollowerModal] = useState(false);
 
+  const [followed, setFollowed] = useState(null);
+
+  const follow = (str) => {
+    setFollowed(str);
+  };
+
+  const [paymentMod, setPaymentMod] = useState(false);
+
+  const toggleShow = (bool) => setPaymentMod(bool);
+
+  const toggleUnfollowModal = (bool) => setUnfollowerModal(bool);
 
   const [subscriptionData, setSubscriptionData] = useState({
     is_free: 0,
@@ -30,7 +43,8 @@ const UserCard = ({ creator }) => {
     amount: 0,
     amount_formatted: 0,
   });
-console.log(creator)
+  // console.log(creator);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const subscriptionPayment = (
@@ -46,7 +60,7 @@ console.log(creator)
       amount: amount,
       amount_formatted: amount_formatted,
     });
-    dispatch(setPaymentModal(true));
+    toggleShow(true);
   };
 
   return (
@@ -81,6 +95,7 @@ console.log(creator)
             objectFit="cover"
             layout="fill"
             className="rounded-t-lg"
+            alt="cover"
           />
           <div className="absolute -bottom-[65%] left-1/3">
             <div className="w-16 h-16 md:w-20 md:h-20 relative">
@@ -106,82 +121,149 @@ console.log(creator)
               <UserCardPopup creator={creator} name={creator.name} />
             </div>
           </div>
-          {/* {
-            userDetails.data.is_block_user == 0 ? (
-              userDetails.data.payment_info.is_user_needs_pay == 1 &&
-                    userDetails.data.payment_info.unsubscribe_btn_status ==
-                      0 ? ( 
-                        userDetails.data.payment_info.is_free_account == 0 ? (
-                          <div
-                              className="sub-button"
-                              onClick={(event) =>
-                                subscriptionPayment(
-                                  "months",
-                                  userDetails.data.payment_info
-                                    .subscription_info.monthly_amount,
-                                  userDetails.data.payment_info
-                                    .subscription_info.monthly_amount_formatted
-                                )
-                              }
-                            >
-                              <span>
-                                <FaUnlock />
-                              </span>
-                              {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
-                            </div>
 
-                        ) : (
-                          <div
-                          className="sub-button"
-                          onClick={(event) =>
-                            dispatch(
-                              subscriptionPaymentPaystackStart({
-                                user_unique_id:
-                                  userDetails.data.user.user_unique_id,
-                                plan_type: "months",
-                                is_free: 0,
-                              })
-                            )
-                          }
-                        >
-                          <span>
-                            <FaUnlock />
-                          </span>
-                          {userDetails.data.payment_info.payment_text}
-                        </div>
-                        )
-                        // space for paid follow
-                          
-                      ) : ( 
-                        null
-                        // space for free follow
-                      )
-
-           ) : 
-            // space for unblock button
-            null
+          {followed !== null ? 
           
-          } */}
+          (
+            followed == "followed" ? (
+              <>
+                <div
+                  className="sub-button row-container space-x-1"
+                  onClick={() => toggleUnfollowModal(true)}
+                >
+                  <span>
+                    <FaUserTimes className="h-4 w-4" />
+                  </span>
+                  <p className="text-sm font-medium text-white">Unfollow</p>
+                </div>
+                {unfollowModal ? (
+                  <UnfollowModal
+                    show={unfollowModal}
+                    toggleShow={toggleUnfollowModal}
+                    follow={follow}
+                    user_id={creator.payment_info.subscription_info.user_id}
+                  />
+                ) : null}
+              </>
+            ) : creator.payment_info.is_free_account == 0 ? (
+              <div
+                onClick={(event) =>
+                  subscriptionPayment(
+                    event,
+                    "months",
+                    creator.payment_info.subscription_info.monthly_amount,
+                    creator.payment_info.subscription_info
+                      .monthly_amount_formatted
+                  )
+                }
+                className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer"
+              >
+                <span className="text-sm font-medium">Follow</span>
+              </div>
+            ) : (
+              <div
+                onClick={(event) => {
+                  dispatch(
+                    subscriptionPaymentPaystackStart({
+                      user_unique_id: creator.user_unique_id,
+                      plan_type: "months",
+                      is_free: 1,
+                      payment_id: "free",
+                    })
+                  );
+                  follow("followed");
+                }}
+                className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer"
+              >
+                <span className="text-sm font-medium">Follow</span>
+              </div>
+            )
+          ) : (
+           
+            <>
+              {creator.payment_info.is_user_needs_pay == 1 &&
+              creator.payment_info.unsubscribe_btn_status == 0 ? (
+                creator.payment_info.is_free_account == 0 ? (
+                  <div
+                    onClick={() =>
+                      subscriptionPayment(
+                        "months",
+                        creator.payment_info.subscription_info.monthly_amount,
+                        creator.payment_info.subscription_info
+                          .monthly_amount_formatted
+                      )
+                    }
+                    className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer"
+                  >
+                    <span className="text-sm font-medium">Follow</span>
+                  </div>
+                ) : (
+                  <div
+                    onClick={(event) => {
+                      dispatch(
+                        subscriptionPaymentPaystackStart({
+                          user_unique_id: creator.user_unique_id,
+                          plan_type: "months",
+                          is_free: 1,
+                          payment_id: "free",
+                        })
+                      );
+                      follow("followed");
+                    }}
+                    className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer"
+                  >
+                    <span className="text-sm font-medium">Follow</span>
+                  </div>
+                )
+              ) : null}
+               {creator.payment_info.unsubscribe_btn_status == 1 ? (
+            <>
+              <div
+                className="sub-button row-container space-x-1"
+                onClick={() => toggleUnfollowModal(true)}
+              >
+                <span>
+                  <FaUserTimes className="h-4 w-4" />
+                </span>
+                <p className="text-sm font-medium text-white">Unfollow</p>
+              </div>
+              {unfollowModal ? (
+                <UnfollowModal
+                  show={unfollowModal}
+                  toggleShow={toggleUnfollowModal}
+                  follow={follow}
+                  user_id={creator.payment_info.subscription_info.user_id}
+                />
+              ) : null}
+            </>
+          ) : null}
+            </>
+          )}
 
-          <div className="w-16 h-[35px] text-white bg-lightPlayRed row-container rounded-md cursor-pointer">
-            <span className="text-sm font-medium">Follow</span>
-          </div>
+         
         </div>
       </div>
-      {/* {userDetails.loading ? (
-          "loading"
-        ) : localStorage.getItem("userId") !== "" &&
-          localStorage.getItem("userId") !== null &&
-          localStorage.getItem("userId") !== undefined ? (
-          <PaymentModal
-            userPicture={userDetails.data.user.picture}
-            name={userDetails.data.user.name}
-            user_unique_id={userDetails.data.user.user_unique_id}
-            subscriptionData={subscriptionData}
-            username={userDetails.data.user.username}
-          />
-        ) : // tips payment will go here
-        null} */}
+      {getCookie("userId") !== "" &&
+      getCookie("userId") !== null &&
+      getCookie("userId") !== undefined ? (
+        <>
+          {creator && (
+            <>
+              <PaymentModal
+                userPicture={creator.picture}
+                name={creator.name}
+                user_unique_id={creator.user_unique_id}
+                subscriptionData={subscriptionData}
+                username={creator.username}
+                email={creator.email}
+                show={paymentMod}
+                toggleShow={toggleShow}
+                setFollowed={follow}
+              />
+            </>
+          )}
+        </>
+      ) : null}
     </>
   );
 };

@@ -71,11 +71,13 @@ const NewsFeedCard = ({ post, index }) => {
 
   const audio = useRef();
   const [playing, setPlaying] = useState(false);
+
   const togglePlaying = () => {
     setPlaying(!playing);
   };
 
   const playAudio = () => {
+    console.log(audio.current);
     if (playing === false) {
       togglePlaying;
       audio.current.audioEl.current.play();
@@ -241,7 +243,7 @@ const NewsFeedCard = ({ post, index }) => {
   return (
     <>
       {postDisplayStatus == true ? (
-        <div className="sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-100 sm:border dark:border-gray-800  shadow-md w-full cursor-pointer relative">
+        <div className="sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-400 sm:border dark:border-gray-800  shadow-md w-full cursor-pointer relative">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b dark:border-gray-800 ">
             <Link passHref href={`/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
@@ -286,7 +288,7 @@ const NewsFeedCard = ({ post, index }) => {
 
                     <Popover.Panel className="absolute -left-40   z-10 mt-3 w-full max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
                       <div className="!overflow-hidden w-[200px] p-2">
-                        <div className="relative rounded-md grid gap-y-2 border border-black dark:border-white dark:border bg-white dark:bg-gray-900 dark:text-gray-100 p-1 grid-cols-1">
+                        <div className="relative rounded-md grid gap-y-2 border border-black dark:border-white dark:border bg-white dark:bg-gray-900 dark:!text-gray-400 p-1 grid-cols-1">
                           <CopyToClipboard
                             text={post.share_link}
                             onCopy={() => {
@@ -411,7 +413,7 @@ const NewsFeedCard = ({ post, index }) => {
                                         as="div"
                                         className="player-wrapper bg-[#000] w-full"
                                         initialInView={true}
-                                        skip={postFile.file_type !== "video"}
+                                        threshold={0.7}
                                         onChange={(inView, entry) => {
                                           // console.log("Inview:", inView);
                                           if (inView) {
@@ -557,7 +559,8 @@ const NewsFeedCard = ({ post, index }) => {
                                       >
                                         <button
                                           className="absolute w-20 h-20 inset-0 m-auto z-20"
-                                          onClick={playAudio}
+                                          // onClick={() => console.log("ok")}
+                                          onClick={() => playAudio()}
                                         >
                                           {playing ? (
                                             <FaPause className="text-lightPlayRed  stroke-lightPlayRed  h-20 w-20" />
@@ -565,6 +568,25 @@ const NewsFeedCard = ({ post, index }) => {
                                             <FiPlay className="text-lightPlayRed stroke-1 stroke-white fill-lightPlayRed h-20 w-20" />
                                           )}
                                         </button>
+
+                                        {/* <InView
+                                          as="div"
+                                          initialInView={true}
+                                          threshold={0}
+                                          onChange={(inView, entry) => {
+                                            if (inView) {
+                                              // vidRef.current.play();
+                                              // setVideoPlaying(true);
+                                            } else {
+                                              // vidRef.current.pause();
+
+                                              // audio.current.audioEl.current.pause();
+                                              if (playing) {
+                                                setPlaying(false);
+                                              }
+                                            }
+                                          }}
+                                        > */}
                                         <div className="p-0.5 bg-white rounded-full absolute inset-0  m-auto w-[250px] h-[250px]">
                                           <div className="relative w-full h-full">
                                             <Image
@@ -575,7 +597,6 @@ const NewsFeedCard = ({ post, index }) => {
                                             />
                                           </div>
                                         </div>
-
                                         <ReactAudioPlayer
                                           // light={postFile.preview_file}
                                           src={postFile.post_file}
@@ -584,12 +605,13 @@ const NewsFeedCard = ({ post, index }) => {
                                           width="80%"
                                           height="100%"
                                           autoPlay={false}
-                                          className="post-video-size absolute bottom-3"
+                                          className="post-video-size absolute bottom-3 "
                                           controlsList={"nodownload"}
                                           ref={audio}
                                           onPause={togglePlaying}
                                           onPlay={togglePlaying}
                                         />
+                                        {/* </InView> */}
                                       </div>
                                     )}
                                     {post.payment_info.is_user_needs_pay ===

@@ -28,7 +28,7 @@ function MyPaymentBody() {
     <div className="mt-2">
       <Tab.Group>
         <Tab.List className="space-x-2">
-          <Tab >
+          <Tab>
             {({ selected }) => (
               <div
                 className={`
@@ -67,7 +67,7 @@ function MyPaymentBody() {
                   <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                       <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-gray-50 dark:!bg-gray-900 dark:!text-gray-400">
                           <tr>
                             <th
                               scope="col"
@@ -107,7 +107,7 @@ function MyPaymentBody() {
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200 ">
+                        <tbody className="bg-white dark:!bg-gray-900 dark:!text-gray-400 divide-y divide-gray-200 ">
                           {sentPayments.data.history.map((transaction, i) => (
                             <tr key={i}>
                               <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
@@ -147,7 +147,7 @@ function MyPaymentBody() {
                   <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                       <table className="min-w-full divide-y divide-gray-200 outline-none ">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-gray-50 dark:!bg-gray-900 dark:!text-gray-400">
                           <tr>
                             <th
                               scope="col"
@@ -193,7 +193,7 @@ function MyPaymentBody() {
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200 ">
+                        <tbody className="bg-white dark:!bg-gray-900 dark:!text-gray-400 divide-y divide-gray-200 ">
                           {withDrawRequest.data.history.map(
                             (transaction, i) => (
                               <tr key={i}>

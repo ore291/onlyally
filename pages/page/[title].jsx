@@ -32,33 +32,33 @@ const StaticPage = () => {
   }, [router.isReady, title]);
   return (
     <>
-        <div className="max-w-6xl mx-auto p-2 mt-4 md:mt-10 dark:text-gray-100 min-h-screen relative">
-          {singlePage.loading ? (
-            // t("loading")
-            <CommonCenterLoader></CommonCenterLoader>
-          ) : (
-            <div className="container">
-              <h4 className="head-title text-xl md:text-3xl text-center border-b w-full dark:border-gray-100 font-bold">{singlePage.data.title}</h4>
-           
-                <div className="w-full">
-                  <div className="static-box">
-                    {/* <h5 className="my-3">
+      <div className="max-w-6xl mx-auto p-2 mt-4 md:mt-10 dark:!text-gray-400 min-h-screen relative">
+        {singlePage.loading ? (
+          // t("loading")
+          <CommonCenterLoader></CommonCenterLoader>
+        ) : (
+          <div className="container">
+            <h4 className="head-title text-xl md:text-3xl text-center border-b w-full dark:border-gray-100 font-bold">
+              {singlePage.data.title}
+            </h4>
+
+            <div className="w-full">
+              <div className="static-box">
+                {/* <h5 className="my-3">
                       updated_at: {singlePage.data.updated_at_formatted}
                     </h5> */}
-                    <div
-
-                        className="dark:!text-gray-100 text-justify w-full"
-                      dangerouslySetInnerHTML={{
-                        __html: singlePage.data.description,
-                      }}
-                    ></div>
-                  </div>
-                </div>
-             
+                <div
+                  className="dark:!text-gray-400 text-justify w-full"
+                  dangerouslySetInnerHTML={{
+                    __html: singlePage.data.description,
+                  }}
+                ></div>
+              </div>
             </div>
-          )}
-        </div>
-      </>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

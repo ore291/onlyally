@@ -6,7 +6,7 @@ import { channelSubscribeStart } from "../../store/slices/channelsSlice";
 import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 import ChannelPaymentModal from "./ChannelPaymentModal";
 import { useState, useEffect } from "react";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 import Link from "next/link";
 
@@ -21,7 +21,6 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
 
   const handleJoinChannel = async () => {
     dispatch(channelSubscribeStart(channel.slug));
-
   };
 
   const handleSubscription = () => {
@@ -32,7 +31,7 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
       channel.configuration?.billing?.amount < 1
     ) {
       handleJoinChannel();
-    }else {
+    } else {
       handleJoinChannel();
     }
   };
@@ -49,45 +48,45 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
     return (
       <>
         <div className="grid grid-cols-4 place-content-center items-center justify-center  w-full">
-        {" "}
-        <Link href={`/channels/${channel.slug}`} passHref>
-          <div className=" w-12 h-12 relative cursor-pointer">
-            <Image
-              src={channel.avatar}
-              alt="side-img"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-full"
-            />
-          </div>
-        </Link>
-        <div className="flex flex-col space-y-.5 col-span-2 ">
+          {" "}
           <Link href={`/channels/${channel.slug}`} passHref>
-            <p className="font-semibold text-xs text-ellipsis capitalize cursor-pointer  text-gray-600 whitespace-nowrap">
-              {channel.name}
-            </p>
+            <div className=" w-12 h-12 relative cursor-pointer">
+              <Image
+                src={channel.avatar}
+                alt="side-img"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              />
+            </div>
           </Link>
-          <span className="text-xs font-semibold">
-            {channel.members.length} Subscribers
-          </span>
+          <div className="flex flex-col space-y-.5 col-span-2 ">
+            <Link href={`/channels/${channel.slug}`} passHref>
+              <p className="font-semibold text-xs text-ellipsis capitalize cursor-pointer  text-gray-600 whitespace-nowrap">
+                {channel.name}
+              </p>
+            </Link>
+            <span className="text-xs font-semibold">
+              {channel.members.length} Subscribers
+            </span>
+          </div>
+          <div className=" row-container">
+            {channel.is_member ? (
+              <Button
+                onClick={() => router.push(`/channels/${channel.slug}`)}
+                text="view"
+                active={true}
+              />
+            ) : (
+              <Button
+                text="Subscribe"
+                active={true}
+                onClick={(e) => handleSubscription()}
+              />
+            )}
+          </div>
         </div>
-        <div className=" row-container">
-          {channel.is_member ? (
-            <Button
-              onClick={() => router.push(`/channels/${channel.slug}`)}
-              text="view"
-              active={true}
-            />
-          ) : (
-            <Button
-              text="Subscribe"
-              active={true}
-              onClick={(e) => handleSubscription()}
-            />
-          )}
-        </div>
-      </div>
-      {show ? (
+        {show ? (
           <ChannelPaymentModal
             show={show}
             toggleShow={toggleShow}
@@ -95,7 +94,6 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
           />
         ) : null}
       </>
-    
     );
   }
 
@@ -142,7 +140,7 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
   if (profile) {
     return (
       <>
-        <div className="h-[300px] w-full md:h-[300px] mb-5 border rounded-xl shadow-md overflow-hidden flex flex-col items-center relative group cursor-pointer flex-shrink-0 space-y-3">
+        <div className="h-[300px] w-full md:h-[300px] mb-5 border dark:border-gray-700 rounded-xl shadow-md overflow-hidden flex flex-col items-center relative group cursor-pointer flex-shrink-0 space-y-3">
           <Link href={`/channels/${channel.slug}`} passHref>
             <div className="relative w-full h-[130px] md:h-[100px] rounded-t-lg mb-8 md:mb-16">
               <Image
@@ -211,7 +209,7 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
 
   return (
     <>
-      <div className="last:mr-auto w-56 h-[300px] mb-5 border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0 space-y-3">
+      <div className="last:mr-auto w-56 h-[300px] mb-5 border dark:border-gray-400 rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0 space-y-3">
         <Link href={`/channels/${channel.slug}`} passHref>
           <div className="relative w-full h-[90px] rounded-t-lg mb-16">
             <Image

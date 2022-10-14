@@ -50,13 +50,13 @@ const FilterSearch = () => {
     }
   };
   return (
-    <div className="p-5 my-3 lg:my-6  bg-white rounded-xl shadow-md outline-none">
+    <div className="p-5 my-3 lg:my-6  bg-white dark:!bg-gray-900 dark:!text-gray-400  rounded-xl shadow-md outline-none">
       <div className="row-container mt-3 mx-0 mb-6 break-words filter-search">
         <input
           ref={inputRef}
           onChange={inputWidth}
           type="text"
-          className="text-center placeholder:text-gray-400 placeholder:font-semibold placeholder:text-2xl lg:placeholder:text-4xl px-2 w-[175px] text-lg md:text-3xl  !max-w-[250px] lg:!max-w-[700px]  break-words overflow-visible m-0 !outline-none focus:ring-0 outline-offset-0"
+          className="text-center dark:text-gray-200 placeholder:text-gray-400 placeholder:font-semibold placeholder:text-2xl lg:placeholder:text-4xl px-2 w-[175px] text-lg md:text-3xl  !max-w-[250px] lg:!max-w-[700px]  break-words overflow-visible m-0 !outline-none focus:ring-0 outline-offset-0"
           name="query"
           id="query"
           placeholder="Keyword"

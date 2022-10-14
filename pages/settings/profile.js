@@ -52,24 +52,6 @@ export default function Profile() {
       dispatch(fetchUserDetailsStart());
   }, []);
 
-  // const [first, setFirst] = useState({
-  //   plan: "",
-  // });
-
-  // console.log(profile.data.pro_membership_logs[0].plan)
-
-  // useEffect(() => {
-  //   const name = profile?.data?.pro_membership_logs?.find(
-  //     (e) => typeof e !== "undefined"
-  //   );
-  //   // if (profile.loading || profile.data !== null) dispatch(fetchUserDetailsStart());
-  //   profile.data.pro_membership_logs[0] !== null &&
-  //     setFirst({
-  //       ...first,
-  //       plan: name.plan,
-  //     });
-  // }, [profile.data]);
-
   const handleCategoryEdit = (data) => {
     dispatch(editUserDetails(data));
   };
@@ -81,10 +63,10 @@ export default function Profile() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // if (Object.keys(profileInputData1).length > 0)
-    //   dispatch(updateUserDetailsStart(profileInputData1));
-    // else dispatch(updateUserDetailsStart());
-    dispatch(updateUserDetailsStart(setProfileInputData1));
+    if (Object.keys(profileInputData1).length > 0)
+      dispatch(updateUserDetailsStart(profileInputData1));
+    else dispatch(updateUserDetailsStart());
+    // dispatch(updateUserDetailsStart(profileInputData1));
   };
 
   const [image, setImage] = useState({
@@ -215,12 +197,11 @@ export default function Profile() {
         <ProfileNavItem />
 
         {profile.loading ? (
-          <div className="w-full lg:w-4/5 bg-white px-4 mx-auto mt-5 lg:mr-16 lg:ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-6">
-                 <ProfileInputLoader />
+          <div className="w-full lg:w-4/5 bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 mx-auto mt-5 lg:mr-16 lg:ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-6">
+            <ProfileInputLoader />
           </div>
-     
         ) : (
-          <div className="w-full lg:w-4/5 bg-white px-4 mx-auto mt-5 lg:mr-16 lg:ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-6">
+          <div className="w-full lg:w-4/5 bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 mx-auto mt-5 lg:mr-16 lg:ml-6 border-2 border-gray-500 rounded-md shadow py-4 space-y-6">
             <section className="space-y-2 ">
               <h1 className="font-semibold text-gray-400 uppercase">
                 Edit Profile
@@ -267,7 +248,6 @@ export default function Profile() {
                       className=" absolute -bottom-6 md:-bottom-16 left-2 md:left-10  z-10 p-0.5 bg-white rounded-full cursor-pointer"
                     >
                       <img
-                       
                         className="rounded-full h-[120px] w-[120px] md:w-[150px] md:h-[150px] object-cover"
                         src={
                           image.picture === ""
@@ -541,7 +521,7 @@ export default function Profile() {
               </label> */}
               </div>
             </section>
-            {profile.data.pro_package_config &&
+            {/* {profile.data.pro_package_config &&
             Object.keys(profile?.data.pro_package_config).length == 0 ? null : (
               <section className="grid grid-cols-1 md:grid-cols-2 gap-x-1 ">
                 <div>
@@ -596,7 +576,7 @@ export default function Profile() {
                   </div>
                 </div>
               </section>
-            )}
+            )} */}
 
             <section className="text-grey-500 space-y-4">
               {/* <div>
@@ -686,10 +666,10 @@ export default function Profile() {
                     Card
                   </option>
                 </select>
-                <span className="text-xs pl-8">
+                {/* <span className="text-xs pl-8">
                   Note: set price for the audio call this amount will be paid by
                   those requesting the audio call
-                </span>
+                </span> */}
               </div>
             </section>
 

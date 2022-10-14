@@ -67,7 +67,7 @@ export default function Documents() {
     <>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem />
-        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-5 shadow py-4">
+        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 mx-auto mt-5 shadow py-4">
           {kycDocDetails.loading ? (
             ""
           ) : (
@@ -79,13 +79,13 @@ export default function Documents() {
           )}
 
           <div className="flex justify-center mt-2">
-            <div className="rounded-lg shadow-xl bg-gray-50 lg:w-1/2">
+            <div className="rounded-lg shadow-xl bg-gray-50 dark:!bg-gray-900 dark:!text-gray-400 lg:w-1/2">
               <div className="m-4">
                 <label className="inline-block mb-2 text-gray-500">
                   Upload either your driving license or passport.
                 </label>
                 <div className="flex items-center justify-center w-full">
-                  <label className="flex flex-col w-full  border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                  <label className="flex flex-col w-full  border-4 border-dashed hover:bg-gray-100 dark:hover:bg-gray-400 hover:border-gray-300">
                     {selectedCover != null ? (
                       <div className="w-full relative h-[300px]">
                         <Image

@@ -42,7 +42,7 @@ export default function Fan() {
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem color="red" />
 
-        <div className="w-full lg:w-4/5  lg:ml-6 bg-white px-4 mx-auto mt-2 shadow py-4">
+        <div className="w-full lg:w-4/5  lg:ml-6 bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 mx-auto mt-2 shadow py-4">
           <section className="space-y-2  p-4">
             <div className="flex gap-4 items-center uppercase font-semibold">
               <FaArrowLeft size="20px" />

@@ -120,9 +120,7 @@ function* getUserDetailsAPI(action) {
     } else {
       yield put(fetchUserDetailsFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
-      yield put(
-        notify({ message: response.data.error, status: "error" })
-      );
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchUserDetailsFailure(error));
@@ -167,10 +165,12 @@ function* updateUserDetailsAPI() {
         response.data.data.default_payment_method
       );
       yield put(notify({ message: response.data.message, status: "success" }));
-      if(window.location.pathname != "/onboarding"){
-        window.location.assign("/profile");
+
+      if (window.location.pathname != "/onboarding") {
+        if (window.location.pathname != "/settings/monetization") {
+          window.location.assign("/profile");
+        }
       }
-      
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
       yield put(updateUserDetailsFailure(response.data.error));
@@ -237,7 +237,7 @@ function* userLoginAPI() {
       action: "login",
       object: userData,
     });
-    
+
     yield put(loginSuccess(response.data));
     yield put(fetchUserLoginSuccess(response.data));
     if (response.data.success) {
@@ -289,18 +289,18 @@ function* userLoginAPI() {
           );
           localStorage.setItem("userId", response.data.data.user_id);
           localStorage.setItem("accessToken", response.data.data.token);
-          var user = response.data.data
+          var user = response.data.data;
           setCookie("userId", user.user_id);
           setCookie("accessToken", user.token);
           setCookie("user_picture", user.picture);
-          setCookie("user_email", user.email, );
-          setCookie("username", user.username,  )
-          setCookie("picture", user.picture,);
-          setCookie("total_followers", user.total_followers, );
+          setCookie("user_email", user.email);
+          setCookie("username", user.username);
+          setCookie("picture", user.picture);
+          setCookie("total_followers", user.total_followers);
           setCookie("total_followings", user.total_followings);
-          setCookie("user", JSON.stringify(user) );
-          setCookie("pro", JSON.stringify(user.pro_package_config))
-        
+          setCookie("user", JSON.stringify(user));
+          setCookie("pro", JSON.stringify(user.pro_package_config));
+
           window.location.assign("/");
         }
       }
@@ -331,25 +331,21 @@ function* userRegisterAPI() {
           object: userData,
         });
 
-
         var user = response2.data.data;
 
-        
         setCookie("userId", user.user_id);
         setCookie("accessToken", user.token);
         setCookie("user_picture", user.picture);
-        setCookie("user_email", user.email, );
-        setCookie("username", user.username,  )
-        setCookie("picture", user.picture,);
-        setCookie("total_followers", user.total_followers, );
+        setCookie("user_email", user.email);
+        setCookie("username", user.username);
+        setCookie("picture", user.picture);
+        setCookie("total_followers", user.total_followers);
         setCookie("total_followings", user.total_followings);
-        setCookie("user", JSON.stringify(user) );
-        setCookie("pro", JSON.stringify(user.pro_package_config))
+        setCookie("user", JSON.stringify(user));
+        setCookie("pro", JSON.stringify(user.pro_package_config));
         yield put(notify({ message: response.data.message }));
-        
-       
+
         window.location.assign("/onboarding");
-     
       }
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
@@ -956,7 +952,7 @@ export default function* pageSaga() {
     //     USER_VERIFY_BADGE_STATUS_START,
     //     verificationBadgeStatusUpdateAPI
     //   ),
-      yield takeLatest('user/resetPasswordStart', resetPasswordAPI),
+    yield takeLatest("user/resetPasswordStart", resetPasswordAPI),
     yield takeLatest("user/userNameValidationStart", usernameValidationAPI),
     yield takeLatest("user/referralValidationStart", referralValidationAPI),
     yield takeLatest(

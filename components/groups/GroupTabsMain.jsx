@@ -47,7 +47,7 @@ const GroupTabs = ({ groupsData }) => {
 
   return (
     <Tab.Group>
-      <div className="bg-white rounded-none md:rounded-2xl p-1 pb-5 shadow-md">
+      <div className="bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-none md:rounded-2xl p-1 pb-5 shadow-md">
         <h1 className="text-3xl font-semibold pl-2 py-3">Groups</h1>
         <Tab.List>
           <div className="flex items-center space-x-3 py-3 overflow-x-scroll scrollbar-thin flex-shrink-0">
@@ -60,7 +60,7 @@ const GroupTabs = ({ groupsData }) => {
                     "focus:outline-none focus:ring-0 ",
                     selected
                       ? "bg-[#FFCFD4] text-textPlayRed rounded-full shadow-lg"
-                      : "text-gray-800 bg-white rounded-full shadow-lg"
+                      : "text-gray-800 bg-white dark:bg-gray-400 rounded-full shadow-lg"
                   )
                 }
               >
@@ -70,7 +70,7 @@ const GroupTabs = ({ groupsData }) => {
           </div>
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel className={classNames("bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1")}>
             {/* subscribed groups */}
 
             <div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
@@ -83,7 +83,7 @@ const GroupTabs = ({ groupsData }) => {
                 : null}
             </div>
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel className={classNames("bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1")}>
             {/* suggested groups */}
 
             <div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
@@ -96,7 +96,7 @@ const GroupTabs = ({ groupsData }) => {
                 : null}
             </div>
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel className={classNames("bg-white  dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1")}>
             {/* my groups */}
 
             <div className="p-2 pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">

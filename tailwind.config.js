@@ -1,5 +1,5 @@
 module.exports = {
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       zIndex: {
@@ -27,6 +27,7 @@ module.exports = {
         lightPlayRed: "#FF1636",
         textPlayRed: "#CF0A08",
         bgtext: "#EDE7E7",
+        mildPlayRed: "#FFE2E5",
       },
       screens: {
         xs: "359px",
@@ -42,7 +43,10 @@ module.exports = {
     require("tailwind-scrollbar"),
     require("@tailwindcss/aspect-ratio"),
   ],
-  content : ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
 };
 
 // module.exports = {

@@ -16,7 +16,7 @@ const ChannelTabs = ({ channels }) => {
   let [categories] = useState([
     "Subscribed channels",
     "Suggested Channels",
-    "My Channel",
+    "My Channels",
   ]);
 
   const cookies = getCookies();
@@ -33,7 +33,7 @@ const ChannelTabs = ({ channels }) => {
 
   return (
     <Tab.Group>
-      <div className="bg-white rounded-2xl p-1">
+      <div className="bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-2xl p-1">
         <Tab.List>
           <div className="flex items-center space-x-3 py-3 overflow-x-scroll scrollbar-thin flex-shrink-0">
             {categories.map((category, index) => (
@@ -45,7 +45,7 @@ const ChannelTabs = ({ channels }) => {
                     "focus:outline-none focus:ring-0 ",
                     selected
                       ? "bg-[#FFCFD4] text-textPlayRed rounded-full shadow-lg"
-                      : "text-gray-800 bg-white rounded-full shadow-lg"
+                      : "text-gray-800 bg-white dark:bg-gray-300 rounded-full shadow-lg"
                   )
                 }
               >
@@ -55,7 +55,7 @@ const ChannelTabs = ({ channels }) => {
           </div>
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel className={classNames("bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1")}>
             <div className="p-2  pb-5 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
               {/* {
               
@@ -74,7 +74,7 @@ const ChannelTabs = ({ channels }) => {
             </div>
           </Tab.Panel>
 
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel className={classNames("bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1")}>
             <div className="p-2 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
               {/* {[...Array(10)].map((_, index) => (
                 <ChannelCard key={index} channel={index} />
@@ -89,7 +89,7 @@ const ChannelTabs = ({ channels }) => {
                 : null}
             </div>
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel className={classNames("bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1")}>
             <div className="p-2 flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
               <Link href="/create-channel" passHref>
                 <div className="h-[250px] min-w-[230px] border-2 shadow-md border-dashed row-container group cursor-pointer">

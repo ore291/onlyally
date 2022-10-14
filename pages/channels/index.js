@@ -29,7 +29,7 @@ const Channels = () => {
   return (
     <SideNavLayout title={"Playjor | Channels"}>
       <div className="max-w-[950px] px-1 mx-auto">
-        <div className="p-5 my-3 lg:my-6  bg-white rounded-xl shadow-lg  outline-none">
+        <div className="p-5 my-3 lg:my-6  bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl shadow-lg  outline-none">
           <h1 className="text-3xl font-semibold mb-2">Channels</h1>
           {channels.loading ? (
             <GroupCardLoader />
@@ -37,7 +37,7 @@ const Channels = () => {
             <ChannelTabs channels={channels} />
           )}
         </div>
-        <div className="p-5 mt-3 lg:mt-6 mb-40 bg-white rounded-xl shadow-lg  outline-none ">
+        <div className="p-5 mt-3 lg:mt-6 mb-40 bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl shadow-lg  outline-none ">
           <div className="grid cols-1 lg:grid-cols-4 md:grid-cols-3 gap-4">
             {[...Array(8)].map((_, index) => (
               <ChannelCard key={index} main={true} />

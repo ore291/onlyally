@@ -116,7 +116,7 @@ export default function Referrals() {
       </Head>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem referralsColor={"#B30D28"} />
-        <div className="w-full lg:w-[95%] border-0 border-b-2 border-gray-300 bg-white px-4 mx-auto mt-20 lg:mr-16 lg:ml-6 shadow py-4">
+        <div className="w-full lg:w-[95%] border-0 border-b-2 border-gray-300 bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 mx-auto mt-20 lg:mr-16 lg:ml-6 shadow py-4">
           <section className="flex justify-center">
             <MdPeopleAlt size={20} />
             <h4 className="font-bold mb-4">Tell your friends about Playjor </h4>
@@ -150,7 +150,7 @@ export default function Referrals() {
                     subject={"Playjor"}
                     body={Referals.share_message}
                   >
-                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit">
+                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 py-2 text-center w-full lg:w-fit">
                       <img
                         src={logos[0].image}
                         alt="logo"
@@ -163,7 +163,7 @@ export default function Referrals() {
                     key={logos[1].id}
                     url={` ${Referals.share_message} `}
                   >
-                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit">
+                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 py-2 text-center w-full lg:w-fit">
                       <img
                         src={logos[1].image}
                         alt="logo"
@@ -176,7 +176,7 @@ export default function Referrals() {
                     url={`${Referals.referrals_signup_url}`}
                     hashtag={"#playjor"}
                   >
-                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit">
+                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 py-2 text-center w-full lg:w-fit">
                       <img
                         src={logos[2].image}
                         alt="logo"
@@ -189,7 +189,7 @@ export default function Referrals() {
                     key={logos[3].id}
                     url={Referals.share_message}
                   >
-                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit">
+                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 py-2 text-center w-full lg:w-fit">
                       <img
                         src={logos[3].image}
                         alt="logo"
@@ -203,7 +203,7 @@ export default function Referrals() {
                     url={Referals.referrals_signup_url}
                     title={Referals.share_message}
                   >
-                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white px-4 py-2 text-center w-full lg:w-fit">
+                    <section className=" hover:bg-gray-100 cursor-pointer shadow-md flex items-center justify-center flex-col rounded-md bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 py-2 text-center w-full lg:w-fit">
                       <img
                         src={logos[4].image}
                         alt="logo"
@@ -215,7 +215,7 @@ export default function Referrals() {
                 </div>
               </section>
 
-              <div className="w-full lg:w-1/2 space-y-8 shadow-md bg-white px-2 py-8 rounded-md">
+              <div className="w-full lg:w-1/2 space-y-8 shadow-md bg-white dark:!bg-gray-900 dark:!text-gray-400 px-2 py-8 rounded-md">
                 {ReferralInfo.map((EachInfo, index) => (
                   <article
                     key={index}

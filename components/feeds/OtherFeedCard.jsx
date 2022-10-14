@@ -241,7 +241,7 @@ const NewsFeedCard = ({ post, index }) => {
   return (
     <>
       {postDisplayStatus == true ? (
-        <div className="sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-100 sm:border dark:border-gray-800  shadow-md w-full cursor-pointer relative">
+        <div className="sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-400 sm:border dark:border-gray-800  shadow-md w-full cursor-pointer relative">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b dark:border-gray-800 ">
             <Link passHref href={`/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
@@ -286,9 +286,12 @@ const NewsFeedCard = ({ post, index }) => {
 
                     <Popover.Panel className="absolute -left-40   z-10 mt-3 w-full max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
                       <div className="!overflow-hidden w-[200px] p-2">
-                        <div className="relative rounded-md grid gap-y-2 border border-black dark:border-white dark:border bg-white dark:bg-gray-900 dark:text-gray-100 p-1 grid-cols-1">
+                        <div className="relative rounded-md grid gap-y-2 border border-black dark:border-white dark:border bg-white dark:bg-gray-900 dark:!text-gray-400 p-1 grid-cols-1">
                           <CopyToClipboard
-                            text={`${typeof(window) != 'undefined' && window.location.hostname}/post/${post.post_unique_id}`}
+                            text={`${
+                              typeof window != "undefined" &&
+                              window.location.hostname
+                            }/post/${post.post_unique_id}`}
                             onCopy={() => {
                               setCopied("copied");
                               setTimeout(() => {
@@ -412,6 +415,7 @@ const NewsFeedCard = ({ post, index }) => {
                                         className="player-wrapper bg-[#000] w-full"
                                         initialInView={true}
                                         skip={postFile.file_type !== "video"}
+                                        threshold={0.7}
                                         onChange={(inView, entry) => {
                                           // console.log("Inview:", inView);
                                           if (inView) {

@@ -47,6 +47,8 @@ import {
   MdSubscriptions,
 } from "react-icons/md";
 
+import { FaMoneyCheck } from "react-icons/fa";
+
 function ProfileNavItem({
   dashboardColor,
   storiesColor,
@@ -74,11 +76,11 @@ function ProfileNavItem({
       </div>
       {nav ? (
         <div className=" w-[20%] px-2 lg:px-0 z-0">
-          <div className="pr-7 py-7 block lg:bg-white rounded shadow-sm ">
-            <ProSidebar className="block">
+          <div className="pr-7 py-7 block lg:bg-white dark:bg-gray-900 dark:text-gray-400 rounded shadow-sm ">
+            <ProSidebar className="block dark:bg-gray-900 dark:text-gray-400">
               <Menu iconShape="circle" className="font-medium text-gray-600">
                 <MenuItem
-                  icon={<RiBarChartHorizontalFill size="20px" />}
+                  icon={<RiBarChartHorizontalFill size="20px" className="" />}
                   style={{ color: dashboardColor }}
                 >
                   <Link href="/dashboard">Dashboard</Link>
@@ -88,6 +90,9 @@ function ProfileNavItem({
                   <div className="space-y-4">
                     <MenuItem className="text-xs" icon={<ImProfile />}>
                       <Link href="/settings/profile">My Profile</Link>
+                    </MenuItem>
+                    <MenuItem className="text-xs" icon={<FaMoneyCheck />}>
+                      <Link href="/settings/monetization">Monetization</Link>
                     </MenuItem>
                     <MenuItem icon={<RiLockPasswordLine size="18px" />}>
                       <Link href="/settings/change-password">
@@ -164,7 +169,6 @@ function ProfileNavItem({
 
                 <MenuItem
                   icon={<RiBarChartHorizontalFill size="20px" />}
-                  className="text-gray-600"
                   style={{ color: referralsColor }}
                 >
                   <Link href="/referrals">Referrals</Link>
@@ -220,7 +224,12 @@ function ProfileNavItem({
                 <SubMenu
                   title="Security"
                   className="text-xs"
-                  icon={<GrShieldSecurity size="20px" />}
+                  icon={
+                    <GrShieldSecurity
+                      size="20px"
+                      className="dark:bg-gray-500"
+                    />
+                  }
                 >
                   <MenuItem
                     className="text-xs"
@@ -260,8 +269,8 @@ function ProfileNavItem({
         </div>
       ) : null}
       <div className="lg-0  w-[20%] px-2 lg:px-0 z-0 hidden lg:block">
-        <div className="pr-7 py-7 block md:bg-white rounded shadow-sm ">
-          <ProSidebar className="block">
+        <div className="pr-7 py-7 block md:bg-white dark:bg-gray-900 dark:text-gray-400 rounded shadow-sm ">
+          <ProSidebar className="block dark:bg-gray-900 dark:text-gray-400">
             <Menu iconShape="circle" className="font-medium text-gray-600">
               <MenuItem
                 icon={<RiBarChartHorizontalFill size="20px" />}
@@ -274,6 +283,9 @@ function ProfileNavItem({
                 <div className="space-y-4">
                   <MenuItem className="text-xs" icon={<ImProfile />}>
                     <Link href="/settings/profile">My Profile</Link>
+                  </MenuItem>
+                  <MenuItem className="text-xs" icon={<FaMoneyCheck />}>
+                    <Link href="/settings/monetization">Monetization</Link>
                   </MenuItem>
                   <MenuItem icon={<RiLockPasswordLine size="18px" />}>
                     <Link href="/settings/change-password">
@@ -348,7 +360,6 @@ function ProfileNavItem({
 
               <MenuItem
                 icon={<RiBarChartHorizontalFill size="20px" />}
-                className="text-gray-600"
                 style={{ color: referralsColor }}
               >
                 <Link href="/referrals">Referrals</Link>

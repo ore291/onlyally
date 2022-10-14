@@ -31,8 +31,8 @@ export default function Bookmarks() {
   return (
     <div className="lg:flex ">
       <ProfileNavBar className="w-20" />
-      <div className="w-full px-1 mx-auto pt-20 mr-16  shadow ">
-        <div className=" bg-white p-2 shadow-md">
+      <div className="w-full px-1 mx-auto p-2  shadow ">
+        <div className=" bg-white dark:!bg-gray-900 dark:!text-gray-400 p-2 shadow-md">
           <div className="py-1 space-y-2">
             <div className="py-3 mx-2 flex space-x-2 ">
               <div className="side-icon ml-4">

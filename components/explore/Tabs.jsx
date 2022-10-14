@@ -24,9 +24,9 @@ export default function Tabs() {
 
   return (
     <Tab.Group>
-      <div className="bg-white rounded-xl p-1 mb-10 md:mb-60">
+      <div className="bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1 mb-10 md:mb-60">
         <Tab.List className="row-container p-1 space-x-1 ">
-          <div className="bg-[#ecf0f5]  rounded-full px-1 py-0.5">
+          <div className="bg-[#ecf0f5] dark:bg-gray-500  rounded-full px-1 py-0.5">
             {categories.map((category, index) => (
               <Tab
                 key={index}
@@ -35,7 +35,7 @@ export default function Tabs() {
                     "w-[70px] p-.5 text-sm leading-5 font-medium text-gray-700 ",
                     "focus:outline-none focus:ring-0 ",
                     selected
-                      ? "bg-white rounded-full shadow-md"
+                      ? "bg-white dark:bg-gray-200 rounded-full shadow-md"
                       : "text-gray-800"
                   )
                 }
@@ -46,7 +46,9 @@ export default function Tabs() {
           </div>
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <Tab.Panel className={classNames("bg-white rounded-xl")}>
+          <Tab.Panel
+            className={classNames("bg-white dark:bg-gray-900 rounded-xl")}
+          >
             {explorePosts.loading ? (
               <ExploreLoader />
             ) : explorePosts.data.posts &&
@@ -79,7 +81,7 @@ export default function Tabs() {
             )}
 
             <div className="w-full row-container space-x-1 py-5">
-              <div className="!bg-white border !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
+              <div className="!bg-white border dark:bg-gray-500 !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
                 <FaChevronDown className="h-3 w-3 text-lightPlayRed" />
               </div>
               <p className="text-lightPlayRed font-medium text-sm cursor-pointer">
@@ -88,18 +90,22 @@ export default function Tabs() {
             </div>
           </Tab.Panel>
           {/* users tab */}
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames("bg-white dark:bg-gray-900  rounded-xl p-1")}
+          >
             <CategoryListingIndex />
           </Tab.Panel>
           {/* channels tab */}
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames("bg-white dark:bg-gray-900  rounded-xl p-1")}
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 w-full md:gap-x-20 gap-y-4">
               {channels.data.map((channel, index) => (
                 <ChannelFilter key={index} channel={channel} />
               ))}
             </div>
             <div className="w-full row-container space-x-1 py-5">
-              <div className="!bg-white border !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
+              <div className="!bg-white border dark:bg-gray-500 !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
                 <FaChevronDown className="h-3 w-3 text-lightPlayRed" />
               </div>
               <p className="text-lightPlayRed font-medium text-sm cursor-pointer">
@@ -107,14 +113,16 @@ export default function Tabs() {
               </p>
             </div>
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-3")}>
+          <Tab.Panel
+            className={classNames("bg-white dark:bg-gray-900  rounded-xl p-3")}
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5">
               {groups.data.map((group, index) => (
                 <GroupCard key={index} filter={true} group={group} />
               ))}
             </div>
             <div className="w-full row-container space-x-1 py-5">
-              <div className="!bg-white border !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
+              <div className="!bg-white border dark:bg-gray-500 !w-8 !h-8 shadow hover:shadow-2xl icon-bg">
                 <FaChevronDown className="h-3 w-3 text-lightPlayRed" />
               </div>
               <p className="text-lightPlayRed font-medium text-sm cursor-pointer">

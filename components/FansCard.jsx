@@ -68,13 +68,13 @@ const FansCard = ({ user, blocked }) => {
   const [copied, setCopied] = useState("");
 
   return (
-    <div className="w-full   border-2 border-grey-500 ">
+    <div className="w-full   border-2 border-gray-500 rounded-lg dark:border-gray-700">
       {user && (
         <TipModal
           sendTip={sendTip}
           closeSendTipModal={closeSendTipModal}
           username={user.username}
-          userPicture={user.picture}
+          userPicture={user?.picture || "/images/no-image-found.png"}
           name={user.name}
           post_id={null}
           user_id={user.user_id}
@@ -152,44 +152,6 @@ const FansCard = ({ user, blocked }) => {
                 </li>
               )}
 
-              {/* {subscribeStatus != "" ? (
-                            subscribeStatus == "unsubscribed" ? (
-                              <Media as="li">
-                                <Link to={`/` + props.user.user_unique_id}>
-                                  {t("subscribe")}
-                                </Link>
-                              </Media>
-                            ) : (
-                              <Media as="li">
-                                <Link
-                                  to="#"
-                                  onClick={(event) =>
-                                    handleUnfollowUser(event, "unsubscribed")
-                                  }
-                                >
-                                  {t("unsubscribe")}
-                                </Link>
-                              </Media>
-                            )
-                          ) : props.user.show_follow ? (
-                            <Media as="li">
-                              <Link to={`/` + props.user.user_unique_id}>
-                                {t("subscribe")}
-                              </Link>
-                            </Media>
-                          ) : (
-                            <Media as="li">
-                              <Link
-                                to="#"
-                                onClick={(event) =>
-                                  handleUnfollowUser(event, "unsubscribed")
-                                }
-                              >
-                                {t("unsubscribe")}
-                              </Link>
-                            </Media>
-                          )} */}
-
               {subscribedStatus != "" ? (
                 subscribedStatus == "unsubscribed" ? (
                   <Link href={`/` + user.user_unique_id} passHref>
@@ -225,7 +187,7 @@ const FansCard = ({ user, blocked }) => {
         <img
           width="100px"
           height="100px"
-          src={user.picture}
+          src={user?.picture || "/images/no-image-found.png"}
           className="rounded-full mx-2 mt-[-50px] object-cover"
           alt="Placeholder"
         />
@@ -270,9 +232,9 @@ const FansCard = ({ user, blocked }) => {
               {favStatus === "added" ? (
                 <section
                   onClick={() => removeFav("removed")}
-                  className="my-4 ml-2  cursor-pointer text-orange-500   w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
+                  className="my-4 ml-2  cursor-pointer text-orange-500   w-fit bg-gray-200 dark:!bg-gray-700 dark:!text-gray-400 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
                 >
-                  <AiOutlineStar className="text-orange-500   fill-orange-500 "/>
+                  <AiOutlineStar className="text-orange-500   fill-orange-500 " />
                   Remove from Favorites
                 </section>
               ) : null}
@@ -281,7 +243,7 @@ const FansCard = ({ user, blocked }) => {
               {favStatus === "removed" ? (
                 <section
                   onClick={() => removeFav("added")}
-                  className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
+                  className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 dark:!bg-gray-700 dark:!text-gray-400 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
                 >
                   <AiOutlineStar />
                   Add to Favorites
@@ -294,7 +256,7 @@ const FansCard = ({ user, blocked }) => {
             onClick={() => removeFav("removed")}
             className="my-4 ml-2  text-orange-500  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
           >
-            <AiOutlineStar  className="text-orange-500   fill-orange-500"/>
+            <AiOutlineStar className="text-orange-500   fill-orange-500" />
             Remove from Favorites
           </section>
         ) : (
@@ -302,14 +264,28 @@ const FansCard = ({ user, blocked }) => {
             onClick={() => removeFav("added")}
             className="my-4 ml-2  cursor-pointer  w-fit bg-gray-200 text-xs font-semibold  rounded-md p-1 flex gap-4 items-center"
           >
-            <AiOutlineStar  />
+            <AiOutlineStar />
             Add to Favorites
           </section>
         )}
 
         <div className="text-center">
           <button
-            onClick={() => setSendTip(!sendTip)}
+            disabled={
+              user.pro_package_config === [] || user.user_account_type == 0
+            }
+            onClick={() => {
+              if (user.pro_package_config === []) {
+                dispatch(
+                  notify({
+                    message: "Tipping Disabled",
+                    status: "warning",
+                  })
+                );
+              } else {
+                setSendTip(!sendTip);
+              }
+            }}
             className="flex justify-center items-center h-10 bg-red-600 uppercase text-base rounded-full w-full "
           >
             <AiOutlineDollarCircle className="ml-3 text-white" size="23" />

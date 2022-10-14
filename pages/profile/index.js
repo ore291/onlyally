@@ -46,8 +46,7 @@ import { fetchUserChannelsStart } from "../../store/slices/channelsSlice";
 import { useEffect, useState } from "react";
 import VerifiedBadge from "../../components/handlers/VerifiedBadge";
 
-
-import { getCookies } from "cookies-next";
+import { getCookie, getCookies } from "cookies-next";
 
 import { END } from "redux-saga";
 import { wrapper } from "../../store";
@@ -129,8 +128,8 @@ const Profile = () => {
               <BsFillArrowLeftCircleFill className="h-8 w-8  " />
             </div>
 
-            <div className="row-container  absolute -bottom-16 inset-x-0  md:inset-x-auto md:-bottom-16 md:left-24">
-              <div className="p-1 bg-white rounded-3xl">
+            {/* <div className="row-container  absolute -bottom-16 inset-x-0  md:inset-x-auto md:-bottom-16 md:left-24">
+              <div className="p-1 bg-white dark:bg-gray-700 dark:text-gray-400 rounded-3xl">
                 <div className="w-36 h-36 relative rounded-3xl ">
                   <Image
                     src={profile.data.picture}
@@ -141,10 +140,23 @@ const Profile = () => {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
-          <div className="px-1 md:px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white mb-10">
-            <div className="space-y-3 mt-16 flex flex-col ">
+          <div className="px-1 md:px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white dark:bg-gray-900 dark:text-gray-400 mb-10">
+            <div className="space-y-3 mt-16 flex flex-col relative">
+              <div className="row-container  absolute  inset-x-0 mx-auto -top-[130px] md:-top-36 2xl:-top-40 ">
+                <div className="p-1 bg-white rounded-3xl">
+                  <div className="w-36 h-36 2xl:w-52 2xl:h-52 relative rounded-3xl ">
+                    <Image
+                      src={profile.data.picture}
+                      alt={profile.data.name}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-3xl"
+                    />
+                  </div>
+                </div>
+              </div>
               <div className="col-container ">
                 <div className="flex items-center justify-center space-x-2 ">
                   <p className="text-2xl font-bold leading-[40px]">
@@ -167,7 +179,7 @@ const Profile = () => {
                   <MdMail
                     className="w-5 h-5"
                     onClick={(event) =>
-                      handleChatUser(event, userDetails.data.user.user_id)
+                      handleChatUser(event, profile.data.user_id)
                     }
                   />
                 </div>
@@ -187,7 +199,7 @@ const Profile = () => {
               {showShare && (
                 <div
                   //style={{ boxShadow: "10px 10px 10px 10px  rgba(0,0,0,0.5", }}
-                  className="drop-shadow-[10px_10px_10px_rgba(0,0,0,0.5)] hover:drop-shadow-[10px_10px_10px_rgba(0,0,0,0.25)]  w-[200px] cursor-pointer h-fit bg-white rounded-xl ml-20 sm:ml-8 lg:ml-12 flex flex-wrap"
+                  className="drop-shadow-[10px_10px_10px_rgba(0,0,0,0.5)] hover:drop-shadow-[10px_10px_10px_rgba(0,0,0,0.25)]  w-[200px] cursor-pointer h-fit bg-white dark:bg-gray-900 dark:text-gray-400 rounded-xl ml-20 sm:ml-8 lg:ml-12 flex flex-wrap"
                 >
                   <FacebookShareButton
                     url={profile.data.share_link}
@@ -233,23 +245,23 @@ const Profile = () => {
                 </div>
                 <div
                   className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1"
-                  onClick={() => router.push("/bookmarks/following")}
+                  onClick={() => router.push("/list/following")}
                 >
                   <p className="text-lg font-semibold">
                     {profile.data.total_followings
                       ? profile.data.total_followings
-                      : localStorage.getItem("total_followings")}{" "}
+                      : getCookie("total_followings")}{" "}
                   </p>
                   <span>Following</span>
                 </div>
                 <div
                   className="col-container space-y-0.5 rounded hover:bg-gray-200 cursor-pointer p-1 "
-                  onClick={() => router.push("/bookmarks/fans")}
+                  onClick={() => router.push("/list/fans")}
                 >
                   <p className="text-lg font-semibold">
                     {profile.data.total_followers
                       ? profile.data.total_followers
-                      : localStorage.getItem("total_followers")}
+                      : getCookie("total_followers")}
                   </p>
                   <span className="mx-2">Fans</span>
                 </div>
@@ -269,7 +281,7 @@ const Profile = () => {
                   <p className="text-xs font-medium text-white">Dashboard</p>
                 </div>
               </div>
-              <div className="row-container bg-gray-50 p-1 rounded-md py-2">
+              <div className="row-container bg-gray-50 dark:bg-gray-900 dark:text-gray-400 p-1 rounded-md py-2">
                 <div className="bg-gray-100 p-1 rounded-md">
                   <p className="text-sm font-semibold"> About Me</p>
                 </div>

@@ -3,6 +3,7 @@ import api from "../../Environment";
 
 import { notify } from "reapop";
 import { errorLogoutCheck } from "../slices/errorSlice";
+import {setCookie} from "cookies-next";
 
 import {
   fetchFollowersFailure,
@@ -39,10 +40,14 @@ function* followUserAPI() {
         "total_followers",
         JSON.stringify(response.data.data.total_followers)
       );
+      
+
       localStorage.setItem(
         "total_followings",
         JSON.stringify(response.data.data.total_followings)
       );
+      setCookie("total_followings", JSON.stringify(response.data.data.total_followings))
+      setCookie("total_followers", JSON.stringify(response.data.data.total_followers))
     } else {
       yield put(followUserFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
@@ -74,7 +79,10 @@ function* unFollowUserAPI() {
         "total_followings",
         JSON.stringify(response.data.data.total_followings)
       );
-      window.location.reload();
+      setCookie("total_followings", JSON.stringify(response.data.data.total_followings))
+      setCookie("total_followers", JSON.stringify(response.data.data.total_followers))
+      if(window.location.pathname != "/explore") window.location.reload();
+     
     } else {
       yield put(unFollowUserFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));

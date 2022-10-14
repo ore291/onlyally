@@ -8,7 +8,7 @@ import LikedGroups from "../groups/LikedGroups.jsx";
 const NewsFeedSideBar = () => {
   return (
     <div className="hidden lg:block  w-full  mb-10">
-      <div className="flex flex-col space-y-2  dark:!bg-gray-900 dark:!text-gray-100">
+      <div className="flex flex-col space-y-2  dark:!bg-gray-900 dark:!text-gray-400">
         <TopCreators />
         <Trending />
         <LikedChannels />

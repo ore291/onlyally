@@ -23,7 +23,7 @@ const LiveCard = ({ video }) => {
   };
 
   return (
-    <div className=" w-[160px] h-[320px] mb-2 border rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0">
+    <div className=" w-[160px] h-[320px] mb-2 border dark:border-gray-700 rounded-xl shadow-md overflow-hidden flex flex-col relative group cursor-pointer flex-shrink-0">
       <Link href={`/live/${video.live_video_unique_id}`} passHref>
         <div className="relative">
           <img
@@ -63,9 +63,9 @@ const LiveCard = ({ video }) => {
         </div>
       </Link>
 
-      <div className="w-full bg-white  p-2 h-1/3 rounded-b-xl">
+      <div className="w-full bg-white dark:bg-gray-900 dark:text-gray-300  p-2 h-1/3 rounded-b-xl">
         <div className="col-container space-y-1">
-          <div className="flex items-center justify-between px-1 w-full bg-gray-50">
+          <div className="flex items-center justify-between px-1 w-full bg-gray-50 dark:bg-gray-900 dark:text-gray-300">
             <p className="font-semibold text-xs whitespace-nowrap">
               @{video.user_displayname}
             </p>
@@ -74,7 +74,7 @@ const LiveCard = ({ video }) => {
               <span>{video.viewer_cnt}</span>
             </div>
           </div>
-          <div className="row-container w-20 h-4 bg-gray-50">
+          <div className="row-container w-20 h-4 bg-gray-50 dark:bg-gray-900 dark:text-gray-300">
             <p className="text-sm font-semibold truncate">{video.title}</p>
           </div>
 

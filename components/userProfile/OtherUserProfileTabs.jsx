@@ -1,4 +1,4 @@
-import { useState , useEffect} from "react";
+import { useState, useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import ChannelCard from "../channels/ChannelCard";
 import NewsFeedCard from "../feeds/NewsFeedCard";
@@ -15,9 +15,9 @@ import Link from "next/link";
 import ReactPlayer from "react-player/lazy";
 import ReactAudioPlayer from "react-audio-player";
 import ExplorePostCard from "../explore/ExplorePostCard";
-import {fetchOtherUserGroupsStart} from "../../store/slices/groupsSlice";
-import {fetchOtherUserChannelsStart} from "../../store/slices/channelsSlice";
-import {fetchOtherModelProductListStart} from "../../store/slices/productsSlice";
+import { fetchOtherUserGroupsStart } from "../../store/slices/groupsSlice";
+import { fetchOtherUserChannelsStart } from "../../store/slices/channelsSlice";
+import { fetchOtherModelProductListStart } from "../../store/slices/productsSlice";
 
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
@@ -27,9 +27,9 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
   const posts = useSelector((state) => state.otherUser.userPosts);
   const user = useSelector((state) => state.otherUser.userDetails.data.user);
 
-  console.log(user)
-  const groups = useSelector((state) => state.groups.otherUserGroups)
-  const channels = useSelector((state) => state.channels.otherUserChannels)
+  console.log(user);
+  const groups = useSelector((state) => state.groups.otherUserGroups);
+  const channels = useSelector((state) => state.channels.otherUserChannels);
   const dispatch = useDispatch();
 
   const setActiveSection = (key) => {
@@ -109,7 +109,7 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
         }}
       >
         <Tab.List>
-          <div className="flex justify-center space-x-0 md:space-x-1 items-center  border rounded-b-lg shadow-md py-3 bg-slate-50">
+          <div className="flex justify-center space-x-0 md:space-x-1 items-center  border dark:!border-gray-700 rounded-b-lg shadow-md py-3 bg-slate-50 dark:!bg-gray-900 dark:text-gray-400">
             {categories.map((category, index) => (
               <Tab
                 key={index}
@@ -129,7 +129,11 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
           </div>
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
@@ -145,59 +149,83 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
                 <NewsFeedCard post={post} key={index} />
               ))} */}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1  flex flex-col space-y-3")}>
-          {channels.data.filter((channel) => channel.user_id === user.user_id).length >
-            0 ? channels.loading ? "Loading..." : (
-              <div className="p-2 bg-white rounded-lg shadow-lg border">
-                <div className="flex items-center space-x-2 my-5">
-                  <div className="side-icon">
-                    <MdSmartDisplay className="text-white h-6 w-6" />
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1  flex flex-col space-y-3"
+            )}
+          >
+            {channels.data.filter((channel) => channel.user_id === user.user_id)
+              .length > 0 ? (
+              channels.loading ? (
+                "Loading..."
+              ) : (
+                <div className="p-2 bg-white dark:!bg-gray-900 dark:text-gray-400 dark:!border-gray-700 rounded-lg shadow-lg border">
+                  <div className="flex items-center space-x-2 my-5">
+                    <div className="side-icon">
+                      <MdSmartDisplay className="text-white h-6 w-6" />
+                    </div>
+                    <h1 className="text-xl md:text-3xl font-semibold">
+                      {user.name}&apos;s Channels
+                    </h1>
                   </div>
-                  <h1 className="text-xl md:text-3xl font-semibold">
-                    {user.name}&apos;s Channels
-                  </h1>
-                </div>
-                <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {channels.data
-                    .filter((channel) => channel.user_id === user.user_id )
-                    .map((channel, index) => (
-                      <ChannelCard
-                        key={channel.id}
-                        profile={true}
-                        channel={channel}
-                      />
-                    ))}
-                </div>
-              </div>
-            ) : <NoDataFound/>}
-          </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-          {groups.data.filter((group) => group.user_id === user.user_id).length >
-            0 ? groups.loading ? "Loading..." : (
-              <div className="p-2 bg-white rounded-lg shadow-lg border">
-                <div className="flex items-center space-x-2 my-5">
-                  <div className="side-icon">
-                    <MdSmartDisplay className="text-white h-6 w-6" />
+                  <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {channels.data
+                      .filter((channel) => channel.user_id === user.user_id)
+                      .map((channel, index) => (
+                        <ChannelCard
+                          key={channel.id}
+                          profile={true}
+                          channel={channel}
+                        />
+                      ))}
                   </div>
-                  <h1 className="text-xl md:text-3xl font-semibold">
-                    {user.name}&apos;s Groups
-                  </h1>
                 </div>
-                <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {groups.data
-                    .filter((group) => group.user_id === user.user_id )
-                    .map((group, index) => (
-                      <GroupCard
-                        key={group.id}
-                        profile={true}
-                        group={group}
-                      />
-                    ))}
-                </div>
-              </div>
-            ) : <NoDataFound/>}
+              )
+            ) : (
+              <NoDataFound />
+            )}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
+            {groups.data.filter((group) => group.user_id === user.user_id)
+              .length > 0 ? (
+              groups.loading ? (
+                "Loading..."
+              ) : (
+                <div className="p-2 bg-white dark:!bg-gray-900 dark:text-gray-400 dark:!border-gray-700 rounded-lg shadow-lg border">
+                  <div className="flex items-center space-x-2 my-5">
+                    <div className="side-icon">
+                      <MdSmartDisplay className="text-white h-6 w-6" />
+                    </div>
+                    <h1 className="text-xl md:text-3xl font-semibold">
+                      {user.name}&apos;s Groups
+                    </h1>
+                  </div>
+                  <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {groups.data
+                      .filter((group) => group.user_id === user.user_id)
+                      .map((group, index) => (
+                        <GroupCard
+                          key={group.id}
+                          profile={true}
+                          group={group}
+                        />
+                      ))}
+                  </div>
+                </div>
+              )
+            ) : (
+              <NoDataFound />
+            )}
+          </Tab.Panel>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             <div className="flex items-center space-x-2 my-5">
               <div className="side-icon">
                 <MdPhotoSizeSelectActual className="text-white h-6 w-6" />
@@ -238,7 +266,11 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
               <NoDataFound></NoDataFound>
             )}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             <div className="flex items-center space-x-2 my-5">
               <div className="side-icon">
                 <FaVideo className="text-white h-6 w-6" />
@@ -290,7 +322,11 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
               <NoDataFound />
             )} */}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             <div className="flex items-center space-x-2 my-5">
               <div className="side-icon">
                 <GiSpeaker className="text-white h-6 w-6" />
@@ -314,8 +350,12 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
               <NoDataFound />
             )}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-            <ShopList  otherUser={true}/>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
+            <ShopList otherUser={true} />
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

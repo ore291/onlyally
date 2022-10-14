@@ -33,8 +33,6 @@ const HeaderMenu = () => {
   const [mounted, setMounted] = useState(false);
   const config = useSelector((state) => state.config);
 
- 
-
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -50,7 +48,7 @@ const HeaderMenu = () => {
           className={`${
             active
               ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
-              : "text-[#252525] font-semibold dark:text-gray-100"
+              : "text-[#252525] font-semibold dark:!text-gray-400"
           } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
         >
           <div className="flex items-center ">
@@ -72,7 +70,7 @@ const HeaderMenu = () => {
           className={`${
             active
               ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
-              : "text-[#252525] font-semibold dark:text-gray-100"
+              : "text-[#252525] font-semibold dark:!text-gray-400"
           } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
         >
           <div className="flex items-center ">
@@ -175,7 +173,7 @@ const HeaderMenu = () => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute z-10 origin-top-right right-1 tag_scroll py-[3px] px-[10px] overflow-y-scroll overscroll-y-contain rounded-[8px] min-w-[320px] max-h-[90vh]   bg-white dark:bg-gray-900 dark:text-gray-100  divide-y divide-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute z-10 origin-top-right right-1 tag_scroll py-[3px] px-[10px] overflow-y-scroll overscroll-y-contain rounded-[8px] min-w-[320px] max-h-[90vh]   bg-white dark:bg-gray-900 dark:!text-gray-400  divide-y divide-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1 ">
                   <Menu.Item>
                     {({ active }) => (
@@ -183,8 +181,8 @@ const HeaderMenu = () => {
                         onClick={() => router.push("/profile")}
                         className={`${
                           active
-                            ? "bg-gray-100 dark:bg-gray-900 text-[#252525] dark:text-gray-100 font-bold"
-                            : "text-[#252525] dark:text-gray-100 font-bold"
+                            ? "bg-gray-100 dark:bg-gray-900 text-[#252525] dark:!text-gray-400 font-bold"
+                            : "text-[#252525] dark:!text-gray-400 font-bold"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div className="relative w-10 h-10 rounded-full mr-5">
@@ -215,7 +213,7 @@ const HeaderMenu = () => {
                         Following
                       </p>
                       <button
-                        className="row-container bg-gray-100 dark:bg-gray-900 dark:text-gray-100 rounded-full px-2 py-1 ml-2"
+                        className="row-container bg-gray-100 dark:bg-gray-900 dark:!text-gray-400 rounded-full px-2 py-1 ml-2"
                         onClick={() => router.push("/payment/wallet")}
                       >
                         <FaWallet className="h-4 w-4 mr-1" />
@@ -234,7 +232,7 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 text-[#252525] font-semibold dark:text-gray-900"
-                            : "text-[#252525] dark:text-gray-100 font-semibold"
+                            : "text-[#252525] dark:!text-gray-400 font-semibold"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div
@@ -255,12 +253,12 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 !text-[#252525]  dark:!text-gray-900 font-semibold"
-                            : "text-[#252525] dark:text-gray-100 dark:bg-gray-900  font-semibold"
+                            : "text-[#252525] dark:!text-gray-400 dark:bg-gray-900  font-semibold"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div
                           className={`${
-                            active && " dark:text-gray-100"
+                            active && " dark:!text-gray-400"
                           }   row-container bg-gray-100  dark:bg-gray-900 rounded-full p-2 mr-3`}
                         >
                           <RiBarChartHorizontalFill className="h-6 w-6" />
@@ -276,7 +274,7 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 text-[#252525] dark:text-gray-900 font-semibold"
-                            : "text-[#252525] font-semibold dark:text-gray-100"
+                            : "text-[#252525] font-semibold dark:!text-gray-400"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div
@@ -310,7 +308,7 @@ const HeaderMenu = () => {
                           className={`${
                             active
                               ? "bg-gray-100 text-[#252525] dark:text-gray-900 dark:bg-gray-100 font-semibold"
-                              : "text-[#252525] font-semibold dark:text-gray-100"
+                              : "text-[#252525] font-semibold dark:!text-gray-400"
                           } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                         >
                           <div
@@ -332,7 +330,7 @@ const HeaderMenu = () => {
                           className={`${
                             active
                               ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
-                              : "text-[#252525] font-semibold dark:text-gray-100"
+                              : "text-[#252525] font-semibold dark:!text-gray-400"
                           } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                         >
                           <div
@@ -354,7 +352,7 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
-                            : "text-[#252525] font-semibold dark:text-gray-100"
+                            : "text-[#252525] font-semibold dark:!text-gray-400"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div
@@ -376,7 +374,7 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
-                            : "text-[#252525] font-semibold dark:text-gray-100"
+                            : "text-[#252525] font-semibold dark:!text-gray-400"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
@@ -393,7 +391,7 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
-                            : "text-[#252525] font-semibold dark:text-gray-100"
+                            : "text-[#252525] font-semibold dark:!text-gray-400"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         {" "}
@@ -415,7 +413,7 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 text-[#252525] dark:text-gray-900 font-semibold"
-                            : "text-[#252525] font-semibold dark:text-gray-100"
+                            : "text-[#252525] font-semibold dark:!text-gray-400"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div
@@ -436,7 +434,7 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 text-[#252525] dark:text-gray-900 font-semibold"
-                            : "text-[#252525] font-semibold dark:text-gray-100"
+                            : "text-[#252525] font-semibold dark:!text-gray-400"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                       >
                         <div
@@ -456,8 +454,8 @@ const HeaderMenu = () => {
                   <button
                     className={`${
                       active
-                        ? "bg-gray-100 text-[#252525] dark:bg-gray-900 dark:text-gray-100 font-semibold"
-                        : "text-[#252525] font-semibold dark:text-gray-100"
+                        ? "bg-gray-100 text-[#252525] dark:bg-gray-900 dark:!text-gray-400 font-semibold"
+                        : "text-[#252525] font-semibold dark:!text-gray-400"
                     } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
                   >
                     <div className={`${active && "dark:bg-gray-100"}   row-container bg-gray-100 dark:bg-gray-900 rounded-full p-2 mr-3`}>
@@ -490,7 +488,7 @@ const HeaderMenu = () => {
                         className={`${
                           active
                             ? "bg-gray-100 text-[#252525]  dark:text-gray-900 font-semibold"
-                            : "text-[#252525] font-semibold dark:text-gray-100"
+                            : "text-[#252525] font-semibold dark:!text-gray-400"
                         } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm `}
                       >
                         <div
@@ -505,7 +503,7 @@ const HeaderMenu = () => {
                     )}
                   </Menu.Item>
                   <Menu.Item>
-                    <div className="mt-5 text-[#252525] dark:text-gray-100">
+                    <div className="mt-5 text-[#252525] dark:!text-gray-400">
                       <div className="flex justify-between items-center">
                         <p className="text-xs ">
                           <span>&copy;</span>2022 Playjor!

@@ -101,7 +101,7 @@ const SendMoneyModal = (props) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-lg bg-white p-5 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-lg bg-white dark:!bg-gray-900 dark:!text-gray-400 p-5 text-left align-middle shadow-xl transition-all">
                   <div className="flex w-full items-center justify-between ">
                     <h3 className="text-xl font-medium leading-6 ">
                       Send money to friends

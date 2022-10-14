@@ -4,11 +4,12 @@ import ProfileNavItem from "../components/ProfileNavBar";
 import { fetchContentCreatorDashboardStart } from "../store/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NoDataFound from "../components/NoDataFound/NoDataFound";
+import { useRouter } from "next/router";
 
 const Card = ({ style, heading, price, image }) => {
   return (
     <section
-      className="w-fit h-36 shadow-md rounded-md flex text-white p-2 gap-6 items-center"
+      className="w-fit h-36 shadow-md rounded-md flex text-white dark:!text-gray-200 p-2 gap-6 items-center"
       style={style}
     >
       <img src={image} alt="icon" className="w-1/6" />
@@ -23,6 +24,7 @@ const Card = ({ style, heading, price, image }) => {
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const dashboardData = useSelector((state) => state.user.dashboard);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function Dashboard() {
     <>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem dashboardColor={"#B30D28"} />
-        <div className=" bg-white  mx-auto mt-10 mr-0 md:mr-16 ml-0 md:ml-6 shadow py-4 px-8 block lg:flex  gap-12 justify-between">
+        <div className=" bg-white dark:bg-gray-900 dark:text-gray-400 mx-auto mt-10 mr-0 md:mr-16 ml-0 md:ml-6 shadow py-4 px-8 block lg:flex  gap-12 justify-between">
           <div className="block lg:flex gap-4 w-full lg:w-[66%] space-y-4">
             <section className="space-y-4">
               <Card
@@ -119,7 +121,8 @@ export default function Dashboard() {
               {dashboardData.data?.followers?.length > 0 ? (
                 dashboardData.data?.followers?.map((follower) => (
                   <section
-                    className="flex gap-4 border-b-2 border-gray-200 pb-4"
+                    onClick={() => router.push(`/${follower.u_unique_id}`)}
+                    className="flex gap-4 border-b-2 border-gray-200 dark:border-gray-700 pb-4 cursor-pointer"
                     key={follower.u_id}
                   >
                     <img

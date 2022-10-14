@@ -56,7 +56,6 @@ import {
   fetchSingleUserProfileStart,
 } from "../store/slices/OtherUsersSlice";
 
-
 import { subscriptionPaymentPaystackStart } from "../store/slices/subscriptionSlice";
 
 import { getCookies, getCookie } from "cookies-next";
@@ -239,7 +238,7 @@ const Profile = () => {
                     objectFit="cover"
                     objectPosition="center"
                     srcSet=""
-                    className="w-full  !h-[30vh] md:!h-[70vh] object-cover object-center "
+                    className="w-full  !h-[40vh] md:!h-[70vh] object-cover object-center "
                   />
                 ) : (
                   <Image
@@ -251,17 +250,17 @@ const Profile = () => {
                     objectFit="cover"
                     objectPosition="center"
                     srcSet=""
-                    className="w-full !h-[30vh] md:!h-[70vh] object-cover object-center "
+                    className="w-full !h-[40vh] md:!h-[70vh] object-cover object-center "
                   />
                 )}
               </div>
               <div
-                className="w-8 h-8 rounded-full absolute z-10 top-28 left-8 bg-white cursor-pointer"
+                className="w-8 h-8 rounded-full absolute z-10 top-16  left-8 bg-white dark:!bg-gray-900 dark:!text-gray-400 cursor-pointer"
                 onClick={() => router.back()}
               >
                 <BsFillArrowLeftCircleFill className="h-8 w-8  " />
               </div>
-              <div className="absolute z-10 top-28 right-12">
+              <div className="absolute z-10 top-16  right-12">
                 <Popover className="relative">
                   {({ open }) => (
                     <>
@@ -317,7 +316,7 @@ const Profile = () => {
               {showReportModal && (
                 <div
                   style={{ boxShadow: "0 3px 6px rgb(0 0 0 / 16%)" }}
-                  className=" z-[9999999999999] absolute top-[40%] bg-white opacity-[5] right-[30%]  w-[50%] translate-x-[50%] inline-block  rounded-lg "
+                  className=" z-[9999999999999] absolute top-[40%] bg-white dark:!bg-gray-900 dark:!text-gray-400 opacity-[5] right-[30%]  w-[50%] translate-x-[50%] inline-block  rounded-lg "
                 >
                   <p className="text-white text-center  bg-red-700 hover:bg-[#CF0A08]  rounded-t-lg">
                     Are You sure you want to report this user ?
@@ -349,7 +348,7 @@ const Profile = () => {
               {showBlockUser && (
                 <div
                   style={{ boxShadow: "0 3px 6px rgb(0 0 0 / 16%)" }}
-                  className=" z-[9999999999999] absolute top-[40%] bg-white opacity-[5] right-[30%]  w-[50%] translate-x-[50%] inline-block  rounded-lg "
+                  className=" z-[9999999999999] absolute top-[40%] bg-white dark:!bg-gray-900 dark:!text-gray-400 opacity-[5] right-[30%]  w-[50%] translate-x-[50%] inline-block  rounded-lg "
                 >
                   <p className="text-white text-center  bg-red-700 hover:bg-[#CF0A08]  rounded-t-lg">
                     Are You sure you want to block this user ?
@@ -386,9 +385,9 @@ const Profile = () => {
                 closeReportModeModal={closeReportModeModal}
                 post={userDetails.data.user}
               />
-              <div className="row-container  absolute -bottom-16 inset-x-0  md:inset-x-auto md:-bottom-16 md:left-24">
+              {/* <div className="row-container  absolute -bottom-16 inset-x-0  md:inset-x-auto md:-bottom-16 md:left-24 lg:left-24  2xl:left-40">
                 <div className="p-1 bg-white rounded-3xl">
-                  <div className="w-36 h-36 relative rounded-3xl ">
+                  <div className="w-36 h-36 2xl:w-52 2xl:h-52 relative rounded-3xl ">
                     <Image
                       src={userDetails.data.user.picture}
                       alt={userDetails.data.user.name}
@@ -398,10 +397,23 @@ const Profile = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
-            <div className="px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white mb-10">
-              <div className="space-y-3 mt-16 flex flex-col ">
+            <div className="px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white dark:!bg-gray-900 dark:!text-gray-400  mb-10">
+              <div className="space-y-3 mt-16 2xl:mt-12 flex flex-col relative">
+                <div className="row-container  absolute  inset-x-0 mx-auto -top-[130px] md:-top-36 2xl:-top-40 ">
+                  <div className="p-1 bg-white rounded-3xl">
+                    <div className="w-36 h-36 2xl:w-52 2xl:h-52 relative rounded-3xl ">
+                      <Image
+                        src={userDetails.data.user.picture}
+                        alt={userDetails.data.user.name}
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-3xl"
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div className="col-container ">
                   <div className="flex items-center justify-center space-x-2 ">
                     <p className="text-2xl font-bold leading-[40px]">
@@ -447,7 +459,7 @@ const Profile = () => {
                 {showShare && (
                   <div
                     //style={{ boxShadow: "10px 10px 10px 10px  rgba(0,0,0,0.5", }}
-                    className="drop-shadow-[10px_10px_10px_rgba(0,0,0,0.5)] hover:drop-shadow-[10px_10px_10px_rgba(0,0,0,0.25)]  w-[200px] cursor-pointer h-fit bg-white rounded-xl sm:ml-8  ml-20 lg:ml-12 flex flex-wrap"
+                    className="drop-shadow-[10px_10px_10px_rgba(0,0,0,0.5)] hover:drop-shadow-[10px_10px_10px_rgba(0,0,0,0.25)]  w-[200px] cursor-pointer h-fit bg-white dark:!bg-gray-900 dark:!text-gray-400 rounded-xl sm:ml-8  ml-20 lg:ml-12 flex flex-wrap"
                   >
                     <FacebookShareButton
                       url={userDetails.data.user.share_link}
@@ -507,7 +519,7 @@ const Profile = () => {
                     userDetails.data.payment_info.is_free_account == 0 &&
                     userDetails.data.payment_info.unsubscribe_btn_status == 0
                       ? "grid-cols-1 gap-1"
-                      : "grid-cols-2 gap-2"
+                      : "grid-cols-1 gap-2"
                   }   justify-items-center place-content-center `}
                 >
                   {userDetails.data.is_block_user == 0 ? (
@@ -518,7 +530,7 @@ const Profile = () => {
                         <>
                           <div className="grid grid-cols-2 gap-x-1">
                             <div
-                              className="sub-button"
+                              className="sub-button truncate"
                               onClick={(event) =>
                                 subscriptionPayment(
                                   event,
@@ -533,7 +545,7 @@ const Profile = () => {
                               <span>
                                 <FaUnlock className="w-3 h-3" />
                               </span>
-                              {`Get access ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
+                              {`Follow ${userDetails.data.payment_info.subscription_info.monthly_amount_formatted}/mo`}
                             </div>
 
                             <div
@@ -553,7 +565,7 @@ const Profile = () => {
                                 <FaUnlock className="w-3 h-3" />
                               </span>
 
-                              {`Get access ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
+                              {`Follow ${userDetails.data.payment_info.subscription_info.yearly_amount_formatted}/yr`}
                             </div>
                           </div>
                         </>
@@ -575,7 +587,8 @@ const Profile = () => {
                           <span>
                             <FaUnlock />
                           </span>
-                          {userDetails.data.payment_info.payment_text}
+                          Follow
+                          {/* {userDetails.data.payment_info.payment_text} */}
                         </div>
                       )
                     ) : null
@@ -584,13 +597,13 @@ const Profile = () => {
                   {userDetails.data.payment_info.unsubscribe_btn_status == 1 ? (
                     <>
                       <div
-                        className="sub-button row-container space-x-1"
+                        className="sub-button flex-1 row-container space-x-1"
                         onClick={() => dispatch(setUnfollowerModal(true))}
                       >
                         <span>
                           <FaUserTimes className="h-4 w-4" />
                         </span>
-                        <p className="text-sm font-medium text-white">
+                        <p className="text-sm font-medium text-white dark:text-gray-300">
                           Unfollow
                         </p>
                       </div>
@@ -601,21 +614,24 @@ const Profile = () => {
                       ) : null}
                     </>
                   ) : null}
-                  <div
-                    className="row-container space-x-2  sub-button"
-                    onClick={() => setSendTip(true)}
-                  >
-                    <Image
-                      src="/materials/tips.png"
-                      alt="tips"
-                      width="16"
-                      height="16"
-                      className="h-4 w-4 text-white invert"
-                    />
-                    <p className="text-sm font-medium text-white">Tip</p>
-                  </div>
+                  {userDetails.data.user?.pro_package_config !== [] &&
+                    userDetails.data.user.user_account_type !== 0 && (
+                      <div
+                        className="flex-1 row-container space-x-2  sub-button"
+                        onClick={() => setSendTip(true)}
+                      >
+                        <Image
+                          src="/materials/tips.png"
+                          alt="tips"
+                          width="16"
+                          height="16"
+                          className="h-4 w-4 text-white invert"
+                        />
+                        <p className="text-sm font-medium text-white">Tip</p>
+                      </div>
+                    )}
                 </div>
-                <div className="row-container bg-gray-50 p-1 rounded-md py-2">
+                <div className="row-container bg-gray-50  dark:!bg-gray-900 dark:!text-gray-400 p-1 rounded-md py-2">
                   <div className="bg-gray-100 p-1 rounded-md">
                     <p className="text-sm font-semibold"> About Me</p>
                   </div>

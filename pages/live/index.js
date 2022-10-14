@@ -36,7 +36,7 @@ const Live = () => {
 
   return (
     <SideNavLayout title={"Playjor | Live"}>
-      <div className="lg:max-w-[980px] xl:max-w-6xl mx-auto my-8 bg-white p-5">
+      <div className="lg:max-w-[980px] xl:max-w-6xl mx-auto my-8 bg-white dark:bg-gray-900 dark:text-gray-300 p-5">
         {/* {[...Array(10)].map((_, index) => (
             <LiveCard key={index} />
           ))} */}
@@ -48,7 +48,7 @@ const Live = () => {
         ) : liveVideos.data?.videos.filter(
             (liveVideo) => liveVideo.user_id != localStorage.getItem("userId")
           ).length > 0 ? (
-          <div className="flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white ">
+          <div className="flex overflow-x-scroll space-x-4 py-1 scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white dark:scrollbar-track-bg-gray-500">
             {liveVideos.data.videos
               .filter(
                 (liveVideo) =>
@@ -63,7 +63,7 @@ const Live = () => {
           <NoDataFound />
         )}
 
-        <div className="bg-white p-5">
+        <div className="bg-white  dark:bg-gray-900 dark:text-gray-300 p-5">
           <div className="row-container w-full space-x-2">
             <Button
               text="Go Live"
@@ -83,12 +83,12 @@ const Live = () => {
               <BillingAccountLoader />
             ) : liveHistory.data.videos &&
               liveHistory.data.videos.length > 0 ? (
-              <div className="flex flex-col my-5">
+              <div className="flex flex-col my-5 dark:!bg-gray-900 dark:!text-gray-300">
                 <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                       <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-gray-50 dark:!bg-gray-900 dark:!text-gray-300">
                           <tr>
                             <th
                               scope="col"
@@ -137,7 +137,7 @@ const Live = () => {
                             </th> */}
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-white dark:!bg-gray-900 dark:!text-gray-300 divide-y divide-gray-200">
                           {liveHistory.data.videos.map((videos) => (
                             <tr key={videos.user_billing_account_id}>
                               <td className="px-2 text-sm md:text-xs font-medium py-2 whitespace-nowrap">

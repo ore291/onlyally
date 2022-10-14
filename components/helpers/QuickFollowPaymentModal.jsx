@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { Popover, Transition, Dialog, Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { setPaymentModal } from "../../store/slices/NavSlice";
+
 import {
   subscriptionPaymentPaystackStart,
   subscriptionPaymentWalletStart,
@@ -20,13 +20,16 @@ function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
 }
 
-const PaymentModal = ({
+const QuickPaymentModal = ({
   userPicture,
   name,
   user_unique_id,
   subscriptionData,
   username,
   email,
+  show,
+  toggleShow,
+  setFollowed,
 }) => {
   const dispatch = useDispatch();
   const [paymentType, setPaymentType] = useState("WALLET");
@@ -41,7 +44,7 @@ const PaymentModal = ({
   const cards = useSelector((state) => state.cards.cardDetails);
   // const user = useSelector((state) => state.user.profile.data);
 
-  const closeModal = () => dispatch(setPaymentModal(false));
+  const closeModal = () => toggleShow(false);
 
   const [config, setConfig] = useState({
     reference: new Date().getTime().toString(),
@@ -53,18 +56,19 @@ const PaymentModal = ({
   // you can call this function anything
   const onSuccess = (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
+    dispatch(
+      subscriptionPaymentPaystackStart({
+        payment_id: reference.reference,
+        user_unique_id: user_unique_id,
+        plan_type: subscriptionData.plan_type,
+        is_free: subscriptionData.is_free,
+        pro_balance: true,
+      })
+    );
+    setFollowed("followed");
     setTimeout(() => {
-      dispatch(
-        subscriptionPaymentPaystackStart({
-          payment_id: reference.reference,
-          user_unique_id: user_unique_id,
-          plan_type: subscriptionData.plan_type,
-          is_free: subscriptionData.is_free,
-          pro_balance: true,
-        })
-      );
-    }, 1000);
-    closeModal();
+      closeModal();
+    }, 1500);
   };
 
   // you can call this function anything
@@ -89,16 +93,8 @@ const PaymentModal = ({
   useEffect(() => {
     setPaymentType(localStorage.getItem("default_payment_method"));
     // dispatch(fetchCardDetailsStart());
-    dispatch(fetchWalletDetailsStart());
+    if (wallet.data != {}) dispatch(fetchWalletDetailsStart());
   }, []);
-
-  //   let env = configuration.get("configData.PAYPAL_MODE"); // you can set here to 'production' for production
-  let currency = "USD"; // or you can set this value from your props or state
-
-  //   const client = {
-  //     sandbox: configuration.get("configData.PAYPAL_ID"),
-  //     production: configuration.get("configData.PAYPAL_ID"),
-  //   };
 
   const choosePaymentOption = (event) => {
     setPaymentType(event);
@@ -116,26 +112,17 @@ const PaymentModal = ({
           pro_balance: true,
         })
       );
-  };
 
-  const paypalOnSuccess = (payment) => {
-    console.log(payment);
+    setFollowed("followed");
     setTimeout(() => {
-      props.dispatch(
-        subscriptionPaymentPaypalStart({
-          payment_id: payment.paymentID,
-          user_unique_id: props.user_unique_id,
-          plan_type: props.subscriptionData.plan_type,
-          is_free: props.subscriptionData.is_free,
-        })
-      );
-    }, 1000);
+      closeModal();
+    }, 1500);
   };
 
   const initializePayment = usePaystackPayment(config);
 
   return (
-    <Transition appear show={subscriptionPayment} as={Fragment}>
+    <Transition show={show} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => closeModal()}>
         <Transition.Child
           as={Fragment}
@@ -160,7 +147,7 @@ const PaymentModal = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-400 p-1 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-1 text-left align-middle shadow-xl transition-all">
                 <div className="flex w-full items-center justify-between p-2 bg-lightPlayRed rounded-t-2xl">
                   <h3 className="text-lg font-medium leading-6 text-white">
                     Subscribe
@@ -260,4 +247,4 @@ const PaymentModal = ({
   );
 };
 
-export default PaymentModal;
+export default QuickPaymentModal;

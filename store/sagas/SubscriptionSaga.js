@@ -1,5 +1,6 @@
 import { call, select, put, takeLatest, all } from "redux-saga/effects";
 import api from "../../Environment";
+import { setCookie } from "cookies-next";
 
 import { notify } from "reapop";
 
@@ -90,7 +91,18 @@ function* subscriptionPaymentPayStackAPI() {
         "total_followings",
         JSON.stringify(response.data.data.total_followings)
       );
-      if (window.location.pathname !== "/onboarding") {
+      setCookie(
+        "total_followings",
+        JSON.stringify(response.data.data.total_followings)
+      );
+      setCookie(
+        "total_followers",
+        JSON.stringify(response.data.data.total_followers)
+      );
+      if (
+        window.location.pathname !== "/onboarding" &&
+        window.location.pathname !== "/explore"
+      ) {
         window.location.assign(`/${subscriptionDetails.user_unique_id}`);
       }
     } else {
@@ -124,7 +136,18 @@ function* subscriptionPaymentWalletAPI() {
         "total_followings",
         JSON.stringify(response.data.data.total_followings)
       );
-      window.location.assign(`${subscriptionDetails.user_unique_id}`);
+      setCookie(
+        "total_followings",
+        JSON.stringify(response.data.data.total_followings)
+      );
+      setCookie(
+        "total_followers",
+        JSON.stringify(response.data.data.total_followers)
+      );
+
+      if (window.location.pathname !== "/explore") {
+        window.location.assign(`${subscriptionDetails.user_unique_id}`);
+      }
     } else {
       yield put(subscriptionPaymentWalletFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));

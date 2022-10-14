@@ -107,7 +107,7 @@ const ProfileTabs = () => {
         }}
       >
         <Tab.List>
-          <div className="flex justify-center space-x-0 md:space-x-1 items-center  border rounded-b-lg shadow-md py-3 bg-slate-50">
+          <div className="flex justify-center space-x-0 md:space-x-1 items-center  border dark:border-gray-700 rounded-b-lg shadow-md py-3 bg-slate-50 dark:bg-gray-900 dark:text-gray-400">
             {categories.map((category, index) => (
               <Tab
                 key={index}
@@ -127,7 +127,11 @@ const ProfileTabs = () => {
           </div>
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white  dark:bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
@@ -145,12 +149,12 @@ const ProfileTabs = () => {
           </Tab.Panel>
           <Tab.Panel
             className={classNames(
-              "bg-white rounded-xl p-1 flex flex-col space-y-3"
+              "bg-white dark:bg-gray-900 dark:text-gray-400 rounded-xl p-1 flex flex-col space-y-3"
             )}
           >
             {channels.filter((channel) => channel.user_id === user.id).length >
             0 ? (
-              <div className="p-2 bg-white rounded-lg shadow-lg border">
+              <div className="p-2 bg-white dark:bg-gray-900 dark:text-gray-400 rounded-lg shadow-lg border dark:border-gray-700">
                 <div className="flex items-center space-x-2 my-5">
                   <div className="side-icon">
                     <MdSmartDisplay className="text-white h-6 w-6" />
@@ -161,7 +165,7 @@ const ProfileTabs = () => {
                 </div>
                 <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                   {channels
-                    .filter((channel) => channel.user_id === user.id )
+                    .filter((channel) => channel.user_id === user.id)
                     .map((channel, index) => (
                       <ChannelCard
                         key={channel.id}
@@ -173,7 +177,7 @@ const ProfileTabs = () => {
               </div>
             ) : null}
 
-            <div className="p-2 bg-white rounded-lg shadow-lg mt-2 border">
+            <div className="p-2 bg-white dark:bg-gray-900 dark:text-gray-400 rounded-lg shadow-lg mt-2 border dark:border-gray-700">
               <div className="flex items-center space-x-2 my-5">
                 <div className="side-icon">
                   <MdSmartDisplay className="text-white h-6 w-6" />
@@ -184,7 +188,7 @@ const ProfileTabs = () => {
               </div>
               <div className="p-2 grid grid-cols-1  md:grid-cols-2 gap-3">
                 {channels
-                  .filter((channel) => channel.user_id !== user.id )
+                  .filter((channel) => channel.user_id !== user.id)
                   .map((channel, index) => (
                     <ChannelCard
                       key={channel.id}
@@ -197,11 +201,11 @@ const ProfileTabs = () => {
           </Tab.Panel>
           <Tab.Panel
             className={classNames(
-              "bg-white rounded-xl p-1 flex flex-col space-y-5"
+              "bg-white dark:bg-gray-900 dark:text-gray-400 rounded-xl p-1 flex flex-col space-y-5"
             )}
           >
-            {groups.filter((group) => group.user_id == user.id ).length > 0 ? (
-              <div className="p-2 bg-white rounded-lg shadow-lg border">
+            {groups.filter((group) => group.user_id == user.id).length > 0 ? (
+              <div className="p-2 bg-white dark:bg-gray-900 dark:text-gray-400 rounded-lg shadow-lg border dark:border-gray-700">
                 <div className="flex items-center space-x-2 my-5">
                   <div className="side-icon">
                     <MdSmartDisplay className="text-white h-6 w-6" />
@@ -212,7 +216,7 @@ const ProfileTabs = () => {
                 </div>
                 <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                   {groups
-                    .filter((group) => group.user_id == user.id )
+                    .filter((group) => group.user_id == user.id)
                     .map((group, index) => (
                       <GroupCard key={group.id} profile={true} group={group} />
                     ))}
@@ -220,7 +224,7 @@ const ProfileTabs = () => {
               </div>
             ) : null}
 
-            <div className="p-2 bg-white rounded-lg shadow-lg mt-2 border">
+            <div className="p-2 bg-white dark:bg-gray-900 dark:text-gray-400 rounded-lg shadow-lg mt-2 border dark:border-gray-700">
               <div className="flex items-center space-x-2 my-5">
                 <div className="side-icon">
                   <MdSmartDisplay className="text-white h-6 w-6" />
@@ -238,7 +242,11 @@ const ProfileTabs = () => {
               </div>
             </div>
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             <div className="flex items-center space-x-2 my-5">
               <div className="side-icon">
                 <MdPhotoSizeSelectActual className="text-white h-6 w-6" />
@@ -279,7 +287,11 @@ const ProfileTabs = () => {
               <NoDataFound></NoDataFound>
             )}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             <div className="flex items-center space-x-2 my-5">
               <div className="side-icon">
                 <FaVideo className="text-white h-6 w-6" />
@@ -319,7 +331,11 @@ const ProfileTabs = () => {
               <NoDataFound />
             )}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             <div className="flex items-center space-x-2 my-5">
               <div className="side-icon">
                 <GiSpeaker className="text-white h-6 w-6" />
@@ -343,7 +359,11 @@ const ProfileTabs = () => {
               <NoDataFound />
             )}
           </Tab.Panel>
-          <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
+          <Tab.Panel
+            className={classNames(
+              "bg-white dark:bg-gray-900 dark:text-gray-400 rounded-xl p-1"
+            )}
+          >
             <ShopList />
           </Tab.Panel>
         </Tab.Panels>

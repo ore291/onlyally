@@ -11,7 +11,7 @@ export default function Contact() {
     <>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem helpColor={"#B30D28"} />
-        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
+        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white dark:!bg-gray-900 dark:!text-gray-400 px-4 mx-auto mt-20 shadow py-4">
           <div>
             <p className="text-red-500 font-semibold">Contact us</p>
             <h1 className="font-semibold">

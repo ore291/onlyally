@@ -2,7 +2,7 @@ import React from "react";
 
 const BalanceCard = ({ title, Icon, balance }) => {
   return (
-    <div className="flex items-center py-[15px] px-[14px] bg-white rounded-xl shadow-sm">
+    <div className="flex items-center py-[15px] px-[14px] bg-white dark:!bg-gray-900 dark:!text-gray-400 dark:border dark:border-gray-300 rounded-xl shadow-sm">
       <Icon className="w-10 h-10 text-[#E6023D] max-w-[4em]" />
       <div className="pl-1 flex flex-col items-start justify-between ">
         <h5 className="text-[0.9em] font-semibold whitespace-nowrap">

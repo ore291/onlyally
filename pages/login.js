@@ -1,10 +1,16 @@
-import { getProviders, signIn, useSession } from "next-auth/react";
+// import { getProviders, signIn, useSession } from "next-auth/react";
 import { useSelector, useDispatch } from "react-redux";
 import { loginStart } from "../store/slices/userSlice";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+
+import {
+  LoginSocialGoogle,
+  LoginSocialFacebook,
+  LoginSocialTwitter,
+} from "reactjs-social-login";
 
 import {
   FaUserCircle,
@@ -29,6 +35,8 @@ import {
 } from "react-device-detect";
 import Link from "next/link";
 
+const REDIRECT_URI = window.location.href;
+
 const Login = () => {
   const dispatch = useDispatch();
 
@@ -42,7 +50,6 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const [email, setEmail] = useState("");
   const router = useRouter();
- 
 
   const handleLogin = (event) => {
     var email = emailRef.current.value;
@@ -52,15 +59,15 @@ const Login = () => {
     var device_model = "";
     var browser_type = browserName;
 
-    if(isAndroid==true){
+    if (isAndroid == true) {
       device_type = "android";
       device_model = mobileModel;
-    } else if(isIOS==true){
+    } else if (isIOS == true) {
       device_type = "ios";
       device_model = mobileModel;
     } else {
       device_type = "web";
-      device_model = browserName+' '+browserVersion;
+      device_model = browserName + " " + browserVersion;
     }
 
     event.preventDefault();
@@ -71,37 +78,25 @@ const Login = () => {
         login_by: "manual",
         device_token: "123456",
         device_type: device_type,
-        device_model : device_model
+        device_model: device_model,
       })
     );
   };
 
-  // const userLogin = async () => {
-  //   setLoginState(true);
-  //   var email = emailRef.current.value;
-  //   var password = passwordRef.current.value;
-  //   try {
-  //     const res = await signIn("credentials", {
-  //       callbackUrl: "/",
-  //       // redirect: false,
-  //       email: email,
-  //       password: password,
-  //     });
-  //     if (res.ok == false) {
-  //       setLoginState(false);
-  //     }
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
+  // social parts
 
-  // useEffect(() => {
-  //   if (router.query.error) {
-  //     console.log(router.query.error);
-  //     setLoginError(router.query.error);
-  //     setEmail(router.query.email);
-  //   }
-  // }, [router]);
+  const [provider, setProvider] = useState("");
+  const [profile, setProfile] = useState(null);
+
+  const onLoginStart = useCallback(() => {
+    alert("login start");
+  }, []);
+
+  const onLogoutSuccess = useCallback(() => {
+    setProfile(null);
+    setProvider("");
+    alert("logout success");
+  }, []);
 
   return (
     <div className=" ">
@@ -199,9 +194,22 @@ const Login = () => {
                 Or login with
               </p>
               <div className="flex items-center justify-around space-x-4">
-                <div className="social-login-buttons">
-                  <FaFacebookF className="w-8 h-8 text-blue-700" />
-                </div>
+                <LoginSocialFacebook
+                  appId={"228628742708121" || ""}
+                  onLoginStart={onLoginStart}
+                  onResolve={({ provider, data }) => {
+                    setProvider(provider);
+                    setProfile(data);
+                  }}
+                  onReject={(err) => {
+                    console.log(err);
+                  }}
+                >
+                  <div className="social-login-buttons">
+                    <FaFacebookF className="w-8 h-8 text-blue-700" />
+                  </div>
+                </LoginSocialFacebook>
+
                 <div className="social-login-buttons">
                   <FaTwitter className="w-8 h-8 text-[#1DA1F2] " />
                 </div>

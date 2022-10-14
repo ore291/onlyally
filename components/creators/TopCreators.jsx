@@ -9,7 +9,6 @@ import { useEffect } from "react";
 const TopCreators = () => {
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch(fetchPostSuggestionsStart());
   }, []);
@@ -19,7 +18,7 @@ const TopCreators = () => {
     <div className="side-container items-start">
       <div className="flex items-center justify-center  space-x-1">
         <div className="flex rounded-full bg-orange-400 items-center justify-center w-6 h-6">
-          <RiVipCrownFill className=" text-white  dark:text-gray-100" />
+          <RiVipCrownFill className=" text-white  dark:!text-gray-400" />
         </div>
         <p className="text-start">Top Content Creators</p>
       </div>

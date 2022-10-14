@@ -54,7 +54,7 @@ const CategoryListingIndex = () => {
 
                         selected
                           ? "bg-lightPlayRed/90 text-white"
-                          : "bg-white text-lightPlayRed"
+                          : "bg-white dark:bg-gray-200  text-lightPlayRed"
                       )
                     }
                   >
@@ -64,7 +64,7 @@ const CategoryListingIndex = () => {
                 {selectedList != null && (
                   <button
                     onClick={handleListClear}
-                    className="w-[150px] shrink-0 rounded-lg py-2.5 text-sm font-medium leading-5 bg-white shadow-lg"
+                    className="w-[150px] shrink-0 rounded-lg py-2.5 text-sm font-medium leading-5 bg-white dark:bg-gray-600 dark:text-gray-200 shadow-lg"
                   >
                     Show All
                   </button>

@@ -51,7 +51,7 @@ export default function Auth2() {
     <>
       <div className="flex flex-col justify-center lg:flex-row">
         <ProfileNavItem />
-        <div className="w-full  lg:mr-6 lg:ml-10 bg-white mx-auto mt-10 shadow rounded-md space-y-8">
+        <div className="w-full  lg:mr-6 lg:ml-10 bg-white dark:!bg-gray-900 dark:!text-gray-400 mx-auto mt-10 shadow rounded-md space-y-8">
           <div className="bg-[url('/images/settings/bluebg.png')] flex p-4 justify-between rounded-md bg-center items-center">
             <div>
               <span>
@@ -90,7 +90,7 @@ export default function Auth2() {
               <h1>Premium Members</h1>
             </div>
 
-            <div className="mt-10 grid xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-2  bg-white">
+            <div className="mt-10 grid xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-2  bg-white dark:!bg-gray-900 dark:!text-gray-400">
               {user.map((eachUser) => (
                 <div key={eachUser.pic}>
                   <img
@@ -105,12 +105,12 @@ export default function Auth2() {
           </section>
 
           <section>
-            <h1 className="capitalize font-medium text-center mb-8 bg-white">
+            <h1 className="capitalize font-medium text-center mb-8 bg-white dark:!bg-gray-900 dark:!text-gray-400">
               upgrade to premium creator
             </h1>
           </section>
 
-          <main className="bg-gray-100 py-6 block lg:flex justify-center gap-16">
+          <main className="bg-gray-100 py-6 block lg:flex justify-center gap-16 dark:!bg-gray-900 dark:!text-gray-400">
             <GoProStar />
             <GoProFire />
             <GoProFlash />

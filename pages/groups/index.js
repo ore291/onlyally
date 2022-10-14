@@ -39,7 +39,7 @@ const Groups = () => {
           ""
         )}
 
-        <div className="bg-white rounded-2xl my-10 p-3 shadow-md">
+        <div className="bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-2xl my-10 p-3 shadow-md">
           <div className="flex items-center justify-between pb-2 border-b mb-5">
             <div className="flex flex-col items-start justify-center">
               <h1 className="text-2xl font-semibold">Categories</h1>

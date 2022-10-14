@@ -47,7 +47,7 @@ const SideNav = () => {
             setTheme("light");
             dispatch(setNavState(false));
           }}
-          className={`${"text-[#252525] font-semibold dark:text-gray-100"} group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
+          className={`${"text-[#252525] font-semibold dark:!text-gray-400"} group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
         >
           <div className="flex items-center ">
             <div
@@ -66,7 +66,7 @@ const SideNav = () => {
             setTheme("dark");
             dispatch(setNavState(false));
           }}
-          className="text-[#252525] font-semibold dark:text-gray-100"
+          className="text-[#252525] font-semibold dark:!text-gray-400"
         >
           <div className="flex items-center ">
             <div
@@ -142,7 +142,7 @@ const SideNav = () => {
             className="bg-transparent h-full"
             onClick={() => dispatch(setNavState(false))}
           ></div>
-          <div className=" col-span-2 pt-2 pb-5 bg-white dark:bg-gray-900 dark:text-gray-100 h-full">
+          <div className=" col-span-2 pt-2 pb-5 bg-white dark:bg-gray-900 dark:!text-gray-400 h-full">
             <div className="flex flex-col space-y-3  p-3">
               <div className="flex items-center justify-between">
                 <div className="relative w-10 h-10 rounded-full mr-5">
@@ -169,7 +169,7 @@ const SideNav = () => {
                   {user.total_followings} Following
                 </p>
                 <button
-                  className="row-container bg-gray-100 dark:bg-gray-600 dark:text-gray-100 rounded-full px-1 py-1 "
+                  className="row-container bg-gray-100 dark:bg-gray-600 dark:!text-gray-400 rounded-full px-1 py-1 "
                   onClick={() => navigate("/payment/wallet")}
                 >
                   <FaWallet className="h-4 w-4 mr-1" />
@@ -321,7 +321,7 @@ const SideNav = () => {
                 </div>
                 Log Out
               </button>
-              <div className="mt-5 text-[#252525] dark:text-gray-100">
+              <div className="mt-5 text-[#252525] dark:!text-gray-400">
                 <div className="flex justify-between items-center">
                   <p className="text-xs ">
                     <span>&copy;</span>2022 Playjor!
@@ -339,9 +339,11 @@ const SideNav = () => {
                         (static_page, i) => (
                           <span
                             key={i}
-                            onClick={()=>navigate(
-                              `/page/${static_page.static_page_unique_id}`
-                            )}
+                            onClick={() =>
+                              navigate(
+                                `/page/${static_page.static_page_unique_id}`
+                              )
+                            }
                             className="text-xs cursor-pointer hover:text-green-500 "
                           >
                             {static_page.title}
@@ -358,9 +360,11 @@ const SideNav = () => {
                         (static_page, i) => (
                           <span
                             key={i}
-                            onClick={() =>navigate(
-                              `/page/${static_page.static_page_unique_id}`
-                            )}
+                            onClick={() =>
+                              navigate(
+                                `/page/${static_page.static_page_unique_id}`
+                              )
+                            }
                             className="text-xs cursor-pointer hover:text-green-500 "
                           >
                             {static_page.title}

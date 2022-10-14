@@ -36,7 +36,7 @@ export const GoProStar = () => {
 
   //const data = Audios.data.posts.slice(1);
   return (
-    <div className="w-full lg:w-[27%]  mt-8 px-4 py-8 bg-white hover:bg-gray-50 transition duration-200 ease-out rounded-lg shadow-lg">
+    <div className="w-full lg:w-[27%]  mt-8 px-4 py-8 bg-white  dark:!bg-gray-900 dark:!text-gray-400 dark:border dark:border-gray-300 hover:bg-gray-50 transition duration-200 ease-out rounded-lg shadow-lg">
       <section className="space-y-2">
         <img
           src="/images/settings/goprostar.png"
@@ -148,7 +148,7 @@ export const GoProFire = () => {
   };
 
   return (
-    <div className="w-full lg:w-[27%]  mt-8 px-4 py-8 bg-white hover:bg-gray-50 transition duration-200 ease-out rounded-lg shadow-lg">
+    <div className="w-full lg:w-[27%]  mt-8 px-4 py-8 bg-white  dark:!bg-gray-900 dark:!text-gray-400 dark:border dark:border-gray-300 hover:bg-gray-50 transition duration-200 ease-out rounded-lg shadow-lg">
       <section className="space-y-2">
         <img
           src="/images/settings/goprofire.png"
@@ -256,7 +256,7 @@ export const GoProFlash = () => {
     }, 3000);
   };
   return (
-    <div className="w-full lg:w-[27%]  mt-8 px-4 py-8 bg-white hover:bg-gray-50 transition duration-200 ease-out rounded-lg shadow-lg">
+    <div className="w-full lg:w-[27%]  mt-8 px-4 py-8 bg-white  dark:!bg-gray-900 dark:!text-gray-400 dark:border dark:border-gray-300 hover:bg-gray-50 transition duration-200 ease-out rounded-lg shadow-lg">
       <section className="space-y-2">
         <img
           src="/images/settings/goproflash.png"

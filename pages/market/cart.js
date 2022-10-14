@@ -27,7 +27,7 @@ const Cart = () => {
   return (
     <div className="flex flex-col justify-center lg:flex-row">
       <ProfileNavBar className="w-24 mb-8" />
-      <div className="w-full lg:w-4/5  mr-0 lg:ml-6 bg-white px-2 md:px-4 mx-auto mt-2 shadow py-4">
+      <div className="w-full lg:w-4/5  mr-0 lg:ml-6 bg-white dark:!bg-gray-900 dark:!text-gray-400 px-2 md:px-4 mx-auto mt-2 shadow py-4">
         <p className="font-semibold mt1.5 mb-3.5 pl-2">
           <span className="mx-2">Shopping cart</span>
           {">"}
@@ -42,7 +42,8 @@ const Cart = () => {
             <div className="w-full overflow-x-auto">
               <div className="my-2">
                 <h3 className="text-xl font-bold tracking-wider">
-                  Shopping Cart {cartList.data.carts ? cartList.data.carts.length : '0'} items
+                  Shopping Cart{" "}
+                  {cartList.data.carts ? cartList.data.carts.length : "0"} items
                 </h3>
               </div>
               <table className="w-full shadow-inner">
