@@ -194,21 +194,24 @@ const Login = () => {
                 Or login with
               </p>
               <div className="flex items-center justify-around space-x-4">
-                <LoginSocialFacebook
-                  appId={"228628742708121" || ""}
-                  onLoginStart={onLoginStart}
-                  onResolve={({ provider, data }) => {
-                    setProvider(provider);
-                    setProfile(data);
-                  }}
-                  onReject={(err) => {
-                    console.log(err);
-                  }}
-                >
-                  <div className="social-login-buttons">
-                    <FaFacebookF className="w-8 h-8 text-blue-700" />
-                  </div>
-                </LoginSocialFacebook>
+                {typeof window !== "undefined" && (
+                  // Client-side-only code
+                  <LoginSocialFacebook
+                    appId={"228628742708121" || ""}
+                    onLoginStart={onLoginStart}
+                    onResolve={({ provider, data }) => {
+                      setProvider(provider);
+                      setProfile(data);
+                    }}
+                    onReject={(err) => {
+                      console.log(err);
+                    }}
+                  >
+                    <div className="social-login-buttons">
+                      <FaFacebookF className="w-8 h-8 text-blue-700" />
+                    </div>
+                  </LoginSocialFacebook>
+                )}
 
                 <div className="social-login-buttons">
                   <FaTwitter className="w-8 h-8 text-[#1DA1F2] " />
