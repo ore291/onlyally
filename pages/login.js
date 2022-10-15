@@ -1,16 +1,11 @@
 // import { getProviders, signIn, useSession } from "next-auth/react";
 import { useSelector, useDispatch } from "react-redux";
 import { loginStart } from "../store/slices/userSlice";
+import dynamic from "next/dynamic";
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
-// import {
-//   LoginSocialGoogle,
-//   LoginSocialFacebook,
-//   LoginSocialTwitter,
-// } from "reactjs-social-login";
 
 import {
   FaUserCircle,
@@ -35,7 +30,12 @@ import {
 } from "react-device-detect";
 import Link from "next/link";
 
-// const REDIRECT_URI = window.location.href;
+const FacebookButton = dynamic(
+  () => import("../components/social/FacebookButton"),
+  {
+    ssr: false,
+  }
+);
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -82,21 +82,6 @@ const Login = () => {
       })
     );
   };
-
-  // social parts
-
-  const [provider, setProvider] = useState("");
-  const [profile, setProfile] = useState(null);
-
-  const onLoginStart = useCallback(() => {
-    alert("login start");
-  }, []);
-
-  const onLogoutSuccess = useCallback(() => {
-    setProfile(null);
-    setProvider("");
-    alert("logout success");
-  }, []);
 
   return (
     <div className=" ">
@@ -194,24 +179,11 @@ const Login = () => {
                 Or login with
               </p>
               <div className="flex items-center justify-around space-x-4">
-                {/* {typeof window !== "undefined" && (
-                  // Client-side-only code
-                  <LoginSocialFacebook
-                    appId={"228628742708121" || ""}
-                    onLoginStart={onLoginStart}
-                    onResolve={({ provider, data }) => {
-                      setProvider(provider);
-                      setProfile(data);
-                    }}
-                    onReject={(err) => {
-                      console.log(err);
-                    }}
-                  >
-                    <div className="social-login-buttons">
-                      <FaFacebookF className="w-8 h-8 text-blue-700" />
-                    </div>
-                  </LoginSocialFacebook>
-                )} */}
+                <FacebookButton>
+                  <div className="social-login-buttons">
+                    <FaFacebookF className="w-8 h-8 text-blue-700" />
+                  </div>
+                </FacebookButton>
 
                 <div className="social-login-buttons">
                   <FaTwitter className="w-8 h-8 text-[#1DA1F2] " />
