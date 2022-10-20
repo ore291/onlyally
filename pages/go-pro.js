@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { FaCrown, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { GoProStar, GoProFire, GoProFlash } from "../components/gopro/Plans";
 import ProfileNavItem from "../components/ProfileNavBar";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPostSuggestionsStart } from "../store/slices/homeSlice";
+import StorySliderLoader from "../components/feeds/StorySliderLoader";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Auth2() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPostSuggestionsStart());
+  }, []);
+
+  const postSug = useSelector((state) => state.home.postSug);
+
   const user = [
     {
       pic: "/images/settings/covergirl.jpg",
@@ -28,7 +41,7 @@ export default function Auth2() {
 
   const Features = [
     {
-      name: "pro features give you complete control over your profile",
+      name: "Pro features give you complete control over your profile",
     },
     {
       name: "Become premium member and earn from your content",
@@ -90,18 +103,30 @@ export default function Auth2() {
               <h1>Premium Members</h1>
             </div>
 
-            <div className="mt-10 grid xl:grid-cols-6 lg:grid-cols-6 md:grid-cols-4 grid-cols-3 gap-2  bg-white dark:!bg-gray-900 dark:!text-gray-400">
-              {user.map((eachUser) => (
-                <div key={eachUser.pic}>
-                  <img
-                    src={eachUser.pic}
-                    alt="image"
-                    className="rounded-full w-[100px] h-[100px]"
-                  />
-                  <p className="ml-4">Lekan Dar</p>
-                </div>
-              ))}
-            </div>
+            {postSug.loading ? (
+              <div className="max-w-4xl mx-auto  overflow-x-scroll scrollbar-thin flex-shrink-0">
+                <StorySliderLoader />{" "}
+              </div>
+            ) : (
+              <div className="grid gap-y-4 justify-center grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 items-center space-x-4 mt-10 bg-white dark:!bg-gray-900 dark:!text-gray-400 overflow-x-scroll scrollbar-thin scroll-smooth">
+                {postSug.data.users.length > 0 &&
+                  postSug.data.users.map((user, i) => (
+                    <Link href={`/${user.username}`} passHref key={i}>
+                      <div className="flex flex-col items-center justify-center flex-shrink-0 ">
+                        <Image
+                          src={user.picture}
+                          alt="image"
+                          width={100}
+                          height={100}
+                          objectFit="cover"
+                          className="rounded-full  object-cover"
+                        />
+                        <p className="capitalize">{user.name}</p>
+                      </div>
+                    </Link>
+                  ))}
+              </div>
+            )}
           </section>
 
           <section>

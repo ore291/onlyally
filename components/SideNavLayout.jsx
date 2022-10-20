@@ -22,6 +22,8 @@ const SideNavLayout = ({ children , title}) => {
   //   !checkSession && router.push("/login")
   // }, [checkSession])
 
+  
+
   return (
     <>
     <Head>

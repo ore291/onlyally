@@ -202,6 +202,7 @@ const Login = () => {
               layout="fill"
               objectFit="contain"
               className="p-1 rounded-full "
+              alt=""
             />
           </div>
         </div>
@@ -239,6 +240,7 @@ const Login = () => {
               layout="fill"
               objectFit="contain"
               className="p-1 rounded-full"
+              alt=""
             />
           </div>
           <h1 className="flex md:hidden text-6xl leading-none tracking-wide text-center text-playRed font-bold">

@@ -45,7 +45,7 @@ function* logoutStatusCheck() {
       // yield put(notify({message: inputData.error, status:"error"}));
       setTimeout(() => {
         window.location.assign("/login");
-      }, 100);
+      }, 1000);
     } else {
       console.log("Error Check false");
       //   const notificationMessage = getErrorNotificationMessage(

@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from "react-redux";
 // const DeviceHelper = require("node-device-detector/helper");
 import { getSelectorsByUserAgent } from "react-device-detect";
 import axios from "axios";
-import { getCookies } from "cookies-next";
+import { getCookies, hasCookie } from "cookies-next";
 import {
   fetchUserDetailsStart,
   fetchUserDetailsSuccess,
@@ -106,7 +106,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       //         store.dispatch(fetchUserLoginSuccess(JSON.parse(cookies.user)));
       //       }
 
-      if (!cookies.accessToken) {
+      if (cookies.accessToken === null) {
         return {
           redirect: {
             destination: "/login",
