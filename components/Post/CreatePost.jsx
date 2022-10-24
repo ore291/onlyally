@@ -17,6 +17,8 @@ import {
 } from "../../store/slices/postSlice";
 import { setCreatePostModal } from "../../store/slices/NavSlice";
 import PostEditor from "../feeds/PostEditor";
+import { getCookie, hasCookie } from "cookies-next";
+import { fetchUserDetailsStart } from "../../store/slices/userSlice";
 
 const CreatePost = (props) => {
   const dispatch = useDispatch();
@@ -30,6 +32,12 @@ const CreatePost = (props) => {
   function closeModal() {
     props.closeModal();
   }
+
+  const user = useSelector((state) => state.user.profile.data);
+
+  useEffect(() => {
+    dispatch(fetchUserDetailsStart());
+  }, []);
 
   // new addditions
 
@@ -362,35 +370,35 @@ const CreatePost = (props) => {
   //   fileUpload.data.file && setUploadedImages(fileUpload.data.file.split(","));
   // }, [fileUpload.data.file]);
 
-  // useEffect(() => {
-  //   const images = [],
-  //     fileReaders = [];
-  //   let isCancel = false;
-  //   if (imageFiles.length) {
-  //     imageFiles.forEach((file) => {
-  //       const fileReader = new FileReader();
-  //       fileReaders.push(fileReader);
-  //       fileReader.onload = (e) => {
-  //         const { result } = e.target;
-  //         if (result) {
-  //           images.push(result);
-  //         }
-  //         if (images.length === imageFiles.length && !isCancel) {
-  //           setImages(images);
-  //         }
-  //       };
-  //       fileReader.readAsDataURL(file);
-  //     });
-  //   }
-  //   return () => {
-  //     isCancel = true;
-  //     fileReaders.forEach((fileReader) => {
-  //       if (fileReader.readyState === 1) {
-  //         fileReader.abort();
-  //       }
-  //     });
-  //   };
-  // }, [imageFiles]);
+  useEffect(() => {
+    const images = [],
+      fileReaders = [];
+    let isCancel = false;
+    if (imageFiles.length) {
+      imageFiles.forEach((file) => {
+        const fileReader = new FileReader();
+        fileReaders.push(fileReader);
+        fileReader.onload = (e) => {
+          const { result } = e.target;
+          if (result) {
+            images.push(result);
+          }
+          if (images.length === imageFiles.length && !isCancel) {
+            setImages(images);
+          }
+        };
+        fileReader.readAsDataURL(file);
+      });
+    }
+    return () => {
+      isCancel = true;
+      fileReaders.forEach((fileReader) => {
+        if (fileReader.readyState === 1) {
+          fileReader.abort();
+        }
+      });
+    };
+  }, [imageFiles]);
 
   return (
     <Transition show={props.show} as={Fragment}>
@@ -491,7 +499,9 @@ const CreatePost = (props) => {
                 )}
               </div>
               <div className="grid grid-cols-1">
-                {paidPost == true ? (
+                {user?.user_account_type &&
+                user.user_account_type == 1 &&
+                paidPost ? (
                   <form className="mt-2">
                     <label
                       htmlFor="amount"
@@ -647,7 +657,7 @@ const CreatePost = (props) => {
                 fileUpload.data.file &&
                 fileUpload.data.file.split(",").length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2 ">
-                    {fileUpload.data.file.split(",").map((image, i) => (
+                    {images.map((image, i) => (
                       <div
                         key={i}
                         className="relative row-container  w-full p-2 rounded-[4px]"
