@@ -24,13 +24,14 @@ const HeaderMenuDropdown = () => {
   const createPostModalState = useSelector(
     (state) => state.navbar.createPostModal
   );
-  const user = useSelector((state) => state.user.profile.data);
-  // my own code
-  let [isOpen, setIsOpen] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   function openModal() {
-    dispatch(setCreatePostModal(true));
+    setIsOpen(true);
   }
+
+  const closeModal = () => setIsOpen(false);
   return (
     <>
       {" "}
@@ -182,7 +183,7 @@ const HeaderMenuDropdown = () => {
           </Menu.Items>
         </Transition>
       </Menu>
-      {createPostModalState ? <CreatePost /> : null}
+      {isOpen ? <CreatePost show={isOpen} closeModal={closeModal} /> : null}
     </>
   );
 };

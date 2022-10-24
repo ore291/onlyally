@@ -17,11 +17,11 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
 
   const handleImagePreview = (event, status, paymentStatus) => {
     event.preventDefault();
-    router.push("/profile/" + post.user.unique_id);
-    if (paymentStatus == 0) {
-      // setModalStatus(status);
-      router.push("/profile/" + post.user.unique_id);
-    }
+    // router.push("/" + post.user.unique_id);
+    // if (paymentStatus == 0) {
+    //   // setModalStatus(status);
+    //   router.push("/" + post.user.unique_id);
+    // }
   };
 
   const toggleModal = () => {
@@ -101,15 +101,13 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
               )}
               {post.payment_info.is_user_needs_pay === 1 &&
               post.payment_info.post_payment_type === "subscription" ? (
-               
-                  <Link href={`/profile/` + post.user.unique_id} passHref>
-                    <div className="gallery-pay-button-div">
-                      <button className="gallery-pay-button">
-                        {post.payment_info.payment_text}
-                      </button>
-                    </div>
-                  </Link>
-               
+                <Link href={`/` + post.user.unique_id} passHref>
+                  <div className="gallery-pay-button-div">
+                    <button className="gallery-pay-button">
+                      {post.payment_info.payment_text}
+                    </button>
+                  </div>
+                </Link>
               ) : (
                 ""
               )}

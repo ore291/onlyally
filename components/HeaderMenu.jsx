@@ -99,7 +99,7 @@ const HeaderMenu = () => {
   // }
 
   // const user = useSelector((state) => state.user.profile.data);
-  const cookieUser = getCookie("user");
+  const cookieUser = getCookie("user") || {};
 
   const user = JSON.parse(cookieUser) || {};
 

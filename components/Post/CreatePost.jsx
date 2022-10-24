@@ -17,8 +17,9 @@ import {
 } from "../../store/slices/postSlice";
 import { setCreatePostModal } from "../../store/slices/NavSlice";
 import PostEditor from "../feeds/PostEditor";
+import { postFileUploadFailure } from "../../ore1/store/actions/PostAction";
 
-const CreatePost = () => {
+const CreatePost = (props) => {
   const dispatch = useDispatch();
   const modalState = useSelector((state) => state.navbar.createPostModal);
   const savePost = useSelector((state) => state.post.savePost);
@@ -28,7 +29,7 @@ const CreatePost = () => {
   const [hasText, setHasText] = useState(false);
 
   function closeModal() {
-    dispatch(setCreatePostModal(false));
+    props.closeModal();
   }
 
   // new addditions
@@ -186,8 +187,12 @@ const CreatePost = () => {
     }
   };
 
-  const imageClose = (event) => {
+  const imageClose = (event, i, file) => {
     event.preventDefault();
+    // console.log(fileUpload?.data?.post_file[i]);
+    // var file = fileUpload?.data?.post_file[i];
+    // var files = fileUpload?.data?.file.split(",");
+
     if (fileUpload.loadingButtonContent !== null) {
       dispatch(
         notify({
@@ -198,10 +203,10 @@ const CreatePost = () => {
     } else {
       dispatch(
         postFileRemoveStart({
-          file: fileUpload.data.file,
-          file_type: fileUpload.data.post_file.file_type,
-          blur_file: fileUpload.data.post_file.blur_file,
-          post_file_id: fileUpload.data.post_file.post_file_id,
+          file: file,
+          file_type: "image",
+          blur_file: fileUpload?.data.blur_file,
+          post_file_id: fileUpload?.data.post_file_id,
         })
       );
       setImage({ previewImage: "" });
@@ -293,7 +298,7 @@ const CreatePost = () => {
         savePostStart({
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
-          post_file_id: fileUpload.data.post_file.post_file_id,
+          post_file_id: fileUpload.data.post_file_id,
           preview_file: inputData.preview_file ? inputData.preview_file : "",
           post_category_ids: inputData.post_category_ids
             ? inputData.post_category_ids
@@ -308,7 +313,7 @@ const CreatePost = () => {
             status: "info",
           })
         );
-      };
+      }
       dispatch(
         savePostStart({
           content: editorHtmlContent,
@@ -352,44 +357,50 @@ const CreatePost = () => {
     }
   };
 
-  useEffect(() => {
-    const images = [],
-      fileReaders = [];
-    let isCancel = false;
-    if (imageFiles.length) {
-      imageFiles.forEach((file) => {
-        const fileReader = new FileReader();
-        fileReaders.push(fileReader);
-        fileReader.onload = (e) => {
-          const { result } = e.target;
-          if (result) {
-            images.push(result);
-          }
-          if (images.length === imageFiles.length && !isCancel) {
-            setImages(images);
-          }
-        };
-        fileReader.readAsDataURL(file);
-      });
-    }
-    return () => {
-      isCancel = true;
-      fileReaders.forEach((fileReader) => {
-        if (fileReader.readyState === 1) {
-          fileReader.abort();
-        }
-      });
-    };
-  }, [imageFiles]);
+  // const [uploadedImages, setUploadedImages] = useState([]);
+
+  // useEffect(() => {
+  //   fileUpload.data.file && setUploadedImages(fileUpload.data.file.split(","));
+  // }, [fileUpload.data.file]);
+
+  // useEffect(() => {
+  //   const images = [],
+  //     fileReaders = [];
+  //   let isCancel = false;
+  //   if (imageFiles.length) {
+  //     imageFiles.forEach((file) => {
+  //       const fileReader = new FileReader();
+  //       fileReaders.push(fileReader);
+  //       fileReader.onload = (e) => {
+  //         const { result } = e.target;
+  //         if (result) {
+  //           images.push(result);
+  //         }
+  //         if (images.length === imageFiles.length && !isCancel) {
+  //           setImages(images);
+  //         }
+  //       };
+  //       fileReader.readAsDataURL(file);
+  //     });
+  //   }
+  //   return () => {
+  //     isCancel = true;
+  //     fileReaders.forEach((fileReader) => {
+  //       if (fileReader.readyState === 1) {
+  //         fileReader.abort();
+  //       }
+  //     });
+  //   };
+  // }, [imageFiles]);
 
   return (
-    <Transition appear show={modalState} as={Fragment}>
+    <Transition show={props.show} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto md:mt-8"
         onClose={closeModal}
       >
-        <div className="min-h-screen px-4 text-center">
+        <div className="min-h-screen px-1 md:px-4 text-center">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -403,12 +414,12 @@ const CreatePost = () => {
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
-          {/* <span
+          <span
             className="inline-block h-screen align-middle"
             aria-hidden="true"
           >
             &#8203;
-          </span> */}
+          </span>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -418,7 +429,7 @@ const CreatePost = () => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-xl p-6 my-10 overflow-hidden min-h-[450px] text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+            <div className="inline-block w-full xs:max-w-xl p-2 md:p-6  my-10 overflow-scroll scrollbar-thin scroll-smooth md:overflow-x-hidden h-[80vh] md:min-h-[80vh] text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
               <Dialog.Title
                 as="div"
                 className="flex justify-between text-lg font-medium leading-6 text-gray-900"
@@ -530,8 +541,8 @@ const CreatePost = () => {
                       />
                     </form>
                     {videoPreview.videoPreviewImage !== "" ? (
-                      <div className="grid grid-cols-1 mb-3 mb-lg-4">
-                        <div className="post-img-preview-sec m-0">
+                      <div className="flex items-center justify-center mb-3 mb-lg-2">
+                        <div className="h-[200px] w-[200px] m-0">
                           <img
                             alt="#"
                             src={videoPreview.videoPreviewImage}
@@ -545,111 +556,109 @@ const CreatePost = () => {
                   ""
                 )}
               </div>
-              <div className="row-container space-x-4 my-4">
-                <button>
-                  <form
-                    action="
-                  "
+              <div className="justify-between row-container space-x-1 md:space-x-3  my-4">
+                <button className="row-container space-x-1 bg-gray-100 h-8  rounded-md relative">
+                  <input
+                    id="fileupload_photo"
+                    type="file"
+                    multiple="multiple"
+                    disabled={disableImage}
+                    accept=".gif,.jpg,.jpeg,.gif,.png,.jpg,.jpeg,.png"
+                    onChange={(event) => handleChangeImage(event, "image")}
+                    name="post_files"
+                    className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
+                  />
+                  <label
+                    id="attach_file_photo"
+                    htmlFor="fileupload_photo"
+                    className="chat-attach_file"
+                    data-original-title="null"
                   >
-                    <div className="row-container space-x-1 bg-gray-100 h-8 w-fit rounded-md relative">
-                      <input
-                        id="fileupload_photo"
-                        type="file"
-                        multiple="multiple"
-                        disabled={disableImage ? true : false}
-                        accept=".gif,.jpg,.jpeg,.gif,.png,.jpg,.jpeg,.png"
-                        onChange={(event) => handleChangeImage(event, "image")}
-                        name="post_files"
-                        className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
-                      />
-                      <label
-                        id="attach_file_photo"
-                        htmlFor="fileupload_photo"
-                        className="chat-attach_file"
-                        data-original-title="null"
-                      >
-                        <div className="row-container">
-                          <BiImageAdd className="w-4 h-4" />
-                          <span className="text-xs">Upload Images</span>
-                        </div>
-                      </label>
+                    <div className="row-container space-x-1 px-2">
+                      <BiImageAdd className="w-4 h-4" />
+                      <span className="text-xs whitespace-nowrap">
+                        Upload Images
+                      </span>
                     </div>
-                  </form>
-                </button>
-                <button>
-                  <form>
-                    <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
-                      <label
-                        id="attach_file_video"
-                        htmlFor="fileupload_video"
-                        className="chat-attach_file"
-                        data-original-title="null"
-                      >
-                        <div className="row-container space-x-1">
-                          <FaVideo className="w-3 h-3" />
-                          <span className="text-xs">Upload Video</span>
-                        </div>
-                      </label>
-
-                      <input
-                        id="fileupload_video"
-                        type="file"
-                        multiple="multiple"
-                        disabled={disableVideo ? true : false}
-                        accept="video/mp4,video/x-m4v,video/*"
-                        onChange={(event) => handleChangeVideo(event, "video")}
-                        name="post_files"
-                        className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
-                      />
-                    </div>
-                  </form>
+                  </label>
                 </button>
 
-                <button>
-                  <form action="">
-                    <div className="row-container space-x-1 bg-gray-100 h-8 w-[130px] rounded-md relative">
-                      <label
-                        id="attach_file_audio"
-                        htmlFor="fileupload_audio"
-                        className="chat-attach_file"
-                        data-original-title="null"
-                      >
-                        <div className="row-container space-x-1">
-                          <FaMusic className="w-3 h-3" />
-                          <span className="text-xs">Audio Upload</span>
-                        </div>
-                      </label>
-
-                      <input
-                        id="fileupload_audio"
-                        type="file"
-                        multiple="multiple"
-                        disabled={disableAudio ? true : false}
-                        accept="audio/mp3,audio/*"
-                        onChange={(event) => handleChangeAudio(event, "audio")}
-                        name="post_files"
-                        className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
-                      />
+                <button className="row-container space-x-1 bg-gray-100 h-8 md:w-[130px] rounded-md relative">
+                  <label
+                    id="attach_file_video"
+                    htmlFor="fileupload_video"
+                    className="chat-attach_file"
+                    data-original-title="null"
+                  >
+                    <div className="row-container space-x-1 px-2">
+                      <FaVideo className="w-3 h-3" />
+                      <span className="text-xs whitespace-nowrap">
+                        Upload Video
+                      </span>
                     </div>
-                  </form>
+                  </label>
+
+                  <input
+                    id="fileupload_video"
+                    type="file"
+                    // multiple="multiple"
+                    disabled={disableVideo}
+                    accept="video/mp4,video/x-m4v,video/*"
+                    onChange={(event) => handleChangeVideo(event, "video")}
+                    name="post_files"
+                    className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
+                  />
                 </button>
-                {audioTitle !== "" ? (
-                  <div className="post-title-content create-post-video-title">
-                    <h4>{audioTitle}</h4>
-                  </div>
-                ) : null}
-              </div>{" "}
+
+                <button className="row-container space-x-1 bg-gray-100 h-8 md:w-[130px] rounded-md relative">
+                  <label
+                    id="attach_file_audio"
+                    htmlFor="fileupload_audio"
+                    className="chat-attach_file"
+                    data-original-title="null"
+                  >
+                    <div className="row-container space-x-1 px-2">
+                      <FaMusic className="w-3 h-3" />
+                      <span className="text-xs whitespace-nowrap">
+                        Audio Upload
+                      </span>
+                    </div>
+                  </label>
+
+                  <input
+                    id="fileupload_audio"
+                    type="file"
+                    // multiple="multiple"
+                    disabled={disableAudio}
+                    accept="audio/mp3,audio/*"
+                    onChange={(event) => handleChangeAudio(event, "audio")}
+                    name="post_files"
+                    className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
+                  />
+                </button>
+              </div>
+              {audioTitle !== "" ? (
+                <div className="post-title-content create-post-video-title">
+                  <h4>{audioTitle}</h4>
+                </div>
+              ) : null}
               <div>
-                {images.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 ">
-                    {images.map((image, i) => (
+                {disableAudio &&
+                disableVideo &&
+                fileUpload.data.file &&
+                fileUpload.data.file.split(",").length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 ">
+                    {fileUpload.data.file.split(",").map((image, i) => (
                       <div
                         key={i}
-                        className="relative row-container my-4 p-4 w-full rounded-[4px]"
+                        className="relative row-container  w-full p-2 rounded-[4px]"
                       >
-                        <a to="#" onClick={imageClose}>
+                        {/* <a
+                          to="#"
+                          onClick={(event) => imageClose(event, i, image)}
+                        >
                           <FaRegTimesCircle className="absolute right-[20px] top-[25px] text-[#f32013] text-[1.3em] font-normal cursor-pointer" />
-                        </a>
+                        </a> */}
                         <img
                           alt="#"
                           src={image}

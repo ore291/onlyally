@@ -164,7 +164,7 @@ function* postFileRemoveAPI() {
       object: inputData,
     });
     if (response.data.success) {
-      yield put(postFileRemoveSuccess(response.data.data));
+      yield put(postFileRemoveSuccess(response.data));
     } else {
       yield put(postFileRemoveFailure(response.data.error));
       yield put(notify({ message: response.data.error, status: "error" }));
