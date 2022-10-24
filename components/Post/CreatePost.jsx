@@ -17,7 +17,6 @@ import {
 } from "../../store/slices/postSlice";
 import { setCreatePostModal } from "../../store/slices/NavSlice";
 import PostEditor from "../feeds/PostEditor";
-import { postFileUploadFailure } from "../../ore1/store/actions/PostAction";
 
 const CreatePost = (props) => {
   const dispatch = useDispatch();
