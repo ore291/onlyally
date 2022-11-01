@@ -20,6 +20,7 @@ import { Popover, Transition, Dialog } from "@headlessui/react";
 import PaymentModal from "../../components/helpers/QuickFollowPaymentModal";
 import UnfollowModal from "../../components/helpers/QuickUnfollowModal";
 import { useEffect, useState, Fragment } from "react";
+import { RiUserUnfollowFill } from "react-icons/ri";
 
 const UserCard = ({ creator }) => {
   const dispatch = useDispatch();
@@ -80,13 +81,111 @@ const UserCard = ({ creator }) => {
             {creator.name}
           </p>
         </div>
-        <div className="bg-lightPlayRed w-10 h-10 rounded-md row-container cursor-pointer">
-          <Link href={`/${creator.user_unique_id}`} passHref>
-            <a href="#">
-              <IoMdPersonAdd className="text-white h-6 w-6" />
-            </a>
-          </Link>
-        </div>
+
+        {followed !== null ? (
+          followed == "followed" ? (
+            <>
+              <div
+                className="bg-lightPlayRed w-10 h-10 rounded-md row-container cursor-pointer"
+                onClick={() => toggleUnfollowModal(true)}
+              >
+                <span>
+                  <RiUserUnfollowFill className="text-white h-6 w-6" />
+                </span>
+              </div>
+            </>
+          ) : creator.payment_info.is_free_account == 0 ? (
+            <div
+              className="bg-lightPlayRed w-10 h-10 rounded-md row-container cursor-pointer"
+              onClick={(event) =>
+                subscriptionPayment(
+                  event,
+                  "months",
+                  creator.payment_info.subscription_info.monthly_amount,
+                  creator.payment_info.subscription_info
+                    .monthly_amount_formatted
+                )
+              }
+            >
+              <span>
+                <IoMdPersonAdd className="text-white h-6 w-6" />
+              </span>
+            </div>
+          ) : (
+            <div
+              className="bg-lightPlayRed w-10 h-10 rounded-md row-container cursor-pointer"
+              onClick={(event) => {
+                dispatch(
+                  subscriptionPaymentPaystackStart({
+                    user_unique_id: creator.user_unique_id,
+                    plan_type: "months",
+                    is_free: 1,
+                    payment_id: "free",
+                  })
+                );
+                follow("followed");
+              }}
+            >
+              <span>
+                <IoMdPersonAdd className="text-white h-6 w-6" />
+              </span>
+            </div>
+          )
+        ) : (
+          <>
+            {creator.payment_info.is_user_needs_pay == 1 &&
+            creator.payment_info.unsubscribe_btn_status == 0 ? (
+              creator.payment_info.is_free_account == 0 ? (
+                <div
+                  className="bg-lightPlayRed w-10 h-10 rounded-md row-container cursor-pointer"
+                  onClick={() =>
+                    subscriptionPayment(
+                      "months",
+                      creator.payment_info.subscription_info.monthly_amount,
+                      creator.payment_info.subscription_info
+                        .monthly_amount_formatted
+                    )
+                  }
+                >
+                  <span>
+                    <IoMdPersonAdd className="text-white h-6 w-6" />
+                  </span>
+                </div>
+              ) : (
+                <div
+                  className="bg-lightPlayRed w-10 h-10 rounded-md row-container cursor-pointer"
+                  onClick={(event) => {
+                    dispatch(
+                      subscriptionPaymentPaystackStart({
+                        user_unique_id: creator.user_unique_id,
+                        plan_type: "months",
+                        is_free: 1,
+                        payment_id: "free",
+                      })
+                    );
+                    follow("followed");
+                  }}
+                >
+                  <span>
+                    <IoMdPersonAdd className="text-white h-6 w-6" />
+                  </span>
+                </div>
+              )
+            ) : null}
+            {creator.payment_info.unsubscribe_btn_status == 1 ? (
+              <>
+                <div
+                  className="bg-lightPlayRed w-10 h-10 rounded-md row-container cursor-pointer"
+                  onClick={() => toggleUnfollowModal(true)}
+                >
+                  <span>
+                    <RiUserUnfollowFill className="text-white h-6 w-6" />
+                  </span>
+                </div>
+              </>
+            ) : null}
+          </>
+        )}
       </div>
       <div className="!hidden md:!flex !p-0 !items-center side-container relative rounded-lg">
         <div className="relative w-full h-[90px] rounded-t-lg mb-16">
@@ -109,7 +208,7 @@ const UserCard = ({ creator }) => {
             </div>
           </div>
         </div>
-        <div className="col-container pb-5 space-y-2">
+        <div className="col-container pb-5  space-y-2">
           <div className="relative hover-trigger">
             <Link href={`/${creator.user_unique_id}`} passHref>
               <p className="text-center font-medium text-lg truncate text-[rgba(0,0,0,.9);] cursor-pointer">
@@ -122,13 +221,11 @@ const UserCard = ({ creator }) => {
             </div>
           </div>
 
-          {followed !== null ? 
-          
-          (
+          {followed !== null ? (
             followed == "followed" ? (
               <>
                 <div
-                  className="sub-button row-container space-x-1"
+                  className="sub-button row-container space-x-1 !w-24 h-[35px]"
                   onClick={() => toggleUnfollowModal(true)}
                 >
                   <span>
@@ -136,14 +233,6 @@ const UserCard = ({ creator }) => {
                   </span>
                   <p className="text-sm font-medium text-white">Unfollow</p>
                 </div>
-                {unfollowModal ? (
-                  <UnfollowModal
-                    show={unfollowModal}
-                    toggleShow={toggleUnfollowModal}
-                    follow={follow}
-                    user_id={creator.payment_info.subscription_info.user_id}
-                  />
-                ) : null}
               </>
             ) : creator.payment_info.is_free_account == 0 ? (
               <div
@@ -179,7 +268,6 @@ const UserCard = ({ creator }) => {
               </div>
             )
           ) : (
-           
             <>
               {creator.payment_info.is_user_needs_pay == 1 &&
               creator.payment_info.unsubscribe_btn_status == 0 ? (
@@ -216,31 +304,21 @@ const UserCard = ({ creator }) => {
                   </div>
                 )
               ) : null}
-               {creator.payment_info.unsubscribe_btn_status == 1 ? (
-            <>
-              <div
-                className="sub-button row-container space-x-1"
-                onClick={() => toggleUnfollowModal(true)}
-              >
-                <span>
-                  <FaUserTimes className="h-4 w-4" />
-                </span>
-                <p className="text-sm font-medium text-white">Unfollow</p>
-              </div>
-              {unfollowModal ? (
-                <UnfollowModal
-                  show={unfollowModal}
-                  toggleShow={toggleUnfollowModal}
-                  follow={follow}
-                  user_id={creator.payment_info.subscription_info.user_id}
-                />
+              {creator.payment_info.unsubscribe_btn_status == 1 ? (
+                <>
+                  <div
+                    className="sub-button row-container space-x-1 !w-24 h-[35px]"
+                    onClick={() => toggleUnfollowModal(true)}
+                  >
+                    <span>
+                      <FaUserTimes className="h-4 w-4" />
+                    </span>
+                    <p className="text-sm font-medium text-white">Unfollow</p>
+                  </div>
+                </>
               ) : null}
             </>
-          ) : null}
-            </>
           )}
-
-         
         </div>
       </div>
       {getCookie("userId") !== "" &&
@@ -262,6 +340,14 @@ const UserCard = ({ creator }) => {
               />
             </>
           )}
+          {unfollowModal ? (
+            <UnfollowModal
+              show={unfollowModal}
+              toggleShow={toggleUnfollowModal}
+              follow={follow}
+              user_id={creator.payment_info.subscription_info.user_id}
+            />
+          ) : null}
         </>
       ) : null}
     </>

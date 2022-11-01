@@ -28,29 +28,25 @@ const NewsFeed = () => {
         dataLength={posts.length}
         next={fetchHomeData}
         hasMore={hasMore}
-        loader={<PostsLoader/>}
+        loader={<PostsLoader />}
         endMessage={
           <h4 className="font-medium text-center">No more posts to show</h4>
         }
       >
-        {posts.loading ? (
-          <PostsLoader />
-        ) : (
-          <div className="grid  grid-cols-1 gap-y-2 mb-10 ">
-            {posts.data.posts.length > 0 ? (
-              posts.data.posts.map((post, index) => (
-                <NewsFeedCard
-                  // time={feed.time}
-                  key={index}
-                  index={index}
-                  post={post}
-                />
-              ))
-            ) : (
-              <NoDataFound />
-            )}
-          </div>
-        )}
+        <div className="grid  grid-cols-1 gap-y-2 mb-10 ">
+          {posts.data.posts.length > 0 ? (
+            posts.data.posts.map((post, index) => (
+              <NewsFeedCard
+                // time={feed.time}
+                key={index}
+                index={index}
+                post={post}
+              />
+            ))
+          ) : (
+            <NoDataFound />
+          )}
+        </div>
       </InfiniteScroll>
 
       {/* <div className="grid  grid-cols-1 gap-y-2 mb-10 ">

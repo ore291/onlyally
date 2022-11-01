@@ -154,12 +154,17 @@ const CreatePost = (props) => {
       if (file) {
         reader.readAsDataURL(file);
       }
-      dispatch(
-        postFileUploadStart({
-          file: event.currentTarget.files[0],
-          file_type: fileType,
-        })
-      );
+      if (!event.currentTarget.files[0]) {
+        dispatch(notify("file field is required", "error"));
+      } else {
+        dispatch(
+          postFileUploadStart({
+            file: event.currentTarget.files[0],
+            file_type: fileType,
+          })
+        );
+      }
+
       setPaidPost(true);
       setVideoThumbnail(true);
       setDisableImage(true);

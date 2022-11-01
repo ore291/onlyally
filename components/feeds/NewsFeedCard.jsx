@@ -56,7 +56,7 @@ const NewsFeedCard = ({ post, index }) => {
   const [commentInputData, setCommentInputData] = useState({});
   const [isVisible, setIsVisible] = useState(true);
   const [videoPlaying, setVideoPlaying] = useState(false);
-  const [audioMuted, setAudioMuted] = useState(true);
+  const [audioMuted, setAudioMuted] = useState(false);
   const [commentActiveIndex, setCommentActiveIndex] = useState(null);
 
   const [reportMode, setReportMode] = useState(false);
@@ -77,7 +77,6 @@ const NewsFeedCard = ({ post, index }) => {
   };
 
   const playAudio = () => {
-    console.log(audio.current);
     if (playing === false) {
       togglePlaying;
       audio.current.audioEl.current.play();
@@ -419,9 +418,11 @@ const NewsFeedCard = ({ post, index }) => {
                                           if (inView) {
                                             // vidRef.current.play();
                                             setVideoPlaying(true);
+                                            setAudioMuted(false);
                                           } else {
                                             // vidRef.current.pause();
                                             setVideoPlaying(false);
+
                                             setAudioMuted(true);
                                           }
                                         }}

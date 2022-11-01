@@ -27,6 +27,7 @@ const ChannelPostModal = (props) => {
   const fileUpload = useSelector((state) => state.post.fileUpload);
   const searchUser = useSelector((state) => state.home.searchUser);
   const postCategories = useSelector((state) => state.post.postCategories);
+  const [hasText, setHasText] = useState(false);
 
   // new addditions
 
@@ -310,12 +311,17 @@ const ChannelPostModal = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (fileUploadStatus) {
+      if (disableImage && disableAudio && !inputData.preview_file) {
+        return dispatch(
+          notify({ message: "Please select a video thumbnail", status: "info" })
+        );
+      }
       dispatch(
         saveChannelPostStart({
           channel_slug: props.channel_slug,
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
-          post_file_id: fileUpload.data.post_file.post_file_id,
+          post_file_id: fileUpload.data.post_file_id,
           preview_file: inputData.preview_file ? inputData.preview_file : "",
           post_category_ids: inputData.post_category_ids
             ? inputData.post_category_ids
@@ -323,6 +329,14 @@ const ChannelPostModal = (props) => {
         })
       );
     } else {
+      if (!hasText) {
+        return dispatch(
+          notify({
+            message: "Please add text or upload content",
+            status: "info",
+          })
+        );
+      }
       dispatch(
         saveChannelPostStart({
           channel_slug: props.channel_slug,
@@ -434,6 +448,7 @@ const ChannelPostModal = (props) => {
                       className="PostEditor__input"
                       placeholder="Compose New Post ..."
                       refs={mentionsRef}
+                      getHasText={setHasText}
                       getEditorRawContent={setEditorContentstate}
                       getEditorHtmlContent={setEditorHtmlContent}
                       dispatch={dispatch}
@@ -632,9 +647,9 @@ const ChannelPostModal = (props) => {
                         key={i}
                         className="relative row-container my-4 p-4 w-full rounded-[4px]"
                       >
-                        <a to="#" onClick={imageClose}>
+                        {/* <a to="#" onClick={imageClose}>
                           <FaRegTimesCircle className="absolute right-[20px] top-[25px] text-[#f32013] text-[1.3em] font-normal cursor-pointer" />
-                        </a>
+                        </a> */}
                         <img
                           alt="#"
                           src={image}

@@ -28,8 +28,8 @@ const QuickUnfollowModal = ({ user_id, show, toggleShow, follow }) => {
   };
   return (
     <>
-      <Transition show={show} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Transition show={show} as={Fragment} appear>
+        <Dialog as="div" className="relative z-10" onClose={closeModal} >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"

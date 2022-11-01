@@ -25,6 +25,7 @@ const GroupPostModal = (props) => {
   const fileUpload = useSelector((state) => state.post.fileUpload);
   const searchUser = useSelector((state) => state.home.searchUser);
   const postCategories = useSelector((state) => state.post.postCategories);
+  const [hasText, setHasText] = useState(false);
 
   // new addditions
 
@@ -71,7 +72,6 @@ const GroupPostModal = (props) => {
     let ImagesFilesArray = await Object.entries(event.target.files).map(
       (e) => e[1]
     );
-    console.log(ImagesFilesArray);
     return ImagesFilesArray;
   };
 
@@ -307,13 +307,19 @@ const GroupPostModal = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (fileUploadStatus) {
+      if (disableImage && disableAudio && !inputData.preview_file) {
+        return dispatch(
+          notify({ message: "Please select a video thumbnail", status: "info" })
+        );
+      }
       dispatch(
         saveGroupPostStart({
           group_slug: props.group_slug,
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
-          post_file_id: fileUpload.data.post_file.post_file_id,
+          post_file_id: fileUpload.data.post_file_id,
           preview_file: inputData.preview_file ? inputData.preview_file : "",
           post_category_ids: inputData.post_category_ids
             ? inputData.post_category_ids
@@ -321,6 +327,14 @@ const GroupPostModal = (props) => {
         })
       );
     } else {
+      if (!hasText) {
+        return dispatch(
+          notify({
+            message: "Please add text or upload content",
+            status: "info",
+          })
+        );
+      }
       dispatch(
         saveGroupPostStart({
           group_slug: props.group_slug,
@@ -332,6 +346,31 @@ const GroupPostModal = (props) => {
         })
       );
     }
+    // if (fileUploadStatus) {
+    //   dispatch(
+    //     saveGroupPostStart({
+    //       group_slug: props.group_slug,
+    //       content: editorHtmlContent,
+    //       amount: inputData.amount ? inputData.amount : "",
+    //       post_file_id: fileUpload.data.post_file.post_file_id,
+    //       preview_file: inputData.preview_file ? inputData.preview_file : "",
+    //       post_category_ids: inputData.post_category_ids
+    //         ? inputData.post_category_ids
+    //         : [],
+    //     })
+    //   );
+    // } else {
+    //   dispatch(
+    //     saveGroupPostStart({
+    //       group_slug: props.group_slug,
+    //       content: editorHtmlContent,
+    //       amount: inputData.amount ? inputData.amount : "",
+    //       post_category_ids: inputData.post_category_ids
+    //         ? inputData.post_category_ids
+    //         : [],
+    //     })
+    //   );
+    // }
   };
 
   const setValues = (inputValue) => {
@@ -432,6 +471,7 @@ const GroupPostModal = (props) => {
                       className="PostEditor__input"
                       placeholder="Compose New Post ..."
                       refs={mentionsRef}
+                      getHasText={setHasText}
                       getEditorRawContent={setEditorContentstate}
                       getEditorHtmlContent={setEditorHtmlContent}
                       dispatch={dispatch}
@@ -454,6 +494,7 @@ const GroupPostModal = (props) => {
                         name="post_category_ids"
                         options={postCategories.data.post_categories}
                         displayValue="name"
+                        
                         avoidHighlightFirstOption="true"
                         placeholder="choose category"
                         onSelect={(values) => setValues(values)}
@@ -630,9 +671,9 @@ const GroupPostModal = (props) => {
                         key={i}
                         className="relative row-container my-4 p-4 w-full rounded-[4px]"
                       >
-                        <a to="#" onClick={imageClose}>
+                        {/* <a to="#" onClick={imageClose}>
                           <FaRegTimesCircle className="absolute right-[20px] top-[25px] text-[#f32013] text-[1.3em] font-normal cursor-pointer" />
-                        </a>
+                        </a> */}
                         <img
                           alt="#"
                           src={image}
