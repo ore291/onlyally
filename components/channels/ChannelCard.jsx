@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "../helpers/CustomImage";
 import Button from "../Button";
 import { BsHeartFill, BsEyeFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,6 +53,7 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
             <div className=" w-12 h-12 relative cursor-pointer">
               <Image
                 src={channel.avatar}
+                fallbackSrc="https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-group.jpg"
                 alt="side-img"
                 layout="fill"
                 objectFit="cover"
@@ -144,10 +145,7 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
           <Link href={`/channels/${channel.slug}`} passHref>
             <div className="relative w-full h-[130px] md:h-[100px] rounded-t-lg mb-8 md:mb-16">
               <Image
-                src={
-                  channel.cover ||
-                  "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
-                }
+                src={channel.cover}
                 objectFit="cover"
                 layout="fill"
                 className="rounded-t-lg"
@@ -224,6 +222,7 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
                 <div className="w-28 h-28 relative rounded-3xl">
                   <Image
                     src={channel.avatar}
+                    fallbackSrc="https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-group.jpg"
                     alt="side-img"
                     layout="fill"
                     objectFit="cover"

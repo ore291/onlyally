@@ -36,9 +36,9 @@ export default function Home() {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchHomePostsStart());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchHomePostsStart());
+  // }, []);
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -46,35 +46,6 @@ export default function Home() {
 
   return (
     <>
-      {/* <Head>
-        <title>{configData.site_name}</title>
-        <link
-          rel="icon"
-          type="image/png"
-          href={configData.site_icon}
-          // sizes="16x16"
-        />
-
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-      </Head> */}
-
       <SideNavLayout title={configData.site_name}>
         <main className=" lg:p-5">
           <Stories />
@@ -115,28 +86,35 @@ export const getServerSideProps = wrapper.getServerSideProps(
         };
       }
 
-      //       // const userAgent = req.headers["user-agent"];
-      //       // const {
-      //       //   isAndroid,
-      //       //   isIOS,
-      //       //   isWindows,
-      //       //   isMacOs,
-      //       //   mobileModel,
-      //       //   browserName,
-      //       //   osName,
-      //       //   mobileVendor,
-      //       //   browserVersion,
-      //       // } = getSelectorsByUserAgent(userAgent);
+      const userAgent = req.headers["user-agent"];
+      const {
+        isAndroid,
+        isIOS,
+        isWindows,
+        isMacOs,
+        mobileModel,
+        browserName,
+        osName,
+        mobileVendor,
+        browserVersion,
+      } = getSelectorsByUserAgent(userAgent);
 
-      //       // var device_model = "";
-      //       // if (isAndroid == true) {
-      //       //   device_model = mobileModel;
-      //       // } else if (isIOS == true) {
-      //       //   device_model = mobileModel;
-      //       // } else {
-      //       //   device_model = browserName + " " + browserVersion;
-      //       //   // device_model = "Chrome" + " " + "100";
-      //       // }
+      var device_model = "";
+      if (isAndroid == true) {
+        device_model = mobileModel;
+      } else if (isIOS == true) {
+        device_model = mobileModel;
+      } else {
+        device_model = browserName + " " + browserVersion;
+        // device_model = "Chrome" + " " + "100";
+      }
+      store.dispatch(
+        fetchHomePostsStart({
+          accessToken: cookies.accessToken,
+          userId: cookies.userId,
+          device_model: device_model,
+        })
+      );
 
       //       var user = JSON.parse(cookies.user);
 
@@ -161,8 +139,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       //       // store.dispatch(fetchConfigurationStart());
 
-      //       store.dispatch(END);
-      //       await store.sagaTask.toPromise();
+      store.dispatch(END);
+      await store.sagaTask.toPromise();
 
       return {
         props: {},

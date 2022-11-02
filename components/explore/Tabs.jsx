@@ -99,7 +99,7 @@ export default function Tabs() {
           <Tab.Panel
             className={classNames("bg-white dark:bg-gray-900  rounded-xl p-1")}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 w-full md:gap-x-20 gap-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 md:gap-x-20 gap-y-4">
               {channels.data.map((channel, index) => (
                 <ChannelFilter key={index} channel={channel} />
               ))}

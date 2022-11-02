@@ -408,14 +408,18 @@ const GroupCard = ({
       <>
         <div className="flex flex-col w-full rounded-2xl border shadow-lg ">
           <Link href={`/groups/${group.slug}`} passHref>
-            <img
-              src={
-                group.cover ||
-                "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
-              }
-              alt=""
-              className="w-full h-24 rounded-t-lg object-cover"
-            />
+            <div className="w-full h-32 rounded-t-lg object-cover relative">
+              <Image
+                src={
+                  group.cover ||
+                  "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+                }
+                alt="fh"
+                layout="fill"
+                objectFit="cover"
+                className=" rounded-t-lg"
+              />
+            </div>
           </Link>
 
           <div className="p-2 py-3">
@@ -430,12 +434,32 @@ const GroupCard = ({
             </div>
 
             <div className="w-full row-container">
-              <Button
+              {/* <Button
                 text="Join"
                 extraclassNamees="w-full h-8"
                 active={true}
                 onClick={(e) => handleSubscription()}
-              />
+              /> */}
+              {group.is_member ? (
+                group.user_id == getCookie("userId") ? (
+                  <Link href={`/groups/${group.slug}/settings`} passHref>
+                    <Button
+                      text="Edit"
+                      extraclassNamees="w-full h-8 !bg-mildPlayRed  !text-gray-700 dark:!text-gray-600"
+                    />
+                  </Link>
+                ) : (
+                  <Link href={`/groups/${group.slug}`} passHref>
+                    <Button text="Joined" extraclassNamees="w-full h-8" />
+                  </Link>
+                )
+              ) : (
+                <Button
+                  text="Join"
+                  extraclassNamees="!bg-lightPlayRed !text-white dark:text-gray-300 w-full h-8"
+                  onClick={(e) => handleSubscription()}
+                />
+              )}
             </div>
           </div>
         </div>
