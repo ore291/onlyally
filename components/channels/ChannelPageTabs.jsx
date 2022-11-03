@@ -11,7 +11,7 @@ import Sticky from "react-stickynode";
 import { useRouter } from "next/router";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import ChannelPostModal from "./ChannelPostModal";
-import {getCookie} from "cookies-next";
+import { getCookie } from "cookies-next";
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
 }
@@ -35,13 +35,15 @@ const ChannelPageTabs = () => {
         <div className="bg-white rounded-2xl  pb-5 shadow-md">
           <Tab.List>
             <div className="flex justify-center space-x-3 items-center p-2">
-              <div
-                onClick={() => setChannelPostModal(true)}
-                className="w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium focus:outline-none focus:ring-0 row-container space-x-2 py-1 text-gray-800 bg-white rounded-full shadow-lg cursor-pointer border hover:text-white hover:bg-lightPlayRed"
-              >
-                <BsPlusCircle className="w-5 h-5" />
-                <span>Create</span>
-              </div>
+              {channel.is_member && channel.user_id == getCookie("userId") && (
+                <div
+                  onClick={() => setChannelPostModal(true)}
+                  className="w-20 md:w-auto h-8 px-1 md:px-4 text-xs md:text-sm leading-5 font-medium focus:outline-none focus:ring-0 row-container space-x-2 py-1 text-gray-800 bg-white rounded-full shadow-lg cursor-pointer border hover:text-white hover:bg-lightPlayRed"
+                >
+                  <BsPlusCircle className="w-5 h-5" />
+                  <span>Create</span>
+                </div>
+              )}
               <Tab
                 className={({ selected }) =>
                   classNames(
@@ -130,18 +132,22 @@ const ChannelPageTabs = () => {
       </Tab.Group>
 
       <Sticky>
-        <ChannelFeedSideBar channel={channel} categories={categories} channels={channels}/>
+        <ChannelFeedSideBar
+          channel={channel}
+          categories={categories}
+          channels={channels}
+        />
       </Sticky>
 
       {getCookie("userId") !== null &&
-        getCookie("userId") !== "" &&
-        channelPostModal === true ? (
-          <ChannelPostModal
+      getCookie("userId") !== "" &&
+      channelPostModal === true ? (
+        <ChannelPostModal
           channelPostModal={channelPostModal}
-            closeModal={closeModal}
-            channel_slug={router.query.channel}
-          />
-        ) : null}
+          closeModal={closeModal}
+          channel_slug={router.query.channel}
+        />
+      ) : null}
     </div>
   );
 };

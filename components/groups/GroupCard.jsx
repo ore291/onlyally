@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "../helpers/CustomImage";
 import Button from "../Button.jsx";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { joinGroupStart } from "../../store/slices/groupsSlice.js";
