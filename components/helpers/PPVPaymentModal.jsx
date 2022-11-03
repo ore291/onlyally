@@ -30,7 +30,7 @@ const PPVPaymentModal = (props) => {
     localStorage.getItem("default_payment_method")
   );
 
-  const email = getCookie("user_email")
+  const email = getCookie("user_email");
 
   const wallet = useSelector((state) => state.wallet.walletData);
   const user = useSelector((state) => state.user.profile.data);
@@ -78,7 +78,7 @@ const PPVPaymentModal = (props) => {
   useEffect(() => {
     if (props.PPVPayment === true) {
       setPaymentType(localStorage.getItem("default_payment_method"));
-    
+
       dispatch(fetchCardDetailsStart());
       dispatch(fetchWalletDetailsStart());
     }
@@ -184,7 +184,7 @@ const PPVPaymentModal = (props) => {
                                 </p>
                                 <div className="flex justify-start w-36 my-0.5  bg-green-400 rounded-md cursor-pointer p-2">
                                   <Link
-                                    href="/wallet"
+                                    href="/payment/wallet"
                                     className="withdraw-money-btn"
                                     passHref
                                   >
@@ -200,7 +200,14 @@ const PPVPaymentModal = (props) => {
                       </form>
                     </div>
                   </div>
-                  <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
+                  <div className="payment-bottom-buttons">
+                    <button
+                      type="button"
+                      className="bg-red-600 text-white rounded-md px-3 py-1"
+                      onClick={() => props.closePPVPaymentModal()}
+                    >
+                      Cancel
+                    </button>
                     {amount != 0 ? (
                       <button
                         className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-white focus:outline-none"
@@ -217,13 +224,6 @@ const PPVPaymentModal = (props) => {
                         />
                       </button>
                     ) : null}
-                    <button
-                      type="button"
-                      className="bg-red-600 text-white rounded-md px-3 py-1"
-                      onClick={() => props.closePPVPaymentModal()}
-                    >
-                      Cancel
-                    </button>
                     <button
                       type="button"
                       className="bg-green-600 text-white rounded-md px-3 py-1"

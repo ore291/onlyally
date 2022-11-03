@@ -99,9 +99,27 @@ const HeaderMenu = () => {
   // }
 
   // const user = useSelector((state) => state.user.profile.data);
-  const cookieUser = getCookie("user") || {};
+  const cookieUser = getCookie("user");
 
-  const user = JSON.parse(cookieUser) || {};
+  const user = null;
+
+  function tryParseJSONObject(jsonString) {
+    try {
+      var o = JSON.parse(jsonString);
+
+      // Handle non-exception-throwing cases:
+      // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
+      // but... JSON.parse(null) returns null, and typeof null === "object",
+      // so we must check for that, too. Thankfully, null is falsey, so this suffices:
+      if (o && typeof o === "object") {
+        return o;
+      }
+    } catch (e) {}
+
+    return false;
+  }
+
+  user = tryParseJSONObject(cookieUser);
 
   useEffect(() => {
     dispatch(fetchWalletDetailsStart());

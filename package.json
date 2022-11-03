@@ -63,7 +63,7 @@
     "react-uploader": "^1.6.11",
     "react-use": "^17.3.2",
     "reactjs-social-login": "^2.5.6",
-    "reapop": "^4.0.5",
+    "reapop": "^4.2.0",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.1.3",

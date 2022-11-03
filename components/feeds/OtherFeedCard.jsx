@@ -440,7 +440,6 @@ const NewsFeedCard = ({ post, index }) => {
                                               },
                                             },
                                           }}
-                                          onClickPreview
                                           loop={true}
                                           controls={false}
                                           muted={audioMuted}

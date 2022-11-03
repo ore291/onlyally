@@ -31,8 +31,8 @@ function* fetchChatUserAPI() {
           );
       } else {
         yield put(fetchChatUsersFailure(response.data.error));
-        yield put(errorLogoutCheck(response.data));
-        yield put(notify({message: response.data.error, status: "error"}));
+        yield put(errorLogoutCheck(response.data.error));
+        yield put(notify({message: response.data.error?.error, status: "error"}));
       }
     } catch (error) {
       yield put(fetchChatUsersFailure(error));

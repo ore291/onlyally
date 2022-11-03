@@ -337,12 +337,16 @@ const Login = () => {
                 Explore
               </p>
             </div>
-            <div className="col-container space-y-2">
-              <div className="row-container p-4 bg-white rounded-full">
-                <IoNewspaperSharp className="h-10 w-10 text-lightPlayRed" />
+            <a href="https://blog.playjor.com" target="_blank" rel="noreferrer">
+              <div className="col-container space-y-2 cursor-pointer">
+                <div className="row-container p-4 bg-white rounded-full">
+                  <IoNewspaperSharp className="h-10 w-10 text-lightPlayRed" />
+                </div>
+                <p className="text-center text-white text-2xl font-bold">
+                  Blog
+                </p>
               </div>
-              <p className="text-center text-white text-2xl font-bold">Blog</p>
-            </div>
+            </a>
           </div>
         </div>
       </section>

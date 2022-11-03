@@ -262,7 +262,7 @@ const GoLiveModal = (props) => {
 
                   {/* end */}
 
-                  <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
+                  <div className="payment-bottom-buttons">
                     <button
                       type="button"
                       className="bg-red-600 text-white rounded-md px-3 py-1"

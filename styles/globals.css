@@ -22,6 +22,10 @@
 }
 
 @layer utilities {
+
+  .payment-bottom-buttons{
+    @apply flex flex-col sm:flex-row space-y-2 justify-between md:justify-end items-center px-5 py-2 md:space-x-3
+  }
   .live-stream-button {
     @apply w-[50px] h-[50px]  row-container rounded-full  bg-[#ecece6] cursor-pointer shadow-md;
   }

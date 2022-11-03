@@ -238,7 +238,7 @@ function* fetchChannelsAPI(action) {
       yield put(fetchChannelsSuccess(response.data.data));
     } else {
       yield put(fetchChannelsFailure(response.data.error));
-      yield put(notify({ message: response.data.error, status: "error" }));
+      yield put(notify({ message: response.data.error?.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchChannelsFailure(error.message));

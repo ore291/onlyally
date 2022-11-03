@@ -3,7 +3,7 @@ import "../styles/custom.scss";
 
 import NextNProgress from "nextjs-progressbar";
 import { ThemeProvider } from "next-themes";
-import {setCookie} from "cookies-next";
+import { setCookie } from "cookies-next";
 
 import Layout from "../components/Layout";
 import { SessionProvider } from "next-auth/react";
@@ -23,10 +23,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       position: "top-right",
       dismissible: true,
       allowHTML: true,
-      showDismissButton: true,
-      dismissAfter: 3000,
+      showDismissButton: false,
+      dismissAfter: 2000,
       status: "success",
     },
+    generateId: () => new Date().getTime().toString(),
   });
 
   const user = useSelector((state) => state.user.profile.data);
@@ -37,7 +38,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       const response = await fetch(apiConstants.settingsUrl);
       const configValue = await response.json();
 
-      setCookie('config', JSON.stringify(configValue.data))
+      setCookie("config", JSON.stringify(configValue.data));
 
       configuration.set({ configData: configValue.data }, { freeze: false });
     } catch (error) {

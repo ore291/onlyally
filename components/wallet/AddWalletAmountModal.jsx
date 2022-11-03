@@ -185,7 +185,7 @@ const AddWalletAmountModal = (props) => {
                     </form>
                   </div>
 
-                  <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
+                  <div className="payment-bottom-buttons">
                     {amount != 0 ? (
                       <button
                         className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-green-500"

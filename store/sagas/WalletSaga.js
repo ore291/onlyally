@@ -36,9 +36,9 @@ function* fetchWalletDetailsAPI(action) {
       setCookie("wallet", response.data.data);
       // Do nothing
     } else {
-      yield put(errorLogoutCheck(response.data));
+      yield put(errorLogoutCheck(response.data.error));
       yield put(fetchWalletDetailsFailure(response.data.error));
-      yield put(notify({ message: response.data.error, status: "error" }));
+      yield put(notify({ message: response.data.error?.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchWalletDetailsFailure(error));

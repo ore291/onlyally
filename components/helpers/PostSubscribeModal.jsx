@@ -23,7 +23,7 @@ function classNames(...classes) {
 
 const PostSubscribeModal = (props) => {
   const dispatch = useDispatch();
-  const email = getCookie("user_email")
+  const email = getCookie("user_email");
   const [paymentType, setPaymentType] = useState("WALLET");
   const configData = useSelector((state) => state.config.configData);
   const subscriptionPayment = useSelector(
@@ -143,7 +143,11 @@ const PostSubscribeModal = (props) => {
 
   return (
     <Transition appear show={props.subcribeModal} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => props.toggleModal}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => props.toggleModal}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -207,7 +211,7 @@ const PostSubscribeModal = (props) => {
                             </p>
                             <div className="flex justify-start w-36 my-0.5  bg-green-400 rounded-md cursor-pointer p-2">
                               <Link
-                                href="/wallet"
+                                href="/payment/wallet"
                                 className="withdraw-money-btn"
                                 passHref
                               >
@@ -223,7 +227,14 @@ const PostSubscribeModal = (props) => {
                   </form>
                 </div>
 
-                <div className="flex justify-between md:justify-end items-center px-5 py-2 md:space-x-3">
+                <div className="payment-bottom-buttons">
+                  <button
+                    type="button"
+                    className="bg-red-600 text-white rounded-md px-3 py-1"
+                    onClick={() => props.toggleModal}
+                  >
+                    Cancel
+                  </button>
                   {subscriptionData.amount != 0 ? (
                     <button
                       className="row-container space-x-0.5 border p-1 h-10  rounded-md shadow-xl bg-white focus:outline-none ring-0"
@@ -240,13 +251,6 @@ const PostSubscribeModal = (props) => {
                       />
                     </button>
                   ) : null}
-                  <button
-                    type="button"
-                    className="bg-red-600 text-white rounded-md px-3 py-1"
-                    onClick={() => props.toggleModal}
-                  >
-                    Cancel
-                  </button>
                   <button
                     type="button"
                     className="bg-green-600 text-white rounded-md px-3 py-1"

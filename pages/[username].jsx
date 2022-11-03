@@ -597,11 +597,11 @@ const Profile = () => {
                   {userDetails.data.payment_info.unsubscribe_btn_status == 1 ? (
                     <>
                       <div
-                        className="sub-button flex-1 row-container space-x-1"
+                        className="!bg-gray-300 !text-gray-900 sub-button flex-1 row-container space-x-1"
                         onClick={() => dispatch(setUnfollowerModal(true))}
                       >
                         <span>
-                          <FaUserTimes className="h-4 w-4" />
+                          <FaUserTimes className="h-4 w-4 text-white dark:text-gray-300" />
                         </span>
                         <p className="text-sm font-medium text-white dark:text-gray-300">
                           Unfollow
