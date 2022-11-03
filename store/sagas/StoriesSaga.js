@@ -57,7 +57,7 @@ function* fetchStoriesAPI(action) {
       yield put(fetchStoriesSuccess(response.data.data));
     } else {
       yield put(fetchStoriesFailure( response.data.error));
-      yield put(notify({message:  response.data.error.error, status:"error"}))
+      // yield put(notify({message:  response.data.error.error, status:"error"}))
     }
   } catch (error) {
     yield put(fetchStoriesFailure(error.message));

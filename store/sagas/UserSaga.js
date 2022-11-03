@@ -120,7 +120,7 @@ function* getUserDetailsAPI(action) {
     } else {
       yield put(fetchUserDetailsFailure(response.data.error));
       yield put(errorLogoutCheck(response.data));
-      yield put(notify({ message: response.data.error, status: "error" }));
+      // yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchUserDetailsFailure(error));

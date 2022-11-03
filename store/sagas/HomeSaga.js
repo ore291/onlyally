@@ -125,10 +125,10 @@ function* fetchTrendingUsersAPI(action) {
       yield put(fetchTrendingUsersSuccess(response.data.data));
     } else {
       yield put(fetchTrendingUsersFailure(response.data.error));
-      yield put(errorLogoutCheck(response.data.error));
-      yield put(
-        notify({ message: response.data.error?.error, status: "error" })
-      );
+      // yield put(errorLogoutCheck(response.data.error));
+      // yield put(
+      //   notify({ message: response.data.error?.error, status: "error" })
+      // );
     }
   } catch (error) {
     yield put(fetchTrendingUsersFailure(error.message));
@@ -152,10 +152,10 @@ function* fetchPostSuggestionAPI(action) {
       yield put(fetchPostSuggestionsSuccess(response.data.data));
     } else {
       yield put(fetchPostSuggestionsFailure(response.data.error));
-      yield put(errorLogoutCheck(response.data.error));
-      yield put(
-        notify({ message: response.data.error?.error, status: "error" })
-      );
+      // yield put(errorLogoutCheck(response.data.error));
+      // yield put(
+      //   notify({ message: response.data.error?.error, status: "error" })
+      // );
     }
   } catch (error) {
     yield put(fetchPostSuggestionsFailure(error.response));

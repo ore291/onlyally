@@ -104,7 +104,7 @@ const Comments = ({ post, currentIndex }) => {
 
   return (
     <div
-      className="block w-full px-[5px]  bg-white dark:!bg-gray-200 border rounded-2xl mt-2 "
+      className="block w-full px-[5px]  bg-white dark:!bg-[#17212D] border rounded-2xl mt-2 "
       onFocus={() => focusEditor()}
     >
       <div className="clear-both">
@@ -147,9 +147,9 @@ const Comments = ({ post, currentIndex }) => {
               />
             </div>
           ) : (
-            <div className="empty-comment basis-[70%] my-[5px]  dark:bg-gray-200">
+            <div className="empty-comment basis-[70%] my-[5px]  dark:!bg-[#17212D]">
               <input
-                className="border-none ring-0 border-0 w-full dark:!bg-gray-200 placeholder:dark:text-gray-300"
+                className="border-none ring-0 border-0 w-full dark:!bg-[#17212D] placeholder:dark:text-gray-100"
                 type="text"
                 placeholder="Add comments here ..."
               />

@@ -94,7 +94,7 @@ function* fetchGroupsAPI(action) {
       yield put(fetchGroupsSuccess(response.data.data));
     } else {
       yield put(fetchGroupsFailure(response.data.error));
-      yield put(notify({ message: response.data.error?.error, status: "error" }));
+      // yield put(notify({ message: response.data.error?.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchGroupsFailure(error.message));

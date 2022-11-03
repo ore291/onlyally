@@ -179,8 +179,8 @@ const PostEditor = (props) => {
       onBlur={() => blurEditor()}
       className={
         focusStyle
-          ? "hasFocus active dark:text-gray-900"
-          : "hasFocus dark:text-gray-900"
+          ? "hasFocus active dark:!text-white"
+          : "hasFocus dark:!text-white"
       }
     >
       <Editor

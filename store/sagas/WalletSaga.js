@@ -38,7 +38,7 @@ function* fetchWalletDetailsAPI(action) {
     } else {
       yield put(errorLogoutCheck(response.data.error));
       yield put(fetchWalletDetailsFailure(response.data.error));
-      yield put(notify({ message: response.data.error?.error, status: "error" }));
+      // yield put(notify({ message: response.data.error?.error, status: "error" }));
     }
   } catch (error) {
     yield put(fetchWalletDetailsFailure(error));
