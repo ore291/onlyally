@@ -37,7 +37,7 @@ const SideNavLayout = ({ children, title, ogType, ogImage }) => {
         <meta property="og:type" content={ogType || "website"} />
         <meta
           property="og:image"
-          content={ogImage || "/playjor-logo-icon.png"}
+          content={ogImage || "https://www.playjor.com/logo.png"}
         />
         <meta property="og:url" content="https://www.playjor.com/" />
 
@@ -45,13 +45,12 @@ const SideNavLayout = ({ children, title, ogType, ogImage }) => {
           name="description"
           content=" Playjor is a social marketplace that offers creators all the tools they need to grow their fan base, increase fan engagement and diversify their revenue streams."
         />
-       
-      
+
         <meta
           property="og:description"
           content=" Playjor is a social marketplace that offers creators all the tools they need to grow their fan base, increase fan engagement and diversify their revenue streams."
         />
-        
+
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="www.playjor.com" />
         <meta property="twitter:url" content="https://www.playjor.com" />
@@ -60,7 +59,7 @@ const SideNavLayout = ({ children, title, ogType, ogImage }) => {
           name="twitter:description"
           content=" Playjor is a social marketplace that offers creators all the tools they need to grow their fan base, increase fan engagement and diversify their revenue streams."
         />
-        <meta name="twitter:image" content="/playjor-logo-icon.png" />
+        <meta name="twitter:image" content="https://www.playjor.com/logo.png" />
 
         <link
           rel="apple-touch-icon"
