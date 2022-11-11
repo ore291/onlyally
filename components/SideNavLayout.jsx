@@ -35,7 +35,10 @@ const SideNavLayout = ({ children, title, ogType, ogImage }) => {
 
         <meta property="og:title" content="Playjor" />
         <meta property="og:type" content={ogType || "website"} />
-        <meta property="og:image" content={ogImage || "/og.jpeg"} />
+        <meta
+          property="og:image"
+          content={ogImage || "https://onlyally.vercel.app/og.jpeg"}
+        />
         <meta property="og:url" content="https://www.playjor.com/" />
 
         <meta
@@ -56,7 +59,10 @@ const SideNavLayout = ({ children, title, ogType, ogImage }) => {
           name="twitter:description"
           content=" Playjor is a social marketplace that offers creators all the tools they need to grow their fan base, increase fan engagement and diversify their revenue streams."
         />
-        <meta name="twitter:image" content="/og.jpeg" />
+        <meta
+          name="twitter:image"
+          content="https://onlyally.vercel.app/og.jpeg"
+        />
 
         <link
           rel="apple-touch-icon"
