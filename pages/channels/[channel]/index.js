@@ -36,7 +36,6 @@ const Channel = () => {
     (state) => state.channels.channelData
   );
 
-
   const [show, setShow] = useState(false);
 
   const toggleShow = (bool) => setShow(bool);
@@ -63,7 +62,6 @@ const Channel = () => {
   //   }
   // }, [router.isReady]);
 
-
   const handleJoinChannel = async () => {
     dispatch(channelSubscribeStart(channel.slug));
 
@@ -75,7 +73,10 @@ const Channel = () => {
   const handleSubscription = () => {
     if (channel.is_private && channel.configuration?.billing?.amount > 0) {
       toggleShow(true);
-    } else if (channel.is_private && channel.configuration?.billing?.amount < 1) {
+    } else if (
+      channel.is_private &&
+      channel.configuration?.billing?.amount < 1
+    ) {
       handleJoinChannel();
     } else {
       handleJoinChannel();
@@ -113,6 +114,11 @@ const Channel = () => {
                         This page is a private page and content is only
                         availaible on subscription.
                       </p>
+                      <span className="text-xs text-red-500 font-semibold">
+                        {channel?.configuration?.billing?.amount > 0
+                          ? `Note: Payment of ₦${channel?.configuration?.billing?.amount} is required.`
+                          : ""}
+                      </span>
                       <div className="row-container space-x-1">
                         <div onClick={() => handleSubscription()}>
                           <Button
@@ -138,7 +144,7 @@ const Channel = () => {
           </div>
         )
       )}
-       {show ? (
+      {show ? (
         <ChannelPaymentModal
           show={show}
           toggleShow={toggleShow}

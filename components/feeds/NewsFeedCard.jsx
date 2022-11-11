@@ -367,7 +367,7 @@ const NewsFeedCard = ({ post, index }) => {
               </ReadMoreMaster>
             </div>
 
-            <div className="embla">
+            <div className="embla ">
               <div className="embla__viewport" ref={viewportRef}>
                 <div className="embla__container">
                   {post.postFiles
@@ -385,7 +385,7 @@ const NewsFeedCard = ({ post, index }) => {
                               />
                             )
                           ) : postFile.file_type === "video" ? (
-                            <div className="embla__slide" key={index}>
+                            <div className="embla__slide " key={index}>
                               <div className="postImage postVideo">
                                 <div className="">
                                   <div className="gallery js-gallery">
@@ -439,8 +439,11 @@ const NewsFeedCard = ({ post, index }) => {
                                               },
                                             },
                                           }}
-                                          
-                                          loop={true}
+                                          onContextMenu={(e) =>
+                                            e.preventDefault()
+                                          }
+                                          loop={false}
+                                          onEnded={()=>setVideoPlaying(false)}
                                           controls={false}
                                           muted={audioMuted}
                                           width="100%"
@@ -528,7 +531,7 @@ const NewsFeedCard = ({ post, index }) => {
                               </div>
                             </div>
                           ) : postFile.file_type === "audio" ? (
-                            <div className="embla__slide" key={index}>
+                            <div className="embla__slide " key={index}>
                               <div className="post-image post-video">
                                 <div className="">
                                   <div className="gallery js-gallery">

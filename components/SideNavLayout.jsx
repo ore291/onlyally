@@ -14,7 +14,7 @@ import {
 } from "react-device-detect";
 import { useRouter } from "next/router";
 
-const SideNavLayout = ({ children , title}) => {
+const SideNavLayout = ({ children, title, ogType, ogImage }) => {
   // const checkSession = hasCookie("accessToken");
   // const router = useRouter();
 
@@ -22,11 +22,9 @@ const SideNavLayout = ({ children , title}) => {
   //   !checkSession && router.push("/login")
   // }, [checkSession])
 
-  
-
   return (
     <>
-    <Head>
+      <Head>
         <title>{title || "Playjor"}</title>
         {/* <link
           rel="icon"
@@ -34,6 +32,35 @@ const SideNavLayout = ({ children , title}) => {
           href={configData.site_icon}
           // sizes="16x16"
         /> */}
+
+        <meta property="og:title" content="Playjor" />
+        <meta property="og:type" content={ogType || "website"} />
+        <meta
+          property="og:image"
+          content={ogImage || "/playjor-logo-icon.png"}
+        />
+        <meta property="og:url" content="https://www.playjor.com/" />
+
+        <meta
+          name="description"
+          content=" Playjor is a social marketplace that offers creators all the tools they need to grow their fan base, increase fan engagement and diversify their revenue streams."
+        />
+       
+      
+        <meta
+          property="og:description"
+          content=" Playjor is a social marketplace that offers creators all the tools they need to grow their fan base, increase fan engagement and diversify their revenue streams."
+        />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="www.playjor.com" />
+        <meta property="twitter:url" content="https://www.playjor.com" />
+        <meta name="twitter:title" content="Playjor" />
+        <meta
+          name="twitter:description"
+          content=" Playjor is a social marketplace that offers creators all the tools they need to grow their fan base, increase fan engagement and diversify their revenue streams."
+        />
+        <meta name="twitter:image" content="/playjor-logo-icon.png" />
 
         <link
           rel="apple-touch-icon"
@@ -54,25 +81,23 @@ const SideNavLayout = ({ children , title}) => {
         />
         <link rel="manifest" href="/site.webmanifest" />
       </Head>
-     <div className="grid grid-cols-1 lg:grid-cols-12 relative">
+      <div className="grid grid-cols-1 lg:grid-cols-12 relative">
+        <LeftSideBar />
 
-      <LeftSideBar />
+        <main className="lg:col-span-9 ">{children}</main>
+        <MobileView>
+          <MobileNav />
+        </MobileView>
+        <MobileView>
+          <SideNav />
+        </MobileView>
+        <BrowserView>
+          <RightSideBar />
+        </BrowserView>
 
-      <main className="lg:col-span-9 ">{children}</main>
-      <MobileView>
-        <MobileNav />
-      </MobileView>
-      <MobileView>
-        <SideNav />
-      </MobileView>
-      <BrowserView>
-        <RightSideBar />
-      </BrowserView>
-
-      <MainMobileNav />
-    </div>
+        <MainMobileNav />
+      </div>
     </>
-   
   );
 };
 

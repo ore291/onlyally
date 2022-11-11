@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
-import {notify} from "reapop";
+import { notify } from "reapop";
 
 import Link from "next/link";
 // import { saveBookmarkStart } from "../../store/actions/BookmarkAction";
@@ -48,7 +48,7 @@ const CommentReplies = (props) => {
           status: "info",
         })
       );
-    };
+    }
     dispatch(
       saveCommentRepliesStart({
         reply: editorHtmlContent,
@@ -101,7 +101,7 @@ const CommentReplies = (props) => {
 
   return (
     <>
-      {commentActiveIndex == props.currentIndex &&
+      {commentActiveIndex === props.currentIndex &&
         (commentReplies.loading ? (
           "Loading..."
         ) : commentReplies.data.post_comment_replies.length > 0 ? (
@@ -128,7 +128,7 @@ const CommentReplies = (props) => {
                     </div>
                     <div className="reply-user-info col-span-7">
                       <a to={`/${comment_reply.user_displayname}`}>
-                        <h5 className="reply-user-name text-blue-700">
+                        <h5 className="reply-user-name text-gray-900 dark:text-gray-100">
                           {comment_reply.user_displayname}
                         </h5>
                       </a>
@@ -155,13 +155,13 @@ const CommentReplies = (props) => {
                 </>
               )
             )}{" "}
-            <div className="clear-both ml-16 border rounded-2xl p-0.5">
+            <div className="clear-both w-full md:w-[80%]  ml-8 md:ml-[15%] !border rounded-full px-0.5">
               <form
                 className="w-full flex items-center  mt-0"
                 action=""
                 onSubmit={handleCommentReplySubmit}
               >
-                <div className="inline-block float-left clear-both basis-[15%]">
+                <div className="inline-block float-left clear-both basis-[10%]">
                   <a className="title-container-1" href="#">
                     <div className="relative w-10 h-10 rounded-full max-w-full">
                       <Image
@@ -175,9 +175,9 @@ const CommentReplies = (props) => {
                   </a>
                 </div>
 
-                <div className="inline-block float-left basis-[65%] ">
+                <div className=" float-left basis-[75%] overflow-hidden !w-[75%]">
                   <PostEditor
-                    className="PostEditor__input"
+                    className="PostEditor__input !whitespace-normal"
                     placeholder={"Write a reply...."}
                     refs={mentionsRef}
                     getEditorRawContent={setEditorContentstate}
@@ -189,7 +189,7 @@ const CommentReplies = (props) => {
                   />
                 </div>
 
-                <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
+                <ul className="!relative pl-0 list-none flex my-0 basis-[15%] ">
                   <li className="mt-0 mr-1 flex items-start">
                     <button
                       to="#"
@@ -234,7 +234,7 @@ const CommentReplies = (props) => {
           </>
         ) : (
           <>
-            <div className="clear-both ml-16">
+            <div className="clear-both md:w-[80%]  ml-8 md:ml-[15%] !border rounded-full px-0.5">
               <form
                 className="w-full flex items-center  mt-0"
                 action=""

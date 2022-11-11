@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Button from "../Button";
 import SideBarLoader from "../helpers/SideBarLoader";
 
-
 import Image from "next/image";
 import GroupCard from "./GroupCard";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +12,7 @@ const LikedGroups = () => {
   const groups = useSelector((state) => state.groups.groups);
 
   useEffect(() => {
+
     dispatch(fetchGroupsStart());
   }, []);
 
@@ -20,7 +20,12 @@ const LikedGroups = () => {
     <div className="side-container">
       <div className="flex items-center justify-between px-2">
         <p className="text-start font-bold">Groups you may like</p>
-        <span className="text-blue-500 text-xs cursor-pointer">Refresh</span>
+        <span
+          onClick={() => dispatch(fetchGroupsStart())}
+          className="text-blue-500 text-xs cursor-pointer"
+        >
+          Refresh
+        </span>
       </div>
 
       {groups.loading ? (

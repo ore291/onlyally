@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SideNavLayout from "../../../components/SideNavLayout";
 import GroupPageHeader from "../../../components/groups/GroupPageHeader";
-import { fetchSingleGroupStart, fetchGroupsCategoriesStart } from "../../../store/slices/groupsSlice";
+import {
+  fetchSingleGroupStart,
+  fetchGroupsCategoriesStart,
+} from "../../../store/slices/groupsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import ProfileLoader from "../../../components/Profile/ProfileLoader";
@@ -88,7 +91,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       );
       store.dispatch(
         fetchGroupsCategoriesStart({
-          accessToken: cookies.accessToken,     
+          accessToken: cookies.accessToken,
           group_slug: group,
         })
       );

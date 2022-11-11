@@ -104,7 +104,11 @@ const Profile = () => {
   const popoverId = open ? "simple-popover" : undefined;
   console.log(profile);
   return (
-    <SideNavLayout>
+    <SideNavLayout
+      title={profile.data.name}
+      ogType="profile"
+      ogImage={profile.data.cover}
+    >
       {profile.loading ? (
         <ProfileLoader></ProfileLoader>
       ) : (

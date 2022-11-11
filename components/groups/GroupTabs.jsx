@@ -36,7 +36,7 @@ const GroupTabs = ({ groupsAll, groupsData, categoriesData }) => {
     return (
       <Tab.Group>
         <Tab.List>
-          <div className="flex items-center space-x-3 p-3 overflow-x-scroll scrollbar-thin scroll-smooth scrollbar-hide flex-shrink-0">
+          <div className="flex items-center space-x-3 p-3 !overflow-x-scroll scrollbar-thin scroll-smooth scrollbar-hide flex-shrink-0">
             <Tab
               className={({ selected }) =>
                 classNames(

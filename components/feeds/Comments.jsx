@@ -104,94 +104,87 @@ const Comments = ({ post, currentIndex }) => {
 
   return (
     <div
-      className="block w-full px-[5px]  bg-white dark:!bg-[#17212D] border rounded-2xl mt-2 "
+      className="block w-full md:w-[95%] mx-auto px-[5px]  bg-white dark:!bg-[#17212D] border rounded-full mt-2 "
       onFocus={() => focusEditor()}
     >
-      <div className="clear-both">
-        <form
-          className="w-full flex items-center  mt-0"
-          action=""
-          onSubmit={handleCommentSubmit}
-        >
-          <div className="inline-block float-left clear-both basis-[15%]">
-            <a className="title-container-1" href="#">
-              <div className="relative w-10 h-10 rounded-full max-w-full">
-                <Image
-                  alt=""
-                  src={
-                    userPicture ||
-                    user.picture ||
-                    "https://cms.onlyally.com/placeholder.jpeg"
-                  }
-                  objectFit="cover"
-                  layout="fill"
-                  className="rounded-full"
-                />
-              </div>
-            </a>
-          </div>
-          {commentActiveIndex == currentIndex ? (
-            <div className="inline-block float-left basis-[70%] dark:text-gray-900">
-              <PostEditor
-                className="PostEditor__input"
-                placeholder={"Add comments here...."}
-                refs={mentionsRef}
-                getEditorRawContent={setEditorContentstate}
-                getEditorHtmlContent={setEditorHtmlContent}
-                getHasText={setHasText}
-                dispatch={dispatch}
-                editorState={editorState}
-                setEditorState={setEditorState}
-                // userSelect="none"
-                // contentEditable={false}
+      <form
+        className="w-full flex items-center  mt-0"
+        action=""
+        onSubmit={handleCommentSubmit}
+      >
+        <div className="inline-block  clear-both basis-[15%]">
+          <a className="title-container-1" href="#">
+            <div className="relative w-10 h-10 rounded-full max-w-full">
+              <Image
+                alt=""
+                src={
+                  userPicture ||
+                  user.picture ||
+                  "https://cms.onlyally.com/placeholder.jpeg"
+                }
+                objectFit="cover"
+                layout="fill"
+                className="rounded-full"
               />
             </div>
-          ) : (
-            <div className="empty-comment basis-[70%] my-[5px]  dark:!bg-[#17212D]">
-              <input
-                className="border-none ring-0 border-0 w-full dark:!bg-[#17212D] placeholder:dark:text-gray-100"
-                type="text"
-                placeholder="Add comments here ..."
+          </a>
+        </div>
+        {commentActiveIndex == currentIndex ? (
+          <div className="inline-block float-left basis-[70%] dark:text-gray-900">
+            <PostEditor
+              className="PostEditor__input !whitespace-normal"
+              placeholder={"Add comments here...."}
+              refs={mentionsRef}
+              getEditorRawContent={setEditorContentstate}
+              getEditorHtmlContent={setEditorHtmlContent}
+              getHasText={setHasText}
+              dispatch={dispatch}
+              editorState={editorState}
+              setEditorState={setEditorState}
+              // userSelect="none"
+              // contentEditable={false}
+            />
+          </div>
+        ) : (
+          <div className="empty-comment basis-[70%] my-[5px]  dark:!bg-[#17212D]">
+            <input
+              className="border-none ring-0 border-0 w-full dark:!bg-[#17212D] placeholder:dark:text-gray-100"
+              type="text"
+              placeholder="Add comments here ..."
+            />
+          </div>
+        )}
+        <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
+          <li className="mt-0 mr-1 flex items-start">
+            <button to="#" onClick={() => handleCommentSubmit}>
+              <div className="commentBtn row-container">
+                <div className="relative w-7 h-7">
+                  <Image
+                    layout="fill"
+                    src="/comment.png"
+                    className="invert  object-cover"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </button>
+          </li>
+          <li className="m-0 !mt-0 flex items-start">
+            <button type="button" className="p-0 pr-1" onClick={triggerPicker}>
+              <HiOutlineEmojiHappy className="commentBtn" />
+            </button>
+          </li>
+          {emojiPickerState && (
+            <div className="emojiWrapper">
+              <Picker
+                title=""
+                emoji="point_up"
+                onSelect={(emoji) => handleEmojiSelect(emoji)}
               />
             </div>
           )}
-          <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
-            <li className="mt-0 mr-1 flex items-start">
-              <button to="#" onClick={() => handleCommentSubmit}>
-                {/* <i className="fas fa-paper-plane"></i> */}
-                <div className="commentBtn row-container">
-                  <div className="relative w-7 h-7">
-                    <Image
-                      layout="fill"
-                      src="/comment.png"
-                      className="invert  object-cover"
-                      alt=""
-                    />
-                  </div>
-                </div>
-              </button>
-            </li>
-            <li className="m-0 !mt-0 flex items-start">
-              <button
-                type="button"
-                className="p-0 pr-1"
-                onClick={triggerPicker}
-              >
-                <HiOutlineEmojiHappy className="commentBtn" />
-              </button>
-            </li>
-            {emojiPickerState && (
-              <div className="emojiWrapper">
-                <Picker
-                  title=""
-                  emoji="point_up"
-                  onSelect={(emoji) => handleEmojiSelect(emoji)}
-                />
-              </div>
-            )}
-          </ul>
-        </form>
-      </div>
+        </ul>
+      </form>
     </div>
   );
 };

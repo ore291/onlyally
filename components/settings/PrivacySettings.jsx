@@ -14,12 +14,11 @@ const PrivacySettings = () => {
   const dispatch = useDispatch();
 
   const categories = useSelector((state) => state.groups.categories);
-  const [handlerStatus, setHandlerStatus] = useState(false)
-  
+  const [handlerStatus, setHandlerStatus] = useState(false);
+
   const { data: group, loading } = useSelector(
     (state) => state.groups.groupData
   );
-
 
   const { data: privacy, loading: privating } = useSelector(
     (state) => state.groups.updateGroupPrivacy
@@ -38,14 +37,14 @@ const PrivacySettings = () => {
     mode: "onBlur",
   });
 
-  const handler = (status)=>{
-    console.log(status)
-    if(status === true){
-      setHandlerStatus(true)
-    }else{
-      setHandlerStatus(false)
+  const handler = (status) => {
+    console.log(status);
+    if (status === true) {
+      setHandlerStatus(true);
+    } else {
+      setHandlerStatus(false);
     }
-  }
+  };
 
   const onPrivacySubmit = (data) => {
     const body = {
@@ -59,7 +58,6 @@ const PrivacySettings = () => {
   };
 
   const [billing, enableBilling] = useState(false);
-
 
   const handleBilling = () => {
     enableBilling(!billing);
@@ -83,7 +81,7 @@ const PrivacySettings = () => {
           //   })
           // }
           {...register2("private", {
-            onChange : (event) =>handler(event.currentTarget.value)
+            onChange: (event) => handler(event.currentTarget.value),
           })}
         >
           <option value={true}>Private</option>
@@ -101,13 +99,13 @@ const PrivacySettings = () => {
           <div className="flex items-center space-x-2 mt-2">
             <h3 className="font-semibold text-2xl">Enable Billing</h3>
 
-            <label
+            {/* <label
               htmlFor="toggleB"
               className="flex items-center cursor-pointer"
             >
-              {/* toggle */}
+             
               <div className="relative">
-                {/* input */}
+          
                 <input
                   type="checkbox"
                   id="toggleB"
@@ -115,70 +113,66 @@ const PrivacySettings = () => {
                   checked={billing}
                   onChange={handleBilling}
                 />
-                {/* line */}
+            
                 <div className="block bg-gray-600 w-14 h-8 rounded-full tick-bg " />
-                {/* dot */}
+              
                 <div className="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition" />
               </div>
-              {/* label */}
-              {/* <div className="ml-3 text-gray-700 font-medium">Toggle Me!</div> */}
-            </label>
+             
+            </label> */}
           </div>
           <p className="text-xs font-medium my-0">
             Get users to pay when subscribing to this group
           </p>
-          {billing ? (
-            <>
-              <div className="my-2">
-                <label
-                  htmlFor="month-price"
-                  className="block text-lg font-semibold text-gray-700"
+
+          <>
+            <div className="my-2">
+              <label
+                htmlFor="month-price"
+                className="block text-lg font-semibold text-gray-700"
+              >
+                Subscription Duration
+              </label>
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <select
+                  name="duration"
+                  id="duration"
+                  required
+                  {...register2("duration")}
+                  defaultValue={group.configuration.billing.duration}
+                  className="focus:ring-textPlayRed focus:border-textPlayRed block w-full  sm:text-sm border-gray-300 rounded-md"
                 >
-                  Subscription Duration
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <select
-                    name="duration"
-                    id="duration"
-                    required
-                    {...register2("duration")}
-                    defaultValue={group.configuration.billing.duration}
-                    className="focus:ring-textPlayRed focus:border-textPlayRed block w-full  sm:text-sm border-gray-300 rounded-md"
-                  >
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="bi-monthly">Bi-Monthly</option>
-                    <option value="yearly">Yearly</option>
-                  </select>
-                </div>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="bi-monthly">Bi-Monthly</option>
+                  <option value="yearly">Yearly</option>
+                </select>
               </div>
-              <div className="my-2">
-                <label
-                  htmlFor="month-price"
-                  className="block text-lg font-semibold text-gray-700"
-                >
-                  Subscription Price
-                </label>
-                <div className="mt-1 relative rounded-md shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <span className="text-gray-500 sm:text-sm"> &#8358; </span>
-                  </div>
-                  <input
-                    type="text"
-                    name="month-price"
-                    id="month-price"
-                    {...register2("amount")}
-                    defaultValue={group.configuration.billing.amount}
-                    required
-                    className="focus:ring-textPlayRed focus:border-textPlayRed block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
-                    placeholder={0.0}
-                  />
+            </div>
+            <div className="my-2">
+              <label
+                htmlFor="month-price"
+                className="block text-lg font-semibold text-gray-700"
+              >
+                Subscription Price
+              </label>
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-500 sm:text-sm"> &#8358; </span>
                 </div>
+                <input
+                  type="text"
+                  name="month-price"
+                  id="month-price"
+                  {...register2("amount")}
+                  defaultValue={group.configuration.billing.amount}
+                  required
+                  className="focus:ring-textPlayRed focus:border-textPlayRed block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
+                  placeholder={0.0}
+                />
               </div>
-            </>
-          ) : (
-            ""
-          )}
+            </div>
+          </>
         </div>
       ) : null}
 

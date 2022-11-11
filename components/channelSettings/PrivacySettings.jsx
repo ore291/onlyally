@@ -85,33 +85,33 @@ const PrivacySettings = () => {
                 <div className="flex items-center space-x-2 mt-2">
                   <h3 className="font-semibold text-2xl">Enable Billing</h3>
 
-                  <label
+                  {/* <label
                     htmlFor="toggleB"
                     className="flex items-center cursor-pointer"
                   >
-                    {/* toggle */}
+                  
                     <div className="relative">
-                      {/* input */}
+                   
                       <input
                         type="checkbox"
                         id="toggleB"
                         className="sr-only"
-                        checked={billing}
+                        checked={channel.configuration.billing.amount > 0}
                         onChange={handleBilling}
                       />
-                      {/* line */}
+                   
                       <div className="block bg-gray-600 w-14 h-8 rounded-full tick-bg " />
-                      {/* dot */}
+                
                       <div className="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition" />
                     </div>
-                    {/* label */}
-                    {/* <div className="ml-3 text-gray-700 font-medium">Toggle Me!</div> */}
-                  </label>
+                 
+                   
+                  </label> */}
                 </div>
                 <p className="text-xs font-medium my-0">
                   Get users to pay when subscribing to this channel
                 </p>
-                {billing ? (
+                
                   <>
                     <div className="my-2">
                       <label
@@ -163,9 +163,7 @@ const PrivacySettings = () => {
                       </div>
                     </div>
                   </>
-                ) : (
-                  ""
-                )}
+                
               </div>
             ) : null}
 

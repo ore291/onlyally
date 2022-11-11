@@ -7,7 +7,7 @@ const NotificationCard = ({ notification }) => {
 
   const url = (urlLink)=>{
     if( urlLink === "fans"){
-      return `bookmarks/${urlLink}`;
+      return `list/${urlLink}`;
     }else if( urlLink === "payments"){
       return `payment/my-payment`;
     }else{

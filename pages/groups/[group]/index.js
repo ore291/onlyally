@@ -94,12 +94,12 @@ const Group = () => {
                           {group.members.length} Members
                         </p>
                       </div>
-                      <div className="flex items-center space-x-2">
+                      {/* <div className="flex items-center space-x-2">
                         <RiPriceTag3Line className="w-5 h-5 text-gray-500" />
                         <p className="font-semibold text-lg">
                           Cars and Vehicles
                         </p>
-                      </div>
+                      </div> */}
                       <div className="flex items-center space-x-2">
                         <CgNotes className="w-5 h-5 text-gray-500" />
                         <p className="font-semibold text-lg">
@@ -115,6 +115,11 @@ const Group = () => {
                         This page is a private group and content is only
                         availaible on subscription.
                       </p>
+                      <span className="text-xs text-red-500 font-semibold">
+                        {group?.configuration?.billing?.amount > 0
+                          ? `Note: Payment of ₦${group?.configuration?.billing?.amount} is required.`
+                          : ""}
+                      </span>
                       <div className="row-container space-x-4">
                         <div onClick={() => handleSubscription()}>
                           <Button

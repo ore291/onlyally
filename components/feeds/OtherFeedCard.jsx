@@ -440,7 +440,11 @@ const NewsFeedCard = ({ post, index }) => {
                                               },
                                             },
                                           }}
-                                          loop={true}
+                                          onContextMenu={(e) =>
+                                            e.preventDefault()
+                                          }
+                                          loop={false}
+                                          onEnded={() => setVideoPlaying(false)}
                                           controls={false}
                                           muted={audioMuted}
                                           width="100%"

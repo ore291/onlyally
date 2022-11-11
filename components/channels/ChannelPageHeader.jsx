@@ -57,10 +57,10 @@ const ChannelPageHeader = ({ channel }) => {
         <div className="relative object-cover h-[300px]  md:h-[450px] w-full blur-[20px]  -mt-16 md:-mt-36">
           <Image
             src={
-              channel?.media[1]?.original_url
-                ? channel?.media[1]?.original_url
-                : channel.cover ||
-                  "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+              // channel?.media[1]?.original_url
+              //   ? channel?.media[1]?.original_url
+              //   : channel.cover ||
+              "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
             }
             layout="fill"
             objectFit="cover"
@@ -75,10 +75,10 @@ const ChannelPageHeader = ({ channel }) => {
             <div className="!relative h-[300px] w-full  md:h-[450px]">
               <Image
                 src={
-                  channel?.media[1]?.original_url
-                    ? channel?.media[1]?.original_url
-                    : channel.cover ||
-                      "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
+                  //  channel.media && channel?.media[1]?.original_url
+                  //     ? channel?.media[1]?.original_url
+                  //     : channel.cover ||
+                  "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-cover.jpg"
                 }
                 layout="fill"
                 alt=""
@@ -92,9 +92,10 @@ const ChannelPageHeader = ({ channel }) => {
                 <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full">
                   <Image
                     src={
-                      channel?.media[0]?.original_url
-                        ? channel?.media[0]?.original_url
-                        : channel?.avatar
+                      "https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-group.jpg"
+                      // channel?.media[0]?.original_url
+                      //   ? channel?.media[0]?.original_url
+                      //   : channel?.avatar
                     }
                     alt="avatar-img"
                     fallbackSrc="https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-group.jpg"

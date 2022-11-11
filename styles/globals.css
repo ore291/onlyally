@@ -22,9 +22,11 @@
 }
 
 @layer utilities {
-
-  .payment-bottom-buttons{
-    @apply flex flex-col sm:flex-row space-y-2 justify-between md:justify-end items-center px-5 py-2 md:space-x-3
+  .player-wrapper {
+    @apply relative pt-[56.25%] min-h-[400px] md:min-h-full;
+  }
+  .payment-bottom-buttons {
+    @apply flex flex-col sm:flex-row space-y-2 justify-between md:justify-end items-center px-5 py-2 md:space-x-3;
   }
   .live-stream-button {
     @apply w-[50px] h-[50px]  row-container rounded-full  bg-[#ecece6] cursor-pointer shadow-md;
@@ -76,7 +78,7 @@
   }
 
   .post-video-size {
-    @apply !w-[95%]  h-full !max-h-[600px] left-0 right-0 mx-auto object-cover;
+    @apply !w-[95%]  !min-h-[20em]  md:h-full md:!max-h-[600px] left-0 right-0 mx-auto object-cover;
   }
   /* .post-video-size {
     @apply !w-full !h-[20em] object-cover min-h-[20em];
@@ -1126,13 +1128,12 @@ span {
   text-align: justify;
 }
 
-.player-wrapper {
-  position: relative;
-  padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
-}
-
 .react-player {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre pre {
+  white-space: normal;
 }

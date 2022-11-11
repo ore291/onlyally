@@ -125,7 +125,7 @@ const ChannelPaymentModal = ({ channel_slug, show, toggleShow }) => {
                 <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-1 text-left align-middle shadow-xl transition-all">
                   <div className="flex w-full items-center justify-between p-2 bg-playRed rounded-t-2xl">
                     <h3 className="text-lg font-medium leading-6 text-white">
-                      Subscribe now to join the group
+                      Subscribe now to join the Channel
                     </h3>
                     <div
                       className="rounded-full bg-white p-0.5 cursor-pointer"

@@ -62,13 +62,10 @@ const GeneralSettings = () => {
     (state) => state.channels.updateChannelPrivacy
   );
 
-
-
   // useEffect(() => {
   //   dispatch(fetchGroupsCategoriesStart());
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
-
 
   return (
     <>
@@ -92,7 +89,7 @@ const GeneralSettings = () => {
                 htmlFor="name"
                 className="origin-0 absolute top-3 left-3 font-medium text-sm z-[2] text-gray-500 duration-300"
               >
-                Group Name
+                Channel Name
               </label>
             </div>
             <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
@@ -153,8 +150,6 @@ const GeneralSettings = () => {
               </button>
             </div>
           </form>
-
-        
         </>
       ) : (
         ""
