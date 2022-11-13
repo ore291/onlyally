@@ -175,7 +175,7 @@ const CommentReplies = (props) => {
                   </a>
                 </div>
 
-                <div className=" float-left basis-[75%] overflow-hidden !w-[75%]">
+                <div className=" float-left basis-[75%] overflow-hidden !w-[75%] px-1">
                   <PostEditor
                     className="PostEditor__input !whitespace-normal"
                     placeholder={"Write a reply...."}
@@ -189,7 +189,7 @@ const CommentReplies = (props) => {
                   />
                 </div>
 
-                <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
+                <ul className="!relative pl-0 list-none flex items-center my-0 basis-[15%]">
                   <li className="m-0 !mt-0 flex items-start">
                     <button
                       type="button"
@@ -205,7 +205,7 @@ const CommentReplies = (props) => {
                       onClick={(event) =>
                         handleCommentReplySubmit(event, comment)
                       }
-                      className="rounded-full h-8 w-16 bg-lightPlayRed"
+                      className="rounded-full h-10 w-[80px] bg-lightPlayRed"
                     >
                       {/* <i className="fas fa-paper-plane"></i> */}
                       <span className="text-sm font-semibold text-white">
@@ -262,8 +262,8 @@ const CommentReplies = (props) => {
                   />
                 </div>
 
-                <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
-                  <li className="m-0 !mt-0 flex items-start">
+                <div className="!relative pl-0 list-none flex items-center my-0 basis-[15%]">
+                  <div className="m-0 !mt-0 flex items-start">
                     <button
                       type="button"
                       className="p-0 pr-1"
@@ -271,21 +271,21 @@ const CommentReplies = (props) => {
                     >
                       <HiOutlineEmojiHappy className="w-8 h-8 text-lightPlayRed dark:text-white" />
                     </button>
-                  </li>
-                  <li className="mt-0  flex items-start">
+                  </div>
+                  <div className="mt-0  flex items-start">
                     <button
                       to="#"
                       onClick={(event) =>
                         handleCommentReplySubmit(event, comment)
                       }
-                      className="rounded-full h-8 w-16 bg-lightPlayRed"
+                      className="rounded-full h-10 w-[80px] bg-lightPlayRed"
                     >
                       {/* <i className="fas fa-paper-plane"></i> */}
                       <span className="text-sm font-semibold text-white">
                         POST
                       </span>
                     </button>
-                  </li>
+                  </div>
                   {emojiPickerState && (
                     <div className="emojiWrapper">
                       <Picker
@@ -295,7 +295,7 @@ const CommentReplies = (props) => {
                       />
                     </div>
                   )}
-                </ul>
+                </div>
               </form>
             </div>
           </>

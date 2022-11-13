@@ -277,8 +277,8 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
               <Button
                 text="Edit"
                 active={true}
-                extraclassNamees="w-full h-8"
-                textclassName="text-sm text-gray-100 font-semibold"
+                extraclassNamees="w-full h-8 !bg-mildPlayRed"
+                textclassName="text-sm text-red-500 font-semibold"
               />
             </Link>
           ) : channel.is_member ? (
@@ -286,8 +286,8 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
               <Button
                 text="view"
                 active={true}
-                extraclassNamees="w-full h-8"
-                textclassName="text-sm text-gray-100 font-semibold"
+                extraclassNamees="w-full h-8 !bg-mildPlayRed "
+                textclassName="text-sm text-red-500  font-semibold"
               />
             </Link>
           ) : (

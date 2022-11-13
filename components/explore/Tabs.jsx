@@ -31,7 +31,7 @@ export default function Tabs() {
               key={index}
               className={({ selected }) =>
                 classNames(
-                  "w-[70px] p-.5 text-sm leading-5 font-medium text-gray-700 m-1",
+                  "w-[80px] p-.5  px-2 text-sm leading-5 font-medium text-gray-700 m-1",
                   "focus:outline-none focus:ring-0 ",
                   selected
                     ? "bg-white dark:bg-gray-200 rounded-full shadow-md"

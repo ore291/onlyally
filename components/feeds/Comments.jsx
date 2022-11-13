@@ -104,7 +104,7 @@ const Comments = ({ post, currentIndex }) => {
 
   return (
     <div
-      className="block w-full md:w-[95%] mx-auto px-[5px]  bg-white dark:!bg-[#17212D] border rounded-full mt-2 "
+      className="block w-full md:w-[95%] mx-auto px-[3px]  bg-white dark:!bg-[#17212D] border rounded-full mt-2 "
       onFocus={() => focusEditor()}
     >
       <form
@@ -146,7 +146,7 @@ const Comments = ({ post, currentIndex }) => {
             />
           </div>
         ) : (
-          <div className="empty-comment basis-[70%] my-[5px]  dark:!bg-[#17212D]">
+          <div className="empty-comment basis-[70%] my-[2px]  dark:!bg-[#17212D]">
             <input
               className="border-none ring-0 border-0 w-full dark:!bg-[#17212D] placeholder:dark:text-gray-100"
               type="text"
@@ -154,21 +154,21 @@ const Comments = ({ post, currentIndex }) => {
             />
           </div>
         )}
-        <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
-          <li className="m-0 !mt-0 flex items-start">
+        <div className="!relative pl-0  flex items-center my-0 basis-[15%]">
+          <div className="m-0 !mt-0 flex items-start">
             <button type="button" className="p-0 pr-1" onClick={triggerPicker}>
               <HiOutlineEmojiHappy className="w-8 h-8 text-lightPlayRed dark:text-white" />
             </button>
-          </li>
-          <li className="mt-0  flex items-start">
-            <button
-              className="rounded-full h-8 w-16 bg-lightPlayRed"
-              to="#"
-              onClick={() => handleCommentSubmit}
-            >
-              <span className="text-sm font-semibold text-white">POST</span>
-            </button>
-          </li>
+          </div>
+
+          <button
+            className="rounded-full h-10 w-[80px] bg-lightPlayRed"
+            to="#"
+            onClick={() => handleCommentSubmit}
+          >
+            <span className="text-sm font-semibold text-white">POST</span>
+          </button>
+
           {emojiPickerState && (
             <div className="emojiWrapper">
               <Picker
@@ -178,7 +178,7 @@ const Comments = ({ post, currentIndex }) => {
               />
             </div>
           )}
-        </ul>
+        </div>
       </form>
     </div>
   );
