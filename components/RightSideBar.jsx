@@ -13,9 +13,9 @@ const RightSideBar = () => {
   const chatUsers = useSelector((state) => state.chat.chatUsers);
 
   useEffect(() => {
-    chatUsers.data.users.length < 1 &&
-      dispatch(fetchChatUsersStart({ search_key: "" }));
-  }, [chatUsers]);
+    if (chatUsers.data?.users && chatUsers.data?.users?.length > 0) return;
+    dispatch(fetchChatUsersStart({ search_key: "" }));
+  }, []);
 
   const handleChatUser = (event, user_id) => {
     event.preventDefault();
