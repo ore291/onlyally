@@ -13,8 +13,9 @@ const RightSideBar = () => {
   const chatUsers = useSelector((state) => state.chat.chatUsers);
 
   useEffect(() => {
-    dispatch(fetchChatUsersStart({ search_key: "" }));
-  }, []);
+    chatUsers.data.users.length < 1 &&
+      dispatch(fetchChatUsersStart({ search_key: "" }));
+  }, [chatUsers]);
 
   const handleChatUser = (event, user_id) => {
     event.preventDefault();
@@ -33,29 +34,15 @@ const RightSideBar = () => {
           ? null
           : chatUsers.data && chatUsers.data.users.length > 0
           ? chatUsers.data.users.map((user, i) => (
-              <>
-                {/* <div className="grid grid-cols-2 z-50 w-fit relative left-[-60px] top-[100%]">
-                  <Image
-                    src={user.to_userpicture}
-                    alt="side-img"
-                    width="50px"
-                    height="50px"
-                    objectFit="cover"
-                    className=" rounded-full"
-                  />
-                  <p>okokokokokoko</p>
-                </div> */}
-                <Display
-                  user={user}
-                  i={i}
-                  key={user.to_user_id}
-                  handleChatUser={handleChatUser}
-                  onClick={(event) => {
-                   
-                    handleChatUser(event, user.to_user_id);
-                  }}
-                />
-              </>
+              <Display
+                user={user}
+                i={i}
+                key={i}
+                handleChatUser={handleChatUser}
+                onClick={(event) => {
+                  handleChatUser(event, user.to_user_id);
+                }}
+              />
             ))
           : null}
       </div>

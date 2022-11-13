@@ -4,7 +4,7 @@ import { savePostLikedStart } from "../../store/slices/postLikeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { notify } from "reapop";
-import Image from "next/image";
+import Image from "../helpers/CustomImage";
 import { BsHeartFill, BsHeart, BsThreeDots } from "react-icons/bs";
 import { FiPlay } from "react-icons/fi";
 import { MdLockOutline } from "react-icons/md";
@@ -82,6 +82,7 @@ const ExplorePostCard = ({ post, type }) => {
                 layout="fill"
                 objectFit="cover"
                 alt=""
+                fallbackSrc="/images/no-image-found.png"
                 src={
                   post.postFiles.blur_file
                     ? post.postFiles.blur_file
@@ -100,6 +101,7 @@ const ExplorePostCard = ({ post, type }) => {
                   post.postFiles.preview_file ??
                   "/images/live/live-stream-post-1.jpg"
                 }
+                fallbackSrc="/images/live/live-stream-post-1.jpg"
                 alt=""
                 className="rounded-sm"
               />
@@ -298,6 +300,8 @@ const ExplorePostCard = ({ post, type }) => {
                     ? post.postFiles.blur_file
                     : "/images/no-image-found.png"
                 }
+                fallbackSrc="/images/no-image-found.png"
+                
                 className={`postViewImg blur-[20px] rounded-sm`}
               />
               <MdLockOutline className="h-8 w-8 text-white centered-axis-xy " />
@@ -312,6 +316,7 @@ const ExplorePostCard = ({ post, type }) => {
                     ? post.postFiles.preview_file
                     : "/images/live/live-stream-post-1.jpg"
                 }
+                fallbackSrc="/images/live/live-stream-post-1.jpg"
                 alt=""
                 className="rounded-sm"
               />

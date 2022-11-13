@@ -151,12 +151,19 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
                 className="rounded-t-lg"
                 alt=""
               />
-              <div className="absolute -bottom-8 md:-bottom-16 max-w-[100px] md:max-w-[116px] inset-x-0 mx-auto p-1 bg-white rounded-2xl">
-                <img
-                  src={channel.avatar || "https://dummyimage.com/300"}
-                  alt="side-img"
-                  className="rounded-2xl md:w-32 md:h-28 object-cover"
-                />
+              <div className="absolute -bottom-8 md:-bottom-16 inset-x-0 mx-auto bg-transparent flex items-center justify-center ">
+                <div className="p-1 bg-white rounded-2xl">
+                  <div className="w-24 h-24  md:w-28 md:h-28 rounded-2xl relative cursor-pointer">
+                    <Image
+                      src={channel.avatar}
+                      fallbackSrc="https://playjor.ams3.digitaloceanspaces.com/upload/photos/d-group.jpg"
+                      alt="side-img"
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-2xl"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </Link>

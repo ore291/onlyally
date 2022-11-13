@@ -189,34 +189,28 @@ const CommentReplies = (props) => {
                   />
                 </div>
 
-                <ul className="!relative pl-0 list-none flex my-0 basis-[15%] ">
-                  <li className="mt-0 mr-1 flex items-start">
-                    <button
-                      to="#"
-                      onClick={(event) =>
-                        handleCommentReplySubmit(event, comment)
-                      }
-                    >
-                      {/* <i className="fas fa-paper-plane"></i> */}
-                      <div className="commentBtn row-container">
-                        <div className="relative w-7 h-7">
-                          <Image
-                            layout="fill"
-                            src="/comment.png"
-                            className="invert object-cover"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </button>
-                  </li>
+                <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
                   <li className="m-0 !mt-0 flex items-start">
                     <button
                       type="button"
                       className="p-0 pr-1"
                       onClick={triggerPicker}
                     >
-                      <HiOutlineEmojiHappy className="commentBtn" />
+                      <HiOutlineEmojiHappy className="w-8 h-8 text-lightPlayRed dark:text-white" />
+                    </button>
+                  </li>
+                  <li className="mt-0  flex items-start">
+                    <button
+                      to="#"
+                      onClick={(event) =>
+                        handleCommentReplySubmit(event, comment)
+                      }
+                      className="rounded-full h-8 w-16 bg-lightPlayRed"
+                    >
+                      {/* <i className="fas fa-paper-plane"></i> */}
+                      <span className="text-sm font-semibold text-white">
+                        POST
+                      </span>
                     </button>
                   </li>
                   {emojiPickerState && (
@@ -269,33 +263,27 @@ const CommentReplies = (props) => {
                 </div>
 
                 <ul className="!relative pl-0 list-none flex my-0 basis-[15%]">
-                  <li className="mt-0 mr-1 flex items-start">
-                    <button
-                      to="#"
-                      onClick={(event) =>
-                        handleCommentReplySubmit(event, comment)
-                      }
-                    >
-                      {/* <i className="fas fa-paper-plane"></i> */}
-                      <div className="commentBtn row-container">
-                        <div className="relative w-7 h-7">
-                          <Image
-                            layout="fill"
-                            src="/comment.png"
-                            className="invert object-cover"
-                            alt=""
-                          />
-                        </div>
-                      </div>
-                    </button>
-                  </li>
                   <li className="m-0 !mt-0 flex items-start">
                     <button
                       type="button"
                       className="p-0 pr-1"
                       onClick={triggerPicker}
                     >
-                      <HiOutlineEmojiHappy className="commentBtn" />
+                      <HiOutlineEmojiHappy className="w-8 h-8 text-lightPlayRed dark:text-white" />
+                    </button>
+                  </li>
+                  <li className="mt-0  flex items-start">
+                    <button
+                      to="#"
+                      onClick={(event) =>
+                        handleCommentReplySubmit(event, comment)
+                      }
+                      className="rounded-full h-8 w-16 bg-lightPlayRed"
+                    >
+                      {/* <i className="fas fa-paper-plane"></i> */}
+                      <span className="text-sm font-semibold text-white">
+                        POST
+                      </span>
                     </button>
                   </li>
                   {emojiPickerState && (

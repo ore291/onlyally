@@ -26,12 +26,7 @@ const SideNavLayout = ({ children, title, ogType, ogImage }) => {
     <>
       <Head>
         <title>{title || "Playjor"}</title>
-        {/* <link
-          rel="icon"
-          type="image/png"
-          href={configData.site_icon}
-          // sizes="16x16"
-        /> */}
+       
 
         <meta property="og:title" content="Playjor" />
         <meta property="og:type" content={ogType || "website"} />

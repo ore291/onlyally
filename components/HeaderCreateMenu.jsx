@@ -1,38 +1,24 @@
-import { Menu, Transition, Dialog } from "@headlessui/react";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { MdSmartDisplay, MdClose, MdCheck } from "react-icons/md";
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
+
 import { BsPlusSquare } from "react-icons/bs";
 import CreatePost from "./Post/CreatePost";
-import { setCreatePostModal } from "../store/slices/NavSlice";
-import { BiImageAdd } from "react-icons/bi";
-import { HiSelector } from "react-icons/hi";
+
 import { TiVideo } from "react-icons/ti";
-import { FaMusic, FaVideo } from "react-icons/fa";
-import Button from "./Button";
-import { Listbox } from "@headlessui/react";
-import { Multiselect } from "multiselect-react-dropdown";
+
 import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchPostCategoriesStart,
-  savePostStart,
-  postFileUploadStart,
-} from "../store/slices/postSlice";
-import PostEditor from "./feeds/PostEditor";
+
+import { useRouter } from "next/router";
 
 const HeaderMenuDropdown = () => {
-  const dispatch = useDispatch();
-  // const createPostModalState = useSelector(
-  //   (state) => state.navbar.createPostModal
-  // );
+  const router = useRouter();
+
   const user = useSelector((state) => state.user.profile.data);
   // my own code
   let [isOpen, setIsOpen] = useState(false);
 
-  const closeModal = ()=> setIsOpen(false);
+  const closeModal = () => setIsOpen(false);
 
-  function openModal() {
-    setIsOpen(true);
-  }
   return (
     <>
       {" "}
@@ -56,7 +42,7 @@ const HeaderMenuDropdown = () => {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={openModal}
+                    onClick={() => router.push("/create-post")}
                     className={`${
                       active
                         ? "bg-playRed text-white"
@@ -98,7 +84,7 @@ const HeaderMenuDropdown = () => {
                   </button>
                 )}
               </Menu.Item>
-              <Menu.Item>
+              {/* <Menu.Item>
                 {({ active }) => (
                   <button
                     className={`${
@@ -161,7 +147,7 @@ const HeaderMenuDropdown = () => {
                     Group Post
                   </button>
                 )}
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item>
                 {({ active }) => (
                   <button
@@ -184,7 +170,7 @@ const HeaderMenuDropdown = () => {
           </Menu.Items>
         </Transition>
       </Menu>
-      {isOpen ? <CreatePost  show={isOpen} closeModal={closeModal}/> : null}
+      {/* {isOpen ? <CreatePost show={isOpen} closeModal={closeModal} /> : null} */}
     </>
   );
 };

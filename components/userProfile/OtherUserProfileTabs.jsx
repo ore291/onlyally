@@ -7,17 +7,19 @@ import GroupCard from "../groups/GroupCard";
 import { MdSmartDisplay, MdPhotoSizeSelectActual } from "react-icons/md";
 import { FaVideo } from "react-icons/fa";
 import { GiSpeaker } from "react-icons/gi";
-import Image from "next/image";
+import Image from "../helpers/CustomImage";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSingleUserPostsStart } from "../../store/slices/OtherUsersSlice";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import Link from "next/link";
-import ReactPlayer from "react-player/lazy";
-import ReactAudioPlayer from "react-audio-player";
 import ExplorePostCard from "../explore/ExplorePostCard";
 import { fetchOtherUserGroupsStart } from "../../store/slices/groupsSlice";
 import { fetchOtherUserChannelsStart } from "../../store/slices/channelsSlice";
 import { fetchOtherModelProductListStart } from "../../store/slices/productsSlice";
+import { BsGrid } from "react-icons/bs";
+import { AiOutlineMenu } from "react-icons/ai";
+import { getCookie, hasCookie, setCookie } from "cookies-next";
+import { useRouter } from "next/router";
 
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
@@ -26,11 +28,24 @@ function classNames(...classNamees) {
 const OtherUserProfileTabs = ({ other_user_username: username }) => {
   const posts = useSelector((state) => state.otherUser.userPosts);
   const user = useSelector((state) => state.otherUser.userDetails.data.user);
+  const router = useRouter();
 
-  console.log(user);
   const groups = useSelector((state) => state.groups.otherUserGroups);
   const channels = useSelector((state) => state.channels.otherUserChannels);
   const dispatch = useDispatch();
+
+  const [list, setList] = useState(getCookie("list"));
+
+  const toggleList = (bool) => {
+    setCookie("list", bool);
+    setList(bool);
+  };
+
+  useEffect(() => {
+    if (!hasCookie("list")) {
+      setCookie("list", false);
+    }
+  }, []);
 
   const setActiveSection = (key) => {
     if (key === 0)
@@ -154,20 +169,21 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
               "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1  flex flex-col space-y-3"
             )}
           >
-            {channels.data.filter((channel) => channel.user_id === user.user_id)
-              .length > 0 ? (
-              channels.loading ? (
-                "Loading..."
-              ) : (
-                <div className="p-2 bg-white dark:!bg-gray-900 dark:text-gray-400 dark:!border-gray-700 rounded-lg shadow-lg border">
-                  <div className="flex items-center space-x-2 my-5">
-                    <div className="side-icon">
-                      <MdSmartDisplay className="text-white h-6 w-6" />
-                    </div>
-                    <h1 className="text-xl md:text-3xl font-semibold">
-                      {user.name}&apos;s Channels
-                    </h1>
+            {channels.loading ? (
+              "Loading..."
+            ) : (
+              <div className="p-2 bg-white dark:!bg-gray-900 dark:text-gray-400 dark:!border-gray-700 rounded-lg shadow-lg border">
+                <div className="flex items-center space-x-2 my-5">
+                  <div className="side-icon">
+                    <MdSmartDisplay className="text-white h-6 w-6" />
                   </div>
+                  <h1 className="text-xl md:text-3xl font-semibold">
+                    {user.name}&apos;s Channels
+                  </h1>
+                </div>
+                {channels.data.filter(
+                  (channel) => channel.user_id === user.user_id
+                ).length > 0 ? (
                   <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                     {channels.data
                       .filter((channel) => channel.user_id === user.user_id)
@@ -179,10 +195,10 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
                         />
                       ))}
                   </div>
-                </div>
-              )
-            ) : (
-              <NoDataFound />
+                ) : (
+                  <NoDataFound />
+                )}
+              </div>
             )}
           </Tab.Panel>
           <Tab.Panel
@@ -190,20 +206,20 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
               "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
             )}
           >
-            {groups.data.filter((group) => group.user_id === user.user_id)
-              .length > 0 ? (
-              groups.loading ? (
-                "Loading..."
-              ) : (
-                <div className="p-2 bg-white dark:!bg-gray-900 dark:text-gray-400 dark:!border-gray-700 rounded-lg shadow-lg border">
-                  <div className="flex items-center space-x-2 my-5">
-                    <div className="side-icon">
-                      <MdSmartDisplay className="text-white h-6 w-6" />
-                    </div>
-                    <h1 className="text-xl md:text-3xl font-semibold">
-                      {user.name}&apos;s Groups
-                    </h1>
+            {groups.loading ? (
+              "Loading..."
+            ) : (
+              <div className="p-2 bg-white dark:!bg-gray-900 dark:text-gray-400 dark:!border-gray-700 rounded-lg shadow-lg border">
+                <div className="flex items-center space-x-2 my-5">
+                  <div className="side-icon">
+                    <MdSmartDisplay className="text-white h-6 w-6" />
                   </div>
+                  <h1 className="text-xl md:text-3xl font-semibold">
+                    {user.name}&apos;s Groups
+                  </h1>
+                </div>
+                {groups.data.filter((group) => group.user_id === user.user_id)
+                  .length > 0 ? (
                   <div className="p-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                     {groups.data
                       .filter((group) => group.user_id === user.user_id)
@@ -215,10 +231,10 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
                         />
                       ))}
                   </div>
-                </div>
-              )
-            ) : (
-              <NoDataFound />
+                ) : (
+                  <NoDataFound />
+                )}
+              </div>
             )}
           </Tab.Panel>
           <Tab.Panel
@@ -226,36 +242,68 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
               "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
             )}
           >
-            <div className="flex items-center space-x-2 my-5">
-              <div className="side-icon">
-                <MdPhotoSizeSelectActual className="text-white h-6 w-6" />
+            <div className="flex items-center justify-between  my-5 px-2">
+              <div className="flex items-center space-x-2">
+                <div className="side-icon">
+                  <MdPhotoSizeSelectActual className="text-white h-6 w-6" />
+                </div>
+                <h1 className="text-2xl font-semibold">Photos</h1>
               </div>
-              <h1 className="text-2xl font-semibold">Photos</h1>
+              <div className="flex items-center space-x-2">
+                <BsGrid
+                  onClick={() => toggleList(false)}
+                  className={`${
+                    !list ? "!text-lightPlayRed" : "!text-lightPlayRed/30"
+                  } dark:text-white h-6 w-6 cursor-pointer`}
+                />
+                <AiOutlineMenu
+                  onClick={() => toggleList(true)}
+                  className={`${
+                    list ? "!text-lightPlayRed" : "!text-lightPlayRed/30"
+                  } dark:text-white h-6 w-6 cursor-pointer`}
+                />
+              </div>
             </div>
 
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-3  gap-2">
+              <div
+                className={`grid ${
+                  list ? "grid-cols-1" : "grid-cols-3 md:grid-cols-4"
+                }  gap-1`}
+              >
                 {posts.data.posts.map((post) =>
                   post.postFiles.length > 0
                     ? post.postFiles.map((p_file, i) => (
-                        <div key={i}>
-                          <div className="inner list-none">
-                            <Link
-                              href={"/post/" + post.post_unique_id}
-                              className="list-none"
-                              passHref
-                            >
+                        <div key={post.post_id}>
+                          <div
+                            onClick={() =>
+                              router.push("/post/" + post.post_unique_id)
+                            }
+                            className={`inner list-none relative ${
+                              list ? "h-[250px] md:h-[350px]" : "h-[150px]"
+                            } w-full cursor-pointer`}
+                          >
+                            {post.payment_info.is_user_needs_pay == 1 ? (
                               <Image
-                                className="rounded cursor-pointer list-none"
+                                className="rounded cursor-pointer blur-[20px]"
+                                src={p_file.blur_file}
+                                alt={post.post_unique_id}
+                                objectFit="cover"
+                                objectPosition="center center"
+                                layout="fill"
+                              />
+                            ) : (
+                              <Image
+                                className="rounded cursor-pointer "
                                 src={p_file.post_file}
                                 alt={post.post_unique_id}
                                 objectFit="cover"
-                                height={350}
-                                width={300}
+                                objectPosition="center center"
+                                layout="fill"
                               />
-                            </Link>
+                            )}
                           </div>
                         </div>
                       ))
@@ -271,17 +319,37 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
               "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
             )}
           >
-            <div className="flex items-center space-x-2 my-5">
-              <div className="side-icon">
-                <FaVideo className="text-white h-6 w-6" />
+            <div className="flex items-center justify-between  my-5 px-2">
+              <div className="flex items-center space-x-2">
+                <div className="side-icon">
+                  <FaVideo className="text-white h-6 w-6" />
+                </div>
+                <h1 className="text-2xl font-semibold">Videos</h1>
               </div>
-              <h1 className="text-2xl font-semibold">Videos</h1>
+              <div className="flex items-center space-x-2">
+                <BsGrid
+                  onClick={() => toggleList(false)}
+                  className={`${
+                    !list ? "!text-lightPlayRed" : "!text-lightPlayRed/30"
+                  } dark:text-white h-6 w-6 cursor-pointer`}
+                />
+                <AiOutlineMenu
+                  onClick={() => toggleList(true)}
+                  className={`${
+                    list ? "!text-lightPlayRed" : "!text-lightPlayRed/30"
+                  } dark:text-white h-6 w-6 cursor-pointer`}
+                />
+              </div>
             </div>
 
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2  gap-1">
+              <div
+                className={`grid ${
+                  list ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
+                }  gap-1 gap-y-3`}
+              >
                 {posts.data.posts.map((post) => (
                   <ExplorePostCard
                     post={post}
@@ -327,17 +395,37 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
               "bg-white dark:!bg-gray-900 dark:text-gray-400 rounded-xl p-1"
             )}
           >
-            <div className="flex items-center space-x-2 my-5">
-              <div className="side-icon">
-                <GiSpeaker className="text-white h-6 w-6" />
+            <div className="flex items-center justify-between  my-5 px-2">
+              <div className="flex items-center space-x-2">
+                <div className="side-icon">
+                  <GiSpeaker className="text-white h-6 w-6" />
+                </div>
+                <h1 className="text-2xl font-semibold">Audio</h1>
               </div>
-              <h1 className="text-2xl font-semibold">Audio</h1>
+              <div className="flex items-center space-x-2">
+                <BsGrid
+                  onClick={() => toggleList(false)}
+                  className={`${
+                    !list ? "!text-lightPlayRed" : "!text-lightPlayRed/30"
+                  } dark:text-white h-6 w-6 cursor-pointer`}
+                />
+                <AiOutlineMenu
+                  onClick={() => toggleList(true)}
+                  className={`${
+                    list ? "!text-lightPlayRed" : "!text-lightPlayRed/30"
+                  } dark:text-white h-6 w-6 cursor-pointer`}
+                />
+              </div>
             </div>
 
             {posts.loading ? (
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
-              <div className="grid grid-cols-2 gap-2">
+              <div
+                className={`grid ${
+                  list ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
+                }  gap-2`}
+              >
                 {posts.data.posts.map((post) => (
                   <ExplorePostCard
                     post={post}
