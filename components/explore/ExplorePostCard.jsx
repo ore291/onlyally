@@ -88,7 +88,7 @@ const ExplorePostCard = ({ post, type }) => {
                     ? post.postFiles.blur_file
                     : "/images/no-image-found.png"
                 }
-                className={`postViewImg blur-[20px] rounded-sm`}
+                className={`postViewImg blur-[20px] rounded-sm object-cover`}
               />
               <MdLockOutline className="h-8 w-8 text-white centered-axis-xy " />
             </div>
@@ -103,7 +103,7 @@ const ExplorePostCard = ({ post, type }) => {
                 }
                 fallbackSrc="/images/live/live-stream-post-1.jpg"
                 alt=""
-                className="rounded-sm"
+                className="rounded-sm object-cover"
               />
               <FaPlay className="h-8 w-8 text-lightPlayRed centered-axis-xy" />
             </div>
@@ -301,7 +301,6 @@ const ExplorePostCard = ({ post, type }) => {
                     : "/images/no-image-found.png"
                 }
                 fallbackSrc="/images/no-image-found.png"
-                
                 className={`postViewImg blur-[20px] rounded-sm`}
               />
               <MdLockOutline className="h-8 w-8 text-white centered-axis-xy " />

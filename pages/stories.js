@@ -1,68 +1,111 @@
-import React, { useState } from "react";
-import ProfileNavItem from "../components/ProfileNavBar";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { GoCalendar } from "react-icons/go";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useEffect, useRef } from "react";
+import {
+  FaChevronCircleLeft,
+  FaChevronCircleRight,
+  FaTimes,
+} from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import Slider from "react-slick";
+import StoriesCard from "../components/feeds/StoriesCardMain";
 
-const Story = () => {
+import { fetchStoriesStart } from "../store/slices/storiesSlice";
+
+const Stories = () => {
+  const router = useRouter();
+
+  const { index: i } = router.query;
+
+  const [loaded, setLoaded] = useState(false);
+  const [slideIndex, setSlideIndex] = useState(i || 0);
+  const beforeChange = (prev, next) => {
+    setSlideIndex(Math.floor(next));
+  };
+  const settings = {
+    slidesToShow: 1,
+    lazyLoad: true,
+    infinite: false,
+    speed: 500,
+    className: "center",
+    initialSlide: i,
+    arrows: false,
+    beforeChange: beforeChange,
+  };
+  const dispatch = useDispatch();
+  const stories = useSelector((state) => state.stories.stories);
+  const slider = useRef(null);
+
+  const next = () => {
+    if (slideIndex != stories.data?.stories?.length - 1) {
+      slider?.current?.slickNext();
+    }
+  };
+
+  const prev = () => {
+    slider?.current?.slickPrev();
+  };
+
+  useEffect(() => {
+    dispatch(fetchStoriesStart());
+  }, []);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    setLoaded(true);
+  }, [router.isReady]);
+
   return (
-    <>
-      <section className="w-full lg:w-1/3 ">
-        <div className="bg-[url('/images/settings/sec1.jpg')] bg-center bg-cover bg-no-repeat h-40 text-white flex justify-end items-end">
-          <span className="bg-red-500 hover:bg-red-600 p-2 m-1 rounded-sm">
-            3.50
-          </span>
+    <div className="w-full h-screen bg-[#1A1A1A] relative">
+      <FaTimes
+        onClick={() => router.back()}
+        className="absolute z-10 right-5 hidden md:block md:right-20 cursor-pointer md:top-5  h-6 w-6 text-white hover:scale-110 transition-all"
+      />
+      {loaded && (
+        <div className="overflow-hidden max-w-screen-sm mx-auto py-1 md:py-5 relative group">
+          {stories.loading ? (
+            <p>Loading ...</p>
+          ) : (
+            <>
+              {stories.data.stories.length < 1 ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <h1 className="text-white text-2xl font-semibold">
+                    No Stories Available
+                  </h1>
+                </div>
+              ) : (
+                <>
+                  <Slider ref={slider} {...settings}>
+                    {stories.data.stories.length > 0 &&
+                      stories.data.stories.map((story, i) => (
+                        <StoriesCard
+                          key={i}
+                          sliderData={story}
+                          handleNext={next}
+                        />
+                      ))}
+                  </Slider>
+                  {slideIndex != 0 && (
+                    <FaChevronCircleLeft
+                      onClick={() => prev()}
+                      className="text-gray-700 group-hover:text-gray-100 absolute top-1/2 left-10 w-6 h-6 hidden md:block cursor-pointer z-20"
+                    />
+                  )}
+                  {slideIndex != stories.data?.stories?.length - 1 && (
+                    <FaChevronCircleRight
+                      onClick={() => next()}
+                      className="text-gray-700 group-hover:text-gray-100 absolute top-1/2 right-10 w-6 h-6 hidden md:block cursor-pointer z-20"
+                    />
+                  )}
+                  )
+                </>
+              )}
+            </>
+          )}
         </div>
-
-        <div className="bg-white py-4 px-2 space-y-4">
-          <section className="flex items-center ">
-            <article className="flex gap-2 items-center text-sm">
-              <img
-                src="/images/settings/pic.jpg"
-                alt="icon"
-                className="w-1/6 rounded-full"
-              />
-              <div>
-                <p>Bella</p>
-                <p>1 hour ago Approved</p>
-              </div>
-            </article>
-
-            <article>
-              <RiDeleteBinLine size="22px" />
-            </article>
-          </section>
-
-          <div>
-            <p className="text-gray-400 flex items-center">
-              1.8M views <GoCalendar className="mx-1" /> 11 months ago
-            </p>
-          </div>
-        </div>
-      </section>
-    </>
+      )}
+    </div>
   );
 };
 
-export default function Stories() {
-  return (
-    <>
-      <div className="flex flex-col justify-center md:flex-row">
-        <ProfileNavItem storiesColor={"#B30D28"} />
-        <div className="w-full lg:w-4/5 lg:mr-16 lg:ml-6 bg-white px-4 mx-auto mt-20 shadow py-4">
-          <div className="block lg:flex gap-4">
-            <Story />
-            <Story />
-            <Story />
-            <Story />
-          </div>
-          <div className="block lg:flex gap-4">
-            <Story />
-            <Story />
-            <Story />
-            <Story />
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
+export default Stories;

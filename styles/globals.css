@@ -23,8 +23,9 @@
 
 @layer utilities {
   .player-wrapper {
-    @apply relative pt-[56.25%] min-h-[400px] md:min-h-full;
+    @apply relative pt-[56.25%] h-full align-middle  overflow-hidden w-auto;
   }
+
   .payment-bottom-buttons {
     @apply flex flex-col sm:flex-row space-y-2 justify-between md:justify-end items-center px-5 py-2 md:space-x-3;
   }
@@ -77,9 +78,9 @@
     @apply w-3 h-3 my-6 mx-1 bg-white rounded-full;
   }
 
-  .post-video-size {
-    @apply !w-[95%]  !min-h-[20em]  md:h-full md:!max-h-[600px] left-0 right-0 mx-auto object-cover;
-  }
+  /* .post-video-size {
+    @apply !min-h-full  md:!h-full  left-0 right-0 mx-auto object-cover;
+  } */
   /* .post-video-size {
     @apply !w-full !h-[20em] object-cover min-h-[20em];
   } */
@@ -302,6 +303,13 @@
   .animation-delay-400 {
     animation-delay: 0.4s;
   }
+}
+
+.react-player > video {
+  position: absolute;
+  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 input,

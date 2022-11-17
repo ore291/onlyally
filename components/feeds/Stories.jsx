@@ -10,7 +10,7 @@ import { setUploadModal } from "../../store/slices/NavSlice";
 import StoriesSliderModal from "./StoriesSliderModal";
 import StoriesUploadModal from "./StoryUploadModal";
 import { getCookie } from "cookies-next";
-
+import { useRouter } from "next/router";
 
 const Stories = () => {
   const loginDetails = useSelector((state) => state.user.loginData);
@@ -20,10 +20,11 @@ const Stories = () => {
   const uploadModalState = useSelector((state) => state.navbar.uploadModal);
 
   const [uploadStoryModal, setUploadStoryModal] = useState(false);
+  const router = useRouter();
 
-  const closeUploadModal = ()=>{
-    setUploadStoryModal(false)
-  }
+  const closeUploadModal = () => {
+    setUploadStoryModal(false);
+  };
   const [viewportRef, embla] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
@@ -81,11 +82,11 @@ const Stories = () => {
                 <div
                   className="embla__slide1"
                   // onClick={() => dispatch(setUploadModal(true))}
-                  onClick={()=>setUploadStoryModal(true)}
+                  onClick={() => setUploadStoryModal(true)}
                 >
                   <Story
                     username={"Create new story"}
-                    img={getCookie('picture') || profile.picture}
+                    img={getCookie("picture") || profile.picture}
                     isYou={true}
                     className="embla__slide1"
                   />
@@ -97,7 +98,8 @@ const Stories = () => {
                     <div
                       className="embla__slide1"
                       key={index}
-                      onClick={() => SliderModalToggle(true, index, story)}
+                      // onClick={() => SliderModalToggle(true, index, story)}
+                      onClick={() => router.push(`/stories?index=${index}`)}
                     >
                       <Story
                         key={index}
@@ -131,10 +133,11 @@ const Stories = () => {
           renderSliderModal={renderSliderModal}
         />
       )}
-      
-       <StoriesUploadModal  uploadStoryModal={uploadStoryModal} closeUploadModal={closeUploadModal}/>
-      
-      
+
+      <StoriesUploadModal
+        uploadStoryModal={uploadStoryModal}
+        closeUploadModal={closeUploadModal}
+      />
     </div>
   );
 };

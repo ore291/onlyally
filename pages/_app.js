@@ -1,5 +1,7 @@
 import "../styles/globals.css";
 import "../styles/custom.scss";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import NextNProgress from "nextjs-progressbar";
 import { ThemeProvider } from "next-themes";

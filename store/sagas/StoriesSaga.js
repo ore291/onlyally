@@ -17,13 +17,14 @@ import {
 import { notify } from "reapop";
 
 function* fetchUserStoriesAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
+  const skipCount = yield select((state) => state.stories.userStories.skip);
   try {
-    const skipCount = yield select((state) => state.stories.userStories.skip);
     const response = yield api.postMethod({
-      action: "fetchstories_list",
+      action: "stories_list",
       accessToken,
-      userId,
-      dev_model,
       object: { skip: skipCount },
     });
 

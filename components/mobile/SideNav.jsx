@@ -47,7 +47,7 @@ const SideNav = () => {
             setTheme("light");
             dispatch(setNavState(false));
           }}
-          className={`${"text-[#252525] font-semibold dark:!text-gray-400"} group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
+          className={`${"text-[#252525] font-medium dark:!text-gray-400"} group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm border-y`}
         >
           <div className="flex items-center ">
             <div
@@ -66,7 +66,7 @@ const SideNav = () => {
             setTheme("dark");
             dispatch(setNavState(false));
           }}
-          className="text-[#252525] font-semibold dark:!text-gray-400"
+          className="text-[#252525] font-medium dark:!text-gray-400"
         >
           <div className="flex items-center ">
             <div
@@ -144,36 +144,46 @@ const SideNav = () => {
           ></div>
           <div className=" col-span-2 pt-2 pb-5 bg-white dark:bg-gray-900 dark:!text-gray-400 h-full">
             <div className="flex flex-col space-y-3  p-3">
-              <div className="flex items-center justify-between">
-                <div className="relative w-10 h-10 rounded-full mr-5">
-                  <Image
-                    src={user.picture}
-                    layout="fill"
-                    className="rounded-full mr-2"
-                    objectFit="cover"
-                    alt=""
-                  />
+              <div className="flex items-center justify-between py-2">
+                <div
+                  className="flex space-x-2 items-center"
+                  onClick={() => navigate("/profile")}
+                >
+                  <div className="relative w-10 h-10 rounded-full ">
+                    <Image
+                      src={user.picture}
+                      layout="fill"
+                      className="rounded-full mr-2"
+                      objectFit="cover"
+                      alt=""
+                    />
+                  </div>
+                  <div className="flex-col items-start ">
+                    <p className="font-semibold text-lg">{user.name}</p>
+                    <p className="text-xs font-light">{`@${user.username}`}</p>
+                  </div>
                 </div>
+
                 <button onClick={() => dispatch(setNavState(false))}>
                   <MdClose className="w-6 h-6" />
                 </button>
               </div>{" "}
-              <p className="font-semibold text-lg">{user.name}</p>
-              <p className="text-xs font-light">{`@${user.username}`}</p>
-              <div className="flex items-center justify-evenly  pb-2">
-                <p className="font-semibold text-xs xs:text-sm whitespace-nowrap">
+              <div className="flex items-center justify-around   ">
+                <p className="font-semibold text-sm whitespace-nowrap">
                   {user.total_followers} Fans
                 </p>
                 {/* <BsDot className="h-5 w-4" /> */}
-                <p className="font-semibold text-xs xs:text-sm whitespace-nowrap">
+                <p className="font-semibold text-sm whitespace-nowrap">
                   {user.total_followings} Following
                 </p>
+              </div>
+              <div className="row-container">
                 <button
                   className="row-container bg-gray-100 dark:bg-gray-600 dark:!text-gray-400 rounded-full px-1 py-1 "
                   onClick={() => navigate("/payment/wallet")}
                 >
                   <FaWallet className="h-4 w-4 mr-1" />
-                  <p className="text-xs xs:text-sm font-semibold whitespace-nowrap">
+                  <p className="text-sm font-semibold whitespace-nowrap">
                     {wallet?.data?.user_wallet?.remaining_formatted}
                   </p>
                   {/* <span>&#8358;</span>{ */}
@@ -183,7 +193,7 @@ const SideNav = () => {
             <hr className="w-full  mb-2" />
             <div className="p-3 pb-20 flex flex-col space-y-3 max-h-[calc(100vh-248px)] overflow-hidden overflow-y-scroll overscroll-y-contain scrollbar-hide z-10">
               <button
-                onClick={() => navigate("/profile")}
+                onClick={() => router.push("/settings/profile")}
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"
               >
                 <div className="row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">

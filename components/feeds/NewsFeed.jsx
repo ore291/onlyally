@@ -33,7 +33,7 @@ const NewsFeed = () => {
           <h4 className="font-medium text-center">No more posts to show</h4>
         }
       >
-        <div className="grid  grid-cols-1 gap-y-2 mb-10 ">
+        <div className="columns-1 gap-2 mb-10 ">
           {posts.data.posts.length > 0 ? (
             posts.data.posts.map((post, index) => (
               <NewsFeedCard

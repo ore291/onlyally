@@ -11,7 +11,7 @@ import {
   MdPhotoSizeSelectActual,
   MdLockOutline,
 } from "react-icons/md";
-import { FaVideo, FaPause } from "react-icons/fa";
+import { FaVideo, FaPause, FaPlay } from "react-icons/fa";
 import { BsHeartFill, BsHeart, BsThreeDots, BsGrid } from "react-icons/bs";
 import { FiPlay } from "react-icons/fi";
 import { GiSpeaker } from "react-icons/gi";
@@ -25,6 +25,7 @@ import ReactAudioPlayer from "react-audio-player";
 import { getCookie, hasCookie, setCookie } from "cookies-next";
 import { AiOutlineMenu } from "react-icons/ai";
 import { useRouter } from "next/router";
+import ReactPlayerCard from "../Profile/ReactPlayerCard";
 
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
@@ -356,34 +357,18 @@ const ProfileTabs = () => {
               "Loading..."
             ) : posts.data.posts.length > 0 ? (
               <div
-                className={`grid ${
-                  list ? "grid-cols-1" : "grid-cols-1 md:grid-cols-2"
-                }  gap-1 gap-y-3`}
+                className={` ${
+                  list ? "grid grid-cols-1" : "columns-2"
+                }  gap-2 `}
               >
                 {posts.data.posts.map((post) =>
                   post.postFiles.length > 0
                     ? post.postFiles.map((p_file) => (
-                        <div
-                          className=" border shadow-lg rounded-md"
+                        <ReactPlayerCard
                           key={post.post_id}
-                        >
-                          <div
-                            className={`p-[1px] w-full ${
-                              list ? "!h-[30em]" : "!h-[10em]"
-                            }  object-cover relative`}
-                          >
-                            <ReactPlayer
-                              light={p_file.preview_file}
-                              url={p_file.post_file}
-                              controls={true}
-                              width="100%"
-                              height="100%"
-                              className={`!w-full rounded-md inset-x-0 mx-auto  ${
-                                list ? "!h-[30em]" : "!h-[10em]"
-                              }object-contain`}
-                            />
-                          </div>
-                        </div>
+                          p_file={p_file}
+                          list={list}
+                        />
                       ))
                     : ""
                 )}

@@ -107,7 +107,12 @@ const GroupCard = ({
                   />
                 </Link>
               ) : (
-                <Button text="Joined" extraclassNamees="w-[100px] h-8" />
+                <Link href={`/groups/${group.slug}`} passHref>
+                  <Button
+                    text="View"
+                    extraclassNamees="w-[100px] h-8 hover:bg-playRed"
+                  />
+                </Link>
               )
             ) : (
               <div
@@ -175,7 +180,12 @@ const GroupCard = ({
                   />
                 </Link>
               ) : (
-                <Button text="Joined" extraclassNamees="w-16 h-8" />
+                <Link href={`/groups/${group.slug}`} passHref>
+                  <Button
+                    text="View"
+                    extraclassNamees="w-16 h-8 hover:bg-playRed"
+                  />
+                </Link>
               )
             ) : (
               <Button
@@ -289,14 +299,15 @@ const GroupCard = ({
                   <Link href={`/groups/${group.slug}/settings`} passHref>
                     <Button
                       text="Edit"
-                      extraclassNamees="w-[100px] h-8"
+                      extraclassNamees="w-[100px] !bg-mildPlayRed text-gray-500 h-8"
                       active={true}
                     />
                   </Link>
-                ) : (
-                  <Button text="Joined" extraclassNamees="w-[100px] h-8" />
-                )
+                ) : null
               ) : (
+                // <Link href={`/groups/${group.slug}`} passHref>
+                //   <Button text="View" extraclassNamees="w-[100px] h-8" />
+                // </Link>
                 <Button
                   text="Join"
                   active={true}
@@ -304,16 +315,33 @@ const GroupCard = ({
                   onClick={(e) => handleSubscription()}
                 />
               )}
-              <Link href={`/groups/${group.slug}`} passHref>
-                <Button
-                  text="View"
-                  extraclassNamees={`w-[100px] h-8  ${
-                    group.is_member
-                      ? "!bg-lightPlayRed text-white"
-                      : "!bg-mildPlayRed !text-gray-900"
-                  } `}
-                />
-              </Link>
+              {group.is_member ? (
+                <Link href={`/groups/${group.slug}`} passHref>
+                  <Button
+                    text="View"
+                    extraclassNamees={`${
+                      group.user_id == getCookie("userId")
+                        ? "w-[100px]"
+                        : "w-full"
+                    } h-8  ${
+                      group.is_member
+                        ? "!bg-lightPlayRed text-white"
+                        : "!bg-mildPlayRed !text-gray-900"
+                    } hover:bg-playRed`}
+                  />
+                </Link>
+              ) : (
+                <Link href={`/groups/${group.slug}`} passHref>
+                  <Button
+                    text="View"
+                    extraclassNamees={`w-[100px] h-8  ${
+                      group.is_member
+                        ? "!bg-lightPlayRed text-white"
+                        : "!bg-mildPlayRed !text-gray-900"
+                    } hover:bg-playRed`}
+                  />
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -386,7 +414,7 @@ const GroupCard = ({
               <Link href={`/groups/${group.slug}`} passHref>
                 <Button
                   text="View"
-                  extraclassNamees="w-full mx-2 h-8 bg-gray-100"
+                  extraclassNamees="w-full mx-2 h-8 bg-gray-100 hover:bg-playRed hover:text-white"
                   active={true}
                 />
               </Link>
@@ -450,7 +478,10 @@ const GroupCard = ({
                   </Link>
                 ) : (
                   <Link href={`/groups/${group.slug}`} passHref>
-                    <Button text="Joined" extraclassNamees="w-full h-8" />
+                    <Button
+                      text="View"
+                      extraclassNamees="w-full h-8 hover:bg-playRed"
+                    />
                   </Link>
                 )
               ) : (
@@ -565,7 +596,11 @@ const GroupCard = ({
           </Link>
           {group.is_member ? (
             <Link href={`/groups/${group.slug}`} passHref>
-              <Button text="view" active={true} />
+              <Button
+                text="view"
+                active={true}
+                extraclassNamees="hover:!bg-playRed !bg-red-400 w-[80px] h-7"
+              />
             </Link>
           ) : (
             <Button

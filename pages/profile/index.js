@@ -50,12 +50,17 @@ import { getCookie, getCookies } from "cookies-next";
 
 import { END } from "redux-saga";
 import { wrapper } from "../../store";
+import PulseImage from "../../components/Profile/PulseImage";
+import { fetchUserStoriesStart } from "../../store/slices/storiesSlice";
+import StoriesSliderModal from "../../components/feeds/StoriesSliderModal";
+import Link from "next/link";
 
 const Profile = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
   const profile = useSelector((state) => state.user.profile);
+  const stories = useSelector((state) => state.stories.userStories);
   const posts = useSelector((state) => state.post.posts);
 
   const [badgeStatus, setBadgeStatus] = useState(0);
@@ -64,6 +69,27 @@ const Profile = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [showShare, setShowShare] = useState(false);
+
+  // stories
+  const [renderSliderModal, setRenderSliderModal] = useState(false);
+
+  const [selectedSliderIndex, setSelectedSliderIndex] = useState(0);
+
+  const [sliderData, setSliderData] = useState({});
+
+  const SliderModalToggle = (status, index, story) => {
+    setRenderSliderModal(status);
+    setSelectedSliderIndex(index);
+    setSliderData(story);
+  };
+
+  //
+
+  useEffect(() => {
+    dispatch(fetchUserChannelsStart());
+    dispatch(fetchUserGroupsStart());
+    dispatch(fetchUserStoriesStart());
+  }, []);
   useEffect(() => {
     // if (posts.loading) dispatch(fetchPostsStart({ type: "all" }));
     // if (profile.loading) {
@@ -149,17 +175,23 @@ const Profile = () => {
           <div className="px-1 md:px-4 md:pr-0 md:pl-4 grid grid-cols-1 md:grid-cols-3  bg-white dark:bg-gray-900 dark:text-gray-400 mb-10">
             <div className="space-y-3 mt-16 flex flex-col relative">
               <div className="row-container  absolute  inset-x-0 mx-auto -top-[130px] md:-top-36 2xl:-top-40 ">
-                <div className="p-1 bg-white rounded-3xl">
-                  <div className="w-36 h-36 2xl:w-52 2xl:h-52 relative rounded-3xl ">
-                    <Image
-                      src={profile.data.picture}
-                      alt={profile.data.name}
-                      layout="fill"
-                      objectFit="cover"
-                      className="rounded-3xl"
-                    />
+                {stories && stories.length == 0 ? (
+                  <div className="p-1 bg-white rounded-3xl">
+                    <div className="w-36 h-36 2xl:w-52 2xl:h-52 relative rounded-3xl ">
+                      <Image
+                        src={profile.data.picture}
+                        alt={profile.data.name}
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-3xl"
+                      />
+                    </div>
                   </div>
-                </div>
+                ) : (
+                 
+                    <PulseImage image={profile.data.picture} />
+                 
+                )}
               </div>
               <div className="col-container ">
                 <div className="flex items-center justify-center space-x-2 ">
@@ -179,14 +211,14 @@ const Profile = () => {
                 <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <FaBell className="w-5 h-5" />
                 </div>
-                <div className="row-container  p-3 bg-gray-200 rounded-md cursor-pointer">
+                {/* <div className="row-container  p-3 bg-gray-200 rounded-md cursor-pointer">
                   <MdMail
                     className="w-5 h-5"
                     onClick={(event) =>
                       handleChatUser(event, profile.data.user_id)
                     }
                   />
-                </div>
+                </div> */}
                 {/* <div className="row-container  p-3 bg-gray-200 rounded-md">
                   <FaVideo className="w-5 h-5" />
                 </div>
@@ -379,6 +411,17 @@ const Profile = () => {
           </div>
         </>
       )}
+      {renderSliderModal && !userStories.loading && (
+        <StoriesSliderModal
+          SliderModalToggle={SliderModalToggle}
+          selectedSliderIndex={selectedSliderIndex}
+          sliderData={sliderData}
+          data={userStories.data.stories.filter(
+            (files) => files.storyFiles.length > 0
+          )}
+          renderSliderModal={renderSliderModal}
+        />
+      )}
     </SideNavLayout>
   );
 };
@@ -395,18 +438,23 @@ export const getServerSideProps = wrapper.getServerSideProps(
           accessToken: cookies.accessToken,
         })
       );
+      // store.dispatch(
+      //   fetchUserStoriesStart({
+      //     accessToken: cookies.accessToken,
+      //   })
+      // );
 
-      store.dispatch(
-        fetchUserGroupsStart({
-          accessToken: cookies.accessToken,
-        })
-      );
+      // store.dispatch(
+      //   fetchUserGroupsStart({
+      //     accessToken: cookies.accessToken,
+      //   })
+      // );
 
-      store.dispatch(
-        fetchUserChannelsStart({
-          accessToken: cookies.accessToken,
-        })
-      );
+      // store.dispatch(
+      //   fetchUserChannelsStart({
+      //     accessToken: cookies.accessToken,
+      //   })
+      // );
 
       store.dispatch(
         fetchPostsStart({

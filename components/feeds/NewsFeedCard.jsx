@@ -242,7 +242,7 @@ const NewsFeedCard = ({ post, index }) => {
   return (
     <>
       {postDisplayStatus == true ? (
-        <div className="sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-400 sm:border dark:border-gray-800  shadow-md w-full cursor-pointer relative">
+        <div className="my-2 sm:rounded-2xl bg-white dark:!bg-gray-900 dark:!text-gray-400 sm:border dark:border-gray-800  shadow-md w-full cursor-pointer relative">
           <div className="flex flex-1 justify-between items-center p-1 px-2 sm:px-4 sm:p-4 border-b dark:border-gray-800 ">
             <Link passHref href={`/${post.user_unique_id}`}>
               <div className="flex items-center space-x-1 sm:space-x-2">
@@ -386,149 +386,143 @@ const NewsFeedCard = ({ post, index }) => {
                             )
                           ) : postFile.file_type === "video" ? (
                             <div className="embla__slide " key={index}>
-                              <div className="postImage postVideo">
-                                <div className="">
-                                  <div className="gallery js-gallery">
-                                    {post.payment_info.is_user_needs_pay ==
-                                    1 ? (
-                                      <div className="gallery-img-sec">
-                                        <div className="postViewImg relative">
-                                          <Image
-                                            layout="fill"
-                                            alt=""
-                                            src={
-                                              postFile.preview_file
-                                                ? postFile.preview_file
-                                                : postFile.post_file
-                                            }
-                                            className="postViewImg"
-                                          />
-                                        </div>
-
-                                        <div className="gallery-play-icon"></div>
-                                      </div>
-                                    ) : (
-                                      <InView
-                                        as="div"
-                                        className="player-wrapper bg-[#000] w-full"
-                                        initialInView={true}
-                                        threshold={0.7}
-                                        onChange={(inView, entry) => {
-                                          // console.log("Inview:", inView);
-                                          if (inView) {
-                                            // vidRef.current.play();
-                                            setVideoPlaying(true);
-                                            setAudioMuted(false);
-                                          } else {
-                                            // vidRef.current.pause();
-                                            setVideoPlaying(false);
-
-                                            setAudioMuted(true);
-                                          }
-                                        }}
-                                      >
-                                        <ReactPlayer
-                                          onClick={() => setVideoPlaying(false)}
-                                          volume={0.5}
-                                          // light={postFile.preview_file}
-                                          url={postFile.post_file}
-                                          config={{
-                                            file: {
-                                              attributes: {
-                                                controlsList: "nodownload",
-                                              },
-                                            },
-                                          }}
-                                          onContextMenu={(e) =>
-                                            e.preventDefault()
-                                          }
-                                          loop={false}
-                                          onEnded={()=>setVideoPlaying(false)}
-                                          controls={false}
-                                          muted={audioMuted}
-                                          width="100%"
-                                          playsinline
-                                          height="100%"
-                                          playing={videoPlaying}
-                                          className="post-video-size react-player"
-                                        />
-
-                                        {!videoPlaying ? (
-                                          <button
-                                            className="absolute h-10 w-10 md:h-16 md:w-16 inset-0 m-auto z-20"
-                                            onClick={() =>
-                                              setVideoPlaying(true)
-                                            }
-                                          >
-                                            <FaPlay className="text-white h-10 w-10 md:h-16 md:w-16" />
-                                          </button>
-                                        ) : null}
-
-                                        <button className="absolute h-6 w-6 bottom-3 right-3  m-auto z-20">
-                                          {" "}
-                                          {audioMuted ? (
-                                            <MdVolumeOff
-                                              className="text-white h-6 w-6"
-                                              onClick={() =>
-                                                setAudioMuted(!audioMuted)
-                                              }
-                                            />
-                                          ) : (
-                                            <MdVolumeUp
-                                              className="text-white h-6 w-6"
-                                              onClick={() =>
-                                                setAudioMuted(!audioMuted)
-                                              }
-                                            />
-                                          )}{" "}
-                                        </button>
-                                      </InView>
-                                    )}
-                                    {post.payment_info.is_user_needs_pay ===
-                                      1 &&
-                                    post.payment_info.post_payment_type ===
-                                      "ppv" ? (
-                                      <div className="gallery-top-btn-sec">
-                                        <button
-                                          className="gallery-pay-button"
-                                          onClick={(event) =>
-                                            handlePPVPayment(event, 1)
-                                          }
-                                        >
-                                          {post.payment_info.payment_text}
-                                        </button>
-                                      </div>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {post.payment_info.is_user_needs_pay ===
-                                      1 &&
-                                    post.payment_info.post_payment_type ===
-                                      "subscription" ? (
-                                      scrollToTop ? (
-                                        <div
-                                          className="gallery-top-btn-sec"
-                                          // onClick={scrollToTop}
-                                        >
-                                          <button className="gallery-pay-button">
-                                            {post.payment_info.payment_text}
-                                          </button>
-                                        </div>
-                                      ) : (
-                                        <Link to={`/` + post.user.unique_id}>
-                                          <div className="gallery-top-btn-sec">
-                                            <button className="subscribe-post-btn-sec">
-                                              {post.payment_info.payment_text}
-                                            </button>
-                                          </div>
-                                        </Link>
-                                      )
-                                    ) : (
-                                      ""
-                                    )}
+                              {post.payment_info.is_user_needs_pay == 1 ? (
+                                <div className="gallery-img-sec">
+                                  <div className="postViewImg relative">
+                                    <Image
+                                      layout="fill"
+                                      alt=""
+                                      src={
+                                        postFile.preview_file
+                                          ? postFile.preview_file
+                                          : postFile.post_file
+                                      }
+                                      className="postViewImg"
+                                    />
                                   </div>
+
+                                  <div className="gallery-play-icon"></div>
                                 </div>
-                              </div>
+                              ) : (
+                                <InView
+                                  as="div"
+                                  className="player-wrapper h-full bg-[#000] w-full"
+                                  initialInView={true}
+                                  threshold={0.7}
+                                  onChange={(inView, entry) => {
+                                    // console.log("Inview:", inView);
+                                    if (inView) {
+                                      // vidRef.current.play();
+                                      setVideoPlaying(true);
+                                      setAudioMuted(false);
+                                    } else {
+                                      // vidRef.current.pause();
+                                      setVideoPlaying(false);
+
+                                      setAudioMuted(true);
+                                    }
+                                  }}
+                                >
+                                  <ReactPlayer
+                                    onClick={() => setVideoPlaying(false)}
+                                    volume={0.5}
+                                    // light={postFile.preview_file}
+                                    url={postFile.post_file}
+                                    config={{
+                                      file: {
+                                        attributes: {
+                                          controlsList: "nodownload",
+                                        },
+                                      },
+                                    }}
+                                    onContextMenu={(e) => e.preventDefault()}
+                                    loop={false}
+                                    onEnded={() => setVideoPlaying(false)}
+                                    controls={false}
+                                    muted={audioMuted}
+                                    width="100%"
+                                    // playsinline
+                                    height="100%"
+                                    playing={videoPlaying}
+                                    className="react-player object-fit"
+                                  />
+
+                                  {!videoPlaying ? (
+                                    <button
+                                      className="absolute h-10 w-10 md:h-16 md:w-16 inset-0 m-auto z-20"
+                                      onClick={() => setVideoPlaying(true)}
+                                    >
+                                      <FaPlay className="text-white h-10 w-10 md:h-16 md:w-16" />
+                                    </button>
+                                  ) : null}
+
+                                  <button className="absolute h-6 w-6 bottom-3 right-3  m-auto z-20">
+                                    {" "}
+                                    {audioMuted ? (
+                                      <MdVolumeOff
+                                        className="text-white h-6 w-6"
+                                        onClick={() =>
+                                          setAudioMuted(!audioMuted)
+                                        }
+                                      />
+                                    ) : (
+                                      <MdVolumeUp
+                                        className="text-white h-6 w-6"
+                                        onClick={() =>
+                                          setAudioMuted(!audioMuted)
+                                        }
+                                      />
+                                    )}{" "}
+                                  </button>
+                                </InView>
+                              )}
+                              {post.payment_info.is_user_needs_pay === 1 &&
+                              post.payment_info.post_payment_type === "ppv" ? (
+                                <div className="gallery-top-btn-sec">
+                                  <button
+                                    className="gallery-pay-button"
+                                    onClick={(event) =>
+                                      handlePPVPayment(event, 1)
+                                    }
+                                  >
+                                    {post.payment_info.payment_text}
+                                  </button>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                              {post.payment_info.is_user_needs_pay === 1 &&
+                              post.payment_info.post_payment_type ===
+                                "subscription" ? (
+                                scrollToTop ? (
+                                  <div
+                                    className="gallery-top-btn-sec"
+                                    // onClick={scrollToTop}
+                                  >
+                                    <Link
+                                      href={`/` + post.user.unique_id}
+                                      passHref
+                                    >
+                                      <button className="gallery-pay-button">
+                                        {post.payment_info.payment_text}
+                                      </button>
+                                    </Link>
+                                  </div>
+                                ) : (
+                                  <div className="gallery-top-btn-sec">
+                                    <Link
+                                      href={`/` + post.user.unique_id}
+                                      passHref
+                                    >
+                                      <button className="subscribe-post-btn-sec">
+                                        {post.payment_info.payment_text}
+                                      </button>
+                                    </Link>
+                                  </div>
+                                )
+                              ) : (
+                                ""
+                              )}
                             </div>
                           ) : postFile.file_type === "audio" ? (
                             <div className="embla__slide " key={index}>
@@ -609,7 +603,7 @@ const NewsFeedCard = ({ post, index }) => {
                                           width="80%"
                                           height="100%"
                                           autoPlay={false}
-                                          className="post-video-size absolute bottom-3 "
+                                          className="h-full w-[95%] absolute bottom-3 "
                                           controlsList={"nodownload"}
                                           ref={audio}
                                           onPause={togglePlaying}
@@ -649,7 +643,7 @@ const NewsFeedCard = ({ post, index }) => {
                                           </button>
                                         </div>
                                       ) : (
-                                        <Link to={`/` + post.user.unique_id}>
+                                        <Link href={`/` + post.user.unique_id}>
                                           <div className="gallery-pay-button-div">
                                             <button className="gallery-pay-button">
                                               {post.payment_info.payment_text}
