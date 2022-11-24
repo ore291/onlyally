@@ -16,7 +16,7 @@ function classNames(...classNamees) {
 }
 
 const GroupPageTabs = () => {
-  const posts = useSelector((state) => state.home.homePost.data.posts);
+
   const group = useSelector((state) => state.groups.groupData.data);
   const [categoryPost, setCategoryPost] = useState(false);
   const router = useRouter();

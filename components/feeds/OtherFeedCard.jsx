@@ -36,7 +36,7 @@ import scrollToTop from "../helpers/ScrollToTop";
 import TipModal from "../tips/TipModal.jsx";
 import Comment from "./Comment";
 import Comments from "./Comments";
-import EmblaSlide from "./EmblaSlide";
+import EmblaSlide from "./EmblaSlideGC";
 import { saveBlockUserStart } from "../../store/slices/userSlice";
 import { deletePostStart } from "../../store/slices/postSlice";
 import ReportModeModal from "./ReportModeModal";
@@ -372,9 +372,9 @@ const NewsFeedCard = ({ post, index }) => {
             <div className="embla">
               <div className="embla__viewport" ref={viewportRef}>
                 <div className="embla__container">
-                  {post.postFiles
-                    ? post.postFiles.length > 0
-                      ? post.postFiles.map((postFile, index) =>
+                  {post.post_files
+                    ? post.post_files.length > 0
+                      ? post.post_files.map((postFile, index) =>
                           postFile.file_type === "image" ? (
                             PPVPayment ? null : (
                               <EmblaSlide
@@ -391,142 +391,78 @@ const NewsFeedCard = ({ post, index }) => {
                               <div className="postImage postVideo">
                                 <div className="">
                                   <div className="gallery js-gallery">
-                                    {post.payment_info.is_user_needs_pay ==
-                                    1 ? (
-                                      <div className="gallery-img-sec">
-                                        <div className="postViewImg relative">
-                                          <Image
-                                            layout="fill"
-                                            alt=""
-                                            src={
-                                              postFile.preview_file
-                                                ? postFile.preview_file
-                                                : postFile.post_file
-                                            }
-                                            className="postViewImg"
-                                          />
-                                        </div>
-
-                                        <div className="gallery-play-icon"></div>
-                                      </div>
-                                    ) : (
-                                      <InView
-                                        as="div"
-                                        className="player-wrapper bg-[#000] w-full"
-                                        initialInView={true}
-                                        skip={postFile.file_type !== "video"}
-                                        threshold={0.7}
-                                        onChange={(inView, entry) => {
-                                          // console.log("Inview:", inView);
-                                          if (inView) {
-                                            // vidRef.current.play();
-                                            setVideoPlaying(true);
-                                          } else {
-                                            // vidRef.current.pause();
-                                            setVideoPlaying(false);
-                                            setAudioMuted(true);
-                                          }
-                                        }}
-                                      >
-                                        <ReactPlayer
-                                          onClick={() => setVideoPlaying(false)}
-                                          volume={0.5}
-                                          // light={postFile.preview_file}
-                                          url={postFile.post_file}
-                                          config={{
-                                            file: {
-                                              attributes: {
-                                                controlsList: "nodownload",
-                                              },
+                                    <InView
+                                      as="div"
+                                      className="player-wrapper bg-[#000] w-full"
+                                      initialInView={true}
+                                      skip={postFile.file_type !== "video"}
+                                      threshold={0.7}
+                                      onChange={(inView, entry) => {
+                                        // console.log("Inview:", inView);
+                                        if (inView) {
+                                          // vidRef.current.play();
+                                          setVideoPlaying(true);
+                                        } else {
+                                          // vidRef.current.pause();
+                                          setVideoPlaying(false);
+                                          setAudioMuted(true);
+                                        }
+                                      }}
+                                    >
+                                      <ReactPlayer
+                                        onClick={() => setVideoPlaying(false)}
+                                        volume={0.5}
+                                        // light={postFile.preview_file}
+                                        url={postFile.post_file}
+                                        config={{
+                                          file: {
+                                            attributes: {
+                                              controlsList: "nodownload",
                                             },
-                                          }}
-                                          onContextMenu={(e) =>
-                                            e.preventDefault()
-                                          }
-                                          loop={false}
-                                          onEnded={() => setVideoPlaying(false)}
-                                          controls={false}
-                                          muted={audioMuted}
-                                          width="100%"
-                                          playsinline
-                                          height="100%"
-                                          playing={videoPlaying}
-                                          className="post-video-size react-player"
-                                        />
+                                          },
+                                        }}
+                                        onContextMenu={(e) =>
+                                          e.preventDefault()
+                                        }
+                                        loop={false}
+                                        onEnded={() => setVideoPlaying(false)}
+                                        controls={false}
+                                        muted={audioMuted}
+                                        width="100%"
+                                        playsinline
+                                        height="100%"
+                                        playing={videoPlaying}
+                                        className="post-video-size react-player"
+                                      />
 
-                                        {!videoPlaying ? (
-                                          <button
-                                            className="absolute h-10 w-10 md:h-16 md:w-16 inset-0 m-auto z-20"
-                                            onClick={() =>
-                                              setVideoPlaying(true)
-                                            }
-                                          >
-                                            <FaPlay className="text-white h-10 w-10 md:h-16 md:w-16" />
-                                          </button>
-                                        ) : null}
-
-                                        <button className="absolute h-6 w-6 bottom-3 right-3  m-auto z-20">
-                                          {" "}
-                                          {audioMuted ? (
-                                            <MdVolumeOff
-                                              className="text-white h-6 w-6"
-                                              onClick={() =>
-                                                setAudioMuted(!audioMuted)
-                                              }
-                                            />
-                                          ) : (
-                                            <MdVolumeUp
-                                              className="text-white h-6 w-6"
-                                              onClick={() =>
-                                                setAudioMuted(!audioMuted)
-                                              }
-                                            />
-                                          )}{" "}
-                                        </button>
-                                      </InView>
-                                    )}
-                                    {post.payment_info.is_user_needs_pay ===
-                                      1 &&
-                                    post.payment_info.post_payment_type ===
-                                      "ppv" ? (
-                                      <div className="gallery-top-btn-sec">
+                                      {!videoPlaying ? (
                                         <button
-                                          className="gallery-pay-button"
-                                          onClick={(event) =>
-                                            handlePPVPayment(event, 1)
-                                          }
+                                          className="absolute h-10 w-10 md:h-16 md:w-16 inset-0 m-auto z-20"
+                                          onClick={() => setVideoPlaying(true)}
                                         >
-                                          {post.payment_info.payment_text}
+                                          <FaPlay className="text-white h-10 w-10 md:h-16 md:w-16" />
                                         </button>
-                                      </div>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {post.payment_info.is_user_needs_pay ===
-                                      1 &&
-                                    post.payment_info.post_payment_type ===
-                                      "subscription" ? (
-                                      scrollToTop ? (
-                                        <div
-                                          className="gallery-top-btn-sec"
-                                          // onClick={scrollToTop}
-                                        >
-                                          <button className="gallery-pay-button">
-                                            {post.payment_info.payment_text}
-                                          </button>
-                                        </div>
-                                      ) : (
-                                        <Link to={`/` + post.user.unique_id}>
-                                          <div className="gallery-top-btn-sec">
-                                            <button className="subscribe-post-btn-sec">
-                                              {post.payment_info.payment_text}
-                                            </button>
-                                          </div>
-                                        </Link>
-                                      )
-                                    ) : (
-                                      ""
-                                    )}
+                                      ) : null}
+
+                                      <button className="absolute h-6 w-6 bottom-3 right-3  m-auto z-20">
+                                        {" "}
+                                        {audioMuted ? (
+                                          <MdVolumeOff
+                                            className="text-white h-6 w-6"
+                                            onClick={() =>
+                                              setAudioMuted(!audioMuted)
+                                            }
+                                          />
+                                        ) : (
+                                          <MdVolumeUp
+                                            className="text-white h-6 w-6"
+                                            onClick={() =>
+                                              setAudioMuted(!audioMuted)
+                                            }
+                                          />
+                                        )}{" "}
+                                      </button>
+                                    </InView>
                                   </div>
                                 </div>
                               </div>

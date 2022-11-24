@@ -241,69 +241,69 @@ function* userLoginAPI() {
     yield put(loginSuccess(response.data));
     yield put(fetchUserLoginSuccess(response.data));
     if (response.data.success) {
-      if (response.data.code == 1001)
-        window.location.assign("/register/verify");
-      else {
-        if (response.data.code == 240) {
-          yield put(
-            notify({ message: response.data.message, status: "success" })
-          );
-          window.location.assign("/verification");
-          localStorage.setItem("emailId", response.data.data.email);
-        } else {
-          localStorage.setItem("userLoginStatus", true);
-          localStorage.setItem("user_picture", response.data.data.picture);
-          localStorage.setItem("user_cover", response.data.data.cover);
-          localStorage.setItem("name", response.data.data.name);
-          localStorage.setItem("username", response.data.data.username);
-          localStorage.setItem("socket", true);
-          localStorage.setItem(
-            "user_unique_id",
-            response.data.data.user_unique_id
-          );
-          localStorage.setItem(
-            "is_document_verified",
-            response.data.data.is_document_verified
-          );
-          localStorage.setItem(
-            "is_verified_badge",
-            response.data.data.is_verified_badge
-              ? response.data.data.is_verified_badge
-              : 0
-          );
-          localStorage.setItem(
-            "is_content_creator",
-            response.data.data.is_content_creator
-          );
-          localStorage.setItem(
-            "default_payment_method",
-            response.data.data.default_payment_method
-          );
-          localStorage.setItem(
-            "is_two_step_auth_enabled",
-            response.data.data.is_two_step_auth_enabled
-          );
-          localStorage.setItem("emailId", response.data.data.email);
-          yield put(
-            notify({ message: response.data.message, status: "success" })
-          );
-          localStorage.setItem("userId", response.data.data.user_id);
-          localStorage.setItem("accessToken", response.data.data.token);
-          var user = response.data.data;
-          setCookie("userId", user.user_id);
-          setCookie("accessToken", user.token);
-          setCookie("user_picture", user.picture);
-          setCookie("user_email", user.email);
-          setCookie("username", user.username);
-          setCookie("picture", user.picture);
-          setCookie("total_followers", user.total_followers);
-          setCookie("total_followings", user.total_followings);
-          setCookie("user", JSON.stringify(user));
-          setCookie("pro", JSON.stringify(user.pro_package_config));
+      // if (response.data.code == 1001)
+      //   window.location.assign("/register/verify");
+      // else {
+      if (response.data.code == 240) {
+        yield put(
+          notify({ message: response.data.message, status: "success" })
+        );
+        window.location.assign("/verification");
+        localStorage.setItem("emailId", response.data.data.email);
+      } else {
+        localStorage.setItem("userLoginStatus", true);
+        localStorage.setItem("user_picture", response.data.data.picture);
+        localStorage.setItem("user_cover", response.data.data.cover);
+        localStorage.setItem("name", response.data.data.name);
+        localStorage.setItem("username", response.data.data.username);
+        localStorage.setItem("socket", true);
+        localStorage.setItem(
+          "user_unique_id",
+          response.data.data.user_unique_id
+        );
+        localStorage.setItem(
+          "is_document_verified",
+          response.data.data.is_document_verified
+        );
+        localStorage.setItem(
+          "is_verified_badge",
+          response.data.data.is_verified_badge
+            ? response.data.data.is_verified_badge
+            : 0
+        );
+        localStorage.setItem(
+          "is_content_creator",
+          response.data.data.is_content_creator
+        );
+        localStorage.setItem(
+          "default_payment_method",
+          response.data.data.default_payment_method
+        );
+        localStorage.setItem(
+          "is_two_step_auth_enabled",
+          response.data.data.is_two_step_auth_enabled
+        );
+        localStorage.setItem("emailId", response.data.data.email);
+        yield put(
+          notify({ message: response.data.message, status: "success" })
+        );
+        localStorage.setItem("userId", response.data.data.user_id);
+        localStorage.setItem("accessToken", response.data.data.token);
+        var user = response.data.data;
+        setCookie("userId", user.user_id);
+        setCookie("accessToken", user.token);
+        setCookie("user_picture", user.picture);
+        setCookie("user_email", user.email);
+        setCookie("username", user.username);
+        setCookie("picture", user.picture);
+        setCookie("total_followers", user.total_followers);
+        setCookie("total_followings", user.total_followings);
+        setCookie("user", JSON.stringify(user));
+        setCookie("pro", JSON.stringify(user.pro_package_config));
 
-          window.location.assign("/");
-        }
+        window.location.assign("/");
       }
+      // }
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
     }
@@ -323,9 +323,9 @@ function* userRegisterAPI() {
     yield put(registerSuccess(response.data));
 
     if (response.data.success) {
-      if (response.data.code == 1001)
-        window.location.assign("/register/verify");
-      else {
+      // if (response.data.code == 1001)
+      //   window.location.assign("/register/verify");
+      // else {
         const response2 = yield api.postMethod({
           action: "login",
           object: userData,
@@ -346,7 +346,7 @@ function* userRegisterAPI() {
         yield put(notify({ message: response.data.message }));
 
         window.location.assign("/onboarding");
-      }
+      // }
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
     }
