@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineStar, AiOutlineDollarCircle } from "react-icons/ai";
+import CustomImage from "./helpers/CustomImage";
 import { fetchSingleUserProfileStart } from "../store/slices/OtherUsersSlice";
 import Link from "next/link";
 import { deleteFavStart, saveFavStart } from "../store/slices/favSlice";
@@ -12,7 +13,7 @@ import { saveBlockUserStart } from "../store/slices/userSlice";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { notify } from "reapop";
 import { subscriptionPaymentPaystackStart } from "../store/slices/subscriptionSlice";
-const FansCard = ({ user, blocked }) => {
+const FansCard = ({ user, blocked, followers_page }) => {
   // const userDetails = useSelector((state) => state.otherUser.userDetails);
   const deleteFav = useSelector((state) => state.fav.deleteFav);
 
@@ -66,6 +67,59 @@ const FansCard = ({ user, blocked }) => {
   };
 
   const [copied, setCopied] = useState("");
+
+  if (followers_page) {
+    return (
+      <div className="relative flex items-center space-x-1 rounded-sm p-0.5 md:p-3 ">
+        <div className="relative h-12 w-12 md:h-14 md:w-14 rounded-lg">
+          <CustomImage
+            src={user?.picture}
+            className="rounded-lg"
+            layout="fill"
+          />
+          {user.is_online_status == 1 ? (
+            <div className="absolute bottom-0 left-0   bg-white p-0.5 rounded-full">
+              <div className="w-3 h-3 bg-green-500 rounded-full" />
+            </div>
+          ) : null}
+        </div>
+        <div className="flex-1 ">
+          <p className="font-semibold text-xs md:text-lg text-left capitalize">
+            {user?.name}
+          </p>
+        </div>
+        {subscribedStatus != "" ? (
+          subscribedStatus == "unsubscribed" ? (
+            <Link href={`/` + user.user_unique_id} passHref>
+              <div className="w-[55px] md:w-[90px] h-8 row-container p-1    font-medium border border-lightPlayRed bg-white text-lightPlayRed hover:bg-lightPlayRed hover:text-white rounded-lg cursor-pointer">
+                <span className="text-xs md:text-md">Follow</span>
+              </div>
+            </Link>
+          ) : (
+            <div
+              onClick={() => unFollowUser("unsubscribed")}
+              className="p-1 w-[55px] md:w-[90px] h-8 row-container   font-medium border border-lightPlayRed bg-white text-lightPlayRed hover:bg-lightPlayRed hover:text-white rounded-lg  cursor-pointer"
+            >
+              <span className="text-xs md:text-md">Unfollow</span>
+            </div>
+          )
+        ) : user.show_follow ? (
+          <Link href={`/` + user.user_unique_id} passHref>
+            <div className="p-1 w-[55px] md:w-[90px] h-8 row-container   font-medium border border-lightPlayRed bg-white text-lightPlayRed hover:bg-lightPlayRed hover:text-white rounded-lg cursor-pointer">
+              <span className="text-xs md:text-md">Follow</span>
+            </div>
+          </Link>
+        ) : (
+          <div
+            onClick={() => unFollowUser("unsubscribed")}
+            className="p-1  w-[55px] md:w-[90px] h-8 row-container  font-medium border border-lightPlayRed bg-white text-lightPlayRed hover:bg-lightPlayRed hover:text-white rounded-lg cursor-pointer"
+          >
+            <span className="text-xs md:text-md">Unfollow</span>
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="w-full   border-2 border-gray-500 rounded-lg dark:border-gray-700">
