@@ -337,9 +337,12 @@ const NewsFeedCard = ({ post, index }) => {
                             </div>
                           ) : null}
                           {post.delete_btn_status == 1 ? (
-                            <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                            <Link href={`post/${post.post_unique_id}/edit`} passHref>
+                             <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
                               <p className="font-bold text-xs">Edit post</p>
                             </div>
+                            </Link>
+                           
                           ) : null}
                         </div>
                       </div>

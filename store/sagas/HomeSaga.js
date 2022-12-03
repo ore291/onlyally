@@ -3,7 +3,11 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 import api from "../../Environment";
 
 import {
+  fetchTrendingSuccess,
+  fetchTrendingFailure,
   fetchHomePostsStart,
+  fetchSingleTrendingFailure,
+  fetchSingleTrendingSuccess,
   fetchHomePostsSuccess,
   fetchHomePostsFailure,
   searchUserFailure,
@@ -136,6 +140,71 @@ function* fetchTrendingUsersAPI(action) {
   }
 }
 
+function* fetchTrendingAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
+
+  try {
+    const inputData = yield select(
+      (state) => state.home.homeTrending.inputData
+    );
+    const response = yield api.getMethod({
+      action: "hashtags/trending?take=10",
+    
+    });
+
+   
+
+    if (response.data && response.data.success) {
+      yield put(fetchTrendingSuccess(response.data.data));
+    } else {
+      yield put(fetchTrendingFailure(response.data.error));
+      // yield put(errorLogoutCheck(response.data.error));
+      // yield put(
+      //   notify({ message: response.data.error?.error, status: "error" })
+      // );
+    }
+  } catch (error) {
+    yield put(fetchTrendingFailure(error.message));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* fetchSingleTrendingAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
+
+  try {
+    const inputData = yield select(
+      (state) => state.home.singleTrending.inputData
+    );
+    const response = yield api.getMethod({
+      action: `hashtags/trending/${inputData.name}`,
+    
+    });
+
+
+    if (response.data && response.data.success) {
+      yield put(fetchSingleTrendingSuccess(response.data.data));
+    } else {
+      yield put(fetchSingleTrendingFailure(response.data.error));
+      // yield put(errorLogoutCheck(response.data.error));
+      // yield put(
+      //   notify({ message: response.data.error?.error, status: "error" })
+      // );
+    }
+  } catch (error) {
+    yield put(fetchSingleTrendingFailure(error.message));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
 function* fetchPostSuggestionAPI(action) {
   if (action.payload) {
     var accessToken = action.payload.accessToken;
@@ -169,6 +238,12 @@ export default function* pageSaga() {
   yield all([yield takeLatest("home/searchUserStart", searchUserAPI)]);
   yield all([
     yield takeLatest("home/fetchTrendingUsersStart", fetchTrendingUsersAPI),
+  ]);
+  yield all([
+    yield takeLatest("home/fetchTrendingStart", fetchTrendingAPI),
+  ]);
+  yield all([
+    yield takeLatest("home/fetchSingleTrendingStart", fetchSingleTrendingAPI),
   ]);
   yield all([
     yield takeLatest("home/fetchPostSuggestionsStart", fetchPostSuggestionAPI),

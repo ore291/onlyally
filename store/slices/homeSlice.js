@@ -11,6 +11,22 @@ const initialState = {
     skip: 0,
     length: 0,
   },
+  homeTrending: {
+    data: {},
+    inputData: {},
+    loading: true,
+    error: false,
+    skip: 0,
+    length: 0,
+  },
+  singleTrending: {
+    data: {},
+    inputData: {},
+    loading: true,
+    error: false,
+    skip: 0,
+    length: 0,
+  },
   searchUser: {
     data: {},
     loading: false,
@@ -155,6 +171,66 @@ export const HomeSlice = createSlice({
         buttonDisable: false,
       };
     },
+    fetchTrendingStart: (state, action) => {
+      state.homeTrending = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "Loading... Please wait",
+        buttonDisable: true,
+      };
+    },
+    fetchTrendingSuccess: (state, action) => {
+      state.homeTrending = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    fetchTrendingFailure: (state, action) => {
+      state.homeTrending = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    fetchSingleTrendingStart: (state, action) => {
+      state.singleTrending = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "Loading... Please wait",
+        buttonDisable: true,
+      };
+    },
+    fetchSingleTrendingSuccess: (state, action) => {
+      state.singleTrending = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    fetchSingleTrendingFailure: (state, action) => {
+      state.singleTrending = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
     fetchPostSuggestionsStart: (state, action) => {
       state.postSug = {
         inputData: action.payload,
@@ -201,6 +277,12 @@ export const HomeSlice = createSlice({
 });
 
 export const {
+  fetchSingleTrendingStart,
+  fetchSingleTrendingFailure,
+  fetchSingleTrendingSuccess,
+  fetchTrendingStart,
+  fetchTrendingFailure,
+  fetchTrendingSuccess,
   fetchHomePostsStart,
   fetchHomePostsSuccess,
   fetchHomePostsFailure,

@@ -409,7 +409,7 @@ export const UserSlice = createSlice({
         loadingButtonContent: null,
       };
     },
-    regiserVerifyStart: (state, action) => {
+    registerVerifyStart: (state, action) => {
       state.registerVerify = {
         inputData: action.payload,
         buttonDisable: true,
@@ -418,7 +418,7 @@ export const UserSlice = createSlice({
         loading: true,
       };
     },
-    regiserVerifySuccess: (state, action) => {
+    registerVerifySuccess: (state, action) => {
       state.registerVerify = {
         inputData: {},
         buttonDisable: false,
@@ -427,7 +427,7 @@ export const UserSlice = createSlice({
         loading: false,
       };
     },
-    regiserVerifyFailure: (state, action) => {
+    registerVerifyFailure: (state, action) => {
       state.registerVerify = {
         inputData: {},
         buttonDisable: false,
@@ -910,9 +910,9 @@ export const {
   deleteAccountStart,
   deleteAccountSuccess,
   deleteAccountFailure,
-  regiserVerifyStart,
-  regiserVerifySuccess,
-  regiserVerifyFailure,
+  registerVerifyStart,
+  registerVerifySuccess,
+  registerVerifyFailure,
   registerVerifyResendStart,
   registerVerifyResendSuccess,
   registerVerifyResendFailure,

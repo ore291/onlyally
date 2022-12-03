@@ -22,7 +22,7 @@ import {
   FaVideo,
   FaGlobeAfrica,
 } from "react-icons/fa";
-import { RiBarChartHorizontalFill } from "react-icons/ri";
+import { RiBarChartHorizontalFill, RiChatFollowUpFill } from "react-icons/ri";
 import { MdMail, MdClose } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 import { useTheme } from "next-themes";
@@ -210,6 +210,15 @@ const SideNav = () => {
                   <RiBarChartHorizontalFill className="h-6 w-6" />
                 </div>
                 Dashboard
+              </button>
+              <button
+                className="group flex rounded-md items-center space-x-2 w-full  text-sm"
+                onClick={() => navigate("/followers")}
+              >
+                <div className=" row-container bg-gray-100 rounded-full p-2 mr-3 dark:text-gray-900">
+                  <RiChatFollowUpFill className="h-6 w-6" />
+                </div>
+                Followers
               </button>
               <button
                 className="group flex rounded-md items-center space-x-2 w-full  text-sm"

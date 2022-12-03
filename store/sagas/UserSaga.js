@@ -6,6 +6,10 @@ import api from "../../Environment";
 import {
   updateUserSuccess,
   updateUserFailure,
+  registerVerifySuccess,
+  registerVerifyFailure,
+  registerVerifyResendSuccess,
+  registerVerifyResendFailure,
   fetchUserDetailsSuccess,
   fetchUserDetailsFailure,
   updateUserDetailsSuccess,
@@ -241,69 +245,69 @@ function* userLoginAPI() {
     yield put(loginSuccess(response.data));
     yield put(fetchUserLoginSuccess(response.data));
     if (response.data.success) {
-      // if (response.data.code == 1001)
-      //   window.location.assign("/register/verify");
-      // else {
-      if (response.data.code == 240) {
-        yield put(
-          notify({ message: response.data.message, status: "success" })
-        );
-        window.location.assign("/verification");
-        localStorage.setItem("emailId", response.data.data.email);
-      } else {
-        localStorage.setItem("userLoginStatus", true);
-        localStorage.setItem("user_picture", response.data.data.picture);
-        localStorage.setItem("user_cover", response.data.data.cover);
-        localStorage.setItem("name", response.data.data.name);
-        localStorage.setItem("username", response.data.data.username);
-        localStorage.setItem("socket", true);
-        localStorage.setItem(
-          "user_unique_id",
-          response.data.data.user_unique_id
-        );
-        localStorage.setItem(
-          "is_document_verified",
-          response.data.data.is_document_verified
-        );
-        localStorage.setItem(
-          "is_verified_badge",
-          response.data.data.is_verified_badge
-            ? response.data.data.is_verified_badge
-            : 0
-        );
-        localStorage.setItem(
-          "is_content_creator",
-          response.data.data.is_content_creator
-        );
-        localStorage.setItem(
-          "default_payment_method",
-          response.data.data.default_payment_method
-        );
-        localStorage.setItem(
-          "is_two_step_auth_enabled",
-          response.data.data.is_two_step_auth_enabled
-        );
-        localStorage.setItem("emailId", response.data.data.email);
-        yield put(
-          notify({ message: response.data.message, status: "success" })
-        );
-        localStorage.setItem("userId", response.data.data.user_id);
-        localStorage.setItem("accessToken", response.data.data.token);
-        var user = response.data.data;
-        setCookie("userId", user.user_id);
-        setCookie("accessToken", user.token);
-        setCookie("user_picture", user.picture);
-        setCookie("user_email", user.email);
-        setCookie("username", user.username);
-        setCookie("picture", user.picture);
-        setCookie("total_followers", user.total_followers);
-        setCookie("total_followings", user.total_followings);
-        setCookie("user", JSON.stringify(user));
-        setCookie("pro", JSON.stringify(user.pro_package_config));
+      if (response.data.code == 1001)
+        window.location.assign("/register/verify");
+      else {
+        if (response.data.code == 240) {
+          yield put(
+            notify({ message: response.data.message, status: "success" })
+          );
+          window.location.assign("/verification");
+          localStorage.setItem("emailId", response.data.data.email);
+        } else {
+          localStorage.setItem("userLoginStatus", true);
+          localStorage.setItem("user_picture", response.data.data.picture);
+          localStorage.setItem("user_cover", response.data.data.cover);
+          localStorage.setItem("name", response.data.data.name);
+          localStorage.setItem("username", response.data.data.username);
+          localStorage.setItem("socket", true);
+          localStorage.setItem(
+            "user_unique_id",
+            response.data.data.user_unique_id
+          );
+          localStorage.setItem(
+            "is_document_verified",
+            response.data.data.is_document_verified
+          );
+          localStorage.setItem(
+            "is_verified_badge",
+            response.data.data.is_verified_badge
+              ? response.data.data.is_verified_badge
+              : 0
+          );
+          localStorage.setItem(
+            "is_content_creator",
+            response.data.data.is_content_creator
+          );
+          localStorage.setItem(
+            "default_payment_method",
+            response.data.data.default_payment_method
+          );
+          localStorage.setItem(
+            "is_two_step_auth_enabled",
+            response.data.data.is_two_step_auth_enabled
+          );
+          localStorage.setItem("emailId", response.data.data.email);
+          yield put(
+            notify({ message: response.data.message, status: "success" })
+          );
+          localStorage.setItem("userId", response.data.data.user_id);
+          localStorage.setItem("accessToken", response.data.data.token);
+          var user = response.data.data;
+          setCookie("userId", user.user_id);
+          setCookie("accessToken", user.token);
+          setCookie("user_picture", user.picture);
+          setCookie("user_email", user.email);
+          setCookie("username", user.username);
+          setCookie("picture", user.picture);
+          setCookie("total_followers", user.total_followers);
+          setCookie("total_followings", user.total_followings);
+          setCookie("user", JSON.stringify(user));
+          setCookie("pro", JSON.stringify(user.pro_package_config));
 
-        window.location.assign("/");
+          window.location.assign("/");
+        }
       }
-      // }
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
     }
@@ -323,9 +327,9 @@ function* userRegisterAPI() {
     yield put(registerSuccess(response.data));
 
     if (response.data.success) {
-      // if (response.data.code == 1001)
-      //   window.location.assign("/register/verify");
-      // else {
+      if (response.data.code == 1001)
+        window.location.assign("/register/verify");
+      else {
         const response2 = yield api.postMethod({
           action: "login",
           object: userData,
@@ -346,7 +350,7 @@ function* userRegisterAPI() {
         yield put(notify({ message: response.data.message }));
 
         window.location.assign("/onboarding");
-      // }
+      }
     } else {
       yield put(notify({ message: response.data.error, status: "error" }));
     }
@@ -419,13 +423,28 @@ function* deleteAccountAPI() {
 function* registerVerify() {
   try {
     const inputData = yield select(
-      (state) => state.users.registerVerify.inputData
+      (state) => state.user.registerVerify.inputData
     );
 
-    const response = yield api.postMethod("verify_email", inputData);
+    const response = yield api.postMethod({
+      action: "verify_email",
+      object: inputData,
+    });
 
     if (response.data.success) {
       yield put(registerVerifySuccess(response.data));
+      let user = response.data.data;
+      setCookie("userId", user.user_id);
+      setCookie("accessToken", user.token);
+      setCookie("user_picture", user.picture);
+      setCookie("user_email", user.email);
+      setCookie("username", user.username);
+      setCookie("picture", user.picture);
+      setCookie("total_followers", user.total_followers);
+      setCookie("total_followings", user.total_followings);
+      setCookie("user", JSON.stringify(user));
+      setCookie("pro", JSON.stringify(user.pro_package_config));
+
       localStorage.setItem("userId", response.data.data.user_id);
       localStorage.setItem("user_unique_id", response.data.data.user_unique_id);
       localStorage.setItem("accessToken", response.data.data.token);
@@ -439,48 +458,37 @@ function* registerVerify() {
           : 0
       );
       localStorage.setItem("socket", true);
-      const notificationMessage = getSuccessNotificationMessage(
-        response.data.message
-      );
-      yield put(notify(notificationMessage));
-      window.location.assign("/welcome");
+      yield put(notify({ message: response.data.message }));
+      window.location.assign("/onboarding");
     } else {
       yield put(registerVerifyFailure(response.data.error.error));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(notify(notificationMessage));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(registerVerifyFailure(error));
-    const notificationMessage = getErrorNotificationMessage(error.message);
-    yield put(notify(notificationMessage));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
 function* registerVerifyResend() {
   try {
-    const response = yield api.postMethod("regenerate_email_verification_code");
+    const response = yield api.postMethod({
+      action: "regenerate_email_verification_code",
+    });
 
     if (response.data.success) {
       yield put(registerVerifyResendSuccess(response.data));
-      const notificationMessage = getSuccessNotificationMessage(
-        response.data.message
-      );
-      yield put(notify(notificationMessage));
+      yield put(notify({ message: response.data.message }));
     } else {
       yield put(registerVerifyResendFailure(response.data.error.error));
-      const notificationMessage = getErrorNotificationMessage(
-        response.data.error.error
-      );
-      yield put(notify(notificationMessage));
+      yield put(notify({ message: response.data.error, status: "error" }));
     }
   } catch (error) {
     yield put(registerVerifyResendFailure(error));
     const notificationMessage = getErrorNotificationMessage(
       error.response.data.error.error
     );
-    yield put(notify(notificationMessage));
+    yield put(notify({ message: error.message, status: "error" }));
   }
 }
 
@@ -939,8 +947,8 @@ export default function* pageSaga() {
     yield takeLatest("user/forgotPasswordStart", forgotPasswordAPI),
     //yield takeLatest("user/deleteAccountStart", deleteAccountAPI),
 
-    //   yield takeLatest(REGISTER_VERIFY_START, registerVerify),
-    //   yield takeLatest(REGISTER_VERIFY_RESEND_START, registerVerifyResend),
+      yield takeLatest("user/registerVerifyStart", registerVerify),
+      yield takeLatest("user/registerVerifyResendStart", registerVerifyResend),
     //   yield takeLatest(
     //     NOTIFICATION_STATUS_UPDATE_START,
     //     notificationStatusUpdateAPI

@@ -10,6 +10,14 @@ const initialState = {
     loadingButtonContent: null,
     buttonDisable: false,
   },
+  editPost: {
+    data: {},
+    loading: true,
+    error: false,
+    inputData: {},
+    loadingButtonContent: null,
+    buttonDisable: false,
+  },
   posts: {
     data: {},
     inputData: {},
@@ -134,6 +142,37 @@ export const PostSlice = createSlice({
 
     savePostFailure: (state, action) => {
       state.savePost = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    editPostStart: (state, action) => {
+      state.editPost = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+        loadingButtonContent: "Loading... Please wait",
+        buttonDisable: true,
+      };
+    },
+    editPostSuccess: (state, action) => {
+      state.editPost = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+
+    editPostFailure: (state, action) => {
+      state.editPost = {
         data: {},
         loading: true,
         error: action.payload,
@@ -482,6 +521,9 @@ export const PostSlice = createSlice({
 });
 
 export const {
+  editPostStart,
+  editPostSuccess,
+  editPostFailure,
   fetchSinglePostStart,
   fetchSinglePostSuccess,
   fetchSinglePostFailure,

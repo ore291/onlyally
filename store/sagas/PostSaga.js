@@ -3,6 +3,8 @@ import { call, select, put, takeLatest, all } from "redux-saga/effects";
 import api from "../../Environment";
 
 import {
+  editPostSuccess,
+  editPostFailure,
   fetchSinglePostSuccess,
   fetchSinglePostFailure,
   fetchPostCategoriesSuccess,
@@ -66,6 +68,41 @@ function* savePostAPI() {
     }
   } catch (error) {
     yield put(savePostFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* editPostAPI() {
+  try {
+    const inputData = yield select((state) => state.post.editPost.inputData);
+
+   
+
+    if (!inputData.content) {
+      // !!!!! Dont change this condition. If changing get confirmation vidhya
+      yield put(editPostFailure("Please fill the content"));
+      yield put(
+        notify({ message: "Please fill the content", status: "error" })
+      );
+    } else {
+      const response = yield api.putMethod({
+        action: `posts/${inputData.post_id}`,
+        object: inputData,
+      });
+      if (response.data.success) {
+        yield put(editPostSuccess(response.data.data));
+        yield put(
+          notify({ message: response.data.message, status: "success" })
+        );
+        window.location.assign("/post/" + response.data.data.post_unique_id);
+      } else {
+        yield put(editPostFailure(response.data.error));
+        // yield put(checkLogoutStatus(response.data));
+        yield put(notify({ message: response.data.error, status: "error" }));
+      }
+    }
+  } catch (error) {
+    yield put(editPostFailure(error));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
@@ -309,6 +346,7 @@ function* saveReportPostAPI() {
 
 export default function* pageSaga() {
   yield all([yield takeLatest("post/savePostStart", savePostAPI)]);
+  yield all([yield takeLatest("post/editPostStart", editPostAPI)]);
   yield all([yield takeLatest("post/fetchPostsStart", fetchPostsAPI)]);
   yield all([yield takeLatest("post/fetchExploreStart", fetchExploreAPI)]);
   yield all([

@@ -1,9 +1,9 @@
-import SideNavLayout from "../../components/SideNavLayout";
-import { fetchSinglePostStart } from "../../store/slices/postSlice";
+import SideNavLayout from "../../../components/SideNavLayout";
+import { fetchSinglePostStart } from "../../../store/slices/postSlice";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import NewsFeedCard from "../../components/feeds/NewsFeedCard";
+import NewsFeedCard from "../../../components/feeds/NewsFeedCard";
 
 const Post = () => {
   const router = useRouter();

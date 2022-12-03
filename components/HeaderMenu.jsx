@@ -24,7 +24,7 @@ import {
   FaVideo,
   FaGlobeAfrica,
 } from "react-icons/fa";
-import { RiBarChartHorizontalFill } from "react-icons/ri";
+import { RiBarChartHorizontalFill, RiChatFollowUpFill } from "react-icons/ri";
 import { MdMail } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 
@@ -282,6 +282,27 @@ const HeaderMenu = () => {
                           <RiBarChartHorizontalFill className="h-6 w-6" />
                         </div>
                         Dashboard
+                      </button>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => router.push("/followers")}
+                        className={`${
+                          active
+                            ? "bg-gray-100 !text-[#252525]  dark:!text-gray-900 font-semibold"
+                            : "text-[#252525] dark:!text-gray-400 dark:bg-gray-900  font-semibold"
+                        } group flex rounded-md items-center space-x-2 w-full px-2 py-2 text-sm`}
+                      >
+                        <div
+                          className={`${
+                            active && " dark:!text-gray-400"
+                          }   row-container bg-gray-100  dark:bg-gray-900 rounded-full p-2 mr-3`}
+                        >
+                          <RiChatFollowUpFill className="h-6 w-6" />
+                        </div>
+                        Followers
                       </button>
                     )}
                   </Menu.Item>

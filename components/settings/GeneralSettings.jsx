@@ -86,8 +86,8 @@ const GeneralSettings = () => {
             name="name"
             placeholder=""
             required
-            disabled
-            value={group.name}
+            {...register("name")}
+            defaultValue={group.name}
             className="relative my-2 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
           />
           <label
@@ -118,7 +118,7 @@ const GeneralSettings = () => {
         <div className="w-full relative z-[1] border-b-2 border-black  bg-gray-100 focus-within:border-lightPlayRed my-4 bg-transparent">
           <select
             name="category"
-            disabled
+            {...register("category_id")}
             defaultValue={group.category_id}
             className="form-select relative mt-2  mb-1 z-[3] block w-full  appearance-none  bg-transparent  outline-none focus:ring-0 focus:outline-none ring-0 border-0"
             required

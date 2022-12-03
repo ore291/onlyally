@@ -14,7 +14,7 @@ function Layout(props) {
   return (
     <>
     {/* <Header /> */}
-      {router.pathname != "/onboarding" && (
+      {router.pathname != "/onboarding" && router.pathname != "/register/verify" && (
         <>{checkSession ? <Header /> : <HeaderOffline />}</>
       )}
       <main>{props.children}</main>

@@ -78,6 +78,8 @@ const PostEditor = (props) => {
     const contentState = props.editorState
       ? props.editorState.getCurrentContent()
       : editorState.getCurrentContent();
+
+
     const raw = convertToRaw(contentState);
 
     var host = window.location.origin;
@@ -157,19 +159,27 @@ const PostEditor = (props) => {
   };
 
   const handleChange = (editorState) => {
+
+
     const contentState = props.editorState
       ? props.editorState.getCurrentContent()
       : editorState.getCurrentContent();
+
+
+     
 
     props.getHasText != undefined &&
       props.getHasText(
         contentState.hasText() &&
           contentState.getPlainText().trim().length !== 0
       );
+
+
     // console.log(contentState.hasText() && contentState.getPlainText().trim().length !== 0)
     props.setEditorState != undefined
       ? props.setEditorState(editorState)
       : setEditorState(editorState);
+
     props.getEditorHtmlContent(tohtml());
   };
 
@@ -185,6 +195,7 @@ const PostEditor = (props) => {
     >
       <Editor
         ref={editor}
+        userSelect="none" contentEditable={false}
         editorState={
           props.editorState != undefined ? props.editorState : editorState
         }
