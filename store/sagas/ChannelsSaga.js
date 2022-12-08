@@ -215,8 +215,8 @@ function* saveChannelPostAPI() {
         // window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
         yield put(saveChannelPostFailure(response.data.error));
-        yield put(errorLogoutCheck(response.data));
-        yield put(notify({ message: response.data.error, status: "error" }));
+  
+        yield put(notify({ message: response.data.error.code, status: "error" }));
       }
     }
   } catch (error) {

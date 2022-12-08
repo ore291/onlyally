@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import NewsFeedCard from "../../components/feeds/NewsFeedCard";
+import NewsFeedCard from "../../components/feeds/OtherFeedCard";
 import CommonCenterLoader from "../../components/helpers/CommonCenterLoader";
 import SideNavLayout from "../../components/SideNavLayout";
 import { fetchSingleTrendingStart } from "../../store/slices/homeSlice";
@@ -31,7 +31,7 @@ const TrendingUser = () => {
             <CommonCenterLoader />
           </div>
         ) : (
-          <>
+          <div className="grid grid-cols-1 w-full gap-y-2">
             {posts.data.length > 0 &&
               posts.data.map((post, id) => (
                 <NewsFeedCard
@@ -40,7 +40,7 @@ const TrendingUser = () => {
                   key={post.post_unique_id}
                 />
               ))}
-          </>
+          </div>
         )}
       </div>
     </SideNavLayout>

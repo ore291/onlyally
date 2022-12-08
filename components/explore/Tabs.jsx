@@ -25,13 +25,13 @@ export default function Tabs() {
   return (
     <Tab.Group>
       <div className="bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1 mb-10 md:mb-60">
-        <Tab.List className="row-container p-1 flex-wrap md:flex-nowrap space-x-3 md:space-x-5 bg-[#ecf0f5] dark:bg-gray-500  rounded-full md:w-1/2 mx-auto">
+        <Tab.List className="row-container p-1 space-x-1 xs:space-x-3 md:space-x-5 bg-[#ecf0f5] dark:bg-gray-500  rounded-full md:w-1/2 mx-auto">
           {categories.map((category, index) => (
             <Tab
               key={index}
               className={({ selected }) =>
                 classNames(
-                  "w-[80px] p-.5  px-2 text-sm leading-5 font-medium text-gray-700 m-1",
+                  "w-[70px] xs:w-[80px] p-.5  px-2 text-sm leading-5 font-medium text-gray-700 m-1",
                   "focus:outline-none focus:ring-0 ",
                   selected
                     ? "bg-white dark:bg-gray-200 rounded-full shadow-md"

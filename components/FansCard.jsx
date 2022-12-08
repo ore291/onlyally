@@ -71,23 +71,29 @@ const FansCard = ({ user, blocked, followers_page }) => {
   if (followers_page) {
     return (
       <div className="relative flex items-center space-x-1 rounded-sm p-0.5 md:p-3 ">
-        <div className="relative h-12 w-12 md:h-14 md:w-14 rounded-lg">
-          <CustomImage
-            src={user?.picture}
-            className="rounded-lg"
-            layout="fill"
-          />
-          {user.is_online_status == 1 ? (
-            <div className="absolute bottom-0 left-0   bg-white p-0.5 rounded-full">
-              <div className="w-3 h-3 bg-green-500 rounded-full" />
-            </div>
-          ) : null}
-        </div>
-        <div className="flex-1 ">
-          <p className="font-semibold text-xs md:text-lg text-left capitalize">
-            {user?.name}
-          </p>
-        </div>
+        <Link href={`/` + user?.user_unique_id} passHref>
+          <div className="relative h-12 w-12 md:h-14 md:w-14 rounded-lg cursor-pointer">
+            <CustomImage
+              src={user?.picture}
+              className="rounded-lg"
+              layout="fill"
+            />
+            {user.is_online_status == 1 ? (
+              <div className="absolute bottom-0 left-0   bg-white p-0.5 rounded-full">
+                <div className="w-3 h-3 bg-green-500 rounded-full" />
+              </div>
+            ) : null}
+          </div>
+        </Link>
+        <Link href={`/` + user?.user_unique_id} passHref>
+      
+          <div className="flex-1 cursor-pointer">
+            <p className="font-semibold text-xs md:text-lg text-left capitalize">
+              {user?.name}
+            </p>
+          </div>
+        </Link>
+
         {subscribedStatus != "" ? (
           subscribedStatus == "unsubscribed" ? (
             <Link href={`/` + user.user_unique_id} passHref>

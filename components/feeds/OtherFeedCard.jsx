@@ -381,7 +381,7 @@ const NewsFeedCard = ({ post, index }) => {
                             PPVPayment ? null : (
                               <EmblaSlide
                                 post={post}
-                                postFile={postFile}
+                                postFile={postFile }
                                 handlePPVPayment={handlePPVPayment}
                                 key={index}
                                 index={index}
@@ -415,7 +415,7 @@ const NewsFeedCard = ({ post, index }) => {
                                         onClick={() => setVideoPlaying(false)}
                                         volume={0.5}
                                         // light={postFile.preview_file}
-                                        url={postFile.post_file}
+                                        url={postFile.post_file ? postFile.post_file : postFile.file}
                                         config={{
                                           file: {
                                             attributes: {
@@ -483,7 +483,7 @@ const NewsFeedCard = ({ post, index }) => {
                                           src={
                                             postFile.preview_file
                                               ? postFile.preview_file
-                                              : postFile.post_file
+                                              : postFile.post_file || postFile.file
                                           }
                                           className="post-view-image"
                                         />
@@ -523,7 +523,7 @@ const NewsFeedCard = ({ post, index }) => {
 
                                         <ReactAudioPlayer
                                           // light={postFile.preview_file}
-                                          src={postFile.post_file}
+                                          src={postFile.post_file ? postFile.post_file : postFile.file}
                                           // file="forceAudio"
                                           controls={true}
                                           width="80%"

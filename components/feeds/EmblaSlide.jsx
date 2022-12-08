@@ -53,8 +53,8 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
                       alt=""
                       src={
                         inView
-                          ? postFile.post_file
-                            ? postFile.post_file
+                          ? postFile.file
+                            ? postFile.file 
                             : "/images/no-image-found.png"
                           : PLACEHOLDER_SRC
                       }
@@ -71,8 +71,8 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
                       layout="fill"
                       src={
                         inView
-                          ? postFile.post_file
-                            ? postFile.post_file
+                          ? postFile.file
+                            ? postFile.file 
                             : "/images/no-image-found.png"
                           : PLACEHOLDER_SRC
                       }

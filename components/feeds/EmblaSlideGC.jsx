@@ -37,8 +37,9 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
           <div className="postImage" key={index}>
             <div className="">
               <div className="gallery js-gallery">
-             
-                  <div className="relative postViewImg">
+              {
+                postFile.post_file ? (<>
+                 <div className="relative postViewImg">
                     <Image
                       alt=""
                       layout="fill"
@@ -53,6 +54,31 @@ const EmblaSlide = ({ post, postFile, inView, index, handlePPVPayment }) => {
                     
                     />
                   </div>
+                </>) : (
+
+                  <>
+                  
+                  <div className="relative postViewImg">
+                    <Image
+                      alt=""
+                      layout="fill"
+                      src={
+                        inView
+                          ? postFile.file
+                            ? postFile.file
+                            : "/images/no-image-found.png"
+                          : PLACEHOLDER_SRC
+                      }
+                      className={`postViewImg `}
+                    
+                    />
+                  </div>
+                  
+                  </>
+                )
+
+              }
+                 
              
               </div>
            

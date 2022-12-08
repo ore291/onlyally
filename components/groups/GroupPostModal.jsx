@@ -64,6 +64,9 @@ const GroupPostModal = (props) => {
   const [audioPreviewUrl, setAudioPreviewUrl] = useState("");
   const [images, setImages] = useState([]);
 
+  const [newImages,setNewImages] = useState(null)
+  const [fileType, setFileType] = useState('image')
+
   useEffect(() => {
     dispatch(fetchPostCategoriesStart());
   }, []);
@@ -111,12 +114,14 @@ const GroupPostModal = (props) => {
       if (!event.currentTarget.files[0]) {
         dispatch(notify("file field is required", "error"));
       } else {
-        dispatch(
-          postFileUploadStart({
-            ...files,
-            file_type: fileType,
-          })
-        );
+        // dispatch(
+        //   postFileUploadStart({
+        //     ...files,
+        //     file_type: fileType,
+        //   })
+        // );
+        setNewImages(images)
+        setFileType(fileType);
         setPaidPost(true);
         setDisableVideo(true);
         setDisableAudio(true);
@@ -171,12 +176,15 @@ const GroupPostModal = (props) => {
       if (file) {
         reader.readAsDataURL(file);
       }
-      dispatch(
-        postFileUploadStart({
-          file: event.currentTarget.files[0],
-          file_type: fileType,
-        })
-      );
+      // dispatch(
+      //   postFileUploadStart({
+      //     file: event.currentTarget.files[0],
+      //     file_type: fileType,
+      //   })
+      // );
+      let videos = Array.from(event.currentTarget.files);
+      setNewImages(videos)
+      setFileType(fileType);
       setPaidPost(true);
       setVideoThumbnail(true);
       setDisableImage(true);
@@ -198,12 +206,9 @@ const GroupPostModal = (props) => {
       if (file) {
         reader.readAsDataURL(file);
       }
-      dispatch(
-        postFileUploadStart({
-          file: event.currentTarget.files[0],
-          file_type: fileType,
-        })
-      );
+      let audios = Array.from(event.currentTarget.files);
+      setNewImages(audios)
+      setFileType(fileType);
       setPaidPost(true);
       setAudioThumbnail(true);
       setDisableImage(true);
@@ -319,7 +324,8 @@ const GroupPostModal = (props) => {
           group_slug: props.group_slug,
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
-          post_file_id: fileUpload.data.post_file_id,
+          // post_file_id: fileUpload.data.post_file_id,
+          post_files : newImages,
           preview_file: inputData.preview_file ? inputData.preview_file : "",
           post_category_ids: inputData.post_category_ids
             ? inputData.post_category_ids

@@ -101,32 +101,39 @@ const Wallet = () => {
                             <th
                               scope="col"
                               className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                            ></th>
+                            >Date</th>
                             <th
                               scope="col"
                               className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                            ></th>
+                            >Status</th>
                             <th
                               scope="col"
                               className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                            ></th>
+                            >Amount</th>
                             <th
                               scope="col"
                               className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                            ></th>
+                            >Charge</th>
                             <th
                               scope="col"
                               className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                            ></th>
+                            >Type</th>
                             <th
                               scope="col"
                               className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                            ></th>
+                            >Other</th>
+                            <th
+                              scope="col"
+                              className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                            >Ref</th>
                           </tr>
                         </thead>
                         <tbody className="bg-white dark:!bg-gray-900 dark:!text-gray-400 divide-y divide-gray-200 ">
                           {transactions.data.history.map((transaction, i) => (
                             <tr key={i}>
+                              <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
+                                {transaction.paid_date}
+                              </td>
                               <td className="px-2 text-sm  font-medium py-2 whitespace-nowrap">
                                 {transaction.status_formatted}
                               </td>

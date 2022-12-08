@@ -4,6 +4,7 @@ import api from "../../Environment";
 import { notify } from "reapop";
 
 import {
+  
   finishPaymentSuccess,
   finishPaymentFailure,
   fetchSingleGroupMemberSuccess,
@@ -43,6 +44,8 @@ import {
   groupPaymentFailure
 } from "../slices/groupsSlice";
 
+import errorLogoutCheck from "../slices/errorSlice";
+
 function* saveGroupPostAPI(action) {
   try {
     const inputData = yield select(
@@ -71,8 +74,8 @@ function* saveGroupPostAPI(action) {
         // window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
         yield put(saveGroupPostFailure(response.data.error));
-        yield put(errorLogoutCheck(response.data));
-        yield put(notify({ message: response.data.error, status: "error" }));
+        // yield put(errorLogoutCheck(response.data));
+        yield put(notify({ message: response.data.error.code, status: "error" }));
       }
     }
   } catch (error) {

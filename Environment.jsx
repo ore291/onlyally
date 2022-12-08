@@ -88,10 +88,21 @@ const Environment = {
 
     // append your data
     for (var key in object) {
-      formData.append(key, object[key]);
-
+     
       if (key === "social_unique_id") {
         socialLoginUser = 1;
+      }
+
+      if(key === "files"){
+        for(let file in object['files']){
+          formData.append(`file[${file}]`, object['files'][file]);
+        }
+      }else if(key === "post_files"){
+        for(let file in object['post_files']){
+          formData.append(`post_files[${file}]`, object['post_files'][file]);
+        }
+      } else{
+        formData.append(key, object[key]);
       }
     }
 
@@ -106,7 +117,7 @@ const Environment = {
         url: url,
         data: formData,
         headers: {
-          Accept: "application/json",
+          // Accept: "application/json",
           Authorization: `Bearer ${token}`,
           "Access-Control-Allow-Origin": "*",
         },
@@ -118,7 +129,7 @@ const Environment = {
         headers: {
           ...formData.getHeaders(),
           Authorization: `Bearer ${accessToken}`,
-          Accept: "application/json",
+          // Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
           // "content-type": "application/json",
           // accept: "application/json",

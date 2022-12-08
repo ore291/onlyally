@@ -66,6 +66,10 @@ const ChannelPostModal = (props) => {
   const [audioPreviewUrl, setAudioPreviewUrl] = useState("");
   const [images, setImages] = useState([]);
 
+
+  const [newImages,setNewImages] = useState(null)
+  const [fileType, setFileType] = useState('image')
+
   useEffect(() => {
     dispatch(fetchPostCategoriesStart());
   }, []);
@@ -114,12 +118,14 @@ const ChannelPostModal = (props) => {
       if (!event.currentTarget.files[0]) {
         dispatch(notify("file field is required", "error"));
       } else {
-        dispatch(
-          postFileUploadStart({
-            ...files,
-            file_type: fileType,
-          })
-        );
+        // dispatch(
+        //   postFileUploadStart({
+        //     ...files,
+        //     file_type: fileType,
+        //   })
+        // );
+        setNewImages(images)
+        setFileType(fileType);
         setPaidPost(true);
         setDisableVideo(true);
         setDisableAudio(true);
@@ -321,7 +327,8 @@ const ChannelPostModal = (props) => {
           channel_slug: props.channel_slug,
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
-          post_file_id: fileUpload.data.post_file_id,
+          // post_file_id: fileUpload.data.post_file_id,
+          post_files : newImages,
           preview_file: inputData.preview_file ? inputData.preview_file : "",
           post_category_ids: inputData.post_category_ids
             ? inputData.post_category_ids

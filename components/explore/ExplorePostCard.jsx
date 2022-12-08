@@ -194,10 +194,10 @@ const ExplorePostCard = ({ post, type }) => {
               src={post.postFiles.post_file || post.postFiles[0]?.post_file}
               // file="forceAudio"
               controls={true}
-              width="80%"
+              width="100%"
               height="100%"
               autoPlay={false}
-              className="post-video-size absolute bottom-3"
+              className="post-video-size absolute bottom-3 max-w-full xs:max-w-none min-w-fullgjcm"
               controlsList={"nodownload"}
               ref={audio}
               onPause={togglePlaying}
