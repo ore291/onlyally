@@ -326,6 +326,7 @@ const GroupPostModal = (props) => {
           amount: inputData.amount ? inputData.amount : "",
           // post_file_id: fileUpload.data.post_file_id,
           post_files : newImages,
+          file_type : fileType,
           preview_file: inputData.preview_file ? inputData.preview_file : "",
           post_category_ids: inputData.post_category_ids
             ? inputData.post_category_ids

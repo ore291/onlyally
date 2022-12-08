@@ -117,7 +117,7 @@ const Environment = {
         url: url,
         data: formData,
         headers: {
-          // Accept: "application/json",
+          Accept: "application/json",
           Authorization: `Bearer ${token}`,
           "Access-Control-Allow-Origin": "*",
         },
@@ -129,7 +129,7 @@ const Environment = {
         headers: {
           ...formData.getHeaders(),
           Authorization: `Bearer ${accessToken}`,
-          // Accept: "application/json",
+          Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
           // "content-type": "application/json",
           // accept: "application/json",

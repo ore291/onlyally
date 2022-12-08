@@ -108,17 +108,20 @@ const CreatePost = () => {
         const file = event.currentTarget.files[i];
         validImageFiles.push(file);
       }
-      if (validImageFiles.length) {
+
+      
+      if (validImageFiles.length > 0) {
+       
         setImageFiles(validImageFiles);
       }
 
-      var files = {};
+      // var files = {};
 
       let images = Array.from(event.currentTarget.files);
 
-      images.forEach((file, i) => {
-        files[`file[${i}]`] = file;
-      });
+      // images.forEach((file, i) => {
+      //   files[`file[${i}]`] = file;
+      // });
 
       // if (file) {
       //   reader.readAsDataURL(file);
@@ -323,6 +326,7 @@ const CreatePost = () => {
           amount: inputData.amount ? inputData.amount : "",
           // post_file_id: fileUpload.data.post_file_id,
           files : newImages,
+          file_type : fileType,
           preview_file: inputData.preview_file ? inputData.preview_file : "",
           post_category_ids: inputData.post_category_ids
             ? inputData.post_category_ids
@@ -340,6 +344,7 @@ const CreatePost = () => {
       }
       dispatch(
         savePostStart({
+       
           content: editorHtmlContent,
           amount: inputData.amount ? inputData.amount : "",
           post_category_ids: inputData.post_category_ids
@@ -387,11 +392,12 @@ const CreatePost = () => {
   //   fileUpload.data.file && setUploadedImages(fileUpload.data.file.split(","));
   // }, [fileUpload.data.file]);
 
-  useEffect(() => {
+  useEffect(() => { 
     const images = [],
       fileReaders = [];
     let isCancel = false;
-    if (imageFiles.length) {
+   
+    if (imageFiles.length > 0) {
       imageFiles.forEach((file) => {
         const fileReader = new FileReader();
         fileReaders.push(fileReader);
@@ -416,6 +422,9 @@ const CreatePost = () => {
       });
     };
   }, [imageFiles]);
+
+
+
 
   const router = useRouter();
 
@@ -633,9 +642,7 @@ const CreatePost = () => {
           ) : null}
           <div>
             {disableAudio &&
-            disableVideo &&
-            fileUpload.data.file &&
-            fileUpload.data.file.split(",").length > 0 ? (
+            disableVideo ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2 ">
                 {images.map((image, i) => (
                   <div
