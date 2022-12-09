@@ -19,7 +19,7 @@ const ReactPlayerCard = ({ p_file, list }) => {
           onClick={() => setVideoPlaying(false)}
           volume={0.5}
           // light={postFile.preview_file}
-          url={p_file.post_file}
+          url={p_file.file}
           config={{
             file: {
               attributes: {

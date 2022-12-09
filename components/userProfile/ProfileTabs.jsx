@@ -309,7 +309,7 @@ const ProfileTabs = () => {
                           >
                             <Image
                               className="rounded cursor-pointer list-none object-scale-down"
-                              src={p_file.post_file}
+                              src={p_file.file}
                               alt={post.post_unique_id}
                               objectFit="cover"
                               objectPosition="center center"
@@ -369,6 +369,7 @@ const ProfileTabs = () => {
                           p_file={p_file}
                           list={list}
                         />
+                       
                       ))
                     : ""
                 )}

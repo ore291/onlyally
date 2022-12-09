@@ -297,7 +297,7 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
                             ) : (
                               <Image
                                 className="rounded cursor-pointer "
-                                src={p_file.post_file}
+                                src={p_file.file}
                                 alt={post.post_unique_id}
                                 objectFit="cover"
                                 objectPosition="center center"

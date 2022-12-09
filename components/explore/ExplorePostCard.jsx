@@ -191,13 +191,13 @@ const ExplorePostCard = ({ post, type }) => {
 
             <ReactAudioPlayer
               // light={postFile.preview_file}
-              src={post.postFiles.post_file || post.postFiles[0]?.post_file}
+              src={post.postFiles.file || post.postFiles[0]?.file}
               // file="forceAudio"
               controls={true}
-              width="100%"
+              width="90%"
               height="100%"
               autoPlay={false}
-              className="post-video-size absolute bottom-3 max-w-full xs:max-w-none min-w-fullgjcm"
+              className="absolute mx-auto bottom-3 inset-x-0 min-w-full "
               controlsList={"nodownload"}
               ref={audio}
               onPause={togglePlaying}
@@ -426,7 +426,7 @@ const ExplorePostCard = ({ post, type }) => {
               layout="fill"
               objectFit="cover"
               src={
-                post.postFiles.post_file ??
+                post.postFiles.file ??
                 "/images/live/live-stream-post-1.jpg"
               }
               alt=""
