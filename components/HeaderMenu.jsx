@@ -220,12 +220,12 @@ const HeaderMenu = () => {
                   </Menu.Item>
                   <Menu.Item>
                     <div className="flex items-center justify-start px-1 pb-2  border-b">
-                      <p className="font-bold text-sm whitespace-nowrap">
+                      <p className="font-bold text-sm whitespace-nowrap cursor-pointer" onClick={() => router.push("/followers")}>
                         {user?.total_followers || getCookie("total_followers")}{" "}
                         Fans
                       </p>
                       <BsDot className="h-5 w-5" />
-                      <p className="font-bold text-sm whitespace-nowrap">
+                      <p className="font-bold text-sm whitespace-nowrap cursor-pointer" onClick={() => router.push("/followers")}>
                         {user?.total_followings ||
                           getCookie("total_followings")}{" "}
                         Following

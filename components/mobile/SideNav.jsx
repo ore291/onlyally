@@ -169,11 +169,11 @@ const SideNav = () => {
                 </button>
               </div>{" "}
               <div className="flex items-center justify-around   ">
-                <p className="font-semibold text-sm whitespace-nowrap">
+                <p className="font-semibold text-sm whitespace-nowrap"  onClick={() => navigate("/followers")}>
                   {user.total_followers} Fans
                 </p>
                 {/* <BsDot className="h-5 w-4" /> */}
-                <p className="font-semibold text-sm whitespace-nowrap">
+                <p className="font-semibold text-sm whitespace-nowrap"  onClick={() => navigate("/followers")}>
                   {user.total_followings} Following
                 </p>
               </div>

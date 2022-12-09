@@ -191,7 +191,7 @@ const Header = () => {
 
           <div
             onClick={() => {
-              setMobileSearch(true);
+              router.push('/search');
             }}
             className=" md:hidden rounded-full bg-[#C51834] flex items-center justify-center p-1 "
           >

@@ -43,35 +43,35 @@ const Channels = () => {
               <ChannelCard key={index} main={true} />
             ))}
           </div>
-          <div className="my-4">
-            <h2 className="text-2xl font-semibold mb-2 ml-3">
-              Top Content Creators
-            </h2>
-            <div className="p-2 mt-2 flex overflow-x-scroll space-x-4 py-1  scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
-              {userCategory.contentCreatorList.loading ? (
-                <CategoryListingLoader />
-              ) : userCategory.contentCreatorList.data.content_creators.length >
-                0 ? (
-                <>
-                  {userCategory.contentCreatorList.data.content_creators.map(
-                    (creator, index) => (
-                      <CreatorCard
-                        key={index}
-                        main={true}
-                        username={creator.username}
-                        image={creator.picture}
-                        creator={creator}
-                      />
-                    )
-                  )}
-                </>
-              ) : (
-                <div>
-                  <h4>No creator Found</h4>
-                </div>
-              )}
+            <div className="my-4">
+              <h2 className="text-2xl font-semibold mb-2 ml-3">
+                Top Content Creators
+              </h2>
+              <div className="p-2 mt-2 flex overflow-x-scroll space-x-4 py-1  scrollbar-thin scrollbar-thumb-gray-300 hover:scrollbar-thumb-gray-400 scroll-smooth scrollbar-track-white">
+                {userCategory.contentCreatorList.loading ? (
+                  <CategoryListingLoader />
+                ) : userCategory.contentCreatorList.data.content_creators.length >
+                  0 ? (
+                  <>
+                    {userCategory.contentCreatorList.data.content_creators.map(
+                      (creator, index) => (
+                        <CreatorCard
+                          key={index}
+                          main={true}
+                          username={creator.username}
+                          image={creator.picture}
+                          creator={creator}
+                        />
+                      )
+                    )}
+                  </>
+                ) : (
+                  <div>
+                    <h4>No creator Found</h4>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
           <div className="grid cols-1 lg:grid-cols-4 md:grid-cols-3 gap-4 my-5">
             {[...Array(8)].map((_, index) => (
               <ChannelCard key={index} main={true} />
