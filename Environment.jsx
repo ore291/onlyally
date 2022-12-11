@@ -95,7 +95,7 @@ const Environment = {
 
       if(key === "files"){
         for(let file in object['files']){
-          formData.append(`file[${file}]`, object['files'][file]);
+          formData.append(`post_files[${file}]`, object['files'][file]);
         }
       }else if(key === "post_files"){
         for(let file in object['post_files']){

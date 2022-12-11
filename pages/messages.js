@@ -1,5 +1,9 @@
 import SideNavLayout from "../components/SideNavLayout";
-import ChatUi from "../components/Chat/ChatUi";
+import dynamic from 'next/dynamic'
+
+const ChatUi = dynamic(() => import('../components/Chat/ChatUi'), {
+  ssr: false,
+})
 
 const messages = () => {
   return (

@@ -20,8 +20,10 @@ import { isMobile } from "react-device-detect";
 // import ReactFancyBox from 'react-fancybox'
 // import 'react-fancybox/lib/fancybox.css'
 import io from "socket.io-client";
-
+import Pusher from "pusher-js";
+import Echo from "laravel-echo";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "../Constant/axios";
 
 const ChatUi = () => {
   let chatSocket;
@@ -87,15 +89,15 @@ const ChatUi = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("Number of times called");
-    if (chatUsers.loading === false && chatUsers.data.users.length > 0) {
-      console.log("Number of times called true  ");
-      setToUserId(chatUsers.data.users[0].to_user_id);
-      chatSocketConnect(chatUsers.data.users[0].to_user_id);
-    } else {
-    }
-  }, [!chatUsers.loading, socketUrl]);
+  // useEffect(() => {
+  //   console.log("Number of times called");
+  //   if (chatUsers.loading === false && chatUsers.data.users.length > 0) {
+  //     console.log("Number of times called true  ");
+  //     setToUserId(chatUsers.data.users[0].to_user_id);
+  //     chatSocketConnect(chatUsers.data.users[0].to_user_id);
+  //   } else {
+  //   }
+  // }, [!chatUsers.loading, socketUrl]);
 
   // Scroll down function..
   useEffect(() => {
@@ -116,38 +118,73 @@ const ChatUi = () => {
     }
   }, [chatMessages.data.messages]);
 
-  const chatSocketConnect = (to_user_id) => {
-    // check the socket url is configured
+  // new echo
 
-    let chatSocketUrl = socketUrl;
-    console.log("chatSocket", chatSocketUrl);
-    console.log("Input ID", to_user_id);
-    if (chatSocketUrl) {
-      chatSocket = io(chatSocketUrl, {
-        query:
-          `commonid:'user_id_` +
-          toLocUserId +
-          `_to_user_id_` +
-          to_user_id +
-          `',myid:` +
-          toLocUserId,
-      });
-      console.log("chatSocket", chatSocket);
-      chatSocket.emit("update sender", {
-        commonid: "user_id_" + toLocUserId + "_to_user_id_" + to_user_id,
-        myid: toLocUserId,
-      });
-      let chatContent;
-      chatSocket.on("message", (newData) => {
-        let content = [];
-        content.push(newData);
-        // chatContent = [...this.state.chatData, ...content];
-        // this.setState({ chatData: chatContent });
-        console.log(content);
-        dispatch(addMessageContent(content));
-      });
-    }
+  const options = {
+    broadcaster: "pusher",
+    key: process.env.PUSHER_APP_KEY,
+    cluster: "eu",
+    authorizer: (channel, options) => {
+      return {
+        authorize: (socketId, callback) => {
+          axios
+            .post("/api/broadcasting/auth", {
+              socket_id: socketId,
+              channel_name: channel.name,
+            })
+            .then((e) => {
+              callback(false, e.data);
+            });
+        },
+      };
+    },
   };
+
+  const echo = new Echo(options);
+ 
+  useEffect(() => {
+    if (chatUsers.loading === false && chatUsers.data.users.length > 0) {
+      setToUserId(chatUsers.data.users[0].to_user_id);
+      const chatter = echo.private(`chat.${chatUsers.data.users[0].to_user_id}`);
+    } else {
+    }
+
+    return ()=>Echo.leave(`chat.${toUserId}`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const chatSocketConnect = (to_user_id) => {
+  //   // check the socket url is configured
+
+  //   let chatSocketUrl = socketUrl;
+  //   console.log("chatSocket", chatSocketUrl);
+  //   console.log("Input ID", to_user_id);
+  //   if (chatSocketUrl) {
+  //     chatSocket = io(chatSocketUrl, {
+  //       query:
+  //         `commonid:'user_id_` +
+  //         toLocUserId +
+  //         `_to_user_id_` +
+  //         to_user_id +
+  //         `',myid:` +
+  //         toLocUserId,
+  //     });
+  //     console.log("chatSocket", chatSocket);
+  //     chatSocket.emit("update sender", {
+  //       commonid: "user_id_" + toLocUserId + "_to_user_id_" + to_user_id,
+  //       myid: toLocUserId,
+  //     });
+  //     let chatContent;
+  //     chatSocket.on("message", (newData) => {
+  //       let content = [];
+  //       content.push(newData);
+  //       // chatContent = [...this.state.chatData, ...content];
+  //       // this.setState({ chatData: chatContent });
+  //       console.log(content);
+  //       dispatch(addMessageContent(content));
+  //     });
+  //   }
+  // };
 
   const changeUser = (event, chat, index) => {
     chatSocket.disconnect();
@@ -408,10 +445,7 @@ const ChatUi = () => {
         ) : chatMessages.data.user && chatMessages.data.user.user_unique_id ? (
           <div className="hidden lg:col-span-2 lg:block">
             <div className="w-full ">
-              <Link
-                href={`/${chatMessages.data.user.user_unique_id}`}
-                passHref
-              >
+              <Link href={`/${chatMessages.data.user.user_unique_id}`} passHref>
                 <div className="relative flex items-center p-3 border-b border-gray-300">
                   <Image
                     objectFit="cover"

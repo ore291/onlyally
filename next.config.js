@@ -1,23 +1,21 @@
 const webpack = require("webpack");
 
-
-// 'use strict';
-
-
-// var rootCas = require('ssl-root-cas').create();
-
-// rootCas
-//   .addFile(__dirname + '/intermediate.pem')
-  
- 
-// // will work with all https requests will all libraries (i.e. request.js)
-// require('https').globalAgent.options.ca = rootCas;
-
 module.exports = {
-  
+  env: {
+    PUSHER_APP_ID: process.env.PUSHER_APP_ID,
+    PUSHER_APP_KEY: process.env.PUSHER_APP_KEY,
+    PUSHER_APP_SECRET: process.env.PUSHER_APP_SECRET,
+  },
   reactStrictMode: false,
   images: {
-    domains: ['picsum.photos','dummyimage.com' ,'localhost','api.playjor.com','stackdiary.com', 'playjor.ams3.digitaloceanspaces.com'],
-    unoptimized : true
+    domains: [
+      "picsum.photos",
+      "dummyimage.com",
+      "localhost",
+      "api.playjor.com",
+      "stackdiary.com",
+      "playjor.ams3.digitaloceanspaces.com",
+    ],
+    unoptimized: true,
   },
-}
+};
