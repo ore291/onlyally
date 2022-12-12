@@ -274,8 +274,8 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
                 }  gap-1`}
               >
                 {posts.data.posts.map((post) =>
-                  post.postFiles.length > 0
-                    ? post.postFiles.map((p_file, i) => (
+                  post.post_files.length > 0
+                    ? post.post_files.map((p_file, i) => (
                         <div key={post.post_id}>
                           <div
                             onClick={() =>
@@ -366,8 +366,8 @@ const OtherUserProfileTabs = ({ other_user_username: username }) => {
             ) : posts.data.posts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2  gap-1">
                 {posts.data.posts.map((post) =>
-                  post.postFiles.length > 0
-                    ? post.postFiles.map((p_file, i) => (
+                  post.post_files.length > 0
+                    ? post.post_files.map((p_file, i) => (
                         <ul className="list-unstyled list-none" key={i}>
                           <li className="box">
                             <div className="p-[1px] w-full h-auto object-cover relative">

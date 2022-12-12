@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
-
+  posts: {
+    data: {},
+    inputData: {},
+    loading: true,
+    error: false,
+  },
   saveGroupPost: {
     data: {},
     loading: true,
@@ -111,6 +116,30 @@ export const GroupsSlice = createSlice({
   name: "groups",
   initialState,
   reducers: {
+    fetchPostsStart: (state, action) => {
+      state.posts = {
+        inputData: action.payload,
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+    fetchPostsSuccess: (state, action) => {
+      state.posts = {
+        inputData: action.payload,
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchPostsFailure: (state, action) => {
+      state.posts = {
+        inputData: action.payload,
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
     updateGroupMemberStart: (state, action)=>{
         state.updateMemberStatus = {
           data : {},
@@ -526,6 +555,9 @@ export const GroupsSlice = createSlice({
 });
 
 export const {
+  fetchPostsStart,
+  fetchPostsSuccess,
+  fetchPostsFailure,
   finishPaymentStart,
   finishPaymentSuccess,
   finishPaymentFailure,

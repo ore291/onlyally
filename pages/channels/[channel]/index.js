@@ -12,6 +12,7 @@ import {
   fetchSingleChannelStart,
   channelSubscribeStart,
   fetchChannelsStart,
+  fetchPostsStart,
 } from "../../../store/slices/channelsSlice";
 import ProfileLoader from "../../../components/Profile/ProfileLoader";
 import Button from "../../../components/Button";
@@ -54,13 +55,9 @@ const Channel = () => {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (router.isReady) {
-  //     // Code using query
-
-  //     dispatch(fetchSingleChannelStart({ channel_slug: router.query.channel }));
-  //   }
-  // }, [router.isReady]);
+  useEffect(() => {
+    dispatch(fetchPostsStart({ channel_slug: channel.slug }));
+  }, []);
 
   const handleJoinChannel = async () => {
     dispatch(channelSubscribeStart(channel.slug));

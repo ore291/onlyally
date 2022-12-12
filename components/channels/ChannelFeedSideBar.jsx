@@ -20,7 +20,7 @@ const ChannelFeedSideBar = ({ channel, categories, channels }) => {
     return category.category_id == channel.category_id;
   };
   const category = categories.find(checkCategory);
-  const admin = channel.members.find(checkAdmin);
+  const admin = channel?.members?.find(checkAdmin);
   const joinChannel = (slug) => {
     dispatch(channelSubscribeStart(slug));
   };

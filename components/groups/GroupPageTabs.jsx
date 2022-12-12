@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Tab } from "@headlessui/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NewsFeedCard from "../feeds/OtherFeedCard";
 import GroupFeedSideBar from "./GroupFeedSideBar";
 import { BsPlusCircle, BsCameraVideo } from "react-icons/bs";
@@ -10,25 +10,59 @@ import GroupPostModal from "./GroupPostModal";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import NoDataFound from "../NoDataFound/NoDataFound";
+import CommonCenterLoader from "../helpers/CommonCenterLoader";
+import { fetchPostsStart } from "../../store/slices/groupsSlice";
 
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
 }
 
-const GroupPageTabs = () => {
-
+const GroupPageTabs = ({group_slug}) => {
   const group = useSelector((state) => state.groups.groupData.data);
+
+  const posts = useSelector((state) => state.groups.posts);
   const [categoryPost, setCategoryPost] = useState(false);
   const router = useRouter();
 
   const closeModal = () => {
     setCategoryPost(false);
   };
+
+  const dispatch = useDispatch();
+
+  const setActiveSection = (key) => {
+    if (key === 0)
+      dispatch(
+        fetchPostsStart({
+          type: "all",
+          group_slug: group_slug,
+        })
+      );
+   
+    else if (key === 1)
+      dispatch(
+        fetchPostsStart({
+          type: "video",
+          group_slug: group_slug,
+        })
+      );
+    else if (key === 2)
+      dispatch(
+        fetchPostsStart({
+          type: "audio",
+          group_slug: group_slug,
+        })
+      );
+  };
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-3 bg-white">
         <div className="col-span-2  my-5">
-          <Tab.Group>
+          <Tab.Group
+            onChange={(index) => {
+              setActiveSection(index);
+            }}
+          >
             <div className="bg-white rounded-2xl  pb-5 ">
               <Tab.List>
                 <div className="flex justify-center space-x-3 items-center p-2 overflow-hidden overflow-x-auto">
@@ -88,29 +122,49 @@ const GroupPageTabs = () => {
 
               <Tab.Panels className="mt-2 ">
                 <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-                  <div className="p-2 grid grid-cols-1 gap-y-5">
-                    {group.posts.length > 0 ? (
-                      group.posts.map((post, index) => (
-                        <NewsFeedCard post={post} key={index} />
-                      ))
-                    ) : (
-                      <NoDataFound />
-                    )}
-                  </div>
+                  {posts.loading ? (
+                    <CommonCenterLoader />
+                  ) : (
+                    <div className="p-2 grid grid-cols-1 gap-y-5">
+                      {posts.data.posts.length > 0 ? (
+                        posts.data.posts.map((post, index) => (
+                          <NewsFeedCard post={post} key={index} />
+                        ))
+                      ) : (
+                        <NoDataFound />
+                      )}
+                    </div>
+                  )}
                 </Tab.Panel>
                 <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-                  <div className="p-2 grid grid-cols-1 gap-y-3">
-                    {group.posts.map((post, index) => (
-                      <NewsFeedCard post={post} key={index} />
-                    ))}
-                  </div>
+                  {posts.loading ? (
+                    <CommonCenterLoader />
+                  ) : (
+                    <div className="p-2 grid grid-cols-1 gap-y-5">
+                      {posts.data.posts.length > 0 ? (
+                        posts.data.posts.map((post, index) => (
+                          <NewsFeedCard post={post} key={index} />
+                        ))
+                      ) : (
+                        <NoDataFound />
+                      )}
+                    </div>
+                  )}
                 </Tab.Panel>
                 <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
-                  <div className="p-2 grid grid-cols-1 gap-y-3">
-                    {group.posts.map((post, index) => (
-                      <NewsFeedCard post={post} key={index} />
-                    ))}
-                  </div>
+                  {posts.loading ? (
+                    <CommonCenterLoader />
+                  ) : (
+                    <div className="p-2 grid grid-cols-1 gap-y-5">
+                      {posts.data.posts.length > 0 ? (
+                        posts.data.posts.map((post, index) => (
+                          <NewsFeedCard post={post} key={index} />
+                        ))
+                      ) : (
+                        <NoDataFound />
+                      )}
+                    </div>
+                  )}
                 </Tab.Panel>
               </Tab.Panels>
             </div>

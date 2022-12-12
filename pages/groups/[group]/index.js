@@ -16,6 +16,7 @@ import {
   isMobile,
 } from "react-device-detect";
 import {
+  fetchPostsStart,
   fetchSingleGroupStart,
   joinGroupStart,
 } from "../../../store/slices/groupsSlice";
@@ -48,6 +49,12 @@ const Group = () => {
     }, 2000);
   };
 
+  useEffect(() => {
+    dispatch(fetchPostsStart({
+      group_slug: group.slug,
+    }))
+  },[])
+
   const handleSubscription = () => {
     if (group.is_private && group.configuration?.billing?.amount > 0) {
       toggleShow(true);
@@ -68,13 +75,13 @@ const Group = () => {
 
           {!group.is_private ? (
             <div className="max-w-4xl 2xl:max-w-screen-xl  mx-auto mt-24  2xl:mt-6">
-              <GroupPageTabs />
+              <GroupPageTabs group_slug={group.slug}/>
             </div>
           ) : (
             <>
               {group.is_member ? (
                 <div className="max-w-4xl 2xl:max-w-screen-xl  mx-auto mt-24  2xl:mt-6">
-                  <GroupPageTabs />
+                  <GroupPageTabs group_slug={group.slug}/>
                 </div>
               ) : (
                 <div
@@ -197,6 +204,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
           group_slug: group,
         })
       );
+
+      // store.dispatch(
+        
+      // );
 
       store.dispatch(END);
       await store.sagaTask.toPromise();

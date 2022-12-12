@@ -4,7 +4,8 @@ import api from "../../Environment";
 import { notify } from "reapop";
 
 import {
-  
+  fetchPostsSuccess,
+  fetchPostsFailure,
   finishPaymentSuccess,
   finishPaymentFailure,
   fetchSingleGroupMemberSuccess,
@@ -45,6 +46,32 @@ import {
 } from "../slices/groupsSlice";
 
 import errorLogoutCheck from "../slices/errorSlice";
+
+
+function* fetchGroupPostsAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
+  try {
+    const inputData = yield select((state) => state.groups.posts.inputData);
+    const response = yield api.postMethod({
+      action: `groups/${inputData.group_slug}/posts_for_owner`,
+      object: inputData,
+      accessToken: accessToken,
+    });
+    
+    if (response.data.success) {
+      yield put(fetchPostsSuccess(response.data.data));
+    } else {
+      yield put(fetchPostsFailure(response.data));
+      yield put(errorLogoutCheck(response.data));
+      // yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchPostsFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
 
 function* saveGroupPostAPI(action) {
   try {
@@ -477,6 +504,7 @@ function* deleteGroupMemberAPI(action) {
 
 export default function* pageSaga() {
   yield all([yield takeLatest("groups/saveGroupPostStart", saveGroupPostAPI)]);
+  yield all([yield takeLatest("groups/fetchPostsStart", fetchGroupPostsAPI)]);
   yield all([yield takeLatest("groups/deleteGroupStart", deleteGroupAPI)]);
   yield all([
     yield takeLatest("groups/deleteGroupMemberStart", deleteGroupMemberAPI),

@@ -4,6 +4,8 @@ import api from "../../Environment";
 import { notify } from "reapop";
 
 import {
+  fetchPostsSuccess,
+  fetchPostsFailure,
   finishPaymentSuccess,
   finishPaymentFailure,
   channelPaymentSuccess,
@@ -40,6 +42,33 @@ import {
   updateChannelMemberFailure,
 } from "../slices/channelsSlice";
 // import { fetchChannelsCategoriesSuccess } from "../slices/channelsSlice";
+
+
+function* fetchChannelPostsAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
+  try {
+    const inputData = yield select((state) => state.channels.posts.inputData);
+    const response = yield api.postMethod({
+      action: `channels/${inputData.channel_slug}/posts_for_owner`,
+      object: inputData,
+      accessToken: accessToken,
+    });
+    
+    if (response.data.success) {
+      yield put(fetchPostsSuccess(response.data.data));
+    } else {
+      yield put(fetchPostsFailure(response.data));
+      yield put(errorLogoutCheck(response.data));
+      // yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchPostsFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
 
 function* channelPaymentAPI(action) {
   try {
@@ -436,6 +465,9 @@ function* deleteChannelMemberAPI(action) {
 export default function* pageSaga() {
   yield all([
     yield takeLatest("channels/deleteChannelStart", deleteChannelAPI),
+  ]);
+  yield all([
+    yield takeLatest("channels/fetchPostsStart", fetchChannelPostsAPI),
   ]);
   yield all([
     yield takeLatest(

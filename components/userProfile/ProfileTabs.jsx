@@ -296,8 +296,8 @@ const ProfileTabs = () => {
                 }  gap-1`}
               >
                 {posts.data.posts.map((post) =>
-                  post.postFiles.length > 0
-                    ? post.postFiles.map((p_file, i) => (
+                  post.post_files.length > 0
+                    ? post.post_files.map((p_file, i) => (
                         <div key={post.post_id}>
                           <div
                             className={`inner list-none relative ${
@@ -362,8 +362,8 @@ const ProfileTabs = () => {
                 }  gap-2 `}
               >
                 {posts.data.posts.map((post) =>
-                  post.postFiles.length > 0
-                    ? post.postFiles.map((p_file) => (
+                  post.post_files.length > 0
+                    ? post.post_files.map((p_file) => (
                         <ReactPlayerCard
                           key={post.post_id}
                           p_file={p_file}

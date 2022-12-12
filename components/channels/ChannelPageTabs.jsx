@@ -12,12 +12,13 @@ import { useRouter } from "next/router";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import ChannelPostModal from "./ChannelPostModal";
 import { getCookie } from "cookies-next";
+import CommonCenterLoader from "../helpers/CommonCenterLoader";
 function classNames(...classNamees) {
   return classNamees.filter(Boolean).join(" ");
 }
 
 const ChannelPageTabs = () => {
-  const posts = useSelector((state) => state.home.homePost.data.posts);
+  const posts = useSelector((state) => state.channels.posts);
   const channel = useSelector((state) => state.channels.channelData.data);
   const channels = useSelector((state) => state.channels.channels.data);
   const categories = useSelector((state) => state.channels.categories.data);
@@ -96,34 +97,52 @@ const ChannelPageTabs = () => {
             </Tab.Panel> */}
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-5">
-                {channel.posts.length > 0 ? (
-                  channel.posts.map((post, index) => (
-                    <NewsFeedCard post={post} key={index} />
-                  ))
+                {posts.loading ? (
+                  <CommonCenterLoader />
                 ) : (
-                  <NoDataFound />
+                  <div className="p-2 grid grid-cols-1 gap-y-5">
+                    {posts.data.posts.length > 0 ? (
+                      posts.data.posts.map((post, index) => (
+                        <NewsFeedCard post={post} key={index} />
+                      ))
+                    ) : (
+                      <NoDataFound />
+                    )}
+                  </div>
                 )}
               </div>
             </Tab.Panel>
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-5">
-                {channel.posts.length > 0 ? (
-                  channel.posts.map((post, index) => (
-                    <NewsFeedCard post={post} key={index} />
-                  ))
+                {posts.loading ? (
+                  <CommonCenterLoader />
                 ) : (
-                  <NoDataFound />
+                  <div className="p-2 grid grid-cols-1 gap-y-5">
+                    {posts.data.posts.length > 0 ? (
+                      posts.data.posts.map((post, index) => (
+                        <NewsFeedCard post={post} key={index} />
+                      ))
+                    ) : (
+                      <NoDataFound />
+                    )}
+                  </div>
                 )}
               </div>
             </Tab.Panel>
             <Tab.Panel className={classNames("bg-white rounded-xl p-1")}>
               <div className="p-2 grid grid-cols-1 gap-y-5">
-                {channel.posts.length > 0 ? (
-                  channel.posts.map((post, index) => (
-                    <NewsFeedCard post={post} key={index} />
-                  ))
+                {posts.loading ? (
+                  <CommonCenterLoader />
                 ) : (
-                  <NoDataFound />
+                  <div className="p-2 grid grid-cols-1 gap-y-5">
+                    {posts.data.posts.length > 0 ? (
+                      posts.data.posts.map((post, index) => (
+                        <NewsFeedCard post={post} key={index} />
+                      ))
+                    ) : (
+                      <NoDataFound />
+                    )}
+                  </div>
                 )}
               </div>
             </Tab.Panel>
