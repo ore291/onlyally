@@ -540,6 +540,7 @@ const ChannelPostModal = (props) => {
                         width="50%"
                         className="form-control"
                         accept=".gif,.jpg,.jpeg,.gif,.png,.jpg,.jpeg,.png"
+                        capture
                         onChange={(event) => handleVideopreviewImage(event)}
                       />
                     </form>
@@ -574,6 +575,7 @@ const ChannelPostModal = (props) => {
                         accept=".gif,.jpg,.jpeg,.gif,.png,.jpg,.jpeg,.png"
                         onChange={(event) => handleChangeImage(event, "image")}
                         name="post_files"
+                        capture
                         className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
                       />
                       <label
@@ -613,6 +615,7 @@ const ChannelPostModal = (props) => {
                         accept="video/mp4,video/x-m4v,video/*"
                         onChange={(event) => handleChangeVideo(event, "video")}
                         name="post_files"
+                        capture
                         className="opacity-0 absolute top-0 right-0 w-full h-full text-right bg-white block placeholder:opacity-100"
                       />
                     </div>
