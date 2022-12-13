@@ -84,8 +84,10 @@ const ExplorePostCard = ({ post, type }) => {
                 alt=""
                 fallbackSrc="/images/no-image-found.png"
                 src={
-                  post.post_files.blur_file
+                  post.post_files
                     ? post.post_files.blur_file
+                    : post.postFiles
+                    ? post.postFiles.blur_file
                     : "/images/no-image-found.png"
                 }
                 className={`postViewImg blur-[20px] rounded-sm object-cover`}
@@ -98,8 +100,11 @@ const ExplorePostCard = ({ post, type }) => {
                 layout="fill"
                 objectFit="cover"
                 src={
-                  post.post_files.preview_file ??
-                  "/images/live/live-stream-post-1.jpg"
+                  post.post_files
+                    ? post.post_files.preview_file
+                    : post.postFiles
+                    ? post.postFiles.preview_file
+                    : "/images/live/live-stream-post-1.jpg"
                 }
                 fallbackSrc="/images/live/live-stream-post-1.jpg"
                 alt=""
@@ -150,8 +155,10 @@ const ExplorePostCard = ({ post, type }) => {
               objectFit="cover"
               alt=""
               src={
-                post.post_files.blur_file
+                post.post_files
                   ? post.post_files.blur_file
+                  : post.postFiles
+                  ? post.postFiles.blur_file
                   : "/images/no-image-found.png"
               }
               className={`postViewImg blur-[20px] rounded-sm`}
@@ -191,7 +198,13 @@ const ExplorePostCard = ({ post, type }) => {
 
             <ReactAudioPlayer
               // light={postFile.preview_file}
-              src={post.post_files.file || post.post_files[0]?.file}
+              src={
+                post.post_files
+                  ? post.post_files.file || post.post_files[0]?.file
+                  : post.postFiles.file
+                  ? post.postFiles.file
+                  : post.postFiles[0]?.file
+              }
               // file="forceAudio"
               controls={true}
               width="90%"
@@ -296,8 +309,10 @@ const ExplorePostCard = ({ post, type }) => {
                 objectFit="cover"
                 alt=""
                 src={
-                  post.post_files.blur_file
+                  post.post_files
                     ? post.post_files.blur_file
+                    : post.postFiles
+                    ? post.postFiles.blur_file
                     : "/images/no-image-found.png"
                 }
                 fallbackSrc="/images/no-image-found.png"
@@ -311,8 +326,10 @@ const ExplorePostCard = ({ post, type }) => {
                 layout="fill"
                 objectFit="cover"
                 src={
-                  post.post_files.preview_file
+                  post.post_files
                     ? post.post_files.preview_file
+                    : post.postFiles
+                    ? post.postFiles.preview_file
                     : "/images/live/live-stream-post-1.jpg"
                 }
                 fallbackSrc="/images/live/live-stream-post-1.jpg"
@@ -412,8 +429,10 @@ const ExplorePostCard = ({ post, type }) => {
               objectFit="cover"
               alt=""
               src={
-                post.post_files.blur_file
+                post.post_files
                   ? post.post_files.blur_file
+                  : post.postFiles
+                  ? post.postFiles.blur_file
                   : "/images/no-image-found.png"
               }
               className={`postViewImg blur-[20px] rounded-sm`}
@@ -426,7 +445,8 @@ const ExplorePostCard = ({ post, type }) => {
               layout="fill"
               objectFit="cover"
               src={
-                post.post_files.file ??
+                post.post_files ? post.post_files :
+                post.postFiles.file ||
                 "/images/live/live-stream-post-1.jpg"
               }
               alt=""

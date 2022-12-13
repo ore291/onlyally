@@ -23,6 +23,7 @@ export default function Tabs() {
   const groups = useSelector((state) => state.groups.groups);
 
   return (
+  
     <Tab.Group>
       <div className="bg-white dark:!bg-gray-900 dark:!text-gray-300 rounded-xl p-1 mb-10 md:mb-60">
         <Tab.List className="row-container p-1 space-x-1 xs:space-x-3 md:space-x-5 bg-[#ecf0f5] dark:bg-gray-500  rounded-full md:w-1/2 mx-auto">
