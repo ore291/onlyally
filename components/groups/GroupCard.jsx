@@ -590,7 +590,7 @@ const GroupCard = ({
         </div>
         <div className="flex justify-between ml-20 items-center space-x-6">
           <Link href={`/groups/${group.slug}`} passHref>
-            <p className="text-xs font-semibold capitalize text-ellipsis cursor-pointer  whitespace-nowrap">
+            <p className="text-xs font-semibold capitalize truncate max-w-[90px] text-ellipsis cursor-pointer  whitespace-nowrap">
               {group.name}
             </p>
           </Link>

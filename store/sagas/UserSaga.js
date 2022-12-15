@@ -244,7 +244,11 @@ function* userLoginAPI() {
 
     yield put(loginSuccess(response.data));
     yield put(fetchUserLoginSuccess(response.data));
+
+
+    
     if (response.data.success) {
+      
       if (response.data.code == 1001)
         window.location.assign("/register/verify");
       else {
