@@ -5,30 +5,20 @@ import NewsFeed from "../components/feeds/NewsFeed";
 import NewsFeedSideBar from "../components/feeds/NewsFeedSideBar";
 import SideNavLayout from "../components/SideNavLayout";
 import { END } from "redux-saga";
-import { useSession, getSession } from "next-auth/react";
+
 import { wrapper } from "../store";
 
 import { useSelector, useDispatch } from "react-redux";
-// const DeviceDetector = require("node-device-detector");
-// const DeviceHelper = require("node-device-detector/helper");
+
 import { getSelectorsByUserAgent } from "react-device-detect";
-import axios from "axios";
+
 import { getCookies, hasCookie } from "cookies-next";
-import {
-  fetchUserDetailsStart,
-  fetchUserDetailsSuccess,
-  fetchUserLoginSuccess,
-} from "../store/slices/userSlice";
-import { fetchChannelsStart } from "../store/slices/channelsSlice";
-import { fetchStoriesStart } from "../store/slices/storiesSlice";
-import { fetchHomePostsStart } from "../store/slices/homeSlice";
+import { fetchHomePostsStart, fetchTimelinePostsStart } from "../store/slices/homeSlice";
 import Sticky from "react-stickynode";
 import { fetchConfigurationStart } from "../store/slices/configurationSlice";
 import {
   BrowserView,
-  MobileView,
-  isBrowser,
-  isMobile,
+
 } from "react-device-detect";
 
 export default function Home() {
@@ -36,9 +26,9 @@ export default function Home() {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(fetchHomePostsStart());
-  // }, []);
+  useEffect(() => {
+    dispatch(fetchTimelinePostsStart());
+  }, []);
 
   const [isVisible, setIsVisible] = useState(true);
 
@@ -77,7 +67,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       //         store.dispatch(fetchUserLoginSuccess(JSON.parse(cookies.user)));
       //       }
 
-      if (cookies.accessToken === null) {
+      if (cookies.accessToken == null) {
         return {
           redirect: {
             destination: "/login",
@@ -108,39 +98,18 @@ export const getServerSideProps = wrapper.getServerSideProps(
         device_model = browserName + " " + browserVersion;
         // device_model = "Chrome" + " " + "100";
       }
-      store.dispatch(
-        fetchHomePostsStart({
-          accessToken: cookies.accessToken,
-          userId: cookies.userId,
-          device_model: device_model,
-        })
-      );
+      // store.dispatch(
+      //   fetchTimelinePostsStart({
+      //     accessToken: cookies.accessToken,
+      //     userId: cookies.userId,
+      //     device_model: device_model,
+      //   })
+      // );
 
-      //       var user = JSON.parse(cookies.user);
+     
 
-      //       // store.dispatch(
-      //       //   fetchHomePostsStart({
-      //       //     accessToken: cookies.accessToken,
-      //       //     userId: cookies.userId,
-      //       //     device_model: device_model,
-      //       //   })
-      //       // );
-      //       // store.dispatch(
-      //       //   fetchStoriesStart({
-      //       //     accessToken: cookies.accessToken,
-      //       //     userId: cookies.userId,
-      //       //     device_model: device_model,
-      //       //   })
-      //       // );
-
-      //       // store.dispatch(
-      //       //   fetchUserDetailsStart({ accessToken: cookies.accessToken })
-      //       // );
-
-      //       // store.dispatch(fetchConfigurationStart());
-
-      store.dispatch(END);
-      await store.sagaTask.toPromise();
+      // store.dispatch(END);
+      // await store.sagaTask.toPromise();
 
       return {
         props: {},

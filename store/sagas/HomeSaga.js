@@ -17,6 +17,8 @@ import {
   fetchTrendingUsersSuccess,
   fetchPostSuggestionsSuccess,
   fetchPostSuggestionsFailure,
+  fetchTimelinePostsSuccess,
+  fetchTimelinePostsFailure,
 } from "../slices/homeSlice";
 
 import { errorLogoutCheck } from "../slices/errorSlice";
@@ -85,6 +87,74 @@ function* fetchHomePostAPI(action) {
     }
   } catch (error) {
     yield put(fetchHomePostsFailure(error.message));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
+
+function* fetchTimelinePostAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+    var userId = action.payload.userId;
+    var dev_model = action.payload.device_model;
+  }
+
+  try {
+    const skipCount = yield select((state) => state.home.timelinePost.skip);
+
+    const response = yield api.getMethod({
+      action: "timeline",
+      accessToken: accessToken,
+      userId: userId,
+      object: {
+        skip: skipCount,
+      },
+      dev_model: dev_model,
+    });
+
+   
+    if (response.data.success) {
+      yield put(fetchTimelinePostsSuccess(response.data.data));
+      // if (response.data.data.user) {
+      //   if (typeof window !== "undefined") {
+      //     localStorage.setItem(
+      //       "total_followers",
+      //       response.data.data.user.total_followers
+      //         ? response.data.data.user.total_followers
+      //         : 0
+      //     );
+      //     localStorage.setItem(
+      //       "total_followings",
+      //       response.data.data.user.total_followings
+      //         ? response.data.data.user.total_followings
+      //         : 0
+      //     );
+      //     localStorage.setItem(
+      //       "is_subscription_enabled",
+      //       response.data.data.user.is_subscription_enabled
+      //     );
+      //     localStorage.setItem("user_picture", response.data.data.user.picture);
+      //     localStorage.setItem("user_cover", response.data.data.user.cover);
+      //     localStorage.setItem("name", response.data.data.user.name);
+      //     localStorage.setItem("username", response.data.data.user.username);
+      //     localStorage.setItem(
+      //       "user_unique_id",
+      //       response.data.data.user.user_unique_id
+      //     );
+      //     localStorage.setItem(
+      //       "is_document_verified",
+      //       response.data.data.user.is_document_verified
+      //     );
+      //   }
+      // }
+    } else {
+      yield put(fetchTimelinePostsFailure(response.data.error));
+      yield put(errorLogoutCheck(response.data.error));
+      yield put(
+        notify({ message: response.data.error?.error, status: "error" })
+      );
+    }
+  } catch (error) {
+    yield put(fetchTimelinePostsFailure(error.message));
     yield put(notify({ message: error.message, status: "error" }));
   }
 }
@@ -235,6 +305,7 @@ function* fetchPostSuggestionAPI(action) {
 
 export default function* pageSaga() {
   yield all([yield takeLatest("home/fetchHomePostsStart", fetchHomePostAPI)]);
+  yield all([yield takeLatest("home/fetchTimelinePostsStart", fetchTimelinePostAPI)]);
   yield all([yield takeLatest("home/searchUserStart", searchUserAPI)]);
   yield all([
     yield takeLatest("home/fetchTrendingUsersStart", fetchTrendingUsersAPI),

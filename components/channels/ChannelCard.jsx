@@ -63,7 +63,7 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
           </Link>
           <div className="flex flex-col space-y-.5 col-span-2 ">
             <Link href={`/channels/${channel.slug}`} passHref>
-              <p className="font-semibold text-xs text-ellipsis capitalize cursor-pointer  text-gray-600 whitespace-nowrap">
+              <p className="font-semibold max-w-full text-xs text-ellipsis truncate capitalize cursor-pointer  text-gray-600 whitespace-nowrap">
                 {channel.name}
               </p>
             </Link>

@@ -1,9 +1,7 @@
 import axios from "axios";
 import { getCookies, getCookie, setCookie, removeCookies } from "cookies-next";
 
-const instance = axios.create({
-    baseURL: 'https://api.playjor.com'
-  });
+
 
 const cookies = getCookies();
 
@@ -15,9 +13,15 @@ if (typeof window !== "undefined") {
   token = cookies.accessToken;
 }
 
+const instance = axios.create({
+  baseURL: 'https://api.playjor.com',
+  headers: {
+    'Accept': 'application/json',
+    'Authorization' : 'Bearer ' + token
+}
+});
 
-
-instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+// instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
 
 

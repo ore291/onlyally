@@ -4,18 +4,18 @@ import NewsFeedCard from "./NewsFeedCard";
 import NoDataFound from "../NoDataFound/NoDataFound";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostsLoader from "../helpers/PostsLoader";
-import { fetchHomePostsStart } from "../../store/slices/homeSlice";
+import { fetchHomePostsStart, fetchTimelinePostsStart } from "../../store/slices/homeSlice";
 
 const NewsFeed = () => {
   // const feeds = useSelector(state => state.creators.feed)
-  const posts = useSelector((state) => state.home.homePost);
+  const posts = useSelector((state) => state.home.timelinePost);
   const [hasMore, setHasMore] = useState(true);
 
   const dispatch = useDispatch();
 
   const fetchHomeData = () => {
-    if (posts.length !== 0) {
-      dispatch(fetchHomePostsStart());
+    if (posts.data.posts.length === 0) {
+      dispatch(fetchTimelinePostsStart());
     } else {
       setHasMore(false);
     }

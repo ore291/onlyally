@@ -375,9 +375,9 @@ const NewsFeedCard = ({ post, index }) => {
             <div className="embla ">
               <div className="embla__viewport" ref={viewportRef}>
                 <div className="embla__container">
-                  {post.postFiles
-                    ? post.postFiles.length > 0
-                      ? post.postFiles.map((postFile, index) =>
+                  {post.post_files
+                    ? post.post_files.length > 0
+                      ? post.post_files.map((postFile, index) =>
                           postFile.file_type === "image" ? (
                             PPVPayment ? null : (
                               <EmblaSlide

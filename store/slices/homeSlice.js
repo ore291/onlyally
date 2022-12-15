@@ -11,6 +11,15 @@ const initialState = {
     skip: 0,
     length: 0,
   },
+  timelinePost: {
+    data: {
+      posts: [],
+    },
+    loading: true,
+    error: false,
+    skip: 0,
+    length: 0,
+  },
   homeTrending: {
     data: {},
     inputData: {},
@@ -87,6 +96,39 @@ export const HomeSlice = createSlice({
   initialState,
 
   reducers: {
+    fetchTimelinePostsStart: (state, action) => {
+      state.timelinePost = {
+        data: {
+          posts: [...state.timelinePost.data.posts],
+        },
+        loading: true,
+        error: false,
+        skip: state.timelinePost.skip,
+        length: state.timelinePost.length,
+      };
+    },
+    fetchTimelinePostsSuccess: (state, action) => {
+      state.timelinePost = {
+        data: {
+          posts: [...state.timelinePost.data.posts, ...action.payload.posts],
+        },
+        loading: false,
+        error: false,
+        skip: action.payload.posts.length + state.timelinePost.skip,
+        length: action.payload.posts.length,
+      };
+    },
+    fetchTimelinePostsFailure: (state, action) => {
+      state.timelinePost = {
+        data: {
+          posts: [...state.timelinePost.data.posts],
+        },
+        loading: false,
+        error: action.payload,
+        skip: state.timelinePost.skip,
+        length: state.timelinePost.length,
+      };
+    },
     fetchHomePostsStart: (state, action) => {
       state.homePost.data.posts = [...state.homePost.data.posts];
       state.homePost.loading = true;
@@ -239,7 +281,7 @@ export const HomeSlice = createSlice({
         error: false,
         loadingButtonContent: "Loading... Please wait",
         buttonDisable: true,
-      }
+      };
     },
     fetchPostSuggestionsSuccess: (state, action) => {
       state.postSug = {
@@ -249,7 +291,7 @@ export const HomeSlice = createSlice({
         inputData: {},
         loadingButtonContent: null,
         buttonDisable: false,
-      }
+      };
     },
     fetchPostSuggestionsFailure: (state, action) => {
       state.postSug = {
@@ -259,8 +301,8 @@ export const HomeSlice = createSlice({
         inputData: {},
         loadingButtonContent: null,
         buttonDisable: false,
-      }
-    }
+      };
+    },
   },
 
   extraReducers: {
@@ -277,6 +319,9 @@ export const HomeSlice = createSlice({
 });
 
 export const {
+  fetchTimelinePostsStart,
+  fetchTimelinePostsSuccess,
+  fetchTimelinePostsFailure,
   fetchSingleTrendingStart,
   fetchSingleTrendingFailure,
   fetchSingleTrendingSuccess,
@@ -294,7 +339,7 @@ export const {
   fetchTrendingUsersStart,
   fetchPostSuggestionsFailure,
   fetchPostSuggestionsSuccess,
-  fetchPostSuggestionsStart
+  fetchPostSuggestionsStart,
 } = HomeSlice.actions;
 
 export default HomeSlice.reducer;

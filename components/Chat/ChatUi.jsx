@@ -122,7 +122,7 @@ const ChatUi = () => {
 
   const options = {
     broadcaster: "pusher",
-    key: process.env.PUSHER_APP_KEY,
+    key: 'dfc2bd8513963367dd0e',
     cluster: "eu",
     authorizer: (channel, options) => {
       return {
@@ -133,25 +133,29 @@ const ChatUi = () => {
               channel_name: channel.name,
             })
             .then((e) => {
+              console.log(e);
               callback(false, e.data);
-            });
+            }).catch(function (error) {
+              console.log(error.toJSON());
+            });;
         },
       };
     },
   };
 
-  const echo = new Echo(options);
+  
  
   useEffect(() => {
+    const echo = new Echo(options);
     if (chatUsers.loading === false && chatUsers.data.users.length > 0) {
       setToUserId(chatUsers.data.users[0].to_user_id);
       const chatter = echo.private(`chat.${chatUsers.data.users[0].to_user_id}`);
     } else {
     }
 
-    return ()=>Echo.leave(`chat.${toUserId}`)
+    return ()=>echo.leave(`chat.${toUserId}`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [chatUsers.loading]);
 
   // const chatSocketConnect = (to_user_id) => {
   //   // check the socket url is configured
