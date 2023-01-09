@@ -434,9 +434,9 @@ const Profile = () => {
                   </div>
                   <div
                     className="profile-buttons "
-                    onClick={(event) =>
-                      handleChatUser(event, userDetails.data.user.user_id)
-                    }
+                    // onClick={(event) =>
+                    //   handleChatUser(event, userDetails.data.user.user_id)
+                    // }
                   >
                     <MdMail className="w-5 h-5" />
                   </div>

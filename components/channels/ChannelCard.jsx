@@ -9,8 +9,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
+import { BiCommentDetail } from "react-icons/bi";
 
-const ChannelCard = ({ main, channel, profile, liked }) => {
+const ChannelCard = ({ main, channel, profile, liked , post}) => {
   const cookies = getCookies();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -115,23 +116,23 @@ const ChannelCard = ({ main, channel, profile, liked }) => {
         </div>
         <div className="p-2">
           <div className="flex items center justify-start">
-            <div className="col-container space-y-1">
-              <span className="text-lg text-gray-700 font-bold">
-                Best place
+            <div className="flex flex-col space-y-1">
+              <span className="text-lg text-gray-700 font-bold truncate max-w-full">
+                {post?.postable?.name}
               </span>
-              <span className="text-xs font-semibold text-gray-400">
-                Bessie howard
+              <span className="text-xs font-semibold text-gray-400 ">
+                {post?.postable.category.name}
               </span>
             </div>
           </div>
           <div className="flex items center justify-end space-x-1">
             <div className="row-container space-x-1">
               <BsHeartFill className="w-3 h-3 text-gray-300" />
-              <span className="text-sm text-gray-300">42</span>
+              <span className="text-sm text-gray-300">{post?.post_likes_count}</span>
             </div>
             <div className="row-container space-x-1">
-              <BsEyeFill className="w-4 h-4 text-gray-300" />
-              <span className="text-sm text-gray-300">114</span>
+              <BiCommentDetail className="w-4 h-4 text-gray-300" />
+              <span className="text-sm text-gray-300">{post?.post_comments_count}</span>
             </div>
           </div>
         </div>

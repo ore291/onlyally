@@ -8,6 +8,11 @@ const initialState = {
     loading: true,
     error: false,
   },
+  timelines:{
+    data: {},
+    loading: true,
+    error: false,
+  },
   channels: {
     data: [],
     loading: false,
@@ -110,6 +115,28 @@ export const ChannelsSlice = createSlice({
   name: "channels",
   initialState,
   reducers: {
+    fetchTimelinePostsStart: (state, action) => {
+      state.timelines = {
+        
+        data: {},
+        loading: true,
+        error: false,
+      };
+    },
+    fetchTimelinePostsSuccess: (state, action) => {
+      state.timelines = {
+        data: action.payload,
+        loading: false,
+        error: false,
+      };
+    },
+    fetchTimelinePostsFailure: (state, action) => {
+      state.timelines = {
+        data: {},
+        loading: false,
+        error: action.payload,
+      };
+    },
     fetchPostsStart: (state, action) => {
       state.posts = {
         inputData: action.payload,
@@ -528,6 +555,9 @@ export const ChannelsSlice = createSlice({
 });
 
 export const {
+  fetchTimelinePostsStart,
+  fetchTimelinePostsSuccess,
+  fetchTimelinePostsFailure,
   fetchPostsStart,
   fetchPostsSuccess,
   fetchPostsFailure,

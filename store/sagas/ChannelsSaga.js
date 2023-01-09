@@ -40,10 +40,37 @@ import {
   deleteChannelFailure,
   updateChannelMemberSuccess,
   updateChannelMemberFailure,
+  fetchTimelinePostsSuccess,
+  fetchTimelinePostsFailure,
 } from "../slices/channelsSlice";
 // import { fetchChannelsCategoriesSuccess } from "../slices/channelsSlice";
 
+import {errorLogoutCheck} from "../slices/errorSlice"
 
+
+function* fetchChannelTimelinePostsAPI(action) {
+  if (action.payload) {
+    var accessToken = action.payload.accessToken;
+  }
+  try {
+    
+    const response = yield api.getMethod({
+      action: `channels/timeline`,
+      accessToken: accessToken,
+    });
+    
+    if (response.data.success) {
+      yield put(fetchTimelinePostsSuccess(response.data.data));
+    } else {
+      yield put(fetchTimelinePostsFailure(response.data));
+      yield put(errorLogoutCheck(response.data));
+      // yield put(notify({ message: response.data.error, status: "error" }));
+    }
+  } catch (error) {
+    yield put(fetchTimelinePostsFailure(error));
+    yield put(notify({ message: error.message, status: "error" }));
+  }
+}
 function* fetchChannelPostsAPI(action) {
   if (action.payload) {
     var accessToken = action.payload.accessToken;
@@ -468,6 +495,9 @@ export default function* pageSaga() {
   ]);
   yield all([
     yield takeLatest("channels/fetchPostsStart", fetchChannelPostsAPI),
+  ]);
+  yield all([
+    yield takeLatest("channels/fetchTimelinePostsStart", fetchChannelTimelinePostsAPI),
   ]);
   yield all([
     yield takeLatest(

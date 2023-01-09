@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../Button";
 import { FaCamera } from "react-icons/fa";
-import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { BsFillArrowLeftCircleFill, BsThreeDotsVertical } from "react-icons/bs";
 import Image from "../helpers/CustomImage";
 import { getCookie } from "cookies-next";
 import Link from "next/link";
@@ -12,6 +12,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import ChannelPaymentModal from "./ChannelPaymentModal";
+import { Popover, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 
 const ChannelPageHeader = ({ channel }) => {
   const router = useRouter();
@@ -54,7 +56,7 @@ const ChannelPageHeader = ({ channel }) => {
   return (
     <>
       <div className="w-full mx-auto relative pb-10">
-        <div className="relative object-cover h-[300px]  md:h-[450px] w-full blur-[20px]  -mt-16 md:-mt-36">
+        <div className="relative object-cover h-[300px]  md:h-[450px] xxl:h-[500px] w-full blur-[20px]  -mt-16 md:-mt-36">
           <Image
             src={
               // channel?.media[1]?.original_url
@@ -134,12 +136,13 @@ const ChannelPageHeader = ({ channel }) => {
                 />
               </Link>
             ) : channel.is_member ? (
-              <Button
-                text="Unsubscribe"
-                onClick={() => unsubscribe()}
-                active={true}
-                extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-red-500"
-              />
+              // <Button
+              //   text="Unsubscribe"
+              //   onClick={() => unsubscribe()}
+              //   active={true}
+              //   extraclassNamees="w-20 md:w-28 h-9  rounded-md bg-red-500"
+              // />
+              null
             ) : (
               <Button
                 onClick={() => handleSubscription()}
@@ -155,6 +158,43 @@ const ChannelPageHeader = ({ channel }) => {
           onClick={() => router.back()}
         >
           <BsFillArrowLeftCircleFill className="h-8 w-8  " />
+        </div>
+        <div className="absolute z-10 top-20 md:top-40  right-2 md:right-12">
+          <Popover className="relative">
+            {({ open }) => (
+              <>
+                <Popover.Button
+                  className={`
+                ${open ? "" : "text-opacity-90"}
+                group  hover:text-opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+                >
+                  <div className="w-8 h-8 rounded-full  bg-black cursor-pointer row-container">
+                    <BsThreeDotsVertical className="h-5 w-5 text-white " />
+                  </div>
+                </Popover.Button>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0 translate-y-1"
+                  enterTo="opacity-100 translate-y-0"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="opacity-100 translate-y-0"
+                  leaveTo="opacity-0 translate-y-1"
+                >
+                  <Popover.Panel className="absolute z-10 w-[100px]  px-4 mt-3 transform shadow-md -translate-x-1/2 -left-10 sm:px-0 lg:max-w-3xl">
+                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                      <Button
+                       text="Unsubscribe"
+                       onClick={() => unsubscribe()}
+                        active={true}
+                        extraclassNamees="w-full  h-9  rounded-md bg-red-500"
+                      />
+                    </div>
+                  </Popover.Panel>
+                </Transition>
+              </>
+            )}
+          </Popover>
         </div>
       </div>
       {show ? (

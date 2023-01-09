@@ -122,7 +122,7 @@ const ChatUi = () => {
 
   const options = {
     broadcaster: "pusher",
-    key: 'dfc2bd8513963367dd0e',
+    key: "dfc2bd8513963367dd0e",
     cluster: "eu",
     authorizer: (channel, options) => {
       return {
@@ -135,27 +135,28 @@ const ChatUi = () => {
             .then((e) => {
               console.log(e);
               callback(false, e.data);
-            }).catch(function (error) {
+            })
+            .catch(function (error) {
               console.log(error.toJSON());
-            });;
+            });
         },
       };
     },
   };
 
-  
- 
-  useEffect(() => {
-    const echo = new Echo(options);
-    if (chatUsers.loading === false && chatUsers.data.users.length > 0) {
-      setToUserId(chatUsers.data.users[0].to_user_id);
-      const chatter = echo.private(`chat.${chatUsers.data.users[0].to_user_id}`);
-    } else {
-    }
+  // useEffect(() => {
+  //   const echo = new Echo(options);
+  //   if (chatUsers.loading === false && chatUsers.data.users.length > 0) {
+  //     setToUserId(chatUsers.data.users[0].to_user_id);
+  //     const chatter = echo.private(
+  //       `chat.${chatUsers.data.users[0].to_user_id}`
+  //     );
+  //   } else {
+  //   }
 
-    return ()=>echo.leave(`chat.${toUserId}`)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chatUsers.loading]);
+  //   return () => echo.leave(`chat.${toUserId}`);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [chatUsers.loading]);
 
   // const chatSocketConnect = (to_user_id) => {
   //   // check the socket url is configured
@@ -191,7 +192,7 @@ const ChatUi = () => {
   // };
 
   const changeUser = (event, chat, index) => {
-    chatSocket.disconnect();
+    // chatSocket.disconnect();
     if (isMobile) {
       window.location.assign(
         "/user-chat-room/" + chat.from_user_id + "/" + chat.to_user_id
@@ -209,7 +210,7 @@ const ChatUi = () => {
         from_user_id: chat.from_user_id,
       })
     );
-    chatSocketConnect(to_user_id);
+    // chatSocketConnect(to_user_id);
   };
 
   const handleChatSubmit = (event) => {
@@ -221,37 +222,55 @@ const ChatUi = () => {
       dispatch(notify({ message: " Please type a message", status: "error" }));
     }
 
-    if (chatSocketUrl != undefined && inputMessage) {
-      let chatData = [
-        {
-          from_user_id: toLocUserId,
-          to_user_id: toUserId,
-          message: inputMessage,
-          type: "uu",
-          user_picture: localStorage?.getItem("user_picture"),
-          loggedin_user_id: toLocUserId,
-          created: Date(),
-          from_username: localStorage?.getItem("username"),
-          from_displayname: localStorage?.getItem("name"),
-          from_userpicture: localStorage?.getItem("user_picture"),
-          from_user_unique_id: "",
-          to_username: "",
-          to_displayname: "",
-          to_userpicture: "",
-          to_user_unique_id: "",
-        },
-      ];
-      chatSocket.emit("message", chatData[0]);
-      let messages;
-      if (chatMessages.data.messages != null) {
-        messages = [...chatMessages.data.messages, ...chatData];
-      } else {
-        messages = [...chatData];
-      }
-
-      setInputMessage("");
-      dispatch(addMessageContent(chatData));
+    let chatData = [
+      {
+        from_user_id: toLocUserId,
+        to_user_id: toUserId,
+        message: inputMessage,
+        type: "uu",
+        user_picture: localStorage?.getItem("user_picture"),
+        loggedin_user_id: toLocUserId,
+        created: Date(),
+        from_username: localStorage?.getItem("username"),
+        from_displayname: localStorage?.getItem("name"),
+        from_userpicture: localStorage?.getItem("user_picture"),
+        from_user_unique_id: "",
+        to_username: "",
+        to_displayname: "",
+        to_userpicture: "",
+        to_user_unique_id: "",
+      },
+    ];
+    // if (chatSocketUrl != undefined && inputMessage) {
+    //   let chatData = [
+    //     {
+    //       from_user_id: toLocUserId,
+    //       to_user_id: toUserId,
+    //       message: inputMessage,
+    //       type: "uu",
+    //       user_picture: localStorage?.getItem("user_picture"),
+    //       loggedin_user_id: toLocUserId,
+    //       created: Date(),
+    //       from_username: localStorage?.getItem("username"),
+    //       from_displayname: localStorage?.getItem("name"),
+    //       from_userpicture: localStorage?.getItem("user_picture"),
+    //       from_user_unique_id: "",
+    //       to_username: "",
+    //       to_displayname: "",
+    //       to_userpicture: "",
+    //       to_user_unique_id: "",
+    //     },
+    //   ];
+    // chatSocket.emit("message", chatData[0]);
+    let messages;
+    if (chatMessages.data.messages != null) {
+      messages = [...chatMessages.data.messages, ...chatData];
+    } else {
+      messages = [...chatData];
     }
+
+    setInputMessage("");
+    dispatch(addMessageContent(chatData));
   };
 
   useEffect(() => {
