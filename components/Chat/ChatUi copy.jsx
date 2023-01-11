@@ -4,15 +4,12 @@ import Image from "next/image";
 import ChatUserList from "./ChatUserList";
 import VerifiedBadge from "../handlers/VerifiedBadge";
 import { HiOutlineVideoCamera } from "react-icons/hi";
-import Moment from "react-moment";
 import { notify } from "reapop";
 import {
   addMessageContent,
   fetchChatMessageStart,
   fetchChatUsersStart,
-  sendMessageStart,
 } from "../../store/slices/chatSlice";
-import CommonCenterLoader from "../../components/helpers/CommonCenterLoader";
 
 import { saveBlockUserStart } from "../../store/slices/userSlice";
 import ReactPlayer from "react-player/lazy";
@@ -28,7 +25,6 @@ import Echo from "laravel-echo";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../Constant/axios";
 import { getCookie } from "cookies-next";
-import { FaTimes } from "react-icons/fa";
 
 const ChatUi = () => {
   let chatSocket;
@@ -76,7 +72,15 @@ const ChatUi = () => {
   useEffect(() => {
     setToLocUserId(localStorage.getItem("userId"));
     dispatch(fetchChatUsersStart({ search_key: searchKey }));
-
+    let chatSocketUrl = socketUrl;
+    if (chatSocketUrl === "") {
+      console.log("here", chatSocketUrl);
+      // const notificationMessage = getErrorNotificationMessage(
+      //   "Socket URL is not configured. Chat wil not work..."
+      // );
+      // props.dispatch(createNotification(notificationMessage));
+      // window.location.assign("/home");
+    }
     if (messageRef.current) {
       messageRef.current.scrollIntoView({
         behavior: "smooth",
@@ -98,6 +102,7 @@ const ChatUi = () => {
 
   // Scroll down function..
   useEffect(() => {
+    console.log("Scroll down..");
     const objDiv = document.getElementById("options-holder");
     if (objDiv != null) {
       let differenceNumber =
@@ -111,13 +116,6 @@ const ChatUi = () => {
         objDiv.scrollTop = initialHeight;
         setInitialHeight(initialHeight + 20);
       }
-    }
-    if (messageRef.current) {
-      messageRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
     }
   }, [chatMessages.data.messages]);
 
@@ -136,6 +134,7 @@ const ChatUi = () => {
               channel_name: channel.name,
             })
             .then((e) => {
+              console.log(e);
               callback(false, e.data);
             })
             .catch(function (error) {
@@ -150,11 +149,15 @@ const ChatUi = () => {
     const echo = new Echo(options);
     if (chatUsers.loading === false && chatUsers.data.total > 0) {
       // setToUserId(chatUsers.data.users[0].to_user_id);
-      const chatter = echo.private(`chat.${getCookie("userId")}`);
+      const chatter = echo.private(
+        `chat.${getCookie("userId")}`
+      );
 
-      chatter.listen(".message", (e) => {
-        dispatch(sendMessageStart([e.message]));
-      });
+      chatter.listen('.message', (e)=>{
+         console.log(e)
+      })
+    } else {
+
     }
 
     return () => echo.leave(`chat.${getCookie("userId")}`);
@@ -194,8 +197,6 @@ const ChatUi = () => {
   //   }
   // };
 
-  
-
   const changeUser = (event, chat, index) => {
     // chatSocket.disconnect();
     if (isMobile) {
@@ -204,48 +205,74 @@ const ChatUi = () => {
       );
     }
     event.preventDefault();
-    dispatch(
-      fetchChatMessageStart({
-        user_id: chat.id,
-      })
-    );
     setActiveChat(index);
     let to_user_id =
       chat.to_user_id == toLocUserId ? chat.from_user_id : chat.to_user_id;
     setToUserId(to_user_id);
 
-    
+    dispatch(
+      fetchChatMessageStart({
+       user_id: chat.to_user_id,
+      })
+    );
     // chatSocketConnect(to_user_id);
   };
 
   const handleChatSubmit = (event) => {
     event.preventDefault();
+    let chatSocketUrl = socketUrl;
 
     if (inputMessage.length == 0) {
       setEmptyMessageCheck(true);
       dispatch(notify({ message: " Please type a message", status: "error" }));
     }
+
     let chatData = [
       {
-        user_id: chatUsers.data.contacts[activeChat].id,
+        from_user_id: toLocUserId,
+        to_user_id: toUserId,
         message: inputMessage,
-        type: "user",
-        from_id: parseInt(getCookie("userId")),
-        to_id: chatUsers.data.contacts[activeChat].id,
-        body: inputMessage,
-        attachment: null,
-        seen: 0,
-        created_at: Date.now(),
-        updated_at: Date.now(),
+        type: "uu",
+        user_picture: localStorage?.getItem("user_picture"),
+        loggedin_user_id: toLocUserId,
+        created: Date(),
+        from_username: localStorage?.getItem("username"),
+        from_displayname: localStorage?.getItem("name"),
+        from_userpicture: localStorage?.getItem("user_picture"),
+        from_user_unique_id: "",
+        to_username: "",
+        to_displayname: "",
+        to_userpicture: "",
+        to_user_unique_id: "",
       },
     ];
-
-    // let messages;
-    // if (chatMessages.data.messages != null) {
-    //   messages = [...chatMessages.data.messages, ...chatData];
-    // } else {
-    //   messages = [...chatData];
-    // }
+    // if (chatSocketUrl != undefined && inputMessage) {
+    //   let chatData = [
+    //     {
+    //       from_user_id: toLocUserId,
+    //       to_user_id: toUserId,
+    //       message: inputMessage,
+    //       type: "uu",
+    //       user_picture: localStorage?.getItem("user_picture"),
+    //       loggedin_user_id: toLocUserId,
+    //       created: Date(),
+    //       from_username: localStorage?.getItem("username"),
+    //       from_displayname: localStorage?.getItem("name"),
+    //       from_userpicture: localStorage?.getItem("user_picture"),
+    //       from_user_unique_id: "",
+    //       to_username: "",
+    //       to_displayname: "",
+    //       to_userpicture: "",
+    //       to_user_unique_id: "",
+    //     },
+    //   ];
+    // chatSocket.emit("message", chatData[0]);
+    let messages;
+    if (chatMessages.data.messages != null) {
+      messages = [...chatMessages.data.messages, ...chatData];
+    } else {
+      messages = [...chatData];
+    }
 
     setInputMessage("");
     dispatch(addMessageContent(chatData));
@@ -334,14 +361,6 @@ const ChatUi = () => {
       setInputMessage("");
       dispatch(addMessageContent(chatMessageData));
     }
-  };
-
-  const inputFileRef = useRef(null);
-
-  const [image, setImage] = useState(null);
-  const onFilechange = (e) => {
-    /*Selected files data can be collected here.*/
-    setImage(e.target.files[0]);
   };
 
   const chatInputChange = (value) => {
@@ -449,64 +468,54 @@ const ChatUi = () => {
             </li>
           </ul>
         </div>
-        {chatUsers.loading  ? (
+        {chatUsers.loading || chatMessages.loading ? (
           ""
-        ) : chatUsers.data.contacts[activeChat] != null ? (
+        ) : chatMessages.data.user && chatMessages.data.user.user_unique_id ? (
           <div className="hidden lg:col-span-2 lg:block">
             <div className="w-full ">
-              <Link
-                href={`/${chatUsers.data.contacts[activeChat].user_unique_id}`}
-                passHref
-              >
-                {/* <Link href={`/${chatMessages.data.user.user_unique_id}`} passHref> */}
+              <Link href={`/${chatMessages.data.user.user_unique_id}`} passHref>
                 <div className="relative flex items-center p-3 border-b border-gray-300">
                   <Image
                     objectFit="cover"
                     width="40"
                     height="40"
                     className="rounded-full cursor-pointer"
-                    src={chatUsers.data.contacts[activeChat].picture}
-                    alt={chatUsers.data.contacts[activeChat].username}
+                    src={chatMessages.data.user.picture}
+                    alt={chatMessages.data.user.username}
                   />
 
                   <span className="block ml-2 font-bold text-gray-600 cursor-pointer hover:text-lightPlayRed">
-                    {chatUsers.data.contacts[activeChat].name}
+                    {chatMessages.data.user.name}
                   </span>
-                  {chatUsers.data.contacts[activeChat].is_verified_badge ==
-                  1 ? (
+                  {chatMessages.data.user.is_verified_badge == 1 ? (
                     <VerifiedBadge />
                   ) : null}
-                  {chatUsers.data.contacts[activeChat].is_online_status == 1 ? (
+                  {chatMessages.data.user.is_online_status == 1 ? (
                     <span className="absolute w-3 h-3 bg-green-600 rounded-full left-10 top-3"></span>
                   ) : (
                     ""
                   )}
                   <span className="ml-1 text-lightPlayRed text-xs font-light">
-                    @{chatUsers.data.contacts[activeChat].username}
+                    @{chatMessages.data.user.username}
                   </span>
                 </div>
               </Link>
               <div className="flex-1 p-2 justify-between flex flex-col h-[80vh]">
-                {chatMessages.loading ? (
-                  <div className="row-container h-full w-full">
-                    <CommonCenterLoader />
-                  </div>
-                ) : (
-                  <div
-                    id="messages"
-                    className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
-                  >
-                    {chatMessages.data.messages.length > 0
-                      ? [...chatMessages.data.messages]
-                          .reverse()
-                          .map((chatMessage, index) => (
-                            <div key={index}>
-                              {chatMessage.from_id == getCookie("userId") ? (
-                                // main user
-                                <div className="chat-message">
-                                  <div className="flex items-end justify-end">
-                                    <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 items-end">
-                                      {/* {chatMessage.chat_asset_url &&
+                <div
+                  id="messages"
+                  className="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+                  ref={messageRef}
+                >
+                  {chatMessages.data.messages.length > 0
+                    ? chatMessages.data.messages.map((chatMessage, index) => (
+                        <>
+                          {chatMessage.from_user_id ==
+                          localStorage.getItem("userId") ? (
+                            // main user
+                            <div className="chat-message">
+                              <div className="flex items-end justify-end">
+                                <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 items-end">
+                                  {chatMessage.chat_asset_url &&
                                   chatMessage.file_type == "video" ? (
                                     <ReactPlayer
                                       url={chatMessage.chat_asset_url}
@@ -570,186 +579,150 @@ const ChatUi = () => {
                                     ) : (
                                       ""
                                     )}
-                                  </div> */}
-
-                                      {chatMessage.message == "" ? null : (
-                                        <>
-                                          <p>
-                                            You,{" "}
-                                            <Moment fromNow>
-                                              {chatMessage.created_at}
-                                            </Moment>
-                                          </p>
-                                          <div>
-                                            <span className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">
-                                              {chatMessage.body}
-                                            </span>
-                                          </div>
-                                        </>
-                                      )}
-                                    </div>
-
-                                    <Image
-                                      src={localStorage.getItem("user_picture")}
-                                      width="32"
-                                      height="32"
-                                      alt="My profile"
-                                      className="w-6 h-6 rounded-full order-1"
-                                    />
                                   </div>
-                                </div>
-                              ) : (
-                                // other user
-                                <div className="chat-message">
-                                  <div className="flex items-end">
-                                    <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-                                      {chatMessage.chat_asset_url &&
-                                      chatMessage.file_type == "video" ? (
-                                        chatMessage.is_user_needs_pay === 1 ? (
-                                          <div className="relative w-[300px] h-[250px] max-w-[600px]">
-                                            <Image
-                                              src={chatMessage.chat_asset_url}
-                                              className="ml-[1em] my-[1em] align-middle rounded-md"
-                                              layout="fill"
-                                              objectFit="cover"
-                                              alt=""
-                                            />
-                                          </div>
-                                        ) : (
-                                          <ReactPlayer
-                                            url={chatMessage.chat_asset_url}
-                                            controls={true}
-                                            className="post-video-size"
-                                            width="450px"
-                                            height="450px"
-                                          />
-                                        )
-                                      ) : (
-                                        ""
-                                      )}
+
+                                  {chatMessage.message == "" ? null : (
+                                    <>
+                                      <p>You, {chatMessage.created}</p>
                                       <div>
-                                        {chatMessage.chat_asset_url &&
-                                        chatMessage.file_type == "image" ? (
-                                          <div
-                                            className="relative w-[300px] h-[250px] max-w-[600px]
-                                      
-                                      "
-                                          >
-                                            <Image
-                                              src={chatMessage.chat_asset_url}
-                                              className="ml-[1em] my-[1em] align-middle rounded-md"
-                                              layout="fill"
-                                              objectFit="cover"
-                                              alt=""
-                                            />
-                                          </div>
-                                        ) : (
-                                          ""
-                                        )}
-                                        {chatMessage.chat_asset_url &&
-                                        chatMessage.file_type == "audio" ? (
-                                          chatMessage.is_user_needs_pay ===
-                                          1 ? (
-                                            <Image
-                                              width="300"
-                                              height="250"
-                                              alt=""
-                                              src={chatMessage.chat_asset_url}
-                                              className="mt-[1em] ml-[1em]"
-                                              objectFit="cover"
-                                            ></Image>
-                                          ) : (
-                                            <ReactAudioPlayer
-                                              src={chatMessage.chat_asset_url}
-                                              controls={true}
-                                              width="450px"
-                                              height="450px"
-                                              className="chat-room-audio-display"
-                                              autoPlay={false}
-                                              controlsList={"nodownload"}
-                                            />
-                                          )
-                                        ) : (
-                                          ""
-                                        )}
-                                        {chatMessage.is_user_needs_pay === 1 ? (
-                                          <div className=" relative  p-[1em] rounded-[5px]  text-center z-[2] bottom-[7em] left[2em] w-[300px]">
-                                            <button
-                                              className="bg-lightPlayRed text-white font-semibold !py-[0.5em] !px-[2em] text-xs !border-none rounded-full inline-block text-center align-middle"
-                                              onClick={(event) =>
-                                                handleAssetPayment(
-                                                  event,
-                                                  chatMessage.chat_message_id,
-                                                  chatMessage.amount,
-                                                  chatMessage.amount_formatted
-                                                )
-                                              }
-                                            >
-                                              {chatMessage.payment_text}
-                                            </button>
-                                          </div>
-                                        ) : (
-                                          ""
-                                        )}
+                                        <span className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white ">
+                                          {chatMessage.message}
+                                        </span>
                                       </div>
-                                      {/* {chatMessage.attachment != null ? (
-                                      <div
-                                        className="relative w-[300px] h-[250px] max-w-[600px]
-                                      
-                                      "
-                                      >
+                                    </>
+                                  )}
+                                </div>
+
+                                <Image
+                                  src={localStorage.getItem("user_picture")}
+                                  width="32"
+                                  height="32"
+                                  alt="My profile"
+                                  className="w-6 h-6 rounded-full order-1"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            // other user
+                            <div className="chat-message">
+                              <div className="flex items-end">
+                                <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+                                  {chatMessage.chat_asset_url &&
+                                  chatMessage.file_type == "video" ? (
+                                    chatMessage.is_user_needs_pay === 1 ? (
+                                      <div className="relative w-[300px] h-[250px] max-w-[600px]">
                                         <Image
-                                          src={JSON.parse(chatMessage.attachment).new_name}
+                                          src={chatMessage.chat_asset_url}
                                           className="ml-[1em] my-[1em] align-middle rounded-md"
                                           layout="fill"
                                           objectFit="cover"
                                           alt=""
                                         />
                                       </div>
-                                    ) : null} */}
-                                      {chatMessage.body == "" ? null : (
-                                        <>
-                                          <p className="text-[8px]">
-                                            {
-                                              chatUsers.data.contacts[
-                                                activeChat
-                                              ].name
-                                            }
-                                            ,{" "}
-                                            <Moment fromNow>
-                                              {chatMessage.created_at
-                                                ? chatMessage.created_at
-                                                : chatMessage.fullTime}
-                                            </Moment>
-                                          </p>
-                                          <div>
-                                            <span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-black">
-                                              {chatMessage.body}
-                                            </span>
-                                          </div>
-                                        </>
-                                      )}
-                                    </div>
-                                    <Image
-                                      src={
-                                        chatUsers.data.contacts[activeChat]
-                                          .picture
-                                      }
-                                      width="32"
-                                      height="32"
-                                      alt="My profile"
-                                      className="w-6 h-6 rounded-full order-1 object-cover"
-                                    />
+                                    ) : (
+                                      <ReactPlayer
+                                        url={chatMessage.chat_asset_url}
+                                        controls={true}
+                                        className="post-video-size"
+                                        width="450px"
+                                        height="450px"
+                                      />
+                                    )
+                                  ) : (
+                                    ""
+                                  )}
+                                  <div>
+                                    {chatMessage.chat_asset_url &&
+                                    chatMessage.file_type == "image" ? (
+                                      <div
+                                        className="relative w-[300px] h-[250px] max-w-[600px]
+                                      
+                                      "
+                                      >
+                                        <Image
+                                          src={chatMessage.chat_asset_url}
+                                          className="ml-[1em] my-[1em] align-middle rounded-md"
+                                          layout="fill"
+                                          objectFit="cover"
+                                          alt=""
+                                        />
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {chatMessage.chat_asset_url &&
+                                    chatMessage.file_type == "audio" ? (
+                                      chatMessage.is_user_needs_pay === 1 ? (
+                                        <Image
+                                          width="300"
+                                          height="250"
+                                          alt=""
+                                          src={chatMessage.chat_asset_url}
+                                          className="mt-[1em] ml-[1em]"
+                                          objectFit="cover"
+                                        ></Image>
+                                      ) : (
+                                        <ReactAudioPlayer
+                                          src={chatMessage.chat_asset_url}
+                                          controls={true}
+                                          width="450px"
+                                          height="450px"
+                                          className="chat-room-audio-display"
+                                          autoPlay={false}
+                                          controlsList={"nodownload"}
+                                        />
+                                      )
+                                    ) : (
+                                      ""
+                                    )}
+                                    {chatMessage.is_user_needs_pay === 1 ? (
+                                      <div className=" relative  p-[1em] rounded-[5px]  text-center z-[2] bottom-[7em] left[2em] w-[300px]">
+                                        <button
+                                          className="bg-lightPlayRed text-white font-semibold !py-[0.5em] !px-[2em] text-xs !border-none rounded-full inline-block text-center align-middle"
+                                          onClick={(event) =>
+                                            handleAssetPayment(
+                                              event,
+                                              chatMessage.chat_message_id,
+                                              chatMessage.amount,
+                                              chatMessage.amount_formatted
+                                            )
+                                          }
+                                        >
+                                          {chatMessage.payment_text}
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      ""
+                                    )}
                                   </div>
+                                  {chatMessage.message == "" ? null : (
+                                    <>
+                                      <p>
+                                        {chatMessages.data.user.name},{" "}
+                                        {chatMessage.created}
+                                      </p>
+                                      <div>
+                                        <span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">
+                                          {chatMessage.message}
+                                        </span>
+                                      </div>
+                                    </>
+                                  )}
                                 </div>
-                              )}
+                                <Image
+                                  src={chatMessages.data.user.picture}
+                                  width="32"
+                                  height="32"
+                                  alt="My profile"
+                                  className="w-6 h-6 rounded-full order-1"
+                                />
+                              </div>
                             </div>
-                          ))
-                      : ""}
-                    <div ref={messageRef} />
-                  </div>
-                )}
-
+                          )}
+                        </>
+                      ))
+                    : ""}
+                </div>
                 <div className="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
                   <form onSubmit={handleChatSubmit} className="relative flex">
                     <span className="absolute inset-y-0 flex items-center">
@@ -785,56 +758,42 @@ const ChatUi = () => {
                       }}
                       className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
                     />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      ref={inputFileRef}
-                      onChange={onFilechange}
-                      hidden
-                    />
                     <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
-                      {image != null ? (
-                        <button onClick={() => setImage(null)}>
-                          <FaTimes className="w-6 h-6 " />
-                        </button>
-                      ) : (
-                        <button
-                          data-can_send="true"
-                          onClick={() => inputFileRef.current.click()}
-                          type="button"
-                          className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                      <button
+                        data-can_send="true"
+                        onClick={() => handleAssetUploadModal("image")}
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          className="h-6 w-6 text-gray-600"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            className="h-6 w-6 text-gray-600"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                            ></path>
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                            ></path>
-                          </svg>
-                        </button>
-                      )}
-
-                      {/* <button
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                          ></path>
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                          ></path>
+                        </svg>
+                      </button>
+                      <button
                         type="button"
                         className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
                         onClick={() => handleAssetUploadModal("video")}
                         data-can_send="true"
                       >
                         <HiOutlineVideoCamera className="h-6 w-6 text-gray-600" />
-                      </button> */}
+                      </button>
                       <button
                         type="button"
                         className="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"

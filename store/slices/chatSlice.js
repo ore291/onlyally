@@ -7,6 +7,12 @@ const initialState = {
     error: false,
     inputData: {},
   },
+  sendMessage: {
+    data: {},
+    loading: false,
+    error: false,
+    inputData: {},
+  },
   saveChatUser: {
     data: {},
     loading: true,
@@ -20,7 +26,7 @@ const initialState = {
       messages: [],
       user: {},
     },
-    loading: false,
+    loading: true,
     error: false,
     inputData: {},
     loadingButtonContent: null,
@@ -60,6 +66,36 @@ export const ChatSlice = createSlice({
         inputData: {},
       };
     },
+    sendMessageStart: (state, action) => {
+      state.messages = {
+        ...state.messages,
+        data: {
+          messages: [...action.payload, ...state.messages.data.messages, ],
+          user: {},
+        },
+        loading: false,
+        error: false,
+        inputData: {},
+        loadingButtonContent: null,
+        buttonDisable: false,
+      };
+    },
+    sendMessageSuccess: (state, action) => {
+      state.sendMessage = {
+        data: action.payload,
+        loading: false,
+        error: false,
+        inputData: {},
+      };
+    },
+    sendMessageFailure: (state, action) => {
+      state.sendMessage = {
+        data: {},
+        loading: true,
+        error: action.payload,
+        inputData: {},
+      };
+    },
     fetchChatMessageStart: (state, action) => {
       state.messages = {
         ...state.messages,
@@ -75,6 +111,7 @@ export const ChatSlice = createSlice({
       };
     },
     fetchChatMessageSuccess: (state, action) => {
+
       state.messages = {
         ...state.messages,
         data: action.payload,
@@ -93,7 +130,7 @@ export const ChatSlice = createSlice({
       state.messages = {
         ...state.messages,
         data: {},
-        loading: true,
+        loading: false,
         error: action.payload,
         inputData: {},
         loadingButtonContent: null,
@@ -118,12 +155,12 @@ export const ChatSlice = createSlice({
       state.messages = {
         ...state.messages,
         data: {
-          messages: [...state.messages.data.messages, ...action.payload],
-          user: { ...state.messages.data.user },
+          messages: [...action.payload, ...state.messages.data.messages, ],
+          user: {},
         },
         loading: false,
         error: false,
-        inputData: {},
+        inputData: action.payload[0],
         loadingButtonContent: null,
         buttonDisable: false,
       };
@@ -131,13 +168,13 @@ export const ChatSlice = createSlice({
     addMessageContentSuccess: (state, action) => {
       state.messages = {
         ...state.messages,
-        data: {
-          messages: [
-            ...action.payload.messages,
-            ...state.messages.data.messages,
-          ],
-          user: { ...state.messages.data.user },
-        },
+        // data: {
+        //   messages: [
+        //     ...action.payload.messages,
+        //     ...state.messages.data.messages,
+        //   ],
+        //   user: { ...state.messages.data.user },
+        // },
         loading: false,
         error: false,
         inputData: {},
@@ -184,6 +221,7 @@ export const ChatSlice = createSlice({
 });
 
 export const {
+  sendMessageStart,
   fetchChatUsersStart,
   fetchChatUsersSuccess,
   fetchChatUsersFailure,

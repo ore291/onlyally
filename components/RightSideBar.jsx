@@ -13,7 +13,7 @@ const RightSideBar = () => {
   const chatUsers = useSelector((state) => state.chat.chatUsers);
 
   useEffect(() => {
-    if (chatUsers.data?.users && chatUsers.data?.users?.length > 0) return;
+    if (chatUsers.data && chatUsers.data?.total > 0) return;
     dispatch(fetchChatUsersStart({ search_key: "" }));
   }, []);
 
@@ -32,16 +32,16 @@ const RightSideBar = () => {
       <div className="p-2 flex flex-col justify-center items-center space-y-4">
         {chatUsers.loading
           ? null
-          : chatUsers.data && chatUsers.data.users.length > 0
-          ? chatUsers.data.users.map((user, i) => (
+          : chatUsers.data && chatUsers.data.total > 0
+          ? chatUsers.data.contacts.map((user, i) => (
               <Display
                 user={user}
                 i={i}
                 key={i}
                 handleChatUser={handleChatUser}
-                onClick={(event) => {
-                  handleChatUser(event, user.to_user_id);
-                }}
+                // onClick={(event) => {
+                //   handleChatUser(event, user.to_user_id);
+                // }}
               />
             ))
           : null}

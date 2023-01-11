@@ -6,7 +6,7 @@ const ChatUserList = (props) => {
   const { chatUsers } = props;
   return (
     <>
-      {chatUsers.users.map((chatUser, index) => (
+      {chatUsers.contacts.map((chatUser, index) => (
         <a
           key={index}
           className="flex items-center px-3 py-2 text-sm transition duration-150 ease-in-out border-b border-gray-300 cursor-pointer hover:bg-gray-100 focus:outline-none"
@@ -18,21 +18,21 @@ const ChatUserList = (props) => {
             width="40"
             height="40"
             className="rounded-full"
-            src={chatUser.to_userpicture}
-            alt={chatUser.to_displayname}
+            src={chatUser.picture}
+            alt={chatUser.username}
           />
 
           <div className="w-full pb-2">
             <div className="flex justify-between">
               <span className="block ml-2 font-semibold text-gray-600">
-                {chatUser.to_displayname}
+                {chatUser.username}
               </span>
-              <span className="block ml-2 text-sm text-gray-600">
+              {/* <span className="block ml-2 text-sm text-gray-600">
                 {chatUser.time_formatted}
-              </span>
+              </span> */}
             </div>
             <span className="block ml-2 text-sm text-gray-600">
-              {chatUser.message}
+              {/* {chatUser.message} */}...
             </span>
           </div>
         </a>
