@@ -59,7 +59,7 @@ function* savePostAPI() {
         yield put(
           notify({ message: response.data.message, status: "success" })
         );
-        window.location.assign("/post/" + response.data.data.post_unique_id);
+        // window.location.assign("/post/" + response.data.data.post_unique_id);
       } else {
         yield put(savePostFailure(response.data.error));
         // yield put(checkLogoutStatus(response.data));

@@ -16,7 +16,7 @@ import { isMobile } from "react-device-detect";
 import ReactAudioPlayer from "react-audio-player";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { MdVolumeOff, MdVolumeUp } from "react-icons/md";
-import { BsHeart, BsHeartFill, BsThreeDots, BsBookmark } from "react-icons/bs";
+import { BsHeart, BsHeartFill, BsThreeDots, BsBookmark, BsArrowRight } from "react-icons/bs";
 import {
   FaBookmark,
   FaCheckCircle,
@@ -257,8 +257,46 @@ const NewsFeedCard = ({ post, index }) => {
                     alt=""
                   />
                 </div>
+                {post.postable_type === "App\Group" ? (
+                  <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
+                    <h2 className=" font-semibold leading-none">
+                      {post.user_displayname}
+                    </h2>
+                    {post.is_verified_badge == 1 ? (
+                      <FaCheckCircle className="w-3 h-3 text-playRed" />
+                    ) : null}
+                    <BsArrowRight />
+                    
+                    
+                  </div>
+                ) : post.postable_type === "App\Channel" ? (
+                  <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
+                    <h2 className=" font-semibold leading-none">
+                      channel
+                    </h2>
+                    {post.is_verified_badge == 1 ? (
+                      <FaCheckCircle className="w-3 h-3 text-playRed" />
+                    ) : null}
 
-                <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
+                    <span className="inline-block  text-xs leading-none text-textPlayRed">
+                      @{post.username}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
+                    <h2 className=" font-semibold leading-none">
+                      {post.user_displayname}
+                    </h2>
+                    {post.is_verified_badge == 1 ? (
+                      <FaCheckCircle className="w-3 h-3 text-playRed" />
+                    ) : null}
+
+                    <span className="inline-block  text-xs leading-none text-textPlayRed">
+                      @{post.username}
+                    </span>
+                  </div>
+                )}
+                {/* <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
                   <h2 className=" font-semibold leading-none">
                     {post.user_displayname}
                   </h2>
@@ -269,7 +307,7 @@ const NewsFeedCard = ({ post, index }) => {
                   <span className="inline-block  text-xs leading-none text-textPlayRed">
                     @{post.username}
                   </span>
-                </div>
+                </div> */}
               </div>
             </Link>
             <div className="row-container space-x-1 md:space-x-3">

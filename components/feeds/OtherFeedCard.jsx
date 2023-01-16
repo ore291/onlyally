@@ -1,6 +1,7 @@
 import { Popover, Transition } from "@headlessui/react";
 import { getCookies } from "cookies-next";
 import useEmblaCarousel from "embla-carousel-react";
+import { BsArrowRight } from "react-icons/bs";
 import Image from "next/image";
 import Link from "next/link";
 import React, {
@@ -254,6 +255,32 @@ const NewsFeedCard = ({ post, index }) => {
                     alt=""
                   />
                 </div>
+                {/* {post.postable_type === "App\Group" ? (
+                  <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
+                    <h2 className=" font-semibold leading-none">
+                      {post.user_displayname}
+                    </h2>
+                    {post.is_verified_badge == 1 ? (
+                      <FaCheckCircle className="w-3 h-3 text-playRed" />
+                    ) : null}
+                    <BsArrowRight />
+
+                    
+                  </div>
+                ) : (
+                  <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
+                    <h2 className=" font-semibold leading-none">
+                      {post.user_displayname}
+                    </h2>
+                    {post.is_verified_badge == 1 ? (
+                      <FaCheckCircle className="w-3 h-3 text-playRed" />
+                    ) : null}
+
+                    <span className="inline-block  text-xs leading-none text-textPlayRed">
+                      @{post.username}
+                    </span>
+                  </div>
+                )} */}
 
                 <div className="flex space-x-1 text-sm md:text-lg  items-center justify-center">
                   <h2 className=" font-semibold leading-none">
@@ -339,11 +366,14 @@ const NewsFeedCard = ({ post, index }) => {
                             </div>
                           ) : null}
                           {post.delete_btn_status == 1 ? (
-                            <Link href={`post/${post.post_unique_id}/edit`} passHref>
-                            <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
-                             <p className="font-bold text-xs">Edit post</p>
-                           </div>
-                           </Link>
+                            <Link
+                              href={`post/${post.post_unique_id}/edit`}
+                              passHref
+                            >
+                              <div className="hover:bg-gray-100 hover:text-red-500  h-8 p-2 rounded-md cursor-pointer flex items-center justify-start">
+                                <p className="font-bold text-xs">Edit post</p>
+                              </div>
+                            </Link>
                           ) : null}
                         </div>
                       </div>
@@ -381,7 +411,7 @@ const NewsFeedCard = ({ post, index }) => {
                             PPVPayment ? null : (
                               <EmblaSlide
                                 post={post}
-                                postFile={postFile }
+                                postFile={postFile}
                                 handlePPVPayment={handlePPVPayment}
                                 key={index}
                                 index={index}
@@ -415,7 +445,11 @@ const NewsFeedCard = ({ post, index }) => {
                                         onClick={() => setVideoPlaying(false)}
                                         volume={0.5}
                                         // light={postFile.preview_file}
-                                        url={postFile.post_file ? postFile.post_file : postFile.file}
+                                        url={
+                                          postFile.post_file
+                                            ? postFile.post_file
+                                            : postFile.file
+                                        }
                                         config={{
                                           file: {
                                             attributes: {
@@ -483,7 +517,8 @@ const NewsFeedCard = ({ post, index }) => {
                                           src={
                                             postFile.preview_file
                                               ? postFile.preview_file
-                                              : postFile.post_file || postFile.file
+                                              : postFile.post_file ||
+                                                postFile.file
                                           }
                                           className="post-view-image"
                                         />
@@ -523,7 +558,11 @@ const NewsFeedCard = ({ post, index }) => {
 
                                         <ReactAudioPlayer
                                           // light={postFile.preview_file}
-                                          src={postFile.post_file ? postFile.post_file : postFile.file}
+                                          src={
+                                            postFile.post_file
+                                              ? postFile.post_file
+                                              : postFile.file
+                                          }
                                           // file="forceAudio"
                                           controls={true}
                                           width="80%"

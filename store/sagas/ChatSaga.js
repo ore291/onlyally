@@ -5,6 +5,7 @@ import {notify} from "reapop";
 
 import {
   addMessageContentSuccess,
+  addMessageContentFailure,
     fetchChatMessageFailure,
     fetchChatMessageStart,
     fetchChatMessageSuccess,
@@ -12,6 +13,8 @@ import {
     fetchChatUsersSuccess,
     saveChatUsersFailure,
     saveChatUsersSuccess,
+    fetchUserByIdFailure,
+    fetchUserByIdSuccess,
 } from "../slices/chatSlice";
 
 import { errorLogoutCheck } from "../slices/errorSlice";
@@ -35,6 +38,24 @@ function* fetchChatUserAPI() {
       }
     } catch (error) {
       yield put(fetchChatUsersFailure(error));
+      yield put(notify({message: error.message, status:"error"}));
+    }
+  }
+
+function* fetchUserAPI() {
+    try {
+      const inputData = yield select((state) => state.chat.user.inputData);
+      const response = yield api.postMethod({action : "idInfo", object: inputData});
+      if (response.status == 200) {
+        yield put(fetchUserByIdSuccess(response.data));
+        
+      } else {
+        yield put(fetchUserByIdFailure(response.data.error));
+        yield put(errorLogoutCheck(response.data.error));
+        // yield put(notify({message: response.data.error?.error, status: "error"}));
+      }
+    } catch (error) {
+      yield put(fetchUserByIdFailure(error));
       yield put(notify({message: error.message, status:"error"}));
     }
   }
@@ -89,11 +110,15 @@ function* fetchChatUserAPI() {
     try {
       const inputData = yield select((state) => state.chat.messages.inputData);
       const response = yield api.postMethod({action : "sendMessage", object : inputData});
-      console.log(response)
+  
+      
       if (response.status == 200) {
         yield put(addMessageContentSuccess(response.data.message));
+
+       
       }
     } catch (error) {
+      console.log(error);
       yield put(addMessageContentFailure(error));
       yield put(notify({message: error.message, status:"error"}));
     }
@@ -122,6 +147,7 @@ function* fetchChatUserAPI() {
   
   export default function* pageSaga() {
     yield all([yield takeLatest("chat/fetchChatUsersStart", fetchChatUserAPI)]);
+    yield all([yield takeLatest("chat/fetchUserByIdStart", fetchUserAPI)]);
     yield all([yield takeLatest("chat/addMessageContent", sendMessageApi)]);
     yield all([yield takeLatest("chat/fetchChatMessageStart", fetchChatMessageAPI)]);
     yield all([yield takeLatest("chat/saveChatUsersStart", saveChatUserAPI)]);

@@ -49,7 +49,10 @@ import PrivateAudioCallModal from "../components/Profile/PrivateAudioCallModal";
 import SideNavLayout from "../components/SideNavLayout";
 import TipModal from "../components/tips/TipModal";
 import OtherUserProfileTabs from "../components/userProfile/OtherUserProfileTabs";
-import { saveChatUsersStart } from "../store/slices/chatSlice";
+import {
+  addMessageContent,
+  saveChatUsersStart,
+} from "../store/slices/chatSlice";
 import { setPaymentModal, setUnfollowerModal } from "../store/slices/NavSlice";
 import {
   fetchSingleUserPostsStart,
@@ -160,12 +163,36 @@ const Profile = () => {
 
   const handleChatUser = (event, user_id) => {
     event.preventDefault();
-    dispatch(
-      saveChatUsersStart({
-        from_user_id: getCookie("userId"),
-        to_user_id: user_id,
-      })
-    );
+    let chatData = [
+      {
+        redirect: true,
+        user_id: user_id,
+        message: "",
+        type: "user",
+        from_id: parseInt(getCookie("userId")),
+        to_id: user_id,
+        body: "",
+        attachment: null,
+        seen: 0,
+        created_at: Date.now(),
+        updated_at: Date.now(),
+      },
+    ];
+
+    // dispatch(
+    //   saveChatUsersStart({
+    //     from_user_id: getCookie("userId"),
+    //     to_user_id: user_id,
+    //   })
+    // );
+    dispatch(addMessageContent(chatData));
+    if (isMobile) {
+      router.push(
+        "/user-chat-room/" + user_id
+      );
+    } else {
+      router.push("/messages");
+    }
   };
 
   const subscriptionPayment = (
@@ -434,9 +461,9 @@ const Profile = () => {
                   </div>
                   <div
                     className="profile-buttons "
-                    // onClick={(event) =>
-                    //   handleChatUser(event, userDetails.data.user.user_id)
-                    // }
+                    onClick={(event) =>
+                      handleChatUser(event, userDetails.data.user.user_id)
+                    }
                   >
                     <MdMail className="w-5 h-5" />
                   </div>

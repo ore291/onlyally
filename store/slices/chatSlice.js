@@ -7,6 +7,12 @@ const initialState = {
     error: false,
     inputData: {},
   },
+  user:{
+    data: {},
+    inputData : {},
+    loading: true,
+    error: false,
+  },
   sendMessage: {
     data: {},
     loading: false,
@@ -42,6 +48,30 @@ export const ChatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
+    fetchUserByIdStart: (state, action)=>{
+      state.user = {
+        inputData : action.payload,
+        data : {},
+        loading: true,
+        error: false,
+      }
+    },
+    fetchUserByIdSuccess: (state, action)=>{
+      state.user = {
+        inputData : {},
+        data : action.payload,
+        loading: false,
+        error: false,
+      }
+    },
+    fetchUserByIdFailure: (state, action)=>{
+      state.user = {
+        inputData : {},
+        data : {},
+        loading: false,
+        error: action.payload,
+      }
+    },
     fetchChatUsersStart: (state, action) => {
       state.chatUsers = {
         inputData: action.payload,
@@ -177,14 +207,13 @@ export const ChatSlice = createSlice({
         // },
         loading: false,
         error: false,
-        inputData: {},
-        loadingButtonContent: null,
-        buttonDisable: false,
-        skip: action.payload.messages.length + state.messages.skip,
-        length: action.payload.messages.length + state.messages.length,
-        fetchMoreFlag:
-          state.messages.length == action.payload.total ? false : true,
-        loadMoreLoading: false,
+      };
+    },
+    addMessageContentFailure: (state, action) => {
+      state.messages = {
+        ...state.messages,
+        loading: false,
+        error: action.payload,
       };
     },
     saveChatUsersStart: (state, action) => {
@@ -221,6 +250,9 @@ export const ChatSlice = createSlice({
 });
 
 export const {
+  fetchUserByIdStart,
+  fetchUserByIdSuccess,
+  fetchUserByIdFailure,
   sendMessageStart,
   fetchChatUsersStart,
   fetchChatUsersSuccess,
@@ -231,6 +263,7 @@ export const {
   addMessageContent,
   addMessageContentStart,
   addMessageContentSuccess,
+  addMessageContentFailure,
   saveChatUsersStart,
   saveChatUsersFailure,
   saveChatUsersSuccess

@@ -22,7 +22,7 @@ import ReactAudioPlayer from "react-audio-player";
 import { isMobile } from "react-device-detect";
 // import ReactFancyBox from 'react-fancybox'
 // import 'react-fancybox/lib/fancybox.css'
-import io from "socket.io-client";
+
 import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 import { useDispatch, useSelector } from "react-redux";
@@ -194,16 +194,14 @@ const ChatUi = () => {
   //   }
   // };
 
-  
-
   const changeUser = (event, chat, index) => {
     // chatSocket.disconnect();
     if (isMobile) {
-      window.location.assign(
-        "/user-chat-room/" + chat.from_user_id + "/" + chat.to_user_id
+      router.push(
+        "/user-chat-room/" + user_id
       );
-    }
-    event.preventDefault();
+    }else{
+      event.preventDefault();
     dispatch(
       fetchChatMessageStart({
         user_id: chat.id,
@@ -214,6 +212,7 @@ const ChatUi = () => {
       chat.to_user_id == toLocUserId ? chat.from_user_id : chat.to_user_id;
     setToUserId(to_user_id);
 
+    }
     
     // chatSocketConnect(to_user_id);
   };
@@ -400,7 +399,7 @@ const ChatUi = () => {
     dispatch(fetchChatUsersStart({ search_key: value }));
   };
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto overflow-hidden">
       <div className="min-w-full border rounded lg:grid lg:grid-cols-3">
         <div className="border-r border-gray-300 lg:col-span-1">
           <div className="mx-3 my-3">
@@ -449,7 +448,7 @@ const ChatUi = () => {
             </li>
           </ul>
         </div>
-        {chatUsers.loading  ? (
+        {chatUsers.loading ? (
           ""
         ) : chatUsers.data.contacts[activeChat] != null ? (
           <div className="hidden lg:col-span-2 lg:block">
@@ -572,7 +571,7 @@ const ChatUi = () => {
                                     )}
                                   </div> */}
 
-                                      {chatMessage.message == "" ? null : (
+                                      {chatMessage.body == "" ? null : (
                                         <>
                                           <p>
                                             You,{" "}
@@ -588,14 +587,17 @@ const ChatUi = () => {
                                         </>
                                       )}
                                     </div>
-
-                                    <Image
-                                      src={localStorage.getItem("user_picture")}
-                                      width="32"
-                                      height="32"
-                                      alt="My profile"
-                                      className="w-6 h-6 rounded-full order-1"
-                                    />
+                                    {chatMessage.body == "" ? null : (
+                                      <Image
+                                        src={localStorage.getItem(
+                                          "user_picture"
+                                        )}
+                                        width="32"
+                                        height="32"
+                                        alt="My profile"
+                                        className="w-6 h-6 rounded-full order-1"
+                                      />
+                                    )}
                                   </div>
                                 </div>
                               ) : (
@@ -730,16 +732,18 @@ const ChatUi = () => {
                                         </>
                                       )}
                                     </div>
-                                    <Image
-                                      src={
-                                        chatUsers.data.contacts[activeChat]
-                                          .picture
-                                      }
-                                      width="32"
-                                      height="32"
-                                      alt="My profile"
-                                      className="w-6 h-6 rounded-full order-1 object-cover"
-                                    />
+                                    {chatMessage.body == "" ? null : (
+                                      <Image
+                                        src={
+                                          chatUsers.data.contacts[activeChat]
+                                            .picture
+                                        }
+                                        width="32"
+                                        height="32"
+                                        alt="My profile"
+                                        className="w-6 h-6 rounded-full order-1 object-cover"
+                                      />
+                                    )}
                                   </div>
                                 </div>
                               )}

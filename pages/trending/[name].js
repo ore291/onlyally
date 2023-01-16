@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NewsFeedCard from "../../components/feeds/OtherFeedCard";
 import CommonCenterLoader from "../../components/helpers/CommonCenterLoader";
+import NoDataFound from "../../components/NoDataFound/NoDataFound";
 import SideNavLayout from "../../components/SideNavLayout";
 import { fetchSingleTrendingStart } from "../../store/slices/homeSlice";
 
@@ -21,7 +22,7 @@ const TrendingUser = () => {
         name: name,
       })
     );
-  }, [router.isReady, name]);
+  }, [router.isReady]);
 
   return (
     <SideNavLayout>
@@ -30,17 +31,18 @@ const TrendingUser = () => {
           <div className="h-screen w-full row-container">
             <CommonCenterLoader />
           </div>
-        ) : (
+        ) : posts.data.posts.length > 0 ? (
           <div className="grid grid-cols-1 w-full gap-y-2">
-            {posts.data.length > 0 &&
-              posts.data.map((post, id) => (
-                <NewsFeedCard
-                  post={post}
-                  index={post.post_unique_id}
-                  key={post.post_unique_id}
-                />
-              ))}
+            {posts.data.posts.map((post, id) => (
+              <NewsFeedCard
+                post={post}
+                index={post.post_unique_id}
+                key={post.post_unique_id}
+              />
+            ))}
           </div>
+        ) : (
+          <div className="w-full h-screen row-container"><NoDataFound/></div>
         )}
       </div>
     </SideNavLayout>
