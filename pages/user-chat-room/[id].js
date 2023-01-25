@@ -1,3 +1,14 @@
+import React from 'react'
+
+const ChatRoom = () => {
+  return (
+    <div>ChatRoom</div>
+  )
+}
+
+export default ChatRoom
+
+
 // import Pusher from "pusher-js";
 // import Echo from "laravel-echo";
 // import Image from "next/image";
