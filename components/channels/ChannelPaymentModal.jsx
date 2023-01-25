@@ -54,10 +54,10 @@ const ChannelPaymentModal = ({ channel_slug, show, toggleShow }) => {
         reference: payment.data?.data?.reference || reference.reference,
       })
     );
-    setTimeout(() => {
-      toggleShow(false);
-      window.location.assign(`/channels/${channel_slug}`);
-    }, 2000);
+    // setTimeout(() => {
+    //   toggleShow(false);
+    //   window.location.assign(`/channels/${channel_slug}`);
+    // }, 2000);
   };
 
   const onClose = () => {

@@ -298,7 +298,7 @@ const NewsFeedCard = ({ post, index }) => {
             </Link>
             <div className="row-container space-x-1 md:space-x-3">
               <span className="text-xs sm:text-sm text-gray-600 font-light ">
-                {post.publish_time_formatted}
+                {post.created}
               </span>
               <Popover className="relative ">
                 {({ open }) => (

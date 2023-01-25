@@ -62,9 +62,9 @@ const Channel = () => {
   const handleJoinChannel = async () => {
     dispatch(channelSubscribeStart(channel.slug));
 
-    setTimeout(() => {
-      router.reload();
-    }, 1000);
+    // setTimeout(() => {
+    //   router.reload();
+    // }, 1000);
   };
 
   const handleSubscription = () => {
