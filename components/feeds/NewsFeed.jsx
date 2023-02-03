@@ -11,14 +11,14 @@ import {
 
 const NewsFeed = () => {
   // const feeds = useSelector(state => state.creators.feed)
-  const posts = useSelector((state) => state.home.timelinePost);
+  const posts = useSelector((state) => state.home.homePost);
   const [hasMore, setHasMore] = useState(true);
 
   const dispatch = useDispatch();
 
   const fetchHomeData = () => {
     if (posts.data.posts.length === 0) {
-      dispatch(fetchTimelinePostsStart());
+      dispatch(fetchHomePostsStart());
     } else {
       setHasMore(false);
     }

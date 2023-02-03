@@ -27,7 +27,7 @@ export default function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchTimelinePostsStart());
+    dispatch(fetchHomePostsStart());
   }, []);
 
   const [isVisible, setIsVisible] = useState(true);
