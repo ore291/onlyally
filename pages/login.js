@@ -36,6 +36,12 @@ const FacebookButton = dynamic(
     ssr: false,
   }
 );
+const GoogleButton = dynamic(
+  () => import("../components/social/GoogleButton"),
+  {
+    ssr: false,
+  }
+);
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -184,13 +190,11 @@ const Login = () => {
                     <FaFacebookF className="w-8 h-8 text-blue-700" />
                   </div>
                 </FacebookButton>
-
-                <div className="social-login-buttons">
-                  <FaTwitter className="w-8 h-8 text-[#1DA1F2] " />
-                </div>
-                <div className="social-login-buttons">
-                  <FcGoogle className="w-8 h-8" />
-                </div>
+                <GoogleButton>
+                  <div className="social-login-buttons">
+                    <FcGoogle className="w-8 h-8" />
+                  </div>
+                </GoogleButton>
               </div>
             </div>
           </div>

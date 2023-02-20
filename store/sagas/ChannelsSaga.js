@@ -469,7 +469,6 @@ function* deleteChannelMemberAPI(action) {
         user_id: action.payload.user_id,
       },
     });
-
     if (response.status && response.status === 204) {
       yield put(deleteChannelMemberSuccess(response.data));
       yield put(
